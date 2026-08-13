@@ -613,13 +613,23 @@
         const inst = document.documentElement.classList.contains('pwa');
         const hueco = Math.round(innerHeight - tb.bottom);
         const vacio = Math.round(tb.top - vw.bottom);   // negro entre contenido y barra
+        // Franja muerta: el lienzo mide menos que la pantalla. Si además el
+        // inset de arriba es > 0, la app se dibuja BAJO el status bar, así que
+        // lo que falta cae al fondo → banda negra bajo la barra. Es el bug de
+        // apple-mobile-web-app-status-bar-style="black-translucent", y iOS
+        // congela esa etiqueta al instalar: solo se cura reinstalando.
+        const insetTop = Math.round(parseFloat(getComputedStyle($('.hdr')).paddingTop) || 0);
+        const alto = screen.height, perdido = Math.round(alto - innerHeight);
+        const franja = insetTop > 0 ? perdido : 0;
         d.innerHTML = [
           'Modo: <b>' + (inst ? 'app instalada' : 'navegador') + '</b>',
-          'Pantalla: <b>' + innerWidth + '×' + innerHeight + '</b>',
-          'Cabecera: alto <b>' + Math.round(hd.height) + '</b> · inset arriba <b>' + (getComputedStyle($('.hdr')).paddingTop) + '</b>',
+          'Pantalla física: <b>' + screen.width + '×' + alto + '</b> · lienzo <b>' + innerWidth + '×' + innerHeight + '</b>',
+          'Inset arriba: <b>' + insetTop + 'px</b> · cabecera <b>' + Math.round(hd.height) + '</b>',
           'Barra: alto <b>' + Math.round(tb.height) + '</b> · relleno inferior <b>' + cs.paddingBottom + '</b>',
-          'Hueco BAJO la barra: <b>' + hueco + ' px</b>' + (hueco <= 1 ? ' ✓ a ras' : ' ← sobra'),
-          'Hueco SOBRE la barra (vista corta): <b>' + (vacio > 0 ? vacio + ' px' : '0 px ✓ lleno') + '</b>'
+          'Hueco bajo la barra (en el lienzo): <b>' + hueco + ' px</b>' + (hueco <= 1 ? ' ✓' : ' ←'),
+          franja > 4
+            ? '<b style="color:var(--danger)">⚠ Franja muerta de ' + franja + ' px bajo la barra.</b> Borra el icono de la pantalla de inicio y vuelve a añadirlo: iOS congeló la configuración vieja al instalar.'
+            : '<b style="color:var(--ok)">✓ El lienzo llega al borde de la pantalla.</b>'
         ].join('<br>');
       }, 60);
       sh.append(el('p', { class: 'mini', style: 'margin-top:16px' }, D.AVISO_LEGAL));

@@ -607,15 +607,19 @@
       setTimeout(() => {
         const d = $('#diag'); if (!d) return;
         const tb = $('.tabbar').getBoundingClientRect();
+        const hd = $('.hdr').getBoundingClientRect();
+        const vw = $('#view').getBoundingClientRect();
         const cs = getComputedStyle($('.tabbar'));
         const inst = document.documentElement.classList.contains('pwa');
         const hueco = Math.round(innerHeight - tb.bottom);
+        const vacio = Math.round(tb.top - vw.bottom);   // negro entre contenido y barra
         d.innerHTML = [
           'Modo: <b>' + (inst ? 'app instalada' : 'navegador') + '</b>',
           'Pantalla: <b>' + innerWidth + '×' + innerHeight + '</b>',
+          'Cabecera: alto <b>' + Math.round(hd.height) + '</b> · inset arriba <b>' + (getComputedStyle($('.hdr')).paddingTop) + '</b>',
           'Barra: alto <b>' + Math.round(tb.height) + '</b> · relleno inferior <b>' + cs.paddingBottom + '</b>',
-          'Hueco bajo la barra: <b>' + hueco + ' px</b>' + (hueco <= 1 ? ' ✓ a ras' : ' ← sobra esto'),
-          'safe-area: <b>' + (getComputedStyle(document.documentElement).getPropertyValue('--tab-safe') || '—') + '</b>'
+          'Hueco BAJO la barra: <b>' + hueco + ' px</b>' + (hueco <= 1 ? ' ✓ a ras' : ' ← sobra'),
+          'Hueco SOBRE la barra (vista corta): <b>' + (vacio > 0 ? vacio + ' px' : '0 px ✓ lleno') + '</b>'
         ].join('<br>');
       }, 60);
       sh.append(el('p', { class: 'mini', style: 'margin-top:16px' }, D.AVISO_LEGAL));

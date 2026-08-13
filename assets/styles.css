@@ -35,12 +35,13 @@
   --r-sm:10px;
   --disp:'Barlow Condensed','Inter',sans-serif;
   --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,monospace;
-  /* Barra inferior: 54 px de contenido, en línea con los 49 pt de la tab bar
-     de iOS (los 62 anteriores la hacían flotar). Del safe-area del indicador
-     de inicio se descuentan 10: el fondo de la barra ya cubre esa franja, no
-     hace falta reservarla entera en blanco. */
-  --tab-h:54px;
-  --tab-safe:max(6px,calc(env(safe-area-inset-bottom,0px) - 10px));
+  /* Barra inferior, apretada a mano sobre iPhone (medido con el diagnóstico
+     de Ajustes): 46 px de contenido + 12 pt de holgura sobre el indicador de
+     inicio = 59 pt totales, frente a los 83 pt de la tab bar estándar de iOS.
+     Los 12 pt son el suelo: por debajo, el gesto de inicio del iPhone empieza
+     a robar los toques de la fila de pestañas. */
+  --tab-h:46px;
+  --tab-safe:max(4px,calc(env(safe-area-inset-bottom,0px) - 22px));
   --shadow:0 8px 28px rgba(0,0,0,.42);
   color-scheme:dark;
 }
@@ -166,13 +167,13 @@ section.block{margin:18px 0}
 }
 .tabbar-in{display:flex;max-width:640px;margin:0 auto;height:var(--tab-h)}
 .tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  background:none;border:0;color:var(--ink3);cursor:pointer;padding:4px 0 5px;position:relative;
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  background:none;border:0;color:var(--ink3);cursor:pointer;padding:3px 0 3px;position:relative;
 }
-.tab svg{width:22px;height:22px;stroke-width:1.9}
-.tab span{font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.tab svg{width:21px;height:21px;stroke-width:1.9}
+.tab span{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
 .tab.on{color:var(--volt)}
-.tab.on::before{content:'';position:absolute;top:0;width:26px;height:3px;border-radius:0 0 3px 3px;background:var(--volt)}
+.tab.on::before{content:'';position:absolute;top:0;width:24px;height:3px;border-radius:0 0 3px 3px;background:var(--volt)}
 
 /* ---------- Tarjetas y cabeceras ---------- */
 .card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px 15px 13px;margin:12px 0}

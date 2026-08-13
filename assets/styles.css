@@ -170,9 +170,18 @@ section.block{margin:18px 0}
 }
 .tab svg{width:21px;height:21px;stroke-width:1.9;position:relative}
 .tab span{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1.1;position:relative}
-.tab::before{content:'';position:absolute;inset:7px 5px;border-radius:21px;background:transparent;transition:background .18s,box-shadow .18s}
 .tab.on{color:var(--volt)}
-.tab.on::before{background:rgba(200,242,78,.13);box-shadow:inset 0 0 0 1px rgba(200,242,78,.22),inset 0 1px 0 rgba(255,255,255,.08)}
+/* UNA sola burbuja de cristal que viaja entre pestañas (bezier con rebote =
+   sensación de muelle). Durante el arrastre se pega al dedo sin transición. */
+.tabbar{touch-action:none}   /* el gesto horizontal es nuestro, no del scroll */
+.tab-bubble{
+  position:absolute;top:7px;bottom:7px;left:0;width:0;border-radius:21px;pointer-events:none;
+  background:rgba(200,242,78,.13);
+  box-shadow:inset 0 0 0 1px rgba(200,242,78,.22),inset 0 1px 0 rgba(255,255,255,.08);
+  transition:left .34s cubic-bezier(.3,1.45,.4,1),width .34s cubic-bezier(.3,1.45,.4,1);
+  will-change:left,width;
+}
+.tabbar.dragging .tab-bubble{transition:none;background:rgba(200,242,78,.18)}
 
 /* ---------- Tarjetas y cabeceras ---------- */
 .card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px 15px 13px;margin:12px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
@@ -357,6 +366,24 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   letter-spacing:.04em;text-transform:uppercase;padding:5px 13px;border-radius:999px;cursor:pointer;
 }
 .seg button.on{background:var(--volt);color:var(--volt-ink)}
+/* Chips-ancla con scroll-spy (Comida, Progreso): saltan al bloque y se
+   iluminan solas según lo que tienes delante */
+.chipnav{
+  position:sticky;top:calc(var(--hdr-h,59px) + 8px);z-index:30;
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  margin:10px -14px 4px;padding:2px 14px 6px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent);
+}
+.chipnav::-webkit-scrollbar{display:none}
+.chipnav button{
+  flex:0 0 auto;font-family:var(--disp);font-weight:600;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink2);background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;padding:6px 13px;cursor:pointer;
+  -webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+}
+.chipnav button.on{background:var(--volt);color:var(--volt-ink);border-color:transparent}
+
 /* Sub-secciones de PLAN: segmentado de cristal pegado bajo la cabecera */
 .seg.seg-plan{
   position:sticky;top:calc(var(--hdr-h,59px) + 8px);z-index:30;
@@ -507,5 +534,5 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .tabbar{background:var(--tabbar-bg)}
   .hdr{background:var(--bg)}
   .sheet{background:#161A20}
-  .timer,.toast,.seg.seg-plan{background:var(--surface2)}
+  .timer,.toast,.seg.seg-plan,.chipnav button{background:var(--surface2)}
 }

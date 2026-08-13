@@ -20,6 +20,35 @@
   }
   const diaIdx = f => Math.floor((U.fromISO(f) - U.fromISO(D.META.inicioISO)) / 864e5);
 
+  /* ---- chips-ancla con scroll-spy (secciones largas) ----
+     Misma pantalla: el chip desliza hasta el bloque y, al scrollear, se
+     ilumina solo el del bloque que tienes delante. */
+  let spyLock = 0;
+  function chipNav(defs) {
+    const nav = el('div', { class: 'chipnav' });
+    const off = () => ((parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hdr-h')) || 59) + nav.offsetHeight + 16);
+    const setOn = btn => {
+      nav.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn));
+      nav.scrollTo({ left: btn.offsetLeft - nav.clientWidth / 2 + btn.offsetWidth / 2, behavior: 'smooth' });
+    };
+    defs.forEach(([id, label], i) => nav.append(el('button', { class: i === 0 ? 'on' : '', onclick: ev => {
+      const t = document.getElementById(id); if (!t) return;
+      spyLock = Date.now() + 750;
+      setOn(ev.currentTarget);
+      scrollTo({ top: t.getBoundingClientRect().top + scrollY - off() - 2, behavior: 'smooth' });
+    } }, label)));
+    window.__b2pSpy = () => {
+      if (!document.contains(nav)) { window.__b2pSpy = null; return; }
+      if (Date.now() < spyLock) return;
+      let best = 0;
+      defs.forEach(([id], i) => { const t = document.getElementById(id); if (t && t.getBoundingClientRect().top <= off() + 42) best = i; });
+      const btn = nav.children[best];
+      if (btn && !btn.classList.contains('on')) setOn(btn);
+    };
+    return nav;
+  }
+  addEventListener('scroll', () => { if (window.__b2pSpy) window.__b2pSpy(); }, { passive: true });
+
   /* ==================== PLAN (4 sub-secciones) ==================== */
   function renderPlan(root) {
     const hoy = U.hoyISO(), w = U.semanaDe(hoy);
@@ -196,7 +225,12 @@
     const fi = w >= 10 ? 2 : (w >= 6 ? 1 : 0);
     const fn = D.NUTRI.fases[fi];
 
-    root.append(el('div', { class: 'card fase-card', style: 'border-left-color:var(--nutri)' },
+    root.append(chipNav([
+      ['n-obj', 'Objetivo'], ['n-plato', 'El plato'], ['n-rec', 'Recetas'], ['n-menu', 'Menú'],
+      ['n-compra', 'Compra'], ['n-prep', 'Meal prep'], ['n-supl', 'Suplementos']
+    ]));
+
+    root.append(el('div', { id: 'n-obj', class: 'card fase-card', style: 'border-left-color:var(--nutri)' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, 'Tu objetivo ahora'), el('div', { class: 'sub' }, fn.f + (w >= 1 && w <= 12 ? ' · semana ' + w : '')))),
       el('div', { class: 'statrow', style: 'grid-template-columns:repeat(4,1fr);margin:6px 0 2px' },
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, 'kcal'), el('div', { class: 'sv num' }, fn.kcal.toLocaleString('es-ES'))),
@@ -216,11 +250,11 @@
         el('p', { style: 'font-size:13px' }, D.NUTRI.escalado))));
 
     // plato
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Cómo montar cada comida')));
+    root.append(el('div', { id: 'n-plato', class: 'sec-h' }, el('h2', null, 'Cómo montar cada comida')));
     root.append(el('div', { class: 'regla-g' }, D.NUTRI.plato.map(p => el('div', { class: 'regla' }, el('b', null, p.t), p.d))));
 
     // recetas
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Recetario'), el('span', { class: 'mini' }, 'toca para cocinar')));
+    root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, 'Recetario'), el('span', { class: 'mini' }, 'toca para cocinar')));
     const grid = el('div', { class: 'rec-grid' });
     D.RECETAS.forEach(r => {
       grid.append(el('div', { class: 'rec-card', onclick: () => sheetReceta(r) },
@@ -231,7 +265,7 @@
     root.append(grid);
 
     // menú semanal
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Menú semanal')));
+    root.append(el('div', { id: 'n-menu', class: 'sec-h' }, el('h2', null, 'Menú semanal')));
     const rec = id => D.RECETAS.find(r => r.id === id);
     const tm = el('table', null, el('tr', null, el('th', null, 'Día'), el('th', null, 'Desayuno'), el('th', null, 'Comida'), el('th', null, 'Cena')));
     const celda = id => id === 'LIBRE' ? el('td', null, el('b', { style: 'color:var(--volt)' }, 'COMIDA LIBRE')) :
@@ -241,14 +275,15 @@
     root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, '+ cada noche: toma pre-sueño (skyr + whey). ' + D.NUTRI.comidaLibre));
 
     // lista de la compra
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'La compra de la semana'),
+    root.append(el('div', { id: 'n-compra', class: 'sec-h' }, el('h2', null, 'La compra de la semana'),
       el('button', { class: 'tbl-toggle', onclick: () => { U.S.shop = {}; U.save(); render(); } }, 'reiniciar')));
     const shop = el('div', { class: 'card shoplist' });
     D.COMPRA.forEach((c, ci) => {
       shop.append(el('div', { class: 'shopcat' }, c.cat));
       c.items.forEach((it, ii) => {
         const k = ci + '-' + ii, on = !!U.S.shop[k];
-        shop.append(el('div', { class: 'shopitem' + (on ? ' on' : ''), onclick: () => { U.S.shop[k] = !U.S.shop[k]; U.save(); render(); } },
+        // toggle EN EL SITIO: re-pintar la vista hacía scroll-arriba en cada marca
+        shop.append(el('div', { class: 'shopitem' + (on ? ' on' : ''), onclick: ev => { U.S.shop[k] = !U.S.shop[k]; U.save(); ev.currentTarget.classList.toggle('on', !!U.S.shop[k]); } },
           el('span', { class: 'sq' }, it.q), el('span', { class: 'si' }, it.i + (it.opc ? ' (opcional)' : '')),
           el('span', { class: 'tick', html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' })));
       });
@@ -256,19 +291,19 @@
     root.append(shop);
 
     // meal prep
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Meal prep del domingo'),
+    root.append(el('div', { id: 'n-prep', class: 'sec-h' }, el('h2', null, 'Meal prep del domingo'),
       el('button', { class: 'tbl-toggle', onclick: () => { U.S.prep = {}; U.save(); render(); } }, 'reiniciar')));
     const mp = el('div', { class: 'card' });
     D.MEALPREP.forEach((p, i) => {
       const on = !!U.S.prep[i];
-      mp.append(el('div', { class: 'prep-step' + (on ? ' on' : ''), onclick: () => { U.S.prep[i] = !U.S.prep[i]; U.save(); render(); } },
+      mp.append(el('div', { class: 'prep-step' + (on ? ' on' : ''), onclick: ev => { U.S.prep[i] = !U.S.prep[i]; U.save(); ev.currentTarget.classList.toggle('on', !!U.S.prep[i]); } },
         el('span', { class: 'pmin' }, p.min), el('span', { class: 'pt' }, p.paso)));
     });
     mp.append(el('p', { class: 'mini', style: 'margin:10px 0 2px' }, D.MEALPREP_NOTA));
     root.append(mp);
 
     // suplementos + agua
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Suplementos')));
+    root.append(el('div', { id: 'n-supl', class: 'sec-h' }, el('h2', null, 'Suplementos')));
     root.append(el('div', { class: 'regla-g' }, D.NUTRI.suplementos.map(s => el('div', { class: 'regla' }, el('b', null, s.t), s.d))));
     root.append(el('p', { class: 'mini', style: 'margin:12px 2px' }, '💧 ' + D.NUTRI.hidratacion));
   }
@@ -301,8 +336,13 @@
     const cint = ultimaCintura();
     const adh = adherenciaGlobal();
 
+    root.append(chipNav([
+      ['p-res', 'Resumen'], ['p-peso', 'Peso'], ['p-cint', 'Cintura'],
+      ['p-carg', 'Cargas'], ['p-adh', 'Semanas'], ['p-chk', 'Checkpoints']
+    ]));
+
     // stats
-    root.append(el('div', { class: 'statrow' },
+    root.append(el('div', { id: 'p-res', class: 'statrow' },
       stat('Peso', pesoAhora ? U.kg1(pesoAhora) : '—', pesoAhora ? 'media S' + ms[ms.length - 1].w : 'sin datos'),
       stat('Perdido', pesoAhora ? (D.META.perfil.pesoSalida - pesoAhora > 0.04 ? '−' + U.kg1(D.META.perfil.pesoSalida - pesoAhora) : '0,0') : '—', 'desde 95,1'),
       stat('Cintura', cint ? U.kg1(cint.v) : '—', cint ? U.fmtCorta(cint.f) + ' · meta <91' : 'lunes en ayunas'),
@@ -314,7 +354,7 @@
     alertas().forEach(a => root.append(a));
 
     // ---- gráfica de peso ----
-    const cardP = el('div', { class: 'card chart-card' });
+    const cardP = el('div', { id: 'p-peso', class: 'card chart-card' });
     const headP = el('div', { class: 'card-title' },
       el('div', null, el('h2', null, 'Peso'), el('div', { class: 'sub' }, 'puntos: pesajes · línea: media semanal · banda: corredor esperado')),
       el('button', { class: 'tbl-toggle', onclick: ev => { const t = cardP.querySelector('.ptable'); t.hidden = !t.hidden; ev.target.textContent = t.hidden ? 'tabla' : 'gráfica'; } }, 'tabla'));
@@ -328,12 +368,12 @@
     root.append(cardP);
 
     // ---- cintura ----
-    root.append(el('div', { class: 'card chart-card' },
+    root.append(el('div', { id: 'p-cint', class: 'card chart-card' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, 'Cintura'), el('div', { class: 'sub' }, 'la métrica reina · objetivo <91 cm'))),
       chartCintura()));
 
     // ---- cargas ----
-    const cardC = el('div', { class: 'card chart-card' });
+    const cardC = el('div', { id: 'p-carg', class: 'card chart-card' });
     cardC.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, 'Cargas'), el('div', { class: 'sub' }, 'peso del ejercicio, sesión a sesión'))));
     const LIFTS = [['press-banca', 'Banca', COL.banca], ['sentadilla-barra', 'Sentadilla', COL.sent], ['rdl-barra', 'Rumano', COL.rdl]];
     let liftSel = S.ui.lift || 'press-banca';
@@ -352,12 +392,12 @@
     root.append(cardC);
 
     // ---- adherencia semanal ----
-    root.append(el('div', { class: 'card chart-card' },
+    root.append(el('div', { id: 'p-adh', class: 'card chart-card' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, 'Adherencia'), el('div', { class: 'sub' }, 'sesiones de fuerza completadas por semana'))),
       chartAdherencia()));
 
     // checkpoints
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Checkpoints')));
+    root.append(el('div', { id: 'p-chk', class: 'sec-h' }, el('h2', null, 'Checkpoints')));
     const tc = el('table', null, el('tr', null, el('th', null, 'Fecha'), el('th', null, 'Esperado'), el('th', null, 'Real'), el('th', null, 'Si te desvías')));
     D.CHECKPOINTS.forEach(c => {
       const m = U.mediaSemana(c.sem);

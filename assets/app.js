@@ -411,7 +411,10 @@
       prep.forEach(([k, txt]) => {
         const on = !!(S.flags.prep && S.flags.prep[k]);
         c.append(el('div', { class: 'habit wide' + (on ? ' on' : ''), style: 'margin:5px 0', onclick: ev => {
-          S.flags.prep = S.flags.prep || {}; S.flags.prep[k] = !S.flags.prep[k]; save(); render();
+          S.flags.prep = S.flags.prep || {}; S.flags.prep[k] = !S.flags.prep[k]; save();
+          const v = !!S.flags.prep[k];
+          ev.currentTarget.classList.toggle('on', v);
+          ev.currentTarget.querySelector('.hicon').textContent = v ? '✓' : '○';
         } }, el('div', { class: 'hicon' }, on ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt))));
       });
       root.append(c);
@@ -513,7 +516,7 @@
         if (['torso-a', 'torso-b', 'fb-a', 'fb-b', 'push-a', 'pull-a', 'push-b', 'pull-b'].includes(sl.sid)) tb.push(D.TENDON.bloques[3]);
         if (tb.length) {
           const on = !!dd.tendon;
-          card.append(el('div', { class: 'habit wide' + (on ? ' on' : ''), style: 'margin-top:10px', onclick: () => { dd.tendon = !dd.tendon; save(); render(); } },
+          card.append(el('div', { class: 'habit wide' + (on ? ' on' : ''), style: 'margin-top:10px', onclick: ev => { dd.tendon = !dd.tendon; save(); ev.currentTarget.classList.toggle('on', !!dd.tendon); } },
             el('div', { class: 'hicon' }, '🛡'),
             el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, 'Protocolo tendón · ' + tb.map(x => x.nombre.split(' ·')[0]).join(' + ')),
               el('div', { class: 'hs' }, tb.map(x => x.detalle.split('.')[0]).join(' · ')))));
@@ -531,8 +534,12 @@
         card.append(el('p', { style: 'font-size:13.5px' }, sl.ses.detalle));
         if (sl.ses.icono === 'run') card.append(el('div', { class: 'mini', style: 'margin-top:4px' }, '🛡 Antes: tibialis raises 2×20 (protocolo tendón).'));
         const on = !!dd.sesionOk;
-        card.append(el('button', { class: 'cerrar' + (on ? ' hecho' : ''), style: 'margin:12px 0 4px', onclick: () => { dd.sesionOk = !dd.sesionOk; if (dd.sesionOk) dd.sesionTipo = 'cardio'; save(); render(); } },
-          on ? '✓ Cardio hecho' : 'Marcar cardio hecho'));
+        card.append(el('button', { class: 'cerrar' + (on ? ' hecho' : ''), style: 'margin:12px 0 4px', onclick: ev => {
+          dd.sesionOk = !dd.sesionOk; if (dd.sesionOk) dd.sesionTipo = 'cardio'; save();
+          ev.currentTarget.classList.toggle('hecho', !!dd.sesionOk);
+          ev.currentTarget.textContent = dd.sesionOk ? '✓ Cardio hecho' : 'Marcar cardio hecho';
+          evaluaLogros();
+        } }, on ? '✓ Cardio hecho' : 'Marcar cardio hecho'));
         const minIn = el('input', { type: 'text', inputmode: 'numeric', placeholder: 'min', value: dd.cardioMin || '', style: 'width:70px;text-align:center;font-family:var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:7px', onchange: ev => { const v = parseInt(ev.target.value); if (v > 0) dd.cardioMin = v; else delete dd.cardioMin; save(); } });
         card.append(el('div', { style: 'display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)' }, 'Minutos reales:', minIn));
         root.append(card);
@@ -553,7 +560,8 @@
       const hb = el('div', { class: 'habits' });
       const mkHabit = (key, icon, titulo, sub, wide) => {
         const on = !!dd[key];
-        return el('div', { class: 'habit' + (on ? ' on' : '') + (wide ? ' wide' : ''), onclick: () => { dd[key] = !dd[key]; save(); render(); evaluaLogros(); } },
+        // toggle en el sitio (sin re-render): así la página no salta arriba
+        return el('div', { class: 'habit' + (on ? ' on' : '') + (wide ? ' wide' : ''), onclick: ev => { dd[key] = !dd[key]; save(); ev.currentTarget.classList.toggle('on', !!dd[key]); evaluaLogros(); } },
           el('div', { class: 'hicon' }, icon),
           el('div', null, el('div', { class: 'ht' }, titulo), sub ? el('div', { class: 'hs' }, sub) : null));
       };
@@ -734,7 +742,63 @@
     // instalada scrollea #scroller; en navegador scrollea el documento
     const sc = $('#scroller'); if (sc) sc.scrollTop = 0;
     scrollTo(0, 0);
+    moveBubble();
   }
+
+  /* ---------------- burbuja deslizante + arrastre (Liquid Glass) ----------
+     Una sola burbuja que viaja entre pestañas con rebote; si mantienes el
+     dedo y lo deslizas por la barra, te sigue y al soltar selecciona.      */
+  const barEl = $('.tabbar'), barIn = $('.tabbar-in');
+  const bubble = el('div', { class: 'tab-bubble' });
+  barIn.style.position = 'relative';
+  barIn.prepend(bubble);
+  function moveBubble() {
+    const t = $('.tab.on', barIn) || $('.tab', barIn);
+    if (!t) return;
+    bubble.style.left = (t.offsetLeft + 5) + 'px';
+    bubble.style.width = (t.offsetWidth - 10) + 'px';
+  }
+  let dragStart = null, realDrag = false, dragTab = null;
+  function nearestTab(x) {
+    let best = null, bd = 1e9;
+    $$('.tab', barIn).forEach(t => {
+      const r = t.getBoundingClientRect(), c = r.left + r.width / 2, d = Math.abs(c - x);
+      if (d < bd) { bd = d; best = t; }
+    });
+    return best;
+  }
+  barIn.addEventListener('pointerdown', ev => {
+    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+    dragStart = ev.clientX; realDrag = false; dragTab = null;
+    try { barIn.setPointerCapture(ev.pointerId); } catch (e) { }
+  });
+  barIn.addEventListener('pointermove', ev => {
+    if (dragStart === null) return;
+    if (!realDrag && Math.abs(ev.clientX - dragStart) < 7) return;  // un toque no es arrastre
+    if (!realDrag) { realDrag = true; barEl.classList.add('dragging'); }
+    const t = nearestTab(ev.clientX);
+    if (t && t !== dragTab) {
+      dragTab = t;
+      bubble.style.left = (t.offsetLeft + 5) + 'px';
+      bubble.style.width = (t.offsetWidth - 10) + 'px';
+      $$('.tab', barIn).forEach(x => x.classList.toggle('on', x === t));
+      if (navigator.vibrate) navigator.vibrate(8);
+    }
+  });
+  function dragEnd() {
+    if (dragStart === null) return;
+    const fue = realDrag, elegido = dragTab;
+    dragStart = null; realDrag = false; dragTab = null;
+    barEl.classList.remove('dragging');
+    if (fue && elegido) {
+      const destino = '#/' + elegido.dataset.r;
+      if (location.hash === destino) render(); else location.hash = destino;
+    }
+  }
+  barIn.addEventListener('pointerup', dragEnd);
+  barIn.addEventListener('pointercancel', () => { const habia = realDrag; dragStart = null; realDrag = false; dragTab = null; barEl.classList.remove('dragging'); if (habia) render(); });
+  addEventListener('resize', () => setTimeout(moveBubble, 60));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(moveBubble, 0));
 
   /* Altura real de la cabecera → --hdr-h. La usa el min-height de #view para
      dejar el documento justo 2 px por encima de la pantalla: lo justo para que

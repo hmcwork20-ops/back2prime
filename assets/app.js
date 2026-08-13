@@ -599,6 +599,25 @@
         if (ev.target.dataset.arm) { localStorage.removeItem(KEY); location.reload(); }
         else { ev.target.dataset.arm = '1'; ev.target.textContent = '¿Seguro? Toca otra vez para borrar TODO'; }
       } }, 'Borrar todos los datos'));
+      // Diagnóstico de pantalla: si la barra inferior no encaja, estos números
+      // dicen exactamente por qué (y evitan diagnosticar sobre una captura).
+      sh.append(el('details', { class: 'fold', style: 'margin-top:16px' },
+        el('summary', null, 'Diagnóstico de pantalla'),
+        el('div', { class: 'fold-in mini', id: 'diag' }, 'midiendo…')));
+      setTimeout(() => {
+        const d = $('#diag'); if (!d) return;
+        const tb = $('.tabbar').getBoundingClientRect();
+        const cs = getComputedStyle($('.tabbar'));
+        const inst = document.documentElement.classList.contains('pwa');
+        const hueco = Math.round(innerHeight - tb.bottom);
+        d.innerHTML = [
+          'Modo: <b>' + (inst ? 'app instalada' : 'navegador') + '</b>',
+          'Pantalla: <b>' + innerWidth + '×' + innerHeight + '</b>',
+          'Barra: alto <b>' + Math.round(tb.height) + '</b> · relleno inferior <b>' + cs.paddingBottom + '</b>',
+          'Hueco bajo la barra: <b>' + hueco + ' px</b>' + (hueco <= 1 ? ' ✓ a ras' : ' ← sobra esto'),
+          'safe-area: <b>' + (getComputedStyle(document.documentElement).getPropertyValue('--tab-safe') || '—') + '</b>'
+        ].join('<br>');
+      }, 60);
       sh.append(el('p', { class: 'mini', style: 'margin-top:16px' }, D.AVISO_LEGAL));
     });
   }

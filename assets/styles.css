@@ -35,7 +35,12 @@
   --r-sm:10px;
   --disp:'Barlow Condensed','Inter',sans-serif;
   --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,monospace;
-  --tab-h:62px;
+  /* Barra inferior: 54 px de contenido, en línea con los 49 pt de la tab bar
+     de iOS (los 62 anteriores la hacían flotar). Del safe-area del indicador
+     de inicio se descuentan 10: el fondo de la barra ya cubre esa franja, no
+     hace falta reservarla entera en blanco. */
+  --tab-h:54px;
+  --tab-safe:max(6px,calc(env(safe-area-inset-bottom,0px) - 10px));
   --shadow:0 8px 28px rgba(0,0,0,.42);
   color-scheme:dark;
 }
@@ -86,13 +91,13 @@ body{
   margin:0;background:var(--bg);color:var(--ink);
   font:400 15px/1.5 'Inter',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
-  padding-bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px));
+  padding-bottom:calc(var(--tab-h) + var(--tab-safe));
   overscroll-behavior-y:none;
 }
 #scroller{display:block}
 #view{
-  min-height:calc(100vh  - var(--hdr-h,60px) - var(--tab-h) - env(safe-area-inset-bottom,0px) + 2px);
-  min-height:calc(100lvh - var(--hdr-h,60px) - var(--tab-h) - env(safe-area-inset-bottom,0px) + 2px);
+  min-height:calc(100vh  - var(--hdr-h,60px) - var(--tab-h) - var(--tab-safe) + 2px);
+  min-height:calc(100lvh - var(--hdr-h,60px) - var(--tab-h) - var(--tab-safe) + 2px);
 }
 
 /* ---------- MODO APP INSTALADA (pantalla de inicio) ----------
@@ -157,15 +162,15 @@ section.block{margin:18px 0}
   background:color-mix(in srgb,var(--surface) 94%,transparent);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--line-soft);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-bottom:var(--tab-safe);
 }
 .tabbar-in{display:flex;max-width:640px;margin:0 auto;height:var(--tab-h)}
 .tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  background:none;border:0;color:var(--ink3);cursor:pointer;padding:6px 0 8px;position:relative;
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:none;border:0;color:var(--ink3);cursor:pointer;padding:4px 0 5px;position:relative;
 }
-.tab svg{width:23px;height:23px;stroke-width:1.9}
-.tab span{font-family:var(--disp);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.tab svg{width:22px;height:22px;stroke-width:1.9}
+.tab span{font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
 .tab.on{color:var(--volt)}
 .tab.on::before{content:'';position:absolute;top:0;width:26px;height:3px;border-radius:0 0 3px 3px;background:var(--volt)}
 
@@ -330,8 +335,11 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 /* ---------- PROGRESO ---------- */
 .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}
 .stat{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:10px 12px}
-.stat .sl{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-family:var(--disp);font-weight:600;color:var(--ink3)}
-.stat .sv{font-family:var(--mono);font-weight:700;font-size:19px;margin-top:1px}
+.stat{min-width:0}
+.stat .sl{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-family:var(--disp);font-weight:600;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* nowrap + clamp: con 4 columnas en un móvil de 375 px, «190 g» y «205 g»
+   partían en dos líneas y descuadraban la fila. */
+.stat .sv{font-family:var(--mono);font-weight:700;font-size:clamp(15px,4.3vw,19px);margin-top:1px;white-space:nowrap}
 .stat .sd{font-size:11px;color:var(--ink2)}
 .stat .sv .up{color:var(--f1)} .stat .sv .down{color:var(--f4)}
 .chart-card{padding-bottom:6px}

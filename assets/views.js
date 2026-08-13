@@ -20,11 +20,38 @@
   }
   const diaIdx = f => Math.floor((U.fromISO(f) - U.fromISO(D.META.inicioISO)) / 864e5);
 
-  /* ==================== PLAN ==================== */
+  /* ==================== PLAN (4 sub-secciones) ==================== */
   function renderPlan(root) {
     const hoy = U.hoyISO(), w = U.semanaDe(hoy);
     const faseAct = (w >= 1 && w <= 12) ? D.FASES[D.CAL[w - 1].fase - 1] : null;
+    const fold = (titulo, abierto, ...kids) => el('details', { class: 'fold', ...(abierto ? { open: '' } : {}) }, el('summary', null, titulo), el('div', { class: 'fold-in' }, ...kids));
 
+    // Segmentado: cada sub-sección carga sola → nada de scroll kilométrico
+    const SECS = [['fases', 'Fases'], ['reglas', 'Reglas'], ['ejercicios', 'Ejercicios'], ['ciencia', 'Ciencia']];
+    let sec = (U.S.ui && U.S.ui.plansec) || 'fases';
+    if (!SECS.some(s => s[0] === sec)) sec = 'fases';
+    const seg = el('div', { class: 'seg seg-plan', role: 'tablist' });
+    const cont = el('div');
+    SECS.forEach(([id, n]) => seg.append(el('button', { class: id === sec ? 'on' : '', role: 'tab', onclick: ev => {
+      sec = id; U.S.ui.plansec = id; U.save();
+      seg.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      ev.currentTarget.classList.add('on');
+      cont.innerHTML = ''; BUILD[id](cont); scrollTo(0, 0);
+    } }, n)));
+    root.append(seg, cont);
+    const BUILD = { fases: secFases, reglas: secReglas, ejercicios: secEjercicios, ciencia: secCiencia };
+    BUILD[sec](cont);
+
+    /* ---- REGLAS: sección propia, primera pantalla sin scroll ---- */
+    function secReglas(root) {
+      root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Las 8 reglas'), el('span', { class: 'mini' }, 'si dudas, gana la regla')));
+      root.append(el('div', { class: 'regla-g' }, D.REGLAS.map(r => el('div', { class: 'regla' }, el('b', null, r.n + ' · ' + r.t), r.d))));
+      root.append(el('div', { class: 'banner hot', style: 'margin-top:16px' }, el('div', null, el('b', null, 'Señales de parar'), el('div', null, D.SENALES))));
+      root.append(el('div', { class: 'banner ok' }, el('div', null, el('b', null, 'El objetivo real'), el('div', null, D.CIERRE))));
+    }
+
+    /* ---- FASES: fase actual + calendario + las 4 fases ---- */
+    function secFases(root) {
     // cabecera de fase actual
     if (faseAct) {
       root.append(el('div', { class: 'card fase-card p' + faseAct.id },
@@ -37,12 +64,6 @@
       root.append(el('div', { class: 'banner' }, el('div', null, el('b', null, 'El plan empieza el lunes 17 de agosto'), el('div', null, 'Fase 1 · Reactivación en casa. Aquí tienes todo para llegar con los deberes hechos.'))));
     }
 
-    // Las 8 reglas
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Las 8 reglas'), el('span', { class: 'mini' }, 'si dudas, gana la regla')));
-    root.append(el('div', { class: 'regla-g' }, D.REGLAS.map(r => el('div', { class: 'regla' }, el('b', null, r.n + ' · ' + r.t), r.d))));
-
-    // Calendario
-    const fold = (titulo, abierto, ...kids) => el('details', { class: 'fold', ...(abierto ? { open: '' } : {}) }, el('summary', null, titulo), el('div', { class: 'fold-in' }, ...kids));
     root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Calendario')));
     const tcal = el('div', { class: 'tw' }, el('table', null,
       el('tr', null, el('th'), el('th', null, 'Fase'), el('th', null, 'Sem'), el('th', null, 'Fechas'), el('th', null, 'RPE')),
@@ -127,8 +148,10 @@
         el('summary', null, el('span', { class: 'disco d' + f.id, style: 'width:26px;height:26px;border-width:4px;font-size:10px;margin-right:2px' }, String(f.disco)), 'Fase ' + f.id + ' · ' + f.nombre),
         el('div', { class: 'fold-in' }, kids)));
     });
+    }
 
-    // Tendón + carrera
+    /* ---- EJERCICIOS: seguros del plan + biblioteca ---- */
+    function secEjercicios(root) {
     root.append(el('div', { class: 'sec-h' }, el('h2', null, 'Los seguros del plan')));
     root.append(el('div', { class: 'card' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, '🛡 ' + D.TENDON.titulo))),
@@ -155,17 +178,16 @@
       });
     });
     root.append(lib);
+    }
 
-    // Ciencia
+    /* ---- CIENCIA ---- */
+    function secCiencia(root) {
     root.append(el('div', { class: 'sec-h' }, el('h2', null, 'La ciencia del plan')));
     root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, D.CIENCIA.intro));
     D.CIENCIA.temas.forEach(t => root.append(fold('🔬 ' + t.t, false,
       el('p', { style: 'margin-top:4px' }, t.d), el('p', { class: 'mini' }, '📚 ' + t.ref))));
-
-    // señales + cierre
-    root.append(el('div', { class: 'banner hot', style: 'margin-top:18px' }, el('div', null, el('b', null, 'Señales de parar'), el('div', null, D.SENALES))));
-    root.append(el('div', { class: 'banner ok' }, el('div', null, el('b', null, 'El objetivo real'), el('div', null, D.CIERRE))));
     root.append(el('p', { class: 'mini', style: 'margin:16px 2px 8px' }, D.AVISO_LEGAL));
+    }
   }
 
   /* ==================== NUTRICIÓN ==================== */
@@ -269,6 +291,7 @@
       if (r.tips) sh.append(el('div', { class: 'alt', style: 'margin-top:12px' }, el('b', null, '💡 '), r.tips));
     });
   }
+  U.sheetReceta = sheetReceta;   // la usa la tarjeta «La comida de hoy» (app.js)
 
   /* ==================== PROGRESO ==================== */
   function renderProgreso(root) {

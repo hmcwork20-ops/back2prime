@@ -40,13 +40,17 @@
   --r-sm:10px;
   --disp:'Barlow Condensed','Inter',sans-serif;
   --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,monospace;
-  /* Barra inferior, apretada a mano sobre iPhone (medido con el diagnóstico
-     de Ajustes): 46 px de contenido + 12 pt de holgura sobre el indicador de
-     inicio = 59 pt totales, frente a los 83 pt de la tab bar estándar de iOS.
-     Los 12 pt son el suelo: por debajo, el gesto de inicio del iPhone empieza
-     a robar los toques de la fila de pestañas. */
-  --tab-h:46px;
-  --tab-safe:max(4px,calc(env(safe-area-inset-bottom,0px) - 22px));
+  /* Liquid Glass (iOS 26): la barra es una píldora FLOTANTE de cristal sobre
+     el contenido, no una franja pegada al borde. --tab-off la separa del borde
+     físico: 12 px sin inset; con indicador de inicio (inset 34) queda a 28 px,
+     librando el gesto de inicio. El contenido pasa por debajo y se ve a través
+     del blur: ese es el efecto. */
+  --tab-h:56px;
+  --tab-off:max(12px,calc(env(safe-area-inset-bottom,0px) - 6px));
+  --glass:rgba(29,35,43,.58);
+  --glass-strong:rgba(21,25,31,.84);
+  --glass-line:rgba(255,255,255,.09);
+  --glass-hi:rgba(255,255,255,.12);
   --shadow:0 8px 28px rgba(0,0,0,.42);
   color-scheme:dark;
 }
@@ -83,44 +87,27 @@
    - .btn: no uso la clase pelada (uso .btn-b2p / .btn-ghost). */
 .card{overflow:visible;white-space:normal;width:auto}
 
-/* ---------- Base · MODO NAVEGADOR (por defecto) ----------
-   Safari solo repliega su barra de herramientas si la página SCROLLEA. Si no
-   scrollea, la deja desplegada y empuja hacia arriba cualquier bottom:0 fijo
-   — ese era el fallo original en «Hoy», la única vista corta.
-   Así que el documento scrollea (barra fija abajo) y además se le garantiza a
-   #view una altura mínima que deja el documento 2 px por encima de la pantalla:
-   suficiente para que Safari repliegue en TODAS las vistas, y sin dejar hueco
-   muerto al final. La altura de la cabecera la mide app.js en --hdr-h. */
+/* ---------- Base · layout unificado ----------
+   El documento scrollea SIEMPRE (navegador e instalada): cabecera y barra son
+   cristal fijo y el contenido pasa por debajo. En Safari, #view lleva un
+   min-height calculado que deja el documento 2 px por encima de la pantalla
+   para que su toolbar se repliegue también en las vistas cortas. La altura de
+   la cabecera la mide app.js en --hdr-h. html.pwa queda solo como marcador
+   para el diagnóstico. */
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font:400 15px/1.5 'Inter',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
-  padding-bottom:calc(var(--tab-h) + var(--tab-safe));
+  padding-top:var(--hdr-h,59px);
+  padding-bottom:calc(var(--tab-h) + var(--tab-off) + 14px);
   overscroll-behavior-y:none;
 }
-#scroller{display:block}
 #view{
-  min-height:calc(100vh  - var(--hdr-h,60px) - var(--tab-h) - var(--tab-safe) + 2px);
-  min-height:calc(100lvh - var(--hdr-h,60px) - var(--tab-h) - var(--tab-safe) + 2px);
+  min-height:calc(100vh  - var(--hdr-h,59px) - var(--tab-h) - var(--tab-off) - 14px + 2px);
+  min-height:calc(100lvh - var(--hdr-h,59px) - var(--tab-h) - var(--tab-off) - 14px + 2px);
 }
-
-/* ---------- MODO APP INSTALADA (pantalla de inicio) ----------
-   Sin barra de navegador de por medio: shell de altura fija, scrollea solo el
-   contenido y la barra queda clavada al borde real de la pantalla. */
-html.pwa,html.pwa body{height:100%}
-html.pwa body{
-  height:100dvh;display:flex;flex-direction:column;
-  overflow:hidden;overscroll-behavior:none;padding-bottom:0;
-}
-html.pwa .hdr{position:relative;flex:0 0 auto}
-html.pwa #scroller{
-  flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;
-  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;padding-bottom:26px;
-}
-html.pwa #view{min-height:0}
-html.pwa .tabbar{position:relative;flex:0 0 auto}
 h1,h2,h3,.disp{font-family:var(--disp);text-transform:uppercase;letter-spacing:.02em;margin:0;font-weight:700}
 p{margin:.5em 0}
 a{color:var(--volt)}
@@ -139,10 +126,10 @@ section.block{margin:18px 0}
 
 /* ---------- Header ---------- */
 .hdr{
-  position:sticky;top:0;z-index:40;
-  background:color-mix(in srgb,var(--bg) 92%,transparent);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line-soft);
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  background:rgba(11,13,16,.6);
+  -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
+  border-bottom:1px solid rgba(255,255,255,.06);
   padding-top:env(safe-area-inset-top,0px);
 }
 .hdr-in{display:flex;align-items:center;gap:10px;max-width:640px;margin:0 auto;padding:10px 14px}
@@ -163,30 +150,32 @@ section.block{margin:18px 0}
 .icon-btn:active{background:var(--surface2)}
 
 /* ---------- Tab bar ---------- */
-/* Fondo SÓLIDO (ver --tabbar-bg): con el --surface al 94% la barra quedaba a
-   1,08:1 de contraste con la página y en un OLED no se distinguía, así que
-   parecía flotar aunque su borde inferior sí tocaba la pantalla (medido:
-   hueco 0 px). Ahora se ve que la barra llega al borde. */
+/* Píldora Liquid Glass: flota sobre el contenido, que se ve pasar a través
+   del blur. La pestaña activa lleva su propia burbuja de cristal volt. */
 .tabbar{
-  position:fixed;left:0;right:0;bottom:0;z-index:50;
-  background:var(--tabbar-bg);
-  border-top:1px solid var(--line);
-  padding-bottom:var(--tab-safe);
+  position:fixed;left:50%;transform:translateX(-50%);bottom:var(--tab-off);z-index:50;
+  width:min(calc(100% - 24px),520px);
+  border-radius:30px;
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(22px) saturate(1.7);backdrop-filter:blur(22px) saturate(1.7);
+  border:1px solid var(--glass-line);
+  box-shadow:0 10px 34px rgba(0,0,0,.5),inset 0 1px 0 var(--glass-hi);
 }
-.tabbar-in{display:flex;max-width:640px;margin:0 auto;height:var(--tab-h)}
-/* Pestaña inactiva en #8A93A1, no en --ink3: sobre la barra aclarada, --ink3
-   caía a 3,01:1 (texto pequeño ilegible); este tono da 4,6:1. */
+.tabbar-in{display:flex;height:var(--tab-h);padding:0 6px}
+/* Etiqueta inactiva #98A1AE: medido ≥4,6:1 sobre el cristal en el peor fondo
+   de la app (lección de la v6: --ink3 caía a 3:1 y era ilegible a 10,5 px). */
 .tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
-  background:none;border:0;color:#8A93A1;cursor:pointer;padding:3px 0 3px;position:relative;
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:none;border:0;color:#98A1AE;cursor:pointer;padding:0;position:relative;
 }
-.tab svg{width:21px;height:21px;stroke-width:1.9}
-.tab span{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
+.tab svg{width:21px;height:21px;stroke-width:1.9;position:relative}
+.tab span{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1.1;position:relative}
+.tab::before{content:'';position:absolute;inset:7px 5px;border-radius:21px;background:transparent;transition:background .18s,box-shadow .18s}
 .tab.on{color:var(--volt)}
-.tab.on::before{content:'';position:absolute;top:0;width:24px;height:3px;border-radius:0 0 3px 3px;background:var(--volt)}
+.tab.on::before{background:rgba(200,242,78,.13);box-shadow:inset 0 0 0 1px rgba(200,242,78,.22),inset 0 1px 0 rgba(255,255,255,.08)}
 
 /* ---------- Tarjetas y cabeceras ---------- */
-.card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px 15px 13px;margin:12px 0}
+.card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px 15px 13px;margin:12px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
 .card.flat{background:transparent;border-style:dashed}
 .card-title{display:flex;align-items:center;gap:9px;margin-bottom:10px}
 .card-title h2{font-size:19px}
@@ -368,6 +357,24 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   letter-spacing:.04em;text-transform:uppercase;padding:5px 13px;border-radius:999px;cursor:pointer;
 }
 .seg button.on{background:var(--volt);color:var(--volt-ink)}
+/* Sub-secciones de PLAN: segmentado de cristal pegado bajo la cabecera */
+.seg.seg-plan{
+  position:sticky;top:calc(var(--hdr-h,59px) + 8px);z-index:30;
+  display:flex;width:100%;margin:10px 0 4px;
+  background:var(--glass);border-color:var(--glass-line);
+  -webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);
+  box-shadow:0 6px 22px rgba(0,0,0,.35),inset 0 1px 0 var(--glass-hi);
+}
+.seg.seg-plan button{flex:1;padding:7px 4px;font-size:12.5px}
+
+/* Comida del día (vista HOY) */
+.meal-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-soft);cursor:pointer}
+.meal-row:last-of-type{border-bottom:0}
+.meal-row .mi{font-size:17px;width:24px;text-align:center;flex:0 0 auto}
+.meal-row .ml{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);width:74px;flex:0 0 auto}
+.meal-row .mn{flex:1;min-width:0;font-weight:600;font-size:13.5px}
+.meal-row .mk{font-family:var(--mono);font-size:11.5px;color:var(--ink2);flex:0 0 auto}
+.meal-row.libre .mn{color:var(--volt)}
 .tbl-toggle{font-size:12px;color:var(--ink2);background:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px;cursor:pointer;margin-left:auto}
 
 /* ---------- LOGROS ---------- */
@@ -409,7 +416,10 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .sheet-bg{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);opacity:0;transition:opacity .2s;backdrop-filter:blur(2px)}
 .sheet{
   position:fixed;left:0;right:0;bottom:0;z-index:81;max-height:86dvh;overflow-y:auto;
-  background:var(--surface);border-radius:20px 20px 0 0;border-top:1px solid var(--line);
+  background:var(--glass-strong);
+  -webkit-backdrop-filter:blur(30px) saturate(1.5);backdrop-filter:blur(30px) saturate(1.5);
+  border-radius:22px 22px 0 0;border-top:1px solid var(--glass-line);
+  box-shadow:0 -14px 44px rgba(0,0,0,.5),inset 0 1px 0 var(--glass-hi);
   transform:translateY(102%);transition:transform .26s cubic-bezier(.32,.72,.28,1);
   padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px));
   max-width:640px;margin:0 auto;overscroll-behavior:contain;
@@ -429,10 +439,11 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 /* ---------- Timer flotante ---------- */
 .timer{
   position:fixed;z-index:60;left:50%;transform:translateX(-50%) translateY(20px);
-  bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 12px);
+  bottom:calc(var(--tab-h) + var(--tab-off) + 20px);
   display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;
-  background:var(--surface2);border:1px solid var(--line);border-radius:999px;
-  padding:8px 9px 8px 16px;box-shadow:var(--shadow);transition:all .22s;
+  background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;
+  -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
+  padding:8px 9px 8px 16px;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-hi);transition:all .22s;
 }
 .timer.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
 .timer .tt{font-family:var(--mono);font-weight:700;font-size:19px;min-width:56px}
@@ -444,8 +455,9 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .toast{
   position:fixed;z-index:90;left:50%;transform:translateX(-50%) translateY(-8px);
   top:calc(env(safe-area-inset-top,0px) + 10px);opacity:0;transition:all .25s;pointer-events:none;
-  background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 16px;
-  font-size:13.5px;font-weight:600;box-shadow:var(--shadow);max-width:90vw;text-align:center;
+  background:var(--glass);border:1px solid var(--glass-line);border-radius:14px;padding:10px 16px;
+  -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
+  font-size:13.5px;font-weight:600;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-hi);max-width:90vw;text-align:center;
 }
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .celebra-bg{position:fixed;inset:0;z-index:95;background:rgba(5,6,8,.82);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
@@ -488,4 +500,12 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important}
+}
+
+/* Sin soporte de blur: superficies sólidas (los tonos derivados en v6) */
+@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+  .tabbar{background:var(--tabbar-bg)}
+  .hdr{background:var(--bg)}
+  .sheet{background:#161A20}
+  .timer,.toast,.seg.seg-plan{background:var(--surface2)}
 }

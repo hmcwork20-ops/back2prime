@@ -334,6 +334,51 @@
     });
   }
 
+  /* ---------------- comida del día (menú → recetas) ---------------- */
+  function cardComida(d) {
+    const menu = D.MENU[dowMon(d)];
+    if (!menu) return null;
+    const rec = id => D.RECETAS.find(r => r.id === id);
+    const w = semanaDe(d);
+    const enPlan = w >= 1 && w <= 12;
+    const fase = enPlan ? D.CAL[w - 1].fase : 1;
+    const fn = D.NUTRI.fases[fase === 4 ? 2 : fase === 3 ? 1 : 0];
+    const sl = enPlan ? slotDe(d) : null;
+
+    const card = el('div', { class: 'card' });
+    card.append(el('div', { class: 'card-title' }, el('div', null,
+      el('h2', null, 'La comida de hoy'),
+      el('div', { class: 'sub' }, fn.kcal.toLocaleString('es-ES') + ' kcal · ' + fn.p + ' g de proteína en 4 tomas'))));
+
+    const fila = (icono, etiqueta, recetaId) => {
+      if (recetaId === 'LIBRE') {
+        return el('div', { class: 'meal-row libre', onclick: () => openSheet(sh => {
+          sh.append(el('h2', null, 'Comida libre'), el('div', { class: 'stag' }, 'una comida, no un día'),
+            el('p', { style: 'font-size:14px' }, D.NUTRI.comidaLibre));
+        }) }, el('span', { class: 'mi' }, icono), el('span', { class: 'ml' }, etiqueta),
+          el('span', { class: 'mn' }, 'COMIDA LIBRE'), el('span', { class: 'mk' }, 'tuya'));
+      }
+      const r = rec(recetaId);
+      if (!r) return null;
+      return el('div', { class: 'meal-row', onclick: () => { if (window.UI && window.UI.sheetReceta) window.UI.sheetReceta(r); } },
+        el('span', { class: 'mi' }, icono), el('span', { class: 'ml' }, etiqueta),
+        el('span', { class: 'mn' }, r.nombre), el('span', { class: 'mk' }, r.macros.kcal + ' kcal'));
+    };
+    card.append(
+      fila('🥣', 'Desayuno', menu.de),
+      fila('🍗', 'Comida', menu.co),
+      fila('🐟', 'Cena', menu.ce),
+      fila('🌙', 'Pre-sueño', 'toma-noche')
+    );
+
+    if (w === 7) card.append(el('div', { class: 'banner', style: 'margin:10px 0 2px' }, el('div', null, el('b', null, 'Diet break'), ' +2 raciones de carbohidrato hoy. Proteína igual.')));
+    else if (enPlan && (fase === 4 || (fase === 3 && sl && sl.ses && sl.ses.tipo === 'fuerza')))
+      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, '➕ Extra F' + fase + ': una pieza de fruta + 40 g de pan en la comida.'));
+    else if (!enPlan && w === 0)
+      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, 'Puedes practicar el menú desde ya: el lunes 17 va en serio.'));
+    return card;
+  }
+
   /* ---------------- vista HOY ---------------- */
   let selDia = hoyISO();
 
@@ -370,6 +415,14 @@
         } }, el('div', { class: 'hicon' }, on ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt))));
       });
       root.append(c);
+      // el camino por delante: los 4 discos
+      const strip = el('div', { class: 'card', style: 'display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center' });
+      D.FASES.forEach(f => strip.append(el('div', null,
+        el('span', { class: 'disco d' + f.id, style: 'margin:0 auto' }, String(f.disco)),
+        el('div', { class: 'mini', style: 'margin-top:5px;font-weight:600' }, 'F' + f.id),
+        el('div', { class: 'mini', style: 'font-size:10.5px' }, f.fechas))));
+      root.append(strip);
+      const cc0 = cardComida(d); if (cc0) root.append(cc0);
     }
 
     /* — después del plan — */
@@ -491,6 +544,9 @@
           el('div', { class: 'card-title' }, el('div', null, el('h2', null, dowMon(d) === 6 ? 'Domingo: descanso + meal prep' : 'Descanso'),
             el('div', { class: 'sub' }, sl.ses.detalle)))));
       }
+
+      /* la comida del día */
+      const cc = cardComida(d); if (cc) root.append(cc);
 
       /* hábitos del día */
       root.append(el('div', { class: 'sec-h' }, el('h2', null, 'El día a día')));
@@ -625,8 +681,7 @@
           'Modo: <b>' + (inst ? 'app instalada' : 'navegador') + '</b>',
           'Pantalla física: <b>' + screen.width + '×' + alto + '</b> · lienzo <b>' + innerWidth + '×' + innerHeight + '</b>',
           'Inset arriba: <b>' + insetTop + 'px</b> · cabecera <b>' + Math.round(hd.height) + '</b>',
-          'Barra: alto <b>' + Math.round(tb.height) + '</b> · relleno inferior <b>' + cs.paddingBottom + '</b>',
-          'Hueco bajo la barra (en el lienzo): <b>' + hueco + ' px</b>' + (hueco <= 1 ? ' ✓' : ' ←'),
+          'Barra: alto <b>' + Math.round(tb.height) + '</b> · flotante a <b>' + hueco + ' px</b> del borde (diseño Liquid Glass)',
           franja > 4
             ? '<b style="color:var(--danger)">⚠ Franja muerta de ' + franja + ' px bajo la barra.</b> Borra el icono de la pantalla de inicio y vuelve a añadirlo: iOS congeló la configuración vieja al instalar.'
             : '<b style="color:var(--ok)">✓ El lienzo llega al borde de la pantalla.</b>'

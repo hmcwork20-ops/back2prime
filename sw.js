@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v10';
+const V = 'b2p-v11';
 const CORE = [
   './',
   './index.html',
@@ -17,7 +17,8 @@ const CORE = [
   './icons/favicon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './icons/apple-touch-icon.png'
+  './icons/apple-touch-icon.png',
+  './icons/maskable-512.png'
 ];
 
 self.addEventListener('install', e => {

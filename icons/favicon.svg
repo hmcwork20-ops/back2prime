@@ -2,5 +2,9 @@
   <rect width="64" height="64" rx="14" fill="#0B0D10"/>
   <circle cx="32" cy="32" r="24" fill="none" stroke="#C8F24E" stroke-width="6" opacity=".34"/>
   <circle cx="32" cy="32" r="24" fill="none" stroke="#C8F24E" stroke-width="6" stroke-dasharray="10 141" stroke-dashoffset="-18" stroke-linecap="round"/>
-  <text x="32" y="44" text-anchor="middle" font-family="Arial Narrow, Arial, sans-serif" font-weight="700" font-size="34" fill="#C8F24E">2</text>
+  <!-- textLength fija el ancho a 32 (76% del diámetro interior del anillo, que
+       es 42) para que el monograma encaje igual con cualquier tipografía. -->
+  <text x="32" y="39.5" text-anchor="middle" textLength="32" lengthAdjust="spacingAndGlyphs"
+        font-family="Barlow Condensed, Arial Narrow, Arial, sans-serif" font-weight="700"
+        font-size="21" fill="#C8F24E">B2P</text>
 </svg>

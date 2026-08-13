@@ -44,12 +44,22 @@ function draw(size, maskable) {
   x.lineWidth = size * 0.012;
   x.strokeStyle = 'rgba(200,242,78,.20)';
   x.beginPath(); x.arc(cx, cx, R * 0.46, 0, Math.PI * 2); x.stroke();
-  // el "2"
+  // el monograma "B2P", ajustado MIDIENDO (no a ojo): el texto ocupa el 76%
+  // del diámetro interior del anillo, y se centra por su caja real de tinta
+  // (no por la caja del em, que deja el texto visualmente bajo).
+  const TXT = 'B2P';
+  const dInterior = 2 * (R - sw / 2);
   x.fillStyle = '#C8F24E';
-  x.font = '700 ' + (size * 0.46 * k) + 'px "Barlow Condensed"';
   x.textAlign = 'center';
   x.textBaseline = 'alphabetic';
-  x.fillText('2', cx, cx + size * 0.165 * k);
+  let F = size * 0.34 * k;
+  x.font = '700 ' + F + 'px "Barlow Condensed"';
+  F = F * (dInterior * 0.76) / x.measureText(TXT).width;
+  x.font = '700 ' + F + 'px "Barlow Condensed"';
+  const m = x.measureText(TXT);
+  x.fillText(TXT,
+    cx - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2,   // centrado por tinta, no por avance
+    cx + m.actualBoundingBoxAscent / 2 - m.actualBoundingBoxDescent / 2);
   document.getElementById('canvases').append(c);
   return c.toDataURL('image/png');
 }

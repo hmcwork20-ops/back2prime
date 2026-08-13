@@ -277,16 +277,81 @@
   /* ---------------- bottom sheet ---------------- */
   function openSheet(builder) {
     const sh = $('#sheet'), bg = $('#sheetBg');
+    sh.style.transition = ''; sh.style.transform = ''; bg.style.opacity = '';
+    sh.scrollTop = 0;
     sh.innerHTML = ''; sh.append(el('div', { class: 'grip' }));
     builder(sh);
     bg.hidden = false;
-    requestAnimationFrame(() => document.body.classList.add('sheet-open'));
+    // setTimeout y no requestAnimationFrame: rAF no se dispara si la pestaña
+    // no está componiendo frames y la hoja se quedaría sin abrir.
+    setTimeout(() => document.body.classList.add('sheet-open'), 0);
     bg.onclick = closeSheet;
   }
   function closeSheet() {
     document.body.classList.remove('sheet-open');
-    setTimeout(() => { $('#sheetBg').hidden = true; }, 280);
+    setTimeout(() => {
+      const sh = $('#sheet'), bg = $('#sheetBg');
+      bg.hidden = true; bg.style.opacity = '';
+      sh.style.transition = ''; sh.style.transform = '';
+    }, 300);
   }
+
+  /* ---------------- arrastrar la hoja para cerrarla ----------------
+     Gesto de las hojas de iOS: el contenido scrollea con normalidad, pero si
+     tiras hacia abajo DESDE LA CABECERA de la hoja, o estando ya arriba del
+     todo, la hoja sigue al dedo y se cierra al soltar.
+     Umbrales: se cierra al pasar el 28% del alto de la hoja (ahí ya ha salido
+     claramente de su sitio) con tope de 120 px para que una hoja alta no
+     obligue a un arrastre enorme; o con un golpe rápido (>0,55 px/ms), que es
+     como se descarta de verdad con el pulgar.                              */
+  (function arrastreHoja() {
+    const sh = $('#sheet'), bg = $('#sheetBg');
+    let y0 = 0, x0 = 0, dy = 0, t0 = 0, evaluando = false, activo = false, permitido = false;
+    const alto = () => sh.getBoundingClientRect().height || 1;
+
+    function inicio(y, x, target) {
+      if (activo) return;
+      y0 = y; x0 = x; dy = 0; t0 = Date.now(); evaluando = true; activo = false;
+      const r = sh.getBoundingClientRect();
+      const enCabecera = (y - r.top) < 64 || !!(target && target.closest && target.closest('.grip'));
+      permitido = enCabecera || sh.scrollTop <= 0;
+    }
+    function mover(y, x) {
+      if (!evaluando && !activo) return;
+      dy = y - y0;
+      if (!activo) {
+        const dx = x - x0;
+        if (Math.abs(dy) < 6 && Math.abs(dx) < 6) return;          // aún no es gesto
+        if (dy > 0 && permitido && Math.abs(dy) > Math.abs(dx)) {
+          activo = true; evaluando = false; sh.style.transition = 'none';
+        } else { evaluando = false; return; }                       // es scroll: no tocar
+      }
+      const v = Math.max(0, dy);
+      sh.style.transform = 'translateY(' + v + 'px)';
+      bg.style.opacity = String(Math.max(0, 1 - v / (alto() * .85)));
+    }
+    function fin() {
+      if (!activo) { evaluando = false; return; }
+      const v = Math.max(0, dy), vel = v / Math.max(1, Date.now() - t0);
+      activo = false; evaluando = false;
+      sh.style.transition = ''; sh.style.transform = ''; bg.style.opacity = '';
+      if (v > Math.min(120, alto() * .28) || vel > .55) closeSheet();
+    }
+
+    sh.addEventListener('touchstart', ev => { if (ev.touches.length === 1) inicio(ev.touches[0].clientY, ev.touches[0].clientX, ev.target); }, { passive: true });
+    sh.addEventListener('touchmove', ev => {
+      if (ev.touches.length !== 1) return;
+      mover(ev.touches[0].clientY, ev.touches[0].clientX);
+      if (activo) ev.preventDefault();     // ya es nuestro: que no scrollee además
+    }, { passive: false });
+    sh.addEventListener('touchend', fin);
+    sh.addEventListener('touchcancel', fin);
+    // ratón, para poder probarlo en escritorio
+    sh.addEventListener('pointerdown', ev => { if (ev.pointerType === 'mouse' && ev.button === 0) inicio(ev.clientY, ev.clientX, ev.target); });
+    sh.addEventListener('pointermove', ev => { if (ev.pointerType === 'mouse') mover(ev.clientY, ev.clientX); });
+    sh.addEventListener('pointerup', ev => { if (ev.pointerType === 'mouse') fin(); });
+    sh.addEventListener('pointercancel', ev => { if (ev.pointerType === 'mouse') fin(); });
+  })();
 
   /* ---------------- ficha de ejercicio ---------------- */
   function fichaEjercicio(ejId, ctx) {

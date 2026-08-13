@@ -82,9 +82,14 @@
       .map(f => Object.assign({ fecha: f }, S.dias[f].ej[ejId]));
   }
   const GRANDES = { 'sentadilla-barra': 5, 'rdl-barra': 5 };
+  // Arranque derivado de las marcas históricas: solo la primera vez del ejercicio.
+  const ARR0 = {};
+  (D.ARRANQUE.tabla || []).forEach(r => { ARR0[r.ej] = parseFloat(r.s3.replace(',', '.')); });
   function sugerencia(ejId, d) {
     const u = ultimoLog(ejId, d);
-    if (!u || !u.kg) return null;
+    if (!u || !u.kg) {
+      return ARR0[ejId] ? { kg: ARR0[ejId], txt: 'empieza en ' + kg1(ARR0[ejId]), inicio: true } : null;
+    }
     if (u.falta) return { kg: u.kg, txt: 'repite ' + kg1(u.kg), rep: true };
     const inc = GRANDES[ejId] || 2.5;
     return { kg: u.kg + inc, txt: kg1(u.kg) + ' → ' + kg1(u.kg + inc), rep: false };
@@ -158,6 +163,8 @@
     'cintura-93': () => cinturaMin() !== null && cinturaMin() < 93,
     'cintura-91': () => cinturaMin() !== null && cinturaMin() < 91,
     'pr-1': () => S.prCount >= 1, 'pr-5': () => S.prCount >= 5, 'pr-15': () => S.prCount >= 15,
+    'marca-banca': () => (S.prs['press-banca'] || {}).kg >= D.HISTORICO['press-banca'].kg,
+    'marca-sentadilla': () => (S.prs['sentadilla-barra'] || {}).kg >= D.HISTORICO['sentadilla-barra'].kg,
     'dominada-libre': () => !!S.flags.dominadaLibre,
     'mealprep-4': () => { let n = 0, f = hoyISO(); while (dowMon(f) !== 6) f = addDays(f, -1); while (S.dias[f] && S.dias[f].prep) { n++; f = addDays(f, -7); } return n >= 4; },
     'comeback': () => !!S.flags.comeback,
@@ -289,11 +296,23 @@
         el('h2', null, e.nombre),
         el('div', { class: 'stag' }, e.musc.join(' · ') + ' — ' + e.equipo + (ctx && ctx.dosis ? ' · hoy: ' + ctx.dosis : ''))
       );
+      const hist = D.HISTORICO[ejId];
+      if (hist) {
+        const pr = S.prs[ejId];
+        const falta = pr ? hist.kg - pr.kg : hist.kg;
+        sh.append(el('div', { class: 'alt', style: 'border-left:3px solid var(--volt);margin-top:10px' },
+          el('b', null, '🔓 Tu marca de entonces: ' + hist.txt),
+          el('div', { class: 'mini', style: 'margin-top:2px' },
+            falta > 0 ? 'Te faltan ' + kg1(falta) + ' kg para recuperarla. Hay logro esperándote.' : 'Recuperada. Ese peso vuelve a ser tuyo.')));
+      }
       const h = historial(ejId, 5);
       if (h.length) {
         const pr = S.prs[ejId];
-        sh.append(el('h4', null, 'Tu historial' + (pr ? ' · PR ' + kg1(pr.kg) + ' kg' : '')));
+        sh.append(el('h4', null, 'Tu historial' + (pr ? ' · mejor ' + kg1(pr.kg) + ' kg' : '')));
         sh.append(el('div', { class: 'mini', html: h.map(x => fmtCorta(x.fecha) + ': <b class="num">' + kg1(x.kg) + '</b> kg' + (x.falta ? ' (reps a medias)' : '')).join(' · ') }));
+      } else if (ARR0[ejId]) {
+        sh.append(el('h4', null, 'Arranque sugerido'));
+        sh.append(el('div', { class: 'mini' }, kg1(ARR0[ejId]) + ' kg en la semana 3. ' + (D.ARRANQUE.tabla.find(r => r.ej === ejId) || {}).n));
       }
       sh.append(el('h4', null, 'Cómo se hace'));
       sh.append(el('ul', null, e.cues.map(c => el('li', null, c))));
@@ -428,7 +447,7 @@
               el('div', { class: 'exmeta' },
                 doseChip,
                 el('span', { class: 'rest', onclick: ev => { ev.stopPropagation(); timerStart(b.d); }, title: 'Cronometrar descanso' }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString('es-ES') + '′' : b.d + '″')),
-                sug && !lg.kg ? el('span', { class: 'sugg' }, sug.rep ? '↻ ' + sug.txt : '▲ ' + sug.txt) : null),
+                sug && !lg.kg ? el('span', { class: 'sugg' }, (sug.inicio ? '◆ ' : sug.rep ? '↻ ' : '▲ ') + sug.txt) : null),
               b.n ? el('div', { class: 'exnote' }, b.n) : null),
             el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),
             check);
@@ -624,7 +643,7 @@
     if (r === 'hoy') renderHoy(root);
     else if (VIEWS[r]) VIEWS[r](root);
     else renderHoy(root);
-    scrollTo(0, 0);
+    const sc = $('#scroller'); if (sc) sc.scrollTop = 0;
   }
   addEventListener('hashchange', render);
   $$('.tab').forEach(t => t.onclick = () => { location.hash = '#/' + t.dataset.r; });
@@ -638,8 +657,37 @@
     racha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,
     historial, cinturaMin, bajadaMax, evaluaLogros, timerStart };
 
-  /* ---------------- arranque ---------------- */
-  load();
-  render();
-  if (!S.config.onboarded) setTimeout(onboarding, 350);
+  /* ---------------- relevo de día ----------------
+     hoyISO() se recalcula en cada render, así que abrir la app siempre da el
+     día correcto. Esto cubre el otro caso: la app queda abierta (o en segundo
+     plano, típico en PWA) y cruza la medianoche. Al volver a ella, salta sola
+     al día nuevo — salvo que estés navegando otro día a mano.            */
+  let diaMontado = hoyISO();
+  function relevoDia() {
+    if (qd) return;                       // ?d= : modo simulación, no tocar
+    const h = hoyISO();
+    if (h === diaMontado) return;
+    const estabaEnHoy = selDia === diaMontado;
+    diaMontado = h;
+    if (estabaEnHoy) selDia = h;          // respeta si estabas mirando otro día
+    render();
+    if (estabaEnHoy) toast('Nuevo día: ' + fmtFecha(h));
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) relevoDia(); });
+  addEventListener('focus', relevoDia);
+  setInterval(relevoDia, 60000);
+
+  /* ---------------- arranque ----------------
+     El primer render se aplaza a DOMContentLoaded: views.js se carga DESPUÉS
+     que app.js y es quien registra Plan/Comida/Progreso/Logros. Si renderizo
+     aquí mismo, VIEWS aún está vacío y una URL con #/logros (justo lo que
+     reabre una PWA instalada) caería al fallback de HOY con la pestaña
+     equivocada marcada.                                                    */
+  function arrancar() {
+    load();
+    render();
+    if (!S.config.onboarded) setTimeout(onboarding, 350);
+  }
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', arrancar, { once: true });
+  else setTimeout(arrancar, 0);
 })();

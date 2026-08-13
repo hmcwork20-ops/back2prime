@@ -228,6 +228,28 @@ window.B2P = (function () {
     ]
   };
 
+  /* ---------- MARCAS HISTÓRICAS (etapa de gym, ~2021) ---------- */
+  // No se cargan como PR: son la referencia de "dónde estabas" y la diana a recuperar.
+  const HISTORICO = {
+    'press-banca':      { kg: 95,  reps: 8, series: 4, txt: '95 kg × 8 (4 series)',  rm: 120 },
+    'sentadilla-barra': { kg: 100, reps: 8, series: 5, txt: '100 kg × 8 (5 series)', rm: 127 }
+  };
+
+  /* ---------- ARRANQUE DE CARGAS · FASE 2 ---------- */
+  const ARRANQUE = {
+    titulo: 'Con qué peso empiezas en el gym (semana 3)',
+    derivacion: 'Salen de tus marcas reales, no de una estimación: banca 95×8 y sentadilla 100×8 (1RM equivalente ≈ 120 y ≈ 127 kg). El arranque estándar de un retomador es el 50% del peso de trabajo antiguo — no porque el músculo no pueda más, sino porque el tendón lleva 5 años sin cargar y adapta en meses. Después manda la progresión doble y la app la lleva sola.',
+    tabla: [
+      { ej: 'press-banca',      s3: '45 kg', s4: '47,5 kg', s5: '50 kg', n: '50% de tus 95. Barra + 2×12,5' },
+      { ej: 'sentadilla-barra', s3: '50 kg', s4: '55 kg',   s5: '60 kg', n: '50% de tus 100. Barra + 2×15' },
+      { ej: 'rdl-barra',        s3: '45 kg', s4: '50 kg',   s5: '55 kg', n: '≈45% de tu sentadilla antigua' },
+      { ej: 'remo-barra',       s3: '40 kg', s4: '42,5 kg', s5: '45 kg', n: '≈45% de tu banca antigua' }
+    ],
+    resto: 'El resto de ejercicios no tienen marca previa: en la primera serie elige un peso que puedas mover dejándote 3 repeticiones en reserva, anótalo, y la app se encarga desde ahí.',
+    aviso: 'Vas a sentir que estos pesos son ridículos. Ese es exactamente el punto: la tendinitis del retomador se gesta en las semanas 3, 4 y 5, cuando el sistema nervioso te permite lo que tus tendones aún no aguantan.',
+    desequilibrio: 'Un dato de tus propias marcas: sentadilla 100 vs banca 95 es un ratio de 1,05, cuando lo equilibrado ronda 1,4-1,5. Tenías el tren inferior por detrás del superior. Buena noticia doble: ahí es donde más margen de mejora tienes, y la pierna es la que más mueve la aguja de la recomposición (más masa muscular reclutada, más gasto). No te saltes los días de pierna.'
+  };
+
   /* ---------- FICHAS DE EJERCICIOS ---------- */
   // musc: [primario, secundarios] · cues: técnica · err: errores típicos ·
   // alt: alternativas equivalentes (gym comercial) · mol: si molesta, cambia a
@@ -925,6 +947,8 @@ window.B2P = (function () {
     { id: 'pr-1',           icon: '🥇', nombre: 'Primer PR',         desc: 'Primera vez que superas tu mejor marca en un ejercicio.' },
     { id: 'pr-5',           icon: '🥇', nombre: '5 PRs',             desc: 'Cinco marcas personales batidas.' },
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',            desc: 'Quince PRs. La memoria muscular pagando dividendos.' },
+    { id: 'marca-banca',    icon: '🔓', nombre: 'Banca recuperada',  desc: 'Vuelves a mover tus 95 kg en press banca. Cinco años después.' },
+    { id: 'marca-sentadilla', icon: '🔓', nombre: 'Sentadilla recuperada', desc: 'Vuelves a mover tus 100 kg en sentadilla.' },
     { id: 'dominada-libre', icon: '🦍', nombre: 'Dominada libre',    desc: 'Primera dominada sin asistencia. Bienvenido de vuelta.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Chef de domingo',   desc: '4 domingos seguidos de meal prep.' },
     { id: 'comeback',       icon: '🔁', nombre: 'La vuelta',         desc: 'Volviste tras 4 o más días parado. Volver importa más que caer.' },
@@ -955,5 +979,5 @@ window.B2P = (function () {
 
   const AVISO_LEGAL = 'Plan elaborado el 13 ago 2026 (v2, revisado contra evidencia científica ese mismo día) con los datos: hombre, 30 años, 183 cm, 95,1 kg, muñeca 16,1 cm, punto de partida sedentario con historial de alto rendimiento. Estimaciones de kcal y macros con margen de ±10%: las reglas de ajuste corrigen ese margen con datos reales. No sustituye consejo médico; ante cualquier patología o dolor persistente, consulta con un profesional sanitario.';
 
-  return { META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MEALPREP_NOTA, MENU, CHECKPOINTS, AJUSTES, FOTOS, LOGROS, CIENCIA, CIERRE, AVISO_LEGAL };
+  return { META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, HISTORICO, ARRANQUE, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MEALPREP_NOTA, MENU, CHECKPOINTS, AJUSTES, FOTOS, LOGROS, CIENCIA, CIERRE, AVISO_LEGAL };
 })();

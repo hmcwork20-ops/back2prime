@@ -111,6 +111,18 @@
       if (cardio.size) kids.push(el('div', { class: 'regla' }, el('b', null, 'Cardio de la fase'),
         Array.from(cardio).map(id => el('div', { style: 'margin:4px 0' }, el('b', { style: 'font-family:Inter;text-transform:none;font-size:13px;display:inline' }, D.SESIONES[id].nombre + ': '), D.SESIONES[id].detalle))));
       if (f.id === 1) kids.push(el('div', { class: 'banner ok' }, el('div', null, el('b', null, 'Check de salida (dom 30 ago)'), el('div', null, 'Completas ambos circuitos con las reps de la semana 2 sin dolor articular → Fase 2. Si algo molesta, repites una semana: los tendones lo agradecen.'))));
+      if (f.id === 2) {
+        const A = D.ARRANQUE;
+        const ta = el('table', null, el('tr', null, el('th', null, 'Ejercicio'), el('th', null, 'S3'), el('th', null, 'S4'), el('th', null, 'S5')));
+        A.tabla.forEach(r => ta.append(el('tr', null,
+          el('td', { style: 'cursor:pointer', onclick: () => U.fichaEjercicio(r.ej, {}) }, el('b', null, D.EJERCICIOS[r.ej].nombre), el('div', { class: 'mini' }, r.n)),
+          el('td', { class: 'sr' }, r.s3), el('td', { class: 'sr' }, r.s4), el('td', { class: 'sr' }, r.s5))));
+        kids.push(el('div', { class: 'regla', style: 'border-left:3px solid var(--volt)' }, el('b', null, '🔓 ' + A.titulo), A.derivacion));
+        kids.push(el('div', { class: 'tw' }, ta));
+        kids.push(el('p', { class: 'mini' }, A.resto));
+        kids.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, 'Te van a parecer pesos ridículos'), el('div', null, A.aviso))));
+        kids.push(el('div', { class: 'banner' }, el('div', null, el('b', null, 'Lo que dicen tus marcas'), el('div', null, A.desequilibrio))));
+      }
       root.append(el('details', { class: 'fold' },
         el('summary', null, el('span', { class: 'disco d' + f.id, style: 'width:26px;height:26px;border-width:4px;font-size:10px;margin-right:2px' }, String(f.disco)), 'Fase ' + f.id + ' · ' + f.nombre),
         el('div', { class: 'fold-in' }, kids)));
@@ -458,12 +470,20 @@
       const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: '#6B7480' }); t.textContent = 'En cuanto registres kg en este ejercicio, aquí verás la escalada'; svg.append(t);
       return svg;
     }
+    const marca = D.HISTORICO[ejId];
     const pts = hist.map((h, i) => ({ x: i, y: h.kg, f: h.fecha, falta: h.falta }));
     const ys = pts.map(p => p.y);
-    const yMin = Math.max(0, Math.floor(Math.min(...ys) - 5)), yMax = Math.ceil(Math.max(...ys) + 5);
+    const yMin = Math.max(0, Math.floor(Math.min(...ys) - 5));
+    const yMax = Math.ceil(Math.max(...ys, marca ? marca.kg : 0) + 5);
     const sx = x => L + (pts.length === 1 ? .5 : x / (pts.length - 1)) * (W - L - R);
     const sy = y => T + (yMax - y) / (yMax - yMin || 1) * (H - T - B);
     for (let y = Math.ceil(yMin / 10) * 10; y <= yMax; y += 10) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: '#6B7480' }); t.textContent = y; svg.append(t); }
+    // diana: la marca de su etapa anterior
+    if (marca) {
+      svg.append(sv('line', { x1: L, x2: W - R, y1: sy(marca.kg), y2: sy(marca.kg), stroke: 'rgba(242,244,240,.34)', 'stroke-dasharray': '6 4', 'stroke-width': 1.5 }));
+      const mt = sv('text', { x: W - R, y: sy(marca.kg) - 6, 'text-anchor': 'end', 'font-size': 10, fill: '#A7AFB9' });
+      mt.textContent = 'tu marca · ' + marca.kg + ' kg'; svg.append(mt);
+    }
     svg.append(sv('polyline', { points: pts.map(p => sx(p.x) + ',' + sy(p.y)).join(' '), fill: 'none', stroke: col, 'stroke-width': 2, 'stroke-linejoin': 'round' }));
     const maxY = Math.max(...ys);
     pts.forEach(p => {
@@ -539,9 +559,10 @@
     [['disco-10', '10', 'Fase 1'], ['disco-15', '15', 'Fase 2'], ['disco-20', '20', 'Fase 3'], ['disco-25', '25', 'Fase 4']].forEach(([id, kg, f]) => {
       const won = !!S.logros[id];
       const slot = el('div', { class: 'vslot' + (won ? ' won' : '') });
-      if (won) slot.append(U.discoSVG(kg, 58));
-      else { const d = el('span', { class: 'disco big locked' }, kg); slot.append(d); }
-      slot.append(el('div', { class: 'vn' }, f));
+      const caja = el('div', { class: 'vdisc' });
+      if (won) caja.append(U.discoSVG(kg, 60));
+      else caja.append(el('span', { class: 'disco big locked' }, kg));
+      slot.append(caja, el('div', { class: 'vn' }, f));
       vit.append(slot);
     });
     root.append(vit);
@@ -559,7 +580,7 @@
     const grid = el('div', { class: 'badges' });
     D.LOGROS.filter(l => !l.disco).forEach(l => {
       const won = S.logros[l.id];
-      grid.append(el('div', { class: 'badge' + (won ? '' : ' locked') },
+      grid.append(el('div', { class: 'b2-badge' + (won ? '' : ' locked') },
         el('div', { class: 'bi' }, l.icon),
         el('div', { class: 'bn' }, l.nombre),
         el('div', { class: 'bd' }, l.desc),

@@ -15,6 +15,17 @@
 <meta name="apple-mobile-web-app-title" content="BACK2PRIME">
 <link rel="stylesheet" href="assets/basecoat.min.css">
 <link rel="stylesheet" href="assets/styles.css">
+<script>
+/* Marca antes del primer pintado si corremos como app instalada (sin barra de
+   navegador). Cambia el layout entero: shell fijo vs documento con scroll. */
+try {
+  if (navigator.standalone === true
+      || matchMedia('(display-mode: standalone)').matches
+      || matchMedia('(display-mode: fullscreen)').matches) {
+    document.documentElement.className = 'pwa';
+  }
+} catch (e) {}
+</script>
 </head>
 <body>
 

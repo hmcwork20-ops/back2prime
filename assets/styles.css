@@ -72,27 +72,44 @@
    - .btn: no uso la clase pelada (uso .btn-b2p / .btn-ghost). */
 .card{overflow:visible;white-space:normal;width:auto}
 
-/* ---------- Base ---------- */
-/* App shell: la ventana NO scrollea, scrollea solo #scroller. Así la barra
-   inferior queda clavada igual en las 5 secciones (en Safari, una página que
-   no scrollea deja la barra de herramientas desplegada y el bottom:0 fijo
-   "sube"; con este layout eso no puede pasar). */
+/* ---------- Base · MODO NAVEGADOR (por defecto) ----------
+   Safari solo repliega su barra de herramientas si la página SCROLLEA. Si no
+   scrollea, la deja desplegada y empuja hacia arriba cualquier bottom:0 fijo
+   — ese era el fallo original en «Hoy», la única vista corta.
+   Así que el documento scrollea (barra fija abajo) y además se le garantiza a
+   #view una altura mínima que deja el documento 2 px por encima de la pantalla:
+   suficiente para que Safari repliegue en TODAS las vistas, y sin dejar hueco
+   muerto al final. La altura de la cabecera la mide app.js en --hdr-h. */
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;height:100%}
+html{-webkit-text-size-adjust:100%}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font:400 15px/1.5 'Inter',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
-  height:100vh;height:100dvh;
-  display:flex;flex-direction:column;
-  overflow:hidden;overscroll-behavior:none;
+  padding-bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px));
+  overscroll-behavior-y:none;
 }
-#scroller{
-  flex:1 1 auto;min-height:0;
-  overflow-y:auto;overflow-x:hidden;
-  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
-  padding-bottom:26px;
+#scroller{display:block}
+#view{
+  min-height:calc(100vh  - var(--hdr-h,60px) - var(--tab-h) - env(safe-area-inset-bottom,0px) + 2px);
+  min-height:calc(100lvh - var(--hdr-h,60px) - var(--tab-h) - env(safe-area-inset-bottom,0px) + 2px);
 }
+
+/* ---------- MODO APP INSTALADA (pantalla de inicio) ----------
+   Sin barra de navegador de por medio: shell de altura fija, scrollea solo el
+   contenido y la barra queda clavada al borde real de la pantalla. */
+html.pwa,html.pwa body{height:100%}
+html.pwa body{
+  height:100dvh;display:flex;flex-direction:column;
+  overflow:hidden;overscroll-behavior:none;padding-bottom:0;
+}
+html.pwa .hdr{position:relative;flex:0 0 auto}
+html.pwa #scroller{
+  flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;padding-bottom:26px;
+}
+html.pwa #view{min-height:0}
+html.pwa .tabbar{position:relative;flex:0 0 auto}
 h1,h2,h3,.disp{font-family:var(--disp);text-transform:uppercase;letter-spacing:.02em;margin:0;font-weight:700}
 p{margin:.5em 0}
 a{color:var(--volt)}
@@ -111,8 +128,9 @@ section.block{margin:18px 0}
 
 /* ---------- Header ---------- */
 .hdr{
-  flex:0 0 auto;position:relative;z-index:40;
-  background:var(--bg);
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line-soft);
   padding-top:env(safe-area-inset-top,0px);
 }
@@ -135,8 +153,9 @@ section.block{margin:18px 0}
 
 /* ---------- Tab bar ---------- */
 .tabbar{
-  flex:0 0 auto;position:relative;z-index:50;
-  background:var(--surface);
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:color-mix(in srgb,var(--surface) 94%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--line-soft);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }

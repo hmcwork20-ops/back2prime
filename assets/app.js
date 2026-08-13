@@ -643,8 +643,20 @@
     if (r === 'hoy') renderHoy(root);
     else if (VIEWS[r]) VIEWS[r](root);
     else renderHoy(root);
+    // instalada scrollea #scroller; en navegador scrollea el documento
     const sc = $('#scroller'); if (sc) sc.scrollTop = 0;
+    scrollTo(0, 0);
   }
+
+  /* Altura real de la cabecera → --hdr-h. La usa el min-height de #view para
+     dejar el documento justo 2 px por encima de la pantalla: lo justo para que
+     Safari repliegue su barra en todas las vistas, sin hueco muerto al final. */
+  function medirCabecera() {
+    const h = $('.hdr');
+    if (h) document.documentElement.style.setProperty('--hdr-h', h.offsetHeight + 'px');
+  }
+  addEventListener('resize', medirCabecera);
+  addEventListener('orientationchange', () => setTimeout(medirCabecera, 120));
   addEventListener('hashchange', render);
   $$('.tab').forEach(t => t.onclick = () => { location.hash = '#/' + t.dataset.r; });
   $('#btnAjustes').onclick = sheetAjustes;
@@ -685,6 +697,7 @@
      equivocada marcada.                                                    */
   function arrancar() {
     load();
+    medirCabecera();
     render();
     if (!S.config.onboarded) setTimeout(onboarding, 350);
   }

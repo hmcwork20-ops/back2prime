@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>B2P · taller de iconos</title>
+<style>
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url('../assets/fonts/BarlowCondensed-700.woff2') format('woff2');}
+body{background:#111;color:#ddd;font-family:monospace;padding:16px}
+canvas{border:1px solid #333;margin:6px;image-rendering:pixelated;width:96px;height:96px}
+</style>
+</head>
+<body>
+<div id="canvases"></div>
+<pre id="out">cargando fuente…</pre>
+<script>
+// Dibuja el icono BACK2PRIME: fondo tinta, anillo-disco volt, "2" en Barlow Condensed.
+function draw(size, maskable) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const x = c.getContext('2d');
+  const cx = size / 2;
+  // fondo
+  x.fillStyle = '#0B0D10';
+  x.fillRect(0, 0, size, size);
+  // halo radial sutil
+  const g = x.createRadialGradient(cx, cx * 0.86, size * 0.05, cx, cx, size * 0.72);
+  g.addColorStop(0, 'rgba(200,242,78,.14)');
+  g.addColorStop(1, 'rgba(200,242,78,0)');
+  x.fillStyle = g;
+  x.fillRect(0, 0, size, size);
+  // escala del arte: en maskable el contenido vive en el 66% central
+  const k = maskable ? 0.72 : 0.92;
+  const R = size * 0.36 * k;         // radio del disco
+  const sw = size * 0.085 * k;       // grosor del anillo
+  // anillo base (disco)
+  x.lineWidth = sw;
+  x.strokeStyle = 'rgba(200,242,78,.32)';
+  x.beginPath(); x.arc(cx, cx, R, 0, Math.PI * 2); x.stroke();
+  // destello del anillo (arco corto arriba-derecha, como brillo de disco)
+  x.strokeStyle = '#C8F24E';
+  x.lineCap = 'round';
+  x.beginPath(); x.arc(cx, cx, R, -Math.PI * 0.42, -Math.PI * 0.12); x.stroke();
+  // hub interior sutil
+  x.lineWidth = size * 0.012;
+  x.strokeStyle = 'rgba(200,242,78,.20)';
+  x.beginPath(); x.arc(cx, cx, R * 0.46, 0, Math.PI * 2); x.stroke();
+  // el "2"
+  x.fillStyle = '#C8F24E';
+  x.font = '700 ' + (size * 0.46 * k) + 'px "Barlow Condensed"';
+  x.textAlign = 'center';
+  x.textBaseline = 'alphabetic';
+  x.fillText('2', cx, cx + size * 0.165 * k);
+  document.getElementById('canvases').append(c);
+  return c.toDataURL('image/png');
+}
+document.fonts.load('700 100px "Barlow Condensed"').then(() => {
+  const out = {
+    'icon-512.png': draw(512, false),
+    'icon-192.png': draw(192, false),
+    'apple-touch-icon.png': draw(180, false),
+    'maskable-512.png': draw(512, true)
+  };
+  document.getElementById('out').textContent = JSON.stringify(out);
+  window.B2P_ICONS = out;
+});
+</script>
+</body>
+</html>

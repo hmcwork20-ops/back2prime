@@ -1,0 +1,959 @@
+/* ============================================================
+   BACK2PRIME · data.js
+   Todo el contenido del plan de 12 semanas: fases, calendario,
+   sesiones, fichas de ejercicios, nutrición, recetas, logros.
+   Sin lógica: solo datos. La lógica vive en app.js.
+   ============================================================ */
+window.B2P = (function () {
+
+  const META = {
+    nombre: 'BACK2PRIME',
+    inicioISO: '2026-08-17',
+    finISO: '2026-11-08',
+    semanas: 12,
+    perfil: {
+      pesoSalida: 95.1,
+      alturaCm: 183,
+      objetivoKg: [86, 88],
+      objetivoNota: '≈ −8 kg de grasa reales: la creatina esconde ~1 kg de agua en la báscula',
+      cinturaMetaCm: 91,
+      grasaEstimada: '~22% → 16-17%',
+      proteinaDia: 190
+    }
+  };
+
+  /* ---------- FASES (código de discos olímpicos) ---------- */
+  const FASES = [
+    { id: 1, nombre: 'Reactivación', sub: 'En casa', semanas: [1, 2], disco: 10, rpe: '6–7',
+      fechas: '17 – 30 ago',
+      objetivo: 'Reconstruir el hábito y despertar patrones de movimiento sin castigar articulaciones. Te quedarás con ganas de más: es intencionado.' },
+    { id: 2, nombre: 'Entrada al gym', sub: 'Full Body ×3', semanas: [3, 4, 5], disco: 15, rpe: '6–7',
+      fechas: '31 ago – 20 sep',
+      objetivo: 'Reaprender los básicos con barra y construir base de carga. Tu memoria muscular permite pesos que tu tejido conectivo aún no aguanta: trabaja al 65-70% de lo que sientes que podrías, con 3 repeticiones en reserva SIEMPRE.' },
+    { id: 3, nombre: 'Carga', sub: 'Torso / Pierna ×4', semanas: [6, 7, 8, 9], disco: 20, rpe: '7–8',
+      fechas: '21 sep – 18 oct',
+      objetivo: 'Volumen e intensidad reales para forzar la recomposición. Aquí la memoria muscular rinde de verdad. Terminas cada serie pudiendo hacer 2 repeticiones más. Ojo, reganador: tiendes a SOBRESTIMAR lo cerca que estás del fallo — que las 2 en reserva sean reales.' },
+    { id: 4, nombre: 'Pico', sub: 'Push / Pull / Legs ×5', semanas: [10, 11, 12], disco: 25, rpe: '8',
+      fechas: '19 oct – 8 nov',
+      objetivo: 'Máximo estímulo para cerrar la recomposición. Cinco días, pero con sesiones de 60-75 minutos, no de 2 horas. RPE 8: 1-2 repeticiones en reserva en las últimas series.' }
+  ];
+
+  /* ---------- CALENDARIO: 12 semanas × 7 días (Lun..Dom) ----------
+     Cada slot: id de sesión, o {s:id, opt:true} si es opcional.   */
+  const CAL = [
+    { n: 1,  fase: 1, dias: ['c-a', 'cam40', 'c-b', 'cam40', 'c-a', 'cam40', 'libre'] },
+    { n: 2,  fase: 1, dias: ['c-b', 'cam40', 'c-a', 'cam40', 'c-b', 'cam40', 'libre'] },
+    { n: 3,  fase: 2, dias: ['fb-a', 'wj3', 'fb-b', 'wj3', 'fb-a', { s: 'wj3', opt: true }, 'libre'] },
+    { n: 4,  fase: 2, dias: ['fb-b', 'wj4', 'fb-a', 'wj4', 'fb-b', { s: 'wj4', opt: true }, 'libre'] },
+    { n: 5,  fase: 2, dias: ['fb-a', 'wj5', 'fb-b', 'wj5', 'fb-a', { s: 'wj5', opt: true }, 'libre'] },
+    { n: 6,  fase: 3, dias: ['torso-a', 'pierna-a', 'trote25', 'torso-b', 'pierna-b', 'cam60', { s: 'trote25', opt: true }] },
+    { n: 7,  fase: 3, dietbreak: true, dias: ['torso-a', 'pierna-a', 'trote25', 'torso-b', 'pierna-b', 'cam60', { s: 'trote25', opt: true }] },
+    { n: 8,  fase: 3, dias: ['torso-a', 'pierna-a', 'trote25', 'torso-b', 'pierna-b', 'cam60', { s: 'trote25', opt: true }] },
+    { n: 9,  fase: 3, descarga: true, dias: ['torso-a', 'pierna-a', 'trote25', 'torso-b', 'pierna-b', 'cam60', { s: 'trote25', opt: true }] },
+    { n: 10, fase: 4, transicion: true, dias: ['push-a', 'pull-a', 'legs', 'trote30', 'push-b', 'pull-b', { s: 'trote30', opt: true }] },
+    { n: 11, fase: 4, dias: ['push-a', 'pull-a', 'legs', 'trote30', 'push-b', 'pull-b', { s: 'trote30', opt: true }] },
+    { n: 12, fase: 4, dias: ['push-a', 'pull-a', 'legs', 'trote30', 'push-b', 'pull-b', { s: 'trote30', opt: true }] }
+  ];
+
+  /* ---------- SEMANAS ESPECIALES (evidencia: descarga gestionada + diet break + transición) ---------- */
+  const HITOS_SEMANA = {
+    5:  { t: 'Cribado de salud', d: 'Antes de la Fase 3 (trabajo vigoroso tras 5 años parado): mídete la tensión en una farmacia y hazte una analítica básica (lípidos, glucosa/HbA1c). 15 minutos que compran tranquilidad.' },
+    7:  { t: 'DIET BREAK', d: 'Toda la semana comes a mantenimiento (~2.800 kcal: +2 raciones de carbohidrato al día, proteína igual). El entreno no cambia. No es un premio ni una recaída: restaura NEAT y leptina, y rompe el ciclo psicológico on/off. El lunes siguiente, déficit otra vez como si nada.' },
+    9:  { t: 'DESCARGA (no opcional)', d: 'Misma rutina con LA MITAD de series por ejercicio y el mismo peso en la barra. No es cese: parar del todo cuesta fuerza. Es mantenimiento de tejido + vacaciones para tendones y articulaciones antes del bloque final.' },
+    10: { t: 'Transición a 5 días', d: 'Primera semana de PPL: haz UNA serie menos en todo. El salto de 4 a 5 días es el punto de mayor riesgo tendinoso del plan; se entra andando, no saltando.' }
+  };
+
+  /* ---------- SESIONES ---------- */
+  // bloques: e = id ejercicio · s = series · r = reps (rW = por semana) · d = descanso seg · n = nota corta
+  const SESIONES = {
+    /* — Fase 1 · casa — */
+    'c-a': { nombre: 'Circuito A', tipo: 'fuerza', fase: 1, dur: '~35′', calent: true, bloques: [
+      { e: 'sentadilla-pc',  s: 3, rW: { 1: '10', 2: '12' }, d: 75 },
+      { e: 'flexiones',      s: 3, rW: { 1: '6-8', 2: '8-10' }, d: 75 },
+      { e: 'puente-gluteo',  s: 3, rW: { 1: '12', 2: '15' }, d: 60 },
+      { e: 'plancha',        s: 3, rW: { 1: '25″', 2: '35″' }, d: 60 },
+      { e: 'elev-talones',   s: 2, rW: { 1: '15', 2: '20' }, d: 45, n: 'Prepara los tendones para el trote' }
+    ]},
+    'c-b': { nombre: 'Circuito B', tipo: 'fuerza', fase: 1, dur: '~35′', calent: true, bloques: [
+      { e: 'zancada-alterna', s: 3, rW: { 1: '8/p', 2: '10/p' }, d: 75 },
+      { e: 'remo-toalla',     s: 3, rW: { 1: '10', 2: '12' }, d: 75 },
+      { e: 'rdl-1p',          s: 3, rW: { 1: '8/p', 2: '10/p' }, d: 60 },
+      { e: 'superman',        s: 3, rW: { 1: '10', 2: '12' }, d: 45 },
+      { e: 'dead-bug',        s: 3, rW: { 1: '10/l', 2: '12/l' }, d: 45 }
+    ]},
+    /* — Fase 2 · Full Body — */
+    'fb-a': { nombre: 'Full Body A', tipo: 'fuerza', fase: 2, dur: '~60′', calent: true, bloques: [
+      { e: 'sentadilla-barra',   s: 3, r: '8',  d: 120, n: 'S3: barra vacía o +10-20 kg, solo patrón' },
+      { e: 'press-banca',        s: 3, r: '8',  d: 120 },
+      { e: 'remo-barra',         s: 3, r: '8',  d: 120 },
+      { e: 'press-militar-mc',   s: 2, r: '10', d: 90 },
+      { e: 'curl-femoral-tumbado', s: 2, r: '12', d: 90 },
+      { e: 'plancha',            s: 3, r: '40″', d: 60, n: 'Cuando sea fácil: alterna apoyo de una mano' }
+    ]},
+    'fb-b': { nombre: 'Full Body B', tipo: 'fuerza', fase: 2, dur: '~60′', calent: true, bloques: [
+      { e: 'rdl-barra',          s: 3, r: '8',  d: 120, n: 'Empieza con 30-40 kg' },
+      { e: 'press-inclinado-mc', s: 3, r: '10', d: 120 },
+      { e: 'jalon-pecho',        s: 3, r: '10', d: 90 },
+      { e: 'zancada-mc',         s: 2, r: '10/p', d: 90, n: '6-10 kg por mano' },
+      { e: 'elev-laterales',     s: 2, r: '15', d: 60 },
+      { e: 'face-pull',          s: 2, r: '15', d: 60, n: 'Contrapeso al empuje: salud de hombro desde ya' },
+      { e: 'crunch-polea',       s: 3, r: '12', d: 60 }
+    ]},
+    /* — Fase 3 · Torso/Pierna — */
+    'torso-a': { nombre: 'Torso A', tipo: 'fuerza', fase: 3, dur: '~70′', calent: true, bloques: [
+      { e: 'press-banca',      s: 4, r: '6-8', d: 150, n: 'Básico pesado: 4×8 limpio → +2,5 kg y vuelve a 4×6' },
+      { e: 'remo-barra',       s: 4, r: '8',   d: 120, n: 'Mismo peso en las 4 series' },
+      { e: 'press-militar',    s: 3, r: '10',  d: 90 },
+      { e: 'jalon-pecho',      s: 3, r: '10',  d: 90, n: '1″ de pausa abajo' },
+      { e: 'elev-laterales',   s: 3, r: '15',  d: 60 },
+      { e: 'face-pull',        s: 2, r: '15',  d: 60, n: '2ª dosis semanal de rotación externa' },
+      { e: 'curl-barra-z',     s: 2, r: '12',  d: 60 },
+      { e: 'ext-triceps-polea', s: 2, r: '12', d: 60 }
+    ]},
+    'pierna-a': { nombre: 'Pierna A', tipo: 'fuerza', fase: 3, dur: '~70′', calent: true, tendon: 'rodilla', bloques: [
+      { e: 'sentadilla-barra', s: 4, r: '6-8', d: 150, n: 'Doble progresión, igual que la banca' },
+      { e: 'rdl-barra',        s: 3, r: '8',   d: 120, n: '+5 kg cuando las 3 series salgan limpias' },
+      { e: 'prensa',           s: 3, r: '10',  d: 90 },
+      { e: 'curl-femoral-tumbado', s: 3, r: '12', d: 90, n: 'Excéntrica de 3″' },
+      { e: 'gemelo-pie',       s: 4, r: '8',   d: 90, n: 'HSR tendón: 3″ bajar / 3″ subir, con carga de verdad' },
+      { e: 'plancha-lastre',   s: 3, r: '40″', d: 60 }
+    ]},
+    'torso-b': { nombre: 'Torso B', tipo: 'fuerza', fase: 3, dur: '~70′', calent: true, bloques: [
+      { e: 'press-inclinado-mc', s: 4, r: '8', d: 120, n: 'Empuje pesado del día' },
+      { e: 'dominadas',        s: 4, r: '8',   d: 120, n: 'Reduce la asistencia semana a semana' },
+      { e: 'press-plano-mc',   s: 3, r: '10',  d: 90 },
+      { e: 'remo-polea',       s: 3, r: '12',  d: 90 },
+      { e: 'face-pull',        s: 3, r: '15',  d: 60, n: 'Salud de hombro para las fases de empuje' },
+      { e: 'curl-inclinado',   s: 2, r: '12',  d: 60, n: 'Superserie con press francés si vas justo' },
+      { e: 'press-frances',    s: 2, r: '12',  d: 60 }
+    ]},
+    'pierna-b': { nombre: 'Pierna B', tipo: 'fuerza', fase: 3, dur: '~70′', calent: true, tendon: 'rodilla', bloques: [
+      { e: 'hip-thrust',       s: 4, r: '8',   d: 120, n: 'Pausa 1″ arriba, glúteo al máximo' },
+      { e: 'zancada-bulgara',  s: 3, r: '10/p', d: 90, n: 'El más duro del plan. Empieza sin peso' },
+      { e: 'ext-cuadriceps',   s: 3, r: '12',  d: 90, n: 'Si molesta la rótula, reduce rango arriba' },
+      { e: 'curl-femoral-sentado', s: 3, r: '12', d: 90 },
+      { e: 'gemelo-sentado',   s: 4, r: '15',  d: 60 },
+      { e: 'elev-piernas',     s: 3, r: '10',  d: 60 }
+    ]},
+    /* — Fase 4 · PPL — */
+    'push-a': { nombre: 'Push', tipo: 'fuerza', fase: 4, dur: '~65′', calent: true, bloques: [
+      { e: 'press-banca',       s: 4, r: '6',  d: 150 },
+      { e: 'press-militar',     s: 3, r: '8',  d: 120 },
+      { e: 'press-inclinado-mc', s: 3, r: '10', d: 90 },
+      { e: 'elev-laterales',    s: 4, r: '15', d: 60 },
+      { e: 'ext-triceps-polea', s: 3, r: '12', d: 60, n: 'Alterna con extensión sobre cabeza' },
+      { e: 'ext-triceps-cabeza', s: 3, r: '12', d: 60 }
+    ]},
+    'pull-a': { nombre: 'Pull', tipo: 'fuerza', fase: 4, dur: '~65′', calent: true, bloques: [
+      { e: 'rdl-barra',        s: 3, r: '6-8', d: 150 },
+      { e: 'dominadas',        s: 4, r: '8',   d: 120, n: 'Lastradas si salen más de 10' },
+      { e: 'remo-barra',       s: 3, r: '10',  d: 120, n: 'O remo en polea' },
+      { e: 'face-pull',        s: 3, r: '15',  d: 60 },
+      { e: 'curl-barra-z',     s: 3, r: '10',  d: 60 },
+      { e: 'curl-martillo',    s: 2, r: '12',  d: 60 }
+    ]},
+    'legs': { nombre: 'Legs', tipo: 'fuerza', fase: 4, dur: '~70′', calent: true, tendon: 'rodilla', bloques: [
+      { e: 'sentadilla-barra', s: 4, r: '6',  d: 150 },
+      { e: 'prensa',           s: 3, r: '10', d: 120 },
+      { e: 'hip-thrust',       s: 3, r: '10', d: 120 },
+      { e: 'curl-femoral-tumbado', s: 3, r: '12', d: 90 },
+      { e: 'gemelo-pie',       s: 4, r: '8',  d: 90, n: 'HSR: 3″ bajar / 3″ subir' },
+      { e: 'rueda-abdominal',  s: 3, r: '12', d: 60 }
+    ]},
+    'push-b': { nombre: 'Push B', tipo: 'fuerza', fase: 4, dur: '~60′', calent: true, bloques: [
+      { e: 'press-inclinado-barra', s: 4, r: '10', d: 120 },
+      { e: 'press-plano-mc',   s: 3, r: '12', d: 90 },
+      { e: 'fondos',           s: 3, r: '10', d: 90 },
+      { e: 'laterales-polea',  s: 4, r: '15', d: 60 },
+      { e: 'ext-triceps-polea', s: 3, r: '15', d: 60 }
+    ]},
+    'pull-b': { nombre: 'Pull B', tipo: 'fuerza', fase: 4, dur: '~60′', calent: true, bloques: [
+      { e: 'jalon-estrecho',   s: 4, r: '10', d: 120 },
+      { e: 'remo-mancuerna',   s: 3, r: '12/l', d: 90 },
+      { e: 'pullover-polea',   s: 3, r: '15', d: 60 },
+      { e: 'encogimientos',    s: 3, r: '12', d: 60 },
+      { e: 'curl-polea',       s: 3, r: '15', d: 60 }
+    ]},
+    /* — Cardio — */
+    'cam40':  { nombre: 'Caminata 40′', tipo: 'cardio', icono: 'walk', detalle: 'Ritmo de conversación incómoda: puedes hablar, pero no cantar. Cuenta para los pasos del día.' },
+    'cam60':  { nombre: 'Caminata 60′', tipo: 'cardio', icono: 'walk', detalle: 'Ritmo vivo y sostenido. Ideal en exterior: suma luz, pasos y recuperación activa.' },
+    'wj3': { nombre: 'Caminar-trotar S3', tipo: 'cardio', icono: 'run', detalle: '7 rondas: 2′ trote suave + 2′ caminando (28′). Antes: 2×20 tibialis raises + 10 elevaciones de talón. Trote de verdad suave: si no puedes hablar, vas rápido.' },
+    'wj4': { nombre: 'Caminar-trotar S4', tipo: 'cardio', icono: 'run', detalle: '6 rondas: 3′ trote + 2′ caminando (30′). Antes: 2×20 tibialis raises. Cadencia alta y pasos cortos: menos impacto por zancada.' },
+    'wj5': { nombre: 'Caminar-trotar S5', tipo: 'cardio', icono: 'run', detalle: '5 rondas: 5′ trote + 1′ caminando (30′), o 20′ de trote suave continuo si el cuerpo va bien. Antes: 2×20 tibialis raises.' },
+    'trote25': { nombre: 'Trote 25-30′', tipo: 'cardio', icono: 'run', detalle: 'Continuo y conversacional. Mejor asfalto liso o tierra compacta que aceras irregulares. Si aparece molestia en espinilla o rodilla que empeora al correr: corta y camina.' },
+    'trote30': { nombre: 'Trote 30-35′', tipo: 'cardio', icono: 'run', detalle: 'Continuo. Un día puede ser algo más alegre (últimos 10′ a ritmo medio), el otro siempre suave.' },
+    'libre': { nombre: 'Descanso', tipo: 'libre', icono: 'rest', detalle: 'Día libre de verdad. Los pasos diarios siguen contando. Domingo: meal prep (~90′) deja la semana resuelta.' }
+  };
+
+  /* ---------- CALENTAMIENTO (siempre, 6′) ---------- */
+  const CALENTAMIENTO = {
+    titulo: 'Calentamiento · 6′ · siempre',
+    pasos: [
+      'Círculos de brazos · 30″',
+      'Rotaciones de cadera · 30″ por lado',
+      '10 sentadillas lentas sin peso',
+      '5 zancadas con giro por lado',
+      'Plancha · 20″',
+      '20 jumping jacks'
+    ],
+    gym: 'En el gym, además: 1-2 series de aproximación con poco peso en el primer ejercicio pesado del día (50% y 75% del peso de trabajo).'
+  };
+
+  /* ---------- PROTOCOLO TENDÓN (el seguro del plan) ---------- */
+  const TENDON = {
+    titulo: 'Protocolo tendón · 6-8′ · 2-3×/semana',
+    intro: 'El colágeno del tendón se renueva ~10 veces más lento que el músculo, y el tendón NO tiene memoria muscular: tu fuerza volverá en semanas, tu tendón necesita meses. Este bloque es el seguro del plan y empieza la SEMANA 1 — el trote de la semana 3 solo entra con 2 semanas de tendón ya rodadas.',
+    bloques: [
+      { id: 'tendon-rodilla', nombre: 'Rotuliano · isométrico', donde: 'Tras cada sesión de pierna (en F1, tras los circuitos)',
+        detalle: 'Sentadilla isométrica en pared (F2+: sentadilla española con cinta rígida tras las rodillas): 5 × 45″ a un 70% de esfuerzo, 1′ de descanso. Muslo cerca del paralelo, sin dolor punzante. Además de adaptar, tiene efecto analgésico inmediato (Rio 2015).' },
+      { id: 'tendon-aquiles', nombre: 'Aquiles · HSR de gemelo', donde: 'Ya integrado en las sesiones (elevaciones/gemelo)',
+        detalle: 'La regla que lo cambia todo: gemelo PESADO y LENTO — 3″ bajar, 3″ subir, 6-8 reps, sin rebotes. En F1 con mochila cargada a una pierna; en gym con carga real. El rebote usa el reflejo del tendón y le quita justo el estímulo que necesita.' },
+      { id: 'tendon-tibial', nombre: 'Tibial anterior', donde: 'Antes de cada trote',
+        detalle: 'Tibialis raises apoyado en pared: 2-3 × 15-20. Es la vacuna contra la periostitis a tu peso actual.' },
+      { id: 'tendon-codo', nombre: 'Codo/muñeca · isométrico', donde: 'Tras las sesiones de torso (F2+), 2×/sem',
+        detalle: 'Con una mancuerna ligera, muñeca quieta a media flexión: 3 × 45″ (palma arriba y palma abajo). El volumen de press + remo + jalón dispara epicondilitis en retomadores; esto la previene gratis.' }
+    ],
+    nota: 'NO añadas pliometría/saltos "para preparar el trote": la evidencia dice que es mal estímulo tendinoso y alto impacto. Tu preparación de impacto es este bloque.'
+  };
+
+  /* ---------- REGLAS DE CARRERA (evidencia BMI ~28) ---------- */
+  const CARRERA = {
+    titulo: 'Cómo correr sin romperte (95 kg mandan)',
+    reglas: [
+      'Cadencia 170-180 pasos/min, zancada corta: reduce el impacto tibial ~11% y la tasa de carga ~15%. Cuenta pasos 30″ (85-90) o usa el metrónomo del reloj.',
+      'Volumen gobernado por sensaciones y progresión del plan: nunca subas más de ~1,3× lo que vienes haciendo de media las últimas 4 semanas (la app te avisa).',
+      'Semana 3 arranca con ~2,5 km de trote total: por debajo del techo de 3 km/sem que la evidencia marca para empezar con sobrepeso.',
+      'Superficie y zapatillas CONSTANTES: no cambies las dos cosas a la vez. Mejor asfalto liso o tierra compacta que aceras.',
+      'Molestia en espinilla o rodilla que EMPEORA al correr: corta y camina. La que desaparece al calentar, vigílala; la que crece, manda.'
+    ]
+  };
+
+  /* ---------- FICHAS DE EJERCICIOS ---------- */
+  // musc: [primario, secundarios] · cues: técnica · err: errores típicos ·
+  // alt: alternativas equivalentes (gym comercial) · mol: si molesta, cambia a
+  const EJERCICIOS = {
+    /* — Casa / F1 — */
+    'sentadilla-pc': {
+      nombre: 'Sentadilla peso corporal', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
+      cues: ['Pies al ancho de hombros, puntas ligeramente hacia fuera', 'Baja en 3″ como si te sentaras atrás, sube en 1″', 'Rodillas siguen la punta del pie, talones clavados al suelo', 'Pecho alto durante todo el recorrido'],
+      err: ['Talones que se despegan (baja menos profundo)', 'Rodillas que colapsan hacia dentro', 'Bajar rebotando en vez de controlar'],
+      alt: [{ n: 'Sentadilla a un cajón/sofá', por: 'si te cuesta controlar la profundidad' }, { n: 'Sentadilla con pausa 2″ abajo', por: 'si 12 reps se te quedan cortas' }],
+      mol: 'Si molesta la rodilla: reduce profundidad hasta donde no duela y baja aún más lento.'
+    },
+    'flexiones': {
+      nombre: 'Flexiones', zona: 'empuje', musc: ['Pectoral', 'tríceps, hombro'], equipo: 'Nada',
+      cues: ['Manos algo más anchas que los hombros', 'Codos a 45° del cuerpo, no pegados ni en cruz', 'Cuerpo en tabla: glúteo y abdomen apretados', 'Pecho toca (casi) el suelo en cada rep'],
+      err: ['Cadera caída o en pico', 'Medio recorrido', 'Cuello adelantado hacia el suelo'],
+      alt: [{ n: 'Flexiones con manos en sofá/mesa', por: 'si no salen limpias del suelo' }, { n: 'Flexiones con pies elevados', por: 'si superas 12 fáciles' }],
+      mol: 'Si molesta la muñeca: puños cerrados o agarres de flexión. Si molesta el hombro: estrecha un poco el ancho.'
+    },
+    'puente-gluteo': {
+      nombre: 'Puente de glúteo', zona: 'pierna', musc: ['Glúteo', 'femoral'], equipo: 'Nada',
+      cues: ['Tumbado, talones cerca del glúteo', 'Empuja con los talones y sube la cadera', 'Pausa 2″ arriba apretando el glúteo fuerte', 'Costillas abajo: no arquees la lumbar'],
+      err: ['Empujar con la punta del pie', 'Arquear la lumbar para subir más', 'Subir y bajar sin pausa'],
+      alt: [{ n: 'Puente a una pierna', por: 'cuando 15 reps sean cómodas' }, { n: 'Puente con mochila sobre la cadera', por: 'para añadir carga en casa' }],
+      mol: 'Si hay calambre en el femoral: acerca más los talones al glúteo.'
+    },
+    'plancha': {
+      nombre: 'Plancha frontal', zona: 'core', musc: ['Core completo'], equipo: 'Nada',
+      cues: ['Antebrazos en el suelo, codos bajo los hombros', 'Costillas dentro, pelvis en retroversión (mete el culo)', 'Glúteo apretado, mirada al suelo', 'Respira: no aguantes el aire'],
+      err: ['Cadera caída (lumbar sufre)', 'Culo en pico (trampa)', 'Aguantar temblando: si tiembla la lumbar, corta la serie'],
+      alt: [{ n: 'Plancha con apoyo de rodillas', por: 'si no aguantas el tiempo con buena forma' }],
+      mol: 'Si molesta la lumbar: revisa la retroversión pélvica antes de nada; suele ser eso.'
+    },
+    'plancha-lastre': {
+      nombre: 'Plancha con lastre', zona: 'core', musc: ['Core completo'], equipo: 'Disco 5-10 kg',
+      cues: ['Misma técnica que la plancha normal', 'Que te coloquen el disco entre los omóplatos, no en la lumbar', 'Si la cadera cae, quita lastre'],
+      err: ['Disco demasiado bajo (carga la lumbar)', 'Perder la retroversión al fatigarte'],
+      alt: [{ n: 'Plancha con toques de hombro', por: 'si no tienes quien te ponga el disco' }, { n: 'Ab wheel de rodillas', por: 'variante más exigente' }],
+      mol: 'Si molesta la lumbar: vuelve a plancha sin lastre + toques de hombro.'
+    },
+    'elev-talones': {
+      nombre: 'Elevación de talones', zona: 'pierna', musc: ['Gemelo', 'sóleo'], equipo: 'Escalón opcional',
+      cues: ['Rango completo: estira abajo, pausa 1″ arriba', 'Sube en 1″, baja en 2-3″', 'Mejor en escalón para más recorrido'],
+      err: ['Rebotar rápido sin pausa', 'Medio recorrido arriba'],
+      alt: [{ n: 'A una pierna', por: 'cuando 20 reps sean fáciles' }],
+      mol: 'Si molesta el Aquiles: reduce el rango abajo y sube el tiempo de bajada.'
+    },
+    'zancada-alterna': {
+      nombre: 'Zancada alterna', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
+      cues: ['Paso amplio hacia delante', 'Tronco vertical, manos a la cadera o al frente', 'La rodilla trasera roza el suelo', 'Empuja con el talón delantero para volver'],
+      err: ['Paso corto (colapsa la rodilla delantera)', 'Tronco inclinado hacia delante', 'Rodilla delantera que se va hacia dentro'],
+      alt: [{ n: 'Zancada estática (sin alternar)', por: 'si el equilibrio falla' }, { n: 'Zancada atrás', por: 'más amable con la rodilla' }],
+      mol: 'Si molesta la rodilla: cambia a zancada ATRÁS, mismo esquema.'
+    },
+    'remo-toalla': {
+      nombre: 'Remo con toalla en puerta', zona: 'tiron', musc: ['Dorsal', 'bíceps, escápulas'], equipo: 'Toalla + puerta (o mochila)',
+      cues: ['Toalla en el pomo/marco, cuerpo inclinado atrás', 'Tira con el CODO, no con la mano', 'Escápulas atrás y abajo al final del recorrido', 'Cuanto más te inclines, más duro'],
+      err: ['Tirar con los brazos sin mover las escápulas', 'Dar tirones con impulso de cadera'],
+      alt: [{ n: 'Remo con mochila cargada', por: 'a una mano, apoyado en la mesa' }, { n: 'Remo invertido bajo una mesa robusta', por: 'versión más dura' }],
+      mol: 'Si molesta el codo: agarra más ancho y baja la inclinación.'
+    },
+    'rdl-1p': {
+      nombre: 'Peso muerto rumano a 1 pierna', zona: 'pierna', musc: ['Femoral', 'glúteo, equilibrio'], equipo: 'Nada (mochila opcional)',
+      cues: ['Cadera atrás, espalda recta como una mesa', 'La pierna libre sube atrás como contrapeso', 'Baja hasta notar el estiramiento del femoral', 'Prioriza equilibrio sobre profundidad'],
+      err: ['Redondear la espalda para llegar más abajo', 'Girar la cadera (mantén las dos caderas mirando al suelo)'],
+      alt: [{ n: 'Con apoyo de una mano en la pared', por: 'si el equilibrio rompe la serie' }, { n: 'B-stance (pie trasero de apoyo)', por: 'punto intermedio' }],
+      mol: 'Si tira demasiado el femoral: reduce el rango, no la técnica.'
+    },
+    'superman': {
+      nombre: 'Superman', zona: 'core', musc: ['Lumbar', 'glúteo, espalda alta'], equipo: 'Nada',
+      cues: ['Boca abajo, brazos delante', 'Sube brazos y piernas a la vez, 2″ arriba', 'Mirada al suelo: no tires del cuello'],
+      err: ['Latigazo cervical mirando al frente', 'Subir con rebote'],
+      alt: [{ n: 'Bird-dog (brazo y pierna contrarios)', por: 'más control, menos compresión' }],
+      mol: 'Si molesta la lumbar: cambia a bird-dog directamente.'
+    },
+    'dead-bug': {
+      nombre: 'Dead bug', zona: 'core', musc: ['Core anterior profundo'], equipo: 'Nada',
+      cues: ['Tumbado, lumbar PEGADA al suelo todo el tiempo', 'Brazo y pierna contrarios bajan lento a la vez', 'Exhala al extender: las costillas se quedan abajo'],
+      err: ['La lumbar se arquea al extender la pierna (acorta el recorrido)', 'Ir rápido'],
+      alt: [{ n: 'Solo piernas (brazos quietos)', por: 'si pierdes la lumbar en el suelo' }],
+      mol: 'Es el ejercicio más seguro del plan; si algo molesta, revisa que la lumbar no se despegue.'
+    },
+
+    /* — Gym: empuje — */
+    'press-banca': {
+      nombre: 'Press banca', zona: 'empuje', musc: ['Pectoral', 'tríceps, deltoides anterior'], equipo: 'Barra + banco',
+      cues: ['Escápulas retraídas y CLAVADAS al banco, pies firmes en el suelo', 'Agarre: antebrazo vertical cuando la barra toca el pecho', 'Barra baja al pecho medio, codos ~45°', 'Toca el pecho con control y empuja en línea ligeramente diagonal'],
+      err: ['Hombros que se encogen al empujar (pierdes la retracción)', 'Rebotar la barra en el pecho', 'Culo despegado del banco', 'Muñecas dobladas hacia atrás'],
+      alt: [{ n: 'Press en máquina (chest press)', por: 'días sin ganas de montar banco o gym lleno' }, { n: 'Press con mancuernas plano', por: 'más rango y menos hombro' }],
+      mol: 'Si molesta el hombro: prueba agarre algo más estrecho y codos más pegados; si sigue, mancuernas con giro neutro.'
+    },
+    'press-inclinado-mc': {
+      nombre: 'Press inclinado con mancuernas', zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Mancuernas + banco 30°',
+      cues: ['Banco a 30° (un punto, no la pared)', 'Baja hasta notar estiramiento en el pectoral', 'Codos a 45-60°, muñecas neutras', 'Sube sin chocar las mancuernas arriba'],
+      err: ['Banco demasiado vertical (se vuelve press de hombro)', 'Rebotar abajo', 'Arquear la lumbar exageradamente'],
+      alt: [{ n: 'Press inclinado en multipower', por: 'si el gym está lleno o quieres estabilidad' }, { n: 'Press inclinado con barra', por: 'ya programado en Push B de F4' }],
+      mol: 'Si molesta el hombro: reduce el rango abajo 5 cm y gira ligeramente las palmas hacia dentro.'
+    },
+    'press-inclinado-barra': {
+      nombre: 'Press inclinado con barra', zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Barra + banco inclinado',
+      cues: ['Banco 30-45°, escápulas clavadas', 'La barra baja a la parte alta del pecho (clavículas)', 'Antebrazos verticales al tocar'],
+      err: ['Bajar la barra al pecho medio (te obliga a abrir codos)', 'Rebotar'],
+      alt: [{ n: 'Multipower inclinado', por: 'misma sesión, más guía' }, { n: 'Mancuernas inclinado', por: 'si no hay banco de inclinado con soportes' }],
+      mol: 'Si molesta el hombro: vuelve a mancuernas, que permiten girar el agarre.'
+    },
+    'press-plano-mc': {
+      nombre: 'Press plano con mancuernas', zona: 'empuje', musc: ['Pectoral', 'tríceps'], equipo: 'Mancuernas + banco',
+      cues: ['Más rango que la barra: aprovéchalo abajo con control', 'Sube en arco, sin chocar arriba', 'Pies firmes, escápulas atrás'],
+      err: ['Dejar caer las mancuernas abajo sin frenar', 'Convertirlo en press de hombro abriendo demasiado los codos'],
+      alt: [{ n: 'Máquina de press', por: 'fatiga alta o sin banco libre' }],
+      mol: 'Si molesta el hombro: agarre neutro (palmas enfrentadas).'
+    },
+    'press-militar': {
+      nombre: 'Press militar', zona: 'empuje', musc: ['Hombro', 'tríceps, core'], equipo: 'Barra (de pie o sentado)',
+      cues: ['De pie: glúteo y abdomen APRETADOS antes de empujar', 'La barra sale del mentón y sube pegada a la cara', 'Cabeza "atraviesa la ventana" al final', 'Sentado con respaldo: sin arquear la lumbar'],
+      err: ['Arquear la lumbar para convertirlo en press inclinado', 'Empujar la barra hacia delante (choca con la barbilla)', 'Rango incompleto arriba'],
+      alt: [{ n: 'Press militar con mancuernas sentado', por: 'ya programado en F2; más amable con hombro' }, { n: 'Press en máquina de hombro', por: 'última sesión de la semana con fatiga' }],
+      mol: 'Si molesta el hombro: mancuernas con agarre neutro y sube solo hasta donde no haya pinzamiento.'
+    },
+    'press-militar-mc': {
+      nombre: 'Press militar con mancuernas sentado', zona: 'empuje', musc: ['Hombro', 'tríceps'], equipo: 'Mancuernas + banco con respaldo',
+      cues: ['Respaldo alto, lumbar apoyada sin arquear', 'Codos ligeramente por delante del cuerpo, no en cruz', 'Recorrido completo sin chocar arriba'],
+      err: ['Arquear la lumbar despegándola del respaldo', 'Bajar solo hasta las orejas'],
+      alt: [{ n: 'Máquina de press de hombro', por: 'equivalente directo' }],
+      mol: 'Si molesta el hombro: agarre neutro y baja solo hasta 90° de codo.'
+    },
+    'elev-laterales': {
+      nombre: 'Elevaciones laterales', zona: 'empuje', musc: ['Deltoides lateral'], equipo: 'Mancuernas',
+      cues: ['Peso LIGERO, codos algo flexionados', 'Sube hasta la horizontal, como sirviendo dos jarras', 'Sin impulso: si balanceas, sobra peso', 'Baja en 2″'],
+      err: ['Subir con trapecio encogiendo hombros', 'Pasar de la horizontal', 'Balanceo de cadera'],
+      alt: [{ n: 'Laterales en polea baja', por: 'tensión continua; programadas en Push B' }, { n: 'Máquina de laterales', por: 'para acabar sin pensar en técnica' }],
+      mol: 'Si molesta el hombro: pulgar ligeramente hacia arriba y sube 10° por delante del plano lateral.'
+    },
+    'laterales-polea': {
+      nombre: 'Elevaciones laterales en polea', zona: 'empuje', musc: ['Deltoides lateral'], equipo: 'Polea baja',
+      cues: ['Polea a la altura de la muñeca con el brazo caído', 'Cuerpo estable, sube hasta la horizontal', 'La polea mantiene tensión también abajo: aprovéchala'],
+      err: ['Ponerse demasiado lejos de la polea', 'Tirar con el trapecio'],
+      alt: [{ n: 'Mancuernas', por: 'si las poleas están ocupadas' }],
+      mol: 'Igual que con mancuernas: pulgar arriba y plano ligeramente adelantado.'
+    },
+    'fondos': {
+      nombre: 'Fondos asistidos', zona: 'empuje', musc: ['Pectoral inferior', 'tríceps'], equipo: 'Máquina de fondos asistidos o bandas',
+      cues: ['Cuerpo ligeramente inclinado adelante (más pecho)', 'Baja hasta 90° de codo, no más si el hombro protesta', 'Codos que no se abran en cruz'],
+      err: ['Bajar demasiado profundo', 'Hombros encogidos hacia las orejas'],
+      alt: [{ n: 'Press declinado o fondos entre bancos', por: 'si no hay máquina asistida' }],
+      mol: 'Si molesta el esternón u hombro: sustituye por press plano con mancuernas.'
+    },
+    'ext-triceps-polea': {
+      nombre: 'Extensión de tríceps en polea', zona: 'empuje', musc: ['Tríceps'], equipo: 'Polea alta + cuerda o barra',
+      cues: ['Codos pegados al cuerpo, FIJOS', 'Solo se mueve el antebrazo', 'Extiende del todo y aprieta 1″'],
+      err: ['Codos que se adelantan al bajar (metes hombro)', 'Balanceo del tronco'],
+      alt: [{ n: 'Con cuerda separando abajo', por: 'algo más de cabeza larga' }, { n: 'Patada de tríceps con mancuerna', por: 'sin polea libre' }],
+      mol: 'Si molesta el codo: baja el peso y sube las reps a 15-20; el codo odia el ego.'
+    },
+    'ext-triceps-cabeza': {
+      nombre: 'Extensión sobre cabeza (cuerda)', zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Polea + cuerda',
+      cues: ['De espaldas a la polea, cuerda tras la nuca', 'Codos apuntando al frente, extiende arriba', 'Estiramiento real abajo: ahí crece la cabeza larga'],
+      err: ['Abrir los codos en cruz', 'Rango corto por exceso de peso'],
+      alt: [{ n: 'Press francés con barra Z', por: 'mismo patrón tumbado' }],
+      mol: 'Si molesta el codo: igual que la polea normal — menos peso, más reps.'
+    },
+    'press-frances': {
+      nombre: 'Press francés', zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Barra Z + banco',
+      cues: ['Tumbado, barra baja hacia la frente o algo detrás', 'Codos apuntando al techo, quietos', 'Baja en 2-3″, extiende sin bloquear con golpe'],
+      err: ['Codos que se abren', 'Convertirlo en press cerrado moviendo el hombro'],
+      alt: [{ n: 'Extensión sobre cabeza en polea', por: 'más tensión continua, menos estrés de codo' }],
+      mol: 'Si molesta el codo: cámbialo directamente por extensiones en polea a 15 reps.'
+    },
+
+    /* — Gym: tirón — */
+    'remo-barra': {
+      nombre: 'Remo con barra', zona: 'tiron', musc: ['Dorsal', 'espalda media, bíceps'], equipo: 'Barra',
+      cues: ['Torso a ~45°, rodillas semiflexionadas', 'Tira de la barra hacia el abdomen bajo', 'Escápulas atrás y abajo al final', 'Espalda NEUTRA innegociable'],
+      err: ['Dar tirones con la lumbar (te meces)', 'Torso que se levanta rep a rep', 'Tirar hacia el pecho con codos abiertos'],
+      alt: [{ n: 'Remo en punta (T-bar)', por: 'variante más estable' }, { n: 'Remo en máquina con apoyo de pecho', por: 'si la lumbar va cargada del día de pierna' }],
+      mol: 'Si protesta la lumbar: máquina con apoyo de pecho o remo en polea, sin dudarlo.'
+    },
+    'remo-polea': {
+      nombre: 'Remo en polea sentado', zona: 'tiron', musc: ['Espalda media', 'dorsal, bíceps'], equipo: 'Polea baja + triángulo',
+      cues: ['Pecho alto y FIJO: el tronco no viaja', 'Tira del triángulo al ombligo', 'Pausa 1″ apretando escápulas'],
+      err: ['Balancear el tronco para mover más peso', 'Hombros encogidos'],
+      alt: [{ n: 'Remo en máquina', por: 'equivalente directo' }],
+      mol: 'Si molesta la lumbar: apoya el pecho en una máquina de remo con soporte.'
+    },
+    'remo-mancuerna': {
+      nombre: 'Remo con mancuerna a 1 brazo', zona: 'tiron', musc: ['Dorsal', 'espalda media'], equipo: 'Mancuerna + banco',
+      cues: ['Rodilla y mano en el banco, espalda neutra', 'Tira del codo hacia la cadera, no hacia el hombro', 'Sin girar el tronco al subir'],
+      err: ['Encoger el hombro al inicio del tirón', 'Rotar el torso para "ayudar"', 'Rango corto'],
+      alt: [{ n: 'Remo en polea a 1 brazo', por: 'tensión más constante' }],
+      mol: 'Sin apoyo bueno molesta la lumbar: usa banco inclinado y apoya el pecho.'
+    },
+    'jalon-pecho': {
+      nombre: 'Jalón al pecho', zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Polea alta',
+      cues: ['Agarre algo más ancho que los hombros', 'Pecho arriba, ligera inclinación atrás FIJA', 'Tira de los CODOS hacia los bolsillos', 'Barra a la clavícula, 1″ de pausa'],
+      err: ['Mecerse para dar el tirón', 'Tirar con los brazos sin deprimir escápulas', 'Barra tras la nuca (no)'],
+      alt: [{ n: 'Dominadas asistidas', por: 'el objetivo de F3 es migrar hacia ellas' }, { n: 'Jalón agarre estrecho', por: 'programado en Pull B' }],
+      mol: 'Si molesta el hombro: agarre neutro (triángulo ancho) y baja el peso.'
+    },
+    'jalon-estrecho': {
+      nombre: 'Jalón agarre estrecho', zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Polea alta + triángulo',
+      cues: ['Triángulo o agarre supino al ancho de hombros', 'Codos pegados que bajan al costado', 'Estira del todo arriba: el dorsal trabaja largo'],
+      err: ['Convertirlo en remo inclinándose demasiado', 'Media repetición arriba'],
+      alt: [{ n: 'Dominadas supinas asistidas', por: 'equivalente con peso corporal' }],
+      mol: 'Si molesta el codo: agarre neutro y muñecas rectas.'
+    },
+    'dominadas': {
+      nombre: 'Dominadas (asistidas → libres → lastradas)', zona: 'tiron', musc: ['Dorsal', 'bíceps, core'], equipo: 'Barra + máquina asistida o bandas',
+      cues: ['Inicia deprimiendo escápulas (hombros lejos de orejas)', 'Tira de los codos hacia abajo, barbilla sobre la barra', 'Baja CONTROLANDO hasta brazos casi rectos', 'Reduce asistencia semana a semana: saldrán antes de lo que crees'],
+      err: ['Patalear e impulsarse', 'Media dominada (ni arriba ni abajo)', 'Colgarse en los hombros abajo sin tensión escapular'],
+      alt: [{ n: 'Jalón al pecho prono pesado', por: 'si no hay máquina asistida ese día' }, { n: 'Dominadas negativas (salto + bajada 5″)', por: 'gran constructor de la primera dominada' }],
+      mol: 'Si molesta el codo: agarre neutro. Si molesta el hombro: no te cuelgues pasivo abajo.',
+      hito: 'dominada-libre'
+    },
+    'pullover-polea': {
+      nombre: 'Pullover en polea', zona: 'tiron', musc: ['Dorsal (aislado)'], equipo: 'Polea alta + barra o cuerda',
+      cues: ['Brazos casi rectos, bisagra solo en el hombro', 'Lleva la barra al muslo dibujando un arco', 'Estiramiento arriba, apretón abajo'],
+      err: ['Doblar los codos (se vuelve extensión de tríceps)', 'Mecer el tronco'],
+      alt: [{ n: 'Pullover con mancuerna en banco', por: 'sin polea libre' }],
+      mol: 'Si molesta el hombro: reduce el arco arriba.'
+    },
+    'face-pull': {
+      nombre: 'Face pull', zona: 'tiron', musc: ['Deltoides posterior', 'rotadores, trapecio medio'], equipo: 'Polea alta + cuerda',
+      cues: ['Polea a la altura de la cara', 'Tira de la cuerda HACIA LA FRENTE separando los extremos', 'Al final, rota los hombros hacia fuera (bíceps apuntan al techo)', 'Ligero y perfecto: es salud de hombro, no ego'],
+      err: ['Convertirlo en remo alto con peso', 'Sin rotación externa final'],
+      alt: [{ n: 'Aperturas invertidas en máquina (reverse pec-deck)', por: 'deltoides posterior sin cuerda' }, { n: 'Rotación externa con banda', por: 'en casa o como extra' }],
+      mol: 'Es el ejercicio que arregla hombros; si molesta, baja peso y revisa que tiras a la frente, no al cuello.'
+    },
+    'encogimientos': {
+      nombre: 'Encogimientos con mancuernas', zona: 'tiron', musc: ['Trapecio superior'], equipo: 'Mancuernas',
+      cues: ['Hombros hacia las orejas, pausa 1″ arriba', 'Brazos como cuerdas: no dobles los codos', 'Baja controlado y estira'],
+      err: ['Girar los hombros en círculo (no aporta y roza)', 'Rebotar con las piernas'],
+      alt: [{ n: 'Con barra', por: 'más carga total' }],
+      mol: 'Si molesta el cuello: mira al frente y no metas la barbilla.'
+    },
+
+    /* — Gym: pierna/cadera — */
+    'sentadilla-barra': {
+      nombre: 'Sentadilla con barra', zona: 'pierna', musc: ['Cuádriceps', 'glúteo, core'], equipo: 'Barra + rack',
+      cues: ['Barra sobre trapecio, no sobre cervicales', 'Core presurizado ANTES de bajar (coge aire al pecho-abdomen)', 'Baja al paralelo, rodillas hacia fuera', 'Empuja el suelo, pecho alto al subir'],
+      err: ['Talones que se levantan (culpa de tobillos: eleva talones con discos si hace falta)', 'Rodillas que colapsan hacia dentro al subir', 'Buenos días: la cadera sube antes que el pecho'],
+      alt: [{ n: 'Sentadilla en multipower', por: 'días de fatiga o rack ocupado' }, { n: 'Hack squat / prensa', por: 'estímulo de cuádriceps sin carga axial' }, { n: 'Sentadilla goblet con mancuerna', por: 'como calentamiento o si la técnica se pierde' }],
+      mol: 'Si molesta la rodilla: sube el tempo de bajada (3″) y quédate 5 cm por encima del punto molesto. Si molesta la lumbar: revisa la presurización y baja 20% el peso una semana.'
+    },
+    'prensa': {
+      nombre: 'Prensa', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Máquina de prensa',
+      cues: ['Pies a media altura de la plataforma, ancho de hombros', 'Baja hasta 90° SIN despegar la lumbar del respaldo', 'Empuja con toda la planta, no bloquees las rodillas de golpe'],
+      err: ['Bajar tanto que la pelvis rota (butt wink en prensa = lumbar)', 'Manos empujando las rodillas'],
+      alt: [{ n: 'Hack squat', por: 'más cuádriceps aún' }, { n: 'Prensa a una pierna', por: 'si hay descompensación' }],
+      mol: 'Si molesta la rodilla: pies algo más altos en la plataforma (más glúteo, menos rodilla).'
+    },
+    'rdl-barra': {
+      nombre: 'Peso muerto rumano', zona: 'pierna', musc: ['Femoral', 'glúteo, lumbar isométrico'], equipo: 'Barra',
+      cues: ['Cadera ATRÁS, rodillas semiflexionadas fijas', 'Barra pegada a las piernas todo el viaje', 'Espalda neutra: pecho orgulloso', 'Baja hasta notar el estiramiento fuerte del femoral y sube apretando glúteo'],
+      err: ['Redondear la espalda para bajar más', 'Doblar rodillas y convertirlo en media sentadilla', 'Barra que se aleja del cuerpo'],
+      alt: [{ n: 'RDL con mancuernas', por: 'agarre más cómodo las primeras semanas' }, { n: 'Hiperextensiones 45° cargadas', por: 'femoral-glúteo sin carga de agarre' }],
+      mol: 'El estiramiento del femoral es la señal de que lo haces BIEN. Si molesta la lumbar (no el femoral): baja 20% y graba una serie de lado.'
+    },
+    'hip-thrust': {
+      nombre: 'Hip thrust', zona: 'pierna', musc: ['Glúteo', 'femoral'], equipo: 'Barra + banco (+ protector)',
+      cues: ['Espalda alta apoyada en el banco, barra sobre la cadera con protector', 'Barbilla al pecho, mirada al frente-abajo', 'Sube hasta la horizontal EXACTA, pausa 1″ apretando', 'Rodillas a 90° arriba, talones bajo las rodillas'],
+      err: ['Arquear la lumbar arriba (hiperextensión)', 'Empujar con la punta de los pies', 'Rebotar abajo sin pausa'],
+      alt: [{ n: 'Máquina de hip thrust', por: 'si el gym la tiene, montaje mucho más rápido' }, { n: 'Puente con barra en el suelo', por: 'sin banco libre' }],
+      mol: 'Si molesta la lumbar: es casi siempre hiperextensión arriba; para en horizontal.'
+    },
+    'zancada-mc': {
+      nombre: 'Zancada con mancuernas', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Mancuernas',
+      cues: ['Misma técnica que en casa, ahora con 6-10 kg por mano', 'Paso amplio, tronco vertical, rodilla trasera roza el suelo', 'Las mancuernas cuelgan pegadas al cuerpo, hombros atrás', 'Empuja con el talón delantero para volver'],
+      err: ['Paso corto que colapsa la rodilla delantera', 'Inclinarse adelante al fatigarte', 'Mirar al suelo y perder la línea'],
+      alt: [{ n: 'Zancada atrás con mancuernas', por: 'más amable con la rodilla' }, { n: 'Zancada en multipower', por: 'si el equilibrio limita la carga' }],
+      mol: 'Si molesta la rodilla: paso más largo y cambia a zancada atrás.'
+    },
+    'zancada-bulgara': {
+      nombre: 'Zancada búlgara', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Banco + mancuernas',
+      cues: ['Pie trasero en el banco, delantero a un paso largo', 'Baja VERTICAL: la rodilla trasera busca el suelo', 'Tronco ligeramente inclinado = más glúteo; vertical = más cuádriceps', 'Empieza SOLO con peso corporal, en serio'],
+      err: ['Pie delantero demasiado cerca (rodilla sufre)', 'Rebotar abajo', 'Perder el equilibrio por mirar al techo'],
+      alt: [{ n: 'Zancada estática con mancuernas', por: 'si el equilibrio no está aún' }, { n: 'Prensa a una pierna', por: 'unilateral sin equilibrio' }],
+      mol: 'Si molesta la rodilla delantera: alarga el paso y desplaza el tronco un poco adelante.'
+    },
+    'ext-cuadriceps': {
+      nombre: 'Extensión de cuádriceps', zona: 'pierna', musc: ['Cuádriceps (aislado)'], equipo: 'Máquina',
+      cues: ['Rodilla alineada con el eje de la máquina', 'Extiende del todo con pausa 1″ arriba', 'Baja en 2-3″'],
+      err: ['Dar patadas con impulso', 'Culo que se despega del asiento'],
+      alt: [{ n: 'Sissy squat asistido', por: 'sin máquina' }],
+      mol: 'Si molesta la rótula: recorta el último tercio ARRIBA no abajo, y tempo más lento. Es también tu ejercicio de rehabilitación si un día la rodilla protesta del trote.'
+    },
+    'curl-femoral-tumbado': {
+      nombre: 'Curl femoral tumbado', zona: 'pierna', musc: ['Femoral (aislado)'], equipo: 'Máquina',
+      cues: ['Cadera PEGADA al banco todo el tiempo', 'Sube en 1″, baja en 2-3″', 'Punta del pie neutra'],
+      err: ['Levantar la cadera para ayudar', 'Media repetición'],
+      alt: [{ n: 'Curl femoral sentado', por: 'de hecho algo mejor para el femoral; úsalo si está libre' }, { n: 'Curl nórdico asistido', por: 'versión avanzada, más adelante' }],
+      mol: 'Si hay calambre: estira el femoral entre series, es normal las primeras semanas.'
+    },
+    'curl-femoral-sentado': {
+      nombre: 'Curl femoral sentado', zona: 'pierna', musc: ['Femoral (aislado)'], equipo: 'Máquina',
+      cues: ['Muslo bien fijado por la almohadilla', 'Flexiona del todo, pausa 1″', 'Vuelve lento resistiendo'],
+      err: ['Culo que se desliza hacia delante', 'Rango corto por exceso de peso'],
+      alt: [{ n: 'Curl femoral tumbado', por: 'equivalente' }],
+      mol: 'Sin incidencias típicas: es de lo más seguro del plan.'
+    },
+    'gemelo-pie': {
+      nombre: 'Gemelo de pie', zona: 'pierna', musc: ['Gemelo (gastrocnemio)'], equipo: 'Máquina o multipower + escalón',
+      cues: ['Pausa 1″ ARRIBA y 1″ ABAJO: sin rebote', 'Estiramiento completo abajo', 'Sube vertical, sin doblar rodillas'],
+      err: ['Rebotar aprovechando el reflejo del tendón (le quita el estímulo justo al tejido que queremos preparar)', 'Rango medio'],
+      alt: [{ n: 'En prensa', por: 'sin máquina específica' }],
+      mol: 'Si molesta el Aquiles: solo isométricos arriba 3×30″ esa semana.'
+    },
+    'gemelo-sentado': {
+      nombre: 'Gemelo sentado', zona: 'pierna', musc: ['Sóleo'], equipo: 'Máquina',
+      cues: ['Rodilla a 90°: aquí trabaja el sóleo, clave para TROTAR', 'Misma regla: pausa arriba y abajo, sin rebotes'],
+      err: ['Ir rápido a rebotes', 'Poner el apoyo en la punta de los dedos (mejor en la base)'],
+      alt: [{ n: 'Sentado con mancuernas sobre rodillas + escalón', por: 'sin máquina' }],
+      mol: 'Igual que el de pie: molestia de Aquiles = solo isométricos una semana.'
+    },
+    'elev-piernas': {
+      nombre: 'Elevación de piernas colgado', zona: 'core', musc: ['Abdomen inferior', 'flexores, agarre'], equipo: 'Barra de dominadas',
+      cues: ['Cuelga activo (hombros lejos de orejas)', 'Sube las rodillas al pecho SIN balanceo', 'Baja controlado del todo'],
+      err: ['Columpiarse', 'Tirar solo de flexores de cadera con lumbar arqueada'],
+      alt: [{ n: 'En paralelas (apoyo de codos)', por: 'si el agarre falla antes que el abdomen' }, { n: 'Elevaciones tumbado', por: 'versión inicial' }],
+      mol: 'Si molesta el hombro colgado: usa las paralelas directamente.'
+    },
+    'rueda-abdominal': {
+      nombre: 'Rueda abdominal', zona: 'core', musc: ['Core anterior completo'], equipo: 'Ab wheel',
+      cues: ['De rodillas, pelvis en retroversión ANTES de salir', 'Rueda hasta donde controles la lumbar', 'Vuelve tirando con el abdomen, no con los brazos'],
+      err: ['Arquear la lumbar al extender (el error que lesiona)', 'Ir más lejos de lo que el core aguanta'],
+      alt: [{ n: 'Crunch en polea', por: 'si la rueda queda grande hoy' }, { n: 'Plancha con lastre', por: 'isométrico equivalente' }],
+      mol: 'Si molesta la lumbar: recorta el recorrido a la mitad y gana rango semana a semana.'
+    },
+    'crunch-polea': {
+      nombre: 'Crunch en polea', zona: 'core', musc: ['Recto abdominal'], equipo: 'Polea alta + cuerda',
+      cues: ['De rodillas, cuerda a los lados de la cabeza', 'Flexiona DESDE LAS COSTILLAS, no desde la cadera', 'Codos hacia las rodillas, exhala al bajar'],
+      err: ['Tirar con los brazos', 'Sentarse hacia atrás moviendo solo cadera'],
+      alt: [{ n: 'Crunch en máquina', por: 'equivalente' }, { n: 'Rueda abdominal', por: 'cuando quieras subir nivel' }],
+      mol: 'Sin incidencias típicas si flexionas desde las costillas.'
+    },
+
+    /* — Brazos — */
+    'curl-barra-z': {
+      nombre: 'Curl con barra Z', zona: 'tiron', musc: ['Bíceps'], equipo: 'Barra Z',
+      cues: ['Codos pegados al cuerpo, FIJOS', 'Sube sin balanceo, baja en 2-3″', 'Muñecas neutras gracias a la Z'],
+      err: ['Mecer el cuerpo para subir más peso', 'Codos que viajan adelante arriba'],
+      alt: [{ n: 'Curl con mancuernas alterno', por: 'con giro (supinación), muy completo' }, { n: 'Curl en polea baja', por: 'tensión continua' }],
+      mol: 'Si molesta la muñeca o el codo: mancuernas con giro o agarre martillo.'
+    },
+    'curl-inclinado': {
+      nombre: 'Curl inclinado con mancuernas', zona: 'tiron', musc: ['Bíceps (cabeza larga)'], equipo: 'Mancuernas + banco 45-60°',
+      cues: ['Banco a 45-60°, brazos COLGANDO verticales', 'El estiramiento abajo es el estímulo: no lo recortes', 'Codos quietos, sube sin encoger hombros'],
+      err: ['Adelantar los codos', 'Media repetición abajo'],
+      alt: [{ n: 'Curl bayesiano en polea', por: 'mismo estiramiento, de pie' }],
+      mol: 'Si tira el hombro abajo: sube un punto el respaldo.'
+    },
+    'curl-martillo': {
+      nombre: 'Curl martillo', zona: 'tiron', musc: ['Braquial', 'antebrazo'], equipo: 'Mancuernas',
+      cues: ['Agarre neutro (martillo), codos fijos', 'Puedes hacerlo alterno o a la vez', 'Controla la bajada'],
+      err: ['Balanceo', 'Convertirlo en remo subiendo los codos'],
+      alt: [{ n: 'Curl martillo con cuerda en polea', por: 'variante' }],
+      mol: 'Es el curl más amable con codos y muñecas: suele ser el REFUGIO cuando otros molestan.'
+    },
+    'curl-polea': {
+      nombre: 'Curl en polea baja', zona: 'tiron', musc: ['Bíceps'], equipo: 'Polea baja + barra',
+      cues: ['Un paso atrás de la polea, codos fijos', 'Tensión continua: no descanses ni arriba ni abajo', 'Última serie: aguanta 10″ isométrico a mitad para acabar'],
+      err: ['Acercarse tanto que el tramo bajo no tenga tensión', 'Mecerse'],
+      alt: [{ n: 'Curl con barra Z', por: 'equivalente con peso libre' }],
+      mol: 'Si molesta el codo: agarre más ancho o cuerda en martillo.'
+    }
+  };
+
+  /* ---------- LAS 8 REGLAS ---------- */
+  const REGLAS = [
+    { n: 1, t: 'RPE controlado', d: 'Cada fase tiene su tope de esfuerzo. Tu sistema nervioso recuerda ser atleta; tus tendones llevan 5 años en el sofá. Frena tú antes de que frenen ellos.' },
+    { n: 2, t: 'Progresión doble', d: 'Primero sube repeticiones dentro del rango, luego sube peso (+2,5 kg; +5 kg en sentadilla y peso muerto rumano). Solo si la técnica fue limpia en TODAS las series. La app te lo sugiere sola.' },
+    { n: 3, t: 'Báscula = media semanal', d: 'Pésate lunes-miércoles-viernes en ayunas y mira solo la media. Un día suelto no significa nada (agua, sal, creatina).' },
+    { n: 4, t: 'Proteína: 190 g en 4 tomas', d: 'Desayuno, comida, cena y una toma antes de dormir. Ninguna toma por debajo de 38-40 g. Es la variable que decide si los kilos que pierdes son grasa o músculo.' },
+    { n: 5, t: '8.000–10.000 pasos diarios', d: 'Todos los días, entrenes o no. Queman más a la semana que las propias sesiones.' },
+    { n: 6, t: 'Sueño 7–8 h: innegociable', d: 'No es un objetivo, es una regla: dormir 5,5 h en déficit convierte la pérdida en −55% grasa y +60% músculo (Nedeltcheva 2010). Cafeína fuerte solo antes de las 13-14 h.' },
+    { n: 7, t: 'Un día fallado no se recupera', d: 'No dobles sesiones ni recortes comida al día siguiente. Sigues el calendario donde toque.' },
+    { n: 8, t: 'Mínimo innegociable', d: 'Tu patrón histórico es 3 meses a tope / 3 a cero. La semana caótica tiene un suelo: 2 fuerzas + 1 cardio. Eso mantiene todo.' }
+  ];
+
+  const SENALES = 'Señales de parar un ejercicio ese día: dolor punzante en rodilla, hombro o lumbar durante el movimiento; molestia que empeora serie a serie en vez de desaparecer al calentar. Agujetas difusas 24-48 h después = normal. Dolor articular localizado que persiste más de 5 días = fisio antes de seguir cargando.';
+
+  /* ---------- NUTRICIÓN ---------- */
+  const NUTRI = {
+    calorias: [
+      { c: 'Metabolismo basal (Mifflin-St Jeor)', v: '~1.950 kcal', n: '95,1 kg · 183 cm · 30 años' },
+      { c: 'Gasto total estimado (plan en marcha)', v: '2.850–3.000 kcal', n: 'Entrenos + 8-10k pasos' },
+      { c: 'Ingesta objetivo', v: '2.250–2.400 kcal', n: 'Déficit ~550–700 kcal/día (más de eso frena la reganancia de músculo: Murphy & Koehler 2022)' },
+      { c: 'Ritmo de pérdida esperado', v: '0,6–0,75 kg/sem', n: '≈0,7% del peso/sem, el punto óptimo para retener magro (Garthe 2011). Media semanal, no día a día' }
+    ],
+    fases: [
+      { f: 'F1–F2 (sem 1-5)', kcal: 2250, p: 190, g: 70, c: 205 },
+      { f: 'F3 (sem 6-9)',    kcal: 2350, p: 190, g: 70, c: 230, nota: 'Semana 7: DIET BREAK a ~2.800' },
+      { f: 'F4 (sem 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
+    ],
+    escalado: 'La proteína no se toca nunca: 190 g ≈ 2,5 g/kg de masa magra, el rango que la evidencia pide en déficit (Helms 2014). Al subir el volumen de entreno solo sube el carbohidrato. En la práctica: en F3 añade una pieza de fruta + 40 g de pan a la comida en días de entreno; en F4, eso mismo todos los días.',
+    tomas: 'CUATRO tomas de proteína al día, ninguna por debajo de 38-40 g: desayuno, comida, cena y una toma pre-sueño (skyr + whey). El total diario manda, pero el reparto en 4 exprime la síntesis proteica y quita hambre nocturna.',
+    plato: [
+      { t: 'Proteína (cada comida)', d: '200-250 g de pollo/pavo/pescado blanco en crudo, o 170-180 g de salmón/ternera, o 3 huevos + 2 claras, o 250 g de skyr + whey. Referencia visual: palma de la mano y media.' },
+      { t: 'Carbohidrato', d: '60-75 g en crudo de arroz/pasta, o 250-300 g de patata, o 60 g de pan integral, o 50 g de avena. Referencia: un puño.' },
+      { t: 'Verdura', d: 'Media ración del plato, libre. Volumen y saciedad.' },
+      { t: 'Grasa', d: '10 g de AOVE por comida principal (una cucharada) y para de contar. Es donde se escapan las calorías sin darte cuenta.' }
+    ],
+    suplementos: [
+      { t: 'Creatina monohidrato', d: '5 g diarios, a cualquier hora, sin fase de carga, desde ya. AVISO: retiene 1-2 kg de agua las primeras semanas. No es grasa: fíate de la cintura y de la media semanal, no del número suelto (la app lo marca en la gráfica).' },
+      { t: 'Whey', d: '1 cazo en la toma pre-sueño con el skyr (y otro donde haga falta los días cortos de proteína).' },
+      { t: 'Cafeína', d: 'Corte real a las 13-14 h: una dosis pre-entreno (~200 mg) altera el sueño hasta 13 h después, y un café normal necesita ~9 h (Gardiner 2023). Si entrenas POR LA MAÑANA: café 30-45′ antes, perfecto. Si entrenas TARDE-NOCHE: sin cafeína — tu pre-entreno es la merienda (fruta + skyr 60-90′ antes).' },
+      { t: 'Opcionales con sentido', d: 'Vitamina D solo si la analítica sale por debajo de 30 ng/mL (probable con vida de interior). Omega-3 ~2 g EPA+DHA/día: beneficio modesto pero real en fuerza y ángulo antiinflamatorio/tendón.' },
+      { t: 'NO gastes en', d: 'Quemagrasas, BCAA/EAA (redundantes con 190 g de proteína), "testo boosters". Nada de eso mueve la aguja.' }
+    ],
+    hidratacion: 'Agua: 2,5–3 L/día. Alcohol: cuenta calorías y bloquea la recuperación — dentro de la comida libre, fuera del resto de la semana.',
+    comidaLibre: 'UNA comida a la semana (sábado por defecto), no un día. Pides o comes lo que te apetezca en cantidad normal, sin compensar antes ni después. Sirve para que el plan aguante 12 semanas y una vida social. Si hay plan otro día, se mueve — pero sigue siendo una.'
+  };
+
+  /* ---------- RECETAS ---------- */
+  // q en gramos salvo unidad indicada · macros por ración
+  const RECETAS = [
+    {
+      id: 'bol-skyr', nombre: 'Bol de skyr', tipo: 'Desayuno A', tiempo: '5′', cocina: 'Sin cocina',
+      macros: { kcal: 520, p: 35, g: 11, c: 72 },
+      ing: [
+        { q: '250 g', i: 'skyr natural (o queso fresco batido 0%)' },
+        { q: '50 g', i: 'copos de avena' },
+        { q: '1 ud (120 g)', i: 'plátano' },
+        { q: '10 g', i: 'nueces' },
+        { q: 'al gusto', i: 'canela' }
+      ],
+      pasos: [
+        'Skyr en el bol y la avena por encima (tal cual si te gusta con textura, o remojada 5′ en un dedo de leche o agua).',
+        'Plátano en rodajas, nueces troceadas con la mano y canela por encima.'
+      ],
+      tips: 'Si entrenas por la mañana: móntalo la noche antes (la avena remojada gana). Día corto de proteína: +1 cazo de whey mezclado con el skyr (+110 kcal, +23 g P).'
+    },
+    {
+      id: 'tortilla-pan', nombre: 'Tortilla con pan y tomate', tipo: 'Desayuno B', tiempo: '10′', cocina: 'Sartén',
+      macros: { kcal: 470, p: 34, g: 22, c: 32 },
+      ing: [
+        { q: '3 ud', i: 'huevos M' },
+        { q: '2 ud (o 100 ml envasadas)', i: 'claras' },
+        { q: '60 g (2 rebanadas)', i: 'pan integral' },
+        { q: '100 g', i: 'tomate rallado' },
+        { q: '5 g', i: 'AOVE' },
+        { q: 'pizca', i: 'sal' }
+      ],
+      pasos: [
+        'Bate huevos y claras con la sal.',
+        'Sartén antiadherente a fuego medio con los 5 g de AOVE: cuaja la tortilla al punto que te guste.',
+        'Tuesta el pan y ponle el tomate rallado con una gota del aceite de la sartén.'
+      ],
+      tips: 'Las claras envasadas quitan la pereza de separar. Versión revuelto: mismo tiempo, cero técnica.'
+    },
+    {
+      id: 'pollo-asado', nombre: 'Pollo asado con patatas', tipo: 'Comida · batch domingo', tiempo: '45′ horno (del meal prep)', cocina: 'Horno',
+      macros: { kcal: 780, p: 70, g: 19, c: 68 },
+      ing: [
+        { q: '250 g crudo (~200 g hecho)', i: 'pechuga de pollo', n: 'batch: 1,2 kg = 5 raciones' },
+        { q: '300 g', i: 'patata en gajos + pimiento + cebolla asados', n: 'batch: 1,5 kg patata + 2 pimientos + 2 cebollas' },
+        { q: '10 g', i: 'AOVE (parte del asado)' },
+        { q: 'al gusto', i: 'pimentón, ajo en polvo, sal, orégano' }
+      ],
+      pasos: [
+        'Horno a 200°. Salpimenta las pechugas y úntalas con pimentón + ajo en polvo.',
+        'Bandeja 1: pechugas, 25-30′ (justo cocidas = jugosas; pásate y serán suela).',
+        'Bandeja 2: patata en gajos con pimiento, cebolla y 20 g de AOVE total, 40-45′, giro a mitad.',
+        'Porciona: 5 tuppers. El pollo del jueves-viernes, al congelador.'
+      ],
+      tips: 'La ración se recalienta en 2′ de micro con un chorrito de agua para que el pollo no se seque.'
+    },
+    {
+      id: 'lentejas-pollo', nombre: 'Lentejas con pollo', tipo: 'Comida · batch domingo', tiempo: '25′ olla', cocina: 'Olla',
+      macros: { kcal: 760, p: 52, g: 16, c: 80 },
+      ing: [
+        { q: '250 g escurridas', i: 'lentejas cocidas de bote', n: 'batch: 2 botes = 3 raciones' },
+        { q: '120 g', i: 'pollo asado en tiras (del horneado)' },
+        { q: '¼ ud', i: 'cebolla' },
+        { q: '½ ud', i: 'pimiento' },
+        { q: '1 ud', i: 'zanahoria' },
+        { q: '4 g', i: 'AOVE (parte del sofrito)' },
+        { q: '1 cdta / ½ cdta', i: 'pimentón / comino' },
+        { q: '150 ml', i: 'caldo o agua' },
+        { q: '1 pieza', i: 'fruta de postre' }
+      ],
+      pasos: [
+        'Sofrito 8′: cebolla, pimiento y zanahoria picados con 10 g de AOVE (para el batch de 3 raciones).',
+        'Añade las lentejas escurridas, el caldo, pimentón y comino: 15′ a fuego bajo.',
+        'Apaga y mezcla el pollo en tiras (así no se reseca).'
+      ],
+      tips: 'De bote y sin remojo: la legumbre más rápida que existe. Espesan al día siguiente: añade un dedo de agua al recalentar.'
+    },
+    {
+      id: 'salteado-ternera', nombre: 'Salteado de ternera', tipo: 'Comida · 15′ fresco', tiempo: '15′', cocina: 'Wok / sartén',
+      macros: { kcal: 730, p: 45, g: 20, c: 60 },
+      ing: [
+        { q: '180-200 g', i: 'ternera magra en tiras' },
+        { q: '70 g crudo (≈ 180 g cocido)', i: 'arroz', n: 'usa el del batch' },
+        { q: '250 g', i: 'verdura variada: pimiento, cebolla, calabacín, zanahoria' },
+        { q: '15 ml', i: 'salsa de soja' },
+        { q: '8 g', i: 'AOVE' }
+      ],
+      pasos: [
+        'Wok o sartén MUY caliente con el AOVE: sella la ternera 1-2′ y resérvala (si la dejas, se cuece y queda dura).',
+        'Misma sartén: verduras en tiras 5-6′, que queden al dente.',
+        'Vuelve la ternera, soja, 1′ de meneo y encima del arroz.'
+      ],
+      tips: 'El orden lo es todo: carne fuera antes de las verduras. Pide en la carnicería "tiras para saltear" y te ahorras cortar.'
+    },
+    {
+      id: 'salmon-arroz', nombre: 'Salmón con arroz y brócoli', tipo: 'Cena · 15′', tiempo: '15′', cocina: 'Plancha u horno',
+      macros: { kcal: 760, p: 40, g: 28, c: 62 },
+      ing: [
+        { q: '170-180 g', i: 'lomo de salmón' },
+        { q: '75 g crudo (≈ 190 g cocido)', i: 'arroz', n: 'del batch' },
+        { q: '200 g', i: 'brócoli' },
+        { q: '½ ud', i: 'limón' },
+        { q: 'pizca', i: 'sal' }
+      ],
+      pasos: [
+        'Brócoli al micro en bol tapado con un dedo de agua: 4-5′ (o vapor).',
+        'Salmón a la plancha 3-4′ por lado empezando por la piel (u horno 200°, 12′). Sin aceite: ya trae el suyo.',
+        'Arroz recalentado, limón exprimido por encima de todo.'
+      ],
+      tips: 'La grasa del salmón cuenta como la grasa de la comida: por eso aquí no hay AOVE.'
+    },
+    {
+      id: 'merluza-patata', nombre: 'Merluza con patata panadera', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Horno o micro+plancha',
+      macros: { kcal: 740, p: 55, g: 15, c: 55 },
+      ing: [
+        { q: '250 g', i: 'merluza o lubina en lomos' },
+        { q: '250 g', i: 'patata' },
+        { q: 'bol', i: 'ensalada verde (lechuga, tomate, cebolla)' },
+        { q: '10 g', i: 'AOVE (5 patata + 5 ensalada)' },
+        { q: '1 ud', i: 'skyr de postre' }
+      ],
+      pasos: [
+        'Patata en rodajas de ½ cm: micro 8′ tapada (o al horno 25′ con 5 g de AOVE, sal y orégano).',
+        'Merluza: horno 200° 10-12′, o plancha 3′ por lado. Punto: cuando se separa en lascas.',
+        'Ensalada con 5 g de AOVE y vinagre. Skyr de postre y cena cerrada.'
+      ],
+      tips: 'El pescado blanco es la proteína más saciante por caloría de todo el plan: úsalo los días de más hambre.'
+    },
+    {
+      id: 'revuelto-gambas', nombre: 'Revuelto de gambas', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Sartén',
+      macros: { kcal: 620, p: 45, g: 30, c: 25 },
+      ing: [
+        { q: '3 ud', i: 'huevos M' },
+        { q: '150 g', i: 'gambas peladas (congeladas van perfectas)' },
+        { q: '40 g', i: 'pan integral' },
+        { q: 'bol', i: 'ensalada verde' },
+        { q: '8 g', i: 'AOVE' },
+        { q: '1 diente', i: 'ajo' }
+      ],
+      pasos: [
+        'Dora el ajo laminado con el AOVE; gambas 2′ (descongeladas y secadas antes).',
+        'Baja el fuego, añade los huevos batidos y remueve SIN PARAR hasta cremoso. Fuera antes de que cuaje del todo.',
+        'Pan tostado y ensalada al lado.'
+      ],
+      tips: 'El revuelto se termina de hacer fuera del fuego. Gambas congeladas: descongela en un bol de agua fría en 10′.'
+    },
+    {
+      id: 'toma-noche', nombre: 'Toma pre-sueño', tipo: 'Toma 4 · diaria', tiempo: '1′', cocina: 'Sin cocina',
+      macros: { kcal: 270, p: 49, g: 2, c: 14 },
+      ing: [
+        { q: '250 g', i: 'skyr o queso fresco batido 0%' },
+        { q: '1 cazo (30 g)', i: 'whey (el sabor que no te aburra)' },
+        { q: 'al gusto', i: 'canela' }
+      ],
+      pasos: [
+        'Mezcla el cazo de whey con el skyr hasta textura de mousse. Canela por encima.',
+        '30-60′ antes de acostarte. Ya está.'
+      ],
+      tips: 'Esta toma es la que sube el día a ~190 g de proteína y mata el hambre nocturna, el momento donde mueren las dietas. La caseína láctea de digestión lenta trabaja mientras duermes.'
+    },
+    {
+      id: 'ensalada-atun', nombre: 'Ensalada completa de atún', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Sin fuego (con batch)',
+      macros: { kcal: 700, p: 45, g: 25, c: 50 },
+      ing: [
+        { q: '2 latas (120 g escurrido)', i: 'atún al natural' },
+        { q: '1 ud', i: 'huevo duro (del batch)' },
+        { q: '150 g', i: 'patata cocida (del batch)' },
+        { q: '150 g', i: 'tomate' },
+        { q: '30 g', i: 'aceitunas' },
+        { q: '¼ ud', i: 'cebolla morada' },
+        { q: '10 g', i: 'AOVE' }
+      ],
+      pasos: [
+        'Todo al bol: patata en dados, tomate en gajos, cebolla fina, atún escurrido, huevo en cuartos, aceitunas.',
+        'AOVE, vinagre, sal y un meneo.'
+      ],
+      tips: 'La cena de cero esfuerzo si el domingo coció patatas y huevos de más. Versión sin patata (día flojo de hambre): añade más tomate.'
+    }
+  ];
+
+  /* ---------- LISTA DE LA COMPRA (semana tipo) ---------- */
+  const COMPRA = [
+    { cat: 'Proteína', items: [
+      { q: '1,4 kg', i: 'pechuga de pollo' },
+      { q: '400 g', i: 'ternera magra en tiras' },
+      { q: '500 g', i: 'merluza o lubina (2 raciones)' },
+      { q: '350 g', i: 'salmón (2 lomos)' },
+      { q: '300 g', i: 'gambas peladas congeladas' },
+      { q: '4 latas', i: 'atún al natural' },
+      { q: '18 ud', i: 'huevos M (docena y media)' },
+      { q: '14 ud (250 g c/u)', i: 'skyr o queso fresco batido 0% (7 desayunos/postres + 7 tomas nocturnas)' },
+      { q: '1 bote (dura ~1 mes)', i: 'whey (1 cazo diario en la toma nocturna)' }
+    ]},
+    { cat: 'Carbohidratos', items: [
+      { q: '500 g', i: 'arroz' },
+      { q: '2 kg', i: 'patatas' },
+      { q: '400 g', i: 'pan integral (barra grande o molde)' },
+      { q: '500 g', i: 'avena' },
+      { q: '2 botes (400 g escurrido c/u)', i: 'lentejas cocidas' }
+    ]},
+    { cat: 'Verdura y fruta', items: [
+      { q: '5 ud', i: 'pimientos' },
+      { q: '4 ud', i: 'cebollas (+1 morada)' },
+      { q: '2 ud', i: 'calabacines' },
+      { q: '2 ud', i: 'brócolis' },
+      { q: '8 ud', i: 'tomates (2 para rallar)' },
+      { q: '2 bolsas', i: 'lechuga o canónigos' },
+      { q: '500 g', i: 'zanahorias' },
+      { q: '12-14 piezas', i: 'fruta: plátanos ×5, manzanas ×4-5, naranjas ×4' }
+    ]},
+    { cat: 'Despensa', items: [
+      { q: '—', i: 'AOVE' },
+      { q: '200 g', i: 'nueces' },
+      { q: '1 bote', i: 'aceitunas' },
+      { q: '1 bote', i: 'salsa de soja' },
+      { q: '3 ud', i: 'limones' },
+      { q: '—', i: 'especias: pimentón, ajo en polvo, comino, orégano, canela' },
+      { q: '—', i: 'sal, vinagre, caldo' }
+    ]}
+  ];
+
+  /* ---------- MEAL PREP DEL DOMINGO (~90′) ---------- */
+  const MEALPREP = [
+    { min: '0′',  paso: 'Horno a 200°. Salpimenta 1,2 kg de pechugas y úntalas con pimentón + ajo en polvo.' },
+    { min: '5′',  paso: 'Al horno: bandeja 1 (pechugas, 25-30′) y bandeja 2 (1,5 kg de patata en gajos + 2 pimientos + 2 cebollas + 20 g AOVE, 40-45′).' },
+    { min: '10′', paso: 'Olla a fuego medio: sofrito de cebolla, pimiento y zanahoria con 10 g de AOVE.' },
+    { min: '15′', paso: 'Cazo 1: 400 g de arroz a cocer (12-15′). Cazo 2: 6 huevos (10′) + 2 patatas medianas (déjalas 20′): huevos y patata para la ensalada de atún.' },
+    { min: '20′', paso: 'A la olla: 2 botes de lentejas escurridas + 400 ml de caldo + pimentón y comino. Fuego bajo 20′.' },
+    { min: '30′', paso: 'Pechugas fuera. Trocea 250 g en tiras para las lentejas (se añaden al apagar). Escurre el arroz y extiéndelo en una bandeja para que enfríe rápido.' },
+    { min: '45′', paso: 'Patatas del horno fuera. Gira, prueba, sal si falta.' },
+    { min: '60′', paso: 'Porciona: 5 tuppers de comida (2 pollo+patatas, 2-3 lentejas, arroz en tupper aparte para salteado/salmón) + huevos duros y patata cocida en la nevera.' },
+    { min: '75′', paso: 'Etiqueta y guarda: nevera hasta el miércoles, congelador lo del jueves-viernes (bájalo a nevera la noche antes). Cocina recogida mientras suena lo que sea.' }
+  ];
+  const MEALPREP_NOTA = 'El pescado de las cenas se hace fresco en 10 minutos: no se prepara el domingo. Pollo y arroz aguantan 4 días refrigerados.';
+
+  /* ---------- MENÚ SEMANAL ---------- */
+  const MENU = [
+    { d: 'Lun', de: 'bol-skyr', co: 'pollo-asado', ce: 'merluza-patata' },
+    { d: 'Mar', de: 'tortilla-pan', co: 'lentejas-pollo', ce: 'ensalada-atun' },
+    { d: 'Mié', de: 'bol-skyr', co: 'salteado-ternera', ce: 'revuelto-gambas' },
+    { d: 'Jue', de: 'tortilla-pan', co: 'pollo-asado', ce: 'salmon-arroz' },
+    { d: 'Vie', de: 'bol-skyr', co: 'lentejas-pollo', ce: 'merluza-patata' },
+    { d: 'Sáb', de: 'tortilla-pan', co: 'LIBRE', ce: 'ensalada-atun' },
+    { d: 'Dom', de: 'bol-skyr', co: 'salteado-ternera', ce: 'revuelto-gambas' }
+  ];
+
+  /* ---------- SEGUIMIENTO ---------- */
+  const CHECKPOINTS = [
+    { sem: 4,  fecha: '2026-09-13', rango: [92.5, 93.5], si: 'Revisa AOVE y comida libre; +1.000 pasos/día. Recuerda: la creatina esconde ~1 kg.' },
+    { sem: 8,  fecha: '2026-10-11', rango: [90.0, 91.3], si: '−100 kcal de carbohidrato solo en días de descanso (la semana 7 fue diet break: la media puede venir alta y es normal)' },
+    { sem: 12, fecha: '2026-11-08', rango: [86.0, 88.0], si: 'Cierre, fotos, medidas y siguiente bloque. En grasa real: ~−8 kg.' }
+  ];
+  const AJUSTES = [
+    { id: 'rapido', cond: 'Pierdes más de 1,0 kg/sem dos semanas seguidas (descontando el efecto creatina)', accion: 'Añade 150 kcal de carbohidrato. Más rápido no es mejor: a ese ritmo el déficit se come la reganancia de músculo.' },
+    { id: 'lento', cond: 'Pierdes menos de 0,45 kg/sem dos semanas seguidas (sin contar la semana de diet break)', accion: 'Primero verifica pasos y AOVE; si está limpio, sube +1.500 pasos ANTES de recortar kcal (protege el entreno).' },
+    { id: 'rendimiento', cond: 'El rendimiento en el gym cae dos sesiones seguidas', accion: 'Mira el sueño antes que la dieta.' }
+  ];
+  const FOTOS = ['2026-08-17', '2026-09-13', '2026-10-11', '2026-11-08'];
+
+  /* ---------- LOGROS ---------- */
+  // tipo: sesion | racha | peso | cintura | disco | pr | especial
+  const LOGROS = [
+    { id: 'primera',        icon: '⚡', nombre: 'Día uno',           desc: 'Primera sesión completada. Ya has hecho lo más difícil.' },
+    { id: 'sesiones-10',    icon: '🔟', nombre: 'Diez de diez',      desc: '10 sesiones de fuerza completadas.' },
+    { id: 'sesiones-25',    icon: '🎯', nombre: 'Veinticinco',       desc: '25 sesiones de fuerza. Esto ya es un hábito.' },
+    { id: 'sesiones-50',    icon: '🏛️', nombre: 'Cincuenta',         desc: '50 sesiones. Territorio de otra persona.' },
+    { id: 'semana-perfecta',icon: '💎', nombre: 'Semana perfecta',   desc: 'Todas las sesiones de fuerza de una semana.' },
+    { id: 'minimo-3',       icon: '🛡️', nombre: 'El suelo aguanta',  desc: '3 semanas seguidas cumpliendo al menos el mínimo (2 fuerzas + 1 cardio).' },
+    { id: 'racha-7',        icon: '🔥', nombre: 'Racha 7',           desc: '7 días seguidos cumpliendo el día.' },
+    { id: 'racha-14',       icon: '🔥', nombre: 'Racha 14',          desc: '14 días seguidos. El patrón on/off está muerto.' },
+    { id: 'racha-30',       icon: '🌋', nombre: 'Racha 30',          desc: '30 días seguidos. Imparable.' },
+    { id: 'pasos-7',        icon: '👟', nombre: 'Semana andada',     desc: '7 días seguidos llegando a los pasos.' },
+    { id: 'disco-10',       icon: 'disc10', nombre: 'Disco de 10',   desc: 'Fase 1 completada. El hábito ha vuelto.', disco: true },
+    { id: 'disco-15',       icon: 'disc15', nombre: 'Disco de 15',   desc: 'Fase 2 completada. Ya estás dentro del gym.', disco: true },
+    { id: 'disco-20',       icon: 'disc20', nombre: 'Disco de 20',   desc: 'Fase 3 completada. La carga real ya es tuya.', disco: true },
+    { id: 'disco-25',       icon: 'disc25', nombre: 'Disco de 25',   desc: 'Fase 4 completada. Colección completa.', disco: true },
+    { id: 'kg-2',           icon: '📉', nombre: '−2 kg',             desc: 'Media semanal 2 kg por debajo de la salida.' },
+    { id: 'kg-4',           icon: '📉', nombre: '−4 kg',             desc: '4 kg menos de media semanal.' },
+    { id: 'kg-6',           icon: '📉', nombre: '−6 kg',             desc: '6 kg menos. Mitad del camino largo.' },
+    { id: 'kg-8',           icon: '📉', nombre: '−8 kg',             desc: '8 kg menos de media semanal.' },
+    { id: 'kg-10',          icon: '🏔️', nombre: '−10 kg',            desc: 'Doble dígito. Pocas personas llegan aquí.' },
+    { id: 'cintura-95',     icon: '📏', nombre: 'Cintura −95',       desc: 'Cintura por debajo de 95 cm.' },
+    { id: 'cintura-93',     icon: '📏', nombre: 'Cintura −93',       desc: 'Cintura por debajo de 93 cm.' },
+    { id: 'cintura-91',     icon: '👑', nombre: 'Métrica reina',     desc: 'Cintura por debajo de 91 cm: menos de la mitad de tu estatura.' },
+    { id: 'pr-1',           icon: '🥇', nombre: 'Primer PR',         desc: 'Primera vez que superas tu mejor marca en un ejercicio.' },
+    { id: 'pr-5',           icon: '🥇', nombre: '5 PRs',             desc: 'Cinco marcas personales batidas.' },
+    { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',            desc: 'Quince PRs. La memoria muscular pagando dividendos.' },
+    { id: 'dominada-libre', icon: '🦍', nombre: 'Dominada libre',    desc: 'Primera dominada sin asistencia. Bienvenido de vuelta.' },
+    { id: 'mealprep-4',     icon: '🍱', nombre: 'Chef de domingo',   desc: '4 domingos seguidos de meal prep.' },
+    { id: 'comeback',       icon: '🔁', nombre: 'La vuelta',         desc: 'Volviste tras 4 o más días parado. Volver importa más que caer.' },
+    { id: 'fotos-4',        icon: '📸', nombre: 'La secuencia',      desc: 'Las 4 fotos de progreso hechas.' },
+    { id: 'checkpoint-s4',  icon: '✅', nombre: 'Checkpoint S4',     desc: 'Peso dentro o mejor del corredor en la semana 4.' },
+    { id: 'checkpoint-s8',  icon: '✅', nombre: 'Checkpoint S8',     desc: 'Peso dentro o mejor del corredor en la semana 8.' },
+    { id: 'plan-completo',  icon: '🏁', nombre: 'BACK2PRIME',        desc: 'Plan de 12 semanas terminado. 85 kg era la consecuencia, no la meta.' }
+  ];
+
+  /* ---------- LA CIENCIA DEL PLAN (revisión de evidencia · ago 2026) ---------- */
+  const CIENCIA = {
+    intro: 'El plan se revisó contra la evidencia actual (metaanálisis y ensayos 2010-2025) el 13 de agosto de 2026. La idea que lo ordena todo: eres un REGANADOR, no un novato — tu músculo y tu sistema nervioso vuelven rápido, pero el tendón no tiene memoria. El músculo puede correr; el tendón marca el ritmo.',
+    temas: [
+      { t: 'Memoria muscular', d: 'La reganancia es real y rápida: fuerza en ~8 semanas, tamaño en ~12. El mecanismo (mionúcleos vs epigenética) está en debate, pero el efecto no. Por eso la doble progresión puede ir más rápido que en un novato — y por eso mismo NO se comprime el calendario: el que no corre es el tendón.', ref: 'Rahmati 2022 (metaanálisis, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
+      { t: 'Tendón: el limitante', d: 'El colágeno tendinoso se renueva ~10× más lento que el músculo. Lo que sí lo adapta: cargas altas con contracciones LENTAS de ~3″ (HSR) e isométricos al 70% (5×45″), que además quitan dolor al momento. La pliometría es mal estímulo tendinoso: nada de saltos para "preparar" el trote.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
+      { t: 'Correr a 95 kg', d: 'Con sobrepeso, empezar con más de 3 km/sem de trote dispara las lesiones (~31-48% más). Subir la cadencia a 170-180 reduce el impacto tibial ~11%. La progresión segura no es la "regla del 10%": es no superar ~1,3× tu media de las últimas 4 semanas.', ref: 'Bertelsen 2018 (ECA en noveles con sobrepeso) · revisión de cadencia 2025 · consenso COI de carga' },
+      { t: 'Déficit óptimo', d: 'Un déficit mayor de ~500-600 kcal anula la ganancia de músculo aunque entrenes fuerza. El ritmo óptimo para retener magro es ~0,7% del peso/semana. Por eso el plan pierde a 0,6-0,75 kg/sem y no a 0,9.', ref: 'Murphy & Koehler 2022 (metaanálisis, 59 estudios) · Garthe 2011' },
+      { t: 'Proteína', d: 'En déficit, los entrenados necesitan 2,3-3,1 g/kg de masa magra. 190 g te sitúa cómodo en el rango, y repartirlo en 4 tomas de ≥40 g exprime la síntesis proteica y controla el hambre.', ref: 'Helms 2014 (revisión sistemática) · Schoenfeld & Aragon (reparto por toma)' },
+      { t: 'Diet break', d: 'Alternar déficit con descansos a mantenimiento atenuó la caída metabólica y mejoró la pérdida de grasa en el estudio MATADOR. En 12 semanas su valor principal para tu perfil on/off es otro: te enseña que parar UNA semana con plan no es recaer.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
+      { t: 'Volumen justo', d: 'Más series = más músculo pero con rendimientos decrecientes, y en déficit el exceso solo suma fatiga y riesgo. Diana: ~10 series/músculo/sem en F2 y 12-18 en F3-F4. Y el mínimo innegociable (2 fuerzas + 1 cardio) tiene respaldo: con eso se CONSERVA músculo de verdad.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (dosis mínima)' },
+      { t: 'Descarga bien hecha', d: 'Parar del todo una semana cuesta fuerza; lo que funciona es recortar el volumen a la mitad manteniendo el peso en la barra. Por eso la semana 9 es descarga OBLIGATORIA de ese tipo, y la 10 (salto a 5 días) entra con una serie menos en todo.', ref: 'Coleman 2024 (PeerJ, ECA de descarga)' },
+      { t: 'Sueño', d: 'Dormir 5,5 h en déficit (vs 8,5) redujo la grasa perdida un 55% y multiplicó la pérdida de músculo. Es, tras proteína y déficit, tu mayor palanca. De ahí el corte de cafeína a las 13-14 h: 200 mg alteran el sueño hasta 13 h después.', ref: 'Nedeltcheva 2010 (Ann Intern Med) · Gardiner 2023 (Sleep Med Rev)' },
+      { t: 'Salud primero', d: 'Tras 5 años sedentario con IMC 28, antes de pasar al trabajo vigoroso de F3-F4: tensión arterial y analítica básica (lípidos, glucosa/HbA1c). Con síntomas de cualquier tipo, médico antes de seguir.', ref: 'ACSM Preparticipation Health Screening' }
+    ]
+  };
+
+  const CIERRE = 'El objetivo real del plan no es el 8 de noviembre: es llegar a diciembre entrenando 4 días por costumbre, sin ciclo on/off. El peso es la consecuencia, no la meta.';
+
+  const AVISO_LEGAL = 'Plan elaborado el 13 ago 2026 (v2, revisado contra evidencia científica ese mismo día) con los datos: hombre, 30 años, 183 cm, 95,1 kg, muñeca 16,1 cm, punto de partida sedentario con historial de alto rendimiento. Estimaciones de kcal y macros con margen de ±10%: las reglas de ajuste corrigen ese margen con datos reales. No sustituye consejo médico; ante cualquier patología o dolor persistente, consulta con un profesional sanitario.';
+
+  return { META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MEALPREP_NOTA, MENU, CHECKPOINTS, AJUSTES, FOTOS, LOGROS, CIENCIA, CIERRE, AVISO_LEGAL };
+})();

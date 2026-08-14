@@ -143,6 +143,9 @@ section.block{margin:18px 0}
 }
 .chip .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
 .streak{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-weight:700;font-size:14px;color:var(--f2)}
+/* Racha rota: la mejor marca no se esfuma, pasa a un chip apagado. */
+.streak.best{color:var(--ink2)}
+.streak.best #streakIco{font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .icon-btn{
   display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;
   background:transparent;border:1px solid transparent;color:var(--ink2);cursor:pointer;
@@ -246,10 +249,13 @@ section.block{margin:18px 0}
 }
 .checkbtn svg{width:20px;height:20px}
 .checkbtn.on{background:var(--volt);border-color:var(--volt);color:var(--volt-ink)}
+/* Tocable: escribe el peso sugerido como valor real en el campo. */
 .sugg{
   display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--volt);
-  background:color-mix(in srgb,var(--volt) 12%,transparent);border-radius:6px;padding:1px 7px;
+  background:color-mix(in srgb,var(--volt) 12%,transparent);border:1px solid color-mix(in srgb,var(--volt) 26%,transparent);
+  border-radius:7px;padding:3px 9px;cursor:pointer;user-select:none;
 }
+.sugg:active{background:color-mix(in srgb,var(--volt) 22%,transparent)}
 
 /* hábitos */
 .habits{display:grid;grid-template-columns:1fr 1fr;gap:9px}
@@ -276,6 +282,16 @@ section.block{margin:18px 0}
 }
 .cerrar:disabled{background:var(--surface2);color:var(--ink3);box-shadow:none}
 .cerrar.hecho{background:var(--surface2);color:var(--f1);border:1px solid color-mix(in srgb,var(--f1) 40%,transparent)}
+/* Por debajo del umbral el botón deja de vestirse de triunfo: no miente. */
+.cerrar.flojo{background:var(--surface2);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.cierre-nota{text-align:center;font-size:12.5px;color:var(--ink2);margin:18px 0 0}
+.cierre-nota + .cerrar{margin-top:7px}
+.reabrir{
+  display:block;margin:2px auto 0;background:none;border:0;cursor:pointer;
+  color:var(--ink2);font-size:12.5px;padding:10px 14px;
+  text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line);
+}
+.reabrir:active{color:var(--ink)}
 .done-strip{display:flex;align-items:center;gap:8px;color:var(--f1);font-weight:600;font-size:13.5px}
 
 /* colapsables */

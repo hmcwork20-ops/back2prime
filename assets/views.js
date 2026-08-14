@@ -627,7 +627,7 @@
     root.append(vit);
 
     // stats
-    const mejor = mejorRacha();
+    const mejor = U.mejorRacha();
     root.append(el('div', { class: 'statrow' },
       st(TX.lFuerzas, String(U.totalFuerza())), st(TX.lPRs, String(S.prCount || 0)),
       st(TX.lPerdido, U.bajadaMax() > 0 ? '−' + U.kg1(U.bajadaMax()) : '—'),
@@ -649,12 +649,6 @@
     root.append(el('div', { class: 'banner ok', style: 'margin-top:16px' }, el('div', null, el('b', null, TX.recuerda), el('div', null, D.CIERRE))));
 
     function st(l, v) { return el('div', { class: 'stat' }, el('div', { class: 'sl' }, l), el('div', { class: 'sv num' }, v)); }
-    function mejorRacha() {
-      let best = 0, run = 0, f = U.addDays(D.META.inicioISO, -14);
-      const hoy = U.hoyISO();
-      while (f <= hoy) { if (U.cumplido(f)) { run++; best = Math.max(best, run); } else run = 0; f = U.addDays(f, 1); }
-      return best;
-    }
   }
 
   /* registro de vistas */

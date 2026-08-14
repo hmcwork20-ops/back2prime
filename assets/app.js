@@ -134,6 +134,14 @@
     while (cumplido(f)) { n++; f = addDays(f, -1); if (n > 400) break; }
     return n;
   }
+  // La racha se rompe de verdad, pero lo conseguido no se borra: esto es lo que
+  // sobrevive a un día fallado, y la cabecera y el cierre lo enseñan.
+  function mejorRacha() {
+    let best = 0, run = 0, f = addDays(INICIO, -14);
+    const hoy = hoyISO();
+    while (f <= hoy) { if (cumplido(f)) { run++; if (run > best) best = run; } else run = 0; f = addDays(f, 1); }
+    return best;
+  }
 
   /* ---------------- logros ---------------- */
   function totalFuerza() { return Object.keys(S.dias).filter(f => { const sl = slotDe(f); return sl && sl.ses && sl.ses.tipo === 'fuerza' && S.dias[f].sesionOk; }).length; }
@@ -538,14 +546,18 @@
           const esBW = !ultimoLog(b.e, '9999') && !lg.kg && (fase.id === 1 || ['plancha', 'plancha-lastre', 'dead-bug', 'superman', 'elev-piernas', 'rueda-abdominal', 'crunch-polea', 'fondos', 'dominadas'].includes(b.e) === false && fase.id === 1);
           const sug = sugerencia(b.e, d);
 
-          const kgIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: sug ? kg1(sug.kg) : 'kg',
-            'aria-label': 'kg',
+          // El placeholder NUNCA es la sugerencia: en gris se lee como valor ya
+          // puesto y la gente marca ✓ sin registrar nada. La sugerencia vive en
+          // su chip (tocable) y se compromete sola al marcar ✓.
+          const kgIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: 'kg',
+            'aria-label': e.nombre + ' · kg',
             value: lg.kg ? String(lg.kg).replace('.', ',') : '',
             onchange: ev => {
               const v = parseFloat(ev.target.value.replace(',', '.'));
               const L = logEj(d, b.e);
               if (v > 0) L.kg = v; else delete L.kg;
               save();
+              if (v > 0 && chipSug) chipSug.remove();
             } });
 
           const doseChip = el('span', { class: 'dose', title: TX.faltaTitle, onclick: ev => {
@@ -556,11 +568,32 @@
           } }, dosis + (lg.falta ? ' ✂' : ''));
           if (lg.falta) doseChip.style.color = 'var(--f2)';
 
-          const check = el('button', { class: 'checkbtn' + (lg.done ? ' on' : ''), 'aria-label': 'Hecho', onclick: ev => {
+          // Chip de sugerencia: tocarlo escribe el peso como valor real.
+          const chipSug = (sug && !lg.kg) ? el('span', { class: 'sugg', role: 'button', tabindex: '0',
+            title: TX.usarPeso, 'aria-label': TX.usarPeso + ': ' + kg1(sug.kg) + ' kg',
+            onclick: ev => { ev.stopPropagation(); aceptaSug(); },
+            onkeydown: ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); ev.stopPropagation(); aceptaSug(); } }
+          }, sug.txt) : null;
+
+          function aceptaSug() {
+            if (!sug) return;
+            const L = logEj(d, b.e); L.kg = sug.kg; save();
+            kgIn.value = kg1(sug.kg);
+            if (chipSug) chipSug.remove();
+          }
+
+          const check = el('button', { class: 'checkbtn' + (lg.done ? ' on' : ''), 'aria-pressed': lg.done ? 'true' : 'false',
+            'aria-label': TX.marcarHecho + ': ' + e.nombre, onclick: ev => {
             const L = logEj(d, b.e); L.done = !L.done; save();
             ev.currentTarget.classList.toggle('on', L.done);
-            const inVal = parseFloat(kgIn.value.replace(',', '.'));
-            if (L.done && !L.kg && inVal > 0) { L.kg = inVal; save(); }
+            ev.currentTarget.setAttribute('aria-pressed', L.done ? 'true' : 'false');
+            const inVal = parseFloat((kgIn.value || '').replace(',', '.'));
+            // Marcar hecho SIN peso congelaba la progresión para siempre: si hay
+            // valor tecleado se guarda, y si no lo hay se acepta la sugerencia.
+            if (L.done && !L.kg) {
+              if (inVal > 0) { L.kg = inVal; save(); if (chipSug) chipSug.remove(); }
+              else if (sug) aceptaSug();
+            }
             actualizaCerrar();
           }, html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' });
 
@@ -570,7 +603,7 @@
               el('div', { class: 'exmeta' },
                 doseChip,
                 el('span', { class: 'rest', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString(TX.lang || 'es') + '′' : b.d + '″')),
-                sug && !lg.kg ? el('span', { class: 'sugg' }, sug.txt) : null),
+                chipSug),
               b.n ? el('div', { class: 'exnote' }, b.n) : null),
             el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),
             check);
@@ -660,11 +693,20 @@
       if (D.FOTOS.includes(d)) hb.append(mkHabit('foto', '📸', TX.hFoto, TX.hFotoSub, true));
       root.append(hb);
 
-      /* cerrar el día */
+      /* cerrar el día — la regla del 60% se enseña ANTES del toque, la etiqueta
+         no miente cuando no hubo sesión, y el cierre se puede deshacer.      */
+      const esFuerza = !!(sl.ses && sl.ses.tipo === 'fuerza');
+      const totalEj = esFuerza ? sl.ses.bloques.length : 0;
+      const minEj = esFuerza ? Math.ceil(totalEj * 0.6) : 0;
+      const hechosAhora = () => esFuerza ? sl.ses.bloques.filter(b => dd.ej && dd.ej[b.e] && dd.ej[b.e].done).length : 0;
+      const cuentaAhora = () => !esFuerza || hechosAhora() >= minEj;
+
+      const nota = esFuerza && !dd.cerrado ? el('div', { class: 'cierre-nota' }) : null;
+      if (nota) root.append(nota);
+
       const btn = el('button', { class: 'cerrar' + (dd.cerrado ? ' hecho' : ''), id: 'btnCerrar', onclick: () => {
-        if (sl.ses && sl.ses.tipo === 'fuerza') {
-          const hechos = sl.ses.bloques.filter(b => dd.ej && dd.ej[b.e] && dd.ej[b.e].done).length;
-          dd.sesionOk = hechos >= Math.ceil(sl.ses.bloques.length * 0.6);
+        if (esFuerza) {
+          dd.sesionOk = cuentaAhora();
           if (dd.sesionOk) dd.sesionTipo = 'fuerza';
         }
         // PRs del día
@@ -675,18 +717,49 @@
             if (!pr || L.kg > pr.kg) { S.prs[ejId] = { kg: L.kg, fecha: d }; if (pr) { S.prCount++; toast(tpl(TX.prToast, { e: (D.EJERCICIOS[ejId] || {}).nombre, v: kg1(L.kg) })); } }
           }
         });
-        // comeback: hueco de ≥4 días antes de hoy
+        // comeback: hueco de ≥3 días. El plan solo deja libre el domingo, así que
+        // 3 días ya es un parón real — a 4 el logro llegaba cuando ya se había ido.
         const previos = Object.keys(S.dias).filter(f => f < d && (S.dias[f].cerrado || S.dias[f].sesionOk)).sort();
-        if (previos.length) { const ult = previos[previos.length - 1]; if ((fromISO(d) - fromISO(ult)) / 864e5 >= 4) S.flags.comeback = true; }
+        if (previos.length) { const ult = previos[previos.length - 1]; if ((fromISO(d) - fromISO(ult)) / 864e5 >= 3) S.flags.comeback = true; }
+        const huboSesion = cuentaAhora();
         dd.cerrado = true; save();
         const nuevos = evaluaLogros();
         render();
-        if (!nuevos.length) toast(cumplido(d) ? tpl(TX.diaCerradoToast, { n: racha(d) }) : TX.diaCerradoSolo);
-      } }, dd.cerrado ? tpl(TX.diaCerradoBtn, { n: racha(d) }) : TX.cerrarDia);
+        if (!nuevos.length) {
+          if (esFuerza && !huboSesion) toast(TX.sinSesionToast);
+          else if (cumplido(d)) toast(tpl(TX.diaCerradoToast, { n: racha(d) }));
+          else toast(TX.diaCerradoSolo);
+        }
+      } }, dd.cerrado
+        ? (racha(d) >= 1 ? tpl(TX.diaCerradoBtn, { n: racha(d) }) : TX.diaCerradoSinRacha)
+        : TX.cerrarDia);
       root.append(btn);
-      function actualizaCerrar() { /* el botón siempre está activo; hook para futuro */ }
 
-      if (dd.cerrado) root.append(el('div', { class: 'mini', style: 'text-align:center;margin-top:4px' }, TX.sigueEditando));
+      // El hook que estaba vacío: mantiene nota y etiqueta al día sin re-render
+      // (re-renderizar en cada ✓ mandaba la página al principio).
+      function actualizaCerrar() {
+        if (nota) nota.textContent = tpl(TX.hechosDe, { a: hechosAhora(), b: totalEj, c: minEj });
+        if (!dd.cerrado && esFuerza) {
+          const ok = cuentaAhora();
+          btn.textContent = ok ? TX.cerrarDia : TX.cerrarSinSesion;
+          btn.classList.toggle('flojo', !ok);
+        }
+      }
+      actualizaCerrar();
+
+      if (dd.cerrado) {
+        const rk = racha(d), mej = mejorRacha();
+        const notas = [];
+        // Estricto pero digno: la racha se rompe de verdad, pero nunca se pinta
+        // «racha 0» junto a un ✓, y lo conseguido no desaparece.
+        if (rk < 1) { notas.push(TX.sinRachaHoy); if (mej >= 2) notas.push(tpl(TX.mejorRachaNota, { n: mej })); }
+        notas.push(TX.sigueEditando);
+        root.append(el('div', { class: 'mini', style: 'text-align:center;margin-top:6px' }, notas.join(' ')));
+        root.append(el('button', { class: 'reabrir', onclick: () => {
+          delete dd.cerrado; delete dd.sesionOk; delete dd.sesionTipo; save();
+          render(); toast(TX.diaReabierto);
+        } }, TX.reabrirDia));
+      }
     }
   }
 
@@ -815,8 +888,12 @@
       chip.hidden = false;
       $('#chipDot').style.background = 'var(--f' + f.id + ')';
       $('#chipTxt').textContent = 'S' + w + ' · F' + f.id;
-      const rk = racha(hoyISO());
-      st.hidden = rk < 2; $('#streakN').textContent = rk;
+      // Racha activa en llama; si se rompió, la mejor no desaparece — pasa a un
+      // chip apagado. Que 11 días se esfumen sin decir nada era el castigo real.
+      const rk = racha(hoyISO()), mej = mejorRacha();
+      if (rk >= 2) { st.hidden = false; st.classList.remove('best'); $('#streakIco').textContent = '🔥'; $('#streakN').textContent = rk; }
+      else if (mej >= 3) { st.hidden = false; st.classList.add('best'); $('#streakIco').textContent = TX.mejorLbl; $('#streakN').textContent = mej; }
+      else st.hidden = true;
     } else { chip.hidden = true; st.hidden = true; }
 
     if (r === 'hoy') renderHoy(root);
@@ -901,7 +978,7 @@
   window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl,
     hoyISO, semanaDe, slotDe, fechasSemana, dia, save, get S() { return S; },
     mediaSemana, mediasSemanales, pesosSemana, sesionesFuerzaSemana, cardioHechoSemana,
-    racha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,
+    racha, mejorRacha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,
     historial, cinturaMin, bajadaMax, evaluaLogros, timerStart };
 
   /* ---------------- relevo de día ----------------

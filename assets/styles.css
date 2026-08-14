@@ -510,6 +510,17 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
 #confetti{position:fixed;inset:0;z-index:96;pointer-events:none}
 
+/* ---------- Selector de idioma ---------- */
+.langrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:4px 0 8px}
+.langbtn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:9px 2px 7px;cursor:pointer;color:var(--ink2);min-width:0;
+}
+.langbtn .lf{font-size:21px;line-height:1}
+.langbtn .ln{font-family:var(--disp);font-size:10px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.langbtn.on{border-color:var(--volt);color:var(--volt);background:color-mix(in srgb,var(--volt) 9%,var(--surface2))}
+
 /* ---------- Onboarding / ajustes ---------- */
 .field{margin:12px 0}
 .field label{display:block;font-family:var(--disp);text-transform:uppercase;letter-spacing:.06em;font-size:13px;color:var(--ink2);margin-bottom:5px}

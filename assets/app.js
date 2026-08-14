@@ -29,12 +29,13 @@
   const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   const fromISO = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
   const addDays = (s, n) => { const d = fromISO(s); d.setDate(d.getDate() + n); return iso(d); };
-  const DIAS_L = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
-  const MES_L = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const TX = D.UI;                                   // textos de interfaz (idioma cargado)
+  const tpl = (s, o) => s.replace(/\{(\w+)\}/g, (m, k) => o[k] !== undefined ? o[k] : m);
+  const DIAS_L = TX.dias, MES_L = TX.meses;
   const dowMon = s => (fromISO(s).getDay() + 6) % 7; // 0=lunes
   const fmtFecha = s => { const d = fromISO(s); return DIAS_L[dowMon(s)] + ' ' + d.getDate() + ' ' + MES_L[d.getMonth()]; };
   const fmtCorta = s => { const d = fromISO(s); return d.getDate() + ' ' + MES_L[d.getMonth()]; };
-  const kg1 = v => (Math.round(v * 10) / 10).toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const kg1 = v => (Math.round(v * 10) / 10).toLocaleString(D.UI.lang || 'es', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
   // hoy real (override para pruebas: ?d=2026-08-20)
   const qd = new URLSearchParams(location.search).get('d');
@@ -88,11 +89,11 @@
   function sugerencia(ejId, d) {
     const u = ultimoLog(ejId, d);
     if (!u || !u.kg) {
-      return ARR0[ejId] ? { kg: ARR0[ejId], txt: 'empieza en ' + kg1(ARR0[ejId]), inicio: true } : null;
+      return ARR0[ejId] ? { kg: ARR0[ejId], txt: tpl(TX.sugEmpieza, { v: kg1(ARR0[ejId]) }), inicio: true } : null;
     }
-    if (u.falta) return { kg: u.kg, txt: 'repite ' + kg1(u.kg), rep: true };
+    if (u.falta) return { kg: u.kg, txt: tpl(TX.sugRepite, { v: kg1(u.kg) }), rep: true };
     const inc = GRANDES[ejId] || 2.5;
-    return { kg: u.kg + inc, txt: kg1(u.kg) + ' → ' + kg1(u.kg + inc), rep: false };
+    return { kg: u.kg + inc, txt: '▲ ' + kg1(u.kg) + ' → ' + kg1(u.kg + inc), rep: false };
   }
 
   /* ---------------- pesajes ---------------- */
@@ -264,7 +265,7 @@
     const left = Math.ceil((tEnd - Date.now()) / 1000);
     const t = $('#timer');
     if (left <= 0) {
-      $('#timerT').textContent = '¡YA!'; t.classList.add('fin');
+      $('#timerT').textContent = TX.ya; t.classList.add('fin');
       clearInterval(tInt); beep(); if (navigator.vibrate) navigator.vibrate([180, 90, 180]);
       setTimeout(() => t.classList.remove('on'), 4200);
       return;
@@ -366,25 +367,25 @@
         const pr = S.prs[ejId];
         const falta = pr ? hist.kg - pr.kg : hist.kg;
         sh.append(el('div', { class: 'alt', style: 'border-left:3px solid var(--volt);margin-top:10px' },
-          el('b', null, '🔓 Tu marca de entonces: ' + hist.txt),
+          el('b', null, tpl(TX.fMarca, { t: hist.txt })),
           el('div', { class: 'mini', style: 'margin-top:2px' },
-            falta > 0 ? 'Te faltan ' + kg1(falta) + ' kg para recuperarla. Hay logro esperándote.' : 'Recuperada. Ese peso vuelve a ser tuyo.')));
+            falta > 0 ? tpl(TX.fFaltan, { v: kg1(falta) }) : TX.fRecuperada)));
       }
       const h = historial(ejId, 5);
       if (h.length) {
         const pr = S.prs[ejId];
-        sh.append(el('h4', null, 'Tu historial' + (pr ? ' · mejor ' + kg1(pr.kg) + ' kg' : '')));
-        sh.append(el('div', { class: 'mini', html: h.map(x => fmtCorta(x.fecha) + ': <b class="num">' + kg1(x.kg) + '</b> kg' + (x.falta ? ' (reps a medias)' : '')).join(' · ') }));
+        sh.append(el('h4', null, TX.fHistorial + (pr ? ' · ' + tpl(TX.fMejor, { v: kg1(pr.kg) }) : '')));
+        sh.append(el('div', { class: 'mini', html: h.map(x => fmtCorta(x.fecha) + ': <b class="num">' + kg1(x.kg) + '</b> kg' + (x.falta ? ' (' + TX.repsAMediasTag + ')' : '')).join(' · ') }));
       } else if (ARR0[ejId]) {
-        sh.append(el('h4', null, 'Arranque sugerido'));
-        sh.append(el('div', { class: 'mini' }, kg1(ARR0[ejId]) + ' kg en la semana 3. ' + (D.ARRANQUE.tabla.find(r => r.ej === ejId) || {}).n));
+        sh.append(el('h4', null, TX.fArranque));
+        sh.append(el('div', { class: 'mini' }, tpl(TX.fArranqueTxt, { v: kg1(ARR0[ejId]) }) + ' ' + ((D.ARRANQUE.tabla.find(r => r.ej === ejId) || {}).n || '')));
       }
-      sh.append(el('h4', null, 'Cómo se hace'));
+      sh.append(el('h4', null, TX.fComo));
       sh.append(el('ul', null, e.cues.map(c => el('li', null, c))));
-      sh.append(el('h4', null, 'Errores que te robarán progreso'));
+      sh.append(el('h4', null, TX.fErrores));
       sh.append(el('ul', null, e.err.map(c => el('li', null, c))));
       if (e.alt && e.alt.length) {
-        sh.append(el('h4', null, 'Alternativas equivalentes'));
+        sh.append(el('h4', null, TX.fAlt));
         e.alt.forEach(a => sh.append(el('div', { class: 'alt' }, el('b', null, a.n), ' — ' + a.por)));
       }
       if (e.mol) sh.append(el('div', { class: 'mol' }, '⚠ ' + e.mol));
@@ -392,10 +393,10 @@
         const on = !!S.flags.dominadaLibre;
         sh.append(el('button', {
           class: on ? 'btn-ghost' : 'btn-b2p', style: 'width:100%;margin-top:14px',
-          onclick: ev => { S.flags.dominadaLibre = true; save(); ev.target.textContent = '🦍 Registrada'; evaluaLogros(); }
-        }, on ? '🦍 Dominada libre ya registrada' : '🦍 ¡Hoy salió mi primera dominada SIN asistencia!'));
+          onclick: ev => { S.flags.dominadaLibre = true; save(); ev.target.textContent = TX.fDomiOk; evaluaLogros(); }
+        }, on ? TX.fDomiYa : TX.fDomiBtn));
       }
-      sh.append(el('a', { href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent('técnica ' + e.nombre), target: '_blank', rel: 'noopener', class: 'mini', style: 'display:inline-block;margin-top:14px' }, '▶ Ver técnica en vídeo'));
+      sh.append(el('a', { href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(e.nombre + ' ' + (TX.lang === 'es' ? 'técnica' : 'technique')), target: '_blank', rel: 'noopener', class: 'mini', style: 'display:inline-block;margin-top:14px' }, TX.fVideo));
     });
   }
 
@@ -412,16 +413,16 @@
 
     const card = el('div', { class: 'card' });
     card.append(el('div', { class: 'card-title' }, el('div', null,
-      el('h2', null, 'La comida de hoy'),
-      el('div', { class: 'sub' }, fn.kcal.toLocaleString('es-ES') + ' kcal · ' + fn.p + ' g de proteína en 4 tomas'))));
+      el('h2', null, TX.comidaHoy),
+      el('div', { class: 'sub' }, tpl(TX.comidaHoySub, { kcal: fn.kcal.toLocaleString(TX.lang || 'es'), p: fn.p })))));
 
     const fila = (icono, etiqueta, recetaId) => {
       if (recetaId === 'LIBRE') {
         return el('div', { class: 'meal-row libre', onclick: () => openSheet(sh => {
-          sh.append(el('h2', null, 'Comida libre'), el('div', { class: 'stag' }, 'una comida, no un día'),
+          sh.append(el('h2', null, TX.comidaLibreTitulo), el('div', { class: 'stag' }, TX.comidaLibreTag),
             el('p', { style: 'font-size:14px' }, D.NUTRI.comidaLibre));
         }) }, el('span', { class: 'mi' }, icono), el('span', { class: 'ml' }, etiqueta),
-          el('span', { class: 'mn' }, 'COMIDA LIBRE'), el('span', { class: 'mk' }, 'tuya'));
+          el('span', { class: 'mn' }, TX.comidaLibreMn), el('span', { class: 'mk' }, TX.tuya));
       }
       const r = rec(recetaId);
       if (!r) return null;
@@ -430,17 +431,17 @@
         el('span', { class: 'mn' }, r.nombre), el('span', { class: 'mk' }, r.macros.kcal + ' kcal'));
     };
     card.append(
-      fila('🥣', 'Desayuno', menu.de),
-      fila('🍗', 'Comida', menu.co),
-      fila('🐟', 'Cena', menu.ce),
-      fila('🌙', 'Pre-sueño', 'toma-noche')
+      fila('🥣', TX.desayuno, menu.de),
+      fila('🍗', TX.comidaLbl, menu.co),
+      fila('🐟', TX.cena, menu.ce),
+      fila('🌙', TX.presueno, 'toma-noche')
     );
 
-    if (w === 7) card.append(el('div', { class: 'banner', style: 'margin:10px 0 2px' }, el('div', null, el('b', null, 'Diet break'), ' +2 raciones de carbohidrato hoy. Proteína igual.')));
+    if (w === 7) card.append(el('div', { class: 'banner', style: 'margin:10px 0 2px' }, el('div', null, TX.dietBreakChip)));
     else if (enPlan && (fase === 4 || (fase === 3 && sl && sl.ses && sl.ses.tipo === 'fuerza')))
-      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, '➕ Extra F' + fase + ': una pieza de fruta + 40 g de pan en la comida.'));
+      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, tpl(TX.extraChip, { f: fase })));
     else if (!enPlan && w === 0)
-      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, 'Puedes practicar el menú desde ya: el lunes 17 va en serio.'));
+      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, TX.practicaMenu));
     return card;
   }
 
@@ -454,9 +455,9 @@
     /* — cabecera de día con navegación — */
     const nav = el('div', { class: 'hero' },
       el('div', { style: 'display:flex;align-items:center;gap:8px' },
-        el('button', { class: 'icon-btn', 'aria-label': 'Día anterior', onclick: () => { selDia = addDays(selDia, -1); render(); } }, '‹'),
-        el('div', { class: 'fecha', style: 'flex:1;text-align:center' }, fmtFecha(d) + (d === hoy ? ' · HOY' : '')),
-        el('button', { class: 'icon-btn', 'aria-label': 'Día siguiente', style: d >= hoy ? 'visibility:hidden' : '', onclick: () => { selDia = addDays(selDia, 1); render(); } }, '›')
+        el('button', { class: 'icon-btn', 'aria-label': '<', onclick: () => { selDia = addDays(selDia, -1); render(); } }, '‹'),
+        el('div', { class: 'fecha', style: 'flex:1;text-align:center' }, fmtFecha(d) + (d === hoy ? ' · ' + TX.hoyTag : '')),
+        el('button', { class: 'icon-btn', 'aria-label': '>', style: d >= hoy ? 'visibility:hidden' : '', onclick: () => { selDia = addDays(selDia, 1); render(); } }, '›')
       )
     );
     root.append(nav);
@@ -464,13 +465,13 @@
     /* — antes del plan — */
     if (w === 0) {
       const falta = Math.ceil((fromISO(INICIO) - fromISO(hoy)) / 864e5);
-      root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, falta > 0 ? 'Empieza en ' + falta + (falta === 1 ? ' día' : ' días') : 'Empieza el lunes'),
-        el('p', { class: 'mut', style: 'padding:0 2px' }, 'Lunes 17 de agosto · Fase 1 en casa. Mientras tanto, deja lista la línea base:'));
+      root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, falta > 1 ? tpl(TX.empiezaEnDias, { n: falta }) : falta === 1 ? TX.empiezaEn1 : TX.empiezaLunes),
+        el('p', { class: 'mut', style: 'padding:0 2px' }, TX.preplanSub));
       const prep = [
-        ['cintura', 'Mídete la cintura en ayunas (a la altura del ombligo)'],
-        ['foto', 'Hazte las fotos día-0: frente y perfil, misma luz que usarás siempre'],
-        ['compra', 'Compra de la semana 1 (lista en Comida)'],
-        ['bascula', 'Decide dónde y cuándo te pesas: lunes-miércoles-viernes en ayunas']
+        ['cintura', TX.prepCintura],
+        ['foto', TX.prepFotos],
+        ['compra', TX.prepCompra],
+        ['bascula', TX.prepBascula]
       ];
       const c = el('div', { class: 'card' });
       prep.forEach(([k, txt]) => {
@@ -497,16 +498,16 @@
     if (w === 99) {
       root.append(el('div', { class: 'card', style: 'text-align:center;padding:26px 18px' },
         el('div', { style: 'font-size:44px' }, '🏁'),
-        el('h2', null, 'Plan completado'),
+        el('h2', null, TX.planCompletado),
         el('p', { class: 'mut' }, D.CIERRE)));
     }
 
     /* — semana del plan — */
     if (w >= 1 && w <= 12 && sl) {
       const fase = sl.fase;
-      root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, sl.ses ? sl.ses.nombre : 'Descanso'),
+      root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, sl.ses ? sl.ses.nombre : TX.descanso),
         el('div', { class: 'sub', style: 'padding:0 2px;color:var(--ink2)' },
-          'Semana ' + w + ' de 12 · Fase ' + fase.id + ' · ' + fase.nombre + ' · RPE tope ' + fase.rpe));
+          tpl(TX.semanaLinea, { w, f: fase.id, n: fase.nombre, r: fase.rpe })));
 
       // banner de semana especial
       const hito = D.HITOS_SEMANA[w];
@@ -518,11 +519,11 @@
         const card = el('div', { class: 'card fase-card p' + fase.id });
         card.append(el('div', { class: 'card-title' },
           el('span', { class: 'disco d' + fase.id }, String(fase.disco)),
-          el('div', null, el('h2', null, sl.ses.nombre), el('div', { class: 'sub' }, sl.ses.dur + ' · descansos en cada fila (toca para cronometrar)'))));
+          el('div', null, el('h2', null, sl.ses.nombre), el('div', { class: 'sub' }, tpl(TX.sesionSub, { d: sl.ses.dur })))));
 
         // calentamiento
         const cal = el('details', { class: 'fold' },
-          el('summary', null, '🔥 Calentamiento · 6′'),
+          el('summary', null, TX.calentamiento),
           el('div', { class: 'fold-in' },
             el('ul', { style: 'margin:4px 0;padding-left:18px' }, D.CALENTAMIENTO.pasos.map(p => el('li', null, p))),
             w >= 3 ? el('div', { class: 'mini' }, D.CALENTAMIENTO.gym) : null));
@@ -538,6 +539,7 @@
           const sug = sugerencia(b.e, d);
 
           const kgIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: sug ? kg1(sug.kg) : 'kg',
+            'aria-label': 'kg',
             value: lg.kg ? String(lg.kg).replace('.', ',') : '',
             onchange: ev => {
               const v = parseFloat(ev.target.value.replace(',', '.'));
@@ -546,11 +548,11 @@
               save();
             } });
 
-          const doseChip = el('span', { class: 'dose', title: 'Toca si NO completaste todas las reps', onclick: ev => {
+          const doseChip = el('span', { class: 'dose', title: TX.faltaTitle, onclick: ev => {
             const L = logEj(d, b.e); L.falta = !L.falta; save();
             ev.target.style.color = L.falta ? 'var(--f2)' : '';
             ev.target.textContent = dosis + (L.falta ? ' ✂' : '');
-            toast(L.falta ? 'Marcado: faltaron reps (repetirás peso)' : 'Todas las reps limpias');
+            toast(L.falta ? TX.repsAMediasToast : TX.repsLimpiasToast);
           } }, dosis + (lg.falta ? ' ✂' : ''));
           if (lg.falta) doseChip.style.color = 'var(--f2)';
 
@@ -567,8 +569,8 @@
               el('div', { class: 'exname' }, e.nombre, el('span', { class: 'info', html: ' ⓘ' })),
               el('div', { class: 'exmeta' },
                 doseChip,
-                el('span', { class: 'rest', onclick: ev => { ev.stopPropagation(); timerStart(b.d); }, title: 'Cronometrar descanso' }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString('es-ES') + '′' : b.d + '″')),
-                sug && !lg.kg ? el('span', { class: 'sugg' }, (sug.inicio ? '◆ ' : sug.rep ? '↻ ' : '▲ ') + sug.txt) : null),
+                el('span', { class: 'rest', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString(TX.lang || 'es') + '′' : b.d + '″')),
+                sug && !lg.kg ? el('span', { class: 'sugg' }, sug.txt) : null),
               b.n ? el('div', { class: 'exnote' }, b.n) : null),
             el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),
             check);
@@ -583,7 +585,7 @@
           const on = !!dd.tendon;
           card.append(el('div', { class: 'habit wide' + (on ? ' on' : ''), style: 'margin-top:10px', onclick: ev => { dd.tendon = !dd.tendon; save(); ev.currentTarget.classList.toggle('on', !!dd.tendon); } },
             el('div', { class: 'hicon' }, '🛡'),
-            el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, 'Protocolo tendón · ' + tb.map(x => x.nombre.split(' ·')[0]).join(' + ')),
+            el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, TX.tendonNombre + ' · ' + tb.map(x => x.nombre.split(' ·')[0]).join(' + ')),
               el('div', { class: 'hs' }, tb.map(x => x.detalle.split('.')[0]).join(' · ')))));
         }
         root.append(card);
@@ -594,26 +596,26 @@
         const card = el('div', { class: 'card fase-card p' + fase.id });
         card.append(el('div', { class: 'card-title' },
           el('span', { class: 'disco d' + fase.id }, String(fase.disco)),
-          el('div', null, el('h2', null, sl.ses.nombre + (sl.opt ? ' · opcional' : '')),
-            el('div', { class: 'sub' }, sl.ses.icono === 'run' ? 'Cadencia 170-180 · zancada corta' : 'Recuperación activa'))));
+          el('div', null, el('h2', null, sl.ses.nombre + (sl.opt ? ' · ' + TX.opcional : '')),
+            el('div', { class: 'sub' }, sl.ses.icono === 'run' ? TX.cadenciaSub : TX.recuperacionSub))));
         card.append(el('p', { style: 'font-size:13.5px' }, sl.ses.detalle));
-        if (sl.ses.icono === 'run') card.append(el('div', { class: 'mini', style: 'margin-top:4px' }, '🛡 Antes: tibialis raises 2×20 (protocolo tendón).'));
+        if (sl.ses.icono === 'run') card.append(el('div', { class: 'mini', style: 'margin-top:4px' }, TX.tibialisAviso));
         const on = !!dd.sesionOk;
         card.append(el('button', { class: 'cerrar' + (on ? ' hecho' : ''), style: 'margin:12px 0 4px', onclick: ev => {
           dd.sesionOk = !dd.sesionOk; if (dd.sesionOk) dd.sesionTipo = 'cardio'; save();
           ev.currentTarget.classList.toggle('hecho', !!dd.sesionOk);
-          ev.currentTarget.textContent = dd.sesionOk ? '✓ Cardio hecho' : 'Marcar cardio hecho';
+          ev.currentTarget.textContent = dd.sesionOk ? TX.cardioHecho : TX.cardioMarcar;
           evaluaLogros();
-        } }, on ? '✓ Cardio hecho' : 'Marcar cardio hecho'));
+        } }, on ? TX.cardioHecho : TX.cardioMarcar));
         const minIn = el('input', { type: 'text', inputmode: 'numeric', placeholder: 'min', value: dd.cardioMin || '', style: 'width:70px;text-align:center;font-family:var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:7px', onchange: ev => { const v = parseInt(ev.target.value); if (v > 0) dd.cardioMin = v; else delete dd.cardioMin; save(); } });
-        card.append(el('div', { style: 'display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)' }, 'Minutos reales:', minIn));
+        card.append(el('div', { style: 'display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)' }, TX.minutosReales, minIn));
         root.append(card);
       }
 
       /* día libre */
       if (sl.ses && sl.ses.tipo === 'libre') {
         root.append(el('div', { class: 'card' },
-          el('div', { class: 'card-title' }, el('div', null, el('h2', null, dowMon(d) === 6 ? 'Domingo: descanso + meal prep' : 'Descanso'),
+          el('div', { class: 'card-title' }, el('div', null, el('h2', null, dowMon(d) === 6 ? TX.domingoPrep : TX.descanso),
             el('div', { class: 'sub' }, sl.ses.detalle)))));
       }
 
@@ -621,7 +623,7 @@
       const cc = cardComida(d); if (cc) root.append(cc);
 
       /* hábitos del día */
-      root.append(el('div', { class: 'sec-h' }, el('h2', null, 'El día a día')));
+      root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.diaADia)));
       const hb = el('div', { class: 'habits' });
       const mkHabit = (key, icon, titulo, sub, wide) => {
         const on = !!dd[key];
@@ -630,32 +632,32 @@
           el('div', { class: 'hicon' }, icon),
           el('div', null, el('div', { class: 'ht' }, titulo), sub ? el('div', { class: 'hs' }, sub) : null));
       };
-      hb.append(mkHabit('pasos', '👟', '8-10k pasos', 'Todos los días'));
-      hb.append(mkHabit('prote', '🥩', 'Proteína 4/4', '4 tomas ≥40 g'));
+      hb.append(mkHabit('pasos', '👟', TX.hPasos, TX.hPasosSub));
+      hb.append(mkHabit('prote', '🥩', TX.hProte, TX.hProteSub));
 
       const dow = dowMon(d);
       if ([0, 2, 4].includes(dow)) {
         const pIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', value: dd.peso ? String(dd.peso).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
           const v = parseFloat(ev.target.value.replace(',', '.'));
-          if (v > 30 && v < 200) { dd.peso = v; save(); toast('Peso guardado: ' + kg1(v) + ' kg'); evaluaLogros(); } else { delete dd.peso; save(); }
+          if (v > 30 && v < 200) { dd.peso = v; save(); toast(tpl(TX.pesoGuardado, { v: kg1(v) })); ev.target.closest('.habit').classList.add('on'); evaluaLogros(); } else { delete dd.peso; save(); }
         } });
         hb.append(el('div', { class: 'habit wide' + (dd.peso ? ' on' : '') },
           el('div', { class: 'hicon' }, '⚖️'),
-          el('div', null, el('div', { class: 'ht' }, 'Peso en ayunas'), el('div', { class: 'hs' }, 'Media semanal, no el día suelto')),
+          el('div', null, el('div', { class: 'ht' }, TX.hPeso), el('div', { class: 'hs' }, TX.hPesoSub)),
           pIn, el('span', { class: 'u mini' }, 'kg')));
       }
       if (dow === 0) {
         const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
           const v = parseFloat(ev.target.value.replace(',', '.'));
-          if (v > 50 && v < 200) { dd.cintura = v; save(); toast('Cintura: ' + kg1(v) + ' cm'); evaluaLogros(); } else { delete dd.cintura; save(); }
+          if (v > 50 && v < 200) { dd.cintura = v; save(); toast(tpl(TX.cinturaGuardada, { v: kg1(v) })); ev.target.closest('.habit').classList.add('on'); evaluaLogros(); } else { delete dd.cintura; save(); }
         } });
         hb.append(el('div', { class: 'habit wide' + (dd.cintura ? ' on' : '') },
           el('div', { class: 'hicon' }, '📏'),
-          el('div', null, el('div', { class: 'ht' }, 'Cintura (lunes)'), el('div', { class: 'hs' }, 'La métrica reina · al ombligo, sin apretar')),
+          el('div', null, el('div', { class: 'ht' }, TX.hCintura), el('div', { class: 'hs' }, TX.hCinturaSub)),
           cIn, el('span', { class: 'u mini' }, 'cm')));
       }
-      if (dow === 6) hb.append(mkHabit('prep', '🍱', 'Meal prep', '~90′ y semana resuelta', true));
-      if (D.FOTOS.includes(d)) hb.append(mkHabit('foto', '📸', 'Fotos de progreso', 'Frente y perfil, misma luz', true));
+      if (dow === 6) hb.append(mkHabit('prep', '🍱', TX.hPrep, TX.hPrepSub, true));
+      if (D.FOTOS.includes(d)) hb.append(mkHabit('foto', '📸', TX.hFoto, TX.hFotoSub, true));
       root.append(hb);
 
       /* cerrar el día */
@@ -670,7 +672,7 @@
           const L = dd.ej[ejId];
           if (L.kg && L.done && !L.falta) {
             const pr = S.prs[ejId];
-            if (!pr || L.kg > pr.kg) { S.prs[ejId] = { kg: L.kg, fecha: d }; if (pr) { S.prCount++; toast('🥇 PR en ' + (D.EJERCICIOS[ejId] || {}).nombre + ': ' + kg1(L.kg) + ' kg'); } }
+            if (!pr || L.kg > pr.kg) { S.prs[ejId] = { kg: L.kg, fecha: d }; if (pr) { S.prCount++; toast(tpl(TX.prToast, { e: (D.EJERCICIOS[ejId] || {}).nombre, v: kg1(L.kg) })); } }
           }
         });
         // comeback: hueco de ≥4 días antes de hoy
@@ -679,35 +681,51 @@
         dd.cerrado = true; save();
         const nuevos = evaluaLogros();
         render();
-        if (!nuevos.length) toast(cumplido(d) ? '✓ Día cerrado. Racha: ' + racha(d) : 'Día cerrado.');
-      } }, dd.cerrado ? '✓ Día cerrado · racha ' + racha(d) : 'Cerrar el día');
+        if (!nuevos.length) toast(cumplido(d) ? tpl(TX.diaCerradoToast, { n: racha(d) }) : TX.diaCerradoSolo);
+      } }, dd.cerrado ? tpl(TX.diaCerradoBtn, { n: racha(d) }) : TX.cerrarDia);
       root.append(btn);
       function actualizaCerrar() { /* el botón siempre está activo; hook para futuro */ }
 
-      if (dd.cerrado) root.append(el('div', { class: 'mini', style: 'text-align:center;margin-top:4px' }, 'Puedes seguir editando: todo se guarda solo.'));
+      if (dd.cerrado) root.append(el('div', { class: 'mini', style: 'text-align:center;margin-top:4px' }, TX.sigueEditando));
     }
   }
 
   /* ---------------- ajustes / backup ---------------- */
+  const IDIOMAS = [
+    ['es', '🇪🇸', 'Español'], ['en', '🇬🇧', 'English'], ['fr', '🇫🇷', 'Français'],
+    ['de', '🇩🇪', 'Deutsch'], ['it', '🇮🇹', 'Italiano']
+  ];
   function sheetAjustes() {
     openSheet(sh => {
-      sh.append(el('h2', null, 'Ajustes'), el('div', { class: 'stag' }, 'BACK2PRIME · tus datos viven SOLO en este dispositivo'));
+      sh.append(el('h2', null, TX.ajustes), el('div', { class: 'stag' }, TX.ajustesSub));
+      // idioma
+      sh.append(el('h4', null, '🌐 ' + TX.ajIdioma));
+      const actual = S.config.lang || 'es';
+      const fila = el('div', { class: 'langrow' });
+      IDIOMAS.forEach(([code, flag, nombre]) => {
+        fila.append(el('button', { class: 'langbtn' + (code === actual ? ' on' : ''), onclick: () => {
+          if (code === actual) return;
+          S.config.lang = code; save();
+          location.reload();
+        } }, el('span', { class: 'lf' }, flag), el('span', { class: 'ln' }, nombre)));
+      });
+      sh.append(fila, el('p', { class: 'mini' }, TX.ajIdiomaNota));
       // datos base
-      sh.append(el('h4', null, 'Línea base'));
-      const cIn = el('input', { type: 'text', inputmode: 'decimal', value: S.config.cinturaBase || '', placeholder: 'p. ej. 100' });
-      sh.append(el('div', { class: 'field' }, el('label', null, 'Cintura inicial (cm)'), cIn));
+      sh.append(el('h4', null, TX.ajLineaBase));
+      const cIn = el('input', { type: 'text', inputmode: 'decimal', value: S.config.cinturaBase || '', placeholder: '100' });
+      sh.append(el('div', { class: 'field' }, el('label', null, TX.ajCinturaIni), cIn));
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%', onclick: () => {
         const v = parseFloat(cIn.value.replace(',', '.'));
-        if (v > 50 && v < 200) { S.config.cinturaBase = v; save(); toast('Guardado'); } } }, 'Guardar línea base'));
+        if (v > 50 && v < 200) { S.config.cinturaBase = v; save(); toast(TX.ajGuardado); } } }, TX.ajGuardar));
       // backup
-      sh.append(el('h4', null, 'Copia de seguridad'));
-      sh.append(el('p', { class: 'mini' }, 'Los datos no salen del móvil. Haz una copia de vez en cuando (o antes de cambiar de dispositivo) y guárdala donde quieras.'));
+      sh.append(el('h4', null, TX.ajCopia));
+      sh.append(el('p', { class: 'mini' }, TX.ajCopiaTxt));
       const row = el('div', { class: 'btnrow' });
       row.append(el('button', { class: 'btn-b2p', onclick: () => {
         const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
         const a = el('a', { href: URL.createObjectURL(blob), download: 'back2prime-' + hoyISO() + '.json' });
         document.body.append(a); a.click(); a.remove();
-      } }, '⬇ Exportar'));
+      } }, TX.ajExportar));
       const fileIn = el('input', { type: 'file', accept: '.json,application/json', style: 'display:none', onchange: ev => {
         const f = ev.target.files[0]; if (!f) return;
         const r = new FileReader();
@@ -715,19 +733,19 @@
           try {
             const j = JSON.parse(r.result);
             if (!j || typeof j !== 'object' || !j.dias) throw 0;
-            S = Object.assign(defState(), j); save(); toast('Copia restaurada'); closeSheet(); render();
-          } catch (e) { toast('Ese archivo no parece una copia de BACK2PRIME'); }
+            S = Object.assign(defState(), j); save(); toast(TX.ajImportOk); closeSheet(); render();
+          } catch (e) { toast(TX.ajImportErr); }
         };
         r.readAsText(f);
       } });
-      row.append(fileIn, el('button', { class: 'btn-ghost', onclick: () => fileIn.click() }, '⬆ Importar'));
+      row.append(fileIn, el('button', { class: 'btn-ghost', onclick: () => fileIn.click() }, TX.ajImportar));
       sh.append(row);
       // reset
-      sh.append(el('h4', null, 'Zona peligrosa'));
+      sh.append(el('h4', null, TX.ajPeligro));
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;color:var(--danger)', onclick: ev => {
         if (ev.target.dataset.arm) { localStorage.removeItem(KEY); location.reload(); }
-        else { ev.target.dataset.arm = '1'; ev.target.textContent = '¿Seguro? Toca otra vez para borrar TODO'; }
-      } }, 'Borrar todos los datos'));
+        else { ev.target.dataset.arm = '1'; ev.target.textContent = TX.ajBorrarConfirma; }
+      } }, TX.ajBorrar));
       // Diagnóstico de pantalla: si la barra inferior no encaja, estos números
       // dicen exactamente por qué (y evitan diagnosticar sobre una captura).
       sh.append(el('details', { class: 'fold', style: 'margin-top:16px' },
@@ -767,17 +785,17 @@
   /* ---------------- onboarding ---------------- */
   function onboarding() {
     openSheet(sh => {
-      sh.append(el('h2', null, 'Bienvenido a BACK2PRIME'),
-        el('div', { class: 'stag' }, '12 semanas · 17 ago → 8 nov · de 95 a tu mejor versión'),
-        el('p', { style: 'font-size:14px' }, 'Esta app es tu cuaderno de entreno, tu plan y tu nutrición en un solo sitio. Cada día marcas lo que haces, la app te sugiere los pesos, vigila tu ritmo de pérdida y va soltando logros. Todo se guarda en tu móvil: nada sale de aquí.'),
-        el('p', { class: 'mini' }, 'Consejo: añádela a la pantalla de inicio (Compartir → Añadir a pantalla de inicio) para que sea una app de verdad, con icono y a pantalla completa.'));
-      const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: 'cm (opcional, puedes hacerlo luego)' });
-      sh.append(el('div', { class: 'field' }, el('label', null, 'Cintura inicial — tu métrica reina'), cIn));
+      sh.append(el('h2', null, TX.obTitulo),
+        el('div', { class: 'stag' }, TX.obSub),
+        el('p', { style: 'font-size:14px' }, TX.obTexto),
+        el('p', { class: 'mini' }, TX.obConsejo));
+      const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: TX.obPlaceholder });
+      sh.append(el('div', { class: 'field' }, el('label', null, TX.obCintura), cIn));
       sh.append(el('button', { class: 'btn-b2p', style: 'width:100%', onclick: () => {
         const v = parseFloat((cIn.value || '').replace(',', '.'));
         if (v > 50 && v < 200) S.config.cinturaBase = v;
         S.config.onboarded = true; save(); closeSheet();
-      } }, 'Empezamos'));
+      } }, TX.obEmpezamos));
     });
   }
 
@@ -880,7 +898,7 @@
   $('#brand').onclick = () => { selDia = hoyISO(); location.hash = '#/hoy'; render(); };
 
   /* ---------------- API compartida para views.js ---------------- */
-  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad,
+  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl,
     hoyISO, semanaDe, slotDe, fechasSemana, dia, save, get S() { return S; },
     mediaSemana, mediasSemanales, pesosSemana, sesionesFuerzaSemana, cardioHechoSemana,
     racha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,
@@ -900,7 +918,7 @@
     diaMontado = h;
     if (estabaEnHoy) selDia = h;          // respeta si estabas mirando otro día
     render();
-    if (estabaEnHoy) toast('Nuevo día: ' + fmtFecha(h));
+    if (estabaEnHoy) toast(tpl(TX.nuevoDia, { f: fmtFecha(h) }));
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden) relevoDia(); });
   addEventListener('focus', relevoDia);
@@ -914,6 +932,10 @@
      equivocada marcada.                                                    */
   function arrancar() {
     load();
+    // textos estáticos de index.html al idioma cargado
+    $$('.tab span').forEach((s, i) => { if (TX.tabs[i]) s.textContent = TX.tabs[i]; });
+    const cOk = $('#celebraOk'); if (cOk) cOk.textContent = TX.celebraOk;
+    document.documentElement.lang = TX.lang;
     medirCabecera();
     render();
     if (!S.config.onboarded) setTimeout(onboarding, 350);

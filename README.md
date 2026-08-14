@@ -2,6 +2,8 @@
 
 Web-app personal (PWA) para un plan de recomposición corporal de 12 semanas: entrenos, nutrición, seguimiento diario y logros. Contenido revisado contra evidencia científica (metaanálisis y ensayos 2010-2025).
 
+**5 idiomas**: español (por defecto), English, français, Deutsch e italiano — selector con banderas en Ajustes. Cada idioma es un `assets/data.<lang>.js` completo (contenido + interfaz) que sustituye a `window.B2P`; `index.html` carga el elegido antes de `app.js` y el cambio recarga la app.
+
 **100% estática y privada**: los datos que registras viven solo en `localStorage` de tu dispositivo. No hay backend, ni cuentas, ni analítica. Copia de seguridad manual desde Ajustes (exportar/importar JSON).
 
 ## Uso

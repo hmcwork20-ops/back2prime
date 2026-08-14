@@ -96,6 +96,19 @@ try {
 </div>
 
 <script src="assets/data.js"></script>
+<script>
+/* Idioma: si hay uno guardado distinto de español, se carga su data.<lang>.js
+   ENCIMA (sustituye window.B2P entero, contenido + textos de interfaz).
+   document.write garantiza el orden: idioma cargado antes que app.js. */
+(function () {
+  try {
+    var lang = ((JSON.parse(localStorage.b2p_v1 || '{}').config || {}).lang) || 'es';
+    if (['en', 'fr', 'de', 'it'].indexOf(lang) >= 0) {
+      document.write('<scr' + 'ipt src="assets/data.' + lang + '.js"></scr' + 'ipt>');
+    }
+  } catch (e) { }
+})();
+</script>
 <script src="assets/app.js"></script>
 <script src="assets/views.js"></script>
 <script>

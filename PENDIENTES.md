@@ -29,7 +29,55 @@ Mismo proceso y mismas validaciones que inglés, francés, alemán e italiano.
 
 ---
 
-## 2 · Síntesis profunda del texto
+## 2 · Convertirlo en producto: cuestionario → plan generado
+
+Idea del 14 ago 2026. Sacarlo como app y monetizarlo: cada usuario responde un cuestionario y se le genera su plan de entreno y alimentación, como el que se hizo a mano aquí.
+
+**Veredicto: viable.** El plan original no fue creativo, fue la aplicación de reglas (Mifflin-St Jeor, déficit acotado a 550-700 kcal, pérdida al 0,7% del peso/semana, proteína a 2,5 g/kg de masa magra, cargas de arranque al 50% de la marca previa, protocolo de tendón por ser retomador). Todo eso es parametrizable.
+
+### El cambio de arquitectura
+
+`data.js` deja de ser una constante y pasa a ser `generarPlan(perfil) → { FASES, SESIONES, EJERCICIOS, NUTRI, RECETAS… }`.
+
+**Ya está demostrado que la app lo aguanta**: el sistema de idiomas de la v12 sustituye `window.B2P` entero por otro objeto de la misma forma y todo se adapta solo. Un plan generado es el mismo mecanismo.
+
+Se reutiliza tal cual (>40% del producto, y la parte pulida): las 5 vistas, registro diario, progresión doble, gráficas, logros, cristal, PWA, los 5-6 idiomas.
+
+### Decisión clave: motor de reglas, NO IA
+
+Los números los calcula un motor determinista: reproducible, auditable, testeable, gratis, offline y sin riesgo de alucinar un déficit peligroso. La IA, si acaso, solo en la capa de redacción (tono de los textos), **nunca en los números**.
+
+Hace falta ampliar contenido con atributos: base de ejercicios (~150-200, etiquetados por patrón de movimiento, material, nivel, estrés articular, alternativas) y recetario (~60, filtrable por alergias, vegetariano, tiempo de cocina y macros).
+
+### El cuestionario
+
+Cuerpo (sexo, edad, altura, peso, cintura) · objetivo y plazo · **historial** (nunca ha entrenado / retomador / entrena ahora — la variable que más cambia el plan) · disponibilidad (días, duración, franja) · material (nada / casa básico / gimnasio) · lesiones y patologías · comida (alergias, intolerancias, vegetariano, aversiones, tiempo de cocina) · marcas previas opcionales para calibrar cargas.
+
+**Puertas duras que NO generan plan y derivan a un profesional** (tipo PAR-Q+): menores, embarazo, historial de TCA, patología cardíaca, IMC extremo.
+
+### Infraestructura y monetización
+
+Empezar **sin backend**: el generador corre en el navegador y los datos no salen del dispositivo — cero infraestructura y se evita que los datos de salud entren en el artículo 9 del RGPD (categoría especial). Para las tiendas, envolver con **Capacitor** (ya usado en el proyecto de visitas territoriales).
+
+Modelos: pago único · freemium (generar gratis, cobrar seguimiento y adaptación) · suscripción (exige backend y valor recurrente real) · **white-label a gimnasios y entrenadores**, probablemente el más rentable y el menos saturado.
+
+### Lo que de verdad decide si gana dinero: el nicho
+
+El mercado de fitness genérico está saturado. La ventaja diferencial ya está en el ADN del plan: *«el que vuelve no es un novato — el tendón marca el ritmo»*. Perfil de 35-45 años que hizo deporte, lleva años parado y vuelve. Hoy las apps o lo tratan como principiante (se aburre) o le dejan entrenar como antes (se lesiona). **Posicionar el producto explícitamente ahí.**
+
+### Riesgos
+
+1. **Legal**: en España el dietista-nutricionista es profesión regulada; dar dietas individualizadas es terreno delicado. Asesoría antes de cobrar, disclaimer serio y las puertas de exclusión.
+2. **Contenido**: pasar de 50 a ~200 ejercicios y de 10 a ~60 recetas con macros fiables es trabajo real y hay que revisarlo con un profesional.
+3. **Mantenimiento**: 6 idiomas × contenido generado, cada cambio se multiplica.
+
+### Primer paso (antes de escribir código)
+
+Coger **5 conocidos con perfiles distintos**, pasarles el cuestionario en papel y generar sus planes a mano. Si las reglas aguantan cinco perfiles reales, el motor es correcto; si no, ahí se ve qué falta — y cuesta una tarde en vez de tres meses.
+
+---
+
+## 3 · Síntesis profunda del texto
 
 El repaso del 13 ago redujo la prosa visible un **1,1%** (331 caracteres de 31.282); tocó 11 de 362 cadenas, con recortes reales del 21-26% en las 7 más densas. La ortografía y el español de España sí se revisaron por completo.
 

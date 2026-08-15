@@ -219,7 +219,15 @@
       '<text x="32" y="37" text-anchor="middle" font-family="var(--mono)" font-weight="700" font-size="14" fill="' + col + '">' + kgTxt + '</text>';
     return s;
   }
+  /* Un solo sitio donde se pregunta por el movimiento reducido. El CSS ya lo
+     respeta por su cuenta; esto es para lo que se dibuja desde JS, que las
+     media queries no alcanzan. */
+  const reduceMovimiento = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   function confetti() {
+    // 130 partículas cayendo es exactamente lo que alguien con sensibilidad al
+    // movimiento no quiere ver. El logro se celebra igual, sin la lluvia.
+    if (reduceMovimiento()) return;
     const c = $('#confetti'); if (!c) return;
     c.hidden = false; c.width = innerWidth; c.height = innerHeight;
     const ctx = c.getContext('2d');
@@ -1033,7 +1041,7 @@
   window.B2P_REG = (name, fn) => { VIEWS[name] = fn; };
   function ruta() { return (location.hash.replace('#/', '') || 'hoy'); }
   const ORDEN_VISTAS = ['hoy', 'plan', 'nutricion', 'progreso', 'logros'];
-  let rutaPrevia = null, primerRender = true;
+  let rutaPrevia = null, primerRender = true, rachaPrevia = null;
 
   function render() {
     const r = ruta(), root = $('#view');
@@ -1059,6 +1067,16 @@
       if (rk >= 2) { st.hidden = false; st.classList.remove('best'); $('#streakIco').textContent = '🔥'; $('#streakN').textContent = rk; }
       else if (mej >= 3) { st.hidden = false; st.classList.add('best'); $('#streakIco').textContent = TX.mejorLbl; $('#streakN').textContent = mej; }
       else st.hidden = true;
+      /* La racha subiendo es de los poquísimos momentos de esta app con derecho
+         a fantasía: pasa una vez al día como mucho. Hasta ahora el 4 se
+         convertía en 5 sin que nadie se enterara. Solo cuando SUBE de verdad,
+         nunca al repintar. */
+      if (rachaPrevia !== null && rk > rachaPrevia && !reduceMovimiento()) {
+        $('#streakN').animate(
+          [{ transform: 'scale(1)' }, { transform: 'scale(1.45)' }, { transform: 'scale(1)' }],
+          { duration: 420, easing: 'cubic-bezier(.2,1.4,.4,1)' });
+      }
+      rachaPrevia = rk;
     } else { chip.hidden = true; st.hidden = true; }
 
     if (r === 'hoy') renderHoy(root);
@@ -1068,6 +1086,16 @@
     const sc = $('#scroller'); if (sc) sc.scrollTop = 0;
     scrollTo(0, 0);
     moveBubble();
+
+    /* La burbuja se deslizaba y el contenido cambiaba de golpe: era la costura
+       más visible de la app. Solo opacidad y solo 140 ms — navegar es de lo que
+       más se repite en el día, y ahí el movimiento se paga caro: cualquier
+       desplazamiento acabaría estorbando. WAAPI para que vaya fuera del hilo
+       principal y no bloquee el foco que se mueve justo después. */
+    if (cambioDeVista && !primerRender && !reduceMovimiento()) {
+      root.animate([{ opacity: 0 }, { opacity: 1 }],
+        { duration: 140, easing: 'cubic-bezier(.23,1,.32,1)' });
+    }
 
     /* Encabezado de página y aviso del cambio de vista.
        HOY ya trae su h1 visible (el nombre de la sesión, que es de verdad el

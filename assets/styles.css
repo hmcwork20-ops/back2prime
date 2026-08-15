@@ -61,6 +61,26 @@
   --glass-line:rgba(255,255,255,.09);
   --glass-hi:rgba(255,255,255,.12);
   --shadow:0 8px 28px rgba(0,0,0,.42);
+
+  /* ---------- Movimiento ----------
+     Las curvas de CSS de serie (ease, ease-out) son demasiado flojas para que
+     el movimiento se sienta intencionado. Estas son las fuertes.
+     Regla de elección: algo que ENTRA o SALE → --ease-sale (empieza rápido, se
+     siente inmediato). Algo que se MUEVE por pantalla → --ease-mueve. La hoja
+     inferior tiene la suya, que es la curva de iOS.
+     --ease-muelle es el rebote de la burbuja de pestañas: el único sitio donde
+     el sobreimpulso está justificado, porque es la firma del Liquid Glass. */
+  --ease-sale:cubic-bezier(.23,1,.32,1);
+  --ease-mueve:cubic-bezier(.77,0,.175,1);
+  --ease-hoja:cubic-bezier(.32,.72,0,1);
+  --ease-muelle:cubic-bezier(.3,1.45,.4,1);
+  /* Presupuesto: la UI se queda por debajo de 300 ms. Más allá se percibe lenta
+     aunque el reloj diga otra cosa. */
+  --t-pulsar:140ms;   /* respuesta al pulsar */
+  --t-corto:180ms;    /* chips, desplegables pequeños */
+  --t-medio:240ms;    /* toast, cronómetro, burbuja */
+  --t-hoja:260ms;     /* hoja inferior (ya estaba ajustada aquí, se conserva) */
+
   color-scheme:dark;
 }
 
@@ -213,7 +233,10 @@ section.block{margin:18px 0}
   box-shadow:inset 0 0 0 1px rgba(200,242,78,.22),inset 0 1px 0 rgba(255,255,255,.08);
   /* transform, no left/width: animar propiedades de layout obliga al navegador
      a recalcular en cada fotograma. El muelle es el mismo, el coste no. */
-  transition:transform .34s cubic-bezier(.3,1.45,.4,1);
+  /* 260 y no 340: el muelle es el mismo —el rebote es la firma del Liquid
+     Glass y se queda—, pero a 340 ms la burbuja seguía asentándose cuando ya
+     estabas leyendo la vista nueva. La UI se queda por debajo de 300. */
+  transition:transform var(--t-medio) var(--ease-muelle);
   will-change:transform;
 }
 .tabbar.dragging .tab-bubble{transition:none;background:rgba(200,242,78,.18)}
@@ -302,8 +325,16 @@ section.block{margin:18px 0}
 .checkbtn{
   width:44px;height:44px;border-radius:13px;flex:0 0 auto;cursor:pointer;
   border:1.5px solid var(--line);background:var(--surface2);color:transparent;
-  display:inline-flex;align-items:center;justify-content:center;transition:all .15s;
+  display:inline-flex;align-items:center;justify-content:center;
+  /* Nada de `all`: es el control más pulsado de la app y `all` arrastra fuera
+     de GPU cualquier propiedad que cambie. */
+  transition:background-color var(--t-pulsar) var(--ease-sale),
+             border-color var(--t-pulsar) var(--ease-sale),
+             color var(--t-pulsar) var(--ease-sale),
+             transform var(--t-pulsar) var(--ease-sale);
 }
+/* Marcar una serie es EL gesto de la sesión: tiene que responder al dedo. */
+.checkbtn:active{transform:scale(.94)}
 .checkbtn svg{width:20px;height:20px}
 .checkbtn.on{background:var(--volt);border-color:var(--volt);color:var(--volt-ink)}
 /* Tocable: escribe el peso sugerido como valor real en el campo. */
@@ -530,14 +561,14 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .b2-badge.locked{opacity:.70;filter:saturate(.1)}
 
 /* ---------- Sheet (bottom sheet) ---------- */
-.sheet-bg{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);opacity:0;transition:opacity .2s;backdrop-filter:blur(2px)}
+.sheet-bg{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);opacity:0;transition:opacity var(--t-corto) var(--ease-sale);backdrop-filter:blur(2px)}
 .sheet{
   position:fixed;left:0;right:0;bottom:0;z-index:81;max-height:86dvh;overflow-y:auto;
   background:var(--glass-strong);
   -webkit-backdrop-filter:blur(30px) saturate(1.5);backdrop-filter:blur(30px) saturate(1.5);
   border-radius:22px 22px 0 0;border-top:1px solid var(--glass-line);
   box-shadow:0 -14px 44px rgba(0,0,0,.5),inset 0 1px 0 var(--glass-hi);
-  transform:translateY(102%);transition:transform .26s cubic-bezier(.32,.72,.28,1);
+  transform:translateY(102%);transition:transform var(--t-hoja) var(--ease-hoja);
   padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px));
   max-width:640px;margin:0 auto;
   /* none, no contain: el rebote elástico de iOS al llegar arriba competía con
@@ -592,7 +623,10 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;
   background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;
   -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
-  padding:8px 9px 8px 16px;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-hi);transition:all .22s;
+  padding:8px 9px 8px 16px;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-hi);
+  /* `all` intentaba transicionar también el backdrop-filter de 20 px: caro,
+     fuera de GPU y justo mientras estás a mitad de serie. Solo lo que se mueve. */
+  transition:opacity var(--t-medio) var(--ease-sale),transform var(--t-medio) var(--ease-sale);
 }
 .timer.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
 .timer .tt{font-family:var(--mono);font-weight:700;font-size:19px;min-width:56px}
@@ -607,7 +641,8 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 /* ---------- Toast + celebración ---------- */
 .toast{
   position:fixed;z-index:90;left:50%;transform:translateX(-50%) translateY(-8px);
-  top:calc(env(safe-area-inset-top,0px) + 10px);opacity:0;transition:all .25s;pointer-events:none;
+  top:calc(env(safe-area-inset-top,0px) + 10px);opacity:0;pointer-events:none;
+  transition:opacity var(--t-medio) var(--ease-sale),transform var(--t-medio) var(--ease-sale);
   background:var(--glass);border:1px solid var(--glass-line);border-radius:14px;padding:10px 16px;
   -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
   font-size:14px;font-weight:600;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-hi);max-width:90vw;text-align:center;
@@ -615,7 +650,9 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .celebra-bg{position:fixed;inset:0;z-index:95;background:rgba(5,6,8,.82);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 .celebra-bg.on{display:flex}
-.celebra{text-align:center;padding:30px 24px;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+/* 450 ms se sale del presupuesto de UI a propósito: una celebración de logro se
+   ve unas pocas veces en 12 semanas y ahí el presupuesto de fantasía aplica. */
+.celebra{text-align:center;padding:30px 24px;animation:pop .45s var(--ease-muelle)}
 .celebra .ci{font-size:64px;line-height:1;margin-bottom:10px}
 .celebra .cn{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:.03em;text-transform:uppercase;color:var(--volt)}
 .celebra .cd{color:var(--ink2);max-width:300px;margin:8px auto 0}
@@ -649,6 +686,20 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .btn-ghost{flex:1;padding:13px;border-radius:var(--r-sm);cursor:pointer;font-weight:600;font-size:14px;background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
 
 /* ---------- Responsive ---------- */
+/* ---------- Respuesta al pulsar ----------
+   Un control que no acusa el dedo se siente muerto. La escala va al revés que
+   el tamaño: 0,94 en un botón de 44 px se nota justo; ese mismo 0,94 en una
+   tarjeta ancha sería aparatoso, así que ahí baja a 0,985.
+   Va aquí abajo, después de los componentes, para no pisar sus transiciones. */
+.icon-btn,.exrow .rest,.sugg,.repchip,.rec-card,.cerrar,.btn-b2p,.btn-ghost,
+.langbtn,.reabrir,.tbl-toggle,.celebra .cok{
+  transition:transform var(--t-pulsar) var(--ease-sale);
+}
+.icon-btn:active,.exrow .rest:active,.sugg:active,.repchip:active{transform:scale(.94)}
+.cerrar:active,.btn-b2p:active,.btn-ghost:active,.langbtn:active,
+.reabrir:active,.tbl-toggle:active,.celebra .cok:active{transform:scale(.97)}
+.rec-card:active{transform:scale(.985)}
+
 @media(min-width:700px){
   .wrap,.hdr-in,.tabbar-in{max-width:760px}
   .sheet{max-width:760px;border-radius:20px 20px 0 0}
@@ -671,7 +722,21 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .wrap,.hdr-in,.tabbar-in{max-width:860px}
 }
 @media(prefers-reduced-motion:reduce){
-  *{animation:none !important;transition:none !important}
+  /* Movimiento reducido significa MENOS y más suave, no cero. El `*{transition:
+     none}` que había antes también mataba las transiciones de opacidad, que son
+     justo las que ayudan a entender qué acaba de cambiar: la hoja aparecía de
+     golpe, el toast surgía sin previo aviso. Se conserva el desvanecido y se
+     elimina lo que de verdad marea: el desplazamiento, la escala y el rebote. */
+  *{animation-duration:.01ms !important;animation-delay:0ms !important}
+  .tab-bubble,.sheet,.timer,.toast,.sheet-bg{
+    transition-property:opacity !important;
+    transition-duration:var(--t-corto) !important;
+    transition-timing-function:var(--ease-sale) !important;
+  }
+  .icon-btn:active,.exrow .rest:active,.sugg:active,.repchip:active,
+  .cerrar:active,.btn-b2p:active,.btn-ghost:active,.langbtn:active,
+  .reabrir:active,.tbl-toggle:active,.rec-card:active,.checkbtn:active,
+  .celebra .cok:active{transform:none}
 }
 
 /* Sin soporte de blur: superficies sólidas (los tonos derivados en v6) */

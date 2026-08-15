@@ -986,8 +986,17 @@
   const VIEWS = {};
   window.B2P_REG = (name, fn) => { VIEWS[name] = fn; };
   function ruta() { return (location.hash.replace('#/', '') || 'hoy'); }
+  const ORDEN_VISTAS = ['hoy', 'plan', 'nutricion', 'progreso', 'logros'];
+  let rutaPrevia = null, primerRender = true;
+
   function render() {
     const r = ruta(), root = $('#view');
+    // render() se llama al navegar PERO también al marcar una casilla, cerrar
+    // el día o importar. Solo lo primero es un cambio de vista, y solo ahí
+    // procede mover el foco: hacerlo en un repintado te sacaría del control
+    // que acabas de pulsar.
+    const cambioDeVista = r !== rutaPrevia;
+    rutaPrevia = r;
     root.innerHTML = '';
     $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.r === r));
     // chip de cabecera
@@ -1013,6 +1022,19 @@
     const sc = $('#scroller'); if (sc) sc.scrollTop = 0;
     scrollTo(0, 0);
     moveBubble();
+
+    /* Encabezado de página y aviso del cambio de vista.
+       HOY ya trae su h1 visible (el nombre de la sesión, que es de verdad el
+       titular de esa pantalla). Las otras cuatro empezaban en h2 sin nada por
+       encima: se les antepone un h1 invisible con el nombre de la sección,
+       porque su equivalente visual es la pestaña activa. */
+    const nombreVista = TX.tabs[ORDEN_VISTAS.indexOf(r)] || TX.tabs[0];
+    document.title = nombreVista + ' · BACK2PRIME';
+    let h1 = root.querySelector('h1');
+    if (!h1) { h1 = el('h1', { class: 'sr-only' }, nombreVista); root.prepend(h1); }
+    h1.tabIndex = -1;
+    if (cambioDeVista && !primerRender) h1.focus({ preventScroll: true });
+    primerRender = false;
   }
 
   /* ---------------- burbuja deslizante + arrastre (Liquid Glass) ----------

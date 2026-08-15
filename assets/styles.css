@@ -123,6 +123,14 @@ button{font-family:inherit;-webkit-tap-highlight-color:transparent}
 /* Botón que ocupa toda su celda de tabla. Los 44 px son la zona táctil (HIG):
    la celda ya rondaba esa altura, así que crecer hasta ahí apenas mueve la fila. */
 .celda-btn{display:flex;flex-direction:column;justify-content:center;width:100%;min-height:44px}
+
+/* Para el lector de pantalla, invisible para la vista. Lo usa el h1 de las
+   vistas cuyo título visible es la propia pestaña activa. */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;
+}
+.sr-only:focus{outline:none}
 input,select,textarea{font-family:inherit;color:var(--ink)}
 ::selection{background:var(--volt);color:var(--volt-ink)}
 :focus-visible{outline:2px solid var(--volt);outline-offset:2px;border-radius:4px}

@@ -19,8 +19,12 @@ Cerrados en la ronda del 15 de agosto (cada uno verificado midiendo, no mirando)
 | ✅ | P1 · 5 fallos de contraste | 0 fallos. Los 4 valores derivados, no elegidos |
 | ✅ | P1 · Basecoat | Retirado: −213 KB, **0 diferencias de píxel** en las 5 vistas |
 | ✅ | P1 · Idiomas precargados | −368 KB; se descargan al elegirlos y quedan en caché |
+| ✅ | P2 · Iconos de 491 KB | −455 KB pasándolos a paleta de 256 colores |
+| ✅ | P2 · Gráficas sin nombre | Las 4 con `aria-label`, y con el resumen del dato |
+| ✅ | P2 · Sin `h1` en 4 vistas | Las 5 con `h1`; el de HOY es el visible que ya tenía |
+| ✅ | P2 · Cambio de vista mudo | Fuera el `aria-live`; título + foco en el `h1` |
 
-**Peso precargado: 1.511 KB → 944 KB (−37,5 %).**
+**Peso precargado: 1.511 KB → 493 KB (−67 %).**
 
 Hallazgos **nuevos** que aparecieron al verificar y no estaban en este informe:
 
@@ -28,7 +32,21 @@ Hallazgos **nuevos** que aparecieron al verificar y no estaban en este informe:
 - Las gráficas llevaban `#6B7480` **escrito a mano 13 veces**: corregir el token no las habría alcanzado. Ahora leen del token.
 - `.card` heredaba de Basecoat `display:flex`, `gap:24px` y `font-size:14px` **sin que nadie lo hubiera escrito**. Retirarlo a ciegas habría descuadrado la app entera.
 
-Pendientes: los cuatro P2 (iconos, gráficas sin nombre, `h1`, cambio de vista mudo) y el P3 del escritorio.
+Dos derivaciones más de la ronda P2, por dejarlas escritas:
+
+- **Iconos a 256 colores, no a 128.** El fondo lleva un degradado sutil que es lo
+  que impedía comprimir. A 256 colores **ningún píxel** se desvía más de 8/255 y
+  el 99,8 % quedan idénticos; a 128 hay un 0,38 % por encima de ese umbral, que
+  sobre un degradado son bandas visibles. 256 es el primer nivel sin desvío
+  perceptible: 571 KB → 117 KB.
+- **El foco solo se mueve al cambiar de vista, no al repintar.** `render()` se
+  llama también al marcar una casilla, cerrar el día o importar; mover el foco
+  ahí te sacaría del control que acabas de pulsar. Se compara la ruta con la
+  anterior en vez de fiarse de quién llamó.
+
+Pendiente: solo el **P3** (sin ancho máximo en escritorio, ~114 caracteres por
+línea). Fuera del informe siguen abiertos el `clarify` y la decisión de la
+semana 5.
 
 ---
 

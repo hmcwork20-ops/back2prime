@@ -463,10 +463,22 @@
   }
 
   /* ---- motor de gráficas mono-serie ---- */
-  function baseSVG(W, H) {
+  function baseSVG(W, H, rotulo) {
     const svg = sv('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img' });
+    // Sin nombre accesible, un role="img" deja toda la vista Progreso invisible
+    // para un lector de pantalla (WCAG 1.1.1).
+    if (rotulo) svg.setAttribute('aria-label', rotulo);
     svg.style.touchAction = 'pan-y';
     return svg;
+  }
+  /* El rótulo lleva el resumen del dato, no solo el título: es lo que da un
+     vistazo a la gráfica y lo que un "Gráfica de peso" a secas no dice. */
+  function rotulo(titulo, valores, unidad) {
+    if (!valores || !valores.length) return titulo + ': ' + TX.gSinDatos;
+    const a = nice(Math.min(...valores)), b = nice(Math.max(...valores));
+    // con un solo punto no hay rango que dar, y "1 registros" chirría
+    if (valores.length === 1) return titulo + ': ' + tpl(TX.gUnico, { a, u: unidad });
+    return titulo + ': ' + tpl(TX.gRango, { n: valores.length, a, b, u: unidad });
   }
   function nice(v) { return String(Math.round(v * 10) / 10).replace('.', ','); }
 
@@ -481,7 +493,7 @@
     const yMin = Math.floor(Math.min(...ys) - 1), yMax = Math.ceil(Math.max(...ys) + 0.5);
     const sx = x => L + (x + 7) / (dias + 7) * (W - L - R);
     const sy = y => T + (yMax - y) / (yMax - yMin) * (H - T - B);
-    const svg = baseSVG(W, H);
+    const svg = baseSVG(W, H, rotulo(TX.gPeso, pesos.map(p => p.y), 'kg'));
     // corredor esperado (banda neutra)
     const cor = [[0, 95.6, 94.6], [27, 93.5, 92.5], [55, 91.3, 90.0], [83, 88.0, 86.0]];
     const up = cor.map(c => sx(c[0]) + ',' + sy(c[1])).join(' ');
@@ -524,7 +536,7 @@
     const yMin = Math.floor(Math.min(...ys, 89) - 1), yMax = Math.ceil(Math.max(...ys) + 1);
     const sx = x => L + (x + 7) / (dias + 7) * (W - L - R);
     const sy = y => T + (yMax - y) / (yMax - yMin) * (H - T - B);
-    const svg = baseSVG(W, H);
+    const svg = baseSVG(W, H, rotulo(TX.gCintura, pts.map(p => p.y), 'cm'));
     // meta 91
     svg.append(sv('line', { x1: L, x2: W - R, y1: sy(91), y2: sy(91), stroke: 'rgba(255,255,255,.22)', 'stroke-dasharray': '5 4' }));
     const mt = sv('text', { x: W - R, y: sy(91) - 5, 'text-anchor': 'end', 'font-size': 10, fill: EJE2() }); mt.textContent = TX.pMeta91; svg.append(mt);
@@ -545,7 +557,7 @@
     const col = ejId === 'press-banca' ? COL.banca : ejId === 'sentadilla-barra' ? COL.sent : COL.rdl;
     const hist = U.historial(ejId, 40);
     const W = 640, H = 200, L = 40, R = 16, T = 16, B = 26;
-    const svg = baseSVG(W, H);
+    const svg = baseSVG(W, H, rotulo(TX.gCargas + ' · ' + D.EJERCICIOS[ejId].nombre, hist.map(h => h.kg), 'kg'));
     if (!hist.length) {
       const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioCargas; svg.append(t);
       return svg;
@@ -578,8 +590,8 @@
   function chartAdherencia() {
     const hoy = U.hoyISO(), wNow = U.semanaDe(hoy);
     const W = 640, H = 190, L = 34, R = 10, T = 16, B = 26;
-    const svg = baseSVG(W, H);
     const wMax = wNow >= 1 && wNow <= 12 ? wNow : (wNow === 99 ? 12 : 0);
+    const svg = baseSVG(W, H, TX.gAdherencia + ': ' + (wMax ? tpl(TX.gSemanas, { n: wMax }) : TX.gSinDatos));
     if (!wMax) { const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioAdh; svg.append(t); return svg; }
     const bw = (W - L - R) / 12;
     const sy = v => T + (1 - v) * (H - T - B);

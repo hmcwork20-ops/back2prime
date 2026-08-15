@@ -44,7 +44,10 @@ try {
 </header>
 
 <main id="scroller">
-  <div class="wrap" id="view" aria-live="polite"></div>
+  <!-- sin aria-live: en una SPA que repinta la vista entera, el lector
+       intentaba leerla completa en cada cambio. El aviso lo da ahora el
+       título del documento y el foco en el h1 (ver render() en app.js). -->
+  <div class="wrap" id="view"></div>
 </main>
 
 <nav class="tabbar" aria-label="Navegación principal">

@@ -1,0 +1,34 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [
+      "assets/basecoat.min.css"
+    ],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(.3,1.45,.4,1)",
+        "createdAt": "2026-08-15T12:05:08.886Z",
+        "reason": "user confirmed: pidio Liquid Glass iOS y eligio la burbuja deslizante con rebote suave; el overshoot es la firma del gesto nativo"
+      },
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(.2,1.4,.4,1)",
+        "createdAt": "2026-08-15T12:05:08.986Z",
+        "reason": "decision mia: pop de la celebracion de logro, el overshoot ES el efecto; un solo momento, no un patron"
+      },
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(.3, 1.45, .4, 1)",
+        "createdAt": "2026-08-15T12:05:45.512Z",
+        "reason": "variante normalizada del mismo muelle: user confirmed"
+      },
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(.2, 1.4, .4, 1)",
+        "createdAt": "2026-08-15T12:05:45.606Z",
+        "reason": "variante normalizada del mismo pop de celebracion"
+      }
+    ]
+  }
+}

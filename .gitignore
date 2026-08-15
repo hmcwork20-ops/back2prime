@@ -1,0 +1,5 @@
+# Estado de sesión del detector de diseño: es local y de la máquina.
+# La configuración (.impeccable/config.json) SÍ se versiona: documenta las
+# excepciones sancionadas y su motivo.
+.impeccable/hook.cache.json
+.impeccable/config.local.json

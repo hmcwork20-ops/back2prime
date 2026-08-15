@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v15';
+const V = 'b2p-v16';
 const CORE = [
   './',
   './index.html',
@@ -46,8 +46,11 @@ self.addEventListener('fetch', e => {
     e.respondWith(fetch(e.request).catch(() => caches.match(e.request.mode === 'navigate' ? './index.html' : e.request)));
     return;
   }
-  // navegación → index (app de una sola página)
+  // navegación → index (app de una sola página), PERO no secuestrar otras
+  // páginas reales del sitio: /type.html se serviría como la app entera.
   if (e.request.mode === 'navigate') {
+    const esOtraPagina = /\/[^/]+\.html$/.test(url.pathname) && !url.pathname.endsWith('/index.html');
+    if (esOtraPagina) { e.respondWith(fetch(e.request).catch(() => caches.match(e.request))); return; }
     e.respondWith(caches.match('./index.html').then(r => r || fetch(e.request)));
     return;
   }

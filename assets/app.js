@@ -283,27 +283,83 @@
   $('#timerPlus').onclick = () => { tEnd += 30000; timerTick(); };
   $('#timerX').onclick = () => { clearInterval(tInt); $('#timer').classList.remove('on'); };
 
-  /* ---------------- bottom sheet ---------------- */
+  /* ---------------- bottom sheet ----------------
+     Es un diálogo modal de verdad, no solo un div que se declara modal:
+     `aria-modal="true"` esconde el resto de la página al lector de pantalla,
+     así que si el foco no entra aquí el usuario se queda en una página sin
+     nada que leer y sin salida. De ahí el foco, el Escape, el fondo inerte
+     y el tirador convertido en botón de cerrar.                          */
+  let focoPrevio = null;      // a dónde devolver el foco al cerrar
+  let arrastroReciente = false;  // un arrastre no debe contar como clic en el tirador
+
+  /* Vuelve inerte lo que queda POR DEBAJO de la hoja en el apilado, y deja en
+     paz lo que flota por encima: el cronómetro de descanso (85), el toast (90)
+     y la celebración (95). Si se inertizara todo, abrir una ficha a mitad de
+     serie dejaría el cronómetro sin poder pararse. La regla la marca el propio
+     z-index, no una lista de excepciones que se quedaría desfasada. */
+  function fondoInerte(on) {
+    const zHoja = parseInt(getComputedStyle($('#sheet')).zIndex, 10) || 81;
+    for (const n of document.body.children) {
+      if (n.id === 'sheet' || n.id === 'sheetBg' || n.tagName === 'SCRIPT') continue;
+      if (!on) { n.removeAttribute('inert'); continue; }   // al cerrar, limpiar sin condiciones
+      const z = parseInt(getComputedStyle(n).zIndex, 10);
+      if (Number.isFinite(z) && z >= zHoja) continue;
+      n.setAttribute('inert', '');
+    }
+  }
+
   function openSheet(builder) {
     const sh = $('#sheet'), bg = $('#sheetBg');
+    focoPrevio = document.activeElement;
     sh.style.transition = ''; sh.style.transform = ''; bg.style.opacity = '';
     sh.scrollTop = 0;
-    sh.innerHTML = ''; sh.append(el('div', { class: 'grip' }));
+    sh.innerHTML = '';
+    sh.append(el('button', {
+      class: 'grip', type: 'button', 'aria-label': TX.cerrarPanel,
+      onclick: () => { if (!arrastroReciente) closeSheet(); }
+    }));
     builder(sh);
+    // Nombre accesible: cada hoja ya abre con su h2, así que se reutiliza en
+    // vez de duplicar el título en un aria-label que se quedaría desfasado.
+    const tit = sh.querySelector('h2');
+    if (tit) {
+      tit.id = tit.id || 'sheet-tit';
+      sh.setAttribute('aria-labelledby', tit.id);
+      sh.removeAttribute('aria-label');
+    } else {
+      sh.removeAttribute('aria-labelledby');
+      sh.setAttribute('aria-label', TX.panelSinTitulo);
+    }
     bg.hidden = false;
+    fondoInerte(true);
     // setTimeout y no requestAnimationFrame: rAF no se dispara si la pestaña
     // no está componiendo frames y la hoja se quedaría sin abrir.
-    setTimeout(() => document.body.classList.add('sheet-open'), 0);
+    setTimeout(() => { document.body.classList.add('sheet-open'); sh.focus(); }, 0);
     bg.onclick = closeSheet;
   }
+
   function closeSheet() {
+    if (!document.body.classList.contains('sheet-open')) return;
     document.body.classList.remove('sheet-open');
+    fondoInerte(false);
+    // el foco se devuelve DESPUÉS de quitar inert: si no, el destino sigue
+    // siendo inerte y el navegador ignora el focus()
+    if (focoPrevio && focoPrevio.focus && document.contains(focoPrevio)) {
+      try { focoPrevio.focus({ preventScroll: true }); } catch (e) { /* nodo ya inservible */ }
+    }
+    focoPrevio = null;
     setTimeout(() => {
       const sh = $('#sheet'), bg = $('#sheetBg');
       bg.hidden = true; bg.style.opacity = '';
       sh.style.transition = ''; sh.style.transform = '';
     }, 300);
   }
+
+  document.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape' && document.body.classList.contains('sheet-open')) {
+      ev.preventDefault(); closeSheet();
+    }
+  });
 
   /* ---------------- arrastrar la hoja para cerrarla ----------------
      Gesto de las hojas de iOS: el contenido scrollea con normalidad, pero si
@@ -343,6 +399,10 @@
       if (!activo) { evaluando = false; return; }
       const v = Math.max(0, dy), vel = v / Math.max(1, Date.now() - t0);
       activo = false; evaluando = false;
+      // Hubo arrastre: el clic sintético que viene detrás no debe cerrar una
+      // hoja que se ha quedado a medio camino y ha vuelto a su sitio.
+      arrastroReciente = true;
+      setTimeout(() => { arrastroReciente = false; }, 350);
       sh.style.transition = ''; sh.style.transform = ''; bg.style.opacity = '';
       if (v > Math.min(120, alto() * .28) || vel > .55) closeSheet();
     }
@@ -426,7 +486,7 @@
 
     const fila = (icono, etiqueta, recetaId) => {
       if (recetaId === 'LIBRE') {
-        return el('div', { class: 'meal-row libre', onclick: () => openSheet(sh => {
+        return el('button', { class: 'meal-row libre plano', type: 'button', onclick: () => openSheet(sh => {
           sh.append(el('h2', null, TX.comidaLibreTitulo), el('div', { class: 'stag' }, TX.comidaLibreTag),
             el('p', { style: 'font-size:14px' }, D.NUTRI.comidaLibre));
         }) }, el('span', { class: 'mi' }, icono), el('span', { class: 'ml' }, etiqueta),
@@ -434,7 +494,7 @@
       }
       const r = rec(recetaId);
       if (!r) return null;
-      return el('div', { class: 'meal-row', onclick: () => { if (window.UI && window.UI.sheetReceta) window.UI.sheetReceta(r); } },
+      return el('button', { class: 'meal-row plano', type: 'button', onclick: () => { if (window.UI && window.UI.sheetReceta) window.UI.sheetReceta(r); } },
         el('span', { class: 'mi' }, icono), el('span', { class: 'ml' }, etiqueta),
         el('span', { class: 'mn' }, r.nombre), el('span', { class: 'mk' }, r.macros.kcal + ' kcal'));
     };
@@ -463,9 +523,9 @@
     /* — cabecera de día con navegación — */
     const nav = el('div', { class: 'hero' },
       el('div', { style: 'display:flex;align-items:center;gap:8px' },
-        el('button', { class: 'icon-btn', 'aria-label': '<', onclick: () => { selDia = addDays(selDia, -1); render(); } }, '‹'),
+        el('button', { class: 'icon-btn', 'aria-label': TX.diaAnterior, onclick: () => { selDia = addDays(selDia, -1); render(); } }, '‹'),
         el('div', { class: 'fecha', style: 'flex:1;text-align:center' }, fmtFecha(d) + (d === hoy ? ' · ' + TX.hoyTag : '')),
-        el('button', { class: 'icon-btn', 'aria-label': '>', style: d >= hoy ? 'visibility:hidden' : '', onclick: () => { selDia = addDays(selDia, 1); render(); } }, '›')
+        el('button', { class: 'icon-btn', 'aria-label': TX.diaSiguiente, style: d >= hoy ? 'visibility:hidden' : '', onclick: () => { selDia = addDays(selDia, 1); render(); } }, '›')
       )
     );
     root.append(nav);
@@ -484,12 +544,14 @@
       const c = el('div', { class: 'card' });
       prep.forEach(([k, txt]) => {
         const on = !!(S.flags.prep && S.flags.prep[k]);
-        c.append(el('div', { class: 'habit wide' + (on ? ' on' : ''), style: 'margin:5px 0', onclick: ev => {
-          S.flags.prep = S.flags.prep || {}; S.flags.prep[k] = !S.flags.prep[k]; save();
-          const v = !!S.flags.prep[k];
-          ev.currentTarget.classList.toggle('on', v);
-          ev.currentTarget.querySelector('.hicon').textContent = v ? '✓' : '○';
-        } }, el('div', { class: 'hicon' }, on ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt))));
+        c.append(el('button', { class: 'habit wide' + (on ? ' on' : '') + ' plano', type: 'button', style: 'margin:5px 0',
+          'aria-pressed': on ? 'true' : 'false', onclick: ev => {
+            S.flags.prep = S.flags.prep || {}; S.flags.prep[k] = !S.flags.prep[k]; save();
+            const v = !!S.flags.prep[k];
+            ev.currentTarget.classList.toggle('on', v);
+            ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
+            ev.currentTarget.querySelector('.hicon').textContent = v ? '✓' : '○';
+          } }, el('div', { class: 'hicon' }, on ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt))));
       });
       root.append(c);
       // el camino por delante: los 4 discos
@@ -614,11 +676,15 @@
           }, html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' });
 
           const row = el('div', { class: 'exrow' },
-            el('div', { class: 'exmain', onclick: () => fichaEjercicio(b.e, { dosis }) },
-              el('div', { class: 'exname' }, e.nombre, el('span', { class: 'info', html: ' ⓘ' })),
+            el('div', { class: 'exmain' },
+              // El botón es SOLO el nombre, no todo el bloque: dentro de .exmain
+              // viven el cronómetro y los chips de reps, y un <button> no puede
+              // contener otros botones.
+              el('button', { class: 'exname plano', type: 'button', onclick: () => fichaEjercicio(b.e, { dosis }) },
+                e.nombre, el('span', { class: 'info', html: ' ⓘ' })),
               el('div', { class: 'exmeta' },
                 doseChip,
-                el('span', { class: 'rest', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString(TX.lang || 'es') + '′' : b.d + '″')),
+                el('button', { class: 'rest plano', type: 'button', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString(TX.lang || 'es') + '′' : b.d + '″')),
                 chipSug, repWrap),
               b.n ? el('div', { class: 'exnote' }, b.n) : null),
             el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),
@@ -633,7 +699,13 @@
         if (['torso-a', 'torso-b', 'fb-a', 'fb-b', 'push-a', 'pull-a', 'push-b', 'pull-b'].includes(sl.sid)) tb.push(D.TENDON.bloques[3]);
         if (tb.length) {
           const on = !!dd.tendon;
-          card.append(el('div', { class: 'habit wide' + (on ? ' on' : ''), style: 'margin-top:10px', onclick: ev => { dd.tendon = !dd.tendon; save(); ev.currentTarget.classList.toggle('on', !!dd.tendon); } },
+          card.append(el('button', { class: 'habit wide' + (on ? ' on' : '') + ' plano', type: 'button', style: 'margin-top:10px',
+            'aria-pressed': on ? 'true' : 'false',
+            onclick: ev => {
+              dd.tendon = !dd.tendon; save();
+              ev.currentTarget.classList.toggle('on', !!dd.tendon);
+              ev.currentTarget.setAttribute('aria-pressed', dd.tendon ? 'true' : 'false');
+            } },
             el('div', { class: 'hicon' }, '🛡'),
             el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, TX.tendonNombre + ' · ' + tb.map(x => x.nombre.split(' ·')[0]).join(' + ')),
               el('div', { class: 'hs' }, tb.map(x => x.detalle.split('.')[0]).join(' · ')))));
@@ -657,7 +729,7 @@
           ev.currentTarget.textContent = dd.sesionOk ? TX.cardioHecho : TX.cardioMarcar;
           evaluaLogros();
         } }, on ? TX.cardioHecho : TX.cardioMarcar));
-        const minIn = el('input', { type: 'text', inputmode: 'numeric', placeholder: 'min', value: dd.cardioMin || '', style: 'width:70px;text-align:center;font-family:var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:7px', onchange: ev => { const v = parseInt(ev.target.value); if (v > 0) dd.cardioMin = v; else delete dd.cardioMin; save(); } });
+        const minIn = el('input', { type: 'text', inputmode: 'numeric', placeholder: 'min', 'aria-label': TX.minutosReales, value: dd.cardioMin || '', style: 'width:70px;text-align:center;font-family:var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:7px', onchange: ev => { const v = parseInt(ev.target.value); if (v > 0) dd.cardioMin = v; else delete dd.cardioMin; save(); } });
         card.append(el('div', { style: 'display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)' }, TX.minutosReales, minIn));
         root.append(card);
       }
@@ -678,7 +750,14 @@
       const mkHabit = (key, icon, titulo, sub, wide) => {
         const on = !!dd[key];
         // toggle en el sitio (sin re-render): así la página no salta arriba
-        return el('div', { class: 'habit' + (on ? ' on' : '') + (wide ? ' wide' : ''), onclick: ev => { dd[key] = !dd[key]; save(); ev.currentTarget.classList.toggle('on', !!dd[key]); evaluaLogros(); } },
+        return el('button', { class: 'habit' + (on ? ' on' : '') + (wide ? ' wide' : '') + ' plano', type: 'button',
+          'aria-pressed': on ? 'true' : 'false',
+          onclick: ev => {
+            dd[key] = !dd[key]; save();
+            ev.currentTarget.classList.toggle('on', !!dd[key]);
+            ev.currentTarget.setAttribute('aria-pressed', dd[key] ? 'true' : 'false');
+            evaluaLogros();
+          } },
           el('div', { class: 'hicon' }, icon),
           el('div', null, el('div', { class: 'ht' }, titulo), sub ? el('div', { class: 'hs' }, sub) : null));
       };
@@ -687,7 +766,7 @@
 
       const dow = dowMon(d);
       if ([0, 2, 4].includes(dow)) {
-        const pIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', value: dd.peso ? String(dd.peso).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
+        const pIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hPeso + ' · kg', value: dd.peso ? String(dd.peso).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
           const v = parseFloat(ev.target.value.replace(',', '.'));
           if (v > 30 && v < 200) { dd.peso = v; save(); toast(tpl(TX.pesoGuardado, { v: kg1(v) })); ev.target.closest('.habit').classList.add('on'); evaluaLogros(); } else { delete dd.peso; save(); }
         } });
@@ -697,7 +776,7 @@
           pIn, el('span', { class: 'u mini' }, 'kg')));
       }
       if (dow === 0) {
-        const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
+        const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hCintura + ' · cm', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
           const v = parseFloat(ev.target.value.replace(',', '.'));
           if (v > 50 && v < 200) { dd.cintura = v; save(); toast(tpl(TX.cinturaGuardada, { v: kg1(v) })); ev.target.closest('.habit').classList.add('on'); evaluaLogros(); } else { delete dd.cintura; save(); }
         } });
@@ -793,8 +872,21 @@
       const actual = S.config.lang || 'es';
       const fila = el('div', { class: 'langrow' });
       IDIOMAS.forEach(([code, flag, nombre]) => {
-        fila.append(el('button', { class: 'langbtn' + (code === actual ? ' on' : ''), onclick: () => {
+        fila.append(el('button', { class: 'langbtn' + (code === actual ? ' on' : ''), onclick: async ev => {
           if (code === actual) return;
+          // El fichero del idioma ya no viene precargado. Se trae AHORA, que es
+          // cuando se supone que hay conexión, para que el service worker lo
+          // guarde antes de recargar. Si falla (sin red y nunca usado), NO se
+          // cambia: más vale seguir en el idioma actual que quedarse a medias,
+          // con la interfaz en español y la preferencia diciendo otra cosa.
+          if (code !== 'es') {
+            const btn = ev.currentTarget;
+            btn.disabled = true;
+            let ok = false;
+            try { ok = (await fetch('./assets/data.' + code + '.js')).ok; } catch (e) { ok = false; }
+            btn.disabled = false;
+            if (!ok) { toast(TX.ajIdiomaSinRed); return; }
+          }
           S.config.lang = code; save();
           location.reload();
         } }, el('span', { class: 'lf' }, flag), el('span', { class: 'ln' }, nombre)));
@@ -802,8 +894,9 @@
       sh.append(fila, el('p', { class: 'mini' }, TX.ajIdiomaNota));
       // datos base
       sh.append(el('h4', null, TX.ajLineaBase));
-      const cIn = el('input', { type: 'text', inputmode: 'decimal', value: S.config.cinturaBase || '', placeholder: '100' });
-      sh.append(el('div', { class: 'field' }, el('label', null, TX.ajCinturaIni), cIn));
+      // el <label> ya existía, pero sin `for` no etiquetaba nada
+      const cIn = el('input', { type: 'text', inputmode: 'decimal', id: 'b2p-cintura-base', value: S.config.cinturaBase || '', placeholder: '100' });
+      sh.append(el('div', { class: 'field' }, el('label', { for: 'b2p-cintura-base' }, TX.ajCinturaIni), cIn));
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%', onclick: () => {
         const v = parseFloat(cIn.value.replace(',', '.'));
         if (v > 50 && v < 200) { S.config.cinturaBase = v; save(); toast(TX.ajGuardado); } } }, TX.ajGuardar));
@@ -879,8 +972,8 @@
         el('div', { class: 'stag' }, TX.obSub),
         el('p', { style: 'font-size:14px' }, TX.obTexto),
         el('p', { class: 'mini' }, TX.obConsejo));
-      const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: TX.obPlaceholder });
-      sh.append(el('div', { class: 'field' }, el('label', null, TX.obCintura), cIn));
+      const cIn = el('input', { type: 'text', inputmode: 'decimal', id: 'b2p-cintura-ob', placeholder: TX.obPlaceholder });
+      sh.append(el('div', { class: 'field' }, el('label', { for: 'b2p-cintura-ob' }, TX.obCintura), cIn));
       sh.append(el('button', { class: 'btn-b2p', style: 'width:100%', onclick: () => {
         const v = parseFloat((cIn.value || '').replace(',', '.'));
         if (v > 50 && v < 200) S.config.cinturaBase = v;

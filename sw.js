@@ -1,16 +1,15 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v17';
+const V = 'b2p-v18';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/basecoat.min.css',
   './assets/styles.css',
   './assets/data.js',
-  './assets/data.en.js',
-  './assets/data.fr.js',
-  './assets/data.de.js',
-  './assets/data.it.js',
+  // Los otros cuatro idiomas NO se precargan: eran 366 KB que una instalación
+  // no lee jamás (se usa uno). Se descargan al elegirlos en Ajustes y el
+  // manejador de abajo los guarda en caché, así que a partir de ese momento
+  // ese idioma también funciona sin cobertura.
   './assets/app.js',
   './assets/views.js',
   './assets/fonts/BarlowCondensed-600.woff2',

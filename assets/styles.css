@@ -26,7 +26,13 @@
   --tabbar-bg:#242B35;   /* 1,36:1 vs --bg */
   --ink:#F2F4F0;
   --ink2:#A7AFB9;
-  --ink3:#6B7480;
+  /* Derivado, no elegido: #6B7480 daba 3,46:1 sobre --surface2, que es el más
+     claro de los tres fondos donde se usa. Subiendo SOLO la luminosidad HSL
+     (tono 214,3° y saturación 8,9% intactos), 0,5358 es el primer valor que
+     cruza 4,5:1 ahí. Resultado 5,35 / 4,94 / 4,50 sobre bg/surface/surface2,
+     y conserva 1,78× de luminancia frente a --ink2: los dos niveles se siguen
+     distinguiendo. */
+  --ink3:#7E8793;
   --volt:#C8F24E;
   --volt-dim:#9DBF3B;
   --volt-ink:#10140A;
@@ -58,37 +64,11 @@
   color-scheme:dark;
 }
 
-/* ---------- Bridge → variables de Basecoat (shadcn) ---------- */
-:root{
-  --background:var(--bg);
-  --foreground:var(--ink);
-  --card:var(--surface);
-  --card-foreground:var(--ink);
-  --popover:var(--surface2);
-  --popover-foreground:var(--ink);
-  --primary:var(--volt);
-  --primary-foreground:var(--volt-ink);
-  --secondary:var(--surface2);
-  --secondary-foreground:var(--ink);
-  --muted:var(--surface2);          /* OJO: --muted es FONDO en shadcn */
-  --muted-foreground:var(--ink2);
-  --accent:var(--surface2);
-  --accent-foreground:var(--ink);
-  --destructive:var(--danger);
-  --destructive-foreground:#fff;
-  --border:var(--line);
-  --input:var(--line);
-  --ring:var(--volt);
-  --radius:var(--r-sm);
-}
-/* Choques medidos con Basecoat (auditados comparando mis 134 clases contra su
-   hoja): card · card-title · badge · toast · field · btn.
-   - .card: su overflow:hidden recorta los desplegables → neutralizado aquí.
-   - .badge: renombrado a .b2-badge (ver sección LOGROS).
-   - .card-title y .toast: sus reglas van scopeadas (.card>header>…, .toaster .toast)
-     así que no me alcanzan. .field: lo suyo coincide con lo que quiero.
-   - .btn: no uso la clase pelada (uso .btn-b2p / .btn-ghost). */
-.card{overflow:visible;white-space:normal;width:auto}
+/* Aquí vivían 20 variables puente hacia los nombres de shadcn y un parche que
+   neutralizaba el overflow:hidden de su .card. Al retirar Basecoat se comprobó
+   que ninguna de las 20 se usaba en ningún fichero, y el parche pasó a ser un
+   no-op. La única huella que queda de aquella convivencia es .b2-badge, que se
+   llama así porque .badge chocaba. */
 
 /* ---------- Base · layout unificado ----------
    El documento scrollea SIEMPRE (navegador e instalada): cabecera y barra son
@@ -97,8 +77,19 @@
    para que su toolbar se repliegue también en las vistas cortas. La altura de
    la cabecera la mide app.js en --hdr-h. html.pwa queda solo como marcador
    para el diagnóstico. */
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+/* Reset. Sustituye a basecoat.min.css (213 KB), del que solo llegaban a
+   aplicarse 17 reglas de 1.221: estas del reset, tres de .card y una de tokens
+   que nadie usaba. El resto iba dentro de @layer, y el CSS sin capa —o sea todo
+   este fichero— gana siempre a las capas, así que ni se aplicaba. Se copian con
+   las variables ya resueltas. */
+*,::before,::after,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;tab-size:4;line-height:1.5;scroll-behavior:smooth}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}
+img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}
+button,input,select,optgroup,textarea{font:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:transparent;border-radius:0}
+button,input:where([type="button"],[type="reset"],[type="submit"]){appearance:button}
+[hidden]:where(:not([hidden="until-found"])){display:none!important}
+body{overscroll-behavior:none}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   /* 16 y no 15: la x de Public Sans mide un 94,5% de la de Inter (52 vs 55
@@ -121,6 +112,17 @@ a{color:var(--volt)}
 .mut{color:var(--ink2)}
 .mini{font-size:13px;color:var(--ink2)}
 button{font-family:inherit;-webkit-tap-highlight-color:transparent}
+/* Piezas que se dibujan como bloques de contenido (fila de ejercicio, tarjeta
+   de receta, artículo de la compra…) pero que son botones de verdad. El reset
+   va AQUÍ ARRIBA a propósito: así las reglas de cada componente, que vienen
+   después, mandan sobre el aspecto y no hay que repetir fondo ni borde. */
+.plano{
+  appearance:none;-webkit-appearance:none;background:none;border:0;margin:0;padding:0;
+  font:inherit;color:inherit;text-align:left;cursor:pointer;
+}
+/* Botón que ocupa toda su celda de tabla. Los 44 px son la zona táctil (HIG):
+   la celda ya rondaba esa altura, así que crecer hasta ahí apenas mueve la fila. */
+.celda-btn{display:flex;flex-direction:column;justify-content:center;width:100%;min-height:44px}
 input,select,textarea{font-family:inherit;color:var(--ink)}
 ::selection{background:var(--volt);color:var(--volt-ink)}
 :focus-visible{outline:2px solid var(--volt);outline-offset:2px;border-radius:4px}
@@ -134,7 +136,13 @@ section.block{margin:18px 0}
 .hdr{
   position:fixed;top:0;left:0;right:0;z-index:40;
   background:rgba(11,13,16,.6);
-  -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
+  /* Mismo problema que la barra inferior: al hacer scroll, el botón volt pasa
+     por debajo del cristal y el icono de Ajustes caía a 2,65:1. Un icono exige
+     3:1 (WCAG 1.4.11) y eso se cumpliría con brightness(.91), pero deja 0,02 de
+     margen. Con el umbral de texto (4,5:1) sale .635, que da margen real y no
+     cuesta nada sobre el fondo normal: el icono pasa de 8,78:1 a 8,88:1. */
+  -webkit-backdrop-filter:blur(20px) saturate(1.6) brightness(.635);
+  backdrop-filter:blur(20px) saturate(1.6) brightness(.635);
   border-bottom:1px solid rgba(255,255,255,.06);
   padding-top:env(safe-area-inset-top,0px);
 }
@@ -166,7 +174,15 @@ section.block{margin:18px 0}
   width:min(calc(100% - 24px),520px);
   border-radius:30px;
   background:var(--glass);
-  -webkit-backdrop-filter:blur(22px) saturate(1.7);backdrop-filter:blur(22px) saturate(1.7);
+  /* brightness() acota el peor caso: el botón volt de cerrar el día pasa por
+     debajo del cristal y la etiqueta inactiva caía a 1,77:1. Derivado: 0,375
+     es el brillo máximo que aún cruza 4,5:1 con volt detrás (uso 0,37 por
+     margen de redondeo). Sobre el fondo normal apenas se nota —#151A21 pasa a
+     #12161C—, así que el efecto cristal se conserva: solo muerde cuando algo
+     brillante pasa por debajo, que es justo cuando hace falta.
+     Subir la opacidad en su lugar habría exigido .89 y matado el cristal. */
+  -webkit-backdrop-filter:blur(22px) saturate(1.7) brightness(.37);
+  backdrop-filter:blur(22px) saturate(1.7) brightness(.37);
   border:1px solid var(--glass-line);
   box-shadow:0 10px 34px rgba(0,0,0,.5),inset 0 1px 0 var(--glass-hi);
 }
@@ -195,7 +211,17 @@ section.block{margin:18px 0}
 .tabbar.dragging .tab-bubble{transition:none;background:rgba(200,242,78,.18)}
 
 /* ---------- Tarjetas y cabeceras ---------- */
-.card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px 15px 13px;margin:12px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+/* El flex en columna con 24 px de hueco, y el cuerpo a 14 px con su interlineado,
+   NO eran decisiones propias: los ponía el componente .card de Basecoat y toda
+   la app se dibujó encima. Al retirar Basecoat se hacen explícitos, que es donde
+   debieron estar siempre. Los valores son los suyos exactos (--text-sm y
+   --text-sm--line-height), verificados comparando la huella de las 5 vistas. */
+.card{
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:15px 15px 13px;margin:12px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+  display:flex;flex-direction:column;gap:24px;
+  font-size:14px;line-height:calc(1.25/0.875);
+}
 .card.flat{background:transparent;border-style:dashed}
 .card-title{display:flex;align-items:center;gap:9px;margin-bottom:10px}
 .card-title h2{font-size:19px}
@@ -236,7 +262,7 @@ section.block{margin:18px 0}
 .exrow{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line-soft)}
 .exrow:last-child{border-bottom:0}
 .exrow .exmain{flex:1;min-width:0;cursor:pointer}
-.exrow .exname{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:6px}
+.exrow .exname{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:6px;min-height:44px}
 .exrow .exname .info{color:var(--ink3);flex:0 0 auto}
 .exrow .exmeta{display:flex;gap:8px;align-items:center;margin-top:3px;flex-wrap:wrap}
 /* .dose ya NO es interactivo: era gemelo del temporizador, medía 36×20 y
@@ -484,7 +510,11 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .b2-badge .bn{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;line-height:1.15;overflow-wrap:anywhere}
 .b2-badge .bd{font-size:11.5px;color:var(--ink2);line-height:1.35;overflow-wrap:anywhere}
 .b2-badge .bwhen{font-family:var(--mono);font-size:10.5px;color:var(--volt-dim);margin-top:auto;padding-top:4px}
-.b2-badge.locked{opacity:.42;filter:saturate(.2)}
+/* La opacidad atenúa texto Y fondo a la vez, así que el contraste se hunde:
+   a .42 la descripción quedaba en 2,36:1. Derivado: .70 es el mínimo con el
+   que --ink2 sobre --surface vuelve a 4,5:1. Lo que de verdad dice "bloqueado"
+   es el emoji en gris, no el atenuado, así que se refuerza la desaturación. */
+.b2-badge.locked{opacity:.70;filter:saturate(.1)}
 
 /* ---------- Sheet (bottom sheet) ---------- */
 .sheet-bg{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);opacity:0;transition:opacity .2s;backdrop-filter:blur(2px)}
@@ -506,11 +536,15 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 /* Tirador: zona de agarre real de 26 px de alto (la barrita sola son 4 px,
    imposible de coger con el pulgar), centrada con un pseudo-elemento. */
 .sheet .grip{
-  position:relative;height:26px;margin:-2px auto 6px;width:100%;max-width:200px;
+  /* Es a la vez tirador de arrastre y botón de cerrar. 44 px de zona táctil
+     (HIG) con márgenes negativos: ocupa los mismos 30 px de flujo que antes,
+     así que el diseño no se mueve. */
+  display:block;appearance:none;-webkit-appearance:none;background:none;border:0;padding:0;
+  position:relative;height:44px;margin:-12px auto -2px;width:100%;max-width:200px;
   cursor:grab;touch-action:none;
 }
 .sheet .grip::before{
-  content:'';position:absolute;left:50%;top:9px;transform:translateX(-50%);
+  content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.22);
 }
 .sheet .grip:active{cursor:grabbing}

@@ -13,6 +13,13 @@
   const SVGNS = 'http://www.w3.org/2000/svg';
   const COL = { peso: '#C8F24E', cintura: '#66A0E8', banca: '#E5B63E', sent: '#E5685A', rdl: '#4CC07E', pasos: '#66A0E8' };
 
+  /* Ejes y etiquetas de las gráficas: se leen DEL TOKEN, no de un hex copiado.
+     Tenerlos duplicados a mano fue justo lo que dejó las gráficas en 3,80:1
+     cuando --ink3 se corrigió por contraste. Se resuelve en cada pintada. */
+  const tok = (n, alt) => getComputedStyle(document.documentElement).getPropertyValue(n).trim() || alt;
+  const EJE = () => tok('--ink3', '#7E8793');
+  const EJE2 = () => tok('--ink2', '#A7AFB9');
+
   function sv(tag, attrs) {
     const n = document.createElementNS(SVGNS, tag);
     if (attrs) for (const k in attrs) n.setAttribute(k, attrs[k]);
@@ -146,7 +153,8 @@
           if (!e) { console.warn('B2P: falta ficha de', b.e); return; }
           const reps = b.rW ? Object.values(b.rW).join(' → ') : b.r;
           t.append(el('tr', null,
-            el('td', { style: 'cursor:pointer', onclick: () => U.fichaEjercicio(b.e, {}) }, el('b', null, e.nombre), b.n ? el('div', { class: 'mini' }, b.n) : null),
+            el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => U.fichaEjercicio(b.e, {}) },
+              el('b', null, e.nombre), b.n ? el('div', { class: 'mini' }, b.n) : null)),
             el('td', { class: 'sr' }, b.s + '×' + reps),
             el('td', { class: 'sr' }, b.d >= 60 ? (b.d / 60).toLocaleString('es-ES') + '′' : b.d + '″')));
         });
@@ -165,7 +173,8 @@
         const A = D.ARRANQUE;
         const ta = el('table', null, el('tr', null, el('th', null, TX.ejercicioLbl), el('th', null, 'S3'), el('th', null, 'S4'), el('th', null, 'S5')));
         A.tabla.forEach(r => ta.append(el('tr', null,
-          el('td', { style: 'cursor:pointer', onclick: () => U.fichaEjercicio(r.ej, {}) }, el('b', null, D.EJERCICIOS[r.ej].nombre), el('div', { class: 'mini' }, r.n)),
+          el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => U.fichaEjercicio(r.ej, {}) },
+            el('b', null, D.EJERCICIOS[r.ej].nombre), el('div', { class: 'mini' }, r.n))),
           el('td', { class: 'sr' }, r.s3), el('td', { class: 'sr' }, r.s4), el('td', { class: 'sr' }, r.s5))));
         kids.push(el('div', { class: 'regla destaca' }, el('b', null, '🔓 ' + A.titulo), A.derivacion));
         kids.push(el('div', { class: 'tw' }, ta));
@@ -200,7 +209,7 @@
       Object.keys(D.EJERCICIOS).filter(id => D.EJERCICIOS[id].zona === z).forEach(id => {
         const e = D.EJERCICIOS[id];
         lib.append(el('div', { class: 'exrow' },
-          el('div', { class: 'exmain', onclick: () => U.fichaEjercicio(id, {}) },
+          el('button', { class: 'exmain plano', type: 'button', onclick: () => U.fichaEjercicio(id, {}) },
             el('div', { class: 'exname' }, e.nombre),
             el('div', { class: 'exmeta' }, el('span', { class: 'dose' }, e.musc[0]), el('span', { class: 'mini' }, e.equipo))),
           el('span', { class: 'mini', style: 'color:var(--ink3)' }, '›')));
@@ -255,7 +264,7 @@
     root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, TX.nRecetario), el('span', { class: 'mini' }, TX.nToca)));
     const grid = el('div', { class: 'rec-grid' });
     D.RECETAS.forEach(r => {
-      grid.append(el('div', { class: 'rec-card', onclick: () => sheetReceta(r) },
+      grid.append(el('button', { class: 'rec-card plano', type: 'button', onclick: () => sheetReceta(r) },
         el('div', { class: 'rtipo' }, r.tipo),
         el('h3', null, r.nombre),
         el('div', { class: 'rmacros' }, el('span', { class: 'rkcal' }, r.macros.kcal), ' kcal · P', r.macros.p, ' G', r.macros.g, ' C', r.macros.c)));
@@ -267,7 +276,7 @@
     const rec = id => D.RECETAS.find(r => r.id === id);
     const tm = el('table', null, el('tr', null, el('th', null, TX.diaLbl), el('th', null, TX.desayuno), el('th', null, TX.comidaLbl), el('th', null, TX.cena)));
     const celda = id => id === 'LIBRE' ? el('td', null, el('b', { style: 'color:var(--volt)' }, TX.comidaLibreMn)) :
-      el('td', { style: 'cursor:pointer', onclick: () => sheetReceta(rec(id)) }, rec(id).nombre);
+      el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => sheetReceta(rec(id)) }, rec(id).nombre));
     D.MENU.forEach(m => tm.append(el('tr', null, el('td', { class: 'sr' }, m.d), celda(m.de), celda(m.co), celda(m.ce))));
     root.append(el('div', { class: 'tw' }, tm));
     root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, TX.nTomaNota + D.NUTRI.comidaLibre));
@@ -281,7 +290,13 @@
       c.items.forEach((it, ii) => {
         const k = ci + '-' + ii, on = !!U.S.shop[k];
         // toggle EN EL SITIO: re-pintar la vista hacía scroll-arriba en cada marca
-        shop.append(el('div', { class: 'shopitem' + (on ? ' on' : ''), onclick: ev => { U.S.shop[k] = !U.S.shop[k]; U.save(); ev.currentTarget.classList.toggle('on', !!U.S.shop[k]); } },
+        shop.append(el('button', { class: 'shopitem' + (on ? ' on' : '') + ' plano', type: 'button', 'aria-pressed': on ? 'true' : 'false',
+          onclick: ev => {
+            U.S.shop[k] = !U.S.shop[k]; U.save();
+            const v = !!U.S.shop[k];
+            ev.currentTarget.classList.toggle('on', v);
+            ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
+          } },
           el('span', { class: 'sq' }, it.q), el('span', { class: 'si' }, it.i + (it.opc ? TX.opcionalParen : '')),
           el('span', { class: 'tick', html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' })));
       });
@@ -294,7 +309,13 @@
     const mp = el('div', { class: 'card' });
     D.MEALPREP.forEach((p, i) => {
       const on = !!U.S.prep[i];
-      mp.append(el('div', { class: 'prep-step' + (on ? ' on' : ''), onclick: ev => { U.S.prep[i] = !U.S.prep[i]; U.save(); ev.currentTarget.classList.toggle('on', !!U.S.prep[i]); } },
+      mp.append(el('button', { class: 'prep-step' + (on ? ' on' : '') + ' plano', type: 'button', 'aria-pressed': on ? 'true' : 'false',
+        onclick: ev => {
+          U.S.prep[i] = !U.S.prep[i]; U.save();
+          const v = !!U.S.prep[i];
+          ev.currentTarget.classList.toggle('on', v);
+          ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
+        } },
         el('span', { class: 'pmin' }, p.min), el('span', { class: 'pt' }, p.paso)));
     });
     mp.append(el('p', { class: 'mini', style: 'margin:10px 0 2px' }, D.MEALPREP_NOTA));
@@ -474,12 +495,12 @@
     // grid Y
     for (let y = yMin + 1; y < yMax; y += 2) {
       svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' }));
-      const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: '#6B7480' }); t.textContent = y; svg.append(t);
+      const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = y; svg.append(t);
     }
     // eje X: S1..S12 (cada 2)
     for (let wk = 1; wk <= 12; wk += 2) {
       const x = sx((wk - 1) * 7 + 3);
-      const t = sv('text', { x, y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: '#6B7480' }); t.textContent = 'S' + wk; svg.append(t);
+      const t = sv('text', { x, y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: EJE() }); t.textContent = 'S' + wk; svg.append(t);
     }
     // pesajes (puntos suaves)
     pesos.forEach(p => svg.append(sv('circle', { cx: sx(p.x), cy: sy(p.y), r: 3, fill: COL.peso, opacity: .38 })));
@@ -490,7 +511,7 @@
       const last = ms[ms.length - 1];
       const lb = sv('text', { x: Math.min(sx(last.x) + 8, W - 44), y: sy(last.y) - 8, 'font-size': 11.5, 'font-weight': 700, fill: COL.peso }); lb.textContent = nice(last.y); svg.append(lb);
     } else {
-      const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: '#6B7480' }); t.textContent = TX.pVacioPeso; svg.append(t);
+      const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioPeso; svg.append(t);
     }
     return conTooltip(svg, pesos.concat(ms.map(m => ({ x: m.x, y: m.y, w: m.w }))), sx, sy, p => (p.w ? tpl(TX.pMediaSemana, { w: p.w }) : U.fmtFecha(p.f)) + ' · ' + nice(p.y) + ' kg');
   }
@@ -506,16 +527,16 @@
     const svg = baseSVG(W, H);
     // meta 91
     svg.append(sv('line', { x1: L, x2: W - R, y1: sy(91), y2: sy(91), stroke: 'rgba(255,255,255,.22)', 'stroke-dasharray': '5 4' }));
-    const mt = sv('text', { x: W - R, y: sy(91) - 5, 'text-anchor': 'end', 'font-size': 10, fill: '#A7AFB9' }); mt.textContent = TX.pMeta91; svg.append(mt);
-    for (let wk = 1; wk <= 12; wk += 2) { const t = sv('text', { x: sx((wk - 1) * 7 + 3), y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: '#6B7480' }); t.textContent = 'S' + wk; svg.append(t); }
-    for (let y = yMin + 1; y < yMax; y += 2) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: '#6B7480' }); t.textContent = y; svg.append(t); }
+    const mt = sv('text', { x: W - R, y: sy(91) - 5, 'text-anchor': 'end', 'font-size': 10, fill: EJE2() }); mt.textContent = TX.pMeta91; svg.append(mt);
+    for (let wk = 1; wk <= 12; wk += 2) { const t = sv('text', { x: sx((wk - 1) * 7 + 3), y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: EJE() }); t.textContent = 'S' + wk; svg.append(t); }
+    for (let y = yMin + 1; y < yMax; y += 2) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = y; svg.append(t); }
     if (pts.length) {
       svg.append(sv('polyline', { points: pts.map(p => sx(p.x) + ',' + sy(p.y)).join(' '), fill: 'none', stroke: COL.cintura, 'stroke-width': 2, 'stroke-linejoin': 'round' }));
       pts.forEach(p => svg.append(sv('circle', { cx: sx(p.x), cy: sy(p.y), r: 4, fill: COL.cintura, stroke: '#14171B', 'stroke-width': 2 })));
       const last = pts[pts.length - 1];
       const lb = sv('text', { x: Math.min(sx(last.x) + 8, W - 40), y: sy(last.y) - 8, 'font-size': 11.5, 'font-weight': 700, fill: COL.cintura }); lb.textContent = nice(last.y); svg.append(lb);
     } else {
-      const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: '#6B7480' }); t.textContent = TX.pVacioCintura; svg.append(t);
+      const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioCintura; svg.append(t);
     }
     return conTooltip(svg, pts, sx, sy, p => (p.base ? TX.pLineaBase : U.fmtFecha(p.f)) + ' · ' + nice(p.y) + ' cm');
   }
@@ -526,7 +547,7 @@
     const W = 640, H = 200, L = 40, R = 16, T = 16, B = 26;
     const svg = baseSVG(W, H);
     if (!hist.length) {
-      const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: '#6B7480' }); t.textContent = TX.pVacioCargas; svg.append(t);
+      const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioCargas; svg.append(t);
       return svg;
     }
     const marca = D.HISTORICO[ejId];
@@ -536,11 +557,11 @@
     const yMax = Math.ceil(Math.max(...ys, marca ? marca.kg : 0) + 5);
     const sx = x => L + (pts.length === 1 ? .5 : x / (pts.length - 1)) * (W - L - R);
     const sy = y => T + (yMax - y) / (yMax - yMin || 1) * (H - T - B);
-    for (let y = Math.ceil(yMin / 10) * 10; y <= yMax; y += 10) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: '#6B7480' }); t.textContent = y; svg.append(t); }
+    for (let y = Math.ceil(yMin / 10) * 10; y <= yMax; y += 10) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = y; svg.append(t); }
     // diana: la marca de su etapa anterior
     if (marca) {
       svg.append(sv('line', { x1: L, x2: W - R, y1: sy(marca.kg), y2: sy(marca.kg), stroke: 'rgba(242,244,240,.34)', 'stroke-dasharray': '6 4', 'stroke-width': 1.5 }));
-      const mt = sv('text', { x: W - R, y: sy(marca.kg) - 6, 'text-anchor': 'end', 'font-size': 10, fill: '#A7AFB9' });
+      const mt = sv('text', { x: W - R, y: sy(marca.kg) - 6, 'text-anchor': 'end', 'font-size': 10, fill: EJE2() });
       mt.textContent = tpl(TX.pTuMarca, { v: marca.kg }); svg.append(mt);
     }
     svg.append(sv('polyline', { points: pts.map(p => sx(p.x) + ',' + sy(p.y)).join(' '), fill: 'none', stroke: col, 'stroke-width': 2, 'stroke-linejoin': 'round' }));
@@ -559,14 +580,14 @@
     const W = 640, H = 190, L = 34, R = 10, T = 16, B = 26;
     const svg = baseSVG(W, H);
     const wMax = wNow >= 1 && wNow <= 12 ? wNow : (wNow === 99 ? 12 : 0);
-    if (!wMax) { const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: '#6B7480' }); t.textContent = TX.pVacioAdh; svg.append(t); return svg; }
+    if (!wMax) { const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioAdh; svg.append(t); return svg; }
     const bw = (W - L - R) / 12;
     const sy = v => T + (1 - v) * (H - T - B);
-    [.5, 1].forEach(v => { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 5, y: sy(v) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: '#6B7480' }); t.textContent = v * 100 + '%'; svg.append(t); });
+    [.5, 1].forEach(v => { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 5, y: sy(v) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = v * 100 + '%'; svg.append(t); });
     const tips = [];
     for (let i = 1; i <= 12; i++) {
       const x = L + (i - 1) * bw + 3, wdt = bw - 6;
-      const t = sv('text', { x: x + wdt / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 9.5, fill: i === wNow ? '#F2F4F0' : '#6B7480' }); t.textContent = 'S' + i; svg.append(t);
+      const t = sv('text', { x: x + wdt / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 9.5, fill: i === wNow ? '#F2F4F0' : EJE() }); t.textContent = 'S' + i; svg.append(t);
       if (i > wMax) { svg.append(sv('rect', { x, y: sy(0) - 2, width: wdt, height: 2, rx: 1, fill: 'rgba(255,255,255,.07)' })); continue; }
       const ses = U.sesionesFuerzaSemana(i).filter(s => s.f <= hoy);
       const tot = U.sesionesFuerzaSemana(i).length;
@@ -574,7 +595,7 @@
       const v = tot ? done / tot : 0;
       const hgt = Math.max(3, (H - T - B) * v);
       svg.append(sv('rect', { x, y: sy(0) - hgt, width: wdt, height: hgt, rx: 4, fill: COL.peso, opacity: i === wNow ? 1 : .78 }));
-      if (v > 0) { const pt = sv('text', { x: x + wdt / 2, y: sy(0) - hgt - 5, 'text-anchor': 'middle', 'font-size': 9.5, fill: i === wNow ? '#F2F4F0' : '#6B7480' }); pt.textContent = done + '/' + tot; svg.append(pt); }
+      if (v > 0) { const pt = sv('text', { x: x + wdt / 2, y: sy(0) - hgt - 5, 'text-anchor': 'middle', 'font-size': 9.5, fill: i === wNow ? '#F2F4F0' : EJE() }); pt.textContent = done + '/' + tot; svg.append(pt); }
       tips.push({ x: i, y: v, cx: x + wdt / 2, cy: sy(0) - hgt, txt: 'S' + i + ' · ' + done + ' de ' + tot + ' fuerzas' });
     }
     return svg;

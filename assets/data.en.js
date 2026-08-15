@@ -1020,6 +1020,8 @@ window.B2P = (function () {
     gRango: '{n} entries, from {a} to {b} {u}', gUnico: '1 entry, {a} {u}',
     gSemanas: '{n} of 12 weeks with data',
     gSinDatos: 'no data yet',
+    fSinRegistro: 'You haven’t logged any weight here yet. Once you do, you’ll see the gap.',
+    valFuera: 'Enter a value between {a} and {b} {u}.', descargaDosis: 'deload',
     hechosDe: 'Done {a} of {b} · {c} makes it count as a session',
     cerrarSinSesion: 'Close without a session', diaCerradoSinRacha: '✓ Day closed',
     sinRachaHoy: 'Today doesn\'t add to the streak.', mejorRachaNota: 'Your best: {n} days.',

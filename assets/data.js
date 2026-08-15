@@ -1020,6 +1020,8 @@ window.B2P = (function () {
     gRango: '{n} registros, de {a} a {b} {u}', gUnico: '1 registro, {a} {u}',
     gSemanas: '{n} de 12 semanas con datos',
     gSinDatos: 'sin datos todavía',
+    fSinRegistro: 'Todavía no has registrado peso aquí. En cuanto lo hagas, verás cuánto falta.',
+    valFuera: 'Introduce un valor entre {a} y {b} {u}.', descargaDosis: 'descarga',
     hechosDe: 'Hechos {a} de {b} · con {c} cuenta como sesión',
     cerrarSinSesion: 'Cerrar sin sesión', diaCerradoSinRacha: '✓ Día cerrado',
     sinRachaHoy: 'Hoy no suma a la racha.', mejorRachaNota: 'Tu mejor: {n} días.',

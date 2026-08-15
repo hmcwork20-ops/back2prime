@@ -276,6 +276,8 @@ section.block{margin:18px 0}
 /* .dose ya NO es interactivo: era gemelo del temporizador, medía 36×20 y
    cambiaba la sesión siguiente sin avisar. Ahora es solo la etiqueta 3×8. */
 .exrow .dose{font-family:var(--mono);font-weight:600;font-size:12.5px;color:var(--ink2);background:var(--surface2);border-radius:6px;padding:2px 8px}
+/* Semana de descarga: la dosis no es la de siempre, y tiene que notarse. */
+.exrow .dose.descarga{color:var(--f2);background:var(--f2-bg)}
 .exrow .rest{font-family:var(--mono);font-size:12px;color:var(--ink3);border:1px solid var(--line);border-radius:6px;padding:2px 9px;cursor:pointer;user-select:none;color:var(--ink2)}
 .exrow .rest:active{background:var(--surface2)}
 /* Reps completas o a medias: control propio y etiquetado, solo cuando el
@@ -336,6 +338,9 @@ section.block{margin:18px 0}
   box-shadow:0 6px 22px color-mix(in srgb,var(--volt) 25%,transparent);
 }
 .cerrar:disabled{background:var(--surface2);color:var(--ink3);box-shadow:none}
+/* Descargando idioma: el cursor lo dice y el borde marca cuál se está trayendo.
+   Sin atenuar: el texto tiene que seguir leyéndose igual de bien. */
+.langbtn[aria-busy="true"]{cursor:progress;border-color:var(--volt)}
 .cerrar.hecho{background:var(--surface2);color:var(--f1);border:1px solid color-mix(in srgb,var(--f1) 40%,transparent)}
 /* Por debajo del umbral el botón deja de vestirse de triunfo: no miente. */
 .cerrar.flojo{background:var(--surface2);color:var(--ink);border:1px solid var(--line);box-shadow:none}

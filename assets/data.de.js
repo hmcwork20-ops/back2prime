@@ -1020,6 +1020,8 @@ window.B2P = (function () {
     gRango: '{n} Einträge, von {a} bis {b} {u}', gUnico: '1 Eintrag, {a} {u}',
     gSemanas: '{n} von 12 Wochen mit Daten',
     gSinDatos: 'noch keine Daten',
+    fSinRegistro: 'Hier hast du noch kein Gewicht eingetragen. Sobald du das tust, siehst du den Abstand.',
+    valFuera: 'Gib einen Wert zwischen {a} und {b} {u} ein.', descargaDosis: 'Deload',
     hechosDe: '{a} von {b} erledigt · ab {c} zählt es als Einheit',
     cerrarSinSesion: 'Ohne Einheit abschließen', diaCerradoSinRacha: '✓ Tag abgeschlossen',
     sinRachaHoy: 'Heute zählt nicht für die Serie.', mejorRachaNota: 'Dein Bestwert: {n} Tage.',

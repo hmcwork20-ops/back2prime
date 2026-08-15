@@ -1024,6 +1024,8 @@ window.B2P = (function () {
     gRango: '{n} relevés, de {a} à {b} {u}', gUnico: '1 relevé, {a} {u}',
     gSemanas: '{n} semaines sur 12 avec des données',
     gSinDatos: 'pas encore de données',
+    fSinRegistro: 'Tu n’as encore enregistré aucun poids ici. Dès que ce sera fait, tu verras l’écart.',
+    valFuera: 'Saisis une valeur entre {a} et {b} {u}.', descargaDosis: 'décharge',
     hechosDe: 'Faits {a} sur {b} · à {c} ça compte comme séance',
     cerrarSinSesion: 'Clore sans séance', diaCerradoSinRacha: '✓ Journée close',
     sinRachaHoy: 'Aujourd\'hui ne compte pas pour la série.', mejorRachaNota: 'Ton record : {n} jours.',

@@ -432,12 +432,17 @@
       );
       const hist = D.HISTORICO[ejId];
       if (hist) {
+        // Sin registro previo, `falta` valía la marca ENTERA y el mensaje decía
+        // «te faltan 100,0 kg»: falso —no estás 100 kg por debajo, es que aún no
+        // has anotado nada— y desmoralizante el primer día.
         const pr = S.prs[ejId];
-        const falta = pr ? hist.kg - pr.kg : hist.kg;
+        const falta = pr ? hist.kg - pr.kg : null;
         sh.append(el('div', { class: 'alt destaca', style: 'margin-top:10px' },
           el('b', null, tpl(TX.fMarca, { t: hist.txt })),
           el('div', { class: 'mini', style: 'margin-top:2px' },
-            falta > 0 ? tpl(TX.fFaltan, { v: kg1(falta) }) : TX.fRecuperada)));
+            falta === null ? TX.fSinRegistro
+              : falta > 0 ? tpl(TX.fFaltan, { v: kg1(falta) })
+              : TX.fRecuperada)));
       }
       const h = historial(ejId, 5);
       if (h.length) {
@@ -511,6 +516,20 @@
     else if (!enPlan && w === 0)
       card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, TX.practicaMenu));
     return card;
+  }
+
+  /* Rangos válidos en UN solo sitio: el aviso los lee de aquí, así que no puede
+     decir un límite distinto del que comprueba el código. */
+  const RANGO = { peso: [30, 200, 'kg'], cintura: [50, 200, 'cm'] };
+  /* Devuelve el número si es válido; si no, avisa con el rango y devuelve null.
+     Vacío es "borrar", no un error. */
+  function valida(bruto, cual) {
+    const [a, b, u] = RANGO[cual];
+    const t = String(bruto || '').trim();
+    if (!t) return { vacio: true };
+    const v = parseFloat(t.replace(',', '.'));
+    if (!(v > a && v < b)) { toast(tpl(TX.valFuera, { a, b, u })); return { malo: true }; }
+    return { v };
   }
 
   /* ---------------- vista HOY ---------------- */
@@ -604,7 +623,15 @@
           const e = D.EJERCICIOS[b.e]; if (!e) return;
           const lg = (dd.ej && dd.ej[b.e]) || {};
           const reps = b.rW ? (b.rW[w] || Object.values(b.rW)[0]) : b.r;
-          const dosis = b.s + '×' + reps;
+          /* La semana de descarga decía una cosa arriba y otra abajo: el banner
+             pedía «la MITAD de series» y la dosis seguía marcando las series
+             completas. La bandera del calendario no la consumía nadie.
+             Redondeo hacia arriba: la mitad de 3 series no es 1, que sería un
+             tercio; con 2 se conserva el estímulo, que es de lo que trata una
+             descarga (mantener tejido, no cesar). */
+          const enDescarga = !!(D.CAL[w - 1] && D.CAL[w - 1].descarga);
+          const series = enDescarga ? Math.ceil(b.s / 2) : b.s;
+          const dosis = series + '×' + reps;
           const esBW = !ultimoLog(b.e, '9999') && !lg.kg && (fase.id === 1 || ['plancha', 'plancha-lastre', 'dead-bug', 'superman', 'elev-piernas', 'rueda-abdominal', 'crunch-polea', 'fondos', 'dominadas'].includes(b.e) === false && fase.id === 1);
           const sug = sugerencia(b.e, d);
 
@@ -623,7 +650,8 @@
             } });
 
           // La dosis vuelve a ser lo que parece: una etiqueta.
-          const doseChip = el('span', { class: 'dose' }, dosis);
+          const doseChip = el('span', { class: 'dose' + (enDescarga ? ' descarga' : '') },
+            dosis + (enDescarga ? ' · ' + TX.descargaDosis : ''));
 
           // «Reps a medias» decide el peso de la próxima sesión, así que ahora
           // se dice con palabras y solo aparece cuando el ejercicio está hecho:
@@ -766,9 +794,14 @@
 
       const dow = dowMon(d);
       if ([0, 2, 4].includes(dow)) {
-        const pIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hPeso + ' · kg', value: dd.peso ? String(dd.peso).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
-          const v = parseFloat(ev.target.value.replace(',', '.'));
-          if (v > 30 && v < 200) { dd.peso = v; save(); toast(tpl(TX.pesoGuardado, { v: kg1(v) })); ev.target.closest('.habit').classList.add('on'); evaluaLogros(); } else { delete dd.peso; save(); }
+        const pIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hPeso + ' · kg', value: dd.peso ? String(dd.peso).replace('.', ',') : '', onchange: ev => {
+          // Antes, un 250 mal tecleado borraba en silencio el peso que ya tenías
+          // guardado. Ahora se avisa con el rango y se conserva lo anterior.
+          const r = valida(ev.target.value, 'peso');
+          if (r.malo) { ev.target.value = dd.peso ? String(dd.peso).replace('.', ',') : ''; return; }
+          if (r.vacio) { delete dd.peso; save(); ev.target.closest('.habit').classList.remove('on'); return; }
+          dd.peso = r.v; save(); toast(tpl(TX.pesoGuardado, { v: kg1(r.v) }));
+          ev.target.closest('.habit').classList.add('on'); evaluaLogros();
         } });
         hb.append(el('div', { class: 'habit wide' + (dd.peso ? ' on' : '') },
           el('div', { class: 'hicon' }, '⚖️'),
@@ -776,9 +809,12 @@
           pIn, el('span', { class: 'u mini' }, 'kg')));
       }
       if (dow === 0) {
-        const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hCintura + ' · cm', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onclick: ev => ev.stopPropagation(), onchange: ev => {
-          const v = parseFloat(ev.target.value.replace(',', '.'));
-          if (v > 50 && v < 200) { dd.cintura = v; save(); toast(tpl(TX.cinturaGuardada, { v: kg1(v) })); ev.target.closest('.habit').classList.add('on'); evaluaLogros(); } else { delete dd.cintura; save(); }
+        const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hCintura + ' · cm', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onchange: ev => {
+          const r = valida(ev.target.value, 'cintura');
+          if (r.malo) { ev.target.value = dd.cintura ? String(dd.cintura).replace('.', ',') : ''; return; }
+          if (r.vacio) { delete dd.cintura; save(); ev.target.closest('.habit').classList.remove('on'); return; }
+          dd.cintura = r.v; save(); toast(tpl(TX.cinturaGuardada, { v: kg1(r.v) }));
+          ev.target.closest('.habit').classList.add('on'); evaluaLogros();
         } });
         hb.append(el('div', { class: 'habit wide' + (dd.cintura ? ' on' : '') },
           el('div', { class: 'hicon' }, '📏'),
@@ -880,11 +916,14 @@
           // cambia: más vale seguir en el idioma actual que quedarse a medias,
           // con la interfaz en español y la preferencia diciendo otra cosa.
           if (code !== 'es') {
-            const btn = ev.currentTarget;
-            btn.disabled = true;
+            // Son ~90 KB: con mala cobertura la espera se nota. La bandera pasa
+            // a reloj mientras tanto — nada de atenuar con opacidad, que es lo
+            // que hundió el contraste de la insignia bloqueada.
+            const btn = ev.currentTarget, lf = btn.querySelector('.lf'), bandera = lf.textContent;
+            btn.disabled = true; btn.setAttribute('aria-busy', 'true'); lf.textContent = '⏳';
             let ok = false;
             try { ok = (await fetch('./assets/data.' + code + '.js')).ok; } catch (e) { ok = false; }
-            btn.disabled = false;
+            btn.disabled = false; btn.removeAttribute('aria-busy'); lf.textContent = bandera;
             if (!ok) { toast(TX.ajIdiomaSinRed); return; }
           }
           S.config.lang = code; save();
@@ -898,8 +937,12 @@
       const cIn = el('input', { type: 'text', inputmode: 'decimal', id: 'b2p-cintura-base', value: S.config.cinturaBase || '', placeholder: '100' });
       sh.append(el('div', { class: 'field' }, el('label', { for: 'b2p-cintura-base' }, TX.ajCinturaIni), cIn));
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%', onclick: () => {
-        const v = parseFloat(cIn.value.replace(',', '.'));
-        if (v > 50 && v < 200) { S.config.cinturaBase = v; save(); toast(TX.ajGuardado); } } }, TX.ajGuardar));
+        // Pulsar «Guardar» con un valor fuera de rango no hacía absolutamente
+        // nada: ni guardaba ni lo decía.
+        const r = valida(cIn.value, 'cintura');
+        if (r.malo || r.vacio) { if (r.vacio) toast(tpl(TX.valFuera, { a: RANGO.cintura[0], b: RANGO.cintura[1], u: RANGO.cintura[2] })); return; }
+        S.config.cinturaBase = r.v; save(); toast(TX.ajGuardado);
+      } }, TX.ajGuardar));
       // backup
       sh.append(el('h4', null, TX.ajCopia));
       sh.append(el('p', { class: 'mini' }, TX.ajCopiaTxt));
@@ -975,8 +1018,11 @@
       const cIn = el('input', { type: 'text', inputmode: 'decimal', id: 'b2p-cintura-ob', placeholder: TX.obPlaceholder });
       sh.append(el('div', { class: 'field' }, el('label', { for: 'b2p-cintura-ob' }, TX.obCintura), cIn));
       sh.append(el('button', { class: 'btn-b2p', style: 'width:100%', onclick: () => {
-        const v = parseFloat((cIn.value || '').replace(',', '.'));
-        if (v > 50 && v < 200) S.config.cinturaBase = v;
+        // El campo es opcional: vacío se pasa de largo. Pero si has escrito algo
+        // y está fuera de rango, no se ignora en silencio.
+        const r = valida(cIn.value, 'cintura');
+        if (r.malo) return;
+        if (!r.vacio) S.config.cinturaBase = r.v;
         S.config.onboarded = true; save(); closeSheet();
       } }, TX.obEmpezamos));
     });

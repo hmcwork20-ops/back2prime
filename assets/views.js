@@ -159,7 +159,7 @@
         if (ses && ses.tipo === 'cardio') cardio.add(id);
       }));
       if (cardio.size) kids.push(el('div', { class: 'regla' }, el('b', null, TX.cardioFase),
-        Array.from(cardio).map(id => el('div', { style: 'margin:4px 0' }, el('b', { style: 'font-family:Inter;text-transform:none;font-size:13px;display:inline' }, D.SESIONES[id].nombre + ': '), D.SESIONES[id].detalle))));
+        Array.from(cardio).map(id => el('div', { style: 'margin:4px 0' }, el('b', { style: 'font-family:var(--cuerpo);text-transform:none;font-size:13px;display:inline' }, D.SESIONES[id].nombre + ': '), D.SESIONES[id].detalle))));
       if (f.id === 1) kids.push(el('div', { class: 'banner ok' }, el('div', null, el('b', null, TX.checkSalidaTitulo), el('div', null, TX.checkSalidaTxt))));
       if (f.id === 2) {
         const A = D.ARRANQUE;

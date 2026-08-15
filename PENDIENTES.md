@@ -1,6 +1,49 @@
 # Pendientes
 
 Anotado el 14 ago 2026, al cierre de la v12.
+Ampliado el 15 ago 2026, al cierre de la auditoría (v22).
+
+---
+
+## 0 · Semana 5: decisión pendiente de Hernan
+
+Lo levantó la crítica y sigue sin resolverse. **Es lo único que bloquea contenido.**
+
+**Dónde cae**: la semana 5 es la última de la Fase 2 («Entrada al gym», semanas
+3-4-5, Full Body ×3, RPE 6-7). Justo detrás, la Fase 3 «Carga» salta a Torso /
+Pierna ×4 con RPE 7-8: el primer salto real de volumen e intensidad.
+
+**Qué hay ahí ahora**: `HITOS_SEMANA[5]` = «Cribado de salud» — medirse la
+tensión en una farmacia y hacerse una analítica básica.
+
+**El problema**: si la 5 es la semana en la que históricamente se abandona,
+poner ahí **un recado** es lo peor posible: saca del gimnasio y da una excusa
+para posponer.
+
+**Premisa sin verificar**: que la 5 sea su semana de abandono viene de la
+crítica. El briefing original era un adjunto del chat y **no está en el repo**,
+así que no se puede re-comprobar. Confirmarlo con él antes de mover nada.
+
+**Preguntas abiertas**: ¿es la 5 o es otra? ¿Y qué le hizo parar? La
+intervención depende de la causa — no ver resultados (mostrar el salto de
+cargas desde la S1, que sí se ha movido aunque el espejo no), agenda rota (modo
+mínimo: «esta semana con 2 sesiones cuentas»), molestias (adelantar el bloque
+de tendón) o aburrimiento (alternativas por patrón de movimiento).
+
+**Recomendación**: mover el cribado a la **semana 2** y dejar la 5 libre para la
+intervención de retención. El propio texto del hito dice «antes de la Fase 3», y
+la Fase 3 empieza en la 6: las semanas 1 a 5 lo cumplen igual, y en la 2 la
+motivación está más alta, así que el recado se hace de verdad. Es mover una
+clave de sitio.
+
+---
+
+## Decisiones ya tomadas (15 ago 2026), para no reabrirlas
+
+- **Descarga de la semana 9**: se queda como está. La dosis muestra la mitad de
+  series marcada («2×8 · descarga»), coherente con el banner.
+- **+119 px de scroll en HOY**: aprobado. Es el precio de que el nombre del
+  ejercicio pase de 21 a 44 px de zona táctil.
 
 ---
 

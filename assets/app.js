@@ -374,7 +374,7 @@
       if (hist) {
         const pr = S.prs[ejId];
         const falta = pr ? hist.kg - pr.kg : hist.kg;
-        sh.append(el('div', { class: 'alt', style: 'border-left:3px solid var(--volt);margin-top:10px' },
+        sh.append(el('div', { class: 'alt destaca', style: 'margin-top:10px' },
           el('b', null, tpl(TX.fMarca, { t: hist.txt })),
           el('div', { class: 'mini', style: 'margin-top:2px' },
             falta > 0 ? tpl(TX.fFaltan, { v: kg1(falta) }) : TX.fRecuperada)));
@@ -929,11 +929,13 @@
   const bubble = el('div', { class: 'tab-bubble' });
   barIn.style.position = 'relative';
   barIn.prepend(bubble);
+  function situaBurbuja(t) {
+    bubble.style.width = (t.offsetWidth - 10) + 'px';   // sin transición: solo cambia al redimensionar
+    bubble.style.transform = 'translateX(' + (t.offsetLeft + 5) + 'px)';
+  }
   function moveBubble() {
     const t = $('.tab.on', barIn) || $('.tab', barIn);
-    if (!t) return;
-    bubble.style.left = (t.offsetLeft + 5) + 'px';
-    bubble.style.width = (t.offsetWidth - 10) + 'px';
+    if (t) situaBurbuja(t);
   }
   let dragStart = null, realDrag = false, dragTab = null;
   function nearestTab(x) {
@@ -956,8 +958,7 @@
     const t = nearestTab(ev.clientX);
     if (t && t !== dragTab) {
       dragTab = t;
-      bubble.style.left = (t.offsetLeft + 5) + 'px';
-      bubble.style.width = (t.offsetWidth - 10) + 'px';
+      situaBurbuja(t);
       $$('.tab', barIn).forEach(x => x.classList.toggle('on', x === t));
       if (navigator.vibrate) navigator.vibrate(8);
     }

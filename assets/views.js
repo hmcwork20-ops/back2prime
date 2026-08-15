@@ -167,7 +167,7 @@
         A.tabla.forEach(r => ta.append(el('tr', null,
           el('td', { style: 'cursor:pointer', onclick: () => U.fichaEjercicio(r.ej, {}) }, el('b', null, D.EJERCICIOS[r.ej].nombre), el('div', { class: 'mini' }, r.n)),
           el('td', { class: 'sr' }, r.s3), el('td', { class: 'sr' }, r.s4), el('td', { class: 'sr' }, r.s5))));
-        kids.push(el('div', { class: 'regla', style: 'border-left:3px solid var(--volt)' }, el('b', null, '🔓 ' + A.titulo), A.derivacion));
+        kids.push(el('div', { class: 'regla destaca' }, el('b', null, '🔓 ' + A.titulo), A.derivacion));
         kids.push(el('div', { class: 'tw' }, ta));
         kids.push(el('p', { class: 'mini' }, A.resto));
         kids.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, 'Te van a parecer pesos ridículos'), el('div', null, A.aviso))));
@@ -228,7 +228,7 @@
     const IDS_N = ['n-obj', 'n-plato', 'n-rec', 'n-menu', 'n-compra', 'n-prep', 'n-supl'];
     root.append(chipNav(IDS_N.map((id, i) => [id, TX.chipsNutri[i]])));
 
-    root.append(el('div', { id: 'n-obj', class: 'card fase-card', style: 'border-left-color:var(--nutri)' },
+    root.append(el('div', { id: 'n-obj', class: 'card fase-card pn' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.nObjetivo), el('div', { class: 'sub' }, fn.f + (w >= 1 && w <= 12 ? ' · ' + tpl(TX.nSemana, { w }) : '')))),
       el('div', { class: 'statrow', style: 'grid-template-columns:repeat(4,1fr);margin:6px 0 2px' },
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.kcalLbl), el('div', { class: 'sv num' }, fn.kcal.toLocaleString('es-ES'))),

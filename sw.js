@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v20';
+const V = 'b2p-v21';
 const CORE = [
   './',
   './index.html',
@@ -24,8 +24,26 @@ const CORE = [
   './icons/maskable-512.png'
 ];
 
+/* Precarga saltándose la caché HTTP del navegador.
+   cache.addAll() parece lo obvio, pero lee de la caché HTTP: GitHub Pages sirve
+   los assets con max-age, así que el service worker nuevo se guardaba las copias
+   CADUCADAS y subir la versión no arreglaba nada — volvía a traerse lo viejo.
+   Pasó de verdad en la v20: la red tenía el CSS nuevo y la caché el anterior.
+   Con cache:'reload' cada recurso se pide a la red y de paso se refresca la
+   caché HTTP. Si alguno falla, la instalación falla entera y se conserva la
+   versión anterior, que es lo que queremos: mejor vieja y coherente que a
+   medias. */
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(V).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(V)
+      .then(c => Promise.all(CORE.map(u =>
+        fetch(u, { cache: 'reload' }).then(r => {
+          if (!r.ok) throw new Error('precarga ' + u + ' → ' + r.status);
+          return c.put(u, r);
+        })
+      )))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', e => {

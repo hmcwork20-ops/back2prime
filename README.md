@@ -23,7 +23,7 @@ assets/app.js         núcleo: estado, calendario, vista HOY, timer, rachas, mot
 assets/views.js       vistas Plan / Comida / Progreso (SVG a mano) / Logros
 assets/styles.css     capa propia (dark-first, mobile-first) sobre Basecoat
 assets/basecoat.min.css  Basecoat CSS (shadcn portado a HTML puro)
-assets/fonts/         Barlow Condensed + Inter autoalojadas (offline)
+assets/fonts/         Barlow Condensed (estructura) + Public Sans (prosa), autoalojadas (offline)
 sw.js                 service worker cache-first (network-first en localhost)
 manifest.webmanifest  metadatos PWA
 icons/                favicon + iconos PWA (make-icons.html es el taller que los genera)

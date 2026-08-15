@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v16';
+const V = 'b2p-v17';
 const CORE = [
   './',
   './index.html',
@@ -15,9 +15,9 @@ const CORE = [
   './assets/views.js',
   './assets/fonts/BarlowCondensed-600.woff2',
   './assets/fonts/BarlowCondensed-700.woff2',
-  './assets/fonts/Inter-400.woff2',
-  './assets/fonts/Inter-600.woff2',
-  './assets/fonts/Inter-700.woff2',
+  './assets/fonts/PublicSans-400.woff2',
+  './assets/fonts/PublicSans-600.woff2',
+  './assets/fonts/PublicSans-700.woff2',
   './icons/favicon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',

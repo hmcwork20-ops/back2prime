@@ -88,7 +88,7 @@
           el('span', { class: 'disco d' + faseAct.id }, String(faseAct.disco)),
           el('div', null, el('h2', null, TX.fase + ' ' + faseAct.id + ' · ' + faseAct.nombre),
             el('div', { class: 'sub' }, faseAct.fechas + ' · ' + faseAct.sub + ' · RPE ' + faseAct.rpe))),
-        el('p', { style: 'font-size:13.5px;margin:4px 0 2px' }, faseAct.objetivo)));
+        el('p', { style: 'font-size:14px;margin:4px 0 2px' }, faseAct.objetivo)));
     } else if (w === 0) {
       root.append(el('div', { class: 'banner' }, el('div', null, el('b', null, TX.planEmpiezaTitulo), el('div', null, TX.planEmpiezaTxt))));
     }
@@ -128,7 +128,7 @@
       const st = el('table', null, el('tr', null, DIAS_C.map(d => el('th', null, d))),
         el('tr', null, cal.dias.map(s => {
           const opt = typeof s === 'object'; const id = opt ? s.s : s; const ses = D.SESIONES[id];
-          return el('td', { style: 'font-size:11.5px' }, (ses.tipo === 'fuerza' ? el('b', null, ses.nombre) : ses.nombre + (opt ? ' (' + TX.opcional + ')' : '')));
+          return el('td', { style: 'font-size:12px' }, (ses.tipo === 'fuerza' ? el('b', null, ses.nombre) : ses.nombre + (opt ? ' (' + TX.opcional + ')' : '')));
         })));
       kids.push(el('div', { class: 'tw compact' }, st));
       // hitos de la fase
@@ -184,12 +184,12 @@
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vSeguros)));
     root.append(el('div', { class: 'card' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, '🛡 ' + D.TENDON.titulo))),
-      el('p', { style: 'font-size:13.5px' }, D.TENDON.intro),
+      el('p', { style: 'font-size:14px' }, D.TENDON.intro),
       D.TENDON.bloques.map(b => el('div', { class: 'regla', style: 'margin:8px 0' }, el('b', null, b.nombre), el('div', { class: 'mini', style: 'margin-bottom:3px' }, '📍 ' + b.donde), b.detalle)),
       el('p', { class: 'mini' }, '⚠ ' + D.TENDON.nota)));
     root.append(el('div', { class: 'card' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, '🏃 ' + D.CARRERA.titulo))),
-      el('ul', { style: 'font-size:13.5px;padding-left:19px' }, D.CARRERA.reglas.map(r => el('li', null, r)))));
+      el('ul', { style: 'font-size:14px;padding-left:19px' }, D.CARRERA.reglas.map(r => el('li', null, r)))));
 
     // Biblioteca de ejercicios
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vBiblioteca), el('span', { class: 'mini' }, TX.vTocaCualquiera)));
@@ -320,7 +320,7 @@
       r.ing.forEach(i => t.append(el('tr', null, el('td', { class: 'sr', style: 'white-space:nowrap' }, i.q), el('td', null, i.i, i.n ? el('div', { class: 'mini' }, i.n) : null))));
       sh.append(el('div', { class: 'tw' }, t));
       sh.append(el('h4', null, TX.nPasos));
-      sh.append(el('ol', { style: 'padding-left:20px;font-size:13.5px' }, r.pasos.map(p => el('li', { style: 'margin:6px 0' }, p))));
+      sh.append(el('ol', { style: 'padding-left:20px;font-size:14px' }, r.pasos.map(p => el('li', { style: 'margin:6px 0' }, p))));
       if (r.tips) sh.append(el('div', { class: 'alt', style: 'margin-top:12px' }, el('b', null, '💡 '), r.tips));
     });
   }

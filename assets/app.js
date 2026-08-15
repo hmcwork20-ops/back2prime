@@ -648,7 +648,7 @@
           el('span', { class: 'disco d' + fase.id }, String(fase.disco)),
           el('div', null, el('h2', null, sl.ses.nombre + (sl.opt ? ' · ' + TX.opcional : '')),
             el('div', { class: 'sub' }, sl.ses.icono === 'run' ? TX.cadenciaSub : TX.recuperacionSub))));
-        card.append(el('p', { style: 'font-size:13.5px' }, sl.ses.detalle));
+        card.append(el('p', { style: 'font-size:14px' }, sl.ses.detalle));
         if (sl.ses.icono === 'run') card.append(el('div', { class: 'mini', style: 'margin-top:4px' }, TX.tibialisAviso));
         const on = !!dd.sesionOk;
         card.append(el('button', { class: 'cerrar' + (on ? ' hecho' : ''), style: 'margin:12px 0 4px', onclick: ev => {

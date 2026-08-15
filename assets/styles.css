@@ -147,7 +147,7 @@ section.block{margin:18px 0}
 .streak.best{color:var(--ink2)}
 .streak.best #streakIco{font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .icon-btn{
-  display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;
+  display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;
   background:transparent;border:1px solid transparent;color:var(--ink2);cursor:pointer;
 }
 .icon-btn:active{background:var(--surface2)}
@@ -231,19 +231,32 @@ section.block{margin:18px 0}
 .exrow .exname{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:6px}
 .exrow .exname .info{color:var(--ink3);flex:0 0 auto}
 .exrow .exmeta{display:flex;gap:8px;align-items:center;margin-top:3px;flex-wrap:wrap}
-.exrow .dose{font-family:var(--mono);font-weight:600;font-size:12.5px;color:var(--ink2);background:var(--surface2);border-radius:6px;padding:1px 7px}
-.exrow .rest{font-family:var(--mono);font-size:12px;color:var(--ink3);border:1px solid var(--line);border-radius:6px;padding:1px 7px;cursor:pointer;user-select:none}
+/* .dose ya NO es interactivo: era gemelo del temporizador, medía 36×20 y
+   cambiaba la sesión siguiente sin avisar. Ahora es solo la etiqueta 3×8. */
+.exrow .dose{font-family:var(--mono);font-weight:600;font-size:12.5px;color:var(--ink2);background:var(--surface2);border-radius:6px;padding:2px 8px}
+.exrow .rest{font-family:var(--mono);font-size:12px;color:var(--ink3);border:1px solid var(--line);border-radius:6px;padding:2px 9px;cursor:pointer;user-select:none;color:var(--ink2)}
 .exrow .rest:active{background:var(--surface2)}
+/* Reps completas o a medias: control propio y etiquetado, solo cuando el
+   ejercicio está hecho. Decide el peso de la próxima sesión, así que se dice. */
+.repchip{
+  font-family:var(--disp);font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--f1);background:color-mix(in srgb,var(--f1) 13%,transparent);
+  border:1px solid color-mix(in srgb,var(--f1) 30%,transparent);
+  border-radius:7px;padding:3px 9px;cursor:pointer;user-select:none;
+}
+.repchip.corto{color:var(--f2);background:color-mix(in srgb,var(--f2) 13%,transparent);border-color:color-mix(in srgb,var(--f2) 32%,transparent)}
 .exrow .exnote{font-size:12px;color:var(--ink3);margin-top:2px}
 .kgbox{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+/* 16px no es estética: por debajo, iOS hace zoom al enfocar el campo y te
+   descoloca la pantalla en mitad de la serie. */
 .kgbox input{
-  width:58px;text-align:center;font-family:var(--mono);font-weight:700;font-size:15px;
+  width:60px;min-height:44px;text-align:center;font-family:var(--mono);font-weight:700;font-size:16px;
   background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 2px;color:var(--ink);
 }
 .kgbox input::placeholder{color:var(--ink3);font-weight:400}
 .kgbox .u{font-size:11px;color:var(--ink3);margin-left:-2px}
 .checkbtn{
-  width:40px;height:40px;border-radius:12px;flex:0 0 auto;cursor:pointer;
+  width:44px;height:44px;border-radius:13px;flex:0 0 auto;cursor:pointer;
   border:1.5px solid var(--line);background:var(--surface2);color:transparent;
   display:inline-flex;align-items:center;justify-content:center;transition:all .15s;
 }
@@ -271,8 +284,8 @@ section.block{margin:18px 0}
 .habit.on .hicon{background:var(--volt);color:var(--volt-ink)}
 .habit.wide{grid-column:1/-1}
 .habit input{
-  width:74px;margin-left:auto;text-align:center;font-family:var(--mono);font-weight:700;
-  background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 4px;font-size:14.5px;
+  width:76px;min-height:44px;margin-left:auto;text-align:center;font-family:var(--mono);font-weight:700;
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 4px;font-size:16px;
 }
 .cerrar{
   width:100%;margin:16px 0 6px;padding:15px;border:0;border-radius:var(--r);cursor:pointer;
@@ -297,7 +310,7 @@ section.block{margin:18px 0}
 /* colapsables */
 details.fold{border:1px solid var(--line-soft);border-radius:var(--r-sm);background:var(--surface2);margin:10px 0}
 details.fold>summary{
-  list-style:none;cursor:pointer;padding:11px 13px;display:flex;align-items:center;gap:8px;
+  list-style:none;cursor:pointer;padding:11px 13px;min-height:44px;display:flex;align-items:center;gap:8px;
   font-family:var(--disp);font-weight:600;font-size:14.5px;letter-spacing:.04em;text-transform:uppercase;
 }
 details.fold>summary::-webkit-details-marker{display:none}
@@ -313,7 +326,9 @@ th{
   text-align:left;padding:9px 10px;color:var(--ink2);background:var(--surface2);
   border-bottom:1px solid var(--line);white-space:nowrap;
 }
-td{padding:9px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+/* 12px arriba y abajo: 51 celdas de estas tablas son pulsables y a 9px se
+   quedaban en 38 de alto. De paso respiran. */
+td{padding:13px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
 tr:last-child td{border-bottom:0}
 td.sr{font-family:var(--mono);font-weight:600;white-space:nowrap}
 tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
@@ -343,7 +358,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 :root{--nutri:#B7A7E8}
 .shoplist .habit{margin:0}
 .shopcat{margin:14px 0 6px;font-family:var(--disp);font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
-.shopitem{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line-soft);cursor:pointer;user-select:none}
+.shopitem{display:flex;align-items:center;gap:10px;padding:8px 2px;min-height:44px;border-bottom:1px solid var(--line-soft);cursor:pointer;user-select:none}
 .shopitem:last-child{border-bottom:0}
 .shopitem .sq{font-family:var(--mono);font-weight:600;font-size:12px;color:var(--ink2);flex:0 0 auto;min-width:74px}
 .shopitem .si{font-size:13.5px}
@@ -351,7 +366,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .shopitem .tick{margin-left:auto;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:transparent}
 .shopitem.on .tick{background:var(--volt);border-color:var(--volt);color:var(--volt-ink)}
 .shopitem .tick svg{width:14px;height:14px}
-.prep-step{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--line-soft);cursor:pointer}
+.prep-step{display:flex;gap:11px;padding:9px 0;min-height:44px;border-bottom:1px solid var(--line-soft);cursor:pointer}
 .prep-step:last-child{border-bottom:0}
 .prep-step .pmin{font-family:var(--mono);font-weight:700;font-size:12.5px;color:var(--nutri);flex:0 0 34px;padding-top:1px}
 .prep-step .pt{font-size:13.5px;flex:1}
@@ -493,8 +508,23 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .sheet .mol{border-left:3px solid var(--f2);padding:8px 11px;background:var(--f2-bg);border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:13px;margin:8px 0}
 
 /* ---------- Timer flotante ---------- */
+/* ---------- Zona táctil mínima (44 px, HIG) ----------
+   Donde engordar la caja rompería el ritmo visual, se expande SOLO el área de
+   toque con un pseudo-elemento: el chip sigue midiendo 24 px, el dedo golpea 44.
+   Se expande en vertical, nunca en horizontal, para que dos controles vecinos
+   no se roben el toque. */
+.exrow .rest,.sugg,.repchip,.seg button,.chipnav button,.tbl-toggle,.reabrir{position:relative}
+.exrow .rest::after,.sugg::after,.repchip::after,.seg button::after,
+.chipnav button::after,.tbl-toggle::after,.reabrir::after{
+  content:'';position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
+  height:44px;pointer-events:auto;
+}
+/* La fila de chips scrollea en horizontal, así que necesita hueco propio o
+   recortaría el área de toque que acabamos de dar. */
+.chipnav{padding-top:6px;padding-bottom:10px}
+
 .timer{
-  position:fixed;z-index:60;left:50%;transform:translateX(-50%) translateY(20px);
+  position:fixed;z-index:85;left:50%;transform:translateX(-50%) translateY(20px);
   bottom:calc(var(--tab-h) + var(--tab-off) + 20px);
   display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;
   background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;
@@ -505,7 +535,11 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .timer .tt{font-family:var(--mono);font-weight:700;font-size:19px;min-width:56px}
 .timer.fin{border-color:var(--volt)}
 .timer.fin .tt{color:var(--volt)}
-.timer button{border:0;background:var(--surface);color:var(--ink2);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.timer button{
+  border:0;background:var(--surface);color:var(--ink2);border-radius:999px;
+  min-height:44px;min-width:44px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;
+}
+.timer button:active{background:var(--surface2);color:var(--ink)}
 
 /* ---------- Toast + celebración ---------- */
 .toast{
@@ -541,7 +575,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .field{margin:12px 0}
 .field label{display:block;font-family:var(--disp);text-transform:uppercase;letter-spacing:.06em;font-size:13px;color:var(--ink2);margin-bottom:5px}
 .field input{
-  width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);
+  width:100%;min-height:44px;background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);
   padding:12px 13px;font-size:16px;font-family:var(--mono);font-weight:600;
 }
 .btnrow{display:flex;gap:9px;margin-top:14px}

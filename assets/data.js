@@ -1028,7 +1028,7 @@ window.B2P = (function () {
     sugEmpieza: '◆ empieza en {v}', sugRepite: '↻ repite {v}',
     faltaTitle: 'Toca si NO completaste todas las reps',
     repsAMediasToast: 'Marcado: faltaron reps (repetirás peso)', repsLimpiasToast: 'Todas las reps limpias',
-    repsAMediasTag: 'reps a medias',
+    repsAMediasTag: 'reps a medias', repsLimpias: 'reps limpias', repsCortas: 'faltaron reps',
     prToast: '🥇 PR en {e}: {v} kg', ya: '¡YA!',
     fHistorial: 'Tu historial', fMejor: 'mejor {v} kg', fHoy: 'hoy',
     fComo: 'Cómo se hace', fErrores: 'Errores que te robarán progreso', fAlt: 'Alternativas equivalentes',

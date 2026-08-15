@@ -560,13 +560,28 @@
               if (v > 0 && chipSug) chipSug.remove();
             } });
 
-          const doseChip = el('span', { class: 'dose', title: TX.faltaTitle, onclick: ev => {
-            const L = logEj(d, b.e); L.falta = !L.falta; save();
-            ev.target.style.color = L.falta ? 'var(--f2)' : '';
-            ev.target.textContent = dosis + (L.falta ? ' ✂' : '');
-            toast(L.falta ? TX.repsAMediasToast : TX.repsLimpiasToast);
-          } }, dosis + (lg.falta ? ' ✂' : ''));
-          if (lg.falta) doseChip.style.color = 'var(--f2)';
+          // La dosis vuelve a ser lo que parece: una etiqueta.
+          const doseChip = el('span', { class: 'dose' }, dosis);
+
+          // «Reps a medias» decide el peso de la próxima sesión, así que ahora
+          // se dice con palabras y solo aparece cuando el ejercicio está hecho:
+          // antes era un ✂ escondido en un title que en táctil nunca sale.
+          const repWrap = el('span', { class: 'repwrap' });
+          function pintaRep() {
+            repWrap.innerHTML = '';
+            const L = (dd.ej && dd.ej[b.e]) || {};
+            if (!L.done) return;
+            const corto = !!L.falta;
+            repWrap.append(el('button', {
+              class: 'repchip' + (corto ? ' corto' : ''), 'aria-pressed': corto ? 'true' : 'false',
+              onclick: ev => {
+                ev.stopPropagation();
+                const X = logEj(d, b.e); X.falta = !X.falta; save();
+                pintaRep();
+                toast(X.falta ? TX.repsAMediasToast : TX.repsLimpiasToast);
+              }
+            }, corto ? '✂ ' + TX.repsCortas : '✓ ' + TX.repsLimpias));
+          }
 
           // Chip de sugerencia: tocarlo escribe el peso como valor real.
           const chipSug = (sug && !lg.kg) ? el('span', { class: 'sugg', role: 'button', tabindex: '0',
@@ -594,6 +609,7 @@
               if (inVal > 0) { L.kg = inVal; save(); if (chipSug) chipSug.remove(); }
               else if (sug) aceptaSug();
             }
+            pintaRep();
             actualizaCerrar();
           }, html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' });
 
@@ -603,10 +619,11 @@
               el('div', { class: 'exmeta' },
                 doseChip,
                 el('span', { class: 'rest', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString(TX.lang || 'es') + '′' : b.d + '″')),
-                chipSug),
+                chipSug, repWrap),
               b.n ? el('div', { class: 'exnote' }, b.n) : null),
             el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),
             check);
+          pintaRep();
           card.append(row);
         });
 

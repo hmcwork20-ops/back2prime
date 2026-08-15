@@ -1028,7 +1028,7 @@ window.B2P = (function () {
     sugEmpieza: '◆ start at {v}', sugRepite: '↻ repeat {v}',
     faltaTitle: 'Tap if you did NOT complete all the reps',
     repsAMediasToast: 'Marked: reps missed (you’ll repeat the weight)', repsLimpiasToast: 'All reps clean',
-    repsAMediasTag: 'reps short',
+    repsAMediasTag: 'reps short', repsLimpias: 'all reps clean', repsCortas: 'reps cut short',
     prToast: '🥇 PR on {e}: {v} kg', ya: 'NOW!',
     fHistorial: 'Your history', fMejor: 'best {v} kg', fHoy: 'today',
     fComo: 'How to do it', fErrores: 'Mistakes that will steal your progress', fAlt: 'Equivalent alternatives',

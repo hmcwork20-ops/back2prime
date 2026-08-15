@@ -1032,7 +1032,7 @@ window.B2P = (function () {
     sugEmpieza: '◆ démarre à {v}', sugRepite: '↻ répète {v}',
     faltaTitle: 'Touche si tu n’as PAS complété toutes les reps',
     repsAMediasToast: 'Noté : il manquait des reps (tu répéteras le poids)', repsLimpiasToast: 'Toutes les reps propres',
-    repsAMediasTag: 'reps incomplètes',
+    repsAMediasTag: 'reps incomplètes', repsLimpias: 'reps propres', repsCortas: 'reps manquées',
     prToast: '🥇 PR sur {e} : {v} kg', ya: 'C’EST PARTI !',
     fHistorial: 'Ton historique', fMejor: 'record {v} kg', fHoy: 'aujourd’hui',
     fComo: 'Comment l’exécuter', fErrores: 'Les erreurs qui te voleront du progrès', fAlt: 'Alternatives équivalentes',

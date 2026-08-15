@@ -1028,7 +1028,7 @@ window.B2P = (function () {
     sugEmpieza: '◆ Start bei {v}', sugRepite: '↻ wiederhol {v}',
     faltaTitle: 'Tipp hier, wenn du NICHT alle Wdh geschafft hast',
     repsAMediasToast: 'Vermerkt: Wdh gefehlt (du wiederholst das Gewicht)', repsLimpiasToast: 'Alle Wdh sauber',
-    repsAMediasTag: 'Wdh unvollständig',
+    repsAMediasTag: 'Wdh unvollständig', repsLimpias: 'Wdh sauber', repsCortas: 'Wdh gefehlt',
     prToast: '🥇 PR bei {e}: {v} kg', ya: 'JETZT!',
     fHistorial: 'Dein Verlauf', fMejor: 'Bestwert {v} kg', fHoy: 'heute',
     fComo: 'So geht sie', fErrores: 'Fehler, die dich Fortschritt kosten', fAlt: 'Gleichwertige Alternativen',

@@ -653,6 +653,14 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .statrow{grid-template-columns:repeat(6,1fr)}
   .vitrina{max-width:520px}
   body{font-size:15.5px}
+  /* Medida de línea, no ancho de contenedor: las tablas, las gráficas y las
+     rejillas SÍ quieren todo el ancho, así que el tope va sobre la prosa.
+     57ch está derivado: 1ch (el glifo «0» de Public Sans) mide 8,57 px a 14 px,
+     pero el ancho MEDIO del texto real de la app —con espacios y tildes— es
+     6,55 px. Para que quepan los 75 caracteres del límite alto del rango
+     cómodo hacen falta 75 × 6,55 / 8,57 = 57,3ch; a 13 px sale 56,1, así que un
+     solo valor vale para los dos tamaños. En escritorio se leían 118–135. */
+  .wrap p,.wrap li,.wrap .regla{max-width:57ch}
 }
 @media(min-width:1100px){
   .wrap,.hdr-in,.tabbar-in{max-width:860px}

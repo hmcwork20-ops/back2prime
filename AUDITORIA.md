@@ -23,8 +23,9 @@ Cerrados en la ronda del 15 de agosto (cada uno verificado midiendo, no mirando)
 | ✅ | P2 · Gráficas sin nombre | Las 4 con `aria-label`, y con el resumen del dato |
 | ✅ | P2 · Sin `h1` en 4 vistas | Las 5 con `h1`; el de HOY es el visible que ya tenía |
 | ✅ | P2 · Cambio de vista mudo | Fuera el `aria-live`; título + foco en el `h1` |
+| ✅ | P3 · Medida de línea | 118–135 → **67–76** caracteres, sin tocar tablas ni gráficas |
 
-**Peso precargado: 1.511 KB → 493 KB (−67 %).**
+**Peso precargado: 1.511 KB → 493 KB (−67 %). Los 12 hallazgos, cerrados.**
 
 Hallazgos **nuevos** que aparecieron al verificar y no estaban en este informe:
 
@@ -44,9 +45,19 @@ Dos derivaciones más de la ronda P2, por dejarlas escritas:
   ahí te sacaría del control que acabas de pulsar. Se compara la ruta con la
   anterior en vez de fiarse de quién llamó.
 
-Pendiente: solo el **P3** (sin ancho máximo en escritorio, ~114 caracteres por
-línea). Fuera del informe siguen abiertos el `clarify` y la decisión de la
-semana 5.
+Y la del P3:
+
+- **57ch sobre la prosa, no sobre el contenedor.** Las tablas, las gráficas y
+  las rejillas sí quieren todo el ancho; quien necesita tope es el texto. El
+  número sale de las métricas reales: 1ch (el glifo «0» de Public Sans) mide
+  8,57 px a 14 px, pero el ancho **medio** del texto de la app —con espacios y
+  tildes— es 6,55 px, así que los 75 caracteres del límite alto del rango cómodo
+  caben en 75 × 6,55 / 8,57 = 57,3ch. A 13 px sale 56,1: un solo valor sirve.
+  Medido antes y después a 768 px: 102–120 → 67–76 caracteres, con las tablas
+  idénticas (695 y 723 px) en ambos casos.
+
+No queda nada del informe. Fuera de él siguen abiertos el `clarify` y la
+decisión de la semana 5.
 
 ---
 
@@ -210,6 +221,13 @@ WCAG 4.1.3 Mensajes de estado (AA).
 ### P3 · Sin ancho máximo en escritorio
 
 A 1280 px el contenido ocupa 1265 px y la medida de línea llega a **~114 caracteres**, frente a los 45–75 recomendados. Es P3 a conciencia: la app es para el móvil y ahí funciona.
+
+> **Corrección (v20).** Este hallazgo estaba mal descrito. `.wrap` **sí** tiene
+> ancho máximo (640 / 760 / 860 px por tramos): los 1265 px eran de `#scroller`,
+> que es el elemento que medí por error. El problema real existía igualmente y
+> era peor de lo dicho —**118–135 caracteres** medidos con las métricas reales
+> de la fuente, no 114—, pero la causa no era la falta de tope sino que el tope
+> del contenedor es generoso para prosa. Ver la corrección más abajo.
 
 ---
 

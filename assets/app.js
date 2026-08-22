@@ -373,18 +373,43 @@
      Gesto de las hojas de iOS: el contenido scrollea con normalidad, pero si
      tiras hacia abajo DESDE LA CABECERA de la hoja, o estando ya arriba del
      todo, la hoja sigue al dedo y se cierra al soltar.
-     Umbrales: se cierra al pasar el 28% del alto de la hoja (ahí ya ha salido
-     claramente de su sitio) con tope de 120 px para que una hoja alta no
-     obligue a un arrastre enorme; o con un golpe rápido (>0,55 px/ms), que es
-     como se descarta de verdad con el pulgar.                              */
+
+     Tres cosas que hacen que se sienta físico y que antes no estaban:
+     1) Al tirar HACIA ARRIBA no se para en seco: resiste cada vez más. Un tope
+        duro se lee como «se ha colgado»; la resistencia se lee como «responde,
+        pero aquí no hay más».
+     2) La velocidad se mide en los últimos 90 ms, no promediando todo el gesto.
+        Antes, si colocabas la hoja despacio y luego dabas un golpe seco, la
+        media salía baja y el golpe no se detectaba.
+     3) La decisión de cerrar no mira dónde SUELTAS sino dónde ACABARÍA el
+        gesto si siguiera frenando solo, y la salida arranca al ritmo del dedo
+        para que no haya costura entre arrastrar y animar.                  */
   (function arrastreHoja() {
     const sh = $('#sheet'), bg = $('#sheetBg');
-    let y0 = 0, x0 = 0, dy = 0, t0 = 0, evaluando = false, activo = false, permitido = false;
+    let y0 = 0, x0 = 0, dy = 0, evaluando = false, activo = false, permitido = false;
+    let hist = [];                                   // {y, t} recientes
     const alto = () => sh.getBoundingClientRect().height || 1;
+
+    // Resistencia progresiva en el límite: cuanto más insistes, menos se mueve.
+    const gomilla = (exceso, dim, c = 0.55) => (exceso * dim * c) / (dim + c * Math.abs(exceso));
+
+    // Velocidad instantánea (px/ms) de la última ventana de 90 ms.
+    function velocidad() {
+      if (hist.length < 2) return 0;
+      const f = hist[hist.length - 1];
+      let i0 = 0;
+      for (let i = hist.length - 1; i >= 0; i--) { if (f.t - hist[i].t > 90) break; i0 = i; }
+      const dt = f.t - hist[i0].t;
+      return dt > 0 ? (f.y - hist[i0].y) / dt : 0;
+    }
+
+    // Proyección de inercia: a dónde llegaría el gesto desacelerando solo.
+    // Es la misma curva exponencial que usa el scroll del sistema.
+    const proyecta = (vPxMs, d = 0.998) => vPxMs * d / (1 - d);
 
     function inicio(y, x, target) {
       if (activo) return;
-      y0 = y; x0 = x; dy = 0; t0 = Date.now(); evaluando = true; activo = false;
+      y0 = y; x0 = x; dy = 0; hist = [{ y, t: Date.now() }]; evaluando = true; activo = false;
       const r = sh.getBoundingClientRect();
       const enCabecera = (y - r.top) < 64 || !!(target && target.closest && target.closest('.grip'));
       permitido = enCabecera || sh.scrollTop <= 0;
@@ -392,6 +417,8 @@
     function mover(y, x) {
       if (!evaluando && !activo) return;
       dy = y - y0;
+      hist.push({ y, t: Date.now() });
+      if (hist.length > 12) hist.shift();
       if (!activo) {
         const dx = x - x0;
         if (Math.abs(dy) < 6 && Math.abs(dx) < 6) return;          // aún no es gesto
@@ -399,20 +426,41 @@
           activo = true; evaluando = false; sh.style.transition = 'none';
         } else { evaluando = false; return; }                       // es scroll: no tocar
       }
-      const v = Math.max(0, dy);
+      // Hacia abajo, 1:1 con el dedo. Hacia arriba no hay recorrido, pero en vez
+      // de clavarse en 0 cede un poco y cada vez menos.
+      const v = dy >= 0 ? dy : -gomilla(-dy, alto());
       sh.style.transform = 'translateY(' + v + 'px)';
-      bg.style.opacity = String(Math.max(0, 1 - v / (alto() * .85)));
+      bg.style.opacity = String(Math.max(0, 1 - Math.max(0, v) / (alto() * .85)));
     }
     function fin() {
       if (!activo) { evaluando = false; return; }
-      const v = Math.max(0, dy), vel = v / Math.max(1, Date.now() - t0);
+      const v = Math.max(0, dy), vel = velocidad(), h = alto();
       activo = false; evaluando = false;
       // Hubo arrastre: el clic sintético que viene detrás no debe cerrar una
       // hoja que se ha quedado a medio camino y ha vuelto a su sitio.
       arrastroReciente = true;
       setTimeout(() => { arrastroReciente = false; }, 350);
-      sh.style.transition = ''; sh.style.transform = ''; bg.style.opacity = '';
-      if (v > Math.min(120, alto() * .28) || vel > .55) closeSheet();
+
+      // Decide por dónde VA el gesto, no por dónde lo sueltas: un golpe corto y
+      // rápido cierra igual que un arrastre largo y lento. 0,11 px/ms es el
+      // umbral con el que un descarte por impulso se siente natural; el 0,55 de
+      // antes exigía un manotazo, y encima se medía sobre la media del gesto.
+      const destino = v + proyecta(Math.max(0, vel));
+      if (destino > h * .5 || vel > .11) {
+        /* Traspaso de velocidad: lo que queda de recorrido se recorre al ritmo
+           al que iba el dedo, acotado al presupuesto de UI. Sin esto se ve la
+           costura: sueltas rápido y la hoja cambia de golpe a una curva fija.
+           Y NO se limpia el transform antes de cerrar: al hacerlo, la hoja
+           tiraba un instante hacia ARRIBA (hacia su sitio) antes de bajar. */
+        const queda = Math.max(0, h - v);
+        const ms = Math.round(Math.max(140, Math.min(300, queda / Math.max(vel, .45))));
+        sh.style.transition = 'transform ' + ms + 'ms cubic-bezier(.32,.72,0,1)';
+        bg.style.opacity = '';
+        closeSheet();
+        sh.style.transform = '';        // suelta el inline: manda el CSS, que ya apunta abajo
+      } else {
+        sh.style.transition = ''; sh.style.transform = ''; bg.style.opacity = '';
+      }
     }
 
     sh.addEventListener('touchstart', ev => { if (ev.touches.length === 1) inicio(ev.touches[0].clientY, ev.touches[0].clientX, ev.target); }, { passive: true });
@@ -765,7 +813,7 @@
           ev.currentTarget.textContent = dd.sesionOk ? TX.cardioHecho : TX.cardioMarcar;
           evaluaLogros();
         } }, on ? TX.cardioHecho : TX.cardioMarcar));
-        const minIn = el('input', { type: 'text', inputmode: 'numeric', placeholder: 'min', 'aria-label': TX.minutosReales, value: dd.cardioMin || '', style: 'width:70px;text-align:center;font-family:var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:7px', onchange: ev => { const v = parseInt(ev.target.value); if (v > 0) dd.cardioMin = v; else delete dd.cardioMin; save(); } });
+        const minIn = el('input', { type: 'text', inputmode: 'numeric', placeholder: 'min', 'aria-label': TX.minutosReales, value: dd.cardioMin || '', style: 'width:70px;min-height:44px;text-align:center;font-family:var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:7px', onchange: ev => { const v = parseInt(ev.target.value); if (v > 0) dd.cardioMin = v; else delete dd.cardioMin; save(); } });
         card.append(el('div', { style: 'display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)' }, TX.minutosReales, minIn));
         root.append(card);
       }

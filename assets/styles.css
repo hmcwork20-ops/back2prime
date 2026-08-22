@@ -125,7 +125,14 @@ body{
   min-height:calc(100vh  - var(--hdr-h,59px) - var(--tab-h) - var(--tab-off) - 14px + 2px);
   min-height:calc(100lvh - var(--hdr-h,59px) - var(--tab-h) - var(--tab-off) - 14px + 2px);
 }
+/* .02em es el valor MEDIO de la rampa, no el único: el tracking es específico
+   del tamaño. En versalitas condensadas el espaciado rescata a los cuerpos
+   pequeños y afloja a los grandes, que ya se separan por su propio tamaño.
+   La rampa va de .03em a 16 px hasta .005em a 31 px, y está declarada abajo
+   en cada tamaño concreto. El interlineado hace el camino inverso: apretado
+   arriba (.hero h1 a 1.02), holgado en el cuerpo. */
 h1,h2,h3,.disp{font-family:var(--disp);text-transform:uppercase;letter-spacing:.02em;margin:0;font-weight:700}
+h3{letter-spacing:.03em}
 p{margin:.5em 0}
 a{color:var(--volt)}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
@@ -258,7 +265,7 @@ section.block{margin:18px 0}
 .card-title h2{font-size:19px}
 .card-title .sub{font-size:13px;color:var(--ink2);letter-spacing:0;text-transform:none;font-family:var(--cuerpo);font-weight:400}
 .sec-h{display:flex;align-items:baseline;gap:8px;margin:22px 2px 4px}
-.sec-h h2{font-size:21px}
+.sec-h h2{font-size:21px;letter-spacing:.014em}
 .sec-h .mini{margin-left:auto}
 
 /* Disco olímpico */
@@ -277,7 +284,7 @@ section.block{margin:18px 0}
 /* ---------- HOY ---------- */
 .hero{padding:18px 2px 2px}
 .hero .fecha{font-family:var(--disp);font-weight:600;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
-.hero h1{font-size:31px;line-height:1.02;margin-top:2px}
+.hero h1{font-size:31px;line-height:1.02;margin-top:2px;letter-spacing:.005em}
 .hero .sub{color:var(--ink2);font-size:14px;margin-top:4px}
 .hero .antes{color:var(--ink2)}
 .banner{
@@ -592,7 +599,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.22);
 }
 .sheet .grip:active{cursor:grabbing}
-.sheet h2{font-size:22px;margin-bottom:2px}
+.sheet h2{font-size:22px;margin-bottom:2px;letter-spacing:.014em}
 .sheet .stag{font-size:12px;color:var(--ink2);margin-bottom:10px}
 .sheet h4{font-family:var(--disp);text-transform:uppercase;letter-spacing:.07em;font-size:13.5px;color:var(--ink2);margin:15px 0 5px}
 .sheet ul{margin:4px 0;padding-left:19px;font-size:14px}
@@ -654,7 +661,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
    ve unas pocas veces en 12 semanas y ahí el presupuesto de fantasía aplica. */
 .celebra{text-align:center;padding:30px 24px;animation:pop .45s var(--ease-muelle)}
 .celebra .ci{font-size:64px;line-height:1;margin-bottom:10px}
-.celebra .cn{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:.03em;text-transform:uppercase;color:var(--volt)}
+.celebra .cn{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:.005em;text-transform:uppercase;color:var(--volt)}
 .celebra .cd{color:var(--ink2);max-width:300px;margin:8px auto 0}
 .celebra .cok{margin-top:22px;background:var(--volt);color:var(--volt-ink);border:0;border-radius:999px;padding:11px 30px;font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
 @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
@@ -739,10 +746,32 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .celebra .cok:active{transform:none}
 }
 
-/* Sin soporte de blur: superficies sólidas (los tonos derivados en v6) */
+/* Superficies sólidas: mismos tonos derivados en v6, para los dos casos en que
+   el cristal no debe existir. */
 @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
   .tabbar{background:var(--tabbar-bg)}
   .hdr{background:var(--bg)}
   .sheet{background:#161A20}
   .timer,.toast,.seg.seg-plan,.chipnav button{background:var(--surface2)}
+}
+/* Esta app es cristal de arriba abajo. Quien activa «reducir transparencia» no
+   está pidiendo otro estilo: está pidiendo poder leer. El sistema lo señala y
+   hasta ahora no lo escuchábamos: solo se atendía la ausencia de soporte, que
+   es un caso técnico, no una preferencia. */
+@media(prefers-reduced-transparency:reduce){
+  .tabbar{background:var(--tabbar-bg)}
+  .hdr{background:var(--bg)}
+  .sheet{background:#161A20}
+  .timer,.toast,.seg.seg-plan,.chipnav button{background:var(--surface2)}
+  .tabbar,.hdr,.sheet,.timer,.toast,.seg.seg-plan,.chipnav button,.sheet-bg{
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+  }
+  .sheet-bg{background:rgba(0,0,0,.72)}   /* sin blur, el velo hace el trabajo */
+}
+/* Contraste alto: las superficies flotantes necesitan un borde que las separe
+   de verdad del contenido, no la insinuación al 9% que basta con cristal. */
+@media(prefers-contrast:more){
+  .tabbar,.hdr,.sheet,.timer,.toast{border-color:var(--ink2)}
+  .card,.b2-badge,.habit,.shopitem,.prep-step,.meal-row{border-color:var(--line)}
+  .b2-badge.locked{opacity:1;filter:saturate(.1)}
 }

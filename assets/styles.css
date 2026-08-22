@@ -645,6 +645,36 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 }
 .timer button:active{background:var(--surface2);color:var(--ink)}
 
+/* ---------- QUIZ: mazo de gustos (prototipo Fase 1) ---------- */
+.quiz-zona{position:relative;height:min(56dvh,430px);margin:14px 0}
+.qcard{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:var(--glass-strong);border:1px solid var(--glass-line);border-radius:22px;
+  -webkit-backdrop-filter:blur(24px) saturate(1.5);backdrop-filter:blur(24px) saturate(1.5);
+  box-shadow:var(--shadow),inset 0 1px 0 var(--glass-hi);
+  touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;
+}
+.qcard:active{cursor:grabbing}
+.qcard.detras{transform:scale(.95) translateY(12px);opacity:.7;pointer-events:none}
+.qcard.detras2{transform:scale(.9) translateY(24px);opacity:.35;pointer-events:none}
+.qcard .qn{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:.005em;text-transform:uppercase;text-align:center;line-height:1.05;padding:0 18px}
+.qcard .qz{font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.qcard .qsi,.qcard .qno{
+  position:absolute;top:18px;font-family:var(--disp);font-weight:700;font-size:21px;text-transform:uppercase;
+  letter-spacing:.05em;padding:3px 12px;border:2.5px solid;border-radius:10px;opacity:0;pointer-events:none;
+}
+.qcard .qsi{left:16px;color:var(--volt);border-color:var(--volt);transform:rotate(-8deg)}
+.qcard .qno{right:16px;color:var(--danger);border-color:var(--danger);transform:rotate(8deg)}
+.quiz-botones{display:flex;gap:14px;justify-content:center;margin-top:16px}
+.qbtn{
+  min-width:64px;min-height:56px;border-radius:999px;font-size:22px;cursor:pointer;
+  background:var(--surface2);border:1px solid var(--line);color:var(--ink2);
+}
+.qbtn.si{background:var(--volt);border-color:var(--volt);color:var(--volt-ink)}
+.qbtn.no{color:var(--danger)}
+.quiz-aux{display:flex;gap:22px;justify-content:center;margin-top:12px}
+.qaux{min-height:44px;padding:0 10px;font-size:13px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px}
+
 /* Versión nueva esperando: píldora persistente sobre la barra, al alcance del
    pulgar. Es un botón de verdad (44 px) y no caduca sola: una actualización
    pendiente no es un aviso fugaz sino una acción disponible. z-index 79: por
@@ -770,6 +800,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .tabbar{background:var(--tabbar-bg)}
   .hdr{background:var(--bg)}
   .sheet{background:#161A20}
+  .qcard{background:#161A20}
   .timer,.toast,.updpill,.seg.seg-plan,.chipnav button{background:var(--surface2)}
 }
 /* Esta app es cristal de arriba abajo. Quien activa «reducir transparencia» no
@@ -780,6 +811,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .tabbar{background:var(--tabbar-bg)}
   .hdr{background:var(--bg)}
   .sheet{background:#161A20}
+  .qcard{background:#161A20}
   .timer,.toast,.updpill,.seg.seg-plan,.chipnav button{background:var(--surface2)}
   .tabbar,.hdr,.sheet,.timer,.toast,.updpill,.seg.seg-plan,.chipnav button,.sheet-bg{
     -webkit-backdrop-filter:none;backdrop-filter:none;

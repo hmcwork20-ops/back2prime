@@ -106,8 +106,10 @@ exclusión.
 Cada fase termina desplegada y probada en tu móvil antes de abrir la
 siguiente.
 
-## Decisiones abiertas (bloquean el arranque)
+## Decisiones tomadas (22 ago 2026)
 
-1. **Qué se construye primero**: cuestionario / piel visual / ambas.
-2. **Imágenes**: SVG propio para ejercicios + foto IA solo en platos (híbrido),
-   todo SVG, o todo foto.
+1. **Primero el cuestionario** (Fase 1). El prototipo del mazo ya está en
+   `#/quiz`: 12 tarjetas de gustos de ejercicio, swipe con física completa,
+   botones equivalentes, deshacer, saltar y persistencia en `S.ui.quiz`.
+2. **Imagen híbrida**: SVG propio para ejercicios (mapa muscular), foto IA solo
+   en platos, con carga perezosa y fuera del precache.

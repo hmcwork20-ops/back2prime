@@ -686,6 +686,133 @@
 
   /* registro de vistas */
   function render() { location.hash = location.hash; dispatchEvent(new HashChangeEvent('hashchange')); }
+  /* ---- QUIZ: prototipo del cuestionario modo Tinder (Fase 1 del revamp) ----
+     Sin enlazar desde la barra a proposito: se entra por #/quiz. Solo el mazo
+     de gustos de ejercicios; los pasos de datos vendran despues. La fisica es
+     la misma familia que la hoja inferior: velocidad en ventana de 90 ms,
+     proyeccion de inercia, y el compromiso se decide por DONDE VA el gesto,
+     no por donde sueltas. Botones equivalentes al gesto y deshacer, por regla
+     de accesibilidad y por cortesia. */
+  function renderQuiz(root) {
+    const TX = U.TX, S = U.S, tpl = U.tpl;
+    const menosMovimiento = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const deseo = ['press-banca', 'sentadilla-barra', 'dominadas', 'remo-barra', 'rdl-barra',
+      'flexiones', 'fondos', 'plancha', 'burpees', 'zancadas', 'press-militar', 'curl-femoral'];
+    const ids = deseo.filter(id => D.EJERCICIOS[id]);
+    for (const k of Object.keys(D.EJERCICIOS)) { if (ids.length >= 12) break; if (!ids.includes(k)) ids.push(k); }
+    const est = S.ui.quiz = S.ui.quiz || { like: {}, no: {} };
+    let resto = ids.slice(), historia = [];
+
+    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.quizTitulo),
+      el('span', { class: 'mini', id: 'qCuenta' })));
+    const zona = el('div', { class: 'quiz-zona' });
+    root.append(zona);
+    const fila = el('div', { class: 'quiz-botones' },
+      el('button', { class: 'qbtn no plano', type: 'button', 'aria-label': TX.quizNo, onclick: () => resolver(false, null) }, '✕'),
+      el('button', { class: 'qbtn si plano', type: 'button', 'aria-label': TX.quizSi, onclick: () => resolver(true, null) }, '✓'));
+    root.append(fila);
+    root.append(el('div', { class: 'quiz-aux' },
+      el('button', { class: 'plano qaux', type: 'button', onclick: deshacer }, TX.quizDeshacer),
+      el('button', { class: 'plano qaux', type: 'button', onclick: () => { location.hash = '#/hoy'; } }, TX.quizSaltar)));
+
+    function pinta() {
+      zona.innerHTML = '';
+      const cuenta = root.querySelector('#qCuenta');
+      if (cuenta) cuenta.textContent = (ids.length - resto.length) + '/' + ids.length;
+      if (!resto.length) {
+        const n = Object.keys(est.like).length;
+        zona.append(el('div', { class: 'qcard' },
+          el('div', { class: 'qn' }, TX.quizListo),
+          el('div', { class: 'qz', style: 'text-transform:none;letter-spacing:0' }, tpl(TX.quizResumen, { a: n, b: ids.length })),
+          el('button', { class: 'btn-b2p', type: 'button', style: 'margin-top:14px', onclick: () => { location.hash = '#/hoy'; } }, TX.quizListo)));
+        fila.hidden = true;
+        return;
+      }
+      fila.hidden = false;
+      resto.slice(0, 3).forEach((id, i) => {
+        const e = D.EJERCICIOS[id];
+        const c = el('div', { class: 'qcard' + (i === 1 ? ' detras' : i === 2 ? ' detras2' : '') },
+          el('span', { class: 'qsi' }, TX.quizSi), el('span', { class: 'qno' }, TX.quizNo),
+          el('div', { class: 'qz' }, (TX.zonas && TX.zonas[e.zona]) || e.zona),
+          el('div', { class: 'qn' }, e.nombre),
+          historia.length === 0 && i === 0 ? el('div', { class: 'mini', style: 'margin-top:6px' }, TX.quizPista) : null);
+        zona.prepend(c);
+        if (i === 0) engancha(c);
+      });
+    }
+
+    function resolver(gusta, velAbs) {
+      const id = resto[0]; if (!id) return;
+      if (gusta) { est.like[id] = 1; delete est.no[id]; } else { est.no[id] = 1; delete est.like[id]; }
+      historia.push(id); U.save();
+      const carta = zona.querySelector('.qcard:not(.detras):not(.detras2)');
+      if (carta && !menosMovimiento) {
+        // la carta que vuela deja de escuchar: un dedo rapido podia agarrarla
+        // en pleno vuelo y registrar el gusto de la carta SIGUIENTE
+        carta.style.pointerEvents = 'none';
+        const W = zona.getBoundingClientRect().width || 320;
+        const vel = Math.max(Math.abs(velAbs || 0), .6);
+        const ms = Math.round(Math.max(140, Math.min(300, (W * 1.2) / vel)));
+        carta.style.transition = 'transform ' + ms + 'ms cubic-bezier(.32,.72,0,1), opacity ' + ms + 'ms linear';
+        carta.style.transform = 'translateX(' + (gusta ? 1 : -1) * (W + 160) + 'px) rotate(' + (gusta ? 14 : -14) + 'deg)';
+        carta.style.opacity = '0';
+        setTimeout(() => { resto.shift(); pinta(); }, ms);
+      } else { resto.shift(); pinta(); }
+    }
+
+    function deshacer() {
+      const id = historia.pop(); if (!id) return;
+      delete est.like[id]; delete est.no[id]; U.save();
+      resto.unshift(id); pinta();
+    }
+
+    function engancha(carta) {
+      let x0 = 0, dx = 0, hist = [], arrastrando = false;
+      const proyecta = (v, d = 0.998) => v * d / (1 - d);
+      const velocidad = () => {
+        if (hist.length < 2) return 0;
+        const f = hist[hist.length - 1]; let i0 = 0;
+        for (let i = hist.length - 1; i >= 0; i--) { if (f.t - hist[i].t > 90) break; i0 = i; }
+        const dt = f.t - hist[i0].t;
+        return dt > 0 ? (f.x - hist[i0].x) / dt : 0;
+      };
+      carta.addEventListener('pointerdown', ev => {
+        arrastrando = true; x0 = ev.clientX; dx = 0; hist = [{ x: ev.clientX, t: Date.now() }];
+        try { carta.setPointerCapture(ev.pointerId); } catch (e) { /* sintetico */ }
+        carta.style.transition = 'none';
+      });
+      carta.addEventListener('pointermove', ev => {
+        if (!arrastrando) return;
+        dx = ev.clientX - x0;
+        hist.push({ x: ev.clientX, t: Date.now() }); if (hist.length > 12) hist.shift();
+        carta.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx / 18) + 'deg)';
+        const si = carta.querySelector('.qsi'), no = carta.querySelector('.qno');
+        if (si) si.style.opacity = String(Math.min(1, Math.max(0, dx) / 80));
+        if (no) no.style.opacity = String(Math.min(1, Math.max(0, -dx) / 80));
+      });
+      const suelta = () => {
+        if (!arrastrando) return; arrastrando = false;
+        const vel = velocidad();
+        const W = zona.getBoundingClientRect().width || 320;
+        const destino = dx + proyecta(vel);
+        if (Math.abs(destino) > W * .45 || Math.abs(vel) > .11) {
+          resolver(destino > 0, Math.abs(vel));
+        } else {
+          carta.style.transition = 'transform var(--t-corto) var(--ease-sale)';
+          carta.style.transform = '';
+          const si = carta.querySelector('.qsi'), no = carta.querySelector('.qno');
+          if (si) si.style.opacity = '0';
+          if (no) no.style.opacity = '0';
+        }
+      };
+      carta.addEventListener('pointerup', suelta);
+      carta.addEventListener('pointercancel', suelta);
+    }
+
+    pinta();
+  }
+
+  window.B2P_REG('quiz', renderQuiz);
   window.B2P_REG('plan', renderPlan);
   window.B2P_REG('nutricion', renderNutricion);
   window.B2P_REG('progreso', renderProgreso);

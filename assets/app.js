@@ -1168,7 +1168,7 @@
        titular de esa pantalla). Las otras cuatro empezaban en h2 sin nada por
        encima: se les antepone un h1 invisible con el nombre de la sección,
        porque su equivalente visual es la pestaña activa. */
-    const nombreVista = TX.tabs[ORDEN_VISTAS.indexOf(r)] || TX.tabs[0];
+    const nombreVista = r === 'quiz' ? TX.quizTitulo : (TX.tabs[ORDEN_VISTAS.indexOf(r)] || TX.tabs[0]);
     document.title = nombreVista + ' · BACK2PRIME';
     let h1 = root.querySelector('h1');
     if (!h1) { h1 = el('h1', { class: 'sr-only' }, nombreVista); root.prepend(h1); }

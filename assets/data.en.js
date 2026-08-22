@@ -1015,6 +1015,7 @@ window.B2P = (function () {
     diaAnterior: 'Previous day', diaSiguiente: 'Next day',
     cerrarPanel: 'Close', panelSinTitulo: 'Details',
     ajIdiomaSinRed: 'Offline: that language could not be downloaded.',
+    versionNueva: 'New version · tap to update',
     gPeso: 'Body weight chart', gCintura: 'Waist chart',
     gCargas: 'Load chart', gAdherencia: 'Weekly adherence chart',
     gRango: '{n} entries, from {a} to {b} {u}', gUnico: '1 entry, {a} {u}',

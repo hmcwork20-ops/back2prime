@@ -369,6 +369,24 @@
     }
   });
 
+  /* ---------------- aviso de versión nueva ----------------
+     El SW nuevo se instala MIENTRAS miras la página vieja (skipWaiting +
+     clients.claim), así que sin esto los cambios solo se ven cerrando la app
+     y volviéndola a abrir — pasó de verdad al mover el repositorio.
+     controllerchange HABIENDO un controlador previo significa «la versión
+     nueva ya está activa»: se ofrece recargar, nunca se fuerza. */
+  if ('serviceWorker' in navigator) {
+    const habiaSW = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!habiaSW) return;                    // primera instalación: nada que avisar
+      const p = $('#updPill'); if (!p || p.classList.contains('on')) return;
+      p.textContent = TX.versionNueva;
+      p.hidden = false;
+      setTimeout(() => p.classList.add('on'), 0);   // setTimeout, no rAF: el panel puede no componer
+      p.onclick = () => location.reload();
+    });
+  }
+
   /* ---------------- arrastrar la hoja para cerrarla ----------------
      Gesto de las hojas de iOS: el contenido scrollea con normalidad, pero si
      tiras hacia abajo DESDE LA CABECERA de la hoja, o estando ya arriba del

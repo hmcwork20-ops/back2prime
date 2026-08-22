@@ -1015,6 +1015,7 @@ window.B2P = (function () {
     diaAnterior: 'Vorheriger Tag', diaSiguiente: 'Nächster Tag',
     cerrarPanel: 'Schließen', panelSinTitulo: 'Details',
     ajIdiomaSinRed: 'Offline: Diese Sprache konnte nicht geladen werden.',
+    versionNueva: 'Neue Version · zum Aktualisieren tippen',
     gPeso: 'Diagramm Körpergewicht', gCintura: 'Diagramm Taillenumfang',
     gCargas: 'Diagramm Gewichte', gAdherencia: 'Diagramm wöchentliche Adhärenz',
     gRango: '{n} Einträge, von {a} bis {b} {u}', gUnico: '1 Eintrag, {a} {u}',

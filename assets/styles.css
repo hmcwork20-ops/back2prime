@@ -645,6 +645,24 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 }
 .timer button:active{background:var(--surface2);color:var(--ink)}
 
+/* Versión nueva esperando: píldora persistente sobre la barra, al alcance del
+   pulgar. Es un botón de verdad (44 px) y no caduca sola: una actualización
+   pendiente no es un aviso fugaz sino una acción disponible. z-index 79: por
+   debajo del velo de la hoja (80), para que un panel abierto la tape. */
+.updpill{
+  position:fixed;left:50%;z-index:79;
+  bottom:calc(var(--tab-h) + var(--tab-off) + 14px);
+  transform:translateX(-50%) translateY(10px);opacity:0;
+  min-height:44px;padding:10px 18px;border-radius:999px;cursor:pointer;
+  background:var(--glass);border:1px solid var(--glass-line);color:var(--ink);
+  -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
+  font-size:13.5px;font-weight:600;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-hi);
+  transition:opacity var(--t-medio) var(--ease-sale),transform var(--t-medio) var(--ease-sale);
+}
+.updpill.on{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Si el cronómetro está en pantalla, la píldora sube un piso: comparten esquina */
+.timer.on ~ .updpill{bottom:calc(var(--tab-h) + var(--tab-off) + 78px)}
+
 /* ---------- Toast + celebración ---------- */
 .toast{
   position:fixed;z-index:90;left:50%;transform:translateX(-50%) translateY(-8px);
@@ -735,7 +753,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
      golpe, el toast surgía sin previo aviso. Se conserva el desvanecido y se
      elimina lo que de verdad marea: el desplazamiento, la escala y el rebote. */
   *{animation-duration:.01ms !important;animation-delay:0ms !important}
-  .tab-bubble,.sheet,.timer,.toast,.sheet-bg{
+  .tab-bubble,.sheet,.timer,.toast,.updpill,.sheet-bg{
     transition-property:opacity !important;
     transition-duration:var(--t-corto) !important;
     transition-timing-function:var(--ease-sale) !important;
@@ -752,7 +770,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .tabbar{background:var(--tabbar-bg)}
   .hdr{background:var(--bg)}
   .sheet{background:#161A20}
-  .timer,.toast,.seg.seg-plan,.chipnav button{background:var(--surface2)}
+  .timer,.toast,.updpill,.seg.seg-plan,.chipnav button{background:var(--surface2)}
 }
 /* Esta app es cristal de arriba abajo. Quien activa «reducir transparencia» no
    está pidiendo otro estilo: está pidiendo poder leer. El sistema lo señala y
@@ -762,8 +780,8 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .tabbar{background:var(--tabbar-bg)}
   .hdr{background:var(--bg)}
   .sheet{background:#161A20}
-  .timer,.toast,.seg.seg-plan,.chipnav button{background:var(--surface2)}
-  .tabbar,.hdr,.sheet,.timer,.toast,.seg.seg-plan,.chipnav button,.sheet-bg{
+  .timer,.toast,.updpill,.seg.seg-plan,.chipnav button{background:var(--surface2)}
+  .tabbar,.hdr,.sheet,.timer,.toast,.updpill,.seg.seg-plan,.chipnav button,.sheet-bg{
     -webkit-backdrop-filter:none;backdrop-filter:none;
   }
   .sheet-bg{background:rgba(0,0,0,.72)}   /* sin blur, el velo hace el trabajo */
@@ -771,7 +789,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 /* Contraste alto: las superficies flotantes necesitan un borde que las separe
    de verdad del contenido, no la insinuación al 9% que basta con cristal. */
 @media(prefers-contrast:more){
-  .tabbar,.hdr,.sheet,.timer,.toast{border-color:var(--ink2)}
+  .tabbar,.hdr,.sheet,.timer,.toast,.updpill{border-color:var(--ink2)}
   .card,.b2-badge,.habit,.shopitem,.prep-step,.meal-row{border-color:var(--line)}
   .b2-badge.locked{opacity:1;filter:saturate(.1)}
 }

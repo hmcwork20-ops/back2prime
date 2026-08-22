@@ -1015,6 +1015,7 @@ window.B2P = (function () {
     diaAnterior: 'Día anterior', diaSiguiente: 'Día siguiente',
     cerrarPanel: 'Cerrar', panelSinTitulo: 'Detalle',
     ajIdiomaSinRed: 'Sin conexión: no se pudo descargar ese idioma.',
+    versionNueva: 'Versión nueva · toca para actualizar',
     gPeso: 'Gráfica de peso corporal', gCintura: 'Gráfica de cintura',
     gCargas: 'Gráfica de cargas', gAdherencia: 'Gráfica de adherencia semanal',
     gRango: '{n} registros, de {a} a {b} {u}', gUnico: '1 registro, {a} {u}',

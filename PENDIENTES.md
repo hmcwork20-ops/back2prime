@@ -49,7 +49,36 @@ Mismo proceso y mismas validaciones que inglés, francés, alemán e italiano.
 
 ## 2 · Convertirlo en producto: cuestionario → plan generado
 
-Idea del 14 ago 2026. Sacarlo como app y monetizarlo: cada usuario responde un cuestionario y se le genera su plan de entreno y alimentación, como el que se hizo a mano aquí.
+**Decidido el 22 ago 2026: esto deja de ser una idea y pasa a ser la dirección
+del proyecto.** La app no debe seguir basada en los datos de una sola persona;
+cada quien la abre, responde un cuestionario y se le configura su plan. Se hará
+más adelante, pero todo lo que se toque desde ahora debería ir en esa dirección.
+
+### Qué hay hoy metido a fuego (inventario, para cuando toque)
+
+No son solo constantes: **la prosa también está personalizada**, y eso es lo que
+más trabajo dará.
+
+| Dónde | Qué es personal |
+|---|---|
+| `META.inicioISO` / `finISO` | fechas fijas del bloque de 12 semanas |
+| `META.perfil` | peso de salida 95,1 · altura 183 · objetivo 86-88 kg · cintura meta 91 · grasa estimada · proteína/día 190 |
+| `HISTORICO` | las dos marcas previas (banca 95×8, sentadilla 100×8) de las que cuelga todo |
+| `ARRANQUE` | cargas de las semanas 3-5, derivadas al 50% de esas marcas |
+| `NUTRI` | kcal y macros por fase, calculados sobre ese cuerpo |
+| **Textos** | escritos en segunda persona citando sus números: «50% de tus 95», «≈45% de tu banca antigua». Hay que convertirlos en plantillas con marcadores, como ya se hizo con `UI` |
+
+El mecanismo para sustituirlo **ya está demostrado**: el sistema de idiomas
+reemplaza `window.B2P` entero por otro objeto de la misma forma. Un plan
+generado es exactamente el mismo mecanismo, con `generarPlan(perfil)` en vez de
+un fichero por idioma. Ojo al cruce: el plan generado y los 5-6 idiomas se
+multiplican entre sí.
+
+---
+
+### Notas originales (14 ago 2026)
+
+Sacarlo como app y monetizarlo: cada usuario responde un cuestionario y se le genera su plan de entreno y alimentación, como el que se hizo a mano aquí.
 
 **Veredicto: viable.** El plan original no fue creativo, fue la aplicación de reglas (Mifflin-St Jeor, déficit acotado a 550-700 kcal, pérdida al 0,7% del peso/semana, proteína a 2,5 g/kg de masa magra, cargas de arranque al 50% de la marca previa, protocolo de tendón por ser retomador). Todo eso es parametrizable.
 

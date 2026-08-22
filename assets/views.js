@@ -693,14 +693,185 @@
      proyeccion de inercia, y el compromiso se decide por DONDE VA el gesto,
      no por donde sueltas. Botones equivalentes al gesto y deshacer, por regla
      de accesibilidad y por cortesia. */
+  /* ---- CUESTIONARIO (Fase 1): pasos de datos -> mazo de gustos -> perfil ----
+     Una pregunta por pantalla. Las de opcion avanzan solas al tocar (el toque
+     ES la respuesta); numeros y multiseleccion piden Continuar. Borrador en
+     S.ui.cuest: puedes salir y volver donde ibas. El resultado es S.perfil,
+     el contrato que consumira generarPlan(). */
   function renderQuiz(root) {
+    const TX = U.TX, C = TX.cuest, S = U.S, tpl = U.tpl;
+    const borr = S.ui.cuest = S.ui.cuest || { paso: 0, d: {} };
+    const d = borr.d;
+
+    const PASOS = [
+      { id: 'sexo', t: C.sexoT, p: C.sexoP, tipo: 'uno', ops: [['h', C.sexoH], ['m', C.sexoM], ['x', C.sexoX]] },
+      { id: 'medidas', t: C.medidasT, tipo: 'nums', campos: [
+        ['edad', C.edadL, 14, 90, false], ['alturaCm', C.alturaL, 120, 230, false],
+        ['pesoKg', C.pesoL, 35, 250, false], ['cinturaCm', C.cinturaL, 50, 200, true]] },
+      { id: 'objetivo', t: C.objT, tipo: 'uno', ops: [['perder', C.objPerder], ['recomp', C.objRecomp], ['ganar', C.objGanar], ['mantener', C.objMantener]] },
+      { id: 'evento', t: C.evT, tipo: 'uno', ops: [['boda', C.evBoda], ['oposicion', C.evOpo], ['verano', C.evVerano], ['siempre', C.evSiempre]] },
+      { id: 'duracionSem', t: C.durT, tipo: 'uno', ops: [[12, C.dur3], [24, C.dur6], [48, C.dur12], [0, C.durAlways]] },
+      { id: 'historial', t: C.histT, p: C.histP, tipo: 'uno', ops: [['nunca', C.histNunca], ['retomador', C.histRetoma], ['activo', C.histActivo]] },
+      { id: 'diasSemana', t: C.diasL, tipo: 'uno', fila: true, ops: [[2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']] },
+      { id: 'minSesion', t: C.minL, tipo: 'uno', fila: true, ops: [[30, '30'], [45, '45'], [60, '60'], [75, '75+']] },
+      { id: 'franja', t: C.franjaT, tipo: 'uno', ops: [['manana', C.franjaM], ['mediodia', C.franjaMd], ['tarde', C.franjaT2]] },
+      { id: 'material', t: C.matT, tipo: 'uno', ops: [['nada', C.matNada], ['casa', C.matCasa], ['gym', C.matGym]] },
+      { id: 'lesiones', t: C.lesT, tipo: 'multi', ops: [['rodilla', C.lesRodilla], ['hombro', C.lesHombro], ['lumbar', C.lesLumbar]], nada: C.lesNo },
+      { id: 'medico', t: C.medT, tipo: 'uno', fila: true, ops: [[true, C.si], [false, C.no]] },
+      { id: 'dieta', t: C.dietaT, tipo: 'uno', ops: [['normal', C.dietaNormal], ['vegetariano', C.dietaVegetariano], ['vegano', C.dietaVegano]] },
+      { id: 'sin', t: C.sinT, tipo: 'multi', ops: [['gluten', C.sinGluten], ['lactosa', C.sinLactosa], ['frutos', C.sinFrutos]], nada: C.sinNada },
+      { id: 'mazo', tipo: 'mazo' },
+      { id: 'resumen', tipo: 'resumen' }
+    ];
+
+    function guarda() { U.save(); }
+    function avanza() { if (borr.paso < PASOS.length - 1) { borr.paso++; guarda(); pintaPaso(); } }
+    function atras() { if (borr.paso > 0) { borr.paso--; guarda(); pintaPaso(); } }
+
+    function pintaPaso() {
+      root.innerHTML = '';
+      const paso = PASOS[borr.paso];
+      // cabecera: titulo + barra de progreso (el mazo cuenta como un paso)
+      root.append(el('div', { class: 'sec-h' }, el('h2', null, C.titulo),
+        el('span', { class: 'mini' }, (borr.paso + 1) + '/' + PASOS.length)));
+      const barra = el('div', { class: 'cuest-bar', role: 'progressbar',
+        'aria-valuemin': '0', 'aria-valuemax': String(PASOS.length - 1), 'aria-valuenow': String(borr.paso) },
+        el('i', { style: 'width:' + Math.round(borr.paso / (PASOS.length - 1) * 100) + '%' }));
+      root.append(barra);
+
+      if (paso.tipo === 'mazo') { montaMazo(root, avanza); return; }
+      if (paso.tipo === 'resumen') { pintaResumen(root); return; }
+
+      root.append(el('div', { class: 'cuest-t' }, paso.t));
+      if (paso.p) root.append(el('div', { class: 'cuest-p' }, paso.p));
+
+      if (paso.tipo === 'uno') {
+        const caja = el('div', { class: 'cuest-ops' + (paso.fila ? ' fila' : '') });
+        paso.ops.forEach(op => {
+          const val = op[0], txt = op[1];
+          caja.append(el('button', { class: 'copt plano' + (d[paso.id] === val ? ' on' : ''), type: 'button',
+            onclick: ev => {
+              d[paso.id] = val; guarda();
+              // el toque ES la respuesta: se marca y avanza solo
+              [...caja.children].forEach(x => x.classList.toggle('on', x === ev.currentTarget));
+              setTimeout(avanza, 170);
+            } }, txt));
+        });
+        root.append(caja);
+      }
+
+      if (paso.tipo === 'multi') {
+        const arr = d[paso.id] = Array.isArray(d[paso.id]) ? d[paso.id] : [];
+        const caja = el('div', { class: 'cuest-ops' });
+        paso.ops.forEach(op => {
+          const val = op[0], txt = op[1];
+          caja.append(el('button', { class: 'copt plano' + (arr.includes(val) ? ' on' : ''), type: 'button',
+            'aria-pressed': arr.includes(val) ? 'true' : 'false',
+            onclick: ev => {
+              const i = arr.indexOf(val);
+              if (i >= 0) arr.splice(i, 1); else arr.push(val);
+              guarda();
+              ev.currentTarget.classList.toggle('on', arr.includes(val));
+              ev.currentTarget.setAttribute('aria-pressed', arr.includes(val) ? 'true' : 'false');
+            } }, txt));
+        });
+        // "ninguna": vacia y avanza — responder que no tambien es responder
+        caja.append(el('button', { class: 'copt plano', type: 'button', onclick: () => {
+          arr.length = 0; guarda(); setTimeout(avanza, 120);
+        } }, paso.nada));
+        root.append(caja);
+        root.append(el('div', { class: 'cuest-pie' },
+          el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
+          el('button', { class: 'btn-b2p', type: 'button', onclick: avanza }, C.sigue)));
+        return;
+      }
+
+      if (paso.tipo === 'nums') {
+        const caja = el('div', { class: 'cuest-nums' });
+        const entradas = {};
+        paso.campos.forEach(campo => {
+          const id = campo[0], lbl = campo[1];
+          const inp = el('input', { type: 'text', inputmode: 'decimal', id: 'cuest-' + id,
+            value: d[id] !== undefined ? String(d[id]).replace('.', ',') : '' });
+          entradas[id] = inp;
+          caja.append(el('div', { class: 'cnum' }, el('label', { for: 'cuest-' + id }, lbl), inp));
+        });
+        root.append(caja);
+        root.append(el('div', { class: 'cuest-pie' },
+          borr.paso > 0 ? el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras) : el('span'),
+          el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
+            for (const campo of paso.campos) {
+              const id = campo[0], lbl = campo[1], min = campo[2], max = campo[3], opcional = campo[4];
+              const bruto = (entradas[id].value || '').trim();
+              if (!bruto) {
+                if (opcional) { delete d[id]; continue; }
+                U.toast(tpl(C.valNum, { c: lbl, a: min, b: max })); entradas[id].focus(); return;
+              }
+              const v = parseFloat(bruto.replace(',', '.'));
+              if (!(v >= min && v <= max)) {
+                U.toast(tpl(C.valNum, { c: lbl, a: min, b: max })); entradas[id].focus(); return;
+              }
+              d[id] = v;
+            }
+            guarda(); avanza();
+          } }, C.sigue)));
+        return;
+      }
+
+      // pie de las de opcion: solo Atras (avanzan solas)
+      if (borr.paso > 0) root.append(el('div', { class: 'cuest-pie' },
+        el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras), el('span')));
+    }
+
+    function pintaResumen(cont) {
+      const est = S.ui.quiz || { like: {}, no: {} };
+      const apto = (d.edad === undefined || d.edad >= 16) && d.medico === false;
+      cont.append(el('div', { class: 'cuest-t' }, C.resT));
+      cont.append(el('div', { class: 'cuest-p' }, C.resP));
+      const dame = (id, val) => {
+        const paso = PASOS.find(x => x.id === id); if (!paso || !paso.ops) return String(val);
+        const op = paso.ops.find(o => o[0] === val); return op ? op[1] : String(val);
+      };
+      const filas = [];
+      if (d.edad) filas.push(d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg');
+      ['sexo', 'objetivo', 'evento', 'duracionSem', 'historial', 'material', 'dieta', 'franja'].forEach(id => {
+        if (d[id] !== undefined) filas.push(dame(id, d[id]));
+      });
+      if (d.diasSemana) filas.push(d.diasSemana + '×' + (d.minSesion || '—') + '′');
+      if (Array.isArray(d.lesiones) && d.lesiones.length) filas.push(d.lesiones.map(x => dame('lesiones', x)).join(' · '));
+      if (Array.isArray(d.sin) && d.sin.length) filas.push(d.sin.map(x => dame('sin', x)).join(' · '));
+      filas.push(tpl(C.resGustos, { a: Object.keys(est.like || {}).length, b: Object.keys(est.no || {}).length }));
+      const tarjeta = el('div', { class: 'card', style: 'gap:8px' });
+      filas.forEach(f => tarjeta.append(el('div', { class: 'cres' }, f)));
+      cont.append(tarjeta);
+
+      if (!apto) {
+        // puerta dura: sin plan; primero un profesional
+        cont.append(el('div', { class: 'banner warn' }, el('div', null, C.resProfesional)));
+        cont.append(el('div', { class: 'cuest-pie' },
+          el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
+          el('button', { class: 'plano qaux', type: 'button', onclick: () => { location.hash = '#/hoy'; } }, TX.quizSaltar)));
+        return;
+      }
+      cont.append(el('p', { class: 'mini', style: 'margin-top:10px' }, C.resProx));
+      cont.append(el('div', { class: 'cuest-pie' },
+        el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
+        el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
+          S.perfil = Object.assign({ v: 1, creado: U.hoyISO() }, d,
+            { gustos: { like: Object.keys(est.like || {}), no: Object.keys(est.no || {}) } });
+          delete S.ui.cuest;   // borrador fuera: la proxima visita empieza limpia
+          U.save(); U.toast(C.resGuardado);
+          setTimeout(() => { location.hash = '#/hoy'; }, 400);
+        } }, C.resGuardar)));
+    }
+
+    pintaPaso();
+  }
+
+  /* ---- el mazo de gustos, ahora como pieza del flujo ---- */
+  function montaMazo(root, alFinal) {
     const TX = U.TX, S = U.S, tpl = U.tpl;
     const menosMovimiento = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    /* El mazo, en tres bloques: ejercicios, deportes y comidas. Cada carta
-       lleva su categoria como chip de color. Las claves van prefijadas
-       (ej: / dep: / com:) para que un id de receta jamas pise a uno de
-       ejercicio en el perfil. */
     const deseo = ['press-banca', 'sentadilla-barra', 'dominadas', 'remo-barra', 'rdl-barra',
       'flexiones', 'fondos', 'plancha', 'burpees', 'zancadas'];
     const idsEj = deseo.filter(id => D.EJERCICIOS[id]);
@@ -708,14 +879,15 @@
     const mazo = [];
     idsEj.forEach(id => { const e = D.EJERCICIOS[id];
       mazo.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre, sub: (TX.zonas && TX.zonas[e.zona]) || e.zona }); });
-    (D.QUIZ_DEP || []).forEach(d => mazo.push({ k: 'dep:' + d.id, cls: 'dep', cat: TX.quizCatDep, t: d.n, sub: '' }));
-    (D.RECETAS || []).slice(0, 10).forEach(r => mazo.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre, sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
+    (D.QUIZ_DEP || []).forEach(dep => mazo.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '' }));
+    (D.RECETAS || []).slice(0, 10).forEach(r => mazo.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
+      sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
 
     const est = S.ui.quiz = S.ui.quiz || { like: {}, no: {} };
     let resto = mazo.slice(), historia = [], volando = false;
 
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.quizTitulo),
-      el('span', { class: 'mini', id: 'qCuenta' })));
+    root.append(el('div', { class: 'cuest-t' }, TX.quizTitulo,
+      el('span', { class: 'mini', id: 'qCuenta', style: 'margin-left:8px' })));
     const zona = el('div', { class: 'quiz-zona' });
     root.append(zona);
     const fila = el('div', { class: 'quiz-botones' },
@@ -724,13 +896,11 @@
     root.append(fila);
     root.append(el('div', { class: 'quiz-aux' },
       el('button', { class: 'plano qaux', type: 'button', onclick: deshacer }, TX.quizDeshacer),
-      el('button', { class: 'plano qaux', type: 'button', onclick: () => { location.hash = '#/hoy'; } }, TX.quizSaltar)));
+      el('button', { class: 'plano qaux', type: 'button', onclick: alFinal }, TX.quizSaltar)));
 
-    /* Los tres huecos de la pila. Al avanzar, cada carta arranca en el hueco
-       que ocupaba (i+1) y viaja al suyo: la pila entera respira un paso. */
     const HUECO = ['', 'scale(.95) translateY(12px)', 'scale(.9) translateY(24px)', 'scale(.86) translateY(34px)'];
 
-    function pinta(avanza) {
+    function pinta(avanzando) {
       zona.innerHTML = '';
       const cuenta = root.querySelector('#qCuenta');
       if (cuenta) cuenta.textContent = (mazo.length - resto.length) + '/' + mazo.length;
@@ -739,7 +909,7 @@
         zona.append(el('div', { class: 'qcard' },
           el('div', { class: 'qn' }, TX.quizListo),
           el('div', { class: 'qz', style: 'text-transform:none;letter-spacing:0' }, tpl(TX.quizResumen, { a: n, b: mazo.length })),
-          el('button', { class: 'btn-b2p', type: 'button', style: 'margin-top:14px', onclick: () => { location.hash = '#/hoy'; } }, TX.quizListo)));
+          el('button', { class: 'btn-b2p', type: 'button', style: 'margin-top:14px', onclick: alFinal }, TX.quizListo)));
         fila.hidden = true;
         return;
       }
@@ -756,15 +926,14 @@
         cartas.push([c, i]);
         if (i === 0) engancha(c);
       });
-      if (avanza && !menosMovimiento) {
-        // arranque: cada carta en el hueco anterior; la nueva del fondo, invisible
+      if (avanzando && !menosMovimiento) {
         cartas.forEach(par => {
           const c = par[0], i = par[1];
           c.style.transition = 'none';
           c.style.transform = HUECO[i + 1];
           if (i === 2) c.style.opacity = '0';
         });
-        void zona.offsetHeight;   // que el navegador asiente el estado inicial
+        void zona.offsetHeight;
         setTimeout(() => cartas.forEach(par => {
           const c = par[0];
           c.style.transition = 'transform var(--t-corto) var(--ease-sale), opacity var(--t-corto) linear';
@@ -774,15 +943,13 @@
     }
 
     function resolver(gusta, velAbs) {
-      if (volando) return;               // un doble toque rapido saltaba una carta
+      if (volando) return;
       const it = resto[0]; if (!it) return;
       if (gusta) { est.like[it.k] = 1; delete est.no[it.k]; } else { est.no[it.k] = 1; delete est.like[it.k]; }
       historia.push(it.k); U.save();
       const carta = zona.querySelector('.qcard:not(.detras):not(.detras2)');
       if (carta && !menosMovimiento) {
         volando = true;
-        // la carta en vuelo deja de escuchar y muestra su sello a tope:
-        // el boton produce el mismo efecto visible que el gesto (causa-efecto)
         carta.style.pointerEvents = 'none';
         const sello = carta.querySelector(gusta ? '.qsi' : '.qno');
         if (sello) { sello.style.transition = 'opacity 90ms linear'; sello.style.opacity = '1'; }
@@ -806,7 +973,7 @@
 
     function engancha(carta) {
       let x0 = 0, dx = 0, hist = [], arrastrando = false;
-      const proyecta = (v, d) => v * (d || 0.998) / (1 - (d || 0.998));
+      const proyecta = (v, dcy) => v * (dcy || 0.998) / (1 - (dcy || 0.998));
       const velocidad = () => {
         if (hist.length < 2) return 0;
         const f = hist[hist.length - 1]; let i0 = 0;
@@ -820,7 +987,7 @@
         arrastrando = true; x0 = ev.clientX; dx = 0; hist = [{ x: ev.clientX, t: Date.now() }];
         try { carta.setPointerCapture(ev.pointerId); } catch (e) { /* sintetico */ }
         carta.style.transition = 'none';
-        sellos().forEach(x => { if (x) x.style.transition = 'none'; });  // 1:1 con el dedo, sin fundido
+        sellos().forEach(x => { if (x) x.style.transition = 'none'; });
       });
       carta.addEventListener('pointermove', ev => {
         if (!arrastrando) return;
@@ -839,7 +1006,6 @@
         if (Math.abs(destino) > W * .45 || Math.abs(vel) > .11) {
           resolver(destino > 0, Math.abs(vel));
         } else {
-          // vuelta con un punto de muelle: venias con impulso, se nota el freno
           carta.style.transition = 'transform var(--t-medio) var(--ease-muelle)';
           carta.style.transform = '';
           sellos().forEach(x => { if (x) { x.style.transition = ''; x.style.opacity = '0'; } });

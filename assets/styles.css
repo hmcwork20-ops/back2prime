@@ -645,6 +645,35 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 }
 .timer button:active{background:var(--surface2);color:var(--ink)}
 
+/* ---------- CUESTIONARIO: pasos de datos ---------- */
+.cuest-bar{height:3px;background:var(--surface2);border-radius:2px;margin:8px 0 16px;overflow:hidden}
+.cuest-bar i{display:block;height:100%;background:var(--volt);border-radius:2px;transition:width var(--t-medio) var(--ease-sale)}
+.cuest-t{font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:.01em;text-transform:uppercase;line-height:1.08;margin:6px 0 2px}
+.cuest-p{color:var(--ink2);font-size:14px;margin:4px 0 10px}
+.cuest-ops{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.cuest-ops.fila{flex-direction:row;flex-wrap:wrap}
+.copt{
+  min-height:56px;padding:14px 16px;border-radius:var(--r-sm);text-align:left;
+  font-size:15px;font-weight:600;cursor:pointer;color:var(--ink);
+  background:var(--surface2);border:1px solid var(--line-soft);
+  transition:transform var(--t-pulsar) var(--ease-sale),
+             border-color var(--t-pulsar) var(--ease-sale),
+             background-color var(--t-pulsar) var(--ease-sale);
+}
+.cuest-ops.fila .copt{flex:1;min-width:52px;text-align:center;padding:14px 6px}
+.copt:active{transform:scale(.97)}
+.copt.on{border-color:var(--volt);background:color-mix(in srgb,var(--volt) 10%,var(--surface2))}
+.cuest-nums{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.cnum label{display:block;font-size:12.5px;color:var(--ink2);margin-bottom:6px}
+.cnum input{
+  width:100%;min-height:52px;text-align:center;font-family:var(--mono);font-weight:700;font-size:18px;
+  background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px;
+}
+.cuest-pie{display:flex;gap:14px;justify-content:space-between;align-items:center;margin-top:22px}
+.cuest-pie .btn-b2p{flex:1;max-width:70%}
+.cres{font-size:14px;padding:2px 0;border-bottom:1px solid var(--line-soft)}
+.cres:last-child{border-bottom:0}
+
 /* ---------- QUIZ: mazo de gustos (prototipo Fase 1) ---------- */
 .quiz-zona{position:relative;height:min(56dvh,430px);margin:14px 0}
 .qcard{

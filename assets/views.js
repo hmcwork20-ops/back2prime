@@ -169,7 +169,7 @@
       if (cardio.size) kids.push(el('div', { class: 'regla' }, el('b', null, TX.cardioFase),
         Array.from(cardio).map(id => el('div', { style: 'margin:4px 0' }, el('b', { style: 'font-family:var(--cuerpo);text-transform:none;font-size:13px;display:inline' }, D.SESIONES[id].nombre + ': '), D.SESIONES[id].detalle))));
       if (f.id === 1) kids.push(el('div', { class: 'banner ok' }, el('div', null, el('b', null, TX.checkSalidaTitulo), el('div', null, TX.checkSalidaTxt))));
-      if (f.id === 2) {
+      if (f.id === 2 && D.ARRANQUE) {
         const A = D.ARRANQUE;
         const ta = el('table', null, el('tr', null, el('th', null, TX.ejercicioLbl), el('th', null, 'S3'), el('th', null, 'S4'), el('th', null, 'S5')));
         A.tabla.forEach(r => ta.append(el('tr', null,
@@ -279,6 +279,10 @@
       el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => sheetReceta(rec(id)) }, rec(id).nombre));
     D.MENU.forEach(m => tm.append(el('tr', null, el('td', { class: 'sr' }, m.d), celda(m.de), celda(m.co), celda(m.ce))));
     root.append(el('div', { class: 'tw' }, tm));
+    // el motor no encontro alternativa para todos los platos: se dice, no se calla
+    if (D.__menuAvisos && TX.gen && TX.gen.menuAviso)
+      root.append(el('div', { class: 'banner warn', style: 'margin:8px 0' },
+        el('div', null, U.tpl(TX.gen.menuAviso, { n: D.__menuAvisos }))));
     root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, TX.nTomaNota + D.NUTRI.comidaLibre));
 
     // lista de la compra
@@ -861,7 +865,8 @@
             { gustos: { like: Object.keys(est.like || {}), no: Object.keys(est.no || {}) } });
           delete S.ui.cuest;   // borrador fuera: la proxima visita empieza limpia
           U.save(); U.toast(C.resGuardado);
-          setTimeout(() => { location.hash = '#/hoy'; }, 400);
+          // recarga real: gen.js corre en el arranque y sustituye el plan entero
+          setTimeout(() => { location.href = location.pathname + '#/hoy'; location.reload(); }, 450);
         } }, C.resGuardar)));
     }
 

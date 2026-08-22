@@ -85,7 +85,7 @@
   const GRANDES = { 'sentadilla-barra': 5, 'rdl-barra': 5 };
   // Arranque derivado de las marcas históricas: solo la primera vez del ejercicio.
   const ARR0 = {};
-  (D.ARRANQUE.tabla || []).forEach(r => { ARR0[r.ej] = parseFloat(r.s3.replace(',', '.')); });
+  ((D.ARRANQUE || {}).tabla || []).forEach(r => { ARR0[r.ej] = parseFloat(r.s3.replace(',', '.')); });
   function sugerencia(ejId, d) {
     const u = ultimoLog(ejId, d);
     if (!u || !u.kg) {
@@ -172,8 +172,9 @@
     'cintura-93': () => cinturaMin() !== null && cinturaMin() < 93,
     'cintura-91': () => cinturaMin() !== null && cinturaMin() < 91,
     'pr-1': () => S.prCount >= 1, 'pr-5': () => S.prCount >= 5, 'pr-15': () => S.prCount >= 15,
-    'marca-banca': () => (S.prs['press-banca'] || {}).kg >= D.HISTORICO['press-banca'].kg,
-    'marca-sentadilla': () => (S.prs['sentadilla-barra'] || {}).kg >= D.HISTORICO['sentadilla-barra'].kg,
+    // con plan generado no hay marcas previas: el logro queda inalcanzable, no roto
+    'marca-banca': () => !!D.HISTORICO['press-banca'] && (S.prs['press-banca'] || {}).kg >= D.HISTORICO['press-banca'].kg,
+    'marca-sentadilla': () => !!D.HISTORICO['sentadilla-barra'] && (S.prs['sentadilla-barra'] || {}).kg >= D.HISTORICO['sentadilla-barra'].kg,
     'dominada-libre': () => !!S.flags.dominadaLibre,
     'mealprep-4': () => { let n = 0, f = hoyISO(); while (dowMon(f) !== 6) f = addDays(f, -1); while (S.dias[f] && S.dias[f].prep) { n++; f = addDays(f, -7); } return n >= 4; },
     'comeback': () => !!S.flags.comeback,
@@ -525,7 +526,7 @@
         sh.append(el('div', { class: 'mini', html: h.map(x => fmtCorta(x.fecha) + ': <b class="num">' + kg1(x.kg) + '</b> kg' + (x.falta ? ' (' + TX.repsAMediasTag + ')' : '')).join(' · ') }));
       } else if (ARR0[ejId]) {
         sh.append(el('h4', null, TX.fArranque));
-        sh.append(el('div', { class: 'mini' }, tpl(TX.fArranqueTxt, { v: kg1(ARR0[ejId]) }) + ' ' + ((D.ARRANQUE.tabla.find(r => r.ej === ejId) || {}).n || '')));
+        sh.append(el('div', { class: 'mini' }, tpl(TX.fArranqueTxt, { v: kg1(ARR0[ejId]) }) + ' ' + ((((D.ARRANQUE || {}).tabla || []).find(r => r.ej === ejId) || {}).n || '')));
       }
       sh.append(el('h4', null, TX.fComo));
       sh.append(el('ul', null, e.cues.map(c => el('li', null, c))));
@@ -622,6 +623,8 @@
       )
     );
     root.append(nav);
+    // el plan que ves salió de tu perfil, y se dice
+    if (D.__gen && TX.gen) root.append(el('div', { class: 'mini', style: 'text-align:center;color:var(--volt);margin-top:2px' }, TX.gen.marca));
 
     /* — antes del plan — */
     if (w === 0) {

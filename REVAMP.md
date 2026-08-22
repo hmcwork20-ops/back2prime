@@ -42,6 +42,13 @@ equivalentes (`gesture-alternative`), pista de gesto la primera vez
 inercia y resistencia en límites se construyeron para la hoja inferior (v24).
 El mazo las reutiliza; sale un prototipo funcional, no una maqueta.
 
+**Hecho en v29**: el motor vive en assets/gen.js y corre en el arranque: si
+hay perfil guardado, sustituye window.B2P entero antes de que la app lo lea.
+Banco de pruebas en Node con 4 perfiles (numeros a mano, calendario, subs,
+menu, puertas). Limite conocido: con 10 recetas, dietas restrictivas se quedan
+sin alternativas — se cuenta y se avisa en COMIDA; el recetario ampliado es el
+siguiente contenido a producir.
+
 **Salida**: un objeto `perfil` → `generarPlan(perfil)` devuelve el mismo
 contrato que hoy exporta `data.js`. El mecanismo está demostrado: el sistema
 de idiomas ya sustituye `window.B2P` entero. Motor determinista, sin IA en

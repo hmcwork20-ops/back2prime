@@ -1019,6 +1019,7 @@ window.B2P = (function () {
     quizTitulo: 'Tus gustos', quizPista: 'Desliza: derecha me gusta, izquierda no',
     quizSi: 'Me gusta', quizNo: 'No me va', quizDeshacer: 'Deshacer', quizSaltar: 'Saltar',
     quizListo: 'Listo', quizResumen: 'Te gustan {a} de {b}. Esto afinará tu plan.',
+    gen: { marca: 'Plan generado a tu medida', cuida: 'cuida: {a}', datos: '{p} kg · {a} cm · {e} años', menuAviso: '{n} platos del menú no encajan con tu dieta: el recetario ampliado llega pronto.' },
     quizCatEj: 'Ejercicio', quizCatDep: 'Deporte', quizCatCom: 'Comida',
     cuest: {
       titulo: 'Tu plan, a medida', atras: 'Atrás', sigue: 'Continuar',

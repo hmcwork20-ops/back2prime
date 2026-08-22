@@ -1019,6 +1019,7 @@ window.B2P = (function () {
     quizTitulo: 'Your likes', quizPista: 'Swipe: right = like, left = pass',
     quizSi: 'Like', quizNo: 'Pass', quizDeshacer: 'Undo', quizSaltar: 'Skip',
     quizListo: 'Done', quizResumen: 'You like {a} of {b}. This will tune your plan.',
+    quizCatEj: 'Exercise', quizCatDep: 'Sport', quizCatCom: 'Food',
     gPeso: 'Body weight chart', gCintura: 'Waist chart',
     gCargas: 'Load chart', gAdherencia: 'Weekly adherence chart',
     gRango: '{n} entries, from {a} to {b} {u}', gUnico: '1 entry, {a} {u}',
@@ -1113,5 +1114,6 @@ window.B2P = (function () {
   UI.planEmpiezaTitulo = 'The plan starts Monday 17 August';
   UI.planEmpiezaTxt = 'Phase 1 · Reactivation at home. Here’s everything you need to arrive with your homework done.';
 
-  return { META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, HISTORICO, ARRANQUE, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MEALPREP_NOTA, MENU, CHECKPOINTS, AJUSTES, FOTOS, LOGROS, CIENCIA, CIERRE, AVISO_LEGAL, UI };
+    const QUIZ_DEP = [{ id: 'running', n: 'Running' }, { id: 'natacion', n: 'Swimming' }, { id: 'ciclismo', n: 'Cycling' }, { id: 'padel', n: 'Padel' }, { id: 'futbol', n: 'Football' }, { id: 'baloncesto', n: 'Basketball' }, { id: 'volley', n: 'Volleyball' }, { id: 'yoga', n: 'Yoga' }, { id: 'calistenia', n: 'Calisthenics' }, { id: 'boxeo', n: 'Boxing' }];
+  return { META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, HISTORICO, ARRANQUE, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MEALPREP_NOTA, MENU, CHECKPOINTS, AJUSTES, FOTOS, LOGROS, CIENCIA, CIERRE, AVISO_LEGAL, QUIZ_DEP, UI };
 })();

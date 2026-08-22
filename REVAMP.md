@@ -109,7 +109,7 @@ siguiente.
 ## Decisiones tomadas (22 ago 2026)
 
 1. **Primero el cuestionario** (Fase 1). El prototipo del mazo ya está en
-   `#/quiz`: 12 tarjetas de gustos de ejercicio, swipe con física completa,
+   `#/quiz`: 30 tarjetas en tres bloques (ejercicios, deportes, comidas), swipe con física completa,
    botones equivalentes, deshacer, saltar y persistencia en `S.ui.quiz`.
 2. **Imagen híbrida**: SVG propio para ejercicios (mapa muscular), foto IA solo
    en platos, con carga perezosa y fuera del precache.

@@ -4,8 +4,8 @@ Anotado el 14 ago 2026, al cierre de la v12.
 Ampliado el 15 ago 2026, al cierre de la auditoría (v22).
 
 > **Marco de trabajo (15 ago 2026).** La app se construye para **cualquier
-> persona**, aunque de momento los únicos datos cargados sean los de Hernan.
-> Consecuencia práctica: no se diseña nada a partir de su historial personal.
+> persona**, aunque de momento los únicos datos cargados sean los del autor.
+> Consecuencia práctica: no se diseña nada a partir de un historial personal.
 > Se descartó por eso una intervención de retención en la semana 5 que la
 > crítica proponía sobre la premisa —falsa— de que fuera su semana de abandono.
 > El cribado de salud se queda donde está: es sensato antes de la Fase 3 para

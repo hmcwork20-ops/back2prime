@@ -108,12 +108,12 @@ siguiente.
 
 ## Decisiones tomadas (22 ago 2026)
 
-1. **Primero el cuestionario** (Fase 1). Flujo completo en  desde la
+1. **Primero el cuestionario** (Fase 1). Flujo completo en `#/quiz` desde la
    v28: 14 pasos de datos (una pregunta por pantalla, borrador autoguardado,
    validación con aviso, puerta dura tipo PAR-Q que deriva a un profesional)
-   → mazo de 30 gustos → resumen que guarda , el contrato de
-   . El prototipo del mazo llegó en
-   `#/quiz`: 30 tarjetas en tres bloques (ejercicios, deportes, comidas), swipe con física completa,
-   botones equivalentes, deshacer, saltar y persistencia en `S.ui.quiz`.
+   → mazo de 30 gustos → resumen que guarda `S.perfil`, el contrato de
+   `generarPlan()`. El mazo: 30 tarjetas en tres bloques (ejercicios,
+   deportes, comidas), swipe con física completa, botones equivalentes,
+   deshacer, saltar y persistencia en `S.ui.quiz`.
 2. **Imagen híbrida**: SVG propio para ejercicios (mapa muscular), foto IA solo
    en platos, con carga perezosa y fuera del precache.

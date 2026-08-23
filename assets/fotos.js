@@ -1,2 +1,2 @@
 /* generado por tools/fotos.py — qué platos tienen foto en assets/fotos/ */
-window.B2P_FOTOS = [];
+window.B2P_FOTOS = ["bol-garbanzos", "bol-skyr", "bol-soja-frutos", "bolonesa-soja", "crema-calabaza-tofu", "curry-lentejas", "ensalada-atun", "ensalada-quinoa-alubias", "lentejas-pollo", "merluza-patata", "pasta-lentejas-tempeh", "pollo-asado", "porridge-soja", "revuelto-espinacas", "revuelto-gambas", "salmon-arroz", "salteado-ternera", "tofu-revuelto", "tofu-salteado", "toma-noche", "tortilla-garbanzo", "tortilla-pan"];

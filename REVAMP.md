@@ -69,7 +69,7 @@ corporal extremo.
 | Pieza | Hoy | Pasa a |
 |---|---|---|
 | Ejercicios | ficha de texto | **Hecho en v32**: mapa muscular SVG dibujado por código (frente y espalda, 15 regiones, claves `mm` neutras en los 5 idiomas) en ficha, biblioteca (40 px) y cartas del mazo. Pendiente: pictograma del patrón de movimiento |
-| Recetas | lista de texto | tarjeta con foto, macros como chips |
+| Recetas | lista de texto | **Hecho en v35**: foto en tarjeta, ficha y HOY (22 WebP de ~50 KB, carga perezosa, fuera del precache) |
 | Progreso | números | anillos + la metáfora de discos olímpicos que ya existe, cargándose en una barra |
 | Hoy | lista | tablero de tarjetas: sesión, comida, hábitos como anillos |
 | Iconos | emoji (hábitos, discos, banderas) | set SVG único, un solo grosor de trazo (`no-emoji-icons`) |

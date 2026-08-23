@@ -678,7 +678,12 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
    Silueta apagada, regiones en volt. El resplandor solo en la ficha: a 40 px
    de alto un drop-shadow no aporta y cuesta en cada fila. */
 .mapa svg{display:block;width:100%;max-width:250px;height:auto;margin:10px auto 2px}
-.mapa .mm-base{fill:var(--surface2);stroke:rgba(255,255,255,.10);stroke-width:1}
+.mapa .mm-base{fill:var(--surface2);stroke:rgba(255,255,255,.12);stroke-width:1;stroke-linejoin:round}
+/* líneas de anatomía (clavículas, rótulas, tableta): solo trazo, y solo a tamaño ficha */
+.mapa .mm-linea *{fill:none;stroke:rgba(255,255,255,.16);stroke-width:.9;stroke-linecap:round}
+.mapa-mini .mm-linea{display:none}
+.mapa .mm-p *,.mapa .mm-s *,.mapa .mm-r *{stroke:none}
+.mapa .mm-p .mm-linea *,.mapa .mm-s .mm-linea *{stroke:rgba(16,20,10,.35)}
 .mapa .mm-r,.mapa-mini .mm-r{fill:rgba(255,255,255,.07)}
 .mapa .mm-p{fill:var(--volt);fill-opacity:.92;filter:drop-shadow(0 0 6px rgba(200,242,78,.45))}
 .mapa .mm-s{fill:var(--volt);fill-opacity:.36}

@@ -508,10 +508,15 @@
       // el mapa muscular: lo que trabaja, encendido; sin una sola imagen externa
       if (window.B2P_MAPA && e.mm) sh.append(el('div', { class: 'mapa', html: window.B2P_MAPA.svg(e.mm, { label: e.nombre + ' · ' + e.musc.join(', ') }) }));
       // el patron de movimiento: que se HACE, junto a que trabaja
-      if (window.B2P_MAPA && window.B2P_MAPA.svgPat && e.pat && TX.patrones && TX.patrones[e.pat])
-        sh.append(el('div', { class: 'pat-fila' },
-          el('span', { class: 'pat-ico', html: window.B2P_MAPA.svgPat(e.pat) }),
+      if (e.pat && TX.patrones && TX.patrones[e.pat]) {
+        // pictograma como imagen si esta importado; el SVG por codigo, de respaldo
+        const conImg = window.B2P_PICTOS && window.B2P_PICTOS.includes(e.pat);
+        const ico = conImg
+          ? el('img', { class: 'pat-img', src: 'assets/pictos/' + e.pat + '.webp', alt: '', loading: 'lazy', decoding: 'async', width: '256', height: '256' })
+          : (window.B2P_MAPA && window.B2P_MAPA.svgPat ? el('span', { class: 'pat-ico', html: window.B2P_MAPA.svgPat(e.pat) }) : null);
+        if (ico) sh.append(el('div', { class: 'pat-fila' }, ico,
           el('span', { class: 'pat-txt' }, TX.patrones[e.pat])));
+      }
       const hist = D.HISTORICO[ejId];
       if (hist) {
         // Sin registro previo, `falta` valía la marca ENTERA y el mensaje decía

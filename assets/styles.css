@@ -677,6 +677,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 /* ---------- Pictograma de patron de movimiento ---------- */
 .pat-fila{display:flex;align-items:center;gap:10px;margin:2px auto 8px;justify-content:center}
 .pat-ico{display:inline-flex;width:44px;height:44px;border-radius:12px;background:var(--surface2);border:1px solid var(--line-soft);align-items:center;justify-content:center}
+.pat-img{width:44px;height:44px;border-radius:12px;border:1px solid var(--line-soft);object-fit:cover;background:var(--surface2)}
 .pat-ico svg{width:38px;height:38px;display:block}
 .pat-txt{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
 .pt-s{fill:var(--ink);stroke:none}

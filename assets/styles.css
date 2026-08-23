@@ -679,11 +679,12 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .pat-ico{display:inline-flex;width:44px;height:44px;border-radius:12px;background:var(--surface2);border:1px solid var(--line-soft);align-items:center;justify-content:center}
 .pat-ico svg{width:38px;height:38px;display:block}
 .pat-txt{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
-.pt-cab{fill:none;stroke:var(--ink);stroke-width:2.4}
-.pt-cuerpo{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.pt-volt{fill:none;stroke:var(--volt);stroke-width:2.6;stroke-linecap:round}
-.pt-disco{fill:var(--volt);stroke:none}
-.pt-flecha{fill:none;stroke:var(--volt);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.pt-cab{fill:var(--ink);stroke:none}
+.pt-c{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.pt-v{fill:none;stroke:var(--volt);stroke-linecap:round;stroke-linejoin:round}
+.pt-vd{fill:var(--volt);stroke:none}
+.pt-suelo{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1.6;stroke-linecap:round}
+.pt-f{fill:none;stroke:var(--volt);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
 
 /* ---------- La barra del plan + anillos ---------- */
 .bp-card{padding-bottom:8px}

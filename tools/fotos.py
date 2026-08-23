@@ -7,6 +7,11 @@ Uso:
     python tools/fotos.py            # solo las recetas que aún no tienen foto
     python tools/fotos.py --ids curry-lentejas,bol-skyr   # unas concretas
     python tools/fotos.py --force    # regenera todas
+    python tools/fotos.py --import C:/ruta/carpeta   # sin API: importa ficheros
+        <id>.png|jpg|jpeg|webp generados fuera (p. ej. en la web de Gemini),
+        los recorta, reduce y comprime igual, y actualiza el manifiesto
+    python tools/fotos.py --prompts  # imprime el prompt de cada plato para
+        generarlos a mano
 
 Clave: variable GEMINI_API_KEY o GOOGLE_API_KEY, o un fichero
 ~/.gemini/.env con una línea GEMINI_API_KEY=...   (fuera del repo; nunca se
@@ -111,8 +116,31 @@ def escribe_manifiesto():
     return ids
 
 
+def importa(carpeta):
+    """Ficheros <id>.(png|jpg|jpeg|webp) -> assets/fotos/<id>.webp, mismo pipeline."""
+    os.makedirs(SALIDA, exist_ok=True)
+    n = 0
+    for nombre in sorted(os.listdir(carpeta)):
+        base, ext = os.path.splitext(nombre)
+        if ext.lower() not in ('.png', '.jpg', '.jpeg', '.webp'):
+            continue
+        if base not in PLATOS:
+            print('  (ignorado: %s no es un id de plato)' % nombre); continue
+        with open(os.path.join(carpeta, nombre), 'rb') as f:
+            kb = comprime(f.read(), os.path.join(SALIDA, base + '.webp')) / 1024.0
+        print('  %-24s %5.0f KB' % (base, kb)); n += 1
+    ids = escribe_manifiesto()
+    print('importadas %d · manifiesto: %d fotos' % (n, len(ids)))
+
+
 def main():
     args = sys.argv[1:]
+    if '--prompts' in args:
+        for pid, desc in PLATOS.items():
+            print('== ' + pid + '.png ==\n' + ESTILO + ' The dish: ' + desc + '.\n')
+        return
+    if '--import' in args:
+        importa(args[args.index('--import') + 1]); return
     forzar = '--force' in args
     solo = None
     if '--ids' in args:

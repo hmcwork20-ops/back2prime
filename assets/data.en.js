@@ -256,77 +256,77 @@ window.B2P = (function () {
   const EJERCICIOS = {
     /* — Home / P1 — */
     'sentadilla-pc': {
-      nombre: 'Bodyweight Squat', zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Nothing',
+      nombre: 'Bodyweight Squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Nothing',
       cues: ['Feet shoulder-width, toes slightly out', 'Lower for 3″ as if sitting back, up in 1″', 'Knees track the toes, heels nailed to the floor', 'Chest up through the whole range'],
       err: ['Heels lifting off (don’t go as deep)', 'Knees collapsing inwards', 'Bouncing down instead of controlling it'],
       alt: [{ n: 'Squat to a box/sofa', por: 'if controlling depth is hard' }, { n: 'Squat with a 2″ pause at the bottom', por: 'if 12 reps feel too easy' }],
       mol: 'If the knee complains: reduce depth to where it doesn’t hurt and lower even slower.'
     },
     'flexiones': {
-      nombre: 'Push-ups', zona: 'empuje', musc: ['Chest', 'triceps, shoulders'], equipo: 'Nothing',
+      nombre: 'Push-ups', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps, shoulders'], equipo: 'Nothing',
       cues: ['Hands slightly wider than shoulders', 'Elbows at 45° from the body, neither tucked nor flared', 'Body like a plank: glutes and abs braced', 'Chest (almost) touches the floor every rep'],
       err: ['Hips sagging or piking up', 'Half range', 'Neck poking towards the floor'],
       alt: [{ n: 'Push-ups with hands on a sofa/table', por: 'if clean floor reps aren’t there yet' }, { n: 'Feet-elevated push-ups', por: 'if you clear 12 with ease' }],
       mol: 'If the wrist complains: closed fists or push-up handles. If the shoulder complains: narrow the width a touch.'
     },
     'puente-gluteo': {
-      nombre: 'Glute Bridge', zona: 'pierna', musc: ['Glutes', 'hamstrings'], equipo: 'Nothing',
+      nombre: 'Glute Bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glutes', 'hamstrings'], equipo: 'Nothing',
       cues: ['Lying down, heels close to your glutes', 'Drive through the heels and lift the hips', '2″ pause at the top squeezing the glutes hard', 'Ribs down: don’t arch the lower back'],
       err: ['Pushing through the toes', 'Arching the lower back to get higher', 'Up and down with no pause'],
       alt: [{ n: 'Single-leg bridge', por: 'once 15 reps feel comfortable' }, { n: 'Bridge with a backpack on your hips', por: 'to add load at home' }],
       mol: 'If the hamstring cramps: bring the heels closer to your glutes.'
     },
     'plancha': {
-      nombre: 'Front Plank', zona: 'core', musc: ['Full core'], equipo: 'Nothing',
+      nombre: 'Front Plank', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Full core'], equipo: 'Nothing',
       cues: ['Forearms on the floor, elbows under the shoulders', 'Ribs in, pelvis tucked (tuck your backside under)', 'Glutes squeezed, eyes on the floor', 'Breathe: don’t hold your breath'],
       err: ['Hips sagging (lower back suffers)', 'Backside piked up (cheating)', 'Holding on while shaking: if the lower back trembles, end the set'],
       alt: [{ n: 'Plank on the knees', por: 'if you can’t hold the time with good form' }],
       mol: 'If the lower back complains: check the pelvic tuck first; it’s usually that.'
     },
     'plancha-lastre': {
-      nombre: 'Weighted Plank', zona: 'core', musc: ['Full core'], equipo: '5-10 kg plate',
+      nombre: 'Weighted Plank', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Full core'], equipo: '5-10 kg plate',
       cues: ['Same technique as the regular plank', 'Have the plate placed between your shoulder blades, not on the lower back', 'If the hips drop, remove weight'],
       err: ['Plate too low (loads the lower back)', 'Losing the pelvic tuck as you fatigue'],
       alt: [{ n: 'Plank with shoulder taps', por: 'if there’s no one to place the plate' }, { n: 'Kneeling ab wheel', por: 'a more demanding variant' }],
       mol: 'If the lower back complains: back to an unweighted plank + shoulder taps.'
     },
     'elev-talones': {
-      nombre: 'Calf Raises', zona: 'pierna', musc: ['Calf', 'soleus'], equipo: 'Optional step',
+      nombre: 'Calf Raises', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Calf', 'soleus'], equipo: 'Optional step',
       cues: ['Full range: stretch at the bottom, 1″ pause at the top', 'Up in 1″, down in 2-3″', 'Better on a step for more range'],
       err: ['Fast bouncing with no pause', 'Half range at the top'],
       alt: [{ n: 'Single-leg', por: 'once 20 reps are easy' }],
       mol: 'If the Achilles complains: reduce the bottom range and slow the lowering further.'
     },
     'zancada-alterna': {
-      nombre: 'Alternating Lunge', zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Nothing',
+      nombre: 'Alternating Lunge', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Nothing',
       cues: ['Big step forward', 'Torso upright, hands on hips or out front', 'Back knee brushes the floor', 'Drive through the front heel to come back'],
       err: ['Short step (front knee collapses)', 'Torso tipping forward', 'Front knee drifting inwards'],
       alt: [{ n: 'Static lunge (no alternating)', por: 'if balance keeps failing' }, { n: 'Reverse lunge', por: 'kinder on the knee' }],
       mol: 'If the knee complains: switch to REVERSE lunges, same scheme.'
     },
     'remo-toalla': {
-      nombre: 'Towel Door Row', zona: 'tiron', musc: ['Lats', 'biceps, shoulder blades'], equipo: 'Towel + door (or backpack)',
+      nombre: 'Towel Door Row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'biceps, shoulder blades'], equipo: 'Towel + door (or backpack)',
       cues: ['Towel round the handle/frame, body leaning back', 'Pull with the ELBOW, not the hand', 'Shoulder blades back and down at the end of the pull', 'The further you lean, the harder it gets'],
       err: ['Pulling with the arms without moving the shoulder blades', 'Jerking with hip drive'],
       alt: [{ n: 'Loaded backpack row', por: 'one arm, braced on the table' }, { n: 'Inverted row under a sturdy table', por: 'the harder version' }],
       mol: 'If the elbow complains: grip wider and lean back less.'
     },
     'rdl-1p': {
-      nombre: 'Single-leg Romanian Deadlift', zona: 'pierna', musc: ['Hamstrings', 'glutes, balance'], equipo: 'Nothing (optional backpack)',
+      nombre: 'Single-leg Romanian Deadlift', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Hamstrings', 'glutes, balance'], equipo: 'Nothing (optional backpack)',
       cues: ['Hips back, back flat as a table', 'Free leg rises behind you as a counterweight', 'Lower until you feel the hamstring stretch', 'Prioritise balance over depth'],
       err: ['Rounding the back to get lower', 'Rotating the hips (keep both hips facing the floor)'],
       alt: [{ n: 'One hand on the wall for support', por: 'if balance keeps breaking the set' }, { n: 'B-stance (rear foot as a kickstand)', por: 'the halfway point' }],
       mol: 'If the hamstring pulls too hard: reduce the range, not the technique.'
     },
     'superman': {
-      nombre: 'Superman', zona: 'core', musc: ['Lower back', 'glutes, upper back'], equipo: 'Nothing',
+      nombre: 'Superman', mm: { p: ['lumbar'], s: ['gluteo', 'espalda-alta'] }, zona: 'core', musc: ['Lower back', 'glutes, upper back'], equipo: 'Nothing',
       cues: ['Face down, arms out front', 'Lift arms and legs together, 2″ at the top', 'Eyes on the floor: don’t crane the neck'],
       err: ['Whipping the neck by looking forward', 'Coming up with a bounce'],
       alt: [{ n: 'Bird-dog (opposite arm and leg)', por: 'more control, less compression' }],
       mol: 'If the lower back complains: switch straight to bird-dogs.'
     },
     'dead-bug': {
-      nombre: 'Dead Bug', zona: 'core', musc: ['Deep anterior core'], equipo: 'Nothing',
+      nombre: 'Dead Bug', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Deep anterior core'], equipo: 'Nothing',
       cues: ['Lying down, lower back GLUED to the floor at all times', 'Opposite arm and leg lower slowly together', 'Exhale as you extend: ribs stay down'],
       err: ['Lower back arching as the leg extends (shorten the range)', 'Rushing it'],
       alt: [{ n: 'Legs only (arms still)', por: 'if you lose the lower back off the floor' }],
@@ -335,84 +335,84 @@ window.B2P = (function () {
 
     /* — Gym: push — */
     'press-banca': {
-      nombre: 'Bench Press', zona: 'empuje', musc: ['Chest', 'triceps, front delts'], equipo: 'Barbell + bench',
+      nombre: 'Bench Press', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps, front delts'], equipo: 'Barbell + bench',
       cues: ['Shoulder blades retracted and PINNED to the bench, feet planted', 'Grip: vertical forearm when the bar touches the chest', 'Bar to mid-chest, elbows ~45°', 'Touch the chest under control and press along a slightly diagonal line'],
       err: ['Shoulders shrugging as you press (you lose the retraction)', 'Bouncing the bar off the chest', 'Backside off the bench', 'Wrists bent backwards'],
       alt: [{ n: 'Machine chest press', por: 'days you can’t face setting up a bench, or a packed gym' }, { n: 'Flat dumbbell press', por: 'more range and less shoulder' }],
       mol: 'If the shoulder complains: try a slightly narrower grip with elbows more tucked; if it persists, dumbbells with a neutral turn.'
     },
     'press-inclinado-mc': {
-      nombre: 'Incline Dumbbell Press', zona: 'empuje', musc: ['Upper chest', 'shoulders, triceps'], equipo: 'Dumbbells + 30° bench',
+      nombre: 'Incline Dumbbell Press', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Upper chest', 'shoulders, triceps'], equipo: 'Dumbbells + 30° bench',
       cues: ['Bench at 30° (one notch, not a wall)', 'Lower until you feel the stretch in the chest', 'Elbows at 45-60°, wrists neutral', 'Press up without clashing the dumbbells at the top'],
       err: ['Bench too upright (it turns into a shoulder press)', 'Bouncing at the bottom', 'Over-arching the lower back'],
       alt: [{ n: 'Incline press in the Smith machine', por: 'if the gym is packed or you want stability' }, { n: 'Incline barbell press', por: 'already programmed in Push B in P4' }],
       mol: 'If the shoulder complains: cut the bottom range by 5 cm and turn the palms slightly inwards.'
     },
     'press-inclinado-barra': {
-      nombre: 'Incline Barbell Press', zona: 'empuje', musc: ['Upper chest', 'shoulders, triceps'], equipo: 'Barbell + incline bench',
+      nombre: 'Incline Barbell Press', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Upper chest', 'shoulders, triceps'], equipo: 'Barbell + incline bench',
       cues: ['Bench at 30-45°, shoulder blades pinned', 'The bar lowers to the upper chest (collarbones)', 'Forearms vertical at the touch'],
       err: ['Lowering the bar to mid-chest (forces the elbows to flare)', 'Bouncing'],
       alt: [{ n: 'Incline Smith machine', por: 'same session, more guidance' }, { n: 'Incline dumbbells', por: 'if there’s no incline bench with uprights' }],
       mol: 'If the shoulder complains: back to dumbbells, which let you rotate the grip.'
     },
     'press-plano-mc': {
-      nombre: 'Flat Dumbbell Press', zona: 'empuje', musc: ['Chest', 'triceps'], equipo: 'Dumbbells + bench',
+      nombre: 'Flat Dumbbell Press', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps'], equipo: 'Dumbbells + bench',
       cues: ['More range than the bar: use it at the bottom with control', 'Press up in an arc, without clashing at the top', 'Feet planted, shoulder blades back'],
       err: ['Letting the dumbbells drop without braking', 'Turning it into a shoulder press by flaring the elbows too wide'],
       alt: [{ n: 'Chest press machine', por: 'high fatigue or no free bench' }],
       mol: 'If the shoulder complains: neutral grip (palms facing each other).'
     },
     'press-militar': {
-      nombre: 'Overhead Press', zona: 'empuje', musc: ['Shoulders', 'triceps, core'], equipo: 'Barbell (standing or seated)',
+      nombre: 'Overhead Press', mm: { p: ['hombro'], s: ['triceps', 'abdomen'] }, zona: 'empuje', musc: ['Shoulders', 'triceps, core'], equipo: 'Barbell (standing or seated)',
       cues: ['Standing: glutes and abs BRACED before you press', 'The bar starts at the chin and travels close to the face', 'Head "through the window" at the top', 'Seated with back support: no lower-back arch'],
       err: ['Arching the lower back into an incline press', 'Pressing the bar forwards (it hits the chin)', 'Incomplete range at the top'],
       alt: [{ n: 'Seated dumbbell shoulder press', por: 'already programmed in P2; kinder on the shoulder' }, { n: 'Shoulder press machine', por: 'last session of the week, fatigue high' }],
       mol: 'If the shoulder complains: dumbbells with a neutral grip, pressing only as high as stays pinch-free.'
     },
     'press-militar-mc': {
-      nombre: 'Seated Dumbbell Shoulder Press', zona: 'empuje', musc: ['Shoulders', 'triceps'], equipo: 'Dumbbells + bench with backrest',
+      nombre: 'Seated Dumbbell Shoulder Press', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Shoulders', 'triceps'], equipo: 'Dumbbells + bench with backrest',
       cues: ['High backrest, lower back supported without arching', 'Elbows slightly in front of the body, not out wide', 'Full range without clashing at the top'],
       err: ['Arching the lower back off the backrest', 'Lowering only to ear height'],
       alt: [{ n: 'Shoulder press machine', por: 'direct equivalent' }],
       mol: 'If the shoulder complains: neutral grip and lower only to 90° of elbow.'
     },
     'elev-laterales': {
-      nombre: 'Lateral Raises', zona: 'empuje', musc: ['Side delts'], equipo: 'Dumbbells',
+      nombre: 'Lateral Raises', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Side delts'], equipo: 'Dumbbells',
       cues: ['LIGHT weight, elbows slightly bent', 'Raise to horizontal, like pouring two jugs', 'No momentum: if you’re swinging, the weight’s too much', 'Lower in 2″'],
       err: ['Shrugging up with the traps', 'Going past horizontal', 'Hip swing'],
       alt: [{ n: 'Low-cable lateral raises', por: 'constant tension; programmed in Push B' }, { n: 'Lateral raise machine', por: 'to finish without thinking about technique' }],
       mol: 'If the shoulder complains: thumb slightly up and raise 10° in front of the lateral plane.'
     },
     'laterales-polea': {
-      nombre: 'Cable Lateral Raises', zona: 'empuje', musc: ['Side delts'], equipo: 'Low pulley',
+      nombre: 'Cable Lateral Raises', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Side delts'], equipo: 'Low pulley',
       cues: ['Pulley at wrist height with the arm hanging', 'Body stable, raise to horizontal', 'The cable keeps tension at the bottom too: use it'],
       err: ['Standing too far from the pulley', 'Pulling with the traps'],
       alt: [{ n: 'Dumbbells', por: 'if the cables are taken' }],
       mol: 'Same as with dumbbells: thumb up and the plane slightly forward.'
     },
     'fondos': {
-      nombre: 'Assisted Dips', zona: 'empuje', musc: ['Lower chest', 'triceps'], equipo: 'Assisted dip machine or bands',
+      nombre: 'Assisted Dips', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Lower chest', 'triceps'], equipo: 'Assisted dip machine or bands',
       cues: ['Body leaning slightly forward (more chest)', 'Lower to 90° of elbow, no further if the shoulder protests', 'Elbows that don’t flare out wide'],
       err: ['Going too deep', 'Shoulders shrugged up to the ears'],
       alt: [{ n: 'Decline press or bench dips', por: 'if there’s no assisted machine' }],
       mol: 'If the sternum or shoulder complains: swap for the flat dumbbell press.'
     },
     'ext-triceps-polea': {
-      nombre: 'Triceps Pushdown', zona: 'empuje', musc: ['Triceps'], equipo: 'High pulley + rope or bar',
+      nombre: 'Triceps Pushdown', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps'], equipo: 'High pulley + rope or bar',
       cues: ['Elbows tucked to your sides, FIXED', 'Only the forearm moves', 'Extend fully and squeeze for 1″'],
       err: ['Elbows drifting forward on the way down (shoulder takes over)', 'Torso swinging'],
       alt: [{ n: 'With a rope, spreading it at the bottom', por: 'a bit more long head' }, { n: 'Dumbbell triceps kickback', por: 'when no cable is free' }],
       mol: 'If the elbow complains: drop the weight and raise the reps to 15-20; elbows hate ego.'
     },
     'ext-triceps-cabeza': {
-      nombre: 'Overhead Rope Extension', zona: 'empuje', musc: ['Triceps (long head)'], equipo: 'Cable + rope',
+      nombre: 'Overhead Rope Extension', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (long head)'], equipo: 'Cable + rope',
       cues: ['Back to the pulley, rope behind the neck', 'Elbows pointing forward, extend overhead', 'Real stretch at the bottom: that’s where the long head grows'],
       err: ['Elbows flaring out wide', 'Short range from too much weight'],
       alt: [{ n: 'Skull crushers with an EZ bar', por: 'same pattern lying down' }],
       mol: 'If the elbow complains: same as the pushdown — less weight, more reps.'
     },
     'press-frances': {
-      nombre: 'Skull Crushers', zona: 'empuje', musc: ['Triceps (long head)'], equipo: 'EZ bar + bench',
+      nombre: 'Skull Crushers', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (long head)'], equipo: 'EZ bar + bench',
       cues: ['Lying down, bar lowers to the forehead or slightly behind', 'Elbows pointing at the ceiling, still', 'Lower in 2-3″, extend without snapping into lockout'],
       err: ['Elbows flaring out', 'Turning it into a close-grip press by moving the shoulder'],
       alt: [{ n: 'Overhead cable extension', por: 'more constant tension, less elbow stress' }],
@@ -421,42 +421,42 @@ window.B2P = (function () {
 
     /* — Gym: pull — */
     'remo-barra': {
-      nombre: 'Barbell Row', zona: 'tiron', musc: ['Lats', 'mid-back, biceps'], equipo: 'Barbell',
+      nombre: 'Barbell Row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'mid-back, biceps'], equipo: 'Barbell',
       cues: ['Torso at ~45°, knees soft', 'Pull the bar to your lower abdomen', 'Shoulder blades back and down at the end', 'NEUTRAL spine, non-negotiable'],
       err: ['Jerking with the lower back (rocking)', 'Torso rising rep after rep', 'Pulling to the chest with flared elbows'],
       alt: [{ n: 'T-bar row', por: 'a more stable variant' }, { n: 'Chest-supported machine row', por: 'if the lower back is fried from leg day' }],
       mol: 'If the lower back protests: chest-supported machine or cable row, no second thoughts.'
     },
     'remo-polea': {
-      nombre: 'Seated Cable Row', zona: 'tiron', musc: ['Mid-back', 'lats, biceps'], equipo: 'Low pulley + V-handle',
+      nombre: 'Seated Cable Row', mm: { p: ['espalda-alta'], s: ['biceps', 'dorsal'] }, zona: 'tiron', musc: ['Mid-back', 'lats, biceps'], equipo: 'Low pulley + V-handle',
       cues: ['Chest tall and FIXED: the torso doesn’t travel', 'Pull the handle to your navel', '1″ pause squeezing the shoulder blades'],
       err: ['Rocking the torso to move more weight', 'Shrugged shoulders'],
       alt: [{ n: 'Machine row', por: 'direct equivalent' }],
       mol: 'If the lower back complains: rest your chest on a supported row machine.'
     },
     'remo-mancuerna': {
-      nombre: 'Single-arm Dumbbell Row', zona: 'tiron', musc: ['Lats', 'mid-back'], equipo: 'Dumbbell + bench',
+      nombre: 'Single-arm Dumbbell Row', mm: { p: ['dorsal'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'mid-back'], equipo: 'Dumbbell + bench',
       cues: ['Knee and hand on the bench, spine neutral', 'Pull the elbow towards your hip, not your shoulder', 'No torso rotation on the way up'],
       err: ['Shrugging the shoulder at the start of the pull', 'Rotating the torso to "help"', 'Short range'],
       alt: [{ n: 'Single-arm cable row', por: 'more constant tension' }],
       mol: 'Without solid support the lower back complains: use an incline bench and rest your chest on it.'
     },
     'jalon-pecho': {
-      nombre: 'Lat Pulldown', zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'High pulley',
+      nombre: 'Lat Pulldown', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'High pulley',
       cues: ['Grip slightly wider than shoulders', 'Chest up, slight lean back held FIXED', 'Pull the ELBOWS down towards your pockets', 'Bar to the collarbone, 1″ pause'],
       err: ['Rocking to yank the weight down', 'Pulling with the arms without depressing the shoulder blades', 'Behind-the-neck pulldowns (no)'],
       alt: [{ n: 'Assisted pull-ups', por: 'the P3 goal is migrating to them' }, { n: 'Close-grip pulldown', por: 'programmed in Pull B' }],
       mol: 'If the shoulder complains: neutral grip (wide V-handle) and drop the weight.'
     },
     'jalon-estrecho': {
-      nombre: 'Close-grip Lat Pulldown', zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'High pulley + V-handle',
+      nombre: 'Close-grip Lat Pulldown', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'High pulley + V-handle',
       cues: ['V-handle or underhand grip at shoulder width', 'Elbows tucked, driving down to your sides', 'Full stretch at the top: the lat works long'],
       err: ['Turning it into a row by leaning back too far', 'Half reps at the top'],
       alt: [{ n: 'Assisted chin-ups', por: 'the bodyweight equivalent' }],
       mol: 'If the elbow complains: neutral grip and straight wrists.'
     },
     'dominadas': {
-      nombre: 'Pull-ups (assisted → free → weighted)', zona: 'tiron', musc: ['Lats', 'biceps, core'], equipo: 'Bar + assisted machine or bands',
+      nombre: 'Pull-ups (assisted → free → weighted)', mm: { p: ['dorsal'], s: ['biceps', 'abdomen'] }, zona: 'tiron', musc: ['Lats', 'biceps, core'], equipo: 'Bar + assisted machine or bands',
       cues: ['Start by depressing the shoulder blades (shoulders away from ears)', 'Drive the elbows down, chin over the bar', 'Lower under CONTROL until the arms are almost straight', 'Reduce assistance week by week: they’ll come sooner than you think'],
       err: ['Kicking and swinging up', 'Half pull-ups (neither top nor bottom)', 'Hanging off the shoulders at the bottom with no scapular tension'],
       alt: [{ n: 'Heavy overhand lat pulldown', por: 'if the assisted machine is taken that day' }, { n: 'Negative pull-ups (jump up + 5″ lower)', por: 'a great builder of the first pull-up' }],
@@ -464,21 +464,21 @@ window.B2P = (function () {
       hito: 'dominada-libre'
     },
     'pullover-polea': {
-      nombre: 'Cable Pullover', zona: 'tiron', musc: ['Lats (isolated)'], equipo: 'High pulley + bar or rope',
+      nombre: 'Cable Pullover', mm: { p: ['dorsal'], s: [] }, zona: 'tiron', musc: ['Lats (isolated)'], equipo: 'High pulley + bar or rope',
       cues: ['Arms almost straight, hinging only at the shoulder', 'Sweep the bar to your thighs in an arc', 'Stretch at the top, squeeze at the bottom'],
       err: ['Bending the elbows (it becomes a triceps extension)', 'Rocking the torso'],
       alt: [{ n: 'Dumbbell pullover on a bench', por: 'when no cable is free' }],
       mol: 'If the shoulder complains: shorten the arc at the top.'
     },
     'face-pull': {
-      nombre: 'Face Pull', zona: 'tiron', musc: ['Rear delts', 'rotators, mid traps'], equipo: 'High pulley + rope',
+      nombre: 'Face Pull', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Rear delts', 'rotators, mid traps'], equipo: 'High pulley + rope',
       cues: ['Pulley at face height', 'Pull the rope TOWARDS YOUR FOREHEAD, spreading the ends apart', 'At the end, rotate the shoulders outwards (biceps point at the ceiling)', 'Light and perfect: this is shoulder health, not ego'],
       err: ['Turning it into a heavy upright row', 'No final external rotation'],
       alt: [{ n: 'Reverse pec-deck', por: 'rear delts without a rope' }, { n: 'External rotation with a band', por: 'at home or as an extra' }],
       mol: 'This is the exercise that fixes shoulders; if it complains, drop the weight and check you’re pulling to the forehead, not the neck.'
     },
     'encogimientos': {
-      nombre: 'Dumbbell Shrugs', zona: 'tiron', musc: ['Upper traps'], equipo: 'Dumbbells',
+      nombre: 'Dumbbell Shrugs', mm: { p: ['espalda-alta'], s: [] }, zona: 'tiron', musc: ['Upper traps'], equipo: 'Dumbbells',
       cues: ['Shoulders up towards the ears, 1″ pause at the top', 'Arms like ropes: don’t bend the elbows', 'Lower under control and stretch'],
       err: ['Rolling the shoulders in circles (adds nothing and grinds)', 'Bouncing with the legs'],
       alt: [{ n: 'With a barbell', por: 'more total load' }],
@@ -487,98 +487,98 @@ window.B2P = (function () {
 
     /* — Gym: legs/hips — */
     'sentadilla-barra': {
-      nombre: 'Barbell Squat', zona: 'pierna', musc: ['Quads', 'glutes, core'], equipo: 'Barbell + rack',
+      nombre: 'Barbell Squat', mm: { p: ['cuadriceps'], s: ['abdomen', 'gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes, core'], equipo: 'Barbell + rack',
       cues: ['Bar on the traps, not on the neck', 'Core pressurised BEFORE you descend (breathe into chest and belly)', 'Squat to parallel, knees out', 'Push the floor away, chest up as you rise'],
       err: ['Heels lifting (ankle mobility: raise the heels on plates if needed)', 'Knees caving in on the way up', 'Good-morning squat: hips rising before the chest'],
       alt: [{ n: 'Smith machine squat', por: 'fatigued days or a taken rack' }, { n: 'Hack squat / leg press', por: 'quad stimulus without axial load' }, { n: 'Goblet squat with a dumbbell', por: 'as a warm-up or if technique slips' }],
       mol: 'If the knee complains: slow the descent (3″) and stay 5 cm above the sore point. If the lower back complains: check your bracing and drop the weight 20% for a week.'
     },
     'prensa': {
-      nombre: 'Leg Press', zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Leg press machine',
+      nombre: 'Leg Press', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Leg press machine',
       cues: ['Feet mid-platform, shoulder width', 'Lower to 90° WITHOUT the lower back peeling off the pad', 'Push through the whole foot, don’t snap the knees into lockout'],
       err: ['Going so deep the pelvis rotates (butt wink on the press = lower back)', 'Hands pushing on the knees'],
       alt: [{ n: 'Hack squat', por: 'even more quads' }, { n: 'Single-leg press', por: 'if one side lags' }],
       mol: 'If the knee complains: feet slightly higher on the platform (more glute, less knee).'
     },
     'rdl-barra': {
-      nombre: 'Romanian Deadlift', zona: 'pierna', musc: ['Hamstrings', 'glutes, isometric lower back'], equipo: 'Barbell',
+      nombre: 'Romanian Deadlift', mm: { p: ['isquios'], s: ['gluteo', 'lumbar'] }, zona: 'pierna', musc: ['Hamstrings', 'glutes, isometric lower back'], equipo: 'Barbell',
       cues: ['Hips BACK, knees soft and fixed', 'Bar glued to the legs the whole way', 'Neutral spine: proud chest', 'Lower until the hamstring stretch bites hard, then stand up squeezing the glutes'],
       err: ['Rounding the back to get lower', 'Bending the knees into a half squat', 'Bar drifting away from the body'],
       alt: [{ n: 'Dumbbell RDL', por: 'a comfier grip for the first weeks' }, { n: 'Weighted 45° back extensions', por: 'hamstring-glute without the grip demand' }],
       mol: 'The hamstring stretch is the sign you’re doing it RIGHT. If the lower back (not the hamstring) complains: drop 20% and film a set from the side.'
     },
     'hip-thrust': {
-      nombre: 'Hip Thrust', zona: 'pierna', musc: ['Glutes', 'hamstrings'], equipo: 'Barbell + bench (+ pad)',
+      nombre: 'Hip Thrust', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glutes', 'hamstrings'], equipo: 'Barbell + bench (+ pad)',
       cues: ['Upper back resting on the bench, bar over the hips with a pad', 'Chin tucked, eyes forward and down', 'Rise to EXACTLY horizontal, 1″ pause squeezing', 'Knees at 90° at the top, heels under the knees'],
       err: ['Arching the lower back at the top (hyperextension)', 'Pushing through the toes', 'Bouncing at the bottom with no pause'],
       alt: [{ n: 'Hip thrust machine', por: 'if your gym has one, far quicker to set up' }, { n: 'Barbell glute bridge on the floor', por: 'when no bench is free' }],
       mol: 'If the lower back complains: it’s almost always hyperextension at the top; stop at horizontal.'
     },
     'zancada-mc': {
-      nombre: 'Dumbbell Lunge', zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Dumbbells',
+      nombre: 'Dumbbell Lunge', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Dumbbells',
       cues: ['Same technique as at home, now with 6-10 kg per hand', 'Big step, torso upright, back knee brushes the floor', 'Dumbbells hang close to the body, shoulders back', 'Drive through the front heel to come back'],
       err: ['Short step that collapses the front knee', 'Leaning forward as you fatigue', 'Staring at the floor and losing your line'],
       alt: [{ n: 'Dumbbell reverse lunge', por: 'kinder on the knee' }, { n: 'Smith machine lunge', por: 'if balance limits the load' }],
       mol: 'If the knee complains: take a longer step and switch to reverse lunges.'
     },
     'zancada-bulgara': {
-      nombre: 'Bulgarian Split Squat', zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Bench + dumbbells',
+      nombre: 'Bulgarian Split Squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Bench + dumbbells',
       cues: ['Rear foot on the bench, front foot a long step out', 'Descend VERTICALLY: the back knee seeks the floor', 'Torso slightly forward = more glute; upright = more quad', 'Start with bodyweight ONLY, seriously'],
       err: ['Front foot too close (the knee suffers)', 'Bouncing at the bottom', 'Losing balance by staring at the ceiling'],
       alt: [{ n: 'Static dumbbell lunge', por: 'if the balance isn’t there yet' }, { n: 'Single-leg press', por: 'unilateral without the balance demand' }],
       mol: 'If the front knee complains: lengthen the step and shift the torso a touch forward.'
     },
     'ext-cuadriceps': {
-      nombre: 'Leg Extension', zona: 'pierna', musc: ['Quads (isolated)'], equipo: 'Machine',
+      nombre: 'Leg Extension', mm: { p: ['cuadriceps'], s: [] }, zona: 'pierna', musc: ['Quads (isolated)'], equipo: 'Machine',
       cues: ['Knee aligned with the machine’s axis', 'Extend fully with a 1″ pause at the top', 'Lower in 2-3″'],
       err: ['Kicking with momentum', 'Backside lifting off the seat'],
       alt: [{ n: 'Assisted sissy squat', por: 'no machine needed' }],
       mol: 'If the kneecap complains: trim the last third at the TOP, not the bottom, and slow the tempo. It’s also your rehab exercise if the knee ever protests after a jog.'
     },
     'curl-femoral-tumbado': {
-      nombre: 'Lying Leg Curl', zona: 'pierna', musc: ['Hamstrings (isolated)'], equipo: 'Machine',
+      nombre: 'Lying Leg Curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Hamstrings (isolated)'], equipo: 'Machine',
       cues: ['Hips GLUED to the pad the whole time', 'Up in 1″, down in 2-3″', 'Toes neutral'],
       err: ['Lifting the hips to help', 'Half reps'],
       alt: [{ n: 'Seated leg curl', por: 'actually slightly better for the hamstrings; use it if free' }, { n: 'Assisted Nordic curl', por: 'advanced version, further down the road' }],
       mol: 'If it cramps: stretch the hamstring between sets, normal in the first weeks.'
     },
     'curl-femoral-sentado': {
-      nombre: 'Seated Leg Curl', zona: 'pierna', musc: ['Hamstrings (isolated)'], equipo: 'Machine',
+      nombre: 'Seated Leg Curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Hamstrings (isolated)'], equipo: 'Machine',
       cues: ['Thigh locked down by the pad', 'Flex all the way, 1″ pause', 'Return slowly, resisting'],
       err: ['Backside sliding forward', 'Short range from too much weight'],
       alt: [{ n: 'Lying leg curl', por: 'equivalent' }],
       mol: 'No typical issues: one of the safest in the plan.'
     },
     'gemelo-pie': {
-      nombre: 'Standing Calf Raise', zona: 'pierna', musc: ['Calf (gastrocnemius)'], equipo: 'Machine or Smith machine + step',
+      nombre: 'Standing Calf Raise', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Calf (gastrocnemius)'], equipo: 'Machine or Smith machine + step',
       cues: ['1″ pause at the TOP and 1″ at the BOTTOM: no bouncing', 'Full stretch at the bottom', 'Rise vertically, without bending the knees'],
       err: ['Bouncing off the tendon’s reflex (robs the very tissue we’re preparing of its stimulus)', 'Mid range'],
       alt: [{ n: 'On the leg press', por: 'no dedicated machine' }],
       mol: 'If the Achilles complains: top-position isometrics only, 3×30″, that week.'
     },
     'gemelo-sentado': {
-      nombre: 'Seated Calf Raise', zona: 'pierna', musc: ['Soleus'], equipo: 'Machine',
+      nombre: 'Seated Calf Raise', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Soleus'], equipo: 'Machine',
       cues: ['Knee at 90°: this hits the soleus, key for JOGGING', 'Same rule: pause at the top and bottom, no bouncing'],
       err: ['Rushing into bounces', 'Resting on the very tips of the toes (better on the ball of the foot)'],
       alt: [{ n: 'Seated with dumbbells on the knees + a step', por: 'no machine' }],
       mol: 'Same as the standing one: Achilles discomfort = isometrics only for a week.'
     },
     'elev-piernas': {
-      nombre: 'Hanging Leg Raise', zona: 'core', musc: ['Lower abs', 'hip flexors, grip'], equipo: 'Pull-up bar',
+      nombre: 'Hanging Leg Raise', mm: { p: ['abdomen'], s: ['antebrazo'] }, zona: 'core', musc: ['Lower abs', 'hip flexors, grip'], equipo: 'Pull-up bar',
       cues: ['Hang actively (shoulders away from ears)', 'Bring the knees to the chest with NO swinging', 'Lower all the way under control'],
       err: ['Swinging like a pendulum', 'Pulling only with the hip flexors, lower back arched'],
       alt: [{ n: 'On parallel bars (elbow support)', por: 'if grip fails before the abs do' }, { n: 'Lying leg raises', por: 'the starter version' }],
       mol: 'If the shoulder complains while hanging: go straight to the parallel bars.'
     },
     'rueda-abdominal': {
-      nombre: 'Ab Wheel Rollout', zona: 'core', musc: ['Full anterior core'], equipo: 'Ab wheel',
+      nombre: 'Ab Wheel Rollout', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Full anterior core'], equipo: 'Ab wheel',
       cues: ['Kneeling, pelvis tucked BEFORE rolling out', 'Roll only as far as you can control the lower back', 'Come back pulling with the abs, not the arms'],
       err: ['Arching the lower back at full stretch (the mistake that injures)', 'Going further than the core can hold'],
       alt: [{ n: 'Cable crunch', por: 'if the wheel is too big an ask today' }, { n: 'Weighted plank', por: 'the isometric equivalent' }],
       mol: 'If the lower back complains: halve the range and win it back week by week.'
     },
     'crunch-polea': {
-      nombre: 'Cable Crunch', zona: 'core', musc: ['Rectus abdominis'], equipo: 'High pulley + rope',
+      nombre: 'Cable Crunch', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Rectus abdominis'], equipo: 'High pulley + rope',
       cues: ['Kneeling, rope held beside your head', 'Flex FROM THE RIBS, not from the hips', 'Elbows towards the knees, exhale on the way down'],
       err: ['Pulling with the arms', 'Sitting back, moving only at the hips'],
       alt: [{ n: 'Machine crunch', por: 'equivalent' }, { n: 'Ab wheel', por: 'when you want to level up' }],
@@ -587,28 +587,28 @@ window.B2P = (function () {
 
     /* — Arms — */
     'curl-barra-z': {
-      nombre: 'EZ Bar Curl', zona: 'tiron', musc: ['Biceps'], equipo: 'EZ bar',
+      nombre: 'EZ Bar Curl', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'EZ bar',
       cues: ['Elbows tucked to your sides, FIXED', 'Curl without swinging, lower in 2-3″', 'Wrists neutral thanks to the EZ shape'],
       err: ['Rocking the body to lift more weight', 'Elbows travelling forward at the top'],
       alt: [{ n: 'Alternating dumbbell curl', por: 'with rotation (supination), very complete' }, { n: 'Low cable curl', por: 'constant tension' }],
       mol: 'If the wrist or elbow complains: dumbbells with rotation, or a hammer grip.'
     },
     'curl-inclinado': {
-      nombre: 'Incline Dumbbell Curl', zona: 'tiron', musc: ['Biceps (long head)'], equipo: 'Dumbbells + 45-60° bench',
+      nombre: 'Incline Dumbbell Curl', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps (long head)'], equipo: 'Dumbbells + 45-60° bench',
       cues: ['Bench at 45-60°, arms HANGING vertical', 'The stretch at the bottom is the stimulus: don’t cut it short', 'Elbows still, curl without shrugging'],
       err: ['Bringing the elbows forward', 'Half reps at the bottom'],
       alt: [{ n: 'Bayesian cable curl', por: 'same stretch, standing' }],
       mol: 'If the shoulder pulls at the bottom: raise the backrest one notch.'
     },
     'curl-martillo': {
-      nombre: 'Hammer Curl', zona: 'tiron', musc: ['Brachialis', 'forearm'], equipo: 'Dumbbells',
+      nombre: 'Hammer Curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Brachialis', 'forearm'], equipo: 'Dumbbells',
       cues: ['Neutral (hammer) grip, elbows fixed', 'Alternating or both at once', 'Control the lowering'],
       err: ['Swinging', 'Turning it into a row by lifting the elbows'],
       alt: [{ n: 'Rope hammer curl on the cable', por: 'a variant' }],
       mol: 'The kindest curl on elbows and wrists: usually the REFUGE when others complain.'
     },
     'curl-polea': {
-      nombre: 'Low Cable Curl', zona: 'tiron', musc: ['Biceps'], equipo: 'Low pulley + bar',
+      nombre: 'Low Cable Curl', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'Low pulley + bar',
       cues: ['One step back from the pulley, elbows fixed', 'Constant tension: no resting at the top or the bottom', 'Last set: hold a 10″ isometric at halfway to finish'],
       err: ['Standing so close the bottom stretch loses tension', 'Rocking'],
       alt: [{ n: 'EZ bar curl', por: 'the free-weight equivalent' }],

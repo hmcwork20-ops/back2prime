@@ -210,7 +210,9 @@
         const e = D.EJERCICIOS[id];
         lib.append(el('div', { class: 'exrow' },
           el('button', { class: 'exmain plano', type: 'button', onclick: () => U.fichaEjercicio(id, {}) },
-            el('div', { class: 'exname' }, e.nombre),
+            el('div', { class: 'exname' },
+              window.B2P_MAPA && e.mm ? el('span', { class: 'mapa-mini', html: window.B2P_MAPA.svg(e.mm, { mini: true }) }) : null,
+              e.nombre),
             el('div', { class: 'exmeta' }, el('span', { class: 'dose' }, e.musc[0]), el('span', { class: 'mini' }, e.equipo))),
           el('span', { class: 'mini', style: 'color:var(--ink3)' }, '›')));
       });
@@ -883,7 +885,7 @@
     for (const k of Object.keys(D.EJERCICIOS)) { if (idsEj.length >= 10) break; if (!idsEj.includes(k)) idsEj.push(k); }
     const mazo = [];
     idsEj.forEach(id => { const e = D.EJERCICIOS[id];
-      mazo.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre, sub: (TX.zonas && TX.zonas[e.zona]) || e.zona }); });
+      mazo.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre, sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm }); });
     (D.QUIZ_DEP || []).forEach(dep => mazo.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '' }));
     (D.RECETAS || []).slice(0, 10).forEach(r => mazo.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
       sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
@@ -924,6 +926,7 @@
         const c = el('div', { class: 'qcard' + (i === 1 ? ' detras' : i === 2 ? ' detras2' : '') },
           el('span', { class: 'qsi' }, TX.quizSi), el('span', { class: 'qno' }, TX.quizNo),
           el('div', { class: 'qcat qcat-' + it.cls }, it.cat),
+          it.mm && window.B2P_MAPA ? el('div', { class: 'mapa mapa-carta', html: window.B2P_MAPA.svg(it.mm, { mini: true }) }) : null,
           el('div', { class: 'qn' }, it.t),
           it.sub ? el('div', { class: 'qz' }, it.sub) : null,
           historia.length === 0 && i === 0 ? el('div', { class: 'mini', style: 'margin-top:6px' }, TX.quizPista) : null);

@@ -256,77 +256,77 @@ window.B2P = (function () {
   const EJERCICIOS = {
     /* — Casa / F1 — */
     'sentadilla-pc': {
-      nombre: 'Sentadilla peso corporal', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
+      nombre: 'Sentadilla peso corporal', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
       cues: ['Pies al ancho de hombros, puntas ligeramente hacia fuera', 'Baja en 3″ como si te sentaras atrás, sube en 1″', 'Rodillas siguen la punta del pie, talones clavados al suelo', 'Pecho alto durante todo el recorrido'],
       err: ['Talones que se despegan (baja menos profundo)', 'Rodillas que colapsan hacia dentro', 'Bajar rebotando en vez de controlar'],
       alt: [{ n: 'Sentadilla a un cajón/sofá', por: 'si te cuesta controlar la profundidad' }, { n: 'Sentadilla con pausa 2″ abajo', por: 'si 12 reps se te quedan cortas' }],
       mol: 'Si molesta la rodilla: reduce profundidad hasta donde no duela y baja aún más lento.'
     },
     'flexiones': {
-      nombre: 'Flexiones', zona: 'empuje', musc: ['Pectoral', 'tríceps, hombro'], equipo: 'Nada',
+      nombre: 'Flexiones', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral', 'tríceps, hombro'], equipo: 'Nada',
       cues: ['Manos algo más anchas que los hombros', 'Codos a 45° del cuerpo, no pegados ni en cruz', 'Cuerpo en tabla: glúteo y abdomen apretados', 'Pecho toca (casi) el suelo en cada rep'],
       err: ['Cadera caída o en pico', 'Medio recorrido', 'Cuello adelantado hacia el suelo'],
       alt: [{ n: 'Flexiones con manos en sofá/mesa', por: 'si no salen limpias del suelo' }, { n: 'Flexiones con pies elevados', por: 'si superas 12 fáciles' }],
       mol: 'Si molesta la muñeca: puños cerrados o agarres de flexión. Si molesta el hombro: estrecha un poco el ancho.'
     },
     'puente-gluteo': {
-      nombre: 'Puente de glúteo', zona: 'pierna', musc: ['Glúteo', 'femoral'], equipo: 'Nada',
+      nombre: 'Puente de glúteo', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glúteo', 'femoral'], equipo: 'Nada',
       cues: ['Tumbado, talones cerca del glúteo', 'Empuja con los talones y sube la cadera', 'Pausa 2″ arriba apretando el glúteo fuerte', 'Costillas abajo: no arquees la lumbar'],
       err: ['Empujar con la punta del pie', 'Arquear la lumbar para subir más', 'Subir y bajar sin pausa'],
       alt: [{ n: 'Puente a una pierna', por: 'cuando 15 reps sean cómodas' }, { n: 'Puente con mochila sobre la cadera', por: 'para añadir carga en casa' }],
       mol: 'Si hay calambre en el femoral: acerca más los talones al glúteo.'
     },
     'plancha': {
-      nombre: 'Plancha frontal', zona: 'core', musc: ['Core completo'], equipo: 'Nada',
+      nombre: 'Plancha frontal', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core completo'], equipo: 'Nada',
       cues: ['Antebrazos en el suelo, codos bajo los hombros', 'Costillas dentro, pelvis en retroversión (mete el culo)', 'Glúteo apretado, mirada al suelo', 'Respira: no aguantes el aire'],
       err: ['Cadera caída (lumbar sufre)', 'Culo en pico (trampa)', 'Aguantar temblando: si tiembla la lumbar, corta la serie'],
       alt: [{ n: 'Plancha con apoyo de rodillas', por: 'si no aguantas el tiempo con buena forma' }],
       mol: 'Si molesta la lumbar: revisa la retroversión pélvica antes de nada; suele ser eso.'
     },
     'plancha-lastre': {
-      nombre: 'Plancha con lastre', zona: 'core', musc: ['Core completo'], equipo: 'Disco 5-10 kg',
+      nombre: 'Plancha con lastre', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core completo'], equipo: 'Disco 5-10 kg',
       cues: ['Misma técnica que la plancha normal', 'Que te coloquen el disco entre los omóplatos, no en la lumbar', 'Si la cadera cae, quita lastre'],
       err: ['Disco demasiado bajo (carga la lumbar)', 'Perder la retroversión al fatigarte'],
       alt: [{ n: 'Plancha con toques de hombro', por: 'si no tienes quien te ponga el disco' }, { n: 'Ab wheel de rodillas', por: 'variante más exigente' }],
       mol: 'Si molesta la lumbar: vuelve a plancha sin lastre + toques de hombro.'
     },
     'elev-talones': {
-      nombre: 'Elevación de talones', zona: 'pierna', musc: ['Gemelo', 'sóleo'], equipo: 'Escalón opcional',
+      nombre: 'Elevación de talones', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Gemelo', 'sóleo'], equipo: 'Escalón opcional',
       cues: ['Rango completo: estira abajo, pausa 1″ arriba', 'Sube en 1″, baja en 2-3″', 'Mejor en escalón para más recorrido'],
       err: ['Rebotar rápido sin pausa', 'Medio recorrido arriba'],
       alt: [{ n: 'A una pierna', por: 'cuando 20 reps sean fáciles' }],
       mol: 'Si molesta el Aquiles: reduce el rango abajo y sube el tiempo de bajada.'
     },
     'zancada-alterna': {
-      nombre: 'Zancada alterna', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
+      nombre: 'Zancada alterna', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
       cues: ['Paso amplio hacia delante', 'Tronco vertical, manos a la cadera o al frente', 'La rodilla trasera roza el suelo', 'Empuja con el talón delantero para volver'],
       err: ['Paso corto (colapsa la rodilla delantera)', 'Tronco inclinado hacia delante', 'Rodilla delantera que se va hacia dentro'],
       alt: [{ n: 'Zancada estática (sin alternar)', por: 'si el equilibrio falla' }, { n: 'Zancada atrás', por: 'más amable con la rodilla' }],
       mol: 'Si molesta la rodilla: cambia a zancada ATRÁS, mismo esquema.'
     },
     'remo-toalla': {
-      nombre: 'Remo con toalla en puerta', zona: 'tiron', musc: ['Dorsal', 'bíceps, escápulas'], equipo: 'Toalla + puerta (o mochila)',
+      nombre: 'Remo con toalla en puerta', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps, escápulas'], equipo: 'Toalla + puerta (o mochila)',
       cues: ['Toalla en el pomo/marco, cuerpo inclinado atrás', 'Tira con el CODO, no con la mano', 'Escápulas atrás y abajo al final del recorrido', 'Cuanto más te inclines, más duro'],
       err: ['Tirar con los brazos sin mover las escápulas', 'Dar tirones con impulso de cadera'],
       alt: [{ n: 'Remo con mochila cargada', por: 'a una mano, apoyado en la mesa' }, { n: 'Remo invertido bajo una mesa robusta', por: 'versión más dura' }],
       mol: 'Si molesta el codo: agarra más ancho y baja la inclinación.'
     },
     'rdl-1p': {
-      nombre: 'Peso muerto rumano a 1 pierna', zona: 'pierna', musc: ['Femoral', 'glúteo, equilibrio'], equipo: 'Nada (mochila opcional)',
+      nombre: 'Peso muerto rumano a 1 pierna', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Femoral', 'glúteo, equilibrio'], equipo: 'Nada (mochila opcional)',
       cues: ['Cadera atrás, espalda recta como una mesa', 'La pierna libre sube atrás como contrapeso', 'Baja hasta notar el estiramiento del femoral', 'Prioriza equilibrio sobre profundidad'],
       err: ['Redondear la espalda para llegar más abajo', 'Girar la cadera (mantén las dos caderas mirando al suelo)'],
       alt: [{ n: 'Con apoyo de una mano en la pared', por: 'si el equilibrio rompe la serie' }, { n: 'B-stance (pie trasero de apoyo)', por: 'punto intermedio' }],
       mol: 'Si tira demasiado el femoral: reduce el rango, no la técnica.'
     },
     'superman': {
-      nombre: 'Superman', zona: 'core', musc: ['Lumbar', 'glúteo, espalda alta'], equipo: 'Nada',
+      nombre: 'Superman', mm: { p: ['lumbar'], s: ['gluteo', 'espalda-alta'] }, zona: 'core', musc: ['Lumbar', 'glúteo, espalda alta'], equipo: 'Nada',
       cues: ['Boca abajo, brazos delante', 'Sube brazos y piernas a la vez, 2″ arriba', 'Mirada al suelo: no tires del cuello'],
       err: ['Latigazo cervical mirando al frente', 'Subir con rebote'],
       alt: [{ n: 'Bird-dog (brazo y pierna contrarios)', por: 'más control, menos compresión' }],
       mol: 'Si molesta la lumbar: cambia a bird-dog directamente.'
     },
     'dead-bug': {
-      nombre: 'Dead bug', zona: 'core', musc: ['Core anterior profundo'], equipo: 'Nada',
+      nombre: 'Dead bug', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core anterior profundo'], equipo: 'Nada',
       cues: ['Tumbado, lumbar PEGADA al suelo todo el tiempo', 'Brazo y pierna contrarios bajan lento a la vez', 'Exhala al extender: las costillas se quedan abajo'],
       err: ['La lumbar se arquea al extender la pierna (acorta el recorrido)', 'Ir rápido'],
       alt: [{ n: 'Solo piernas (brazos quietos)', por: 'si pierdes la lumbar en el suelo' }],
@@ -335,84 +335,84 @@ window.B2P = (function () {
 
     /* — Gym: empuje — */
     'press-banca': {
-      nombre: 'Press banca', zona: 'empuje', musc: ['Pectoral', 'tríceps, deltoides anterior'], equipo: 'Barra + banco',
+      nombre: 'Press banca', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral', 'tríceps, deltoides anterior'], equipo: 'Barra + banco',
       cues: ['Escápulas retraídas y CLAVADAS al banco, pies firmes en el suelo', 'Agarre: antebrazo vertical cuando la barra toca el pecho', 'Barra baja al pecho medio, codos ~45°', 'Toca el pecho con control y empuja en línea ligeramente diagonal'],
       err: ['Hombros que se encogen al empujar (pierdes la retracción)', 'Rebotar la barra en el pecho', 'Culo despegado del banco', 'Muñecas dobladas hacia atrás'],
       alt: [{ n: 'Press en máquina (chest press)', por: 'días sin ganas de montar banco o gym lleno' }, { n: 'Press con mancuernas plano', por: 'más rango y menos hombro' }],
       mol: 'Si molesta el hombro: prueba agarre algo más estrecho y codos más pegados; si sigue, mancuernas con giro neutro.'
     },
     'press-inclinado-mc': {
-      nombre: 'Press inclinado con mancuernas', zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Mancuernas + banco 30°',
+      nombre: 'Press inclinado con mancuernas', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Mancuernas + banco 30°',
       cues: ['Banco a 30° (un punto, no la pared)', 'Baja hasta notar estiramiento en el pectoral', 'Codos a 45-60°, muñecas neutras', 'Sube sin chocar las mancuernas arriba'],
       err: ['Banco demasiado vertical (se vuelve press de hombro)', 'Rebotar abajo', 'Arquear la lumbar exageradamente'],
       alt: [{ n: 'Press inclinado en multipower', por: 'si el gym está lleno o quieres estabilidad' }, { n: 'Press inclinado con barra', por: 'ya programado en Push B de F4' }],
       mol: 'Si molesta el hombro: reduce el rango abajo 5 cm y gira ligeramente las palmas hacia dentro.'
     },
     'press-inclinado-barra': {
-      nombre: 'Press inclinado con barra', zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Barra + banco inclinado',
+      nombre: 'Press inclinado con barra', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Barra + banco inclinado',
       cues: ['Banco 30-45°, escápulas clavadas', 'La barra baja a la parte alta del pecho (clavículas)', 'Antebrazos verticales al tocar'],
       err: ['Bajar la barra al pecho medio (te obliga a abrir codos)', 'Rebotar'],
       alt: [{ n: 'Multipower inclinado', por: 'misma sesión, más guía' }, { n: 'Mancuernas inclinado', por: 'si no hay banco de inclinado con soportes' }],
       mol: 'Si molesta el hombro: vuelve a mancuernas, que permiten girar el agarre.'
     },
     'press-plano-mc': {
-      nombre: 'Press plano con mancuernas', zona: 'empuje', musc: ['Pectoral', 'tríceps'], equipo: 'Mancuernas + banco',
+      nombre: 'Press plano con mancuernas', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Pectoral', 'tríceps'], equipo: 'Mancuernas + banco',
       cues: ['Más rango que la barra: aprovéchalo abajo con control', 'Sube en arco, sin chocar arriba', 'Pies firmes, escápulas atrás'],
       err: ['Dejar caer las mancuernas abajo sin frenar', 'Convertirlo en press de hombro abriendo demasiado los codos'],
       alt: [{ n: 'Máquina de press', por: 'fatiga alta o sin banco libre' }],
       mol: 'Si molesta el hombro: agarre neutro (palmas enfrentadas).'
     },
     'press-militar': {
-      nombre: 'Press militar', zona: 'empuje', musc: ['Hombro', 'tríceps, core'], equipo: 'Barra (de pie o sentado)',
+      nombre: 'Press militar', mm: { p: ['hombro'], s: ['triceps', 'abdomen'] }, zona: 'empuje', musc: ['Hombro', 'tríceps, core'], equipo: 'Barra (de pie o sentado)',
       cues: ['De pie: glúteo y abdomen APRETADOS antes de empujar', 'La barra sale del mentón y sube pegada a la cara', 'Cabeza "atraviesa la ventana" al final', 'Sentado con respaldo: sin arquear la lumbar'],
       err: ['Arquear la lumbar para convertirlo en press inclinado', 'Empujar la barra hacia delante (choca con la barbilla)', 'Rango incompleto arriba'],
       alt: [{ n: 'Press militar con mancuernas sentado', por: 'ya programado en F2; más amable con hombro' }, { n: 'Press en máquina de hombro', por: 'última sesión de la semana con fatiga' }],
       mol: 'Si molesta el hombro: mancuernas con agarre neutro y sube solo hasta donde no haya pinzamiento.'
     },
     'press-militar-mc': {
-      nombre: 'Press militar con mancuernas sentado', zona: 'empuje', musc: ['Hombro', 'tríceps'], equipo: 'Mancuernas + banco con respaldo',
+      nombre: 'Press militar con mancuernas sentado', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Hombro', 'tríceps'], equipo: 'Mancuernas + banco con respaldo',
       cues: ['Respaldo alto, lumbar apoyada sin arquear', 'Codos ligeramente por delante del cuerpo, no en cruz', 'Recorrido completo sin chocar arriba'],
       err: ['Arquear la lumbar despegándola del respaldo', 'Bajar solo hasta las orejas'],
       alt: [{ n: 'Máquina de press de hombro', por: 'equivalente directo' }],
       mol: 'Si molesta el hombro: agarre neutro y baja solo hasta 90° de codo.'
     },
     'elev-laterales': {
-      nombre: 'Elevaciones laterales', zona: 'empuje', musc: ['Deltoides lateral'], equipo: 'Mancuernas',
+      nombre: 'Elevaciones laterales', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoides lateral'], equipo: 'Mancuernas',
       cues: ['Peso LIGERO, codos algo flexionados', 'Sube hasta la horizontal, como sirviendo dos jarras', 'Sin impulso: si balanceas, sobra peso', 'Baja en 2″'],
       err: ['Subir con trapecio encogiendo hombros', 'Pasar de la horizontal', 'Balanceo de cadera'],
       alt: [{ n: 'Laterales en polea baja', por: 'tensión continua; programadas en Push B' }, { n: 'Máquina de laterales', por: 'para acabar sin pensar en técnica' }],
       mol: 'Si molesta el hombro: pulgar ligeramente hacia arriba y sube 10° por delante del plano lateral.'
     },
     'laterales-polea': {
-      nombre: 'Elevaciones laterales en polea', zona: 'empuje', musc: ['Deltoides lateral'], equipo: 'Polea baja',
+      nombre: 'Elevaciones laterales en polea', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoides lateral'], equipo: 'Polea baja',
       cues: ['Polea a la altura de la muñeca con el brazo caído', 'Cuerpo estable, sube hasta la horizontal', 'La polea mantiene tensión también abajo: aprovéchala'],
       err: ['Ponerse demasiado lejos de la polea', 'Tirar con el trapecio'],
       alt: [{ n: 'Mancuernas', por: 'si las poleas están ocupadas' }],
       mol: 'Igual que con mancuernas: pulgar arriba y plano ligeramente adelantado.'
     },
     'fondos': {
-      nombre: 'Fondos asistidos', zona: 'empuje', musc: ['Pectoral inferior', 'tríceps'], equipo: 'Máquina de fondos asistidos o bandas',
+      nombre: 'Fondos asistidos', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Pectoral inferior', 'tríceps'], equipo: 'Máquina de fondos asistidos o bandas',
       cues: ['Cuerpo ligeramente inclinado adelante (más pecho)', 'Baja hasta 90° de codo, no más si el hombro protesta', 'Codos que no se abran en cruz'],
       err: ['Bajar demasiado profundo', 'Hombros encogidos hacia las orejas'],
       alt: [{ n: 'Press declinado o fondos entre bancos', por: 'si no hay máquina asistida' }],
       mol: 'Si molesta el esternón u hombro: sustituye por press plano con mancuernas.'
     },
     'ext-triceps-polea': {
-      nombre: 'Extensión de tríceps en polea', zona: 'empuje', musc: ['Tríceps'], equipo: 'Polea alta + cuerda o barra',
+      nombre: 'Extensión de tríceps en polea', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tríceps'], equipo: 'Polea alta + cuerda o barra',
       cues: ['Codos pegados al cuerpo, FIJOS', 'Solo se mueve el antebrazo', 'Extiende del todo y aprieta 1″'],
       err: ['Codos que se adelantan al bajar (metes hombro)', 'Balanceo del tronco'],
       alt: [{ n: 'Con cuerda separando abajo', por: 'algo más de cabeza larga' }, { n: 'Patada de tríceps con mancuerna', por: 'sin polea libre' }],
       mol: 'Si molesta el codo: baja el peso y sube las reps a 15-20; el codo odia el ego.'
     },
     'ext-triceps-cabeza': {
-      nombre: 'Extensión sobre cabeza (cuerda)', zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Polea + cuerda',
+      nombre: 'Extensión sobre cabeza (cuerda)', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Polea + cuerda',
       cues: ['De espaldas a la polea, cuerda tras la nuca', 'Codos apuntando al frente, extiende arriba', 'Estiramiento real abajo: ahí crece la cabeza larga'],
       err: ['Abrir los codos en cruz', 'Rango corto por exceso de peso'],
       alt: [{ n: 'Press francés con barra Z', por: 'mismo patrón tumbado' }],
       mol: 'Si molesta el codo: igual que la polea normal — menos peso, más reps.'
     },
     'press-frances': {
-      nombre: 'Press francés', zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Barra Z + banco',
+      nombre: 'Press francés', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Barra Z + banco',
       cues: ['Tumbado, barra baja hacia la frente o algo detrás', 'Codos apuntando al techo, quietos', 'Baja en 2-3″, extiende sin bloquear con golpe'],
       err: ['Codos que se abren', 'Convertirlo en press cerrado moviendo el hombro'],
       alt: [{ n: 'Extensión sobre cabeza en polea', por: 'más tensión continua, menos estrés de codo' }],
@@ -421,42 +421,42 @@ window.B2P = (function () {
 
     /* — Gym: tirón — */
     'remo-barra': {
-      nombre: 'Remo con barra', zona: 'tiron', musc: ['Dorsal', 'espalda media, bíceps'], equipo: 'Barra',
+      nombre: 'Remo con barra', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'espalda media, bíceps'], equipo: 'Barra',
       cues: ['Torso a ~45°, rodillas semiflexionadas', 'Tira de la barra hacia el abdomen bajo', 'Escápulas atrás y abajo al final', 'Espalda NEUTRA innegociable'],
       err: ['Dar tirones con la lumbar (te meces)', 'Torso que se levanta rep a rep', 'Tirar hacia el pecho con codos abiertos'],
       alt: [{ n: 'Remo en punta (T-bar)', por: 'variante más estable' }, { n: 'Remo en máquina con apoyo de pecho', por: 'si la lumbar va cargada del día de pierna' }],
       mol: 'Si protesta la lumbar: máquina con apoyo de pecho o remo en polea, sin dudarlo.'
     },
     'remo-polea': {
-      nombre: 'Remo en polea sentado', zona: 'tiron', musc: ['Espalda media', 'dorsal, bíceps'], equipo: 'Polea baja + triángulo',
+      nombre: 'Remo en polea sentado', mm: { p: ['espalda-alta'], s: ['biceps', 'dorsal'] }, zona: 'tiron', musc: ['Espalda media', 'dorsal, bíceps'], equipo: 'Polea baja + triángulo',
       cues: ['Pecho alto y FIJO: el tronco no viaja', 'Tira del triángulo al ombligo', 'Pausa 1″ apretando escápulas'],
       err: ['Balancear el tronco para mover más peso', 'Hombros encogidos'],
       alt: [{ n: 'Remo en máquina', por: 'equivalente directo' }],
       mol: 'Si molesta la lumbar: apoya el pecho en una máquina de remo con soporte.'
     },
     'remo-mancuerna': {
-      nombre: 'Remo con mancuerna a 1 brazo', zona: 'tiron', musc: ['Dorsal', 'espalda media'], equipo: 'Mancuerna + banco',
+      nombre: 'Remo con mancuerna a 1 brazo', mm: { p: ['dorsal'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'espalda media'], equipo: 'Mancuerna + banco',
       cues: ['Rodilla y mano en el banco, espalda neutra', 'Tira del codo hacia la cadera, no hacia el hombro', 'Sin girar el tronco al subir'],
       err: ['Encoger el hombro al inicio del tirón', 'Rotar el torso para "ayudar"', 'Rango corto'],
       alt: [{ n: 'Remo en polea a 1 brazo', por: 'tensión más constante' }],
       mol: 'Sin apoyo bueno molesta la lumbar: usa banco inclinado y apoya el pecho.'
     },
     'jalon-pecho': {
-      nombre: 'Jalón al pecho', zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Polea alta',
+      nombre: 'Jalón al pecho', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Polea alta',
       cues: ['Agarre algo más ancho que los hombros', 'Pecho arriba, ligera inclinación atrás FIJA', 'Tira de los CODOS hacia los bolsillos', 'Barra a la clavícula, 1″ de pausa'],
       err: ['Mecerse para dar el tirón', 'Tirar con los brazos sin deprimir escápulas', 'Barra tras la nuca (no)'],
       alt: [{ n: 'Dominadas asistidas', por: 'el objetivo de F3 es migrar hacia ellas' }, { n: 'Jalón agarre estrecho', por: 'programado en Pull B' }],
       mol: 'Si molesta el hombro: agarre neutro (triángulo ancho) y baja el peso.'
     },
     'jalon-estrecho': {
-      nombre: 'Jalón agarre estrecho', zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Polea alta + triángulo',
+      nombre: 'Jalón agarre estrecho', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Polea alta + triángulo',
       cues: ['Triángulo o agarre supino al ancho de hombros', 'Codos pegados que bajan al costado', 'Estira del todo arriba: el dorsal trabaja largo'],
       err: ['Convertirlo en remo inclinándose demasiado', 'Media repetición arriba'],
       alt: [{ n: 'Dominadas supinas asistidas', por: 'equivalente con peso corporal' }],
       mol: 'Si molesta el codo: agarre neutro y muñecas rectas.'
     },
     'dominadas': {
-      nombre: 'Dominadas (asistidas → libres → lastradas)', zona: 'tiron', musc: ['Dorsal', 'bíceps, core'], equipo: 'Barra + máquina asistida o bandas',
+      nombre: 'Dominadas (asistidas → libres → lastradas)', mm: { p: ['dorsal'], s: ['biceps', 'abdomen'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps, core'], equipo: 'Barra + máquina asistida o bandas',
       cues: ['Inicia deprimiendo escápulas (hombros lejos de orejas)', 'Tira de los codos hacia abajo, barbilla sobre la barra', 'Baja CONTROLANDO hasta brazos casi rectos', 'Reduce asistencia semana a semana: saldrán antes de lo que crees'],
       err: ['Patalear e impulsarse', 'Media dominada (ni arriba ni abajo)', 'Colgarse en los hombros abajo sin tensión escapular'],
       alt: [{ n: 'Jalón al pecho prono pesado', por: 'si no hay máquina asistida ese día' }, { n: 'Dominadas negativas (salto + bajada 5″)', por: 'gran constructor de la primera dominada' }],
@@ -464,21 +464,21 @@ window.B2P = (function () {
       hito: 'dominada-libre'
     },
     'pullover-polea': {
-      nombre: 'Pullover en polea', zona: 'tiron', musc: ['Dorsal (aislado)'], equipo: 'Polea alta + barra o cuerda',
+      nombre: 'Pullover en polea', mm: { p: ['dorsal'], s: [] }, zona: 'tiron', musc: ['Dorsal (aislado)'], equipo: 'Polea alta + barra o cuerda',
       cues: ['Brazos casi rectos, bisagra solo en el hombro', 'Lleva la barra al muslo dibujando un arco', 'Estiramiento arriba, apretón abajo'],
       err: ['Doblar los codos (se vuelve extensión de tríceps)', 'Mecer el tronco'],
       alt: [{ n: 'Pullover con mancuerna en banco', por: 'sin polea libre' }],
       mol: 'Si molesta el hombro: reduce el arco arriba.'
     },
     'face-pull': {
-      nombre: 'Face pull', zona: 'tiron', musc: ['Deltoides posterior', 'rotadores, trapecio medio'], equipo: 'Polea alta + cuerda',
+      nombre: 'Face pull', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Deltoides posterior', 'rotadores, trapecio medio'], equipo: 'Polea alta + cuerda',
       cues: ['Polea a la altura de la cara', 'Tira de la cuerda HACIA LA FRENTE separando los extremos', 'Al final, rota los hombros hacia fuera (bíceps apuntan al techo)', 'Ligero y perfecto: es salud de hombro, no ego'],
       err: ['Convertirlo en remo alto con peso', 'Sin rotación externa final'],
       alt: [{ n: 'Aperturas invertidas en máquina (reverse pec-deck)', por: 'deltoides posterior sin cuerda' }, { n: 'Rotación externa con banda', por: 'en casa o como extra' }],
       mol: 'Es el ejercicio que arregla hombros; si molesta, baja peso y revisa que tiras a la frente, no al cuello.'
     },
     'encogimientos': {
-      nombre: 'Encogimientos con mancuernas', zona: 'tiron', musc: ['Trapecio superior'], equipo: 'Mancuernas',
+      nombre: 'Encogimientos con mancuernas', mm: { p: ['espalda-alta'], s: [] }, zona: 'tiron', musc: ['Trapecio superior'], equipo: 'Mancuernas',
       cues: ['Hombros hacia las orejas, pausa 1″ arriba', 'Brazos como cuerdas: no dobles los codos', 'Baja controlado y estira'],
       err: ['Girar los hombros en círculo (no aporta y roza)', 'Rebotar con las piernas'],
       alt: [{ n: 'Con barra', por: 'más carga total' }],
@@ -487,98 +487,98 @@ window.B2P = (function () {
 
     /* — Gym: pierna/cadera — */
     'sentadilla-barra': {
-      nombre: 'Sentadilla con barra', zona: 'pierna', musc: ['Cuádriceps', 'glúteo, core'], equipo: 'Barra + rack',
+      nombre: 'Sentadilla con barra', mm: { p: ['cuadriceps'], s: ['abdomen', 'gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo, core'], equipo: 'Barra + rack',
       cues: ['Barra sobre trapecio, no sobre cervicales', 'Core presurizado ANTES de bajar (coge aire al pecho-abdomen)', 'Baja al paralelo, rodillas hacia fuera', 'Empuja el suelo, pecho alto al subir'],
       err: ['Talones que se levantan (culpa de tobillos: eleva talones con discos si hace falta)', 'Rodillas que colapsan hacia dentro al subir', 'Buenos días: la cadera sube antes que el pecho'],
       alt: [{ n: 'Sentadilla en multipower', por: 'días de fatiga o rack ocupado' }, { n: 'Hack squat / prensa', por: 'estímulo de cuádriceps sin carga axial' }, { n: 'Sentadilla goblet con mancuerna', por: 'como calentamiento o si la técnica se pierde' }],
       mol: 'Si molesta la rodilla: sube el tempo de bajada (3″) y quédate 5 cm por encima del punto molesto. Si molesta la lumbar: revisa la presurización y baja 20% el peso una semana.'
     },
     'prensa': {
-      nombre: 'Prensa', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Máquina de prensa',
+      nombre: 'Prensa', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Máquina de prensa',
       cues: ['Pies a media altura de la plataforma, ancho de hombros', 'Baja hasta 90° SIN despegar la lumbar del respaldo', 'Empuja con toda la planta, no bloquees las rodillas de golpe'],
       err: ['Bajar tanto que la pelvis rota (butt wink en prensa = lumbar)', 'Manos empujando las rodillas'],
       alt: [{ n: 'Hack squat', por: 'más cuádriceps aún' }, { n: 'Prensa a una pierna', por: 'si hay descompensación' }],
       mol: 'Si molesta la rodilla: pies algo más altos en la plataforma (más glúteo, menos rodilla).'
     },
     'rdl-barra': {
-      nombre: 'Peso muerto rumano', zona: 'pierna', musc: ['Femoral', 'glúteo, lumbar isométrico'], equipo: 'Barra',
+      nombre: 'Peso muerto rumano', mm: { p: ['isquios'], s: ['gluteo', 'lumbar'] }, zona: 'pierna', musc: ['Femoral', 'glúteo, lumbar isométrico'], equipo: 'Barra',
       cues: ['Cadera ATRÁS, rodillas semiflexionadas fijas', 'Barra pegada a las piernas todo el viaje', 'Espalda neutra: pecho orgulloso', 'Baja hasta notar el estiramiento fuerte del femoral y sube apretando glúteo'],
       err: ['Redondear la espalda para bajar más', 'Doblar rodillas y convertirlo en media sentadilla', 'Barra que se aleja del cuerpo'],
       alt: [{ n: 'RDL con mancuernas', por: 'agarre más cómodo las primeras semanas' }, { n: 'Hiperextensiones 45° cargadas', por: 'femoral-glúteo sin carga de agarre' }],
       mol: 'El estiramiento del femoral es la señal de que lo haces BIEN. Si molesta la lumbar (no el femoral): baja 20% y graba una serie de lado.'
     },
     'hip-thrust': {
-      nombre: 'Hip thrust', zona: 'pierna', musc: ['Glúteo', 'femoral'], equipo: 'Barra + banco (+ protector)',
+      nombre: 'Hip thrust', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glúteo', 'femoral'], equipo: 'Barra + banco (+ protector)',
       cues: ['Espalda alta apoyada en el banco, barra sobre la cadera con protector', 'Barbilla al pecho, mirada al frente-abajo', 'Sube hasta la horizontal EXACTA, pausa 1″ apretando', 'Rodillas a 90° arriba, talones bajo las rodillas'],
       err: ['Arquear la lumbar arriba (hiperextensión)', 'Empujar con la punta de los pies', 'Rebotar abajo sin pausa'],
       alt: [{ n: 'Máquina de hip thrust', por: 'si el gym la tiene, montaje mucho más rápido' }, { n: 'Puente con barra en el suelo', por: 'sin banco libre' }],
       mol: 'Si molesta la lumbar: es casi siempre hiperextensión arriba; para en horizontal.'
     },
     'zancada-mc': {
-      nombre: 'Zancada con mancuernas', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Mancuernas',
+      nombre: 'Zancada con mancuernas', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Mancuernas',
       cues: ['Misma técnica que en casa, ahora con 6-10 kg por mano', 'Paso amplio, tronco vertical, rodilla trasera roza el suelo', 'Las mancuernas cuelgan pegadas al cuerpo, hombros atrás', 'Empuja con el talón delantero para volver'],
       err: ['Paso corto que colapsa la rodilla delantera', 'Inclinarse adelante al fatigarte', 'Mirar al suelo y perder la línea'],
       alt: [{ n: 'Zancada atrás con mancuernas', por: 'más amable con la rodilla' }, { n: 'Zancada en multipower', por: 'si el equilibrio limita la carga' }],
       mol: 'Si molesta la rodilla: paso más largo y cambia a zancada atrás.'
     },
     'zancada-bulgara': {
-      nombre: 'Zancada búlgara', zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Banco + mancuernas',
+      nombre: 'Zancada búlgara', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Banco + mancuernas',
       cues: ['Pie trasero en el banco, delantero a un paso largo', 'Baja VERTICAL: la rodilla trasera busca el suelo', 'Tronco ligeramente inclinado = más glúteo; vertical = más cuádriceps', 'Empieza SOLO con peso corporal, en serio'],
       err: ['Pie delantero demasiado cerca (rodilla sufre)', 'Rebotar abajo', 'Perder el equilibrio por mirar al techo'],
       alt: [{ n: 'Zancada estática con mancuernas', por: 'si el equilibrio no está aún' }, { n: 'Prensa a una pierna', por: 'unilateral sin equilibrio' }],
       mol: 'Si molesta la rodilla delantera: alarga el paso y desplaza el tronco un poco adelante.'
     },
     'ext-cuadriceps': {
-      nombre: 'Extensión de cuádriceps', zona: 'pierna', musc: ['Cuádriceps (aislado)'], equipo: 'Máquina',
+      nombre: 'Extensión de cuádriceps', mm: { p: ['cuadriceps'], s: [] }, zona: 'pierna', musc: ['Cuádriceps (aislado)'], equipo: 'Máquina',
       cues: ['Rodilla alineada con el eje de la máquina', 'Extiende del todo con pausa 1″ arriba', 'Baja en 2-3″'],
       err: ['Dar patadas con impulso', 'Culo que se despega del asiento'],
       alt: [{ n: 'Sissy squat asistido', por: 'sin máquina' }],
       mol: 'Si molesta la rótula: recorta el último tercio ARRIBA no abajo, y tempo más lento. Es también tu ejercicio de rehabilitación si un día la rodilla protesta del trote.'
     },
     'curl-femoral-tumbado': {
-      nombre: 'Curl femoral tumbado', zona: 'pierna', musc: ['Femoral (aislado)'], equipo: 'Máquina',
+      nombre: 'Curl femoral tumbado', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Femoral (aislado)'], equipo: 'Máquina',
       cues: ['Cadera PEGADA al banco todo el tiempo', 'Sube en 1″, baja en 2-3″', 'Punta del pie neutra'],
       err: ['Levantar la cadera para ayudar', 'Media repetición'],
       alt: [{ n: 'Curl femoral sentado', por: 'de hecho algo mejor para el femoral; úsalo si está libre' }, { n: 'Curl nórdico asistido', por: 'versión avanzada, más adelante' }],
       mol: 'Si hay calambre: estira el femoral entre series, es normal las primeras semanas.'
     },
     'curl-femoral-sentado': {
-      nombre: 'Curl femoral sentado', zona: 'pierna', musc: ['Femoral (aislado)'], equipo: 'Máquina',
+      nombre: 'Curl femoral sentado', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Femoral (aislado)'], equipo: 'Máquina',
       cues: ['Muslo bien fijado por la almohadilla', 'Flexiona del todo, pausa 1″', 'Vuelve lento resistiendo'],
       err: ['Culo que se desliza hacia delante', 'Rango corto por exceso de peso'],
       alt: [{ n: 'Curl femoral tumbado', por: 'equivalente' }],
       mol: 'Sin incidencias típicas: es de lo más seguro del plan.'
     },
     'gemelo-pie': {
-      nombre: 'Gemelo de pie', zona: 'pierna', musc: ['Gemelo (gastrocnemio)'], equipo: 'Máquina o multipower + escalón',
+      nombre: 'Gemelo de pie', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Gemelo (gastrocnemio)'], equipo: 'Máquina o multipower + escalón',
       cues: ['Pausa 1″ ARRIBA y 1″ ABAJO: sin rebote', 'Estiramiento completo abajo', 'Sube vertical, sin doblar rodillas'],
       err: ['Rebotar aprovechando el reflejo del tendón (le quita el estímulo justo al tejido que queremos preparar)', 'Rango medio'],
       alt: [{ n: 'En prensa', por: 'sin máquina específica' }],
       mol: 'Si molesta el Aquiles: solo isométricos arriba 3×30″ esa semana.'
     },
     'gemelo-sentado': {
-      nombre: 'Gemelo sentado', zona: 'pierna', musc: ['Sóleo'], equipo: 'Máquina',
+      nombre: 'Gemelo sentado', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Sóleo'], equipo: 'Máquina',
       cues: ['Rodilla a 90°: aquí trabaja el sóleo, clave para TROTAR', 'Misma regla: pausa arriba y abajo, sin rebotes'],
       err: ['Ir rápido a rebotes', 'Poner el apoyo en la punta de los dedos (mejor en la base)'],
       alt: [{ n: 'Sentado con mancuernas sobre rodillas + escalón', por: 'sin máquina' }],
       mol: 'Igual que el de pie: molestia de Aquiles = solo isométricos una semana.'
     },
     'elev-piernas': {
-      nombre: 'Elevación de piernas colgado', zona: 'core', musc: ['Abdomen inferior', 'flexores, agarre'], equipo: 'Barra de dominadas',
+      nombre: 'Elevación de piernas colgado', mm: { p: ['abdomen'], s: ['antebrazo'] }, zona: 'core', musc: ['Abdomen inferior', 'flexores, agarre'], equipo: 'Barra de dominadas',
       cues: ['Cuelga activo (hombros lejos de orejas)', 'Sube las rodillas al pecho SIN balanceo', 'Baja controlado del todo'],
       err: ['Columpiarse', 'Tirar solo de flexores de cadera con lumbar arqueada'],
       alt: [{ n: 'En paralelas (apoyo de codos)', por: 'si el agarre falla antes que el abdomen' }, { n: 'Elevaciones tumbado', por: 'versión inicial' }],
       mol: 'Si molesta el hombro colgado: usa las paralelas directamente.'
     },
     'rueda-abdominal': {
-      nombre: 'Rueda abdominal', zona: 'core', musc: ['Core anterior completo'], equipo: 'Ab wheel',
+      nombre: 'Rueda abdominal', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core anterior completo'], equipo: 'Ab wheel',
       cues: ['De rodillas, pelvis en retroversión ANTES de salir', 'Rueda hasta donde controles la lumbar', 'Vuelve tirando con el abdomen, no con los brazos'],
       err: ['Arquear la lumbar al extender (el error que lesiona)', 'Ir más lejos de lo que el core aguanta'],
       alt: [{ n: 'Crunch en polea', por: 'si la rueda queda grande hoy' }, { n: 'Plancha con lastre', por: 'isométrico equivalente' }],
       mol: 'Si molesta la lumbar: recorta el recorrido a la mitad y gana rango semana a semana.'
     },
     'crunch-polea': {
-      nombre: 'Crunch en polea', zona: 'core', musc: ['Recto abdominal'], equipo: 'Polea alta + cuerda',
+      nombre: 'Crunch en polea', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Recto abdominal'], equipo: 'Polea alta + cuerda',
       cues: ['De rodillas, cuerda a los lados de la cabeza', 'Flexiona DESDE LAS COSTILLAS, no desde la cadera', 'Codos hacia las rodillas, exhala al bajar'],
       err: ['Tirar con los brazos', 'Sentarse hacia atrás moviendo solo cadera'],
       alt: [{ n: 'Crunch en máquina', por: 'equivalente' }, { n: 'Rueda abdominal', por: 'cuando quieras subir nivel' }],
@@ -587,28 +587,28 @@ window.B2P = (function () {
 
     /* — Brazos — */
     'curl-barra-z': {
-      nombre: 'Curl con barra Z', zona: 'tiron', musc: ['Bíceps'], equipo: 'Barra Z',
+      nombre: 'Curl con barra Z', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bíceps'], equipo: 'Barra Z',
       cues: ['Codos pegados al cuerpo, FIJOS', 'Sube sin balanceo, baja en 2-3″', 'Muñecas neutras gracias a la Z'],
       err: ['Mecer el cuerpo para subir más peso', 'Codos que viajan adelante arriba'],
       alt: [{ n: 'Curl con mancuernas alterno', por: 'con giro (supinación), muy completo' }, { n: 'Curl en polea baja', por: 'tensión continua' }],
       mol: 'Si molesta la muñeca o el codo: mancuernas con giro o agarre martillo.'
     },
     'curl-inclinado': {
-      nombre: 'Curl inclinado con mancuernas', zona: 'tiron', musc: ['Bíceps (cabeza larga)'], equipo: 'Mancuernas + banco 45-60°',
+      nombre: 'Curl inclinado con mancuernas', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bíceps (cabeza larga)'], equipo: 'Mancuernas + banco 45-60°',
       cues: ['Banco a 45-60°, brazos COLGANDO verticales', 'El estiramiento abajo es el estímulo: no lo recortes', 'Codos quietos, sube sin encoger hombros'],
       err: ['Adelantar los codos', 'Media repetición abajo'],
       alt: [{ n: 'Curl bayesiano en polea', por: 'mismo estiramiento, de pie' }],
       mol: 'Si tira el hombro abajo: sube un punto el respaldo.'
     },
     'curl-martillo': {
-      nombre: 'Curl martillo', zona: 'tiron', musc: ['Braquial', 'antebrazo'], equipo: 'Mancuernas',
+      nombre: 'Curl martillo', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Braquial', 'antebrazo'], equipo: 'Mancuernas',
       cues: ['Agarre neutro (martillo), codos fijos', 'Puedes hacerlo alterno o a la vez', 'Controla la bajada'],
       err: ['Balanceo', 'Convertirlo en remo subiendo los codos'],
       alt: [{ n: 'Curl martillo con cuerda en polea', por: 'variante' }],
       mol: 'Es el curl más amable con codos y muñecas: suele ser el REFUGIO cuando otros molestan.'
     },
     'curl-polea': {
-      nombre: 'Curl en polea baja', zona: 'tiron', musc: ['Bíceps'], equipo: 'Polea baja + barra',
+      nombre: 'Curl en polea baja', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bíceps'], equipo: 'Polea baja + barra',
       cues: ['Un paso atrás de la polea, codos fijos', 'Tensión continua: no descanses ni arriba ni abajo', 'Última serie: aguanta 10″ isométrico a mitad para acabar'],
       err: ['Acercarse tanto que el tramo bajo no tenga tensión', 'Mecerse'],
       alt: [{ n: 'Curl con barra Z', por: 'equivalente con peso libre' }],

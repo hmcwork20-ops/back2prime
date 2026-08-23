@@ -256,77 +256,77 @@ window.B2P = (function () {
   const EJERCICIOS = {
     /* — Casa / F1 — */
     'sentadilla-pc': {
-      nombre: 'Squat a corpo libero', zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Niente',
+      nombre: 'Squat a corpo libero', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Niente',
       cues: ['Piedi alla larghezza delle spalle, punte leggermente in fuori', 'Scendi in 3″ come per sederti all\'indietro, sali in 1″', 'Le ginocchia seguono la punta del piede, talloni inchiodati a terra', 'Petto alto per tutto il movimento'],
       err: ['Talloni che si staccano (scendi meno in profondità)', 'Ginocchia che collassano verso l\'interno', 'Scendere rimbalzando invece di controllare'],
       alt: [{ n: 'Squat al box/divano', por: 'se fai fatica a controllare la profondità' }, { n: 'Squat con pausa di 2″ in basso', por: 'se 12 reps ti stanno strette' }],
       mol: 'Se il ginocchio dà fastidio: riduci la profondità fino a dove non fa male e scendi ancora più lento.'
     },
     'flexiones': {
-      nombre: 'Flessioni', zona: 'empuje', musc: ['Pettorali', 'tricipiti, spalle'], equipo: 'Niente',
+      nombre: 'Flessioni', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorali', 'tricipiti, spalle'], equipo: 'Niente',
       cues: ['Mani poco più larghe delle spalle', 'Gomiti a 45° dal corpo, né incollati né a croce', 'Corpo in asse: glutei e addome contratti', 'Il petto tocca (quasi) terra a ogni rep'],
       err: ['Bacino che crolla o a punta', 'Mezzo movimento', 'Collo proiettato verso il pavimento'],
       alt: [{ n: 'Flessioni con le mani su divano/tavolo', por: 'se da terra non escono pulite' }, { n: 'Flessioni coi piedi rialzati', por: 'se ne superi 12 con facilità' }],
       mol: 'Se il polso dà fastidio: pugni chiusi o maniglie per flessioni. Se dà fastidio la spalla: stringi un po\' la larghezza.'
     },
     'puente-gluteo': {
-      nombre: 'Ponte glutei', zona: 'pierna', musc: ['Glutei', 'femorali'], equipo: 'Niente',
+      nombre: 'Ponte glutei', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glutei', 'femorali'], equipo: 'Niente',
       cues: ['Sdraiato, talloni vicini ai glutei', 'Spingi coi talloni e alza il bacino', 'Pausa di 2″ in alto strizzando forte i glutei', 'Costole giù: non inarcare la lombare'],
       err: ['Spingere con la punta del piede', 'Inarcare la lombare per salire di più', 'Salire e scendere senza pausa'],
       alt: [{ n: 'Ponte a una gamba', por: 'quando 15 reps diventano comode' }, { n: 'Ponte con lo zaino sul bacino', por: 'per aggiungere carico a casa' }],
       mol: 'Se viene un crampo al femorale: avvicina di più i talloni ai glutei.'
     },
     'plancha': {
-      nombre: 'Plank frontale', zona: 'core', musc: ['Core completo'], equipo: 'Niente',
+      nombre: 'Plank frontale', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core completo'], equipo: 'Niente',
       cues: ['Avambracci a terra, gomiti sotto le spalle', 'Costole dentro, bacino in retroversione (culo in dentro)', 'Glutei contratti, sguardo a terra', 'Respira: non trattenere l\'aria'],
       err: ['Bacino che crolla (la lombare soffre)', 'Culo a punta (trucco)', 'Resistere tremando: se trema la lombare, chiudi la serie'],
       alt: [{ n: 'Plank in appoggio sulle ginocchia', por: 'se non reggi il tempo con una buona forma' }],
       mol: 'Se la lombare dà fastidio: controlla prima di tutto la retroversione del bacino; di solito è quella.'
     },
     'plancha-lastre': {
-      nombre: 'Plank con zavorra', zona: 'core', musc: ['Core completo'], equipo: 'Disco da 5-10 kg',
+      nombre: 'Plank con zavorra', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core completo'], equipo: 'Disco da 5-10 kg',
       cues: ['Stessa tecnica del plank normale', 'Fatti mettere il disco tra le scapole, non sulla lombare', 'Se il bacino cede, togli zavorra'],
       err: ['Disco troppo in basso (carica la lombare)', 'Perdere la retroversione quando ti stanchi'],
       alt: [{ n: 'Plank con tocchi di spalla', por: 'se non hai nessuno che ti metta il disco' }, { n: 'Ab wheel in ginocchio', por: 'variante più esigente' }],
       mol: 'Se la lombare dà fastidio: torna al plank senza zavorra + tocchi di spalla.'
     },
     'elev-talones': {
-      nombre: 'Calf raise', zona: 'pierna', musc: ['Polpaccio', 'soleo'], equipo: 'Gradino opzionale',
+      nombre: 'Calf raise', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Polpaccio', 'soleo'], equipo: 'Gradino opzionale',
       cues: ['Range completo: allunga in basso, pausa di 1″ in alto', 'Sali in 1″, scendi in 2-3″', 'Meglio su un gradino per più escursione'],
       err: ['Rimbalzare veloce senza pausa', 'Mezza escursione in alto'],
       alt: [{ n: 'A una gamba', por: 'quando 20 reps diventano facili' }],
       mol: 'Se l\'Achille dà fastidio: riduci il range in basso e allunga il tempo di discesa.'
     },
     'zancada-alterna': {
-      nombre: 'Affondi alternati', zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Niente',
+      nombre: 'Affondi alternati', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Niente',
       cues: ['Passo ampio in avanti', 'Busto verticale, mani sui fianchi o davanti', 'Il ginocchio dietro sfiora il pavimento', 'Spingi col tallone davanti per tornare'],
       err: ['Passo corto (il ginocchio davanti collassa)', 'Busto inclinato in avanti', 'Ginocchio davanti che cede verso l\'interno'],
       alt: [{ n: 'Affondo statico (senza alternare)', por: 'se l\'equilibrio non tiene' }, { n: 'Affondo indietro', por: 'più gentile col ginocchio' }],
       mol: 'Se il ginocchio dà fastidio: passa all\'affondo INDIETRO, stesso schema.'
     },
     'remo-toalla': {
-      nombre: 'Rematore con asciugamano alla porta', zona: 'tiron', musc: ['Dorsali', 'bicipiti, scapole'], equipo: 'Asciugamano + porta (o zaino)',
+      nombre: 'Rematore con asciugamano alla porta', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsali', 'bicipiti, scapole'], equipo: 'Asciugamano + porta (o zaino)',
       cues: ['Asciugamano sulla maniglia/stipite, corpo inclinato indietro', 'Tira col GOMITO, non con la mano', 'Scapole indietro e in basso a fine corsa', 'Più ti inclini, più è duro'],
       err: ['Tirare con le braccia senza muovere le scapole', 'Strattonare con lo slancio del bacino'],
       alt: [{ n: 'Rematore con zaino carico', por: 'a un braccio, appoggiato al tavolo' }, { n: 'Rematore inverso sotto un tavolo robusto', por: 'versione più dura' }],
       mol: 'Se il gomito dà fastidio: impugna più largo e riduci l\'inclinazione.'
     },
     'rdl-1p': {
-      nombre: 'Stacco rumeno a una gamba', zona: 'pierna', musc: ['Femorali', 'glutei, equilibrio'], equipo: 'Niente (zaino opzionale)',
+      nombre: 'Stacco rumeno a una gamba', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Femorali', 'glutei, equilibrio'], equipo: 'Niente (zaino opzionale)',
       cues: ['Anche indietro, schiena dritta come un tavolo', 'La gamba libera sale dietro da contrappeso', 'Scendi finché senti l\'allungamento del femorale', 'Dai priorità all\'equilibrio, non alla profondità'],
       err: ['Arrotondare la schiena per arrivare più in basso', 'Ruotare il bacino (tieni entrambe le anche rivolte al pavimento)'],
       alt: [{ n: 'Con una mano appoggiata al muro', por: 'se l\'equilibrio ti rompe la serie' }, { n: 'B-stance (piede dietro di appoggio)', por: 'via di mezzo' }],
       mol: 'Se il femorale tira troppo: riduci il range, non la tecnica.'
     },
     'superman': {
-      nombre: 'Superman', zona: 'core', musc: ['Lombari', 'glutei, alta schiena'], equipo: 'Niente',
+      nombre: 'Superman', mm: { p: ['lumbar'], s: ['gluteo', 'espalda-alta'] }, zona: 'core', musc: ['Lombari', 'glutei, alta schiena'], equipo: 'Niente',
       cues: ['A pancia in giù, braccia avanti', 'Alza braccia e gambe insieme, 2″ in alto', 'Sguardo a terra: non tirare col collo'],
       err: ['Colpo di frusta cervicale guardando avanti', 'Salire di rimbalzo'],
       alt: [{ n: 'Bird-dog (braccio e gamba opposti)', por: 'più controllo, meno compressione' }],
       mol: 'Se la lombare dà fastidio: passa direttamente al bird-dog.'
     },
     'dead-bug': {
-      nombre: 'Dead bug', zona: 'core', musc: ['Core anteriore profondo'], equipo: 'Niente',
+      nombre: 'Dead bug', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core anteriore profondo'], equipo: 'Niente',
       cues: ['Sdraiato, lombare INCOLLATA a terra per tutto il tempo', 'Braccio e gamba opposti scendono lenti insieme', 'Espira mentre estendi: le costole restano giù'],
       err: ['La lombare si inarca quando estendi la gamba (accorcia il movimento)', 'Andare veloce'],
       alt: [{ n: 'Solo gambe (braccia ferme)', por: 'se la lombare si stacca da terra' }],
@@ -335,84 +335,84 @@ window.B2P = (function () {
 
     /* — Palestra: spinta — */
     'press-banca': {
-      nombre: 'Panca piana', zona: 'empuje', musc: ['Pettorali', 'tricipiti, deltoide anteriore'], equipo: 'Bilanciere + panca',
+      nombre: 'Panca piana', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorali', 'tricipiti, deltoide anteriore'], equipo: 'Bilanciere + panca',
       cues: ['Scapole retratte e INCHIODATE alla panca, piedi saldi a terra', 'Presa: avambraccio verticale quando il bilanciere tocca il petto', 'Il bilanciere scende a metà petto, gomiti a ~45°', 'Tocca il petto con controllo e spingi in linea leggermente diagonale'],
       err: ['Spalle che si sollevano spingendo (perdi la retrazione)', 'Far rimbalzare il bilanciere sul petto', 'Culo staccato dalla panca', 'Polsi piegati all\'indietro'],
       alt: [{ n: 'Chest press alla macchina', por: 'giorni senza voglia di montare la panca o palestra piena' }, { n: 'Distensioni con manubri su panca piana', por: 'più range e meno spalla' }],
       mol: 'Se la spalla dà fastidio: prova una presa un po\' più stretta e gomiti più chiusi; se continua, manubri con presa neutra.'
     },
     'press-inclinado-mc': {
-      nombre: 'Panca inclinata con manubri', zona: 'empuje', musc: ['Pettorale alto', 'spalle, tricipiti'], equipo: 'Manubri + panca a 30°',
+      nombre: 'Panca inclinata con manubri', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorale alto', 'spalle, tricipiti'], equipo: 'Manubri + panca a 30°',
       cues: ['Panca a 30° (una tacca, non il muro)', 'Scendi finché senti lo stiramento del pettorale', 'Gomiti a 45-60°, polsi neutri', 'Sali senza far sbattere i manubri in alto'],
       err: ['Panca troppo verticale (diventa una shoulder press)', 'Rimbalzare in basso', 'Inarcare la lombare in modo esagerato'],
       alt: [{ n: 'Panca inclinata al multipower', por: 'se la palestra è piena o vuoi stabilità' }, { n: 'Panca inclinata con bilanciere', por: 'già programmata nel Push B della F4' }],
       mol: 'Se la spalla dà fastidio: riduci il range in basso di 5 cm e ruota leggermente i palmi verso l\'interno.'
     },
     'press-inclinado-barra': {
-      nombre: 'Panca inclinata con bilanciere', zona: 'empuje', musc: ['Pettorale alto', 'spalle, tricipiti'], equipo: 'Bilanciere + panca inclinata',
+      nombre: 'Panca inclinata con bilanciere', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorale alto', 'spalle, tricipiti'], equipo: 'Bilanciere + panca inclinata',
       cues: ['Panca a 30-45°, scapole inchiodate', 'Il bilanciere scende sulla parte alta del petto (clavicole)', 'Avambracci verticali al contatto'],
       err: ['Portare il bilanciere a metà petto (ti costringe ad aprire i gomiti)', 'Rimbalzare'],
       alt: [{ n: 'Multipower inclinato', por: 'stessa sessione, più guida' }, { n: 'Manubri su inclinata', por: 'se non c\'è una panca inclinata coi supporti' }],
       mol: 'Se la spalla dà fastidio: torna ai manubri, che permettono di ruotare la presa.'
     },
     'press-plano-mc': {
-      nombre: 'Distensioni con manubri su panca piana', zona: 'empuje', musc: ['Pettorali', 'tricipiti'], equipo: 'Manubri + panca',
+      nombre: 'Distensioni con manubri su panca piana', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Pettorali', 'tricipiti'], equipo: 'Manubri + panca',
       cues: ['Più range del bilanciere: sfruttalo in basso con controllo', 'Sali ad arco, senza far sbattere i manubri in alto', 'Piedi saldi, scapole indietro'],
       err: ['Lasciar cadere i manubri in basso senza frenare', 'Trasformarle in una shoulder press aprendo troppo i gomiti'],
       alt: [{ n: 'Chest press alla macchina', por: 'fatica alta o nessuna panca libera' }],
       mol: 'Se la spalla dà fastidio: presa neutra (palmi uno di fronte all\'altro).'
     },
     'press-militar': {
-      nombre: 'Military press', zona: 'empuje', musc: ['Spalle', 'tricipiti, core'], equipo: 'Bilanciere (in piedi o da seduto)',
+      nombre: 'Military press', mm: { p: ['hombro'], s: ['triceps', 'abdomen'] }, zona: 'empuje', musc: ['Spalle', 'tricipiti, core'], equipo: 'Bilanciere (in piedi o da seduto)',
       cues: ['In piedi: glutei e addome CONTRATTI prima di spingere', 'Il bilanciere parte dal mento e sale rasente al viso', 'La testa "attraversa la finestra" alla fine', 'Da seduto con schienale: senza inarcare la lombare'],
       err: ['Inarcare la lombare trasformandolo in una panca inclinata', 'Spingere il bilanciere in avanti (sbatte sul mento)', 'Range incompleto in alto'],
       alt: [{ n: 'Shoulder press con manubri da seduto', por: 'già programmata in F2; più gentile con la spalla' }, { n: 'Shoulder press alla macchina', por: 'ultima sessione della settimana con fatica addosso' }],
       mol: 'Se la spalla dà fastidio: manubri con presa neutra e sali solo fin dove non c\'è pizzicore.'
     },
     'press-militar-mc': {
-      nombre: 'Shoulder press con manubri da seduto', zona: 'empuje', musc: ['Spalle', 'tricipiti'], equipo: 'Manubri + panca con schienale',
+      nombre: 'Shoulder press con manubri da seduto', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Spalle', 'tricipiti'], equipo: 'Manubri + panca con schienale',
       cues: ['Schienale alto, lombare appoggiata senza inarcare', 'Gomiti leggermente davanti al corpo, non a croce', 'Escursione completa senza far sbattere i manubri in alto'],
       err: ['Inarcare la lombare staccandola dallo schienale', 'Scendere solo fino alle orecchie'],
       alt: [{ n: 'Shoulder press alla macchina', por: 'equivalente diretto' }],
       mol: 'Se la spalla dà fastidio: presa neutra e scendi solo fino a 90° di gomito.'
     },
     'elev-laterales': {
-      nombre: 'Alzate laterali', zona: 'empuje', musc: ['Deltoide laterale'], equipo: 'Manubri',
+      nombre: 'Alzate laterali', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoide laterale'], equipo: 'Manubri',
       cues: ['Peso LEGGERO, gomiti un po\' flessi', 'Sali fino all\'orizzontale, come versando due caraffe', 'Niente slancio: se dondoli, il peso è troppo', 'Scendi in 2″'],
       err: ['Salire col trapezio alzando le spalle', 'Superare l\'orizzontale', 'Dondolio del bacino'],
       alt: [{ n: 'Alzate laterali al cavo basso', por: 'tensione continua; programmate nel Push B' }, { n: 'Macchina per alzate laterali', por: 'per chiudere senza pensare alla tecnica' }],
       mol: 'Se la spalla dà fastidio: pollice leggermente verso l\'alto e sali 10° davanti al piano laterale.'
     },
     'laterales-polea': {
-      nombre: 'Alzate laterali al cavo', zona: 'empuje', musc: ['Deltoide laterale'], equipo: 'Cavo basso',
+      nombre: 'Alzate laterali al cavo', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoide laterale'], equipo: 'Cavo basso',
       cues: ['Cavo all\'altezza del polso col braccio rilassato', 'Corpo stabile, sali fino all\'orizzontale', 'Il cavo mantiene la tensione anche in basso: sfruttala'],
       err: ['Mettersi troppo lontano dal cavo', 'Tirare col trapezio'],
       alt: [{ n: 'Manubri', por: 'se i cavi sono occupati' }],
       mol: 'Come coi manubri: pollice in su e piano leggermente avanzato.'
     },
     'fondos': {
-      nombre: 'Dip assistiti', zona: 'empuje', musc: ['Pettorale basso', 'tricipiti'], equipo: 'Macchina per dip assistiti o elastici',
+      nombre: 'Dip assistiti', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Pettorale basso', 'tricipiti'], equipo: 'Macchina per dip assistiti o elastici',
       cues: ['Corpo leggermente inclinato in avanti (più petto)', 'Scendi fino a 90° di gomito, non oltre se la spalla protesta', 'Gomiti che non si aprono a croce'],
       err: ['Scendere troppo in profondità', 'Spalle sollevate verso le orecchie'],
       alt: [{ n: 'Panca declinata o dip tra panche', por: 'se non c\'è la macchina assistita' }],
       mol: 'Se dà fastidio lo sterno o la spalla: sostituisci con distensioni con manubri su panca piana.'
     },
     'ext-triceps-polea': {
-      nombre: 'Pushdown per tricipiti al cavo', zona: 'empuje', musc: ['Tricipiti'], equipo: 'Cavo alto + corda o barra',
+      nombre: 'Pushdown per tricipiti al cavo', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricipiti'], equipo: 'Cavo alto + corda o barra',
       cues: ['Gomiti incollati al corpo, FISSI', 'Si muove solo l\'avambraccio', 'Estendi del tutto e strizza 1″'],
       err: ['Gomiti che avanzano in discesa (ci metti la spalla)', 'Dondolio del busto'],
       alt: [{ n: 'Con la corda aprendo in basso', por: 'un po\' più di capo lungo' }, { n: 'Kick-back con manubrio', por: 'senza cavi liberi' }],
       mol: 'Se il gomito dà fastidio: abbassa il peso e sali a 15-20 reps; il gomito odia l\'ego.'
     },
     'ext-triceps-cabeza': {
-      nombre: 'Estensioni sopra la testa (corda)', zona: 'empuje', musc: ['Tricipiti (capo lungo)'], equipo: 'Cavo + corda',
+      nombre: 'Estensioni sopra la testa (corda)', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricipiti (capo lungo)'], equipo: 'Cavo + corda',
       cues: ['Di spalle al cavo, corda dietro la nuca', 'Gomiti che puntano in avanti, estendi verso l\'alto', 'Stiramento vero in basso: è lì che cresce il capo lungo'],
       err: ['Aprire i gomiti a croce', 'Range corto per eccesso di peso'],
       alt: [{ n: 'French press con bilanciere EZ', por: 'stesso schema da sdraiato' }],
       mol: 'Se il gomito dà fastidio: come al cavo normale — meno peso, più reps.'
     },
     'press-frances': {
-      nombre: 'French press', zona: 'empuje', musc: ['Tricipiti (capo lungo)'], equipo: 'Bilanciere EZ + panca',
+      nombre: 'French press', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricipiti (capo lungo)'], equipo: 'Bilanciere EZ + panca',
       cues: ['Sdraiato, il bilanciere scende verso la fronte o poco dietro', 'Gomiti che puntano al soffitto, fermi', 'Scendi in 2-3″, estendi senza chiudere di colpo'],
       err: ['Gomiti che si aprono', 'Trasformarlo in una panca presa stretta muovendo la spalla'],
       alt: [{ n: 'Estensioni sopra la testa al cavo', por: 'più tensione continua, meno stress sul gomito' }],
@@ -421,42 +421,42 @@ window.B2P = (function () {
 
     /* — Palestra: tirata — */
     'remo-barra': {
-      nombre: 'Rematore con bilanciere', zona: 'tiron', musc: ['Dorsali', 'schiena media, bicipiti'], equipo: 'Bilanciere',
+      nombre: 'Rematore con bilanciere', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsali', 'schiena media, bicipiti'], equipo: 'Bilanciere',
       cues: ['Busto a ~45°, ginocchia semiflesse', 'Tira il bilanciere verso il basso ventre', 'Scapole indietro e in basso alla fine', 'Schiena NEUTRA non negoziabile'],
       err: ['Strattonare con la lombare (ti dondoli)', 'Busto che si alza rep dopo rep', 'Tirare verso il petto coi gomiti aperti'],
       alt: [{ n: 'T-bar row', por: 'variante più stabile' }, { n: 'Rematore alla macchina con supporto al petto', por: 'se la lombare è carica dal giorno di gambe' }],
       mol: 'Se la lombare protesta: macchina con supporto al petto o pulley, senza pensarci due volte.'
     },
     'remo-polea': {
-      nombre: 'Pulley basso', zona: 'tiron', musc: ['Schiena media', 'dorsali, bicipiti'], equipo: 'Cavo basso + triangolo',
+      nombre: 'Pulley basso', mm: { p: ['espalda-alta'], s: ['biceps', 'dorsal'] }, zona: 'tiron', musc: ['Schiena media', 'dorsali, bicipiti'], equipo: 'Cavo basso + triangolo',
       cues: ['Petto alto e FISSO: il busto non viaggia', 'Tira il triangolo verso l\'ombelico', 'Pausa 1″ strizzando le scapole'],
       err: ['Dondolare il busto per muovere più peso', 'Spalle sollevate'],
       alt: [{ n: 'Rematore alla macchina', por: 'equivalente diretto' }],
       mol: 'Se la lombare dà fastidio: appoggia il petto a una macchina da rematore con supporto.'
     },
     'remo-mancuerna': {
-      nombre: 'Rematore con manubrio a un braccio', zona: 'tiron', musc: ['Dorsali', 'schiena media'], equipo: 'Manubrio + panca',
+      nombre: 'Rematore con manubrio a un braccio', mm: { p: ['dorsal'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Dorsali', 'schiena media'], equipo: 'Manubrio + panca',
       cues: ['Ginocchio e mano sulla panca, schiena neutra', 'Tira il gomito verso il fianco, non verso la spalla', 'Senza ruotare il busto in salita'],
       err: ['Alzare la spalla a inizio tirata', 'Ruotare il busto per "aiutarti"', 'Range corto'],
       alt: [{ n: 'Rematore al cavo a un braccio', por: 'tensione più costante' }],
       mol: 'Senza un buon appoggio la lombare soffre: usa una panca inclinata e appoggia il petto.'
     },
     'jalon-pecho': {
-      nombre: 'Lat machine', zona: 'tiron', musc: ['Dorsali', 'bicipiti'], equipo: 'Cavo alto',
+      nombre: 'Lat machine', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsali', 'bicipiti'], equipo: 'Cavo alto',
       cues: ['Presa poco più larga delle spalle', 'Petto in fuori, leggera inclinazione indietro FISSA', 'Tira i GOMITI verso le tasche', 'Barra alla clavicola, 1″ di pausa'],
       err: ['Dondolarsi per strappare la tirata', 'Tirare con le braccia senza deprimere le scapole', 'Barra dietro la nuca (no)'],
       alt: [{ n: 'Trazioni assistite', por: 'l\'obiettivo della F3 è migrare verso di loro' }, { n: 'Lat machine presa stretta', por: 'programmata nel Pull B' }],
       mol: 'Se la spalla dà fastidio: presa neutra (triangolo largo) e abbassa il peso.'
     },
     'jalon-estrecho': {
-      nombre: 'Lat machine presa stretta', zona: 'tiron', musc: ['Dorsali', 'bicipiti'], equipo: 'Cavo alto + triangolo',
+      nombre: 'Lat machine presa stretta', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsali', 'bicipiti'], equipo: 'Cavo alto + triangolo',
       cues: ['Triangolo o presa supina alla larghezza delle spalle', 'Gomiti stretti che scendono lungo i fianchi', 'Allunga del tutto in alto: il dorsale lavora lungo'],
       err: ['Trasformarla in un rematore inclinandosi troppo', 'Mezza ripetizione in alto'],
       alt: [{ n: 'Trazioni supine assistite', por: 'equivalente a corpo libero' }],
       mol: 'Se il gomito dà fastidio: presa neutra e polsi dritti.'
     },
     'dominadas': {
-      nombre: 'Trazioni (assistite → libere → zavorrate)', zona: 'tiron', musc: ['Dorsali', 'bicipiti, core'], equipo: 'Sbarra + macchina assistita o elastici',
+      nombre: 'Trazioni (assistite → libere → zavorrate)', mm: { p: ['dorsal'], s: ['biceps', 'abdomen'] }, zona: 'tiron', musc: ['Dorsali', 'bicipiti, core'], equipo: 'Sbarra + macchina assistita o elastici',
       cues: ['Parti deprimendo le scapole (spalle lontane dalle orecchie)', 'Tira i gomiti verso il basso, mento sopra la sbarra', 'Scendi CONTROLLANDO fino a braccia quasi distese', 'Riduci l\'assistenza settimana dopo settimana: usciranno prima di quanto credi'],
       err: ['Scalciare e darsi slancio', 'Mezza trazione (né su né giù)', 'Appendersi sulle spalle in basso senza tensione scapolare'],
       alt: [{ n: 'Lat machine presa prona pesante', por: 'se quel giorno non c\'è la macchina assistita' }, { n: 'Trazioni negative (salto + discesa in 5″)', por: 'gran costruttore della prima trazione' }],
@@ -464,21 +464,21 @@ window.B2P = (function () {
       hito: 'dominada-libre'
     },
     'pullover-polea': {
-      nombre: 'Pullover al cavo', zona: 'tiron', musc: ['Dorsali (isolamento)'], equipo: 'Cavo alto + barra o corda',
+      nombre: 'Pullover al cavo', mm: { p: ['dorsal'], s: [] }, zona: 'tiron', musc: ['Dorsali (isolamento)'], equipo: 'Cavo alto + barra o corda',
       cues: ['Braccia quasi tese, cerniera solo nella spalla', 'Porta la barra alla coscia disegnando un arco', 'Stiramento in alto, strizzata in basso'],
       err: ['Piegare i gomiti (diventa un\'estensione per tricipiti)', 'Dondolare il busto'],
       alt: [{ n: 'Pullover con manubrio su panca', por: 'senza cavi liberi' }],
       mol: 'Se la spalla dà fastidio: riduci l\'arco in alto.'
     },
     'face-pull': {
-      nombre: 'Face pull', zona: 'tiron', musc: ['Deltoide posteriore', 'rotatori, trapezio medio'], equipo: 'Cavo alto + corda',
+      nombre: 'Face pull', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Deltoide posteriore', 'rotatori, trapezio medio'], equipo: 'Cavo alto + corda',
       cues: ['Cavo all\'altezza del viso', 'Tira la corda VERSO LA FRONTE separando i capi', 'Alla fine, ruota le spalle verso fuori (i bicipiti puntano al soffitto)', 'Leggero e perfetto: è salute della spalla, non ego'],
       err: ['Trasformarlo in un rematore alto caricato', 'Saltare la rotazione esterna finale'],
       alt: [{ n: 'Reverse pec-deck', por: 'deltoide posteriore senza corda' }, { n: 'Rotazione esterna con elastico', por: 'a casa o come extra' }],
       mol: 'È l\'esercizio che aggiusta le spalle; se dà fastidio, abbassa il peso e controlla di tirare verso la fronte, non verso il collo.'
     },
     'encogimientos': {
-      nombre: 'Scrollate con manubri', zona: 'tiron', musc: ['Trapezio superiore'], equipo: 'Manubri',
+      nombre: 'Scrollate con manubri', mm: { p: ['espalda-alta'], s: [] }, zona: 'tiron', musc: ['Trapezio superiore'], equipo: 'Manubri',
       cues: ['Spalle verso le orecchie, pausa 1″ in alto', 'Braccia come corde: non piegare i gomiti', 'Scendi controllato e allunga'],
       err: ['Ruotare le spalle in cerchio (non aggiunge nulla e sfrega)', 'Rimbalzare con le gambe'],
       alt: [{ n: 'Con bilanciere', por: 'più carico totale' }],
@@ -487,98 +487,98 @@ window.B2P = (function () {
 
     /* — Palestra: gambe/anca — */
     'sentadilla-barra': {
-      nombre: 'Squat con bilanciere', zona: 'pierna', musc: ['Quadricipiti', 'glutei, core'], equipo: 'Bilanciere + rack',
+      nombre: 'Squat con bilanciere', mm: { p: ['cuadriceps'], s: ['abdomen', 'gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei, core'], equipo: 'Bilanciere + rack',
       cues: ['Bilanciere sul trapezio, non sulle cervicali', 'Core pressurizzato PRIMA di scendere (prendi aria in petto-addome)', 'Scendi al parallelo, ginocchia in fuori', 'Spingi il pavimento, petto alto in risalita'],
       err: ['Talloni che si sollevano (colpa delle caviglie: rialzali con dei dischi se serve)', 'Ginocchia che collassano in dentro in risalita', 'Good morning: il bacino sale prima del petto'],
       alt: [{ n: 'Squat al multipower', por: 'giorni di fatica o rack occupato' }, { n: 'Hack squat / pressa', por: 'stimolo per i quadricipiti senza carico assiale' }, { n: 'Goblet squat con manubrio', por: 'come riscaldamento o se la tecnica si perde' }],
       mol: 'Se il ginocchio dà fastidio: rallenta la discesa (3″) e fermati 5 cm sopra il punto critico. Se dà fastidio la lombare: controlla la pressurizzazione e togli il 20% del peso per una settimana.'
     },
     'prensa': {
-      nombre: 'Pressa', zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Pressa',
+      nombre: 'Pressa', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Pressa',
       cues: ['Piedi a metà pedana, larghezza spalle', 'Scendi fino a 90° SENZA staccare la lombare dallo schienale', 'Spingi con tutta la pianta, non bloccare le ginocchia di colpo'],
       err: ['Scendere tanto da far ruotare il bacino (butt wink in pressa = lombare)', 'Mani che spingono sulle ginocchia'],
       alt: [{ n: 'Hack squat', por: 'ancora più quadricipiti' }, { n: 'Pressa a una gamba', por: 'se c\'è uno squilibrio' }],
       mol: 'Se il ginocchio dà fastidio: piedi un po\' più in alto sulla pedana (più glutei, meno ginocchio).'
     },
     'rdl-barra': {
-      nombre: 'Stacco rumeno', zona: 'pierna', musc: ['Femorali', 'glutei, lombari in isometria'], equipo: 'Bilanciere',
+      nombre: 'Stacco rumeno', mm: { p: ['isquios'], s: ['gluteo', 'lumbar'] }, zona: 'pierna', musc: ['Femorali', 'glutei, lombari in isometria'], equipo: 'Bilanciere',
       cues: ['Anche INDIETRO, ginocchia semiflesse e ferme', 'Bilanciere incollato alle gambe per tutto il viaggio', 'Schiena neutra: petto in fuori', 'Scendi finché senti forte l\'allungamento del femorale e risali strizzando i glutei'],
       err: ['Arrotondare la schiena per scendere di più', 'Piegare le ginocchia trasformandolo in mezzo squat', 'Bilanciere che si allontana dal corpo'],
       alt: [{ n: 'Stacco rumeno con manubri', por: 'presa più comoda le prime settimane' }, { n: 'Hyperextension a 45° con carico', por: 'femorali-glutei senza limite di presa' }],
       mol: 'L\'allungamento del femorale è il segnale che lo stai facendo BENE. Se dà fastidio la lombare (non il femorale): togli il 20% e filma una serie di lato.'
     },
     'hip-thrust': {
-      nombre: 'Hip thrust', zona: 'pierna', musc: ['Glutei', 'femorali'], equipo: 'Bilanciere + panca (+ protezione)',
+      nombre: 'Hip thrust', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glutei', 'femorali'], equipo: 'Bilanciere + panca (+ protezione)',
       cues: ['Parte alta della schiena appoggiata alla panca, bilanciere sul bacino con protezione', 'Mento al petto, sguardo avanti-basso', 'Sali fino all\'orizzontale ESATTA, pausa 1″ strizzando', 'Ginocchia a 90° in alto, talloni sotto le ginocchia'],
       err: ['Inarcare la lombare in alto (iperestensione)', 'Spingere con le punte dei piedi', 'Rimbalzare in basso senza pausa'],
       alt: [{ n: 'Macchina per hip thrust', por: 'se la palestra ce l\'ha, montaggio molto più rapido' }, { n: 'Ponte con bilanciere a terra', por: 'senza panca libera' }],
       mol: 'Se la lombare dà fastidio: è quasi sempre iperestensione in alto; fermati all\'orizzontale.'
     },
     'zancada-mc': {
-      nombre: 'Affondi con manubri', zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Manubri',
+      nombre: 'Affondi con manubri', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Manubri',
       cues: ['Stessa tecnica di casa, ora con 6-10 kg per mano', 'Passo ampio, busto verticale, il ginocchio dietro sfiora il pavimento', 'I manubri pendono incollati al corpo, spalle indietro', 'Spingi col tallone davanti per tornare'],
       err: ['Passo corto che fa collassare il ginocchio davanti', 'Inclinarsi in avanti quando ti stanchi', 'Guardare a terra e perdere la linea'],
       alt: [{ n: 'Affondi indietro con manubri', por: 'più gentili col ginocchio' }, { n: 'Affondi al multipower', por: 'se l\'equilibrio limita il carico' }],
       mol: 'Se il ginocchio dà fastidio: passo più lungo e passa all\'affondo indietro.'
     },
     'zancada-bulgara': {
-      nombre: 'Affondi bulgari', zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Panca + manubri',
+      nombre: 'Affondi bulgari', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Panca + manubri',
       cues: ['Piede dietro sulla panca, quello davanti a un passo lungo', 'Scendi in VERTICALE: il ginocchio dietro cerca il pavimento', 'Busto leggermente inclinato = più glutei; verticale = più quadricipiti', 'Parti SOLO a corpo libero, sul serio'],
       err: ['Piede davanti troppo vicino (il ginocchio soffre)', 'Rimbalzare in basso', 'Perdere l\'equilibrio guardando il soffitto'],
       alt: [{ n: 'Affondo statico con manubri', por: 'se l\'equilibrio ancora non c\'è' }, { n: 'Pressa a una gamba', por: 'unilaterale senza equilibrio' }],
       mol: 'Se il ginocchio davanti dà fastidio: allunga il passo e sposta il busto un po\' in avanti.'
     },
     'ext-cuadriceps': {
-      nombre: 'Leg extension', zona: 'pierna', musc: ['Quadricipiti (isolamento)'], equipo: 'Macchina',
+      nombre: 'Leg extension', mm: { p: ['cuadriceps'], s: [] }, zona: 'pierna', musc: ['Quadricipiti (isolamento)'], equipo: 'Macchina',
       cues: ['Ginocchio allineato al perno della macchina', 'Estendi del tutto con pausa 1″ in alto', 'Scendi in 2-3″'],
       err: ['Scalciare con lo slancio', 'Culo che si stacca dal sedile'],
       alt: [{ n: 'Sissy squat assistito', por: 'senza macchina' }],
       mol: 'Se la rotula dà fastidio: taglia l\'ultimo terzo IN ALTO non in basso, e tempo più lento. È anche il tuo esercizio di riabilitazione se un giorno il ginocchio protesta per la corsa.'
     },
     'curl-femoral-tumbado': {
-      nombre: 'Leg curl sdraiato', zona: 'pierna', musc: ['Femorali (isolamento)'], equipo: 'Macchina',
+      nombre: 'Leg curl sdraiato', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Femorali (isolamento)'], equipo: 'Macchina',
       cues: ['Bacino INCOLLATO al lettino per tutto il tempo', 'Sali in 1″, scendi in 2-3″', 'Punta del piede neutra'],
       err: ['Sollevare il bacino per aiutarti', 'Mezza ripetizione'],
       alt: [{ n: 'Leg curl da seduto', por: 'in realtà un filo meglio per il femorale; usalo se è libero' }, { n: 'Nordic curl assistito', por: 'versione avanzata, più avanti' }],
       mol: 'Se viene un crampo: allunga il femorale tra le serie, è normale le prime settimane.'
     },
     'curl-femoral-sentado': {
-      nombre: 'Leg curl da seduto', zona: 'pierna', musc: ['Femorali (isolamento)'], equipo: 'Macchina',
+      nombre: 'Leg curl da seduto', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Femorali (isolamento)'], equipo: 'Macchina',
       cues: ['Coscia ben bloccata dal cuscinetto', 'Fletti del tutto, pausa 1″', 'Torna lento resistendo'],
       err: ['Culo che scivola in avanti', 'Range corto per eccesso di peso'],
       alt: [{ n: 'Leg curl sdraiato', por: 'equivalente' }],
       mol: 'Nessun problema tipico: è tra i più sicuri del piano.'
     },
     'gemelo-pie': {
-      nombre: 'Calf raise in piedi', zona: 'pierna', musc: ['Polpaccio (gastrocnemio)'], equipo: 'Macchina o multipower + gradino',
+      nombre: 'Calf raise in piedi', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Polpaccio (gastrocnemio)'], equipo: 'Macchina o multipower + gradino',
       cues: ['Pausa 1″ IN ALTO e 1″ IN BASSO: niente rimbalzo', 'Allungamento completo in basso', 'Sali verticale, senza piegare le ginocchia'],
       err: ['Rimbalzare sfruttando il riflesso del tendine (toglie lo stimolo proprio al tessuto che vogliamo preparare)', 'Range a metà'],
       alt: [{ n: 'Alla pressa', por: 'senza macchina dedicata' }],
       mol: 'Se l\'Achille dà fastidio: solo isometrie in alto 3×30″ quella settimana.'
     },
     'gemelo-sentado': {
-      nombre: 'Calf raise da seduto', zona: 'pierna', musc: ['Soleo'], equipo: 'Macchina',
+      nombre: 'Calf raise da seduto', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Soleo'], equipo: 'Macchina',
       cues: ['Ginocchio a 90°: qui lavora il soleo, chiave per CORRERE', 'Stessa regola: pausa in alto e in basso, niente rimbalzi'],
       err: ['Andare veloce a rimbalzi', 'Appoggiare solo la punta delle dita (meglio la base)'],
       alt: [{ n: 'Da seduto con manubri sulle ginocchia + gradino', por: 'senza macchina' }],
       mol: 'Come quello in piedi: fastidio all\'Achille = solo isometrie per una settimana.'
     },
     'elev-piernas': {
-      nombre: 'Sollevamento gambe alla sbarra', zona: 'core', musc: ['Addome basso', 'flessori, presa'], equipo: 'Sbarra per trazioni',
+      nombre: 'Sollevamento gambe alla sbarra', mm: { p: ['abdomen'], s: ['antebrazo'] }, zona: 'core', musc: ['Addome basso', 'flessori, presa'], equipo: 'Sbarra per trazioni',
       cues: ['Appenditi attivo (spalle lontane dalle orecchie)', 'Porta le ginocchia al petto SENZA dondolare', 'Scendi controllato fino in fondo'],
       err: ['Dondolarsi', 'Tirare solo coi flessori dell\'anca a lombare inarcata'],
       alt: [{ n: 'Alle parallele (appoggio sui gomiti)', por: 'se la presa cede prima dell\'addome' }, { n: 'Sollevamenti da sdraiato', por: 'versione iniziale' }],
       mol: 'Se la spalla dà fastidio da appeso: passa direttamente alle parallele.'
     },
     'rueda-abdominal': {
-      nombre: 'Ab wheel', zona: 'core', musc: ['Core anteriore completo'], equipo: 'Ab wheel',
+      nombre: 'Ab wheel', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core anteriore completo'], equipo: 'Ab wheel',
       cues: ['In ginocchio, bacino in retroversione PRIMA di partire', 'Rotola fino a dove controlli la lombare', 'Torna tirando con l\'addome, non con le braccia'],
       err: ['Inarcare la lombare in estensione (l\'errore che fa infortunare)', 'Andare più lontano di quanto il core regga'],
       alt: [{ n: 'Crunch al cavo', por: 'se oggi la rotella è troppo' }, { n: 'Plank con zavorra', por: 'isometrico equivalente' }],
       mol: 'Se la lombare dà fastidio: dimezza l\'escursione e guadagna range settimana dopo settimana.'
     },
     'crunch-polea': {
-      nombre: 'Crunch al cavo', zona: 'core', musc: ['Retto addominale'], equipo: 'Cavo alto + corda',
+      nombre: 'Crunch al cavo', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Retto addominale'], equipo: 'Cavo alto + corda',
       cues: ['In ginocchio, corda ai lati della testa', 'Flettiti DALLE COSTOLE, non dall\'anca', 'Gomiti verso le ginocchia, espira scendendo'],
       err: ['Tirare con le braccia', 'Sedersi all\'indietro muovendo solo l\'anca'],
       alt: [{ n: 'Crunch alla macchina', por: 'equivalente' }, { n: 'Ab wheel', por: 'quando vuoi alzare il livello' }],
@@ -587,28 +587,28 @@ window.B2P = (function () {
 
     /* — Braccia — */
     'curl-barra-z': {
-      nombre: 'Curl con bilanciere EZ', zona: 'tiron', musc: ['Bicipiti'], equipo: 'Bilanciere EZ',
+      nombre: 'Curl con bilanciere EZ', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bicipiti'], equipo: 'Bilanciere EZ',
       cues: ['Gomiti incollati al corpo, FISSI', 'Sali senza dondolare, scendi in 2-3″', 'Polsi neutri grazie alla EZ'],
       err: ['Dondolare il corpo per alzare più peso', 'Gomiti che viaggiano in avanti in alto'],
       alt: [{ n: 'Curl alternato con manubri', por: 'con rotazione (supinazione), molto completo' }, { n: 'Curl al cavo basso', por: 'tensione continua' }],
       mol: 'Se polso o gomito danno fastidio: manubri con rotazione o presa a martello.'
     },
     'curl-inclinado': {
-      nombre: 'Curl su panca inclinata', zona: 'tiron', musc: ['Bicipiti (capo lungo)'], equipo: 'Manubri + panca a 45-60°',
+      nombre: 'Curl su panca inclinata', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bicipiti (capo lungo)'], equipo: 'Manubri + panca a 45-60°',
       cues: ['Panca a 45-60°, braccia che PENDONO verticali', 'Lo stiramento in basso è lo stimolo: non tagliarlo', 'Gomiti fermi, sali senza alzare le spalle'],
       err: ['Portare avanti i gomiti', 'Mezza ripetizione in basso'],
       alt: [{ n: 'Curl bayesian al cavo', por: 'stesso stiramento, in piedi' }],
       mol: 'Se la spalla tira in basso: alza di una tacca lo schienale.'
     },
     'curl-martillo': {
-      nombre: 'Hammer curl', zona: 'tiron', musc: ['Brachiale', 'avambraccio'], equipo: 'Manubri',
+      nombre: 'Hammer curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Brachiale', 'avambraccio'], equipo: 'Manubri',
       cues: ['Presa neutra (a martello), gomiti fermi', 'Puoi farlo alternato o insieme', 'Controlla la discesa'],
       err: ['Dondolio', 'Trasformarlo in un rematore alzando i gomiti'],
       alt: [{ n: 'Hammer curl con corda al cavo', por: 'variante' }],
       mol: 'È il curl più gentile con gomiti e polsi: di solito è il RIFUGIO quando gli altri danno fastidio.'
     },
     'curl-polea': {
-      nombre: 'Curl al cavo basso', zona: 'tiron', musc: ['Bicipiti'], equipo: 'Cavo basso + barra',
+      nombre: 'Curl al cavo basso', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bicipiti'], equipo: 'Cavo basso + barra',
       cues: ['Un passo indietro dal cavo, gomiti fermi', 'Tensione continua: non riposare né in alto né in basso', 'Ultima serie: tieni 10″ in isometria a metà per chiudere'],
       err: ['Avvicinarsi tanto che il tratto basso perde tensione', 'Dondolarsi'],
       alt: [{ n: 'Curl con bilanciere EZ', por: 'equivalente coi pesi liberi' }],

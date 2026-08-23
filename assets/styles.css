@@ -674,6 +674,23 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .cres{font-size:14px;padding:2px 0;border-bottom:1px solid var(--line-soft)}
 .cres:last-child{border-bottom:0}
 
+/* ---------- Mapa muscular ----------
+   Silueta apagada, regiones en volt. El resplandor solo en la ficha: a 40 px
+   de alto un drop-shadow no aporta y cuesta en cada fila. */
+.mapa svg{display:block;width:100%;max-width:250px;height:auto;margin:10px auto 2px}
+.mapa .mm-base{fill:var(--surface2);stroke:rgba(255,255,255,.10);stroke-width:1}
+.mapa .mm-r,.mapa-mini .mm-r{fill:rgba(255,255,255,.07)}
+.mapa .mm-p{fill:var(--volt);fill-opacity:.92;filter:drop-shadow(0 0 6px rgba(200,242,78,.45))}
+.mapa .mm-s{fill:var(--volt);fill-opacity:.36}
+.mapa-mini{display:inline-block;flex:0 0 auto;width:40px;height:42px;margin-right:9px;vertical-align:middle}
+.mapa-mini svg{width:40px;height:42px;display:block}
+.mapa-mini .mm-base{fill:var(--surface);stroke:rgba(255,255,255,.08);stroke-width:1.5}
+.mapa-mini .mm-p{fill:var(--volt);fill-opacity:.95}
+.mapa-mini .mm-s{fill:var(--volt);fill-opacity:.4}
+/* en la carta del mazo va grande, sin resplandor (es cristal encima de cristal) */
+.mapa-carta svg{width:150px;height:auto;margin:2px auto 6px}
+.mapa-carta .mm-p{filter:none}
+
 /* ---------- QUIZ: mazo de gustos (prototipo Fase 1) ---------- */
 .quiz-zona{position:relative;height:min(56dvh,430px);margin:14px 0}
 .qcard{

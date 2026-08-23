@@ -68,7 +68,7 @@ corporal extremo.
 
 | Pieza | Hoy | Pasa a |
 |---|---|---|
-| Ejercicios | ficha de texto | pictograma SVG del patrón + **mapa muscular** (silueta con músculos encendidos — los datos `musc`/`zona` ya existen) |
+| Ejercicios | ficha de texto | **Hecho en v32**: mapa muscular SVG dibujado por código (frente y espalda, 15 regiones, claves `mm` neutras en los 5 idiomas) en ficha, biblioteca (40 px) y cartas del mazo. Pendiente: pictograma del patrón de movimiento |
 | Recetas | lista de texto | tarjeta con foto, macros como chips |
 | Progreso | números | anillos + la metáfora de discos olímpicos que ya existe, cargándose en una barra |
 | Hoy | lista | tablero de tarjetas: sesión, comida, hábitos como anillos |

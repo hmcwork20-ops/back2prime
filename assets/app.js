@@ -505,6 +505,8 @@
         el('h2', null, e.nombre),
         el('div', { class: 'stag' }, e.musc.join(' · ') + ' — ' + e.equipo + (ctx && ctx.dosis ? ' · hoy: ' + ctx.dosis : ''))
       );
+      // el mapa muscular: lo que trabaja, encendido; sin una sola imagen externa
+      if (window.B2P_MAPA && e.mm) sh.append(el('div', { class: 'mapa', html: window.B2P_MAPA.svg(e.mm, { label: e.nombre + ' · ' + e.musc.join(', ') }) }));
       const hist = D.HISTORICO[ejId];
       if (hist) {
         // Sin registro previo, `falta` valía la marca ENTERA y el mensaje decía

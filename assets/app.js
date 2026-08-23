@@ -507,6 +507,11 @@
       );
       // el mapa muscular: lo que trabaja, encendido; sin una sola imagen externa
       if (window.B2P_MAPA && e.mm) sh.append(el('div', { class: 'mapa', html: window.B2P_MAPA.svg(e.mm, { label: e.nombre + ' · ' + e.musc.join(', ') }) }));
+      // el patron de movimiento: que se HACE, junto a que trabaja
+      if (window.B2P_MAPA && window.B2P_MAPA.svgPat && e.pat && TX.patrones && TX.patrones[e.pat])
+        sh.append(el('div', { class: 'pat-fila' },
+          el('span', { class: 'pat-ico', html: window.B2P_MAPA.svgPat(e.pat) }),
+          el('span', { class: 'pat-txt' }, TX.patrones[e.pat])));
       const hist = D.HISTORICO[ejId];
       if (hist) {
         // Sin registro previo, `falta` valía la marca ENTERA y el mensaje decía

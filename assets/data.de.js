@@ -255,77 +255,77 @@ window.B2P = (function () {
   // alt: gleichwertige Alternativen (Kommerz-Gym) · mol: wenn es zwickt, wechsle zu
   const EJERCICIOS = {
     /* — Zuhause / P1 — */
-    'sentadilla-pc': {
+    'sentadilla-pc': { pat: 'rod',
       nombre: 'Kniebeuge (Körpergewicht)', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts',
       cues: ['Füße schulterbreit, Fußspitzen leicht nach außen', 'Geh in 3″ runter, als würdest du dich nach hinten setzen, in 1″ hoch', 'Knie folgen der Fußspitze, Fersen fest im Boden', 'Brust hoch über den gesamten Weg'],
       err: ['Fersen, die abheben (geh weniger tief)', 'Knie, die nach innen kollabieren', 'Federnd absinken statt zu kontrollieren'],
       alt: [{ n: 'Kniebeuge auf Kiste/Sofa', por: 'wenn dir die Tiefenkontrolle schwerfällt' }, { n: 'Kniebeuge mit 2″ Pause unten', por: 'wenn dir 12 Wdh zu leicht werden' }],
       mol: 'Wenn das Knie zwickt: Tiefe reduzieren, bis nichts wehtut, und noch langsamer runter.'
     },
-    'flexiones': {
+    'flexiones': { pat: 'eh',
       nombre: 'Liegestütze', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Brust', 'Trizeps, Schulter'], equipo: 'Nichts',
       cues: ['Hände etwas breiter als die Schultern', 'Ellbogen im 45°-Winkel zum Körper, weder angepresst noch im Kreuz', 'Körper wie ein Brett: Gesäß und Bauch fest', 'Brust berührt (fast) den Boden bei jeder Wdh'],
       err: ['Hängende oder zeltförmige Hüfte', 'Halber Bewegungsradius', 'Nacken, der zum Boden vorschiebt'],
       alt: [{ n: 'Liegestütze mit Händen auf Sofa/Tisch', por: 'wenn sie am Boden nicht sauber klappen' }, { n: 'Liegestütze mit erhöhten Füßen', por: 'wenn du locker über 12 kommst' }],
       mol: 'Wenn das Handgelenk zwickt: auf Fäusten oder mit Liegestützgriffen. Wenn die Schulter zwickt: Hände etwas enger.'
     },
-    'puente-gluteo': {
+    'puente-gluteo': { pat: 'bis',
       nombre: 'Glute Bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Gesäß', 'Beinbizeps'], equipo: 'Nichts',
       cues: ['Auf dem Rücken, Fersen nah am Gesäß', 'Drück über die Fersen und heb die Hüfte', '2″ Pause oben, Gesäß kräftig anspannen', 'Rippen unten: kein Hohlkreuz'],
       err: ['Über die Fußspitzen drücken', 'Ins Hohlkreuz gehen, um höher zu kommen', 'Hoch und runter ohne Pause'],
       alt: [{ n: 'Einbeinige Glute Bridge', por: 'sobald 15 Wdh bequem sind' }, { n: 'Glute Bridge mit Rucksack auf der Hüfte', por: 'für Zusatzlast zuhause' }],
       mol: 'Bei Krampf im Beinbizeps: Fersen näher ans Gesäß.'
     },
-    'plancha': {
+    'plancha': { pat: 'core',
       nombre: 'Plank', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Kompletter Core'], equipo: 'Nichts',
       cues: ['Unterarme am Boden, Ellbogen unter den Schultern', 'Rippen rein, Becken kippen (Po einziehen)', 'Gesäß fest, Blick zum Boden', 'Atmen: nicht die Luft anhalten'],
       err: ['Hängende Hüfte (der untere Rücken leidet)', 'Po als Zelt nach oben (Schummeln)', 'Zitternd durchhalten: Wenn der untere Rücken zittert, brich den Satz ab'],
       alt: [{ n: 'Plank auf den Knien', por: 'wenn du die Zeit nicht mit sauberer Form schaffst' }],
       mol: 'Wenn der untere Rücken zwickt: Prüf zuerst die Beckenkippung; daran liegt es meistens.'
     },
-    'plancha-lastre': {
+    'plancha-lastre': { pat: 'core',
       nombre: 'Plank mit Zusatzgewicht', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Kompletter Core'], equipo: 'Scheibe 5-10 kg',
       cues: ['Gleiche Technik wie beim normalen Plank', 'Lass dir die Scheibe zwischen die Schulterblätter legen, nicht auf den unteren Rücken', 'Wenn die Hüfte absinkt, Gewicht runter'],
       err: ['Scheibe zu tief (belastet den unteren Rücken)', 'Beckenkippung verlieren, wenn du ermüdest'],
       alt: [{ n: 'Plank mit Schultertippen', por: 'wenn dir niemand die Scheibe auflegen kann' }, { n: 'Ab Wheel auf den Knien', por: 'anspruchsvollere Variante' }],
       mol: 'Wenn der untere Rücken zwickt: zurück zum Plank ohne Gewicht + Schultertippen.'
     },
-    'elev-talones': {
+    'elev-talones': { pat: 'gem',
       nombre: 'Wadenheben', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Wade', 'Soleus'], equipo: 'Stufe optional',
       cues: ['Voller Bewegungsradius: unten dehnen, 1″ Pause oben', 'In 1″ hoch, in 2-3″ runter', 'Besser auf einer Stufe für mehr Weg'],
       err: ['Schnell federn ohne Pause', 'Oben nur halber Weg'],
       alt: [{ n: 'Einbeinig', por: 'sobald 20 Wdh leicht sind' }],
       mol: 'Wenn die Achillessehne zwickt: unten weniger Radius und langsamer absenken.'
     },
-    'zancada-alterna': {
+    'zancada-alterna': { pat: 'zan',
       nombre: 'Ausfallschritte im Wechsel', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts',
       cues: ['Großer Schritt nach vorn', 'Oberkörper aufrecht, Hände an der Hüfte oder vorn', 'Das hintere Knie streift den Boden', 'Drück über die vordere Ferse zurück'],
       err: ['Kurzer Schritt (das vordere Knie kollabiert)', 'Oberkörper kippt nach vorn', 'Vorderes Knie wandert nach innen'],
       alt: [{ n: 'Statischer Ausfallschritt (ohne Wechsel)', por: 'wenn die Balance versagt' }, { n: 'Ausfallschritt nach hinten', por: 'knieschonender' }],
       mol: 'Wenn das Knie zwickt: Wechsle zu Ausfallschritten nach HINTEN, gleiches Schema.'
     },
-    'remo-toalla': {
+    'remo-toalla': { pat: 'th',
       nombre: 'Handtuchrudern an der Tür', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lat', 'Bizeps, Schulterblätter'], equipo: 'Handtuch + Tür (oder Rucksack)',
       cues: ['Handtuch um Klinke/Rahmen, Körper nach hinten gelehnt', 'Zieh mit dem ELLBOGEN, nicht mit der Hand', 'Schulterblätter am Ende nach hinten-unten', 'Je schräger du dich lehnst, desto härter'],
       err: ['Nur mit den Armen ziehen, ohne die Schulterblätter zu bewegen', 'Mit Hüftschwung reißen'],
       alt: [{ n: 'Rudern mit beladenem Rucksack', por: 'einarmig, auf dem Tisch abgestützt' }, { n: 'Inverted Rows unter einem stabilen Tisch', por: 'härtere Version' }],
       mol: 'Wenn der Ellbogen zwickt: breiter greifen und weniger Schräglage.'
     },
-    'rdl-1p': {
+    'rdl-1p': { pat: 'bis',
       nombre: 'Einbeiniges Rumänisches Kreuzheben', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Beinbizeps', 'Gesäß, Balance'], equipo: 'Nichts (Rucksack optional)',
       cues: ['Hüfte nach hinten, Rücken gerade wie ein Tisch', 'Das freie Bein steigt hinten als Gegengewicht', 'Runter, bis du die Dehnung im Beinbizeps spürst', 'Balance geht vor Tiefe'],
       err: ['Rücken runden, um tiefer zu kommen', 'Hüfte aufdrehen (beide Hüftknochen zeigen zum Boden)'],
       alt: [{ n: 'Mit einer Hand an der Wand', por: 'wenn die Balance den Satz zerstört' }, { n: 'B-Stance (hinterer Fuß stützt)', por: 'Zwischenschritt' }],
       mol: 'Wenn der Beinbizeps zu sehr zieht: Radius verkürzen, nicht die Technik.'
     },
-    'superman': {
+    'superman': { pat: 'core',
       nombre: 'Superman', mm: { p: ['lumbar'], s: ['gluteo', 'espalda-alta'] }, zona: 'core', musc: ['Unterer Rücken', 'Gesäß, oberer Rücken'], equipo: 'Nichts',
       cues: ['Bauchlage, Arme nach vorn', 'Arme und Beine gleichzeitig heben, 2″ oben', 'Blick zum Boden: nicht am Nacken ziehen'],
       err: ['Nacken überstrecken durch Blick nach vorn', 'Mit Schwung hochkommen'],
       alt: [{ n: 'Bird-Dog (gegenüberliegender Arm und Bein)', por: 'mehr Kontrolle, weniger Kompression' }],
       mol: 'Wenn der untere Rücken zwickt: direkt zu Bird-Dog wechseln.'
     },
-    'dead-bug': {
+    'dead-bug': { pat: 'core',
       nombre: 'Dead Bug', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Tiefer vorderer Core'], equipo: 'Nichts',
       cues: ['Auf dem Rücken, unterer Rücken die GANZE Zeit am Boden ANGEDRÜCKT', 'Gegenüberliegender Arm und Bein senken sich langsam zugleich', 'Beim Strecken ausatmen: Die Rippen bleiben unten'],
       err: ['Der untere Rücken hebt beim Beinstrecken ab (verkürze den Weg)', 'Zu schnell'],
@@ -334,84 +334,84 @@ window.B2P = (function () {
     },
 
     /* — Gym: Drücken — */
-    'press-banca': {
+    'press-banca': { pat: 'eh',
       nombre: 'Bankdrücken', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Brust', 'Trizeps, vordere Schulter'], equipo: 'Langhantel + Bank',
       cues: ['Schulterblätter zurückgezogen und in die Bank GENAGELT, Füße fest am Boden', 'Griff: Unterarm senkrecht, wenn die Stange die Brust berührt', 'Stange zur mittleren Brust, Ellbogen ~45°', 'Kontrolliert die Brust berühren und leicht diagonal nach oben drücken'],
       err: ['Schultern, die beim Drücken hochziehen (du verlierst die Retraktion)', 'Die Stange auf der Brust abfedern', 'Po hebt von der Bank ab', 'Handgelenke nach hinten geknickt'],
       alt: [{ n: 'Brustpresse (Maschine)', por: 'Tage ohne Lust auf Bankaufbau oder volles Gym' }, { n: 'Flachbankdrücken mit Kurzhanteln', por: 'mehr Radius und weniger Schulter' }],
       mol: 'Wenn die Schulter zwickt: Probier einen etwas engeren Griff mit angelegteren Ellbogen; hilft das nicht, Kurzhanteln mit neutraler Drehung.'
     },
-    'press-inclinado-mc': {
+    'press-inclinado-mc': { pat: 'eh',
       nombre: 'Schrägbankdrücken mit Kurzhanteln', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Obere Brust', 'Schulter, Trizeps'], equipo: 'Kurzhanteln + Bank 30°',
       cues: ['Bank auf 30° (eine Raste, nicht die Wand)', 'Runter, bis du die Dehnung in der Brust spürst', 'Ellbogen 45-60°, Handgelenke neutral', 'Hoch, ohne die Hanteln oben zusammenzuschlagen'],
       err: ['Bank zu steil (wird zum Schulterdrücken)', 'Unten abfedern', 'Übertriebenes Hohlkreuz'],
       alt: [{ n: 'Schrägdrücken an der Multipresse', por: 'wenn das Gym voll ist oder du Stabilität willst' }, { n: 'Schrägbankdrücken mit Langhantel', por: 'in Push B der P4 schon eingeplant' }],
       mol: 'Wenn die Schulter zwickt: Radius unten um 5 cm kürzen und die Handflächen leicht nach innen drehen.'
     },
-    'press-inclinado-barra': {
+    'press-inclinado-barra': { pat: 'eh',
       nombre: 'Schrägbankdrücken mit Langhantel', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Obere Brust', 'Schulter, Trizeps'], equipo: 'Langhantel + Schrägbank',
       cues: ['Bank 30-45°, Schulterblätter festgenagelt', 'Die Stange senkt sich zur oberen Brust (Schlüsselbeine)', 'Unterarme senkrecht beim Berühren'],
       err: ['Stange zur mittleren Brust senken (zwingt die Ellbogen auf)', 'Abfedern'],
       alt: [{ n: 'Multipresse schräg', por: 'gleiche Session, mehr Führung' }, { n: 'Kurzhanteln schräg', por: 'wenn keine Schrägbank mit Ablagen frei ist' }],
       mol: 'Wenn die Schulter zwickt: zurück zu Kurzhanteln, die lassen dich den Griff drehen.'
     },
-    'press-plano-mc': {
+    'press-plano-mc': { pat: 'eh',
       nombre: 'Flachbankdrücken mit Kurzhanteln', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Brust', 'Trizeps'], equipo: 'Kurzhanteln + Bank',
       cues: ['Mehr Radius als die Stange: Nutz ihn unten mit Kontrolle', 'Im Bogen nach oben, ohne oben anzuschlagen', 'Füße fest, Schulterblätter zurück'],
       err: ['Die Hanteln unten fallen lassen, ohne zu bremsen', 'Durch zu weit geöffnete Ellbogen zum Schulterdrücken machen'],
       alt: [{ n: 'Brustpresse (Maschine)', por: 'bei hoher Ermüdung oder ohne freie Bank' }],
       mol: 'Wenn die Schulter zwickt: neutraler Griff (Handflächen zueinander).'
     },
-    'press-militar': {
+    'press-militar': { pat: 'ev',
       nombre: 'Schulterdrücken', mm: { p: ['hombro'], s: ['triceps', 'abdomen'] }, zona: 'empuje', musc: ['Schulter', 'Trizeps, Core'], equipo: 'Langhantel (stehend oder sitzend)',
       cues: ['Im Stehen: Gesäß und Bauch FEST, bevor du drückst', 'Die Stange startet am Kinn und steigt dicht am Gesicht', 'Der Kopf „schiebt sich durchs Fenster" am Ende', 'Sitzend mit Lehne: ohne Hohlkreuz'],
       err: ['Ins Hohlkreuz gehen und ein Schrägdrücken daraus machen', 'Die Stange nach vorn drücken (kollidiert mit dem Kinn)', 'Oben unvollständiger Radius'],
       alt: [{ n: 'Schulterdrücken mit Kurzhanteln sitzend', por: 'in P2 schon eingeplant; schulterfreundlicher' }, { n: 'Schulterpresse (Maschine)', por: 'letzte Session der Woche mit Ermüdung' }],
       mol: 'Wenn die Schulter zwickt: Kurzhanteln mit neutralem Griff und nur so hoch, wie nichts einklemmt.'
     },
-    'press-militar-mc': {
+    'press-militar-mc': { pat: 'ev',
       nombre: 'Schulterdrücken mit Kurzhanteln sitzend', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Schulter', 'Trizeps'], equipo: 'Kurzhanteln + Bank mit Lehne',
       cues: ['Hohe Lehne, unterer Rücken angelehnt ohne Hohlkreuz', 'Ellbogen leicht vor dem Körper, nicht im Kreuz', 'Voller Radius, ohne oben anzuschlagen'],
       err: ['Ins Hohlkreuz gehen und von der Lehne abheben', 'Nur bis zu den Ohren absenken'],
       alt: [{ n: 'Schulterpresse (Maschine)', por: 'direktes Pendant' }],
       mol: 'Wenn die Schulter zwickt: neutraler Griff und nur bis 90° Ellbogen absenken.'
     },
-    'elev-laterales': {
+    'elev-laterales': { pat: 'ev',
       nombre: 'Seitheben', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Seitliche Schulter'], equipo: 'Kurzhanteln',
       cues: ['LEICHTES Gewicht, Ellbogen leicht gebeugt', 'Bis zur Horizontalen, als würdest du zwei Krüge ausschenken', 'Ohne Schwung: Wenn du pendelst, ist Gewicht übrig', 'In 2″ runter'],
       err: ['Mit dem Trapez hochziehen und die Schultern anheben', 'Über die Horizontale hinaus', 'Hüftpendeln'],
       alt: [{ n: 'Seitheben am Kabel (unten)', por: 'konstante Spannung; in Push B eingeplant' }, { n: 'Seitheben-Maschine', por: 'zum Abschluss ohne Technik-Denken' }],
       mol: 'Wenn die Schulter zwickt: Daumen leicht nach oben und 10° vor der Körperebene heben.'
     },
-    'laterales-polea': {
+    'laterales-polea': { pat: 'ev',
       nombre: 'Seitheben am Kabel', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Seitliche Schulter'], equipo: 'Kabelzug unten',
       cues: ['Kabel auf Handgelenkshöhe bei hängendem Arm', 'Körper stabil, bis zur Horizontalen heben', 'Das Kabel hält auch unten Spannung: Nutz das'],
       err: ['Zu weit weg vom Kabelturm stehen', 'Mit dem Trapez ziehen'],
       alt: [{ n: 'Kurzhanteln', por: 'wenn die Kabelzüge belegt sind' }],
       mol: 'Wie mit Kurzhanteln: Daumen hoch und Ebene leicht nach vorn.'
     },
-    'fondos': {
+    'fondos': { pat: 'ev',
       nombre: 'Dips (assistiert)', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Untere Brust', 'Trizeps'], equipo: 'Dip-Maschine mit Unterstützung oder Bänder',
       cues: ['Körper leicht nach vorn gelehnt (mehr Brust)', 'Runter bis 90° Ellbogen, nicht tiefer, wenn die Schulter protestiert', 'Ellbogen nicht im Kreuz aufgehen lassen'],
       err: ['Zu tief absinken', 'Schultern zu den Ohren hochgezogen'],
       alt: [{ n: 'Negativ-Bankdrücken oder Dips zwischen Bänken', por: 'wenn es keine assistierte Maschine gibt' }],
       mol: 'Wenn Brustbein oder Schulter zwicken: durch Flachbankdrücken mit Kurzhanteln ersetzen.'
     },
-    'ext-triceps-polea': {
+    'ext-triceps-polea': { pat: 'ext',
       nombre: 'Trizepsdrücken am Kabel', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Trizeps'], equipo: 'Kabelzug oben + Seil oder Stange',
       cues: ['Ellbogen am Körper, FIXIERT', 'Nur der Unterarm bewegt sich', 'Ganz strecken und 1″ anspannen'],
       err: ['Ellbogen wandern beim Absenken vor (du nimmst die Schulter rein)', 'Pendelnder Oberkörper'],
       alt: [{ n: 'Mit dem Seil unten auseinanderziehen', por: 'etwas mehr langer Kopf' }, { n: 'Trizeps-Kickbacks mit Kurzhantel', por: 'ohne freien Kabelzug' }],
       mol: 'Wenn der Ellbogen zwickt: Gewicht runter und Wdh auf 15-20 hoch; der Ellbogen hasst Ego.'
     },
-    'ext-triceps-cabeza': {
+    'ext-triceps-cabeza': { pat: 'ext',
       nombre: 'Überkopf-Trizepsstrecken (Seil)', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Trizeps (langer Kopf)'], equipo: 'Kabelzug + Seil',
       cues: ['Mit dem Rücken zum Kabelturm, Seil hinter dem Nacken', 'Ellbogen zeigen nach vorn, nach oben strecken', 'Echte Dehnung unten: Da wächst der lange Kopf'],
       err: ['Ellbogen im Kreuz aufgehen lassen', 'Kurzer Radius durch zu viel Gewicht'],
       alt: [{ n: 'Stirndrücken mit SZ-Stange', por: 'gleiches Muster im Liegen' }],
       mol: 'Wenn der Ellbogen zwickt: wie am normalen Kabel — weniger Gewicht, mehr Wdh.'
     },
-    'press-frances': {
+    'press-frances': { pat: 'ext',
       nombre: 'Stirndrücken', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Trizeps (langer Kopf)'], equipo: 'SZ-Stange + Bank',
       cues: ['Im Liegen senkt sich die Stange zur Stirn oder etwas dahinter', 'Ellbogen zeigen zur Decke, still', 'In 2-3″ runter, strecken ohne ruckartiges Durchdrücken'],
       err: ['Ellbogen, die aufgehen', 'Durch Schulterbewegung zum engen Bankdrücken machen'],
@@ -420,42 +420,42 @@ window.B2P = (function () {
     },
 
     /* — Gym: Ziehen — */
-    'remo-barra': {
+    'remo-barra': { pat: 'th',
       nombre: 'Langhantelrudern', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lat', 'mittlerer Rücken, Bizeps'], equipo: 'Langhantel',
       cues: ['Oberkörper bei ~45°, Knie leicht gebeugt', 'Zieh die Stange zum unteren Bauch', 'Schulterblätter am Ende nach hinten-unten', 'NEUTRALER Rücken, nicht verhandelbar'],
       err: ['Mit dem unteren Rücken reißen (du schaukelst)', 'Oberkörper richtet sich Wdh für Wdh auf', 'Zur Brust ziehen mit offenen Ellbogen'],
       alt: [{ n: 'T-Bar-Rudern', por: 'stabilere Variante' }, { n: 'Rudermaschine mit Brustauflage', por: 'wenn der untere Rücken vom Beintag noch voll ist' }],
       mol: 'Wenn der untere Rücken protestiert: Maschine mit Brustauflage oder Rudern am Kabel, ohne zu zögern.'
     },
-    'remo-polea': {
+    'remo-polea': { pat: 'th',
       nombre: 'Rudern am Kabel sitzend', mm: { p: ['espalda-alta'], s: ['biceps', 'dorsal'] }, zona: 'tiron', musc: ['Mittlerer Rücken', 'Lat, Bizeps'], equipo: 'Kabelzug unten + Doppelgriff',
       cues: ['Brust hoch und FIX: Der Oberkörper reist nicht mit', 'Zieh den Griff zum Bauchnabel', '1″ Pause mit zusammengepressten Schulterblättern'],
       err: ['Oberkörper pendeln, um mehr Gewicht zu bewegen', 'Hochgezogene Schultern'],
       alt: [{ n: 'Rudermaschine', por: 'direktes Pendant' }],
       mol: 'Wenn der untere Rücken zwickt: Brust an einer Rudermaschine mit Auflage abstützen.'
     },
-    'remo-mancuerna': {
+    'remo-mancuerna': { pat: 'th',
       nombre: 'Einarmiges Kurzhantelrudern', mm: { p: ['dorsal'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Lat', 'mittlerer Rücken'], equipo: 'Kurzhantel + Bank',
       cues: ['Knie und Hand auf der Bank, Rücken neutral', 'Zieh den Ellbogen zur Hüfte, nicht zur Schulter', 'Ohne den Oberkörper beim Hochziehen aufzudrehen'],
       err: ['Die Schulter zu Beginn des Zugs hochziehen', 'Den Oberkörper rotieren, um zu „helfen"', 'Kurzer Radius'],
       alt: [{ n: 'Einarmiges Rudern am Kabel', por: 'konstantere Spannung' }],
       mol: 'Ohne gute Stütze zwickt der untere Rücken: Nutz eine Schrägbank und stütz die Brust ab.'
     },
-    'jalon-pecho': {
+    'jalon-pecho': { pat: 'tv',
       nombre: 'Latzug', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lat', 'Bizeps'], equipo: 'Kabelzug oben',
       cues: ['Griff etwas breiter als die Schultern', 'Brust hoch, leichte FIXE Rücklage', 'Zieh die ELLBOGEN Richtung Hosentaschen', 'Stange zum Schlüsselbein, 1″ Pause'],
       err: ['Schaukeln, um den Zug zu holen', 'Mit den Armen ziehen, ohne die Schulterblätter zu senken', 'Stange in den Nacken (nein)'],
       alt: [{ n: 'Assistierte Klimmzüge', por: 'das Ziel von P3 ist, dorthin zu wechseln' }, { n: 'Latzug enger Griff', por: 'in Pull B eingeplant' }],
       mol: 'Wenn die Schulter zwickt: neutraler Griff (breites Dreieck) und Gewicht runter.'
     },
-    'jalon-estrecho': {
+    'jalon-estrecho': { pat: 'tv',
       nombre: 'Latzug enger Griff', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lat', 'Bizeps'], equipo: 'Kabelzug oben + Doppelgriff',
       cues: ['Doppelgriff oder Untergriff schulterbreit', 'Ellbogen dicht am Körper nach unten', 'Oben ganz strecken: Der Lat arbeitet lang'],
       err: ['Durch zu viel Rücklage zum Rudern machen', 'Halbe Wiederholung oben'],
       alt: [{ n: 'Assistierte Klimmzüge im Untergriff', por: 'Pendant mit Körpergewicht' }],
       mol: 'Wenn der Ellbogen zwickt: neutraler Griff und gerade Handgelenke.'
     },
-    'dominadas': {
+    'dominadas': { pat: 'tv',
       nombre: 'Klimmzüge (assistiert → frei → mit Zusatzgewicht)', mm: { p: ['dorsal'], s: ['biceps', 'abdomen'] }, zona: 'tiron', musc: ['Lat', 'Bizeps, Core'], equipo: 'Stange + assistierte Maschine oder Bänder',
       cues: ['Starte, indem du die Schulterblätter senkst (Schultern weg von den Ohren)', 'Zieh die Ellbogen nach unten, Kinn über die Stange', 'KONTROLLIERT runter bis fast gestreckte Arme', 'Reduziere die Unterstützung Woche für Woche: Sie kommen schneller, als du denkst'],
       err: ['Strampeln und Schwung holen', 'Halber Klimmzug (weder oben noch unten)', 'Unten passiv in den Schultern hängen ohne Schulterblatt-Spannung'],
@@ -463,21 +463,21 @@ window.B2P = (function () {
       mol: 'Wenn der Ellbogen zwickt: neutraler Griff. Wenn die Schulter zwickt: unten nicht passiv aushängen.',
       hito: 'dominada-libre'
     },
-    'pullover-polea': {
+    'pullover-polea': { pat: 'tv',
       nombre: 'Pullover am Kabel', mm: { p: ['dorsal'], s: [] }, zona: 'tiron', musc: ['Lat (isoliert)'], equipo: 'Kabelzug oben + Stange oder Seil',
       cues: ['Arme fast gestreckt, Scharnier nur in der Schulter', 'Führ die Stange im Bogen zum Oberschenkel', 'Dehnung oben, Anspannung unten'],
       err: ['Ellbogen beugen (wird zum Trizepsdrücken)', 'Oberkörper schaukeln'],
       alt: [{ n: 'Pullover mit Kurzhantel auf der Bank', por: 'ohne freien Kabelzug' }],
       mol: 'Wenn die Schulter zwickt: Bogen oben verkleinern.'
     },
-    'face-pull': {
+    'face-pull': { pat: 'tv',
       nombre: 'Face Pull', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Hintere Schulter', 'Rotatoren, mittlerer Trapez'], equipo: 'Kabelzug oben + Seil',
       cues: ['Kabel auf Gesichtshöhe', 'Zieh das Seil ZUR STIRN und zieh die Enden auseinander', 'Am Ende die Schultern nach außen rotieren (Bizeps zeigen zur Decke)', 'Leicht und perfekt: Das ist Schultergesundheit, kein Ego'],
       err: ['Mit Gewicht zum aufrechten Rudern machen', 'Ohne Außenrotation am Ende'],
       alt: [{ n: 'Reverse Pec-Deck', por: 'hintere Schulter ohne Seil' }, { n: 'Außenrotation mit Band', por: 'zuhause oder als Extra' }],
       mol: 'Das ist die Übung, die Schultern repariert; wenn sie zwickt, Gewicht runter und prüfen, dass du zur Stirn ziehst, nicht zum Hals.'
     },
-    'encogimientos': {
+    'encogimientos': { pat: 'ais',
       nombre: 'Shrugs mit Kurzhanteln', mm: { p: ['espalda-alta'], s: [] }, zona: 'tiron', musc: ['Oberer Trapez'], equipo: 'Kurzhanteln',
       cues: ['Schultern zu den Ohren, 1″ Pause oben', 'Arme wie Seile: Ellbogen nicht beugen', 'Kontrolliert runter und dehnen'],
       err: ['Die Schultern kreisen lassen (bringt nichts und reibt)', 'Mit den Beinen federn'],
@@ -486,98 +486,98 @@ window.B2P = (function () {
     },
 
     /* — Gym: Beine/Hüfte — */
-    'sentadilla-barra': {
+    'sentadilla-barra': { pat: 'rod',
       nombre: 'Langhantel-Kniebeuge', mm: { p: ['cuadriceps'], s: ['abdomen', 'gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß, Core'], equipo: 'Langhantel + Rack',
       cues: ['Stange auf dem Trapez, nicht auf der Halswirbelsäule', 'Core unter Druck, BEVOR du runtergehst (Luft in Brust-Bauch ziehen)', 'Runter bis zur Parallele, Knie nach außen', 'Drück den Boden weg, Brust hoch beim Hochkommen'],
       err: ['Fersen, die abheben (Schuld der Sprunggelenke: Fersen notfalls auf Scheiben erhöhen)', 'Knie, die beim Hochkommen nach innen kollabieren', 'Good Morning: Die Hüfte steigt vor der Brust'],
       alt: [{ n: 'Kniebeuge an der Multipresse', por: 'an müden Tagen oder bei belegtem Rack' }, { n: 'Hack Squat / Beinpresse', por: 'Quadrizeps-Reiz ohne axiale Last' }, { n: 'Goblet Squat mit Kurzhantel', por: 'als Aufwärmen oder wenn die Technik verloren geht' }],
       mol: 'Wenn das Knie zwickt: Absenktempo erhöhen (3″) und 5 cm über dem kritischen Punkt bleiben. Wenn der untere Rücken zwickt: Atemdruck prüfen und eine Woche 20% Gewicht rausnehmen.'
     },
-    'prensa': {
+    'prensa': { pat: 'rod',
       nombre: 'Beinpresse', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Beinpresse',
       cues: ['Füße auf halber Höhe der Plattform, schulterbreit', 'Runter bis 90°, OHNE dass der untere Rücken von der Lehne abhebt', 'Mit der ganzen Sohle drücken, Knie nicht ruckartig durchstrecken'],
       err: ['So tief gehen, dass das Becken kippt (Butt Wink an der Presse = unterer Rücken)', 'Mit den Händen auf die Knie drücken'],
       alt: [{ n: 'Hack Squat', por: 'noch mehr Quadrizeps' }, { n: 'Einbeinige Beinpresse', por: 'bei Dysbalancen' }],
       mol: 'Wenn das Knie zwickt: Füße etwas höher auf der Plattform (mehr Gesäß, weniger Knie).'
     },
-    'rdl-barra': {
+    'rdl-barra': { pat: 'bis',
       nombre: 'Rumänisches Kreuzheben', mm: { p: ['isquios'], s: ['gluteo', 'lumbar'] }, zona: 'pierna', musc: ['Beinbizeps', 'Gesäß, unterer Rücken isometrisch'], equipo: 'Langhantel',
       cues: ['Hüfte nach HINTEN, Knie leicht gebeugt und fix', 'Stange am Bein entlang, die ganze Reise', 'Rücken neutral: stolze Brust', 'Runter bis zur kräftigen Dehnung im Beinbizeps, hoch mit angespanntem Gesäß'],
       err: ['Rücken runden, um tiefer zu kommen', 'Knie beugen und eine halbe Kniebeuge daraus machen', 'Stange, die sich vom Körper entfernt'],
       alt: [{ n: 'RDL mit Kurzhanteln', por: 'bequemerer Griff in den ersten Wochen' }, { n: 'Hyperextensions 45° mit Gewicht', por: 'Beinbizeps-Gesäß ohne Grifflast' }],
       mol: 'Die Dehnung im Beinbizeps ist das Zeichen, dass du es RICHTIG machst. Wenn der untere Rücken zwickt (nicht der Beinbizeps): 20% runter und einen Satz von der Seite filmen.'
     },
-    'hip-thrust': {
+    'hip-thrust': { pat: 'bis',
       nombre: 'Hip Thrust', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Gesäß', 'Beinbizeps'], equipo: 'Langhantel + Bank (+ Polster)',
       cues: ['Oberer Rücken auf der Bank, Stange mit Polster auf der Hüfte', 'Kinn zur Brust, Blick nach vorn-unten', 'Hoch bis EXAKT zur Horizontalen, 1″ Pause mit Anspannung', 'Knie oben bei 90°, Fersen unter den Knien'],
       err: ['Oben ins Hohlkreuz gehen (Überstreckung)', 'Über die Fußspitzen drücken', 'Unten abfedern ohne Pause'],
       alt: [{ n: 'Hip-Thrust-Maschine', por: 'falls dein Gym eine hat, viel schnellerer Aufbau' }, { n: 'Glute Bridge mit Langhantel am Boden', por: 'ohne freie Bank' }],
       mol: 'Wenn der untere Rücken zwickt: fast immer Überstreckung oben; stopp in der Horizontalen.'
     },
-    'zancada-mc': {
+    'zancada-mc': { pat: 'zan',
       nombre: 'Ausfallschritte mit Kurzhanteln', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Kurzhanteln',
       cues: ['Gleiche Technik wie zuhause, jetzt mit 6-10 kg pro Hand', 'Großer Schritt, Oberkörper aufrecht, hinteres Knie streift den Boden', 'Die Hanteln hängen dicht am Körper, Schultern zurück', 'Drück über die vordere Ferse zurück'],
       err: ['Kurzer Schritt, der das vordere Knie kollabieren lässt', 'Nach vorn kippen, wenn du ermüdest', 'Zum Boden schauen und die Linie verlieren'],
       alt: [{ n: 'Ausfallschritte nach hinten mit Kurzhanteln', por: 'knieschonender' }, { n: 'Ausfallschritte an der Multipresse', por: 'wenn die Balance die Last begrenzt' }],
       mol: 'Wenn das Knie zwickt: längerer Schritt und Wechsel zu Ausfallschritten nach hinten.'
     },
-    'zancada-bulgara': {
+    'zancada-bulgara': { pat: 'zan',
       nombre: 'Bulgarian Split Squats', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Bank + Kurzhanteln',
       cues: ['Hinterer Fuß auf der Bank, vorderer einen großen Schritt entfernt', 'SENKRECHT runter: Das hintere Knie sucht den Boden', 'Oberkörper leicht geneigt = mehr Gesäß; aufrecht = mehr Quadrizeps', 'Starte NUR mit Körpergewicht, im Ernst'],
       err: ['Vorderer Fuß zu nah (das Knie leidet)', 'Unten abfedern', 'Balance verlieren durch Blick zur Decke'],
       alt: [{ n: 'Statischer Ausfallschritt mit Kurzhanteln', por: 'wenn die Balance noch nicht da ist' }, { n: 'Einbeinige Beinpresse', por: 'unilateral ohne Balance' }],
       mol: 'Wenn das vordere Knie zwickt: Schritt verlängern und den Oberkörper etwas nach vorn nehmen.'
     },
-    'ext-cuadriceps': {
+    'ext-cuadriceps': { pat: 'rod',
       nombre: 'Beinstrecker', mm: { p: ['cuadriceps'], s: [] }, zona: 'pierna', musc: ['Quadrizeps (isoliert)'], equipo: 'Maschine',
       cues: ['Knie in Linie mit der Maschinenachse', 'Ganz strecken mit 1″ Pause oben', 'In 2-3″ runter'],
       err: ['Mit Schwung treten', 'Po, der vom Sitz abhebt'],
       alt: [{ n: 'Assistierter Sissy Squat', por: 'ohne Maschine' }],
       mol: 'Wenn die Kniescheibe zwickt: das letzte Drittel OBEN kappen, nicht unten, und langsameres Tempo. Das ist auch deine Reha-Übung, falls das Knie eines Tages vom Joggen protestiert.'
     },
-    'curl-femoral-tumbado': {
+    'curl-femoral-tumbado': { pat: 'ais',
       nombre: 'Beinbeuger liegend', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Beinbizeps (isoliert)'], equipo: 'Maschine',
       cues: ['Hüfte die ganze Zeit an der Bank ANGEDRÜCKT', 'In 1″ hoch, in 2-3″ runter', 'Fußspitze neutral'],
       err: ['Die Hüfte anheben, um zu helfen', 'Halbe Wiederholung'],
       alt: [{ n: 'Beinbeuger sitzend', por: 'tatsächlich etwas besser für den Beinbizeps; nimm ihn, wenn er frei ist' }, { n: 'Assistierter Nordic Curl', por: 'fortgeschrittene Version, für später' }],
       mol: 'Bei Krampf: Beinbizeps zwischen den Sätzen dehnen, in den ersten Wochen normal.'
     },
-    'curl-femoral-sentado': {
+    'curl-femoral-sentado': { pat: 'ais',
       nombre: 'Beinbeuger sitzend', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Beinbizeps (isoliert)'], equipo: 'Maschine',
       cues: ['Oberschenkel gut vom Polster fixiert', 'Ganz beugen, 1″ Pause', 'Langsam zurück und dagegenhalten'],
       err: ['Po, der nach vorn rutscht', 'Kurzer Radius durch zu viel Gewicht'],
       alt: [{ n: 'Beinbeuger liegend', por: 'gleichwertig' }],
       mol: 'Keine typischen Beschwerden: eine der sichersten Übungen im Plan.'
     },
-    'gemelo-pie': {
+    'gemelo-pie': { pat: 'gem',
       nombre: 'Wadenheben stehend', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Wade (Gastrocnemius)'], equipo: 'Maschine oder Multipresse + Stufe',
       cues: ['1″ Pause OBEN und 1″ UNTEN: kein Federn', 'Volle Dehnung unten', 'Senkrecht hoch, ohne die Knie zu beugen'],
       err: ['Federn über den Sehnenreflex (raubt genau dem Gewebe den Reiz, das wir vorbereiten wollen)', 'Halber Radius'],
       alt: [{ n: 'An der Beinpresse', por: 'ohne spezielle Maschine' }],
       mol: 'Wenn die Achillessehne zwickt: diese Woche nur Isometrie oben, 3×30″.'
     },
-    'gemelo-sentado': {
+    'gemelo-sentado': { pat: 'gem',
       nombre: 'Wadenheben sitzend', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Soleus'], equipo: 'Maschine',
       cues: ['Knie bei 90°: Hier arbeitet der Soleus, entscheidend fürs JOGGEN', 'Gleiche Regel: Pause oben und unten, kein Federn'],
       err: ['Schnell und federnd', 'Auflage auf den Zehenspitzen (besser am Ballen)'],
       alt: [{ n: 'Sitzend mit Kurzhanteln auf den Knien + Stufe', por: 'ohne Maschine' }],
       mol: 'Wie im Stehen: Achillessehnen-Beschwerden = eine Woche nur Isometrie.'
     },
-    'elev-piernas': {
+    'elev-piernas': { pat: 'flex',
       nombre: 'Beinheben hängend', mm: { p: ['abdomen'], s: ['antebrazo'] }, zona: 'core', musc: ['Unterer Bauch', 'Hüftbeuger, Griffkraft'], equipo: 'Klimmzugstange',
       cues: ['Aktiv hängen (Schultern weg von den Ohren)', 'Knie zur Brust OHNE Pendeln', 'Ganz kontrolliert absenken'],
       err: ['Schaukeln', 'Nur aus den Hüftbeugern ziehen mit Hohlkreuz'],
       alt: [{ n: 'Im Beinhebeständer (Ellbogenstütze)', por: 'wenn der Griff vor dem Bauch versagt' }, { n: 'Beinheben im Liegen', por: 'Einstiegsversion' }],
       mol: 'Wenn die Schulter im Hang zwickt: direkt in den Beinhebeständer.'
     },
-    'rueda-abdominal': {
+    'rueda-abdominal': { pat: 'flex',
       nombre: 'Ab Wheel', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Kompletter vorderer Core'], equipo: 'Ab Wheel',
       cues: ['Auf den Knien, Becken kippen, BEVOR du losrollst', 'Roll so weit, wie du den unteren Rücken kontrollierst', 'Zurück mit Zug aus dem Bauch, nicht aus den Armen'],
       err: ['Beim Ausrollen ins Hohlkreuz gehen (der Fehler, der verletzt)', 'Weiter rollen, als der Core aushält'],
       alt: [{ n: 'Kabel-Crunch', por: 'wenn das Rad heute zu groß ist' }, { n: 'Plank mit Zusatzgewicht', por: 'gleichwertige Isometrie' }],
       mol: 'Wenn der untere Rücken zwickt: Weg halbieren und Woche für Woche Radius gewinnen.'
     },
-    'crunch-polea': {
+    'crunch-polea': { pat: 'flex',
       nombre: 'Kabel-Crunch', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Gerader Bauchmuskel'], equipo: 'Kabelzug oben + Seil',
       cues: ['Auf den Knien, Seil seitlich am Kopf', 'Beuge AUS DEN RIPPEN, nicht aus der Hüfte', 'Ellbogen Richtung Knie, beim Runtergehen ausatmen'],
       err: ['Mit den Armen ziehen', 'Nach hinten setzen und nur die Hüfte bewegen'],
@@ -586,28 +586,28 @@ window.B2P = (function () {
     },
 
     /* — Arme — */
-    'curl-barra-z': {
+    'curl-barra-z': { pat: 'curl',
       nombre: 'SZ-Curls', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bizeps'], equipo: 'SZ-Stange',
       cues: ['Ellbogen am Körper, FIXIERT', 'Hoch ohne Schwung, in 2-3″ runter', 'Handgelenke neutral dank der SZ-Stange'],
       err: ['Den Körper pendeln, um mehr Gewicht zu heben', 'Ellbogen, die oben nach vorn wandern'],
       alt: [{ n: 'Kurzhantel-Curls im Wechsel', por: 'mit Drehung (Supination), sehr komplett' }, { n: 'Curls am Kabel unten', por: 'konstante Spannung' }],
       mol: 'Wenn Handgelenk oder Ellbogen zwicken: Kurzhanteln mit Drehung oder Hammergriff.'
     },
-    'curl-inclinado': {
+    'curl-inclinado': { pat: 'curl',
       nombre: 'Schrägbank-Curls', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bizeps (langer Kopf)'], equipo: 'Kurzhanteln + Bank 45-60°',
       cues: ['Bank auf 45-60°, Arme HÄNGEN senkrecht', 'Die Dehnung unten ist der Reiz: Kürz sie nicht ab', 'Ellbogen still, hoch ohne Schulterheben'],
       err: ['Ellbogen nach vorn nehmen', 'Halbe Wiederholung unten'],
       alt: [{ n: 'Bayesian Curls am Kabel', por: 'gleiche Dehnung, im Stehen' }],
       mol: 'Wenn es unten in der Schulter zieht: Lehne eine Raste höher.'
     },
-    'curl-martillo': {
+    'curl-martillo': { pat: 'curl',
       nombre: 'Hammercurls', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Brachialis', 'Unterarm'], equipo: 'Kurzhanteln',
       cues: ['Neutraler Griff (Hammer), Ellbogen fix', 'Im Wechsel oder beidseitig', 'Kontrollier die Abwärtsbewegung'],
       err: ['Pendeln', 'Durch Anheben der Ellbogen zum Rudern machen'],
       alt: [{ n: 'Hammercurls mit Seil am Kabel', por: 'Variante' }],
       mol: 'Der Curl, der Ellbogen und Handgelenke am meisten schont: meist die ZUFLUCHT, wenn andere zwicken.'
     },
-    'curl-polea': {
+    'curl-polea': { pat: 'curl',
       nombre: 'Curls am Kabel', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bizeps'], equipo: 'Kabelzug unten + Stange',
       cues: ['Ein Schritt vom Kabelturm weg, Ellbogen fix', 'Konstante Spannung: Ruh weder oben noch unten aus', 'Letzter Satz: 10″ isometrisch auf halbem Weg halten zum Abschluss'],
       err: ['So nah rangehen, dass unten keine Spannung bleibt', 'Schaukeln'],
@@ -1081,6 +1081,7 @@ window.B2P = (function () {
     quizListo: 'Fertig', quizResumen: 'Dir gefallen {a} von {b}. Das schärft deinen Plan.',
     gen: { marca: 'Plan, für dich erzeugt', cuida: 'schone: {a}', datos: '{p} kg · {a} cm · {e} J.', menuAviso: '{n} Gerichte passen noch nicht zu deiner Ernährung: ein größeres Rezeptbuch kommt.', prepNota: 'Nur Rezepte mit „Batch“ werden sonntags vorgekocht; der Rest frisch. Die Einkaufsmengen rechnen die Wiederholungen der Woche schon mit.' },
     pBarraT: 'Die Hantel des Plans', pBarraSub: '{a} von {b} Scheiben aufgelegt',
+    patrones: { eh: 'Horizontales Drücken', ev: 'Vertikales Drücken', th: 'Horizontales Ziehen', tv: 'Vertikales Ziehen', rod: 'Kniedominant', bis: 'Hüftbeuge', zan: 'Ausfallschritt', core: 'Stabiler Core', flex: 'Rumpfbeugung', curl: 'Ellbogenbeugung', ext: 'Ellbogenstreckung', gem: 'Wade', ais: 'Isolation' },
     quizCatEj: 'Übung', quizCatDep: 'Sportart', quizCatCom: 'Gericht',
     cuest: {
       titulo: 'Dein Plan, nach Maß', atras: 'Zurück', sigue: 'Weiter',

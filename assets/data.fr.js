@@ -256,77 +256,77 @@ window.B2P = (function () {
   // alt : alternatives équivalentes (salle commerciale) · mol : si ça gêne, passe à
   const EJERCICIOS = {
     /* — Maison / P1 — */
-    'sentadilla-pc': {
+    'sentadilla-pc': { pat: 'rod',
       nombre: 'Squat au poids du corps', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien',
       cues: ['Pieds largeur d’épaules, pointes légèrement ouvertes', 'Descends en 3″ comme pour t’asseoir en arrière, remonte en 1″', 'Les genoux suivent la pointe des pieds, talons vissés au sol', 'Poitrine haute sur tout le trajet'],
       err: ['Talons qui décollent (descends moins bas)', 'Genoux qui rentrent vers l’intérieur', 'Descendre en rebondissant au lieu de contrôler'],
       alt: [{ n: 'Squat sur box/canapé', por: 'si tu as du mal à contrôler la profondeur' }, { n: 'Squat avec pause 2″ en bas', por: 'si 12 reps deviennent trop faciles' }],
       mol: 'Si le genou gêne : réduis la profondeur jusqu’à la zone sans douleur et descends encore plus lentement.'
     },
-    'flexiones': {
+    'flexiones': { pat: 'eh',
       nombre: 'Pompes', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps, épaules'], equipo: 'Rien',
       cues: ['Mains un peu plus larges que les épaules', 'Coudes à 45° du corps, ni collés ni en croix', 'Corps en planche : fessier et abdos serrés', 'La poitrine touche (presque) le sol à chaque rep'],
       err: ['Hanches qui tombent ou en pic', 'Demi-amplitude', 'Cou qui plonge vers le sol'],
       alt: [{ n: 'Pompes mains sur canapé/table', por: 'si elles ne sortent pas propres au sol' }, { n: 'Pompes pieds surélevés', por: 'si tu en passes 12 facilement' }],
       mol: 'Si le poignet gêne : poings fermés ou poignées de pompes. Si l’épaule gêne : resserre un peu l’écartement.'
     },
-    'puente-gluteo': {
+    'puente-gluteo': { pat: 'bis',
       nombre: 'Pont fessier', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Fessier', 'ischios'], equipo: 'Rien',
       cues: ['Allongé, talons proches du fessier', 'Pousse dans les talons et monte le bassin', 'Pause 2″ en haut en serrant fort le fessier', 'Côtes basses : ne cambre pas les lombaires'],
       err: ['Pousser avec la pointe des pieds', 'Cambrer les lombaires pour monter plus haut', 'Monter et descendre sans pause'],
       alt: [{ n: 'Pont à une jambe', por: 'quand 15 reps deviennent confortables' }, { n: 'Pont avec sac à dos sur les hanches', por: 'pour ajouter de la charge à la maison' }],
       mol: 'Si crampe aux ischios : rapproche encore les talons du fessier.'
     },
-    'plancha': {
+    'plancha': { pat: 'core',
       nombre: 'Planche', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core complet'], equipo: 'Rien',
       cues: ['Avant-bras au sol, coudes sous les épaules', 'Côtes rentrées, bassin en rétroversion (rentre les fesses)', 'Fessier serré, regard vers le sol', 'Respire : ne bloque pas l’air'],
       err: ['Hanches qui tombent (les lombaires trinquent)', 'Fesses en pic (triche)', 'Tenir en tremblant : si les lombaires tremblent, coupe la série'],
       alt: [{ n: 'Planche en appui sur les genoux', por: 'si tu ne tiens pas le temps avec une bonne forme' }],
       mol: 'Si les lombaires gênent : vérifie d’abord la rétroversion du bassin ; c’est presque toujours ça.'
     },
-    'plancha-lastre': {
+    'plancha-lastre': { pat: 'core',
       nombre: 'Planche lestée', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core complet'], equipo: 'Disque 5-10 kg',
       cues: ['Même technique que la planche normale', 'Fais-toi poser le disque entre les omoplates, pas sur les lombaires', 'Si les hanches tombent, enlève du lest'],
       err: ['Disque trop bas (charge les lombaires)', 'Perdre la rétroversion avec la fatigue'],
       alt: [{ n: 'Planche avec touches d’épaule', por: 'si personne ne peut te poser le disque' }, { n: 'Ab wheel sur les genoux', por: 'variante plus exigeante' }],
       mol: 'Si les lombaires gênent : reviens à la planche sans lest + touches d’épaule.'
     },
-    'elev-talones': {
+    'elev-talones': { pat: 'gem',
       nombre: 'Élévations de mollets', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Mollet', 'soléaire'], equipo: 'Marche optionnelle',
       cues: ['Amplitude complète : étire en bas, pause 1″ en haut', 'Monte en 1″, descends en 2-3″', 'Mieux sur une marche pour plus d’amplitude'],
       err: ['Rebondir vite sans pause', 'Demi-amplitude en haut'],
       alt: [{ n: 'À une jambe', por: 'quand 20 reps deviennent faciles' }],
       mol: 'Si l’Achille gêne : réduis l’amplitude en bas et rallonge le temps de descente.'
     },
-    'zancada-alterna': {
+    'zancada-alterna': { pat: 'zan',
       nombre: 'Fentes alternées', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien',
       cues: ['Grand pas vers l’avant', 'Buste vertical, mains sur les hanches ou devant', 'Le genou arrière frôle le sol', 'Pousse dans le talon avant pour revenir'],
       err: ['Pas trop court (le genou avant s’écrase)', 'Buste penché vers l’avant', 'Genou avant qui part vers l’intérieur'],
       alt: [{ n: 'Fente statique (sans alterner)', por: 'si l’équilibre lâche' }, { n: 'Fente arrière', por: 'plus douce pour le genou' }],
       mol: 'Si le genou gêne : passe à la fente ARRIÈRE, même schéma.'
     },
-    'remo-toalla': {
+    'remo-toalla': { pat: 'th',
       nombre: 'Rowing serviette sur porte', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps, omoplates'], equipo: 'Serviette + porte (ou sac à dos)',
       cues: ['Serviette sur la poignée/le cadre, corps incliné en arrière', 'Tire avec le COUDE, pas avec la main', 'Omoplates en arrière et en bas en fin de trajet', 'Plus tu t’inclines, plus c’est dur'],
       err: ['Tirer avec les bras sans bouger les omoplates', 'Donner des à-coups avec les hanches'],
       alt: [{ n: 'Rowing avec sac à dos chargé', por: 'à une main, appuyé sur la table' }, { n: 'Rowing inversé sous une table solide', por: 'version plus dure' }],
       mol: 'Si le coude gêne : prends plus large et réduis l’inclinaison.'
     },
-    'rdl-1p': {
+    'rdl-1p': { pat: 'bis',
       nombre: 'Soulevé de terre roumain à 1 jambe', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Ischios', 'fessier, équilibre'], equipo: 'Rien (sac à dos optionnel)',
       cues: ['Hanches en arrière, dos droit comme une table', 'La jambe libre monte derrière en contrepoids', 'Descends jusqu’à sentir l’étirement des ischios', 'Priorité à l’équilibre sur la profondeur'],
       err: ['Arrondir le dos pour descendre plus bas', 'Ouvrir la hanche (garde les deux hanches face au sol)'],
       alt: [{ n: 'Avec une main en appui sur le mur', por: 'si l’équilibre casse la série' }, { n: 'B-stance (pied arrière en appui)', por: 'étape intermédiaire' }],
       mol: 'Si les ischios tirent trop : réduis l’amplitude, pas la technique.'
     },
-    'superman': {
+    'superman': { pat: 'core',
       nombre: 'Superman', mm: { p: ['lumbar'], s: ['gluteo', 'espalda-alta'] }, zona: 'core', musc: ['Lombaires', 'fessier, haut du dos'], equipo: 'Rien',
       cues: ['À plat ventre, bras devant', 'Monte bras et jambes en même temps, 2″ en haut', 'Regard vers le sol : ne tire pas sur la nuque'],
       err: ['Coup de fouet cervical en regardant devant', 'Monter en rebondissant'],
       alt: [{ n: 'Bird-dog (bras et jambe opposés)', por: 'plus de contrôle, moins de compression' }],
       mol: 'Si les lombaires gênent : passe directement au bird-dog.'
     },
-    'dead-bug': {
+    'dead-bug': { pat: 'core',
       nombre: 'Dead bug', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core antérieur profond'], equipo: 'Rien',
       cues: ['Allongé, lombaires PLAQUÉES au sol en permanence', 'Bras et jambe opposés descendent lentement en même temps', 'Expire en étendant : les côtes restent basses'],
       err: ['Les lombaires se cambrent quand la jambe s’étend (raccourcis le trajet)', 'Aller vite'],
@@ -335,84 +335,84 @@ window.B2P = (function () {
     },
 
     /* — Salle : poussée — */
-    'press-banca': {
+    'press-banca': { pat: 'eh',
       nombre: 'Développé couché', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps, deltoïde antérieur'], equipo: 'Barre + banc',
       cues: ['Omoplates rétractées et VISSÉES au banc, pieds ancrés au sol', 'Prise : avant-bras vertical quand la barre touche la poitrine', 'La barre descend au milieu de la poitrine, coudes ~45°', 'Touche la poitrine avec contrôle et pousse en ligne légèrement diagonale'],
       err: ['Épaules qui haussent en poussant (tu perds la rétraction)', 'Faire rebondir la barre sur la poitrine', 'Fesses décollées du banc', 'Poignets cassés en arrière'],
       alt: [{ n: 'Développé à la machine (chest press)', por: 'jours sans envie de monter un banc ou salle bondée' }, { n: 'Développé couché haltères', por: 'plus d’amplitude et moins d’épaule' }],
       mol: 'Si l’épaule gêne : essaie une prise un peu plus serrée et des coudes plus rentrés ; si ça persiste, haltères en prise neutre.'
     },
-    'press-inclinado-mc': {
+    'press-inclinado-mc': { pat: 'eh',
       nombre: 'Développé incliné haltères', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Haut des pectoraux', 'épaules, triceps'], equipo: 'Haltères + banc 30°',
       cues: ['Banc à 30° (un cran, pas la verticale)', 'Descends jusqu’à sentir l’étirement du pectoral', 'Coudes à 45-60°, poignets neutres', 'Monte sans entrechoquer les haltères en haut'],
       err: ['Banc trop vertical (ça devient un développé épaules)', 'Rebondir en bas', 'Cambrer exagérément les lombaires'],
       alt: [{ n: 'Développé incliné à la Smith machine', por: 'si la salle est pleine ou pour plus de stabilité' }, { n: 'Développé incliné barre', por: 'déjà programmé dans le Push B de P4' }],
       mol: 'Si l’épaule gêne : réduis l’amplitude en bas de 5 cm et tourne légèrement les paumes vers l’intérieur.'
     },
-    'press-inclinado-barra': {
+    'press-inclinado-barra': { pat: 'eh',
       nombre: 'Développé incliné barre', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Haut des pectoraux', 'épaules, triceps'], equipo: 'Barre + banc incliné',
       cues: ['Banc à 30-45°, omoplates vissées', 'La barre descend sur le haut de la poitrine (clavicules)', 'Avant-bras verticaux au contact'],
       err: ['Descendre la barre au milieu de la poitrine (ça t’oblige à ouvrir les coudes)', 'Rebondir'],
       alt: [{ n: 'Smith machine inclinée', por: 'même séance, plus de guidage' }, { n: 'Haltères inclinés', por: 's’il n’y a pas de banc incliné avec supports' }],
       mol: 'Si l’épaule gêne : reviens aux haltères, qui permettent de tourner la prise.'
     },
-    'press-plano-mc': {
+    'press-plano-mc': { pat: 'eh',
       nombre: 'Développé couché haltères', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps'], equipo: 'Haltères + banc',
       cues: ['Plus d’amplitude qu’à la barre : profites-en en bas avec contrôle', 'Monte en arc de cercle, sans entrechoquer en haut', 'Pieds ancrés, omoplates en arrière'],
       err: ['Laisser tomber les haltères en bas sans freiner', 'Le transformer en développé épaules en ouvrant trop les coudes'],
       alt: [{ n: 'Machine à développé', por: 'grosse fatigue ou pas de banc libre' }],
       mol: 'Si l’épaule gêne : prise neutre (paumes face à face).'
     },
-    'press-militar': {
+    'press-militar': { pat: 'ev',
       nombre: 'Développé militaire', mm: { p: ['hombro'], s: ['triceps', 'abdomen'] }, zona: 'empuje', musc: ['Épaules', 'triceps, core'], equipo: 'Barre (debout ou assis)',
       cues: ['Debout : fessier et abdos SERRÉS avant de pousser', 'La barre part du menton et monte collée au visage', 'La tête « passe par la fenêtre » à la fin', 'Assis avec dossier : sans cambrer les lombaires'],
       err: ['Cambrer les lombaires pour le transformer en développé incliné', 'Pousser la barre vers l’avant (elle heurte le menton)', 'Amplitude incomplète en haut'],
       alt: [{ n: 'Développé militaire haltères assis', por: 'déjà programmé en P2 ; plus doux pour l’épaule' }, { n: 'Développé épaules à la machine', por: 'dernière séance de la semaine avec de la fatigue' }],
       mol: 'Si l’épaule gêne : haltères en prise neutre et monte seulement jusqu’où il n’y a pas de pincement.'
     },
-    'press-militar-mc': {
+    'press-militar-mc': { pat: 'ev',
       nombre: 'Développé militaire haltères assis', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Épaules', 'triceps'], equipo: 'Haltères + banc à dossier',
       cues: ['Dossier haut, lombaires en appui sans cambrer', 'Coudes légèrement devant le corps, pas en croix', 'Amplitude complète sans entrechoquer en haut'],
       err: ['Cambrer les lombaires en les décollant du dossier', 'Ne descendre que jusqu’aux oreilles'],
       alt: [{ n: 'Machine à développé épaules', por: 'équivalent direct' }],
       mol: 'Si l’épaule gêne : prise neutre et descends seulement jusqu’à 90° de coude.'
     },
-    'elev-laterales': {
+    'elev-laterales': { pat: 'ev',
       nombre: 'Élévations latérales', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoïde latéral'], equipo: 'Haltères',
       cues: ['Poids LÉGER, coudes un peu fléchis', 'Monte jusqu’à l’horizontale, comme pour servir deux carafes', 'Sans élan : si tu balances, il y a trop de poids', 'Descends en 2″'],
       err: ['Monter avec le trapèze en haussant les épaules', 'Dépasser l’horizontale', 'Balancement des hanches'],
       alt: [{ n: 'Latérales à la poulie basse', por: 'tension continue ; programmées dans le Push B' }, { n: 'Machine à élévations latérales', por: 'pour finir sans penser à la technique' }],
       mol: 'Si l’épaule gêne : pouce légèrement vers le haut et monte 10° en avant du plan latéral.'
     },
-    'laterales-polea': {
+    'laterales-polea': { pat: 'ev',
       nombre: 'Élévations latérales à la poulie', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoïde latéral'], equipo: 'Poulie basse',
       cues: ['Poulie à hauteur du poignet bras relâché', 'Corps stable, monte jusqu’à l’horizontale', 'La poulie garde la tension aussi en bas : profites-en'],
       err: ['Se placer trop loin de la poulie', 'Tirer avec le trapèze'],
       alt: [{ n: 'Haltères', por: 'si les poulies sont prises' }],
       mol: 'Comme avec les haltères : pouce vers le haut et plan légèrement avancé.'
     },
-    'fondos': {
+    'fondos': { pat: 'ev',
       nombre: 'Dips assistés', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Bas des pectoraux', 'triceps'], equipo: 'Machine à dips assistés ou élastiques',
       cues: ['Corps légèrement penché en avant (plus de pecs)', 'Descends jusqu’à 90° de coude, pas plus si l’épaule proteste', 'Coudes qui ne s’ouvrent pas en croix'],
       err: ['Descendre trop profond', 'Épaules haussées vers les oreilles'],
       alt: [{ n: 'Développé décliné ou dips entre bancs', por: 's’il n’y a pas de machine assistée' }],
       mol: 'Si le sternum ou l’épaule gêne : remplace par du développé couché haltères.'
     },
-    'ext-triceps-polea': {
+    'ext-triceps-polea': { pat: 'ext',
       nombre: 'Extension triceps à la poulie', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps'], equipo: 'Poulie haute + corde ou barre',
       cues: ['Coudes collés au corps, FIXES', 'Seul l’avant-bras bouge', 'Étends à fond et serre 1″'],
       err: ['Coudes qui avancent en descendant (tu mets de l’épaule)', 'Balancement du buste'],
       alt: [{ n: 'À la corde en écartant en bas', por: 'un peu plus de chef long' }, { n: 'Kickback triceps avec haltère', por: 'sans poulie libre' }],
       mol: 'Si le coude gêne : baisse le poids et monte les reps à 15-20 ; le coude déteste l’ego.'
     },
-    'ext-triceps-cabeza': {
+    'ext-triceps-cabeza': { pat: 'ext',
       nombre: 'Extension nuque à la corde', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (chef long)'], equipo: 'Poulie + corde',
       cues: ['Dos à la poulie, corde derrière la nuque', 'Coudes pointés vers l’avant, étends vers le haut', 'Vrai étirement en bas : c’est là que le chef long grandit'],
       err: ['Ouvrir les coudes en croix', 'Amplitude courte par excès de poids'],
       alt: [{ n: 'Barre au front avec barre EZ', por: 'même schéma, allongé' }],
       mol: 'Si le coude gêne : comme à la poulie classique — moins de poids, plus de reps.'
     },
-    'press-frances': {
+    'press-frances': { pat: 'ext',
       nombre: 'Barre au front', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (chef long)'], equipo: 'Barre EZ + banc',
       cues: ['Allongé, la barre descend vers le front ou un peu derrière', 'Coudes pointés au plafond, immobiles', 'Descends en 2-3″, étends sans verrouiller d’un coup'],
       err: ['Coudes qui s’ouvrent', 'Le transformer en développé serré en bougeant l’épaule'],
@@ -421,42 +421,42 @@ window.B2P = (function () {
     },
 
     /* — Salle : tirage — */
-    'remo-barra': {
+    'remo-barra': { pat: 'th',
       nombre: 'Rowing barre', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'milieu du dos, biceps'], equipo: 'Barre',
       cues: ['Buste à ~45°, genoux semi-fléchis', 'Tire la barre vers le bas de l’abdomen', 'Omoplates en arrière et en bas à la fin', 'Dos NEUTRE non négociable'],
       err: ['Donner des à-coups avec les lombaires (tu te balances)', 'Buste qui se redresse rep après rep', 'Tirer vers la poitrine avec les coudes ouverts'],
       alt: [{ n: 'Rowing T-bar', por: 'variante plus stable' }, { n: 'Rowing machine avec appui poitrine', por: 'si les lombaires sont chargées du jour jambes' }],
       mol: 'Si les lombaires protestent : machine avec appui poitrine ou rowing à la poulie, sans hésiter.'
     },
-    'remo-polea': {
+    'remo-polea': { pat: 'th',
       nombre: 'Rowing assis à la poulie', mm: { p: ['espalda-alta'], s: ['biceps', 'dorsal'] }, zona: 'tiron', musc: ['Milieu du dos', 'dorsaux, biceps'], equipo: 'Poulie basse + triangle',
       cues: ['Poitrine haute et FIXE : le buste ne voyage pas', 'Tire le triangle vers le nombril', 'Pause 1″ en serrant les omoplates'],
       err: ['Balancer le buste pour bouger plus lourd', 'Épaules haussées'],
       alt: [{ n: 'Rowing machine', por: 'équivalent direct' }],
       mol: 'Si les lombaires gênent : appuie la poitrine sur une machine à rowing avec support.'
     },
-    'remo-mancuerna': {
+    'remo-mancuerna': { pat: 'th',
       nombre: 'Rowing haltère à 1 bras', mm: { p: ['dorsal'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'milieu du dos'], equipo: 'Haltère + banc',
       cues: ['Genou et main sur le banc, dos neutre', 'Tire le coude vers la hanche, pas vers l’épaule', 'Sans tourner le buste en montant'],
       err: ['Hausser l’épaule au départ du tirage', 'Faire pivoter le torse pour « aider »', 'Amplitude courte'],
       alt: [{ n: 'Rowing à la poulie à 1 bras', por: 'tension plus constante' }],
       mol: 'Sans bon appui, les lombaires trinquent : utilise un banc incliné et pose la poitrine.'
     },
-    'jalon-pecho': {
+    'jalon-pecho': { pat: 'tv',
       nombre: 'Tirage vertical', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps'], equipo: 'Poulie haute',
       cues: ['Prise un peu plus large que les épaules', 'Poitrine haute, légère inclinaison arrière FIXE', 'Tire les COUDES vers les poches', 'Barre à la clavicule, 1″ de pause'],
       err: ['Se balancer pour donner l’à-coup', 'Tirer avec les bras sans abaisser les omoplates', 'Barre derrière la nuque (non)'],
       alt: [{ n: 'Tractions assistées', por: 'l’objectif de la P3 est de migrer vers elles' }, { n: 'Tirage prise serrée', por: 'programmé dans le Pull B' }],
       mol: 'Si l’épaule gêne : prise neutre (triangle large) et baisse le poids.'
     },
-    'jalon-estrecho': {
+    'jalon-estrecho': { pat: 'tv',
       nombre: 'Tirage vertical prise serrée', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps'], equipo: 'Poulie haute + triangle',
       cues: ['Triangle ou prise supination à largeur d’épaules', 'Coudes serrés qui descendent le long du corps', 'Étire tout en haut : le dorsal travaille allongé'],
       err: ['Le transformer en rowing en se penchant trop', 'Demi-répétition en haut'],
       alt: [{ n: 'Tractions supination assistées', por: 'équivalent au poids du corps' }],
       mol: 'Si le coude gêne : prise neutre et poignets droits.'
     },
-    'dominadas': {
+    'dominadas': { pat: 'tv',
       nombre: 'Tractions (assistées → libres → lestées)', mm: { p: ['dorsal'], s: ['biceps', 'abdomen'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps, core'], equipo: 'Barre + machine assistée ou élastiques',
       cues: ['Commence en abaissant les omoplates (épaules loin des oreilles)', 'Tire les coudes vers le bas, menton au-dessus de la barre', 'Descends en CONTRÔLANT jusqu’aux bras presque tendus', 'Réduis l’assistance semaine après semaine : elles sortiront plus tôt que tu ne crois'],
       err: ['Gigoter et se donner de l’élan', 'Demi-traction (ni en haut ni en bas)', 'Se suspendre sur les épaules en bas sans tension scapulaire'],
@@ -464,21 +464,21 @@ window.B2P = (function () {
       mol: 'Si le coude gêne : prise neutre. Si l’épaule gêne : ne reste pas suspendu passif en bas.',
       hito: 'dominada-libre'
     },
-    'pullover-polea': {
+    'pullover-polea': { pat: 'tv',
       nombre: 'Pullover à la poulie', mm: { p: ['dorsal'], s: [] }, zona: 'tiron', musc: ['Dorsaux (isolés)'], equipo: 'Poulie haute + barre ou corde',
       cues: ['Bras presque tendus, charnière uniquement à l’épaule', 'Amène la barre à la cuisse en dessinant un arc', 'Étirement en haut, contraction en bas'],
       err: ['Plier les coudes (ça devient une extension triceps)', 'Balancer le buste'],
       alt: [{ n: 'Pullover haltère sur banc', por: 'sans poulie libre' }],
       mol: 'Si l’épaule gêne : réduis l’arc en haut.'
     },
-    'face-pull': {
+    'face-pull': { pat: 'tv',
       nombre: 'Face pull', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Deltoïde postérieur', 'rotateurs, trapèze moyen'], equipo: 'Poulie haute + corde',
       cues: ['Poulie à hauteur du visage', 'Tire la corde VERS LE FRONT en écartant les extrémités', 'À la fin, tourne les épaules vers l’extérieur (les biceps pointent au plafond)', 'Léger et parfait : c’est de la santé d’épaule, pas de l’ego'],
       err: ['Le transformer en rowing haut avec du poids', 'Sans rotation externe finale'],
       alt: [{ n: 'Écartés inversés à la machine (reverse pec-deck)', por: 'deltoïde postérieur sans corde' }, { n: 'Rotation externe avec élastique', por: 'à la maison ou en extra' }],
       mol: 'C’est l’exercice qui répare les épaules ; si ça gêne, baisse le poids et vérifie que tu tires vers le front, pas vers le cou.'
     },
-    'encogimientos': {
+    'encogimientos': { pat: 'ais',
       nombre: 'Shrugs haltères', mm: { p: ['espalda-alta'], s: [] }, zona: 'tiron', musc: ['Trapèze supérieur'], equipo: 'Haltères',
       cues: ['Épaules vers les oreilles, pause 1″ en haut', 'Bras comme des cordes : ne plie pas les coudes', 'Descends contrôlé et étire'],
       err: ['Rouler les épaules en cercle (ça n’apporte rien et ça frotte)', 'Rebondir avec les jambes'],
@@ -488,98 +488,98 @@ window.B2P = (function () {
 
 
     /* — Salle : jambes/hanches — */
-    'sentadilla-barra': {
+    'sentadilla-barra': { pat: 'rod',
       nombre: 'Squat barre', mm: { p: ['cuadriceps'], s: ['abdomen', 'gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier, core'], equipo: 'Barre + rack',
       cues: ['Barre sur le trapèze, pas sur les cervicales', 'Core pressurisé AVANT de descendre (prends l’air dans la poitrine et le ventre)', 'Descends au parallèle, genoux vers l’extérieur', 'Pousse le sol, poitrine haute en remontant'],
       err: ['Talons qui décollent (la faute aux chevilles : surélève les talons avec des disques s’il le faut)', 'Genoux qui rentrent vers l’intérieur en remontant', 'Good morning : les hanches montent avant la poitrine'],
       alt: [{ n: 'Squat à la Smith machine', por: 'jours de fatigue ou rack occupé' }, { n: 'Hack squat / presse', por: 'stimulus quadriceps sans charge axiale' }, { n: 'Goblet squat avec haltère', por: 'en échauffement ou si la technique se perd' }],
       mol: 'Si le genou gêne : ralentis la descente (3″) et reste 5 cm au-dessus du point douloureux. Si les lombaires gênent : revois la pressurisation et baisse le poids de 20% pendant une semaine.'
     },
-    'prensa': {
+    'prensa': { pat: 'rod',
       nombre: 'Presse à cuisses', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Machine à presse',
       cues: ['Pieds à mi-hauteur du plateau, largeur d’épaules', 'Descends jusqu’à 90° SANS décoller les lombaires du dossier', 'Pousse avec toute la plante, ne verrouille pas les genoux d’un coup'],
       err: ['Descendre au point que le bassin bascule (butt wink à la presse = lombaires)', 'Mains qui poussent sur les genoux'],
       alt: [{ n: 'Hack squat', por: 'encore plus de quadriceps' }, { n: 'Presse à une jambe', por: 's’il y a un déséquilibre' }],
       mol: 'Si le genou gêne : pieds un peu plus hauts sur le plateau (plus de fessier, moins de genou).'
     },
-    'rdl-barra': {
+    'rdl-barra': { pat: 'bis',
       nombre: 'Soulevé de terre roumain', mm: { p: ['isquios'], s: ['gluteo', 'lumbar'] }, zona: 'pierna', musc: ['Ischios', 'fessier, lombaires en isométrique'], equipo: 'Barre',
       cues: ['Hanches en ARRIÈRE, genoux semi-fléchis fixes', 'Barre collée aux jambes sur tout le trajet', 'Dos neutre : poitrine fière', 'Descends jusqu’à sentir l’étirement fort des ischios et remonte en serrant le fessier'],
       err: ['Arrondir le dos pour descendre plus bas', 'Plier les genoux et le transformer en demi-squat', 'Barre qui s’éloigne du corps'],
       alt: [{ n: 'RDL haltères', por: 'prise plus confortable les premières semaines' }, { n: 'Hyperextensions 45° lestées', por: 'ischios-fessiers sans contrainte de prise' }],
       mol: 'L’étirement des ischios est le signe que tu le fais BIEN. Si les lombaires gênent (pas les ischios) : baisse de 20% et filme une série de profil.'
     },
-    'hip-thrust': {
+    'hip-thrust': { pat: 'bis',
       nombre: 'Hip thrust', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Fessier', 'ischios'], equipo: 'Barre + banc (+ protection)',
       cues: ['Haut du dos en appui sur le banc, barre sur les hanches avec protection', 'Menton rentré, regard vers l’avant-bas', 'Monte jusqu’à l’horizontale EXACTE, pause 1″ en serrant', 'Genoux à 90° en haut, talons sous les genoux'],
       err: ['Cambrer les lombaires en haut (hyperextension)', 'Pousser avec la pointe des pieds', 'Rebondir en bas sans pause'],
       alt: [{ n: 'Machine à hip thrust', por: 'si la salle en a une, installation bien plus rapide' }, { n: 'Pont avec barre au sol', por: 'sans banc libre' }],
       mol: 'Si les lombaires gênent : c’est presque toujours l’hyperextension en haut ; arrête-toi à l’horizontale.'
     },
-    'zancada-mc': {
+    'zancada-mc': { pat: 'zan',
       nombre: 'Fentes haltères', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Haltères',
       cues: ['Même technique qu’à la maison, maintenant avec 6-10 kg par main', 'Grand pas, buste vertical, le genou arrière frôle le sol', 'Les haltères pendent collés au corps, épaules en arrière', 'Pousse dans le talon avant pour revenir'],
       err: ['Pas court qui écrase le genou avant', 'Se pencher en avant avec la fatigue', 'Regarder le sol et perdre la ligne'],
       alt: [{ n: 'Fentes arrière haltères', por: 'plus douces pour le genou' }, { n: 'Fentes à la Smith machine', por: 'si l’équilibre limite la charge' }],
       mol: 'Si le genou gêne : pas plus long et passe aux fentes arrière.'
     },
-    'zancada-bulgara': {
+    'zancada-bulgara': { pat: 'zan',
       nombre: 'Fentes bulgares', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Banc + haltères',
       cues: ['Pied arrière sur le banc, l’avant à un grand pas', 'Descends VERTICAL : le genou arrière cherche le sol', 'Buste légèrement penché = plus de fessier ; vertical = plus de quadriceps', 'Commence UNIQUEMENT au poids du corps, sérieusement'],
       err: ['Pied avant trop proche (le genou trinque)', 'Rebondir en bas', 'Perdre l’équilibre en regardant le plafond'],
       alt: [{ n: 'Fente statique haltères', por: 'si l’équilibre n’est pas encore là' }, { n: 'Presse à une jambe', por: 'unilatéral sans équilibre' }],
       mol: 'Si le genou avant gêne : allonge le pas et penche le buste un peu en avant.'
     },
-    'ext-cuadriceps': {
+    'ext-cuadriceps': { pat: 'rod',
       nombre: 'Leg extension', mm: { p: ['cuadriceps'], s: [] }, zona: 'pierna', musc: ['Quadriceps (isolés)'], equipo: 'Machine',
       cues: ['Genou aligné avec l’axe de la machine', 'Étends à fond avec pause 1″ en haut', 'Descends en 2-3″'],
       err: ['Donner des coups de pied avec élan', 'Fesses qui décollent du siège'],
       alt: [{ n: 'Sissy squat assisté', por: 'sans machine' }],
       mol: 'Si la rotule gêne : coupe le dernier tiers EN HAUT, pas en bas, et tempo plus lent. C’est aussi ton exercice de rééducation si un jour le genou proteste après le footing.'
     },
-    'curl-femoral-tumbado': {
+    'curl-femoral-tumbado': { pat: 'ais',
       nombre: 'Leg curl allongé', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischios (isolés)'], equipo: 'Machine',
       cues: ['Hanches PLAQUÉES au banc en permanence', 'Monte en 1″, descends en 2-3″', 'Pointe du pied neutre'],
       err: ['Lever les hanches pour aider', 'Demi-répétition'],
       alt: [{ n: 'Leg curl assis', por: 'en fait un peu meilleur pour les ischios ; utilise-le s’il est libre' }, { n: 'Curl nordique assisté', por: 'version avancée, pour plus tard' }],
       mol: 'Si crampe : étire les ischios entre les séries, c’est normal les premières semaines.'
     },
-    'curl-femoral-sentado': {
+    'curl-femoral-sentado': { pat: 'ais',
       nombre: 'Leg curl assis', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischios (isolés)'], equipo: 'Machine',
       cues: ['Cuisse bien calée par le coussin', 'Fléchis à fond, pause 1″', 'Reviens lentement en résistant'],
       err: ['Fesses qui glissent vers l’avant', 'Amplitude courte par excès de poids'],
       alt: [{ n: 'Leg curl allongé', por: 'équivalent' }],
       mol: 'Pas d’incident typique : c’est l’un des plus sûrs du plan.'
     },
-    'gemelo-pie': {
+    'gemelo-pie': { pat: 'gem',
       nombre: 'Mollets debout', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Mollet (gastrocnémien)'], equipo: 'Machine ou Smith machine + marche',
       cues: ['Pause 1″ EN HAUT et 1″ EN BAS : sans rebond', 'Étirement complet en bas', 'Monte vertical, sans plier les genoux'],
       err: ['Rebondir en exploitant le réflexe du tendon (ça vole le stimulus au tissu qu’on veut justement préparer)', 'Demi-amplitude'],
       alt: [{ n: 'À la presse', por: 'sans machine dédiée' }],
       mol: 'Si l’Achille gêne : uniquement des isométriques en haut 3×30″ cette semaine-là.'
     },
-    'gemelo-sentado': {
+    'gemelo-sentado': { pat: 'gem',
       nombre: 'Mollets assis', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Soléaire'], equipo: 'Machine',
       cues: ['Genou à 90° : ici travaille le soléaire, la clé pour COURIR', 'Même règle : pause en haut et en bas, sans rebonds'],
       err: ['Aller vite en rebondissant', 'Mettre l’appui sur le bout des orteils (mieux sur leur base)'],
       alt: [{ n: 'Assis avec haltères sur les genoux + marche', por: 'sans machine' }],
       mol: 'Comme debout : gêne à l’Achille = uniquement des isométriques pendant une semaine.'
     },
-    'elev-piernas': {
+    'elev-piernas': { pat: 'flex',
       nombre: 'Relevés de jambes suspendu', mm: { p: ['abdomen'], s: ['antebrazo'] }, zona: 'core', musc: ['Bas des abdos', 'fléchisseurs, grip'], equipo: 'Barre de tractions',
       cues: ['Suspension active (épaules loin des oreilles)', 'Monte les genoux à la poitrine SANS balancement', 'Redescends contrôlé jusqu’en bas'],
       err: ['Se balancer', 'Tirer uniquement des fléchisseurs de hanche avec les lombaires cambrées'],
       alt: [{ n: 'Aux barres parallèles (appui sur les coudes)', por: 'si le grip lâche avant les abdos' }, { n: 'Relevés allongé', por: 'version de départ' }],
       mol: 'Si l’épaule gêne en suspension : passe directement aux barres parallèles.'
     },
-    'rueda-abdominal': {
+    'rueda-abdominal': { pat: 'flex',
       nombre: 'Roulette abdominale', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core antérieur complet'], equipo: 'Ab wheel',
       cues: ['À genoux, bassin en rétroversion AVANT de partir', 'Roule jusqu’où tu contrôles les lombaires', 'Reviens en tirant avec les abdos, pas avec les bras'],
       err: ['Cambrer les lombaires en s’étendant (l’erreur qui blesse)', 'Aller plus loin que ce que le core tient'],
       alt: [{ n: 'Crunch à la poulie', por: 'si la roulette est trop grosse aujourd’hui' }, { n: 'Planche lestée', por: 'isométrique équivalent' }],
       mol: 'Si les lombaires gênent : coupe le trajet de moitié et gagne de l’amplitude semaine après semaine.'
     },
-    'crunch-polea': {
+    'crunch-polea': { pat: 'flex',
       nombre: 'Crunch à la poulie', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Grand droit'], equipo: 'Poulie haute + corde',
       cues: ['À genoux, corde de chaque côté de la tête', 'Fléchis DEPUIS LES CÔTES, pas depuis les hanches', 'Coudes vers les genoux, expire en descendant'],
       err: ['Tirer avec les bras', 'S’asseoir en arrière en ne bougeant que les hanches'],
@@ -588,28 +588,28 @@ window.B2P = (function () {
     },
 
     /* — Bras — */
-    'curl-barra-z': {
+    'curl-barra-z': { pat: 'curl',
       nombre: 'Curl barre EZ', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'Barre EZ',
       cues: ['Coudes collés au corps, FIXES', 'Monte sans balancement, descends en 2-3″', 'Poignets neutres grâce à la EZ'],
       err: ['Balancer le corps pour monter plus lourd', 'Coudes qui voyagent vers l’avant en haut'],
       alt: [{ n: 'Curl haltères alterné', por: 'avec rotation (supination), très complet' }, { n: 'Curl à la poulie basse', por: 'tension continue' }],
       mol: 'Si le poignet ou le coude gêne : haltères avec rotation ou prise marteau.'
     },
-    'curl-inclinado': {
+    'curl-inclinado': { pat: 'curl',
       nombre: 'Curl incliné haltères', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps (chef long)'], equipo: 'Haltères + banc 45-60°',
       cues: ['Banc à 45-60°, bras PENDANTS à la verticale', 'L’étirement en bas est le stimulus : ne le coupe pas', 'Coudes immobiles, monte sans hausser les épaules'],
       err: ['Avancer les coudes', 'Demi-répétition en bas'],
       alt: [{ n: 'Curl bayésien à la poulie', por: 'même étirement, debout' }],
       mol: 'Si l’épaule tire en bas : remonte le dossier d’un cran.'
     },
-    'curl-martillo': {
+    'curl-martillo': { pat: 'curl',
       nombre: 'Curl marteau', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Brachial', 'avant-bras'], equipo: 'Haltères',
       cues: ['Prise neutre (marteau), coudes fixes', 'Tu peux le faire alterné ou simultané', 'Contrôle la descente'],
       err: ['Balancement', 'Le transformer en rowing en montant les coudes'],
       alt: [{ n: 'Curl marteau à la corde à la poulie', por: 'variante' }],
       mol: 'C’est le curl le plus doux pour les coudes et les poignets : c’est souvent le REFUGE quand les autres gênent.'
     },
-    'curl-polea': {
+    'curl-polea': { pat: 'curl',
       nombre: 'Curl à la poulie basse', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'Poulie basse + barre',
       cues: ['Un pas en arrière de la poulie, coudes fixes', 'Tension continue : ne te repose ni en haut ni en bas', 'Dernière série : tiens 10″ en isométrique à mi-chemin pour finir'],
       err: ['Se rapprocher au point que le bas du trajet perde la tension', 'Se balancer'],
@@ -1085,6 +1085,7 @@ window.B2P = (function () {
     quizListo: 'Terminé', quizResumen: 'Tu aimes {a} sur {b}. Ton plan s’affinera.',
     gen: { marca: 'Plan généré pour toi', cuida: 'ménage : {a}', datos: '{p} kg · {a} cm · {e} ans', menuAviso: '{n} plats du menu ne collent pas encore à ton régime : recueil élargi bientôt.', prepNota: 'Seules les recettes marquées « batch » se préparent le dimanche ; le reste se cuisine à la minute. Les quantités de courses comptent déjà les répétitions de la semaine.' },
     pBarraT: 'La barre du plan', pBarraSub: '{a} disques chargés sur {b}',
+    patrones: { eh: 'Poussée horizontale', ev: 'Poussée verticale', th: 'Tirage horizontal', tv: 'Tirage vertical', rod: 'Dominante genou', bis: 'Charnière de hanche', zan: 'Fente', core: 'Gainage', flex: 'Flexion du tronc', curl: 'Flexion de coude', ext: 'Extension de coude', gem: 'Mollet', ais: 'Isolation' },
     quizCatEj: 'Exercice', quizCatDep: 'Sport', quizCatCom: 'Plat',
     cuest: {
       titulo: 'Ton plan, sur mesure', atras: 'Retour', sigue: 'Continuer',

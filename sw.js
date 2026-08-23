@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v33';
+const V = 'b2p-v34';
 const CORE = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const CORE = [
   // ese idioma también funciona sin cobertura.
   './assets/gen.js',
   './assets/mapa.js',
+  './assets/fotos.js',   // solo el manifiesto: las fotos entran al verlas
   './assets/app.js',
   './assets/views.js',
   './assets/fonts/BarlowCondensed-600.woff2',

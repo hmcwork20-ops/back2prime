@@ -266,7 +266,8 @@
     root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, TX.nRecetario), el('span', { class: 'mini' }, TX.nToca)));
     const grid = el('div', { class: 'rec-grid' });
     D.RECETAS.forEach(r => {
-      grid.append(el('button', { class: 'rec-card plano', type: 'button', onclick: () => sheetReceta(r) },
+      grid.append(el('button', { class: 'rec-card plano' + (U.foto(r.id) ? ' con-foto' : ''), type: 'button', onclick: () => sheetReceta(r) },
+        U.foto(r.id) ? el('img', { class: 'rfoto', src: U.foto(r.id), alt: '', loading: 'lazy', decoding: 'async', width: '640', height: '640' }) : null,
         el('div', { class: 'rtipo' }, r.tipo),
         el('h3', null, r.nombre),
         el('div', { class: 'rmacros' }, el('span', { class: 'rkcal' }, r.macros.kcal), ' kcal · P', r.macros.p, ' G', r.macros.g, ' C', r.macros.c)));
@@ -335,6 +336,8 @@
 
   function sheetReceta(r) {
     U.openSheet(sh => {
+      // la foto abre la ficha: se ve antes de leer
+      if (U.foto(r.id)) sh.append(el('img', { class: 'rhero', src: U.foto(r.id), alt: '', decoding: 'async', width: '640', height: '640' }));
       sh.append(el('h2', null, r.nombre),
         el('div', { class: 'stag' }, r.tipo + ' · ' + r.tiempo + ' · ' + r.cocina),
         el('div', { class: 'statrow', style: 'grid-template-columns:repeat(4,1fr)' },

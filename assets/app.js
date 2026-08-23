@@ -577,6 +577,7 @@
       const r = rec(recetaId);
       if (!r) return null;
       return el('button', { class: 'meal-row plano', type: 'button', onclick: () => { if (window.UI && window.UI.sheetReceta) window.UI.sheetReceta(r); } },
+        foto(r.id) ? el('img', { class: 'mfoto', src: foto(r.id), alt: '', loading: 'lazy', decoding: 'async', width: '640', height: '640' }) : null,
         el('span', { class: 'mi' }, icono), el('span', { class: 'ml' }, etiqueta),
         el('span', { class: 'mn' }, r.nombre), el('span', { class: 'mk' }, r.macros.kcal + ' kcal'));
     };
@@ -1253,7 +1254,10 @@
   $('#brand').onclick = () => { selDia = hoyISO(); location.hash = '#/hoy'; render(); };
 
   /* ---------------- API compartida para views.js ---------------- */
-  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl,
+  /* foto de un plato, si existe en el manifiesto (assets/fotos.js). Las fotos
+     no van al precache: entran con carga perezosa y el SW las guarda al verlas. */
+  const foto = id => (window.B2P_FOTOS && window.B2P_FOTOS.includes(id)) ? 'assets/fotos/' + id + '.webp' : null;
+  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl, foto,
     hoyISO, semanaDe, slotDe, fechasSemana, dia, save, get S() { return S; },
     mediaSemana, mediasSemanales, pesosSemana, sesionesFuerzaSemana, cardioHechoSemana,
     racha, mejorRacha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,

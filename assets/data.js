@@ -1080,6 +1080,7 @@ window.B2P = (function () {
     quizSi: 'Me gusta', quizNo: 'No me va', quizDeshacer: 'Deshacer', quizSaltar: 'Saltar',
     quizListo: 'Listo', quizResumen: 'Te gustan {a} de {b}. Esto afinará tu plan.',
     gen: { marca: 'Plan generado a tu medida', cuida: 'cuida: {a}', datos: '{p} kg · {a} cm · {e} años', menuAviso: '{n} platos del menú no encajan con tu dieta: el recetario ampliado llega pronto.', prepNota: 'Solo las recetas marcadas «batch» se dejan hechas el domingo; el resto se cocina al momento. Las cantidades de la compra ya cuentan las repeticiones de la semana.' },
+    pBarraT: 'La barra del plan', pBarraSub: '{a} de {b} discos cargados',
     quizCatEj: 'Ejercicio', quizCatDep: 'Deporte', quizCatCom: 'Comida',
     cuest: {
       titulo: 'Tu plan, a medida', atras: 'Atrás', sigue: 'Continuar',

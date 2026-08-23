@@ -368,7 +368,79 @@
     root.append(chipNav(IDS_P.map((id, i) => [id, TX.chipsProg[i]])));
 
     // stats
-    root.append(el('div', { id: 'p-res', class: 'statrow' },
+    /* ---- la barra del plan: cada fase es un disco olímpico ----
+       Sólido si la fase terminó; el actual se llena de abajo arriba con tu
+       adherencia de fuerza en esa fase; fantasma los que vienen. Vista lateral
+       de la barra, discos espejados en las dos mangas. */
+    function barraPlan() {
+      const H = 132, CY = 66, ALT = { 10: 52, 15: 66, 20: 80, 25: 94 };
+      const fases = D.FASES.map(f => {
+        let ok = 0, tot = 0, terminada = true;
+        f.semanas.forEach(wk => {
+          const fs = U.fechasSemana(wk);
+          if (fs.fin >= hoy) terminada = false;
+          U.sesionesFuerzaSemana(wk).forEach(x => { if (x.f <= hoy) { tot++; if (x.hecho) ok++; } });
+        });
+        const activa = f.semanas.includes(w);
+        return { f, terminada: terminada, activa, pct: tot ? ok / tot : 0 };
+      });
+      const cargados = fases.filter(x => x.terminada).length + (fases.some(x => x.activa) ? 0 : 0);
+      let sv = '<svg viewBox="0 0 640 ' + H + '" role="img" aria-label="' + TX.pBarraT + '">';
+      sv += '<rect x="24" y="' + (CY - 4) + '" width="592" height="8" rx="4" class="bp-barra"/>';
+      sv += '<rect x="150" y="' + (CY - 7) + '" width="12" height="14" rx="3" class="bp-tope"/>';
+      sv += '<rect x="478" y="' + (CY - 7) + '" width="12" height="14" rx="3" class="bp-tope"/>';
+      // discos: del tope hacia fuera, en las dos mangas
+      fases.forEach((x, i) => {
+        const alto = ALT[x.f.disco] || 60, wD = 20, sep = 26;
+        const xL = 150 - 14 - i * sep - wD, xR = 478 + 14 + i * sep;
+        [xL, xR].forEach(xx => {
+          sv += '<g class="bp-disco f' + x.f.id + (x.terminada ? ' lleno' : x.activa ? ' activo' : ' futuro') + '">';
+          sv += '<rect x="' + xx + '" y="' + (CY - alto / 2) + '" width="' + wD + '" height="' + alto + '" rx="7" class="bp-aro"/>';
+          if (x.activa && x.pct > 0) {
+            const hF = Math.max(4, alto * Math.min(1, x.pct));
+            sv += '<rect x="' + xx + '" y="' + (CY - alto / 2 + (alto - hF)) + '" width="' + wD + '" height="' + hF + '" rx="6" class="bp-lleno"/>';
+          }
+          sv += '</g>';
+        });
+      });
+      sv += '</svg>';
+      const hechas = fases.filter(x => x.terminada).length;
+      return el('div', { class: 'card bp-card' },
+        el('div', { class: 'card-title' }, el('h2', null, TX.pBarraT),
+          el('span', { class: 'sub' }, tpl(TX.pBarraSub, { a: hechas, b: fases.length }))),
+        el('div', { class: 'bp', html: sv }));
+    }
+
+    /* ---- tres anillos: fuerza, peso, cintura ---- */
+    function anillo(pct, clase, centro, etiqueta) {
+      const R = 30, C = 2 * Math.PI * R;
+      const p2 = pct === null ? 0 : Math.max(0, Math.min(1, pct));
+      const sv = '<svg viewBox="0 0 76 76" aria-hidden="true">'
+        + '<circle cx="38" cy="38" r="' + R + '" class="an-fondo"/>'
+        + '<circle cx="38" cy="38" r="' + R + '" class="an-arco ' + clase + '" stroke-dasharray="' + (C * p2) + ' ' + C + '" transform="rotate(-90 38 38)"/>'
+        + '</svg>';
+      return el('div', { class: 'an' }, el('div', { class: 'an-svg', html: sv }),
+        el('div', { class: 'an-centro num' }, centro),
+        el('div', { class: 'an-l' }, etiqueta));
+    }
+    function anillos() {
+      const objKg = (D.META.perfil.objetivoKg[0] + D.META.perfil.objetivoKg[1]) / 2;
+      const salida = D.META.perfil.pesoSalida;
+      const pPeso = (pesoAhora !== null && salida !== objKg) ? (salida - pesoAhora) / (salida - objKg) : null;
+      const base = S.config.cinturaBase, metaC = D.META.perfil.cinturaMetaCm;
+      const pCint = (cint && base && metaC && base !== metaC) ? (base - cint.v) / (base - metaC) : null;
+      const pFue = adh.tot ? adh.ok / adh.tot : null;
+      return el('div', { class: 'an-fila' },
+        anillo(pFue, 'an-volt', adh.tot ? Math.round(adh.ok / adh.tot * 100) + '%' : '—', TX.fuerzaLbl),
+        anillo(pPeso, 'an-f1', pesoAhora ? U.kg1(pesoAhora) : '—', TX.pPeso),
+        anillo(pCint, 'an-f3', cint ? U.kg1(cint.v) : '—', TX.pCintura));
+    }
+
+    const resumen = el('div', { id: 'p-res' });
+    resumen.append(barraPlan());
+    resumen.append(anillos());
+    root.append(resumen);
+    resumen.append(el('div', { class: 'statrow' },
       stat(TX.pPeso, pesoAhora ? U.kg1(pesoAhora) : '—', pesoAhora ? tpl(TX.pMediaS, { w: ms[ms.length - 1].w }) : TX.pSinDatos),
       stat(TX.pPerdido, pesoAhora ? (D.META.perfil.pesoSalida - pesoAhora > 0.04 ? '−' + U.kg1(D.META.perfil.pesoSalida - pesoAhora) : '0,0') : '—', TX.pDesde),
       stat(TX.pCintura, cint ? U.kg1(cint.v) : '—', cint ? tpl(TX.pCinturaSub, { f: U.fmtCorta(cint.f) }) : TX.pCinturaLunes),

@@ -674,6 +674,29 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .cres{font-size:14px;padding:2px 0;border-bottom:1px solid var(--line-soft)}
 .cres:last-child{border-bottom:0}
 
+/* ---------- La barra del plan + anillos ---------- */
+.bp-card{padding-bottom:8px}
+.bp svg{display:block;width:100%;height:auto}
+.bp-barra{fill:#3A4250}
+.bp-tope{fill:#4A5364}
+.bp-aro{fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.16);stroke-width:1.5}
+.bp-disco.lleno .bp-aro{stroke:none}
+.bp-disco.f1.lleno .bp-aro{fill:var(--f1)} .bp-disco.f2.lleno .bp-aro{fill:var(--f2)}
+.bp-disco.f3.lleno .bp-aro{fill:var(--f3)} .bp-disco.f4.lleno .bp-aro{fill:var(--f4)}
+.bp-disco.activo .bp-aro{stroke:var(--volt);stroke-dasharray:4 3}
+.bp-disco.f1 .bp-lleno{fill:var(--f1)} .bp-disco.f2 .bp-lleno{fill:var(--f2)}
+.bp-disco.f3 .bp-lleno{fill:var(--f3)} .bp-disco.f4 .bp-lleno{fill:var(--f4)}
+.bp-disco.futuro .bp-aro{stroke-dasharray:2 4;stroke:rgba(255,255,255,.22)}
+.an-fila{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.an{position:relative;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.an-svg{position:relative;width:76px;height:76px}
+.an-svg svg{width:76px;height:76px;display:block}
+.an-fondo{fill:none;stroke:var(--surface2);stroke-width:7}
+.an-arco{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dasharray .6s var(--ease-sale)}
+.an-volt{stroke:var(--volt)} .an-f1{stroke:var(--f1)} .an-f3{stroke:var(--f3)}
+.an-centro{position:absolute;top:38px;left:0;right:0;transform:translateY(-50%);text-align:center;font-weight:700;font-size:15px}
+.an-l{font-family:var(--disp);font-weight:600;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
+
 /* ---------- Fotos de platos ----------
    Siempre con width/height declarados: el hueco se reserva antes de que
    llegue la imagen y nada salta (CLS). aspect-ratio 1 porque son cuadradas. */

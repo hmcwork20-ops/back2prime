@@ -1080,6 +1080,7 @@ window.B2P = (function () {
     quizSi: 'Mag ich', quizNo: 'Nicht meins', quizDeshacer: 'Rückgängig', quizSaltar: 'Überspringen',
     quizListo: 'Fertig', quizResumen: 'Dir gefallen {a} von {b}. Das schärft deinen Plan.',
     gen: { marca: 'Plan, für dich erzeugt', cuida: 'schone: {a}', datos: '{p} kg · {a} cm · {e} J.', menuAviso: '{n} Gerichte passen noch nicht zu deiner Ernährung: ein größeres Rezeptbuch kommt.', prepNota: 'Nur Rezepte mit „Batch“ werden sonntags vorgekocht; der Rest frisch. Die Einkaufsmengen rechnen die Wiederholungen der Woche schon mit.' },
+    pBarraT: 'Die Hantel des Plans', pBarraSub: '{a} von {b} Scheiben aufgelegt',
     quizCatEj: 'Übung', quizCatDep: 'Sportart', quizCatCom: 'Gericht',
     cuest: {
       titulo: 'Dein Plan, nach Maß', atras: 'Zurück', sigue: 'Weiter',

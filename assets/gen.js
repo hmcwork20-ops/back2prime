@@ -212,6 +212,66 @@ window.B2P_GEN = (function () {
     return { MENU, avisos };
   }
 
+  /* ---------- compra y meal prep, derivados del menú generado ----------
+     La lista de serie era la de una persona concreta. Aquí se recorre el menú
+     de la semana, se cuenta cuántas veces sale cada plato y se suman las
+     cantidades de sus ingredientes cuando son sumables («250 g» ×3 = 750 g;
+     «al gusto» se deja tal cual, una vez). Agrupado por toma, que es lo único
+     que se puede agrupar sin una taxonomía de productos por idioma. */
+  function parseQ(q) {
+    const m = /^\s*([\d]+(?:[.,]\d+)?)\s*(kg|g|ml|l|ud)?\s*$/i.exec(q || '');
+    if (!m) return null;
+    let n = parseFloat(m[1].replace(',', '.'));
+    let u = (m[2] || '').toLowerCase();
+    if (u === 'kg') { n *= 1000; u = 'g'; }
+    if (u === 'l') { n *= 1000; u = 'ml'; }
+    return { n, u };
+  }
+  function fmtQ(n, u, lang) {
+    const loc = lang || 'es';
+    if (u === 'g' && n >= 1000) return (Math.round(n / 100) / 10).toLocaleString(loc) + ' kg';
+    if (u === 'ml' && n >= 1000) return (Math.round(n / 100) / 10).toLocaleString(loc) + ' l';
+    const v = Math.round(n * 10) / 10;
+    return v.toLocaleString(loc) + (u ? ' ' + u : '');
+  }
+  function compraGen(base, MENU) {
+    const lang = base.UI.lang;
+    const veces = {};
+    MENU.forEach(f => ['de', 'co', 'ce'].forEach(sl => { if (f[sl] !== 'LIBRE') veces[f[sl]] = (veces[f[sl]] || 0) + 1; }));
+    const porSlot = { de: {}, co: {}, ce: {} };
+    Object.keys(veces).forEach(id => {
+      const r = base.RECETAS.find(x => x.id === id); if (!r || !porSlot[r.slot]) return;
+      (r.ing || []).forEach(ing => {
+        const clave = (ing.i || '').trim().toLowerCase();
+        const q = parseQ(ing.q);
+        const bolsa = porSlot[r.slot];
+        if (!bolsa[clave]) bolsa[clave] = { i: ing.i, n: 0, u: null, texto: null, sumable: !!q };
+        const e = bolsa[clave];
+        if (q && e.sumable) { e.n += q.n * veces[id]; e.u = q.u; }
+        else { e.sumable = false; e.texto = ing.q; e.n += veces[id]; }
+      });
+    });
+    const cats = [['de', base.UI.desayuno], ['co', base.UI.comidaLbl], ['ce', base.UI.cena]];
+    return cats.map(par => ({
+      cat: par[1],
+      items: Object.values(porSlot[par[0]]).map(e => ({
+        q: e.sumable ? fmtQ(e.n, e.u, lang) : (e.texto + (e.n > 1 ? ' ×' + e.n : '')),
+        i: e.i
+      }))
+    })).filter(c => c.items.length);
+  }
+  function mealprepGen(base, MENU) {
+    const vistos = new Set(), pasos = [];
+    MENU.forEach(f => ['de', 'co', 'ce'].forEach(sl => {
+      const id = f[sl]; if (id === 'LIBRE' || vistos.has(id)) return;
+      const r = base.RECETAS.find(x => x.id === id); if (!r) return;
+      if (!/batch/i.test(r.tipo || '')) return;          // «batch» sobrevive en los 5 idiomas
+      vistos.add(id);
+      (r.pasos || []).forEach((paso, i) => pasos.push({ min: String(pasos.length + 1) + '.', paso: (i === 0 ? r.nombre + ' — ' : '') + paso }));
+    }));
+    return pasos;
+  }
+
   /* ---------- META y FASES ---------- */
   function metaGen(base, p, prot) {
     const M = JSON.parse(JSON.stringify(base.META));
@@ -254,6 +314,9 @@ window.B2P_GEN = (function () {
       SESIONES: sesionesGen(base, perfil),
       NUTRI: nutri.NUTRI,
       MENU: menu.MENU,
+      COMPRA: compraGen(base, menu.MENU),
+      MEALPREP: mealprepGen(base, menu.MENU),
+      MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || base.MEALPREP_NOTA,
       __menuAvisos: menu.avisos || 0,
       HISTORICO: {},          // las marcas del plan original eran de una persona
       ARRANQUE: null,         // su tabla de cargas también; la vista lo guarda

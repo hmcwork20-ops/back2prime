@@ -1079,7 +1079,7 @@ window.B2P = (function () {
     quizTitulo: 'Your likes', quizPista: 'Swipe: right = like, left = pass',
     quizSi: 'Like', quizNo: 'Pass', quizDeshacer: 'Undo', quizSaltar: 'Skip',
     quizListo: 'Done', quizResumen: 'You like {a} of {b}. This will tune your plan.',
-    gen: { marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet yet: a bigger recipe book is coming.' },
+    gen: { marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet yet: a bigger recipe book is coming.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
     quizCatEj: 'Exercise', quizCatDep: 'Sport', quizCatCom: 'Food',
     cuest: {
       titulo: 'Your plan, made to measure', atras: 'Back', sigue: 'Continue',

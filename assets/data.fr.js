@@ -1083,7 +1083,7 @@ window.B2P = (function () {
     quizTitulo: 'Tes goûts', quizPista: 'Glisse : à droite j’aime, à gauche non',
     quizSi: 'J’aime', quizNo: 'Pas pour moi', quizDeshacer: 'Annuler', quizSaltar: 'Passer',
     quizListo: 'Terminé', quizResumen: 'Tu aimes {a} sur {b}. Ton plan s’affinera.',
-    gen: { marca: 'Plan généré pour toi', cuida: 'ménage : {a}', datos: '{p} kg · {a} cm · {e} ans', menuAviso: '{n} plats du menu ne collent pas encore à ton régime : recueil élargi bientôt.' },
+    gen: { marca: 'Plan généré pour toi', cuida: 'ménage : {a}', datos: '{p} kg · {a} cm · {e} ans', menuAviso: '{n} plats du menu ne collent pas encore à ton régime : recueil élargi bientôt.', prepNota: 'Seules les recettes marquées « batch » se préparent le dimanche ; le reste se cuisine à la minute. Les quantités de courses comptent déjà les répétitions de la semaine.' },
     quizCatEj: 'Exercice', quizCatDep: 'Sport', quizCatCom: 'Plat',
     cuest: {
       titulo: 'Ton plan, sur mesure', atras: 'Retour', sigue: 'Continuer',

@@ -175,32 +175,26 @@ window.B2P_GEN = (function () {
     return { NUTRI: N, kcal: k, prot: m.p, tdee: t };
   }
 
-  /* ---------- comidas: filtro por dieta, intolerancias y gustos ---------- */
-  const BAN = {
-    vegetariano: /pollo|pavo|ternera|carne picada|atún|atun|salmón|salmon|merluza|gamba|bacalao|jamón|jamon|pescado/i,
-    vegano: /pollo|pavo|ternera|carne|atún|atun|salmón|salmon|merluza|gamba|bacalao|jamón|jamon|pescado|huevo|skyr|yogur|queso|leche|kéfir|kefir|miel|caseína|caseina|whey/i,
-    gluten: /pan\b|avena|pasta|cuscús|cuscus|trigo|harina|tortilla de trigo|wrap/i,
-    lactosa: /skyr|yogur|queso|leche|kéfir|kefir|caseína|caseina|whey/i,
-    frutos: /nuez|nueces|almendra|cacahuete|anacardo|avellana|pistacho/i
+  /* ---------- comidas: filtro por dieta, intolerancias y gustos ----------
+     Se decide con `tags` y `slot`, campos idénticos en los 5 idiomas. La
+     versión anterior buscaba «pollo» en los ingredientes: en inglés son
+     «chicken» y el filtro no hacía nada en 4 de 5 idiomas. */
+  const VETO = {
+    vegetariano: ['carne', 'pescado'],
+    vegano: ['carne', 'pescado', 'huevo', 'lacteo', 'miel'],
+    gluten: ['gluten'], lactosa: ['lacteo'], frutos: ['frutos']
   };
   function recetaVale(r, p, noQuiero) {
     if (noQuiero.has('com:' + r.id)) return false;
-    const texto = JSON.stringify(r.ing || []) + ' ' + r.nombre;
-    if (p.dieta === 'vegetariano' && BAN.vegetariano.test(texto)) return false;
-    if (p.dieta === 'vegano' && BAN.vegano.test(texto)) return false;
-    for (const s of (p.sin || [])) if (BAN[s] && BAN[s].test(texto)) return false;
-    return true;
+    const tags = r.tags || [];
+    const prohibidas = [].concat(VETO[p.dieta] || [], ...(p.sin || []).map(s => VETO[s] || []));
+    return !prohibidas.some(t => tags.includes(t));
   }
   function menuGen(base, p) {
     let avisos = 0;                               // platos que quedan sin encajar
     const noQuiero = new Set((p.gustos && p.gustos.no) || []);
     const pool = { de: [], co: [], ce: [] };
-    base.RECETAS.forEach(r => {
-      if (!recetaVale(r, p, noQuiero)) return;
-      if (/^Desayuno/i.test(r.tipo)) pool.de.push(r.id);
-      else if (/^Comida/i.test(r.tipo)) pool.co.push(r.id);
-      else if (/^Cena/i.test(r.tipo)) pool.ce.push(r.id);
-    });
+    base.RECETAS.forEach(r => { if (pool[r.slot] && recetaVale(r, p, noQuiero)) pool[r.slot].push(r.id); });
     const idx = { de: 0, co: 0, ce: 0 };
     const MENU = base.MENU.map(fila => {
       const f = Object.assign({}, fila);

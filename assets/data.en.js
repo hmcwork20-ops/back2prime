@@ -666,7 +666,7 @@ window.B2P = (function () {
   // q in grams unless a unit is given · macros per serving
   const RECETAS = [
     {
-      id: 'bol-skyr', nombre: 'Skyr bowl', tipo: 'Breakfast A', tiempo: '5′', cocina: 'No cooking',
+      id: 'bol-skyr', slot: 'de', tags: ['lacteo', 'frutos'], nombre: 'Skyr bowl', tipo: 'Breakfast A', tiempo: '5′', cocina: 'No cooking',
       macros: { kcal: 520, p: 35, g: 11, c: 72 },
       ing: [
         { q: '250 g', i: 'natural skyr (or 0% fat quark)' },
@@ -682,7 +682,7 @@ window.B2P = (function () {
       tips: 'Training in the morning? Build it the night before (soaked oats win). Short-protein day: +1 scoop of whey mixed into the skyr (+110 kcal, +23 g P).'
     },
     {
-      id: 'tortilla-pan', nombre: 'Omelette with bread and tomato', tipo: 'Breakfast B', tiempo: '10′', cocina: 'Frying pan',
+      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelette with bread and tomato', tipo: 'Breakfast B', tiempo: '10′', cocina: 'Frying pan',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { q: '3', i: 'medium eggs' },
@@ -700,7 +700,7 @@ window.B2P = (function () {
       tips: 'Carton egg whites remove the faff of separating. Scrambled version: same time, zero technique.'
     },
     {
-      id: 'pollo-asado', nombre: 'Roast chicken with potatoes', tipo: 'Lunch · Sunday batch', tiempo: '45′ oven (from meal prep)', cocina: 'Oven',
+      id: 'pollo-asado', slot: 'co', tags: ['carne'], nombre: 'Roast chicken with potatoes', tipo: 'Lunch · Sunday batch', tiempo: '45′ oven (from meal prep)', cocina: 'Oven',
       macros: { kcal: 780, p: 70, g: 19, c: 68 },
       ing: [
         { q: '250 g raw (~200 g cooked)', i: 'chicken breast', n: 'batch: 1.2 kg = 5 servings' },
@@ -717,7 +717,7 @@ window.B2P = (function () {
       tips: 'A portion reheats in 2′ in the microwave with a splash of water so the chicken doesn’t dry out.'
     },
     {
-      id: 'lentejas-pollo', nombre: 'Lentils with chicken', tipo: 'Lunch · Sunday batch', tiempo: '25′ pot', cocina: 'Pot',
+      id: 'lentejas-pollo', slot: 'co', tags: ['carne'], nombre: 'Lentils with chicken', tipo: 'Lunch · Sunday batch', tiempo: '25′ pot', cocina: 'Pot',
       macros: { kcal: 760, p: 52, g: 16, c: 80 },
       ing: [
         { q: '250 g drained', i: 'tinned cooked lentils', n: 'batch: 2 tins = 3 servings' },
@@ -738,7 +738,7 @@ window.B2P = (function () {
       tips: 'Tinned and no soaking: the fastest legume there is. They thicken by the next day: add a splash of water when reheating.'
     },
     {
-      id: 'salteado-ternera', nombre: 'Beef stir-fry', tipo: 'Lunch · 15′ fresh', tiempo: '15′', cocina: 'Wok / frying pan',
+      id: 'salteado-ternera', slot: 'co', tags: ['carne'], nombre: 'Beef stir-fry', tipo: 'Lunch · 15′ fresh', tiempo: '15′', cocina: 'Wok / frying pan',
       macros: { kcal: 730, p: 45, g: 20, c: 60 },
       ing: [
         { q: '180-200 g', i: 'lean beef strips' },
@@ -755,7 +755,7 @@ window.B2P = (function () {
       tips: 'The order is everything: meat out before the veg goes in. Ask the butcher for "stir-fry strips" and skip the knife work.'
     },
     {
-      id: 'salmon-arroz', nombre: 'Salmon with rice and broccoli', tipo: 'Dinner · 15′', tiempo: '15′', cocina: 'Pan or oven',
+      id: 'salmon-arroz', slot: 'ce', tags: ['pescado'], nombre: 'Salmon with rice and broccoli', tipo: 'Dinner · 15′', tiempo: '15′', cocina: 'Pan or oven',
       macros: { kcal: 760, p: 40, g: 28, c: 62 },
       ing: [
         { q: '170-180 g', i: 'salmon fillet' },
@@ -772,7 +772,7 @@ window.B2P = (function () {
       tips: 'The salmon’s fat counts as the meal’s fat: that’s why there’s no EVOO here.'
     },
     {
-      id: 'merluza-patata', nombre: 'Hake with roast potatoes', tipo: 'Dinner · 20′', tiempo: '20′', cocina: 'Oven or micro+pan',
+      id: 'merluza-patata', slot: 'ce', tags: ['pescado', 'lacteo'], nombre: 'Hake with roast potatoes', tipo: 'Dinner · 20′', tiempo: '20′', cocina: 'Oven or micro+pan',
       macros: { kcal: 740, p: 55, g: 15, c: 55 },
       ing: [
         { q: '250 g', i: 'hake or sea bass fillets' },
@@ -789,7 +789,7 @@ window.B2P = (function () {
       tips: 'White fish is the most satiating protein per calorie in the whole plan: use it on the hungriest days.'
     },
     {
-      id: 'revuelto-gambas', nombre: 'Scrambled eggs with prawns', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'Frying pan',
+      id: 'revuelto-gambas', slot: 'ce', tags: ['pescado', 'huevo', 'gluten'], nombre: 'Scrambled eggs with prawns', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'Frying pan',
       macros: { kcal: 620, p: 45, g: 30, c: 25 },
       ing: [
         { q: '3', i: 'medium eggs' },
@@ -807,7 +807,7 @@ window.B2P = (function () {
       tips: 'The scramble finishes cooking off the heat. Frozen prawns: defrost in a bowl of cold water in 10′.'
     },
     {
-      id: 'toma-noche', nombre: 'Pre-sleep serving', tipo: 'Serving 4 · daily', tiempo: '1′', cocina: 'No cooking',
+      id: 'toma-noche', slot: 'snack', tags: ['lacteo'], nombre: 'Pre-sleep serving', tipo: 'Serving 4 · daily', tiempo: '1′', cocina: 'No cooking',
       macros: { kcal: 270, p: 49, g: 2, c: 14 },
       ing: [
         { q: '250 g', i: 'skyr or 0% fat quark' },
@@ -821,7 +821,7 @@ window.B2P = (function () {
       tips: 'This serving is what takes the day to ~190 g of protein and kills late-night hunger, the hour where diets go to die. Slow-digesting milk casein works while you sleep.'
     },
     {
-      id: 'ensalada-atun', nombre: 'Complete tuna salad', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'No cooking (uses batch)',
+      id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Complete tuna salad', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'No cooking (uses batch)',
       macros: { kcal: 700, p: 45, g: 25, c: 50 },
       ing: [
         { q: '2 tins (120 g drained)', i: 'tuna in spring water' },
@@ -837,7 +837,67 @@ window.B2P = (function () {
         'EVOO, vinegar, salt and a good toss.'
       ],
       tips: 'The zero-effort dinner if Sunday boiled spare potatoes and eggs. No-potato version (low-hunger day): add more tomato.'
-    }
+    },
+    { id: 'porridge-soja', slot: 'de', tags: [], nombre: 'Oat and protein porridge', tipo: 'Breakfast C', tiempo: '8′', cocina: 'Pan or microwave',
+      macros: { kcal: 545, p: 37, g: 11, c: 69 },
+      ing: [{ q: '70 g', i: 'rolled oats (certified gluten-free)' }, { q: '250 ml', i: 'unsweetened soy milk' }, { q: '25 g', i: 'pea protein, plain or vanilla' }, { q: '1', i: 'banana, sliced' }, { q: 'to taste', i: 'cinnamon' }],
+      pasos: ['Heat the oats with the soy milk 4-5′, stirring until thick.', 'Off the heat, stir in the protein: boiling it makes it clump.', 'Top with the banana and cinnamon.'],
+      tips: 'Make it the night before (overnight oats) and just stir in the protein in the morning.' },
+    { id: 'tofu-revuelto', slot: 'de', tags: [], nombre: 'Scrambled tofu on toast', tipo: 'Breakfast D', tiempo: '12′', cocina: 'Pan',
+      macros: { kcal: 570, p: 41, g: 25, c: 42 },
+      ing: [{ q: '200 g', i: 'firm tofu, crumbled' }, { q: '2 slices (70 g)', i: 'gluten-free bread' }, { q: '10 g', i: 'nutritional yeast' }, { q: '1', i: 'tomato, sliced' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'turmeric, kala namak black salt, pepper' }],
+      pasos: ['Sauté the crumbled tofu in the oil 3-4′ over medium-high heat.', 'Add turmeric, yeast and black salt (the eggy flavour); 2′ more.', 'Toast the bread and build with the tomato.'],
+      tips: 'Kala namak is the secret: without it it’s tofu with turmeric; with it, a scramble.' },
+    { id: 'bol-soja-frutos', slot: 'de', tags: [], nombre: 'Soy yogurt bowl with berries', tipo: 'Breakfast E', tiempo: '5′', cocina: 'No cooking',
+      macros: { kcal: 415, p: 29, g: 11, c: 41 },
+      ing: [{ q: '250 g', i: 'plain unsweetened soy yogurt' }, { q: '20 g', i: 'plant protein powder' }, { q: '120 g', i: 'berries (frozen are fine)' }, { q: '15 g', i: 'chia seeds' }, { q: '1', i: 'small banana' }],
+      pasos: ['Whisk the yogurt with the protein until smooth.', 'Add the chia and wait 5′: it thickens on its own.', 'Top with the berries and the banana.'],
+      tips: 'Frozen berries straight from the bag chill and thicken the bowl: better than fresh here.' },
+    { id: 'revuelto-espinacas', slot: 'de', tags: ['huevo'], nombre: 'Scrambled eggs with spinach', tipo: 'Breakfast F', tiempo: '10′', cocina: 'Pan',
+      macros: { kcal: 510, p: 28, g: 21, c: 46 },
+      ing: [{ q: '3', i: 'eggs' }, { q: '100 g', i: 'fresh spinach' }, { q: '100 g', i: 'sliced mushrooms' }, { q: '50 g', i: 'gluten-free bread' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: '150 g', i: 'seasonal fruit' }],
+      pasos: ['Sauté the mushrooms 3′; add the spinach until it wilts.', 'Beaten eggs in, low heat, stirring: creamy, not dry.', 'Serve with the toasted bread and the fruit on the side.'],
+      tips: 'Kill the heat while it still looks slightly underdone: residual heat finishes it.' },
+    { id: 'curry-lentejas', slot: 'co', tags: [], nombre: 'Red lentil curry with rice', tipo: 'Lunch · Sunday batch', tiempo: '25′ pot', cocina: 'Pot',
+      macros: { kcal: 755, p: 31, g: 18, c: 108 },
+      ing: [{ q: '100 g', i: 'dry red lentils' }, { q: '100 ml', i: 'light coconut milk' }, { q: '150 g', i: 'crushed tomatoes' }, { q: '50 g', i: 'dry basmati rice' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'onion, garlic, ginger, curry powder, salt' }],
+      pasos: ['Sweat onion, garlic and ginger 3′; add the curry and toast it 30″.', 'Lentils, tomato, coconut and 300 ml water: 18-20′ over medium heat until they fall apart.', 'Rice on the side (12′). Curry on top.'],
+      tips: 'Batch: ×4 keeps 4 days in the fridge and freezes perfectly. Red lentils need no soaking.' },
+    { id: 'tofu-salteado', slot: 'co', tags: [], nombre: 'Stir-fried tofu with veg and brown rice', tipo: 'Lunch · 20′', tiempo: '20′', cocina: 'Wok / pan',
+      macros: { kcal: 775, p: 47, g: 34, c: 71 },
+      ing: [{ q: '200 g', i: 'firm tofu, cubed' }, { q: '70 g', i: 'dry brown rice' }, { q: '250 g', i: 'broccoli, pepper and carrot' }, { q: '15 ml', i: 'tamari (gluten-free soy sauce)' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: '10 g', i: 'sesame seeds' }],
+      pasos: ['Cook the brown rice (25′; batch it).', 'Tofu over high heat until golden on all sides (6-7′); set aside.', 'Veg 4′ in the wok, tofu back in, tamari and sesame; 1′ and done.'],
+      tips: 'Press the tofu 10′ between two plates with a weight: it sheds water and actually browns.' },
+    { id: 'bol-garbanzos', slot: 'co', tags: [], nombre: 'Roasted chickpea bowl with quinoa and hummus', tipo: 'Lunch · 15′ fresh', tiempo: '15′ (+ oven)', cocina: 'Oven + no cooking',
+      macros: { kcal: 780, p: 31, g: 24, c: 103 },
+      ing: [{ q: '200 g', i: 'cooked chickpeas' }, { q: '60 g', i: 'dry quinoa' }, { q: '50 g', i: 'hummus' }, { q: '150 g', i: 'roasted pepper and cucumber' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'cumin, paprika, lemon, salt' }],
+      pasos: ['Drained chickpeas with paprika, cumin and salt: oven 200° for 20′ until crunchy (batch).', 'Quinoa: rinse, 12′ in twice its water, rest covered.', 'Build the bowl: quinoa, chickpeas, veg, hummus and lemon.'],
+      tips: 'Roasted chickpeas keep 5 days in a jar: they are this plan’s snack.' },
+    { id: 'pasta-lentejas-tempeh', slot: 'co', tags: [], nombre: 'Lentil pasta with tempeh in tomato sauce', tipo: 'Lunch · 20′', tiempo: '20′', cocina: 'Pot + pan',
+      macros: { kcal: 665, p: 46, g: 26, c: 67 },
+      ing: [{ q: '80 g', i: 'red lentil pasta (gluten-free)' }, { q: '120 g', i: 'tempeh, cubed' }, { q: '200 g', i: 'crushed tomatoes' }, { q: '80 g', i: 'onion and garlic' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'basil, oregano, salt' }],
+      pasos: ['Lentil pasta 7-8′ (it overcooks fast: taste before the packet time).', 'Tempeh browned in the oil 4′; onion and garlic 3′ more.', 'Tomato, oregano and salt, 5′; toss with the pasta and basil.'],
+      tips: 'Tempeh improves a lot if you steam it 8′ before browning: the bitterness goes.' },
+    { id: 'tortilla-garbanzo', slot: 'ce', tags: [], nombre: 'Chickpea-flour omelette with courgette', tipo: 'Dinner · 20′', tiempo: '20′', cocina: 'Pan',
+      macros: { kcal: 460, p: 20, g: 16, c: 62 },
+      ing: [{ q: '80 g', i: 'chickpea flour (gluten-free)' }, { q: '200 g', i: 'courgette, thinly sliced' }, { q: '80 g', i: 'onion' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: '100 g', i: 'green salad' }, { q: 'to taste', i: 'salt, pepper, turmeric' }],
+      pasos: ['Mix the flour with 160 ml water, salt and turmeric; rest 10′.', 'Courgette and onion 8′ over medium heat until tender.', 'Pour the batter over, lid on, 5′ per side. Salad alongside.'],
+      tips: 'The real “eggless omelette”: sets the same and travels well cold.' },
+    { id: 'crema-calabaza-tofu', slot: 'ce', tags: [], nombre: 'Pumpkin soup with edamame and seared tofu', tipo: 'Dinner · 25′', tiempo: '25′', cocina: 'Pot + griddle',
+      macros: { kcal: 590, p: 41, g: 24, c: 38 },
+      ing: [{ q: '300 g', i: 'pumpkin, diced' }, { q: '100 g', i: 'shelled edamame (frozen)' }, { q: '150 g', i: 'firm tofu, sliced' }, { q: '60 g', i: 'onion' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: '10 g', i: 'pumpkin seeds' }],
+      pasos: ['Onion and pumpkin in 5 g oil 3′; barely cover with water, 15′ and blend.', 'Edamame 4′ in boiling water; drain and stir into the soup.', 'Tofu seared in the remaining oil, 3′ per side. Seeds on top.'],
+      tips: 'No cream, no potato: blended pumpkin is creamy on its own.' },
+    { id: 'ensalada-quinoa-alubias', slot: 'ce', tags: [], nombre: 'Warm quinoa, black bean and avocado salad', tipo: 'Dinner · 15′', tiempo: '15′', cocina: 'Pot + no cooking',
+      macros: { kcal: 610, p: 25, g: 21, c: 82 },
+      ing: [{ q: '40 g', i: 'dry quinoa' }, { q: '200 g', i: 'cooked black beans' }, { q: '80 g', i: 'avocado' }, { q: '120 g', i: 'tomato, red onion and coriander' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'lime, cumin, salt' }],
+      pasos: ['Quinoa 12′ in twice its water; drain.', 'Beans drained and rinsed, into the still-warm quinoa.', 'Avocado, tomato, onion and coriander; dress with lime, cumin and oil.'],
+      tips: 'Travels well to work: cut the avocado at the last minute.' },
+    { id: 'bolonesa-soja', slot: 'ce', tags: [], nombre: 'Textured soy bolognese with courgette noodles', tipo: 'Dinner · 20′', tiempo: '20′', cocina: 'Pan',
+      macros: { kcal: 445, p: 37, g: 13, c: 47 },
+      ing: [{ q: '60 g', i: 'fine textured soy protein (dry)' }, { q: '250 g', i: 'crushed tomatoes' }, { q: '300 g', i: 'courgette spirals or ribbons' }, { q: '100 g', i: 'onion, carrot and garlic' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'oregano, paprika, salt' }],
+      pasos: ['Soak the soy 10′ in hot water with a pinch of salt; drain well.', 'Soffritto 5′; drained soy 3′ over high heat; tomato and oregano, 8′.', 'Courgette 2′ in a separate pan (so it doesn’t weep). Bolognese on top.'],
+      tips: 'Textured soy has 50 g protein per 100 g dry: the cheapest “mince” there is.' }
   ];
 
   /* ---------- SHOPPING LIST (typical week) ---------- */

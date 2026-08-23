@@ -666,7 +666,7 @@ window.B2P = (function () {
   // q in grammi salvo unità indicata · macro per porzione
   const RECETAS = [
     {
-      id: 'bol-skyr', nombre: 'Bowl di skyr', tipo: 'Colazione A', tiempo: '5′', cocina: 'Niente fornelli',
+      id: 'bol-skyr', slot: 'de', tags: ['lacteo', 'frutos'], nombre: 'Bowl di skyr', tipo: 'Colazione A', tiempo: '5′', cocina: 'Niente fornelli',
       macros: { kcal: 520, p: 35, g: 11, c: 72 },
       ing: [
         { q: '250 g', i: 'skyr al naturale (o quark magro 0%)' },
@@ -682,7 +682,7 @@ window.B2P = (function () {
       tips: 'Se ti alleni al mattino: montala la sera prima (l\'avena ammollata ci guadagna). Giorno corto di proteine: +1 misurino di whey mescolato allo skyr (+110 kcal, +23 g P).'
     },
     {
-      id: 'tortilla-pan', nombre: 'Frittata con pane e pomodoro', tipo: 'Colazione B', tiempo: '10′', cocina: 'Padella',
+      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Frittata con pane e pomodoro', tipo: 'Colazione B', tiempo: '10′', cocina: 'Padella',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { q: '3 pz', i: 'uova M' },
@@ -700,7 +700,7 @@ window.B2P = (function () {
       tips: 'Gli albumi in brik tolgono la pigrizia di separare le uova. Versione strapazzata: stesso tempo, zero tecnica.'
     },
     {
-      id: 'pollo-asado', nombre: 'Pollo al forno con patate', tipo: 'Pranzo · batch della domenica', tiempo: '45′ di forno (dal meal prep)', cocina: 'Forno',
+      id: 'pollo-asado', slot: 'co', tags: ['carne'], nombre: 'Pollo al forno con patate', tipo: 'Pranzo · batch della domenica', tiempo: '45′ di forno (dal meal prep)', cocina: 'Forno',
       macros: { kcal: 780, p: 70, g: 19, c: 68 },
       ing: [
         { q: '250 g a crudo (~200 g cotto)', i: 'petto di pollo', n: 'batch: 1,2 kg = 5 porzioni' },
@@ -717,7 +717,7 @@ window.B2P = (function () {
       tips: 'La porzione si riscalda in 2′ di micro con un goccio d\'acqua perché il pollo non si secchi.'
     },
     {
-      id: 'lentejas-pollo', nombre: 'Lenticchie col pollo', tipo: 'Pranzo · batch della domenica', tiempo: '25′ in pentola', cocina: 'Pentola',
+      id: 'lentejas-pollo', slot: 'co', tags: ['carne'], nombre: 'Lenticchie col pollo', tipo: 'Pranzo · batch della domenica', tiempo: '25′ in pentola', cocina: 'Pentola',
       macros: { kcal: 760, p: 52, g: 16, c: 80 },
       ing: [
         { q: '250 g sgocciolate', i: 'lenticchie già cotte in barattolo', n: 'batch: 2 barattoli = 3 porzioni' },
@@ -738,7 +738,7 @@ window.B2P = (function () {
       tips: 'In barattolo e senza ammollo: il legume più veloce che esista. Il giorno dopo si addensano: aggiungi un dito d\'acqua quando riscaldi.'
     },
     {
-      id: 'salteado-ternera', nombre: 'Straccetti di manzo saltati', tipo: 'Pranzo · 15′ al momento', tiempo: '15′', cocina: 'Wok / padella',
+      id: 'salteado-ternera', slot: 'co', tags: ['carne'], nombre: 'Straccetti di manzo saltati', tipo: 'Pranzo · 15′ al momento', tiempo: '15′', cocina: 'Wok / padella',
       macros: { kcal: 730, p: 45, g: 20, c: 60 },
       ing: [
         { q: '180-200 g', i: 'manzo magro a striscioline' },
@@ -755,7 +755,7 @@ window.B2P = (function () {
       tips: 'L\'ordine è tutto: carne fuori prima delle verdure. Chiedi in macelleria "straccetti da saltare" e ti risparmi di tagliare.'
     },
     {
-      id: 'salmon-arroz', nombre: 'Salmone con riso e broccoli', tipo: 'Cena · 15′', tiempo: '15′', cocina: 'Piastra o forno',
+      id: 'salmon-arroz', slot: 'ce', tags: ['pescado'], nombre: 'Salmone con riso e broccoli', tipo: 'Cena · 15′', tiempo: '15′', cocina: 'Piastra o forno',
       macros: { kcal: 760, p: 40, g: 28, c: 62 },
       ing: [
         { q: '170-180 g', i: 'filetto di salmone' },
@@ -772,7 +772,7 @@ window.B2P = (function () {
       tips: 'Il grasso del salmone conta come il grasso del pasto: per questo qui non c\'è olio EVO.'
     },
     {
-      id: 'merluza-patata', nombre: 'Nasello con patate al forno', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Forno o micro+piastra',
+      id: 'merluza-patata', slot: 'ce', tags: ['pescado', 'lacteo'], nombre: 'Nasello con patate al forno', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Forno o micro+piastra',
       macros: { kcal: 740, p: 55, g: 15, c: 55 },
       ing: [
         { q: '250 g', i: 'nasello o branzino a filetti' },
@@ -789,7 +789,7 @@ window.B2P = (function () {
       tips: 'Il pesce bianco è la proteina più saziante per caloria di tutto il piano: usalo nei giorni di più fame.'
     },
     {
-      id: 'revuelto-gambas', nombre: 'Uova strapazzate coi gamberi', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Padella',
+      id: 'revuelto-gambas', slot: 'ce', tags: ['pescado', 'huevo', 'gluten'], nombre: 'Uova strapazzate coi gamberi', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Padella',
       macros: { kcal: 620, p: 45, g: 30, c: 25 },
       ing: [
         { q: '3 pz', i: 'uova M' },
@@ -807,7 +807,7 @@ window.B2P = (function () {
       tips: 'Le uova strapazzate finiscono di cuocersi fuori dal fuoco. Gamberi surgelati: scongelali in una ciotola d\'acqua fredda in 10′.'
     },
     {
-      id: 'toma-noche', nombre: 'Spuntino pre-nanna', tipo: 'Pasto 4 · quotidiano', tiempo: '1′', cocina: 'Niente fornelli',
+      id: 'toma-noche', slot: 'snack', tags: ['lacteo'], nombre: 'Spuntino pre-nanna', tipo: 'Pasto 4 · quotidiano', tiempo: '1′', cocina: 'Niente fornelli',
       macros: { kcal: 270, p: 49, g: 2, c: 14 },
       ing: [
         { q: '250 g', i: 'skyr o quark magro 0%' },
@@ -821,7 +821,7 @@ window.B2P = (function () {
       tips: 'Questo spuntino è quello che porta la giornata a ~190 g di proteine e ammazza la fame notturna, il momento in cui muoiono le diete. La caseina del latte, a digestione lenta, lavora mentre dormi.'
     },
     {
-      id: 'ensalada-atun', nombre: 'Insalatona di tonno', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Senza fornelli (col batch)',
+      id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Insalatona di tonno', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Senza fornelli (col batch)',
       macros: { kcal: 700, p: 45, g: 25, c: 50 },
       ing: [
         { q: '2 lattine (120 g sgocciolato)', i: 'tonno al naturale' },
@@ -837,7 +837,67 @@ window.B2P = (function () {
         'Olio EVO, aceto, sale e una mescolata.'
       ],
       tips: 'La cena a sforzo zero se la domenica hai lessato patate e uova in più. Versione senza patate (giorno di poca fame): aggiungi più pomodoro.'
-    }
+    },
+    { id: 'porridge-soja', slot: 'de', tags: [], nombre: 'Porridge di avena e proteine', tipo: 'Colazione C', tiempo: '8′', cocina: 'Pentolino o micro',
+      macros: { kcal: 545, p: 37, g: 11, c: 69 },
+      ing: [{ q: '70 g', i: 'fiocchi d’avena (certificati senza glutine)' }, { q: '250 ml', i: 'bevanda di soia senza zucchero' }, { q: '25 g', i: 'proteine di pisello, neutre o vaniglia' }, { q: '1', i: 'banana a fette' }, { q: 'q.b.', i: 'cannella' }],
+      pasos: ['Scalda l’avena con la soia 4-5′ mescolando finché addensa.', 'Fuori dal fuoco unisci le proteine: se bollono, fanno grumi.', 'Completa con banana e cannella.'],
+      tips: 'Preparalo la sera prima in frigo (overnight) e al mattino aggiungi solo le proteine.' },
+    { id: 'tofu-revuelto', slot: 'de', tags: [], nombre: 'Tofu strapazzato su pane tostato', tipo: 'Colazione D', tiempo: '12′', cocina: 'Padella',
+      macros: { kcal: 570, p: 41, g: 25, c: 42 },
+      ing: [{ q: '200 g', i: 'tofu compatto sbriciolato' }, { q: '2 fette (70 g)', i: 'pane senza glutine' }, { q: '10 g', i: 'lievito alimentare' }, { q: '1', i: 'pomodoro a fette' }, { q: '5 g', i: 'olio EVO' }, { q: 'q.b.', i: 'curcuma, sale nero kala namak, pepe' }],
+      pasos: ['Salta il tofu sbriciolato nell’olio 3-4′ a fuoco medio-alto.', 'Aggiungi curcuma, lievito e sale nero (il sapore d’uovo); altri 2′.', 'Tosta il pane e componi con il pomodoro.'],
+      tips: 'Il kala namak è la chiave: senza è tofu alla curcuma; con, uno strapazzato vero.' },
+    { id: 'bol-soja-frutos', slot: 'de', tags: [], nombre: 'Bowl di yogurt di soia e frutti rossi', tipo: 'Colazione E', tiempo: '5′', cocina: 'Senza cottura',
+      macros: { kcal: 415, p: 29, g: 11, c: 41 },
+      ing: [{ q: '250 g', i: 'yogurt di soia naturale senza zucchero' }, { q: '20 g', i: 'proteine vegetali in polvere' }, { q: '120 g', i: 'frutti rossi (surgelati vanno bene)' }, { q: '15 g', i: 'semi di chia' }, { q: '1', i: 'banana piccola' }],
+      pasos: ['Mescola yogurt e proteine finché sparisce ogni grumo.', 'Aggiungi la chia e aspetta 5′: addensa da sola.', 'Completa con frutti rossi e banana.'],
+      tips: 'I frutti rossi surgelati, così come sono, raffreddano e addensano la bowl: meglio dei freschi qui.' },
+    { id: 'revuelto-espinacas', slot: 'de', tags: ['huevo'], nombre: 'Uova strapazzate con spinaci', tipo: 'Colazione F', tiempo: '10′', cocina: 'Padella',
+      macros: { kcal: 510, p: 28, g: 21, c: 46 },
+      ing: [{ q: '3', i: 'uova' }, { q: '100 g', i: 'spinaci freschi' }, { q: '100 g', i: 'funghi champignon a fette' }, { q: '50 g', i: 'pane senza glutine' }, { q: '5 g', i: 'olio EVO' }, { q: '150 g', i: 'frutta di stagione' }],
+      pasos: ['Salta i funghi 3′; aggiungi gli spinaci finché appassiscono.', 'Uova sbattute dentro, fuoco basso, mescolando: cremose, non asciutte.', 'Servi con il pane tostato e la frutta a parte.'],
+      tips: 'Spegni quando sembra ancora un po’ crudo: il calore residuo finisce la cottura.' },
+    { id: 'curry-lentejas', slot: 'co', tags: [], nombre: 'Curry di lenticchie rosse con riso', tipo: 'Pranzo · batch della domenica', tiempo: '25′ pentola', cocina: 'Pentola',
+      macros: { kcal: 755, p: 31, g: 18, c: 108 },
+      ing: [{ q: '100 g', i: 'lenticchie rosse secche' }, { q: '100 ml', i: 'latte di cocco leggero' }, { q: '150 g', i: 'passata di pomodoro' }, { q: '50 g', i: 'riso basmati crudo' }, { q: '10 g', i: 'olio EVO' }, { q: 'q.b.', i: 'cipolla, aglio, zenzero, curry in polvere, sale' }],
+      pasos: ['Soffriggi cipolla, aglio e zenzero 3′; aggiungi il curry e tostalo 30″.', 'Lenticchie, pomodoro, cocco e 300 ml d’acqua: 18-20′ a fuoco medio finché si disfano.', 'Riso a parte (12′). Curry sopra.'],
+      tips: 'Batch: ×4 dura 4 giorni in frigo e si congela benissimo. Le lenticchie rosse non vanno ammollate.' },
+    { id: 'tofu-salteado', slot: 'co', tags: [], nombre: 'Tofu saltato con verdure e riso integrale', tipo: 'Pranzo · 20′', tiempo: '20′', cocina: 'Wok / padella',
+      macros: { kcal: 775, p: 47, g: 34, c: 71 },
+      ing: [{ q: '200 g', i: 'tofu compatto a cubetti' }, { q: '70 g', i: 'riso integrale crudo' }, { q: '250 g', i: 'broccoli, peperone e carota' }, { q: '15 ml', i: 'tamari (salsa di soia senza glutine)' }, { q: '10 g', i: 'olio EVO' }, { q: '10 g', i: 'semi di sesamo' }],
+      pasos: ['Cuoci il riso integrale (25′; fallo in batch).', 'Tofu a fuoco vivo finché dora su tutti i lati (6-7′); metti da parte.', 'Verdure 4′ nel wok, torna il tofu, tamari e sesamo; 1′ e via.'],
+      tips: 'Pressa il tofu 10′ tra due piatti con un peso: perde acqua e dora davvero.' },
+    { id: 'bol-garbanzos', slot: 'co', tags: [], nombre: 'Bowl di ceci arrostiti con quinoa e hummus', tipo: 'Pranzo · 15′ fresco', tiempo: '15′ (+ forno)', cocina: 'Forno + senza cottura',
+      macros: { kcal: 780, p: 31, g: 24, c: 103 },
+      ing: [{ q: '200 g', i: 'ceci cotti' }, { q: '60 g', i: 'quinoa cruda' }, { q: '50 g', i: 'hummus' }, { q: '150 g', i: 'peperone arrostito e cetriolo' }, { q: '5 g', i: 'olio EVO' }, { q: 'q.b.', i: 'cumino, paprika, limone, sale' }],
+      pasos: ['Ceci scolati con paprika, cumino e sale: forno 200° 20′ finché croccanti (batch).', 'Quinoa: sciacqua, 12′ nel doppio d’acqua, riposo coperta.', 'Componi la bowl: quinoa, ceci, verdure, hummus e limone.'],
+      tips: 'I ceci arrostiti durano 5 giorni in barattolo: sono lo «spuntino» di questo piano.' },
+    { id: 'pasta-lentejas-tempeh', slot: 'co', tags: [], nombre: 'Pasta di lenticchie con tempeh al pomodoro', tipo: 'Pranzo · 20′', tiempo: '20′', cocina: 'Pentola + padella',
+      macros: { kcal: 665, p: 46, g: 26, c: 67 },
+      ing: [{ q: '80 g', i: 'pasta di lenticchie rosse (senza glutine)' }, { q: '120 g', i: 'tempeh a cubetti' }, { q: '200 g', i: 'passata di pomodoro' }, { q: '80 g', i: 'cipolla e aglio' }, { q: '10 g', i: 'olio EVO' }, { q: 'q.b.', i: 'basilico, origano, sale' }],
+      pasos: ['Pasta di lenticchie 7-8′ (scuoce in fretta: assaggia prima del tempo indicato).', 'Tempeh dorato nell’olio 4′; cipolla e aglio altri 3′.', 'Pomodoro, origano e sale, 5′; unisci pasta e basilico.'],
+      tips: 'Il tempeh migliora molto se lo cuoci 8′ al vapore prima di dorarlo: perde l’amaro.' },
+    { id: 'tortilla-garbanzo', slot: 'ce', tags: [], nombre: 'Frittata di farina di ceci con zucchine', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Padella',
+      macros: { kcal: 460, p: 20, g: 16, c: 62 },
+      ing: [{ q: '80 g', i: 'farina di ceci (senza glutine)' }, { q: '200 g', i: 'zucchine a fettine sottili' }, { q: '80 g', i: 'cipolla' }, { q: '10 g', i: 'olio EVO' }, { q: '100 g', i: 'insalata verde' }, { q: 'q.b.', i: 'sale, pepe, curcuma' }],
+      pasos: ['Mescola la farina con 160 ml d’acqua, sale e curcuma; riposo 10′.', 'Zucchine e cipolla 8′ a fuoco medio finché tenere.', 'Versa la pastella sopra, coperchio, 5′ per lato. Insalata accanto.'],
+      tips: 'È la vera «frittata senza uova»: rapprende uguale e regge fredda da portare.' },
+    { id: 'crema-calabaza-tofu', slot: 'ce', tags: [], nombre: 'Vellutata di zucca con edamame e tofu alla piastra', tipo: 'Cena · 25′', tiempo: '25′', cocina: 'Pentola + piastra',
+      macros: { kcal: 590, p: 41, g: 24, c: 38 },
+      ing: [{ q: '300 g', i: 'zucca a cubetti' }, { q: '100 g', i: 'edamame sgranati (surgelati)' }, { q: '150 g', i: 'tofu compatto a fette' }, { q: '60 g', i: 'cipolla' }, { q: '10 g', i: 'olio EVO' }, { q: '10 g', i: 'semi di zucca' }],
+      pasos: ['Cipolla e zucca in 5 g d’olio 3′; copri a filo d’acqua, 15′ e frulla.', 'Edamame 4′ in acqua bollente; scola e unisci alla vellutata.', 'Tofu alla piastra con l’olio restante, 3′ per lato. Semi sopra.'],
+      tips: 'Senza panna né patata: la zucca frullata è cremosa da sola.' },
+    { id: 'ensalada-quinoa-alubias', slot: 'ce', tags: [], nombre: 'Insalata tiepida di quinoa, fagioli neri e avocado', tipo: 'Cena · 15′', tiempo: '15′', cocina: 'Pentola + senza cottura',
+      macros: { kcal: 610, p: 25, g: 21, c: 82 },
+      ing: [{ q: '40 g', i: 'quinoa cruda' }, { q: '200 g', i: 'fagioli neri cotti' }, { q: '80 g', i: 'avocado' }, { q: '120 g', i: 'pomodoro, cipolla rossa e coriandolo' }, { q: '5 g', i: 'olio EVO' }, { q: 'q.b.', i: 'lime, cumino, sale' }],
+      pasos: ['Quinoa 12′ nel doppio d’acqua; scola.', 'Fagioli scolati e sciacquati, nella quinoa ancora tiepida.', 'Avocado, pomodoro, cipolla e coriandolo; condisci con lime, cumino e olio.'],
+      tips: 'Si porta al lavoro senza problemi: l’avocado, tagliato all’ultimo.' },
+    { id: 'bolonesa-soja', slot: 'ce', tags: [], nombre: 'Ragù di soia granulare con spaghetti di zucchine', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Padella',
+      macros: { kcal: 445, p: 37, g: 13, c: 47 },
+      ing: [{ q: '60 g', i: 'soia granulare fine (secca)' }, { q: '250 g', i: 'passata di pomodoro' }, { q: '300 g', i: 'zucchine a spirale o a striscioline' }, { q: '100 g', i: 'cipolla, carota e aglio' }, { q: '10 g', i: 'olio EVO' }, { q: 'q.b.', i: 'origano, paprika, sale' }],
+      pasos: ['Reidrata la soia 10′ in acqua calda con un pizzico di sale; scola bene.', 'Soffritto 5′; soia scolata 3′ a fuoco vivo; pomodoro e origano, 8′.', 'Zucchine 2′ in una padella a parte (così non rilasciano acqua). Ragù sopra.'],
+      tips: 'La soia granulare ha 50 g di proteine per 100 g secca: il «macinato» più economico che esista.' }
   ];
 
   /* ---------- LISTA DELLA SPESA (settimana tipo) ---------- */

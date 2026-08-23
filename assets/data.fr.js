@@ -669,7 +669,7 @@ window.B2P = (function () {
   // q en grammes sauf unité indiquée · macros par portion
   const RECETAS = [
     {
-      id: 'bol-skyr', nombre: 'Bol de skyr', tipo: 'Petit-déj A', tiempo: '5′', cocina: 'Sans cuisson',
+      id: 'bol-skyr', slot: 'de', tags: ['lacteo', 'frutos'], nombre: 'Bol de skyr', tipo: 'Petit-déj A', tiempo: '5′', cocina: 'Sans cuisson',
       macros: { kcal: 520, p: 35, g: 11, c: 72 },
       ing: [
         { q: '250 g', i: 'skyr nature (ou fromage blanc 0%)' },
@@ -685,7 +685,7 @@ window.B2P = (function () {
       tips: 'Si tu t’entraînes le matin : monte-le la veille au soir (l’avoine trempée y gagne). Jour court en protéines : +1 dose de whey mélangée au skyr (+110 kcal, +23 g P).'
     },
     {
-      id: 'tortilla-pan', nombre: 'Omelette, pain et tomate', tipo: 'Petit-déj B', tiempo: '10′', cocina: 'Poêle',
+      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelette, pain et tomate', tipo: 'Petit-déj B', tiempo: '10′', cocina: 'Poêle',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { q: '3 pièces', i: 'œufs M' },
@@ -703,7 +703,7 @@ window.B2P = (function () {
       tips: 'Les blancs en bouteille suppriment la corvée de séparer. Version œufs brouillés : même temps, zéro technique.'
     },
     {
-      id: 'pollo-asado', nombre: 'Poulet rôti et pommes de terre', tipo: 'Déjeuner · batch du dimanche', tiempo: '45′ de four (du meal prep)', cocina: 'Four',
+      id: 'pollo-asado', slot: 'co', tags: ['carne'], nombre: 'Poulet rôti et pommes de terre', tipo: 'Déjeuner · batch du dimanche', tiempo: '45′ de four (du meal prep)', cocina: 'Four',
       macros: { kcal: 780, p: 70, g: 19, c: 68 },
       ing: [
         { q: '250 g cru (~200 g cuit)', i: 'blanc de poulet', n: 'batch : 1,2 kg = 5 portions' },
@@ -720,7 +720,7 @@ window.B2P = (function () {
       tips: 'La portion se réchauffe en 2′ au micro-ondes avec un filet d’eau pour que le poulet ne sèche pas.'
     },
     {
-      id: 'lentejas-pollo', nombre: 'Lentilles au poulet', tipo: 'Déjeuner · batch du dimanche', tiempo: '25′ de casserole', cocina: 'Casserole',
+      id: 'lentejas-pollo', slot: 'co', tags: ['carne'], nombre: 'Lentilles au poulet', tipo: 'Déjeuner · batch du dimanche', tiempo: '25′ de casserole', cocina: 'Casserole',
       macros: { kcal: 760, p: 52, g: 16, c: 80 },
       ing: [
         { q: '250 g égouttées', i: 'lentilles cuites en bocal', n: 'batch : 2 bocaux = 3 portions' },
@@ -741,7 +741,7 @@ window.B2P = (function () {
       tips: 'En bocal et sans trempage : la légumineuse la plus rapide qui existe. Elles épaississent le lendemain : ajoute un doigt d’eau en réchauffant.'
     },
     {
-      id: 'salteado-ternera', nombre: 'Sauté de bœuf', tipo: 'Déjeuner · 15′ frais', tiempo: '15′', cocina: 'Wok / poêle',
+      id: 'salteado-ternera', slot: 'co', tags: ['carne'], nombre: 'Sauté de bœuf', tipo: 'Déjeuner · 15′ frais', tiempo: '15′', cocina: 'Wok / poêle',
       macros: { kcal: 730, p: 45, g: 20, c: 60 },
       ing: [
         { q: '180-200 g', i: 'bœuf maigre en lanières' },
@@ -758,7 +758,7 @@ window.B2P = (function () {
       tips: 'L’ordre fait tout : la viande sort avant les légumes. Demande au boucher des « lanières à sauter » et tu t’épargnes la découpe.'
     },
     {
-      id: 'salmon-arroz', nombre: 'Saumon, riz et brocoli', tipo: 'Dîner · 15′', tiempo: '15′', cocina: 'Poêle ou four',
+      id: 'salmon-arroz', slot: 'ce', tags: ['pescado'], nombre: 'Saumon, riz et brocoli', tipo: 'Dîner · 15′', tiempo: '15′', cocina: 'Poêle ou four',
       macros: { kcal: 760, p: 40, g: 28, c: 62 },
       ing: [
         { q: '170-180 g', i: 'pavé de saumon' },
@@ -775,7 +775,7 @@ window.B2P = (function () {
       tips: 'Le gras du saumon compte comme le gras du repas : c’est pour ça qu’il n’y a pas d’huile d’olive ici.'
     },
     {
-      id: 'merluza-patata', nombre: 'Colin et pommes de terre boulangères', tipo: 'Dîner · 20′', tiempo: '20′', cocina: 'Four ou micro-ondes+poêle',
+      id: 'merluza-patata', slot: 'ce', tags: ['pescado', 'lacteo'], nombre: 'Colin et pommes de terre boulangères', tipo: 'Dîner · 20′', tiempo: '20′', cocina: 'Four ou micro-ondes+poêle',
       macros: { kcal: 740, p: 55, g: 15, c: 55 },
       ing: [
         { q: '250 g', i: 'colin (merlu) ou bar en filets' },
@@ -792,7 +792,7 @@ window.B2P = (function () {
       tips: 'Le poisson blanc est la protéine la plus rassasiante par calorie de tout le plan : garde-le pour les jours de grosse faim.'
     },
     {
-      id: 'revuelto-gambas', nombre: 'Brouillade aux crevettes', tipo: 'Dîner · 10′', tiempo: '10′', cocina: 'Poêle',
+      id: 'revuelto-gambas', slot: 'ce', tags: ['pescado', 'huevo', 'gluten'], nombre: 'Brouillade aux crevettes', tipo: 'Dîner · 10′', tiempo: '10′', cocina: 'Poêle',
       macros: { kcal: 620, p: 45, g: 30, c: 25 },
       ing: [
         { q: '3 pièces', i: 'œufs M' },
@@ -810,7 +810,7 @@ window.B2P = (function () {
       tips: 'La brouillade finit de cuire hors du feu. Crevettes surgelées : décongèle-les dans un bol d’eau froide en 10′.'
     },
     {
-      id: 'toma-noche', nombre: 'Prise pré-sommeil', tipo: 'Prise 4 · quotidienne', tiempo: '1′', cocina: 'Sans cuisson',
+      id: 'toma-noche', slot: 'snack', tags: ['lacteo'], nombre: 'Prise pré-sommeil', tipo: 'Prise 4 · quotidienne', tiempo: '1′', cocina: 'Sans cuisson',
       macros: { kcal: 270, p: 49, g: 2, c: 14 },
       ing: [
         { q: '250 g', i: 'skyr ou fromage blanc 0%' },
@@ -824,7 +824,7 @@ window.B2P = (function () {
       tips: 'Cette prise est celle qui monte la journée à ~190 g de protéines et tue la faim nocturne, le moment où meurent les régimes. La caséine laitière à digestion lente travaille pendant que tu dors.'
     },
     {
-      id: 'ensalada-atun', nombre: 'Salade complète au thon', tipo: 'Dîner · 10′', tiempo: '10′', cocina: 'Sans feu (avec le batch)',
+      id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Salade complète au thon', tipo: 'Dîner · 10′', tiempo: '10′', cocina: 'Sans feu (avec le batch)',
       macros: { kcal: 700, p: 45, g: 25, c: 50 },
       ing: [
         { q: '2 boîtes (120 g égoutté)', i: 'thon au naturel' },
@@ -840,7 +840,67 @@ window.B2P = (function () {
         'Huile, vinaigre, sel et on remue.'
       ],
       tips: 'Le dîner zéro effort si dimanche tu as cuit des pommes de terre et des œufs en plus. Version sans pommes de terre (jour de petite faim) : ajoute plus de tomate.'
-    }
+    },
+    { id: 'porridge-soja', slot: 'de', tags: [], nombre: 'Porridge d’avoine et protéine', tipo: 'Petit-déj C', tiempo: '8′', cocina: 'Casserole ou micro-ondes',
+      macros: { kcal: 545, p: 37, g: 11, c: 69 },
+      ing: [{ q: '70 g', i: 'flocons d’avoine (certifiés sans gluten)' }, { q: '250 ml', i: 'boisson de soja sans sucre' }, { q: '25 g', i: 'protéine de pois, nature ou vanille' }, { q: '1', i: 'banane en rondelles' }, { q: 'au goût', i: 'cannelle' }],
+      pasos: ['Chauffe l’avoine avec le soja 4-5′ en remuant jusqu’à épaississement.', 'Hors du feu, incorpore la protéine : bouillie, elle fait des grumeaux.', 'Couronne avec la banane et la cannelle.'],
+      tips: 'Prépare-le la veille au frigo (overnight) et ajoute juste la protéine le matin.' },
+    { id: 'tofu-revuelto', slot: 'de', tags: [], nombre: 'Tofu brouillé sur toasts', tipo: 'Petit-déj D', tiempo: '12′', cocina: 'Poêle',
+      macros: { kcal: 570, p: 41, g: 25, c: 42 },
+      ing: [{ q: '200 g', i: 'tofu ferme émietté' }, { q: '2 tranches (70 g)', i: 'pain sans gluten' }, { q: '10 g', i: 'levure nutritionnelle' }, { q: '1', i: 'tomate en rondelles' }, { q: '5 g', i: 'huile d’olive vierge extra' }, { q: 'au goût', i: 'curcuma, sel noir kala namak, poivre' }],
+      pasos: ['Fais sauter le tofu émietté dans l’huile 3-4′ à feu moyen-vif.', 'Ajoute curcuma, levure et sel noir (le goût d’œuf) ; 2′ de plus.', 'Grille le pain et dresse avec la tomate.'],
+      tips: 'Le kala namak est la clé : sans lui, du tofu au curcuma ; avec, un vrai brouillé.' },
+    { id: 'bol-soja-frutos', slot: 'de', tags: [], nombre: 'Bol de yaourt de soja aux fruits rouges', tipo: 'Petit-déj E', tiempo: '5′', cocina: 'Sans cuisson',
+      macros: { kcal: 415, p: 29, g: 11, c: 41 },
+      ing: [{ q: '250 g', i: 'yaourt de soja nature sans sucre' }, { q: '20 g', i: 'protéine végétale en poudre' }, { q: '120 g', i: 'fruits rouges (surgelés OK)' }, { q: '15 g', i: 'graines de chia' }, { q: '1', i: 'petite banane' }],
+      pasos: ['Mélange le yaourt et la protéine jusqu’à disparition des grumeaux.', 'Ajoute le chia et attends 5′ : ça épaissit seul.', 'Couronne avec les fruits rouges et la banane.'],
+      tips: 'Les fruits rouges surgelés, tels quels, refroidissent et épaississent le bol : mieux que des frais ici.' },
+    { id: 'revuelto-espinacas', slot: 'de', tags: ['huevo'], nombre: 'Œufs brouillés aux épinards', tipo: 'Petit-déj F', tiempo: '10′', cocina: 'Poêle',
+      macros: { kcal: 510, p: 28, g: 21, c: 46 },
+      ing: [{ q: '3', i: 'œufs' }, { q: '100 g', i: 'épinards frais' }, { q: '100 g', i: 'champignons émincés' }, { q: '50 g', i: 'pain sans gluten' }, { q: '5 g', i: 'huile d’olive vierge extra' }, { q: '150 g', i: 'fruit de saison' }],
+      pasos: ['Fais sauter les champignons 3′ ; ajoute les épinards jusqu’à ce qu’ils tombent.', 'Œufs battus dedans, feu doux, en remuant : crémeux, pas sec.', 'Sers avec le pain grillé et le fruit à part.'],
+      tips: 'Coupe le feu quand ça semble encore un peu cru : la chaleur résiduelle finit le travail.' },
+    { id: 'curry-lentejas', slot: 'co', tags: [], nombre: 'Curry de lentilles corail au riz', tipo: 'Déjeuner · batch du dimanche', tiempo: '25′ casserole', cocina: 'Casserole',
+      macros: { kcal: 755, p: 31, g: 18, c: 108 },
+      ing: [{ q: '100 g', i: 'lentilles corail sèches' }, { q: '100 ml', i: 'lait de coco léger' }, { q: '150 g', i: 'tomates concassées' }, { q: '50 g', i: 'riz basmati sec' }, { q: '10 g', i: 'huile d’olive vierge extra' }, { q: 'au goût', i: 'oignon, ail, gingembre, curry en poudre, sel' }],
+      pasos: ['Fais suer oignon, ail et gingembre 3′ ; ajoute le curry et torréfie 30″.', 'Lentilles, tomate, coco et 300 ml d’eau : 18-20′ à feu moyen jusqu’à ce qu’elles se défassent.', 'Riz à part (12′). Curry par-dessus.'],
+      tips: 'Batch : ×4, se garde 4 jours au frigo et se congèle parfaitement. Les lentilles corail ne se trempent pas.' },
+    { id: 'tofu-salteado', slot: 'co', tags: [], nombre: 'Tofu sauté aux légumes et riz complet', tipo: 'Déjeuner · 20′', tiempo: '20′', cocina: 'Wok / poêle',
+      macros: { kcal: 775, p: 47, g: 34, c: 71 },
+      ing: [{ q: '200 g', i: 'tofu ferme en dés' }, { q: '70 g', i: 'riz complet sec' }, { q: '250 g', i: 'brocoli, poivron et carotte' }, { q: '15 ml', i: 'tamari (sauce soja sans gluten)' }, { q: '10 g', i: 'huile d’olive vierge extra' }, { q: '10 g', i: 'graines de sésame' }],
+      pasos: ['Riz complet à cuire (25′ ; fais-en en batch).', 'Tofu à feu vif jusqu’à dorer sur toutes les faces (6-7′) ; réserve.', 'Légumes 4′ au wok, tofu de retour, tamari et sésame ; 1′ et c’est prêt.'],
+      tips: 'Presse le tofu 10′ entre deux assiettes avec un poids : il rend son eau et dore vraiment.' },
+    { id: 'bol-garbanzos', slot: 'co', tags: [], nombre: 'Bol de pois chiches rôtis, quinoa et houmous', tipo: 'Déjeuner · 15′ frais', tiempo: '15′ (+ four)', cocina: 'Four + sans cuisson',
+      macros: { kcal: 780, p: 31, g: 24, c: 103 },
+      ing: [{ q: '200 g', i: 'pois chiches cuits' }, { q: '60 g', i: 'quinoa sec' }, { q: '50 g', i: 'houmous' }, { q: '150 g', i: 'poivron rôti et concombre' }, { q: '5 g', i: 'huile d’olive vierge extra' }, { q: 'au goût', i: 'cumin, paprika, citron, sel' }],
+      pasos: ['Pois chiches égouttés avec paprika, cumin et sel : four 200° 20′ jusqu’à croustillants (batch).', 'Quinoa : rince, 12′ dans deux fois son volume d’eau, repos couvert.', 'Monte le bol : quinoa, pois chiches, légumes, houmous et citron.'],
+      tips: 'Les pois chiches rôtis tiennent 5 jours en bocal : c’est le « grignotage » de ce plan.' },
+    { id: 'pasta-lentejas-tempeh', slot: 'co', tags: [], nombre: 'Pâtes de lentilles au tempeh et tomate', tipo: 'Déjeuner · 20′', tiempo: '20′', cocina: 'Casserole + poêle',
+      macros: { kcal: 665, p: 46, g: 26, c: 67 },
+      ing: [{ q: '80 g', i: 'pâtes de lentilles corail (sans gluten)' }, { q: '120 g', i: 'tempeh en dés' }, { q: '200 g', i: 'tomates concassées' }, { q: '80 g', i: 'oignon et ail' }, { q: '10 g', i: 'huile d’olive vierge extra' }, { q: 'au goût', i: 'basilic, origan, sel' }],
+      pasos: ['Pâtes de lentilles 7-8′ (elles se défont vite : goûte avant le temps du paquet).', 'Tempeh doré dans l’huile 4′ ; oignon et ail 3′ de plus.', 'Tomate, origan et sel, 5′ ; mélange avec les pâtes et le basilic.'],
+      tips: 'Le tempeh gagne beaucoup à être cuit 8′ à la vapeur avant de dorer : l’amertume disparaît.' },
+    { id: 'tortilla-garbanzo', slot: 'ce', tags: [], nombre: 'Omelette de farine de pois chiche à la courgette', tipo: 'Dîner · 20′', tiempo: '20′', cocina: 'Poêle',
+      macros: { kcal: 460, p: 20, g: 16, c: 62 },
+      ing: [{ q: '80 g', i: 'farine de pois chiche (sans gluten)' }, { q: '200 g', i: 'courgette en fines lamelles' }, { q: '80 g', i: 'oignon' }, { q: '10 g', i: 'huile d’olive vierge extra' }, { q: '100 g', i: 'salade verte' }, { q: 'au goût', i: 'sel, poivre, curcuma' }],
+      pasos: ['Mélange la farine avec 160 ml d’eau, sel et curcuma ; repos 10′.', 'Courgette et oignon 8′ à feu moyen jusqu’à tendres.', 'Verse la pâte dessus, couvre, 5′ par face. Salade à côté.'],
+      tips: 'La vraie « omelette sans œuf » : elle prend pareil et se mange froide en lunchbox.' },
+    { id: 'crema-calabaza-tofu', slot: 'ce', tags: [], nombre: 'Velouté de potiron, edamame et tofu grillé', tipo: 'Dîner · 25′', tiempo: '25′', cocina: 'Casserole + plancha',
+      macros: { kcal: 590, p: 41, g: 24, c: 38 },
+      ing: [{ q: '300 g', i: 'potiron en dés' }, { q: '100 g', i: 'edamame écossés (surgelés)' }, { q: '150 g', i: 'tofu ferme en tranches' }, { q: '60 g', i: 'oignon' }, { q: '10 g', i: 'huile d’olive vierge extra' }, { q: '10 g', i: 'graines de courge' }],
+      pasos: ['Oignon et potiron dans 5 g d’huile 3′ ; couvre d’eau à hauteur, 15′ et mixe.', 'Edamame 4′ à l’eau bouillante ; égoutte et ajoute au velouté.', 'Tofu à la plancha avec le reste d’huile, 3′ par face. Graines par-dessus.'],
+      tips: 'Sans crème ni pomme de terre : le potiron mixé est crémeux tout seul.' },
+    { id: 'ensalada-quinoa-alubias', slot: 'ce', tags: [], nombre: 'Salade tiède de quinoa, haricots noirs et avocat', tipo: 'Dîner · 15′', tiempo: '15′', cocina: 'Casserole + sans cuisson',
+      macros: { kcal: 610, p: 25, g: 21, c: 82 },
+      ing: [{ q: '40 g', i: 'quinoa sec' }, { q: '200 g', i: 'haricots noirs cuits' }, { q: '80 g', i: 'avocat' }, { q: '120 g', i: 'tomate, oignon rouge et coriandre' }, { q: '5 g', i: 'huile d’olive vierge extra' }, { q: 'au goût', i: 'citron vert, cumin, sel' }],
+      pasos: ['Quinoa 12′ dans deux fois son volume d’eau ; égoutte.', 'Haricots égouttés et rincés, dans le quinoa encore tiède.', 'Avocat, tomate, oignon et coriandre ; assaisonne citron vert, cumin et huile.'],
+      tips: 'Se transporte très bien au travail : l’avocat, coupé au dernier moment.' },
+    { id: 'bolonesa-soja', slot: 'ce', tags: [], nombre: 'Bolognaise de soja texturé aux spaghettis de courgette', tipo: 'Dîner · 20′', tiempo: '20′', cocina: 'Poêle',
+      macros: { kcal: 445, p: 37, g: 13, c: 47 },
+      ing: [{ q: '60 g', i: 'protéines de soja texturées fines (sèches)' }, { q: '250 g', i: 'tomates concassées' }, { q: '300 g', i: 'courgette en spirales ou lanières' }, { q: '100 g', i: 'oignon, carotte et ail' }, { q: '10 g', i: 'huile d’olive vierge extra' }, { q: 'au goût', i: 'origan, paprika, sel' }],
+      pasos: ['Réhydrate le soja 10′ dans l’eau chaude avec une pincée de sel ; égoutte bien.', 'Sofrito 5′ ; soja égoutté 3′ à feu vif ; tomate et origan, 8′.', 'Courgette 2′ dans une poêle à part (pour qu’elle ne rende pas d’eau). Bolognaise dessus.'],
+      tips: 'Le soja texturé a 50 g de protéines pour 100 g sec : la « viande hachée » la moins chère qui existe.' }
   ];
 
   /* ---------- LISTE DE COURSES (semaine type) ---------- */

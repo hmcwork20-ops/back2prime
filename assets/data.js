@@ -666,7 +666,7 @@ window.B2P = (function () {
   // q en gramos salvo unidad indicada · macros por ración
   const RECETAS = [
     {
-      id: 'bol-skyr', nombre: 'Bol de skyr', tipo: 'Desayuno A', tiempo: '5′', cocina: 'Sin cocina',
+      id: 'bol-skyr', slot: 'de', tags: ['lacteo', 'frutos'], nombre: 'Bol de skyr', tipo: 'Desayuno A', tiempo: '5′', cocina: 'Sin cocina',
       macros: { kcal: 520, p: 35, g: 11, c: 72 },
       ing: [
         { q: '250 g', i: 'skyr natural (o queso fresco batido 0%)' },
@@ -682,7 +682,7 @@ window.B2P = (function () {
       tips: 'Si entrenas por la mañana: móntalo la noche antes (la avena remojada gana). Día corto de proteína: +1 cazo de whey mezclado con el skyr (+110 kcal, +23 g P).'
     },
     {
-      id: 'tortilla-pan', nombre: 'Tortilla con pan y tomate', tipo: 'Desayuno B', tiempo: '10′', cocina: 'Sartén',
+      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Tortilla con pan y tomate', tipo: 'Desayuno B', tiempo: '10′', cocina: 'Sartén',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { q: '3 ud', i: 'huevos M' },
@@ -700,7 +700,7 @@ window.B2P = (function () {
       tips: 'Las claras envasadas quitan la pereza de separar. Versión revuelto: mismo tiempo, cero técnica.'
     },
     {
-      id: 'pollo-asado', nombre: 'Pollo asado con patatas', tipo: 'Comida · batch domingo', tiempo: '45′ horno (del meal prep)', cocina: 'Horno',
+      id: 'pollo-asado', slot: 'co', tags: ['carne'], nombre: 'Pollo asado con patatas', tipo: 'Comida · batch domingo', tiempo: '45′ horno (del meal prep)', cocina: 'Horno',
       macros: { kcal: 780, p: 70, g: 19, c: 68 },
       ing: [
         { q: '250 g crudo (~200 g hecho)', i: 'pechuga de pollo', n: 'batch: 1,2 kg = 5 raciones' },
@@ -717,7 +717,7 @@ window.B2P = (function () {
       tips: 'La ración se recalienta en 2′ de micro con un chorrito de agua para que el pollo no se seque.'
     },
     {
-      id: 'lentejas-pollo', nombre: 'Lentejas con pollo', tipo: 'Comida · batch domingo', tiempo: '25′ olla', cocina: 'Olla',
+      id: 'lentejas-pollo', slot: 'co', tags: ['carne'], nombre: 'Lentejas con pollo', tipo: 'Comida · batch domingo', tiempo: '25′ olla', cocina: 'Olla',
       macros: { kcal: 760, p: 52, g: 16, c: 80 },
       ing: [
         { q: '250 g escurridas', i: 'lentejas cocidas de bote', n: 'batch: 2 botes = 3 raciones' },
@@ -738,7 +738,7 @@ window.B2P = (function () {
       tips: 'De bote y sin remojo: la legumbre más rápida que existe. Espesan al día siguiente: añade un dedo de agua al recalentar.'
     },
     {
-      id: 'salteado-ternera', nombre: 'Salteado de ternera', tipo: 'Comida · 15′ fresco', tiempo: '15′', cocina: 'Wok / sartén',
+      id: 'salteado-ternera', slot: 'co', tags: ['carne'], nombre: 'Salteado de ternera', tipo: 'Comida · 15′ fresco', tiempo: '15′', cocina: 'Wok / sartén',
       macros: { kcal: 730, p: 45, g: 20, c: 60 },
       ing: [
         { q: '180-200 g', i: 'ternera magra en tiras' },
@@ -755,7 +755,7 @@ window.B2P = (function () {
       tips: 'El orden lo es todo: carne fuera antes de las verduras. Pide en la carnicería "tiras para saltear" y te ahorras cortar.'
     },
     {
-      id: 'salmon-arroz', nombre: 'Salmón con arroz y brócoli', tipo: 'Cena · 15′', tiempo: '15′', cocina: 'Plancha u horno',
+      id: 'salmon-arroz', slot: 'ce', tags: ['pescado'], nombre: 'Salmón con arroz y brócoli', tipo: 'Cena · 15′', tiempo: '15′', cocina: 'Plancha u horno',
       macros: { kcal: 760, p: 40, g: 28, c: 62 },
       ing: [
         { q: '170-180 g', i: 'lomo de salmón' },
@@ -772,7 +772,7 @@ window.B2P = (function () {
       tips: 'La grasa del salmón cuenta como la grasa de la comida: por eso aquí no hay AOVE.'
     },
     {
-      id: 'merluza-patata', nombre: 'Merluza con patata panadera', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Horno o micro+plancha',
+      id: 'merluza-patata', slot: 'ce', tags: ['pescado', 'lacteo'], nombre: 'Merluza con patata panadera', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Horno o micro+plancha',
       macros: { kcal: 740, p: 55, g: 15, c: 55 },
       ing: [
         { q: '250 g', i: 'merluza o lubina en lomos' },
@@ -789,7 +789,7 @@ window.B2P = (function () {
       tips: 'El pescado blanco es la proteína más saciante por caloría de todo el plan: úsalo los días de más hambre.'
     },
     {
-      id: 'revuelto-gambas', nombre: 'Revuelto de gambas', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Sartén',
+      id: 'revuelto-gambas', slot: 'ce', tags: ['pescado', 'huevo', 'gluten'], nombre: 'Revuelto de gambas', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Sartén',
       macros: { kcal: 620, p: 45, g: 30, c: 25 },
       ing: [
         { q: '3 ud', i: 'huevos M' },
@@ -807,7 +807,7 @@ window.B2P = (function () {
       tips: 'El revuelto se termina de hacer fuera del fuego. Gambas congeladas: descongela en un bol de agua fría en 10′.'
     },
     {
-      id: 'toma-noche', nombre: 'Toma pre-sueño', tipo: 'Toma 4 · diaria', tiempo: '1′', cocina: 'Sin cocina',
+      id: 'toma-noche', slot: 'snack', tags: ['lacteo'], nombre: 'Toma pre-sueño', tipo: 'Toma 4 · diaria', tiempo: '1′', cocina: 'Sin cocina',
       macros: { kcal: 270, p: 49, g: 2, c: 14 },
       ing: [
         { q: '250 g', i: 'skyr o queso fresco batido 0%' },
@@ -821,7 +821,7 @@ window.B2P = (function () {
       tips: 'Esta toma es la que sube el día a ~190 g de proteína y mata el hambre nocturna, el momento donde mueren las dietas. La caseína láctea de digestión lenta trabaja mientras duermes.'
     },
     {
-      id: 'ensalada-atun', nombre: 'Ensalada completa de atún', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Sin fuego (con batch)',
+      id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Ensalada completa de atún', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Sin fuego (con batch)',
       macros: { kcal: 700, p: 45, g: 25, c: 50 },
       ing: [
         { q: '2 latas (120 g escurrido)', i: 'atún al natural' },
@@ -837,7 +837,67 @@ window.B2P = (function () {
         'AOVE, vinagre, sal y un meneo.'
       ],
       tips: 'La cena de cero esfuerzo si el domingo coció patatas y huevos de más. Versión sin patata (día flojo de hambre): añade más tomate.'
-    }
+    },
+    { id: 'porridge-soja', slot: 'de', tags: [], nombre: 'Porridge de avena y proteína', tipo: 'Desayuno C', tiempo: '8′', cocina: 'Cazo o micro',
+      macros: { kcal: 545, p: 37, g: 11, c: 69 },
+      ing: [{ q: '70 g', i: 'copos de avena (certificada sin gluten)' }, { q: '250 ml', i: 'bebida de soja sin azúcar' }, { q: '25 g', i: 'proteína de guisante, sabor neutro o vainilla' }, { q: '1', i: 'plátano en rodajas' }, { q: 'al gusto', i: 'canela' }],
+      pasos: ['Calienta la avena con la bebida de soja 4-5′ removiendo hasta que espese.', 'Fuera del fuego, mezcla la proteína: si la hierves, se apelmaza.', 'Corona con el plátano y la canela.'],
+      tips: 'Déjalo hecho la noche antes en la nevera (overnight) y por la mañana solo añades la proteína.' },
+    { id: 'tofu-revuelto', slot: 'de', tags: [], nombre: 'Tofu revuelto con tostadas', tipo: 'Desayuno D', tiempo: '12′', cocina: 'Sartén',
+      macros: { kcal: 570, p: 41, g: 25, c: 42 },
+      ing: [{ q: '200 g', i: 'tofu firme desmenuzado' }, { q: '2 rebanadas (70 g)', i: 'pan sin gluten' }, { q: '10 g', i: 'levadura nutricional' }, { q: '1', i: 'tomate en rodajas' }, { q: '5 g', i: 'AOVE' }, { q: 'al gusto', i: 'cúrcuma, sal negra kala namak, pimienta' }],
+      pasos: ['Saltea el tofu desmenuzado con el AOVE 3-4′ a fuego medio-alto.', 'Añade cúrcuma, levadura y sal negra (da el sabor a huevo); 2′ más.', 'Tuesta el pan y monta con el tomate.'],
+      tips: 'La sal kala namak es la clave: sin ella es tofu con cúrcuma; con ella, un revuelto.' },
+    { id: 'bol-soja-frutos', slot: 'de', tags: [], nombre: 'Bol de yogur de soja y frutos rojos', tipo: 'Desayuno E', tiempo: '5′', cocina: 'Sin cocina',
+      macros: { kcal: 415, p: 29, g: 11, c: 41 },
+      ing: [{ q: '250 g', i: 'yogur de soja natural sin azúcar' }, { q: '20 g', i: 'proteína vegetal en polvo' }, { q: '120 g', i: 'frutos rojos (congelados valen)' }, { q: '15 g', i: 'semillas de chía' }, { q: '1', i: 'plátano pequeño' }],
+      pasos: ['Mezcla el yogur con la proteína hasta que no queden grumos.', 'Añade la chía y deja 5′: espesa sola.', 'Corona con los frutos rojos y el plátano.'],
+      tips: 'Los frutos rojos congelados, echados tal cual, enfrían y espesan el bol: mejor que los frescos aquí.' },
+    { id: 'revuelto-espinacas', slot: 'de', tags: ['huevo'], nombre: 'Revuelto de huevos con espinacas', tipo: 'Desayuno F', tiempo: '10′', cocina: 'Sartén',
+      macros: { kcal: 510, p: 28, g: 21, c: 46 },
+      ing: [{ q: '3', i: 'huevos' }, { q: '100 g', i: 'espinacas frescas' }, { q: '100 g', i: 'champiñones laminados' }, { q: '50 g', i: 'pan sin gluten' }, { q: '5 g', i: 'AOVE' }, { q: '150 g', i: 'fruta de temporada' }],
+      pasos: ['Saltea los champiñones 3′; añade las espinacas hasta que bajen.', 'Huevos batidos dentro, fuego bajo, removiendo: cremoso, no seco.', 'Sirve con el pan tostado y la fruta aparte.'],
+      tips: 'Apaga el fuego cuando aún parezca un poco crudo: el calor residual lo termina.' },
+    { id: 'curry-lentejas', slot: 'co', tags: [], nombre: 'Curry de lentejas rojas con arroz', tipo: 'Comida · batch domingo', tiempo: '25′ olla', cocina: 'Olla',
+      macros: { kcal: 755, p: 31, g: 18, c: 108 },
+      ing: [{ q: '100 g', i: 'lentejas rojas secas' }, { q: '100 ml', i: 'leche de coco ligera' }, { q: '150 g', i: 'tomate triturado' }, { q: '50 g', i: 'arroz basmati seco' }, { q: '10 g', i: 'AOVE' }, { q: 'al gusto', i: 'cebolla, ajo, jengibre, curry en polvo, sal' }],
+      pasos: ['Sofríe cebolla, ajo y jengibre 3′; añade el curry y tuéstalo 30″.', 'Lentejas, tomate, coco y 300 ml de agua: 18-20′ a fuego medio hasta que se deshagan.', 'Arroz aparte (12′). Sirve el curry encima.'],
+      tips: 'Batch: multiplica ×4, dura 4 días en nevera y congela perfecto. Las lentejas rojas no necesitan remojo.' },
+    { id: 'tofu-salteado', slot: 'co', tags: [], nombre: 'Tofu salteado con verduras y arroz integral', tipo: 'Comida · 20′', tiempo: '20′', cocina: 'Wok / sartén',
+      macros: { kcal: 775, p: 47, g: 34, c: 71 },
+      ing: [{ q: '200 g', i: 'tofu firme en dados' }, { q: '70 g', i: 'arroz integral seco' }, { q: '250 g', i: 'brócoli, pimiento y zanahoria' }, { q: '15 ml', i: 'tamari (salsa de soja sin gluten)' }, { q: '10 g', i: 'AOVE' }, { q: '10 g', i: 'semillas de sésamo' }],
+      pasos: ['Arroz integral a cocer (25′; hazlo de batch).', 'Tofu a fuego fuerte hasta dorar por todos los lados (6-7′); reserva.', 'Verduras 4′ al wok, vuelve el tofu, tamari y sésamo; 1′ y fuera.'],
+      tips: 'Prensa el tofu 10′ entre dos platos con peso: suelta agua y se dora de verdad.' },
+    { id: 'bol-garbanzos', slot: 'co', tags: [], nombre: 'Bol de garbanzos asados con quinoa y hummus', tipo: 'Comida · 15′ fresco', tiempo: '15′ (+ horno)', cocina: 'Horno + sin fuego',
+      macros: { kcal: 780, p: 31, g: 24, c: 103 },
+      ing: [{ q: '200 g', i: 'garbanzos cocidos' }, { q: '60 g', i: 'quinoa seca' }, { q: '50 g', i: 'hummus' }, { q: '150 g', i: 'pimiento asado y pepino' }, { q: '5 g', i: 'AOVE' }, { q: 'al gusto', i: 'comino, pimentón, limón, sal' }],
+      pasos: ['Garbanzos escurridos con pimentón, comino y sal: horno 200° 20′ hasta crujientes (batch).', 'Quinoa: lava, 12′ en el doble de agua, reposa tapada.', 'Monta el bol: quinoa, garbanzos, verduras, hummus y limón.'],
+      tips: 'Los garbanzos asados aguantan 5 días en un tarro: son el «picoteo» de este plan.' },
+    { id: 'pasta-lentejas-tempeh', slot: 'co', tags: [], nombre: 'Pasta de lentejas con tempeh al tomate', tipo: 'Comida · 20′', tiempo: '20′', cocina: 'Olla + sartén',
+      macros: { kcal: 665, p: 46, g: 26, c: 67 },
+      ing: [{ q: '80 g', i: 'pasta de lentejas rojas (sin gluten)' }, { q: '120 g', i: 'tempeh en dados' }, { q: '200 g', i: 'tomate triturado' }, { q: '80 g', i: 'cebolla y ajo' }, { q: '10 g', i: 'AOVE' }, { q: 'al gusto', i: 'albahaca, orégano, sal' }],
+      pasos: ['Pasta de lentejas 7-8′ (se pasa rápido: prueba antes del tiempo del paquete).', 'Tempeh dorado en el AOVE 4′; añade cebolla y ajo 3′ más.', 'Tomate, orégano y sal, 5′; mezcla con la pasta y la albahaca.'],
+      tips: 'El tempeh gana mucho si lo cueces 8′ al vapor antes de dorarlo: pierde el amargor.' },
+    { id: 'tortilla-garbanzo', slot: 'ce', tags: [], nombre: 'Tortilla de harina de garbanzo con calabacín', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Sartén',
+      macros: { kcal: 460, p: 20, g: 16, c: 62 },
+      ing: [{ q: '80 g', i: 'harina de garbanzo (sin gluten)' }, { q: '200 g', i: 'calabacín en láminas finas' }, { q: '80 g', i: 'cebolla' }, { q: '10 g', i: 'AOVE' }, { q: '100 g', i: 'ensalada verde' }, { q: 'al gusto', i: 'sal, pimienta, cúrcuma' }],
+      pasos: ['Mezcla la harina con 160 ml de agua, sal y cúrcuma; reposa 10′.', 'Calabacín y cebolla 8′ a fuego medio hasta tiernos.', 'Vierte la masa encima, tapa, 5′ por cada lado. Ensalada al lado.'],
+      tips: 'Es la «tortilla sin huevo» de verdad: cuaja igual y aguanta fría para llevar.' },
+    { id: 'crema-calabaza-tofu', slot: 'ce', tags: [], nombre: 'Crema de calabaza con edamame y tofu a la plancha', tipo: 'Cena · 25′', tiempo: '25′', cocina: 'Olla + plancha',
+      macros: { kcal: 590, p: 41, g: 24, c: 38 },
+      ing: [{ q: '300 g', i: 'calabaza en dados' }, { q: '100 g', i: 'edamame desgranado (congelado)' }, { q: '150 g', i: 'tofu firme en filetes' }, { q: '60 g', i: 'cebolla' }, { q: '10 g', i: 'AOVE' }, { q: '10 g', i: 'pipas de calabaza' }],
+      pasos: ['Cebolla y calabaza con 5 g de AOVE 3′; cubre de agua justo, 15′ y tritura.', 'Edamame 4′ en agua hirviendo; escurre y mete en la crema.', 'Tofu a la plancha con el resto del AOVE, 3′ por lado. Pipas por encima.'],
+      tips: 'La crema sin nata ni patata: la calabaza triturada ya es cremosa sola.' },
+    { id: 'ensalada-quinoa-alubias', slot: 'ce', tags: [], nombre: 'Ensalada templada de quinoa, alubias negras y aguacate', tipo: 'Cena · 15′', tiempo: '15′', cocina: 'Olla + sin fuego',
+      macros: { kcal: 610, p: 25, g: 21, c: 82 },
+      ing: [{ q: '40 g', i: 'quinoa seca' }, { q: '200 g', i: 'alubias negras cocidas' }, { q: '80 g', i: 'aguacate' }, { q: '120 g', i: 'tomate, cebolla morada y cilantro' }, { q: '5 g', i: 'AOVE' }, { q: 'al gusto', i: 'lima, comino, sal' }],
+      pasos: ['Quinoa 12′ en el doble de agua; escurre.', 'Alubias escurridas y lavadas, con la quinoa aún templada.', 'Aguacate, tomate, cebolla y cilantro; aliña con lima, comino y AOVE.'],
+      tips: 'Se lleva al trabajo sin problema: el aguacate, mejor cortado al momento.' },
+    { id: 'bolonesa-soja', slot: 'ce', tags: [], nombre: 'Boloñesa de soja texturizada con calabacín en espiral', tipo: 'Cena · 20′', tiempo: '20′', cocina: 'Sartén',
+      macros: { kcal: 445, p: 37, g: 13, c: 47 },
+      ing: [{ q: '60 g', i: 'soja texturizada fina (seca)' }, { q: '250 g', i: 'tomate triturado' }, { q: '300 g', i: 'calabacín en espirales o tiras' }, { q: '100 g', i: 'cebolla, zanahoria y ajo' }, { q: '10 g', i: 'AOVE' }, { q: 'al gusto', i: 'orégano, pimentón, sal' }],
+      pasos: ['Hidrata la soja 10′ en agua caliente con una pizca de sal; escurre bien.', 'Sofrito 5′; soja escurrida 3′ a fuego fuerte; tomate y orégano, 8′.', 'Calabacín 2′ en sartén aparte (que no suelte agua). Boloñesa encima.'],
+      tips: 'La soja texturizada tiene 50 g de proteína por 100 g secos: es el «carne picada» más barato que existe.' }
   ];
 
   /* ---------- LISTA DE LA COMPRA (semana tipo) ---------- */

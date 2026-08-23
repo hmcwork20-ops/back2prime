@@ -45,7 +45,12 @@ El mazo las reutiliza; sale un prototipo funcional, no una maqueta.
 **Hecho en v29**: el motor vive en assets/gen.js y corre en el arranque: si
 hay perfil guardado, sustituye window.B2P entero antes de que la app lo lea.
 Banco de pruebas en Node con 4 perfiles (numeros a mano, calendario, subs,
-menu, puertas). Limite conocido: con 10 recetas, dietas restrictivas se quedan
+menu, puertas). Desde v30 el recetario tiene 22 recetas (12 nuevas, veganas salvo una,
+todas sin gluten/lactosa/frutos secos) etiquetadas con slot y tags
+independientes del idioma: cualquier dieta del cuestionario sale con menu
+completo y 0 avisos en los 5 idiomas. Pendiente: derivar la lista de la compra
+y el meal prep del menu generado (hoy siguen siendo los del plan base).
+Antes de v30: con 10 recetas, dietas restrictivas se quedaban
 sin alternativas — se cuenta y se avisa en COMIDA; el recetario ampliado es el
 siguiente contenido a producir.
 

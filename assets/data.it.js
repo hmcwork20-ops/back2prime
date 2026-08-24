@@ -1133,7 +1133,7 @@ window.B2P = (function () {
     fMarca: '🔓 Il tuo massimale di allora: {t}',
     fFaltan: 'Ti mancano {v} kg per riprendertelo. C\'è un traguardo che ti aspetta.',
     fRecuperada: 'Riconquistato. Quel peso è di nuovo tuo.',
-    fVideo: '▶ Guarda la tecnica in video',
+    fVideo: 'Guarda la tecnica in video',
     fDomiBtn: '🦍 Oggi è uscita la mia prima trazione SENZA assistenza!', fDomiOk: '🦍 Registrata', fDomiYa: '🦍 Trazione libera già registrata',
     segPlan: ['Fasi', 'Regole', 'Esercizi', 'Scienza'],
     vReglas8: 'Le 8 regole', vReglasSub: 'nel dubbio, vince la regola',

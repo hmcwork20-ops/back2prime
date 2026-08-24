@@ -556,7 +556,16 @@
           onclick: ev => { S.flags.dominadaLibre = true; save(); ev.target.textContent = TX.fDomiOk; evaluaLogros(); }
         }, on ? TX.fDomiYa : TX.fDomiBtn));
       }
-      sh.append(el('a', { href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(e.nombre + ' ' + (TX.lang === 'es' ? 'técnica' : 'technique')), target: '_blank', rel: 'noopener', class: 'mini', style: 'display:inline-block;margin-top:14px' }, TX.fVideo));
+      /* Logo oficial de YouTube (pastilla + triángulo), transcrito del SVG de
+         youtube.com. Se usa tal cual como enlace a YouTube, que es el uso que
+         sus propias guías de marca contemplan. */
+      const ytIco = '<svg viewBox="0 0 29 20" aria-hidden="true" focusable="false">'
+        + '<path d="M14.4848 20C14.4848 20 23.5695 20 25.8229 19.4C27.0917 19.06 28.0459 18.08 28.3808 16.87C29 14.65 29 9.98 29 9.98C29 9.98 29 5.34 28.3808 3.14C28.0459 1.9 27.0917 0.94 25.8229 0.61C23.5695 0 14.4848 0 14.4848 0C14.4848 0 5.42037 0 3.17711 0.61C1.9286 0.94 0.954148 1.9 0.59888 3.14C0 5.34 0 9.98 0 9.98C0 9.98 0 14.65 0.59888 16.87C0.954148 18.08 1.9286 19.06 3.17711 19.4C5.42037 20 14.4848 20 14.4848 20Z" fill="#FF0033"/>'
+        + '<path d="M19 10L11.5 5.75V14.25L19 10Z" fill="#FFFFFF"/></svg>';
+      sh.append(el('a', {
+        href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(e.nombre + ' ' + (TX.lang === 'es' ? 'técnica' : 'technique')),
+        target: '_blank', rel: 'noopener', class: 'yt-link'
+      }, el('span', { class: 'yt-ico', html: ytIco }), TX.fVideo));
     });
   }
 

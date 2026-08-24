@@ -1133,7 +1133,7 @@ window.B2P = (function () {
     fMarca: '🔓 Your mark back then: {t}',
     fFaltan: '{v} kg to reclaim it. There’s an award waiting.',
     fRecuperada: 'Reclaimed. That weight is yours again.',
-    fVideo: '▶ Watch technique video',
+    fVideo: 'Watch technique video',
     fDomiBtn: '🦍 Today I got my first UNASSISTED pull-up!', fDomiOk: '🦍 Logged', fDomiYa: '🦍 Free pull-up already logged',
     segPlan: ['Phases', 'Rules', 'Exercises', 'Science'],
     vReglas8: 'The 8 rules', vReglasSub: 'when in doubt, the rule wins',

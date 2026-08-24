@@ -1133,7 +1133,7 @@ window.B2P = (function () {
     fMarca: '🔓 Tu marca de entonces: {t}',
     fFaltan: 'Te faltan {v} kg para recuperarla. Hay logro esperándote.',
     fRecuperada: 'Recuperada. Ese peso vuelve a ser tuyo.',
-    fVideo: '▶ Ver técnica en vídeo',
+    fVideo: 'Ver técnica en vídeo',
     fDomiBtn: '🦍 ¡Hoy salió mi primera dominada SIN asistencia!', fDomiOk: '🦍 Registrada', fDomiYa: '🦍 Dominada libre ya registrada',
     segPlan: ['Fases', 'Reglas', 'Ejercicios', 'Ciencia'],
     vReglas8: 'Las 8 reglas', vReglasSub: 'si dudas, gana la regla',

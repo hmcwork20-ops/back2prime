@@ -674,6 +674,18 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .cres{font-size:14px;padding:2px 0;border-bottom:1px solid var(--line-soft)}
 .cres:last-child{border-bottom:0}
 
+/* ---------- Enlace a la tecnica en YouTube ---------- */
+.yt-link{
+  display:flex;align-items:center;gap:11px;min-height:48px;margin-top:14px;
+  padding:10px 14px;border-radius:var(--r-sm);text-decoration:none;
+  background:var(--surface2);border:1px solid var(--line-soft);color:var(--ink);
+  font-size:14px;font-weight:600;
+  transition:transform var(--t-pulsar) var(--ease-sale),border-color var(--t-pulsar) var(--ease-sale);
+}
+.yt-link:active{transform:scale(.97);border-color:#FF0033}
+.yt-ico{display:inline-flex;flex:0 0 auto}
+.yt-ico svg{width:29px;height:20px;display:block}
+
 /* ---------- Pictograma de patron de movimiento ---------- */
 .pat-fila{display:flex;align-items:center;gap:10px;margin:2px auto 8px;justify-content:center}
 .pat-ico{display:inline-flex;width:44px;height:44px;border-radius:12px;background:var(--surface2);border:1px solid var(--line-soft);align-items:center;justify-content:center}

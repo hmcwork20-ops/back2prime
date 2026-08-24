@@ -1133,7 +1133,7 @@ window.B2P = (function () {
     fMarca: '🔓 Deine Bestmarke von damals: {t}',
     fFaltan: 'Dir fehlen {v} kg, um sie zurückzuholen. Da wartet ein Erfolg auf dich.',
     fRecuperada: 'Zurückgeholt. Dieses Gewicht gehört wieder dir.',
-    fVideo: '▶ Technik im Video ansehen',
+    fVideo: 'Technik im Video ansehen',
     fDomiBtn: '🦍 Heute kam mein erster Klimmzug OHNE Unterstützung!', fDomiOk: '🦍 Eingetragen', fDomiYa: '🦍 Freier Klimmzug schon eingetragen',
     segPlan: ['Phasen', 'Regeln', 'Übungen', 'Wissenschaft'],
     vReglas8: 'Die 8 Regeln', vReglasSub: 'im Zweifel gewinnt die Regel',

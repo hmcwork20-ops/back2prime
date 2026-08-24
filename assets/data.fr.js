@@ -1137,7 +1137,7 @@ window.B2P = (function () {
     fMarca: '🔓 Ta marque d’alors : {t}',
     fFaltan: 'Il te manque {v} kg pour la reconquérir. Un succès t’attend.',
     fRecuperada: 'Reconquise. Ce poids est de nouveau à toi.',
-    fVideo: '▶ Voir la technique en vidéo',
+    fVideo: 'Voir la technique en vidéo',
     fDomiBtn: '🦍 Aujourd’hui, ma première traction SANS assistance est sortie !', fDomiOk: '🦍 Enregistrée', fDomiYa: '🦍 Traction libre déjà enregistrée',
     segPlan: ['Phases', 'Règles', 'Exercices', 'Science'],
     vReglas8: 'Les 8 règles', vReglasSub: 'en cas de doute, la règle gagne',

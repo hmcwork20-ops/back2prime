@@ -289,7 +289,13 @@ window.B2P_GEN = (function () {
       : p.objetivo === 'recomp' ? [Math.round(kg - 4), Math.round(kg - 2)]
       : p.objetivo === 'ganar' ? [Math.round(kg + 1), Math.round(kg + 3)]
       : [Math.round(kg - 1), Math.round(kg + 1)];
-    if (p.cinturaCm) M.perfil.cinturaMetaCm = Math.round(p.cinturaCm - (p.objetivo === 'ganar' ? 2 : 6));
+    /* La métrica reina siempre tiene meta: con cintura declarada, bajar 6 cm
+       sin pasar de la mitad de la estatura (que es el umbral con evidencia);
+       sin cintura declarada, la mitad de la estatura a secas. */
+    const mitad = Math.round(p.alturaCm / 2);
+    M.perfil.cinturaMetaCm = p.cinturaCm
+      ? Math.min(Math.round(p.cinturaCm) - 2, Math.max(mitad, Math.round(p.cinturaCm) - 6))
+      : mitad;
     return { META: M, ini };
   }
   function fasesGen(base, ini) {
@@ -301,6 +307,82 @@ window.B2P_GEN = (function () {
       c.fechas = corta(a, meses) + ' – ' + corta(b, meses);
       return c;
     });
+  }
+
+  /* ---------- superficies que eran del dueño: ahora salen del perfil ----------
+     Todo lo que enseñe un número tiene que poder defenderlo: checkpoints,
+     fotos, reglas, ciencia, carrera y logros se regeneran con tus datos. */
+  const plantilla = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => o[k] !== undefined ? o[k] : m);
+
+  function checkpointsGen(base, M, ini) {
+    const G = base.UI.gen || {};
+    const salida = M.perfil.pesoSalida, obj = M.perfil.objetivoKg;
+    const lo = Math.min(obj[0], obj[1]), hi = Math.max(obj[0], obj[1]);
+    const sube = (lo + hi) / 2 > salida;
+    const st = M.semanas || 12;
+    const semanas = [Math.round(st / 3), Math.round(st * 2 / 3), st];
+    const r1 = v => Math.round(v * 10) / 10;
+    const textos = [G.chk1, G.chk2, G.chk3];
+    return semanas.map((s, i) => {
+      const t = s / st;
+      const a = r1(salida + (lo - salida) * t), b = r1(salida + (hi - salida) * t);
+      return { sem: s, fecha: iso(addD(ini, s * 7 - 1)), rango: [Math.min(a, b), Math.max(a, b)],
+        si: textos[i] || '', dir: sube ? 'sube' : 'baja' };
+    });
+  }
+  function fotosGen(M, ini) {
+    const st = M.semanas || 12;
+    return [iso(ini), iso(addD(ini, Math.round(st / 3) * 7 - 1)),
+      iso(addD(ini, Math.round(st * 2 / 3) * 7 - 1)), iso(addD(ini, st * 7 - 1))];
+  }
+  function reglasGen(base, prot) {
+    const q = Math.max(20, Math.round(prot / 4 * 0.85 / 5) * 5);   // toma mínima útil
+    return base.REGLAS.map(r => Object.assign({}, r, {
+      t: plantilla(r.t, { p: prot, q }), d: plantilla(r.d, { p: prot, q }) }));
+  }
+  function cienciaGen(base, prot) {
+    const C = JSON.parse(JSON.stringify(base.CIENCIA));
+    if (C.temas) C.temas.forEach(x => { x.d = plantilla(x.d, { p: prot }); });
+    return C;
+  }
+  function carreraGen(base, p) {
+    const C = Object.assign({}, base.CARRERA);
+    C.titulo = plantilla(C.titulo, { p: Math.round(p.pesoKg) });
+    return C;
+  }
+  function logrosGen(base, M) {
+    const G = base.UI.gen || {};
+    const salida = M.perfil.pesoSalida, obj = M.perfil.objetivoKg;
+    const media = (Math.min(obj[0], obj[1]) + Math.max(obj[0], obj[1])) / 2;
+    const delta = Math.round(salida - media);          // + pierde · − gana
+    const escalera = [];
+    if (delta >= 2) {
+      const vs = [];
+      [0.25, 0.5, 0.75, 1].forEach(f => { const v = Math.max(1, Math.round(delta * f)); if (!vs.includes(v)) vs.push(v); });
+      vs.forEach((v, i) => escalera.push({ id: 'kg-' + v, icon: i === vs.length - 1 ? '🏔️' : '📉',
+        nombre: plantilla(G.lKgN, { v }), desc: plantilla(G.lKgD, { v }) }));
+    } else if (delta <= -1) {
+      const vs = [];
+      [0.5, 1].forEach(f => { const v = Math.max(1, Math.round(-delta * f)); if (!vs.includes(v)) vs.push(v); });
+      vs.forEach(v => escalera.push({ id: 'kgup-' + v, icon: '📈',
+        nombre: plantilla(G.lKgUpN, { v }), desc: plantilla(G.lKgUpD, { v }) }));
+    }
+    const meta = M.perfil.cinturaMetaCm;
+    const cinturas = meta ? [
+      { id: 'cint-' + (meta + 4), icon: '📏', nombre: plantilla(G.lCintN, { v: meta + 4 }), desc: plantilla(G.lCintD, { v: meta + 4 }) },
+      { id: 'cint-' + (meta + 2), icon: '📏', nombre: plantilla(G.lCintN, { v: meta + 2 }), desc: plantilla(G.lCintD, { v: meta + 2 }) },
+      { id: 'cint-' + meta, icon: '👑', nombre: plantilla(G.lReinaN, { v: meta }), desc: plantilla(G.lReinaD, { v: meta }) }
+    ] : [];
+    const out = [];
+    let kgHecho = false, cintHecho = false;
+    for (const l of base.LOGROS) {
+      if (l.id === 'marca-banca' || l.id === 'marca-sentadilla') continue;   // sin marcas previas no hay nada que recuperar
+      if (/^kg-/.test(l.id)) { if (!kgHecho) { out.push.apply(out, escalera); kgHecho = true; } continue; }
+      if (/^cintura-/.test(l.id)) { if (!cintHecho) { out.push.apply(out, cinturas); cintHecho = true; } continue; }
+      if (l.id === 'plan-completo') { out.push(Object.assign({}, l, { desc: plantilla(G.lFinDesc || l.desc, { s: M.semanas }) })); continue; }
+      out.push(l);
+    }
+    return out;
   }
 
   /* Las decisiones del motor, en datos: el reveal las enseña una a una.
@@ -338,6 +420,12 @@ window.B2P_GEN = (function () {
       COMPRA: compraGen(base, menu.MENU),
       MEALPREP: mealprepGen(base, menu.MENU),
       MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || base.MEALPREP_NOTA,
+      CHECKPOINTS: checkpointsGen(base, meta.META, meta.ini),
+      FOTOS: fotosGen(meta.META, meta.ini),
+      REGLAS: reglasGen(base, nutri.prot),
+      CIENCIA: cienciaGen(base, nutri.prot),
+      CARRERA: carreraGen(base, perfil),
+      LOGROS: logrosGen(base, meta.META),
       __menuAvisos: menu.avisos || 0,
       __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),
       HISTORICO: {},          // las marcas del plan original eran de una persona

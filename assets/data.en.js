@@ -218,7 +218,7 @@ window.B2P = (function () {
 
   /* ---------- RUNNING RULES (evidence: BMI ~28) ---------- */
   const CARRERA = {
-    titulo: 'How to run without breaking (95 kg calls the shots)',
+    titulo: 'How to run without breaking ({p} kg in charge)',
     reglas: [
       'Cadence 170-180 steps/min, short stride: cuts tibial impact ~11% and loading rate ~15%. Count steps for 30″ (85-90) or use your watch’s metronome.',
       'Volume governed by feel and the plan’s progression: never go above ~1.3× your average of the last 4 weeks (the app warns you).',
@@ -621,7 +621,7 @@ window.B2P = (function () {
     { n: 1, t: 'Controlled RPE', d: 'Each phase has its effort cap. Your nervous system remembers being an athlete; your tendons have spent 5 years on the sofa. Hit the brakes before they do it for you.' },
     { n: 2, t: 'Double progression', d: 'First add reps within the range, then add weight (+2.5 kg; +5 kg on squat and Romanian deadlift). Only if technique was clean on EVERY set. The app suggests it for you.' },
     { n: 3, t: 'Scale = weekly average', d: 'Weigh in Monday-Wednesday-Friday, fasted, and look only at the average. A single day means nothing (water, salt, creatine).' },
-    { n: 4, t: 'Protein: 190 g in 4 servings', d: 'Breakfast, lunch, dinner and one serving before bed. No serving below 38-40 g. It’s the variable that decides whether the kilos you lose are fat or muscle.' },
+    { n: 4, t: 'Protein: {p} g in 4 servings', d: 'Breakfast, lunch, dinner and one serving before bed. No serving below {q} g. It is the variable that decides whether your weight change is fat or muscle.' },
     { n: 5, t: '8,000–10,000 daily steps', d: 'Every day, training or not. They burn more per week than the sessions themselves.' },
     { n: 6, t: 'Sleep 7–8 h: non-negotiable', d: 'It’s not a goal, it’s a rule: sleeping 5.5 h in a deficit turns your loss into −55% fat and +60% muscle (Nedeltcheva 2010). Strong caffeine only before 1-2 pm.' },
     { n: 7, t: 'A missed day is not made up', d: 'Don’t double up sessions or cut food the next day. Pick up the calendar wherever it stands.' },
@@ -643,7 +643,7 @@ window.B2P = (function () {
       { f: 'P3 (wk 6-9)',    kcal: 2350, p: 190, g: 70, c: 230, nota: 'Week 7: DIET BREAK at ~2,800' },
       { f: 'P4 (wk 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
-    escalado: 'Protein is never touched: 190 g ≈ 2.5 g/kg of lean mass, the range the evidence calls for in a deficit (Helms 2014). As training volume rises, only the carbohydrate goes up. In practice: in P3 add a piece of fruit + 40 g of bread to lunch on training days; in P4, that same extra every day.',
+    escalado: 'Protein never moves: {p} g a day for you. When training volume goes up, only carbs go up. In practice: in F3 add a piece of fruit + 40 g of bread to lunch on training days; in F4, the same every day.',
     tomas: 'FOUR protein servings a day, none below 38-40 g: breakfast, lunch, dinner and a pre-sleep serving (skyr + whey). The daily total rules, but splitting it into 4 squeezes the most out of protein synthesis and kills evening hunger.',
     plato: [
       { t: 'Protein (every meal)', d: '200-250 g of raw chicken/turkey/white fish, or 170-180 g of salmon/beef, or 3 eggs + 2 whites, or 250 g of skyr + whey. Visual reference: a palm and a half.' },
@@ -656,7 +656,7 @@ window.B2P = (function () {
       { t: 'Whey', d: '1 scoop in the pre-sleep serving with the skyr (and another wherever needed on short-protein days).' },
       { t: 'Caffeine', d: 'Cut-off at 1-2 pm: 200 mg disrupts sleep up to 13 h later; one coffee, ~9 h (Gardiner 2023). Morning training: coffee 30-45′ before, perfect. Evening training: no caffeine — your pre-workout is the afternoon snack (fruit + skyr 60-90′ before).' },
       { t: 'Sensible optionals', d: 'Vitamin D only if bloods come back under 30 ng/mL (likely with an indoor life). Omega-3 ~2 g EPA+DHA/day: a modest but real benefit for strength, plus the anti-inflammatory/tendon angle.' },
-      { t: 'Don’t spend on', d: 'Fat burners, BCAA/EAA (redundant with 190 g of protein), "testo boosters". None of it moves the needle.' }
+      { t: 'Don’t spend on', d: 'Fat burners, BCAA/EAA (redundant with your daily protein), "testo boosters". None of it moves the needle.' }
     ],
     hidratacion: 'Water: 2.5–3 L/day. Alcohol: counts calories and blocks recovery — inside the free meal, out for the rest of the week.',
     comidaLibre: 'ONE meal a week (Saturday by default), not a whole day. Order or eat whatever you fancy in a normal amount, no compensating before or after. It’s what lets the plan survive 12 weeks and a social life. If plans land on another day, move it — but it stays just one.'
@@ -818,7 +818,7 @@ window.B2P = (function () {
         'Mix the scoop of whey into the skyr until mousse-like. Cinnamon on top.',
         '30-60′ before bed. That’s it.'
       ],
-      tips: 'This serving is what takes the day to ~190 g of protein and kills late-night hunger, the hour where diets go to die. Slow-digesting milk casein works while you sleep.'
+      tips: 'This serving tops off the day’s protein and kills night hunger, the moment diets die. Slow-digesting dairy casein works while you sleep.'
     },
     {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Complete tuna salad', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'No cooking (uses batch)',
@@ -1009,9 +1009,9 @@ window.B2P = (function () {
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',             desc: 'Fifteen PRs. Muscle memory paying dividends.' },
     { id: 'marca-banca',    icon: '🔓', nombre: 'Bench reclaimed',    desc: 'Moving your 95 kg on the bench press again. Five years on.' },
     { id: 'marca-sentadilla', icon: '🔓', nombre: 'Squat reclaimed', desc: 'Moving your 100 kg squat again.' },
-    { id: 'dominada-libre', icon: '🦍', nombre: 'Free pull-up',       desc: 'First unassisted pull-up. Welcome back.' },
+    { id: 'dominada-libre', icon: '🦍', nombre: 'Free pull-up',       desc: 'First unassisted pull-up. Welcome back to the club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Sunday chef',        desc: '4 Sunday meal preps in a row.' },
-    { id: 'comeback',       icon: '🔁', nombre: 'The comeback',       desc: 'You came back after 4 or more days stopped. Coming back matters more than falling.' },
+    { id: 'comeback',       icon: '🔁', nombre: 'The comeback',       desc: 'Back after 4 or more days away. Coming back matters more than falling.' },
     { id: 'fotos-4',        icon: '📸', nombre: 'The sequence',       desc: 'All 4 progress photos taken.' },
     { id: 'checkpoint-s4',  icon: '✅', nombre: 'Checkpoint W4',      desc: 'Weight inside or better than the corridor in week 4.' },
     { id: 'checkpoint-s8',  icon: '✅', nombre: 'Checkpoint W8',      desc: 'Weight inside or better than the corridor in week 8.' },
@@ -1024,9 +1024,9 @@ window.B2P = (function () {
     temas: [
       { t: 'Muscle memory', d: 'The regain is real and fast: strength in ~8 weeks, size in ~12. The mechanism (myonuclei vs epigenetics) is under debate, but the effect isn’t. That’s why double progression can move faster than in a novice — and exactly why the calendar is NOT compressed: the one that can’t keep up is the tendon.', ref: 'Rahmati 2022 (meta-analysis, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
       { t: 'Tendon: the limiter', d: 'Tendon collagen renews ~10× slower than muscle. What does adapt it: heavy loads with slow ~3″ contractions (HSR) and isometrics at 70% (5×45″), which also relieve pain on the spot. Plyometrics is a poor tendon stimulus: no jumps to "prepare" for jogging.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
-      { t: 'Running at 95 kg', d: 'Carrying extra weight, starting with more than 3 km/week of jogging spikes injuries (~31-48% more). Raising cadence to 170-180 cuts tibial impact ~11%. Safe progression isn’t the "10% rule": it’s never exceeding ~1.3× your average of the last 4 weeks.', ref: 'Bertelsen 2018 (RCT in overweight novices) · 2025 cadence review · IOC load consensus' },
+      { t: 'Running with extra weight', d: 'Carrying extra weight, starting with more than 3 km/week of jogging spikes injuries (~31-48% more). Raising cadence to 170-180 cuts tibial impact ~11%. Safe progression isn’t the "10% rule": it’s never exceeding ~1.3× your average of the last 4 weeks.', ref: 'Bertelsen 2018 (RCT in overweight novices) · 2025 cadence review · IOC load consensus' },
       { t: 'The right deficit', d: 'A deficit beyond ~500-600 kcal wipes out muscle gain even if you lift. The optimal rate for keeping lean mass is ~0.7% of bodyweight/week. That’s why the plan loses at 0.6-0.75 kg/week and not 0.9.', ref: 'Murphy & Koehler 2022 (meta-analysis, 59 studies) · Garthe 2011' },
-      { t: 'Protein', d: 'In a deficit, trained lifters need 2.3-3.1 g/kg of lean mass. 190 g puts you comfortably in the range, and splitting it into 4 servings of ≥40 g squeezes the most out of protein synthesis and controls hunger.', ref: 'Helms 2014 (systematic review) · Schoenfeld & Aragon (per-serving distribution)' },
+      { t: 'Protein', d: 'In a deficit, trained lifters need 2.3-3.1 g/kg of lean mass. {p} g puts you comfortably in the range, and splitting it into 4 servings of ≥40 g squeezes the most out of protein synthesis and controls hunger.', ref: 'Helms 2014 (systematic review) · Schoenfeld & Aragon (per-serving distribution)' },
       { t: 'Diet break', d: 'Alternating deficit with maintenance breaks softened the metabolic slowdown and improved fat loss in the MATADOR study. Over 12 weeks its main value for your on/off profile is a different one: it teaches you that stopping for ONE planned week is not relapsing.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
       { t: 'Just enough volume', d: 'More sets = more muscle but with diminishing returns, and in a deficit the excess only adds fatigue and risk. Target: ~10 sets/muscle/week in P2 and 12-18 in P3-P4. And the non-negotiable minimum (2 strength + 1 cardio) has backing: that genuinely PRESERVES muscle.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (minimum dose)' },
       { t: 'Deloading done right', d: 'Stopping completely for a week costs strength; what works is cutting the volume in half while keeping the weight on the bar. That’s why week 9 is a MANDATORY deload of that kind, and week 10 (the jump to 5 days) starts with one set less on everything.', ref: 'Coleman 2024 (PeerJ, deload RCT)' },
@@ -1037,7 +1037,7 @@ window.B2P = (function () {
 
   const CIERRE = 'The plan’s real goal isn’t 8 November: it’s reaching December training 4 days a week out of habit, with no on/off cycle. The weight is the consequence, not the goal.';
 
-  const AVISO_LEGAL = 'Plan drawn up on 13 Aug 2026 (v2, checked against the scientific evidence that same day) with these inputs: male, 30 years, 183 cm, 95.1 kg, wrist 16.1 cm, sedentary starting point with a high-performance history. Kcal and macro estimates carry a ±10% margin: the adjustment rules correct that margin with real data. It does not replace medical advice; for any condition or persistent pain, consult a healthcare professional.';
+  const AVISO_LEGAL = 'Your plan is generated from your answers using standard formulas (Mifflin-St Jeor and classic activity factors), with a ±10% margin that the adjustment rules correct with your real data. None of this replaces medical advice: for any condition, persistent pain or doubt, see a healthcare professional.';
 
   /* ---------- INTERFACE TEXTS (translatable like everything else) ----------
      Templates with {x}: app.js fills them via tpl(). Switching language
@@ -1050,7 +1050,7 @@ window.B2P = (function () {
     hoyTag: 'TODAY',
     semanaLinea: 'Week {w} of 12 · Phase {f} · {n} · RPE cap {r}',
     empiezaEnDias: 'Starts in {n} days', empiezaEn1: 'Starts in 1 day', empiezaLunes: 'Starts on Monday',
-    preplanSub: 'Monday 17 August · Phase 1 at home. Meanwhile, get the baseline ready:',
+    preplanSub: '{f} · Phase 1 at home. Meanwhile, get your baseline ready:',
     prepCintura: 'Measure your waist fasted (at navel height)',
     prepFotos: 'Day-0 photos: front and side, the same light you’ll always use',
     prepCompra: 'Week 1 shop (list under Food)',
@@ -1079,7 +1079,7 @@ window.B2P = (function () {
     quizTitulo: 'Your likes', quizPista: 'Swipe: right = like, left = pass',
     quizSi: 'Like', quizNo: 'Pass', quizDeshacer: 'Undo', quizSaltar: 'Skip',
     quizListo: 'Done', quizResumen: 'You like {a} of {b}. This will tune your plan.',
-    gen: { marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet yet: a bigger recipe book is coming.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
+    gen: { chk1: 'Off the corridor: check portions and steps before touching anything. Early weeks also move water.', chk2: 'Two weeks off track: adjust 150 kcal of carbs in the right direction. Protein stays.', chk3: 'Closing: photos, measurements and the next block, decided with data.', lKgN: '−{v} kg', lKgD: 'Weekly average {v} kg below your start.', lKgUpN: '+{v} kg', lKgUpD: 'Weekly average {v} kg above your start. Muscle, brick by brick.', lCintN: 'Waist −{v}', lCintD: 'Waist below {v} cm.', lReinaN: 'Queen metric', lReinaD: 'Waist below half your height: {v} cm.', lFinDesc: '{s}-week plan finished. The goal was the habit; the rest is consequence.', marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet yet: a bigger recipe book is coming.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
     pBarraT: 'The plan on the bar', pBarraSub: '{a} of {b} plates loaded',
     patrones: { eh: 'Horizontal push', ev: 'Vertical push', th: 'Horizontal pull', tv: 'Vertical pull', rod: 'Knee-dominant', bis: 'Hip hinge', zan: 'Lunge', core: 'Stable core', flex: 'Trunk flexion', curl: 'Elbow flexion', ext: 'Elbow extension', gem: 'Calf raise', ais: 'Isolation' },
     quizCatEj: 'Exercise', quizCatDep: 'Sport', quizCatCom: 'Food',
@@ -1111,7 +1111,7 @@ window.B2P = (function () {
       objT: 'What are you after?', objPerder: 'Lose fat', objRecomp: 'Recomp: less fat, more muscle', objGanar: 'Build muscle', objMantener: 'Maintain',
       evT: 'What for?', evBoda: 'A wedding', evOpo: 'An exam', evVerano: 'Summer body', evSiempre: 'For good',
       durT: 'How long do you give yourself?', dur3: '3 months', dur6: '6 months', dur12: '12 months', durAlways: 'No deadline: a habit',
-      histT: 'Where are you coming from?', histP: 'Comebacks are programmed differently: tendons set the pace.', histNunca: 'Never trained', histRetoma: 'Back after years off', histActivo: 'Training now',
+      histT: 'Where are you coming from?', histP: 'Comebacks are programmed differently: tendons set the pace.', histNunca: 'Never trained', histRetoma: 'Coming back after years away', histActivo: 'Training now',
       diasL: 'Days per week', minL: 'Minutes per session', franjaT: 'When do you prefer?', franjaM: 'Morning', franjaMd: 'Midday', franjaT2: 'Evening',
       matT: 'What equipment?', matNada: 'No equipment', matCasa: 'Home: dumbbells and bands', matGym: 'Full gym',
       lesT: 'Any aches or injuries?', lesRodilla: 'Knee', lesHombro: 'Shoulder', lesLumbar: 'Lower back', lesNo: 'None',
@@ -1177,16 +1177,16 @@ window.B2P = (function () {
     nIngredientes: 'Ingredients (1 serving)', nPasos: 'Steps', opcionalParen: ' (optional)',
     chipsProg: ['Overview', 'Weight', 'Waist', 'Loads', 'Weeks', 'Checkpoints'],
     pPeso: 'Weight', pPerdido: 'Lost', pCintura: 'Waist', pAdh: 'Adherence', pSesiones: 'Sessions', pRacha: 'Streak',
-    pMediaS: 'avg W{w}', pSinDatos: 'no data', pDesde: 'from 95.1', pCinturaSub: '{f} · target <91', pCinturaLunes: 'Mondays, fasted',
+    pMediaS: 'avg W{w}', pSinDatos: 'no data', pDesde: 'from {v}', pCinturaSub: '{f} · goal <{m}', pCinturaLunes: 'Mondays, fasted',
     pFuerzas: '{a}/{b} strength', pDeFuerza: 'strength', pDiasCumplidos: 'days closed',
     pPesoTitulo: 'Weight', pPesoSub: 'dots: weigh-ins · line: weekly average · band: expected corridor',
-    pCinturaTitulo: 'Waist', pCinturaTituloSub: 'the master metric · target <91 cm',
+    pCinturaTitulo: 'Waist', pCinturaTituloSub: 'the queen metric · goal <{m} cm',
     pCargas: 'Loads', pCargasSub: 'exercise weight, session by session',
     pAdhTitulo: 'Adherence', pAdhSub: 'strength sessions completed per week',
     pChk: 'Checkpoints', pEsperado: 'Expected', pReal: 'Actual', pSiDesvias: 'If you drift',
     pTabla: 'table', pGrafica: 'chart', pFecha: 'Date',
     pLifts: { 'press-banca': 'Bench', 'sentadilla-barra': 'Squat', 'rdl-barra': 'RDL' },
-    pTuMarca: 'your mark · {v} kg', pMeta91: 'target 91', pAguaCreatina: 'creatine water', pLineaBase: 'Baseline',
+    pTuMarca: 'your mark · {v} kg', pMeta91: 'goal {m}', pAguaCreatina: 'water (first weeks)', pLineaBase: 'Baseline',
     pMediaSemana: 'W{w} average',
     pVacioPeso: 'Your Monday, Wednesday and Friday weigh-ins will show up here',
     pVacioCintura: 'Every Monday, fasted: tape at the navel, no squeezing',
@@ -1212,9 +1212,9 @@ window.B2P = (function () {
     nuevoDia: 'New day: {f}'
   };
 
-  UI.checkSalidaTitulo = 'Exit check (Sun 30 Aug)';
+  UI.checkSalidaTitulo = 'Exit check ({f})';
   UI.checkSalidaTxt = 'You complete both circuits at week 2 reps with no joint pain → Phase 2. If anything complains, repeat a week: your tendons will thank you.';
-  UI.planEmpiezaTitulo = 'The plan starts Monday 17 August';
+  UI.planEmpiezaTitulo = 'The plan starts on {f}';
   UI.planEmpiezaTxt = 'Phase 1 · Reactivation at home. Here’s everything you need to arrive with your homework done.';
 
     const QUIZ_DEP = [{ id: 'running', n: 'Running' }, { id: 'natacion', n: 'Swimming' }, { id: 'ciclismo', n: 'Cycling' }, { id: 'padel', n: 'Padel' }, { id: 'futbol', n: 'Football' }, { id: 'baloncesto', n: 'Basketball' }, { id: 'volley', n: 'Volleyball' }, { id: 'yoga', n: 'Yoga' }, { id: 'calistenia', n: 'Calisthenics' }, { id: 'boxeo', n: 'Boxing' }];

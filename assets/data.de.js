@@ -218,7 +218,7 @@ window.B2P = (function () {
 
   /* ---------- LAUFREGELN (Evidenz BMI ~28) ---------- */
   const CARRERA = {
-    titulo: 'Wie du läufst, ohne kaputtzugehen (95 kg geben den Ton an)',
+    titulo: 'Laufen ohne Bruch ({p} kg bestimmen)',
     reglas: [
       'Kadenz 170-180 Schritte/min, kurzer Schritt: senkt den Aufprall im Schienbein um ~11% und die Lastrate um ~15%. Zähl 30″ lang die Schritte (85-90) oder nutz das Metronom der Uhr.',
       'Das Volumen steuern Gefühl und Planprogression: Steigere nie über ~1,3× dessen, was du im Schnitt der letzten 4 Wochen gemacht hast (die App warnt dich).',
@@ -621,7 +621,7 @@ window.B2P = (function () {
     { n: 1, t: 'RPE unter Kontrolle', d: 'Jede Phase hat ihren Anstrengungsdeckel. Dein Nervensystem erinnert sich ans Athletsein; deine Sehnen waren 5 Jahre auf dem Sofa. Bremse du, bevor sie es tun.' },
     { n: 2, t: 'Doppelte Progression', d: 'Erst die Wiederholungen im Bereich steigern, dann das Gewicht (+2,5 kg; +5 kg bei Kniebeuge und Rumänischem Kreuzheben). Nur wenn die Technik in ALLEN Sätzen sauber war. Die App schlägt es dir von selbst vor.' },
     { n: 3, t: 'Waage = Wochenschnitt', d: 'Wieg dich Montag-Mittwoch-Freitag nüchtern und schau nur auf den Schnitt. Ein einzelner Tag bedeutet nichts (Wasser, Salz, Kreatin).' },
-    { n: 4, t: 'Protein: 190 g in 4 Portionen', d: 'Frühstück, Mittagessen, Abendessen und eine Portion vor dem Schlafen. Keine unter 38-40 g. Das ist die Variable, die entscheidet, ob die Kilos, die du verlierst, Fett sind oder Muskel.' },
+    { n: 4, t: 'Protein: {p} g in 4 Portionen', d: 'Frühstück, Mittag, Abend und eine Portion vor dem Schlafen. Keine Portion unter {q} g. Das ist die Variable, die entscheidet, ob deine Gewichtsänderung Fett oder Muskel ist.' },
     { n: 5, t: '8.000–10.000 Schritte täglich', d: 'Jeden Tag, ob du trainierst oder nicht. Sie verbrennen pro Woche mehr als die Sessions selbst.' },
     { n: 6, t: 'Schlaf 7–8 h: nicht verhandelbar', d: 'Kein Ziel, sondern eine Regel: 5,5 h Schlaf im Defizit macht aus dem Verlust −55% Fett und +60% Muskel (Nedeltcheva 2010). Starkes Koffein nur vor 13-14 Uhr.' },
     { n: 7, t: 'Ein verpatzter Tag wird nicht nachgeholt', d: 'Keine doppelten Sessions und kein Essenskürzen am Tag danach. Du folgst dem Kalender, wo er gerade steht.' },
@@ -643,7 +643,7 @@ window.B2P = (function () {
       { f: 'P3 (Wo. 6-9)',    kcal: 2350, p: 190, g: 70, c: 230, nota: 'Woche 7: DIET BREAK bei ~2.800' },
       { f: 'P4 (Wo. 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
-    escalado: 'Das Protein wird nie angerührt: 190 g ≈ 2,5 g/kg Magermasse, der Bereich, den die Evidenz im Defizit verlangt (Helms 2014). Steigt das Trainingsvolumen, steigen nur die Kohlenhydrate. In der Praxis: In P3 kommen an Trainingstagen ein Stück Obst + 40 g Brot zum Mittagessen dazu; in P4 genau das an allen Tagen.',
+    escalado: 'Protein bleibt immer gleich: {p} g am Tag für dich. Steigt das Trainingsvolumen, steigen nur die Kohlenhydrate. Praktisch: in F3 ein Stück Obst + 40 g Brot zum Mittag an Trainingstagen; in F4 dasselbe jeden Tag.',
     tomas: 'VIER Proteinportionen am Tag, keine unter 38-40 g: Frühstück, Mittagessen, Abendessen und eine Pre-Sleep-Portion (Skyr + Whey). Die Tagessumme regiert, aber die Aufteilung auf 4 presst das Maximum aus der Proteinsynthese und nimmt den Nachthunger.',
     plato: [
       { t: 'Protein (jede Mahlzeit)', d: '200-250 g Hähnchen/Pute/weißer Fisch roh gewogen, oder 170-180 g Lachs/Rind, oder 3 Eier + 2 Eiklar, oder 250 g Skyr + Whey. Visuelle Referenz: anderthalb Handflächen.' },
@@ -656,7 +656,7 @@ window.B2P = (function () {
       { t: 'Whey', d: '1 Messlöffel in der Pre-Sleep-Portion mit dem Skyr (und ein weiterer, wo nötig, an proteinarmen Tagen).' },
       { t: 'Koffein', d: 'Schluss um 13-14 Uhr: 200 mg stören den Schlaf bis zu 13 h danach; ein Kaffee ~9 h (Gardiner 2023). Training am Morgen: Kaffee 30-45′ vorher, perfekt. Abends: kein Koffein — dein Pre-Workout ist der Nachmittagssnack (Obst + Skyr 60-90′ vorher).' },
       { t: 'Sinnvolle Optionen', d: 'Vitamin D nur, wenn das Blutbild unter 30 ng/mL liegt (wahrscheinlich bei Indoor-Leben). Omega-3 ~2 g EPA+DHA/Tag: bescheidener, aber realer Nutzen für die Kraft plus entzündungshemmender Sehnen-Winkel.' },
-      { t: 'KEIN Geld für', d: 'Fatburner, BCAA/EAA (überflüssig bei 190 g Protein), „Testo-Booster". Nichts davon bewegt die Nadel.' }
+      { t: 'KEIN Geld für', d: 'Fatburner, BCAA/EAA (überflüssig neben deinem täglichen Protein), „Testo-Booster". Nichts davon bewegt die Nadel.' }
     ],
     hidratacion: 'Wasser: 2,5–3 L/Tag. Alkohol: zählt Kalorien und blockiert die Regeneration — innerhalb der freien Mahlzeit ja, im Rest der Woche nicht.',
     comidaLibre: 'EINE Mahlzeit pro Woche (standardmäßig Samstag), kein ganzer Tag. Bestell oder iss, worauf du Lust hast, in normaler Menge, ohne davor oder danach zu kompensieren. Dafür hält der Plan 12 Wochen und ein Sozialleben durch. Gibt es an einem anderen Tag was vor, wird sie verschoben — bleibt aber eine.'
@@ -818,7 +818,7 @@ window.B2P = (function () {
         'Den Messlöffel Whey mit dem Skyr zu Mousse-Textur verrühren. Zimt darüber.',
         '30-60′ vor dem Zubettgehen. Das war’s.'
       ],
-      tips: 'Diese Portion hebt den Tag auf ~190 g Protein und killt den Nachthunger — den Moment, in dem Diäten sterben. Das langsam verdauliche Milchcasein arbeitet, während du schläfst.'
+      tips: 'Diese Portion rundet das Tagesprotein ab und stoppt den Nachthunger, den Moment, in dem Diäten sterben. Langsam verdauliches Milchkasein arbeitet im Schlaf.'
     },
     {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Kompletter Thunfischsalat', tipo: 'Abend · 10′', tiempo: '10′', cocina: 'Ohne Herd (mit Batch)',
@@ -1009,9 +1009,9 @@ window.B2P = (function () {
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',             desc: 'Fünfzehn PRs. Das Muskelgedächtnis zahlt Dividende.' },
     { id: 'marca-banca',    icon: '🔓', nombre: 'Bank zurückgeholt',  desc: 'Du bewegst wieder deine 95 kg beim Bankdrücken. Fünf Jahre danach.' },
     { id: 'marca-sentadilla', icon: '🔓', nombre: 'Kniebeuge zurückgeholt', desc: 'Du bewegst wieder deine 100 kg in der Kniebeuge.' },
-    { id: 'dominada-libre', icon: '🦍', nombre: 'Freier Klimmzug',    desc: 'Erster Klimmzug ohne Unterstützung. Willkommen zurück.' },
+    { id: 'dominada-libre', icon: '🦍', nombre: 'Freier Klimmzug',    desc: 'Erster Klimmzug ohne Hilfe. Zurück im Club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Sonntagskoch',       desc: '4 Sonntage Meal Prep in Folge.' },
-    { id: 'comeback',       icon: '🔁', nombre: 'Das Comeback',       desc: 'Zurückgekommen nach 4 oder mehr Tagen Pause. Zurückkommen zählt mehr als Hinfallen.' },
+    { id: 'comeback',       icon: '🔁', nombre: 'Das Comeback',       desc: 'Zurück nach 4 oder mehr Tagen Pause. Zurückkommen zählt mehr als Fallen.' },
     { id: 'fotos-4',        icon: '📸', nombre: 'Die Sequenz',        desc: 'Alle 4 Fortschrittsfotos gemacht.' },
     { id: 'checkpoint-s4',  icon: '✅', nombre: 'Checkpoint W4',      desc: 'Gewicht im Korridor oder besser in Woche 4.' },
     { id: 'checkpoint-s8',  icon: '✅', nombre: 'Checkpoint W8',      desc: 'Gewicht im Korridor oder besser in Woche 8.' },
@@ -1024,9 +1024,9 @@ window.B2P = (function () {
     temas: [
       { t: 'Muskelgedächtnis', d: 'Der Wiederaufbau ist real und schnell: Kraft in ~8 Wochen, Größe in ~12. Der Mechanismus (Myonuklei vs. Epigenetik) wird noch debattiert, der Effekt nicht. Darum darf die doppelte Progression schneller laufen als bei einem Anfänger — und genau darum wird der Kalender NICHT gestaucht: Wer nicht rennt, ist die Sehne.', ref: 'Rahmati 2022 (Metaanalyse, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
       { t: 'Sehne: der limitierende Faktor', d: 'Das Sehnenkollagen erneuert sich ~10× langsamer als der Muskel. Was es wirklich anpasst: hohe Lasten mit langsamen ~3″-Kontraktionen (HSR) und Isometrie bei 70% (5×45″), die obendrein sofort Schmerz nimmt. Plyometrie ist ein schlechter Sehnenreiz: keine Sprünge, um das Joggen „vorzubereiten".', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
-      { t: 'Laufen mit 95 kg', d: 'Mit Übergewicht mehr als 3 km/Woche Joggen zu starten, lässt die Verletzungen hochschnellen (~31-48% mehr). Die Kadenz auf 170-180 zu heben senkt den Aufprall im Schienbein um ~11%. Die sichere Progression ist nicht die „10%-Regel": Es ist, ~1,3× deines Schnitts der letzten 4 Wochen nicht zu überschreiten.', ref: 'Bertelsen 2018 (RCT mit übergewichtigen Laufanfängern) · Kadenz-Review 2025 · IOC-Konsens zur Belastungssteuerung' },
+      { t: 'Laufen mit Übergewicht', d: 'Mit Übergewicht mehr als 3 km/Woche Joggen zu starten, lässt die Verletzungen hochschnellen (~31-48% mehr). Die Kadenz auf 170-180 zu heben senkt den Aufprall im Schienbein um ~11%. Die sichere Progression ist nicht die „10%-Regel": Es ist, ~1,3× deines Schnitts der letzten 4 Wochen nicht zu überschreiten.', ref: 'Bertelsen 2018 (RCT mit übergewichtigen Laufanfängern) · Kadenz-Review 2025 · IOC-Konsens zur Belastungssteuerung' },
       { t: 'Optimales Defizit', d: 'Ein Defizit über ~500-600 kcal löscht den Muskelzuwachs aus, auch wenn du Kraft trainierst. Das optimale Tempo, um Magermasse zu halten, ist ~0,7% des Gewichts/Woche. Darum verliert der Plan 0,6-0,75 kg/Woche und nicht 0,9.', ref: 'Murphy & Koehler 2022 (Metaanalyse, 59 Studien) · Garthe 2011' },
-      { t: 'Protein', d: 'Im Defizit brauchen Trainierte 2,3-3,1 g/kg Magermasse. 190 g setzen dich bequem in den Bereich, und die Aufteilung auf 4 Portionen ≥40 g presst das Maximum aus der Proteinsynthese und kontrolliert den Hunger.', ref: 'Helms 2014 (systematisches Review) · Schoenfeld & Aragon (Verteilung pro Portion)' },
+      { t: 'Protein', d: 'Im Defizit brauchen Trainierte 2,3-3,1 g/kg Magermasse. {p} g setzen dich bequem in den Bereich, und die Aufteilung auf 4 Portionen ≥40 g presst das Maximum aus der Proteinsynthese und kontrolliert den Hunger.', ref: 'Helms 2014 (systematisches Review) · Schoenfeld & Aragon (Verteilung pro Portion)' },
       { t: 'Diet Break', d: 'Defizit im Wechsel mit Erhaltungspausen dämpfte in der MATADOR-Studie den Stoffwechselabfall und verbesserte den Fettverlust. In 12 Wochen liegt sein Hauptwert für dein On/Off-Profil woanders: Er lehrt dich, dass EINE Woche Pause mit Plan kein Rückfall ist.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
       { t: 'Das richtige Volumen', d: 'Mehr Sätze = mehr Muskel, aber mit abnehmendem Ertrag, und im Defizit bringt der Überschuss nur Ermüdung und Risiko. Ziel: ~10 Sätze/Muskel/Woche in P2 und 12-18 in P3-P4. Und das unantastbare Minimum (2 Kraft + 1 Cardio) hat Rückendeckung: Damit ERHÄLTST du wirklich Muskel.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (Minimaldosis)' },
       { t: 'Deload, richtig gemacht', d: 'Eine Woche komplett zu pausieren kostet Kraft; was funktioniert: das Volumen halbieren und das Gewicht auf der Stange halten. Darum ist Woche 9 ein PFLICHT-Deload genau dieser Art, und Woche 10 (Sprung auf 5 Tage) startet überall mit einem Satz weniger.', ref: 'Coleman 2024 (PeerJ, Deload-RCT)' },
@@ -1037,7 +1037,7 @@ window.B2P = (function () {
 
   const CIERRE = 'Das wahre Ziel des Plans ist nicht der 8. November: Es ist, im Dezember aus Gewohnheit 4 Tage zu trainieren, ohne On/Off-Zyklus. Das Gewicht ist die Konsequenz, nicht das Ziel.';
 
-  const AVISO_LEGAL = 'Plan erstellt am 13. Aug 2026 (v2, am selben Tag gegen die wissenschaftliche Evidenz geprüft) mit den Daten: Mann, 30 Jahre, 183 cm, 95,1 kg, Handgelenk 16,1 cm, sitzender Ausgangspunkt mit Hochleistungs-Vergangenheit. kcal- und Makro-Schätzungen mit ±10% Spielraum: Die Anpassungsregeln korrigieren diesen Spielraum mit echten Daten. Ersetzt keinen ärztlichen Rat; bei jeder Erkrankung oder anhaltendem Schmerz wende dich an medizinisches Fachpersonal.';
+  const AVISO_LEGAL = 'Dein Plan wird aus deinen Antworten mit Standardformeln erzeugt (Mifflin-St Jeor und klassische Aktivitätsfaktoren), mit ±10% Marge, die die Anpassungsregeln mit deinen echten Daten korrigieren. Nichts davon ersetzt ärztlichen Rat: bei Erkrankungen, anhaltenden Schmerzen oder Zweifeln geh zu medizinischem Fachpersonal.';
 
   /* ---------- INTERFACE-TEXTE (übersetzbar wie der Rest) ----------
      Templates mit {x}: app.js füllt sie über tpl(). Beim Sprachwechsel
@@ -1050,7 +1050,7 @@ window.B2P = (function () {
     hoyTag: 'HEUTE',
     semanaLinea: 'Woche {w} von 12 · Phase {f} · {n} · RPE-Deckel {r}',
     empiezaEnDias: 'Start in {n} Tagen', empiezaEn1: 'Start in 1 Tag', empiezaLunes: 'Start am Montag',
-    preplanSub: 'Montag, 17. August · Phase 1 zuhause. Bis dahin bring die Baseline unter Dach:',
+    preplanSub: '{f} · Phase 1 zu Hause. Bis dahin: halte die Basiswerte fest:',
     prepCintura: 'Miss deine Taille nüchtern (auf Bauchnabelhöhe)',
     prepFotos: 'Fotos Tag 0: frontal und Profil, dasselbe Licht wie künftig immer',
     prepCompra: 'Einkauf für Woche 1 (Liste unter Essen)',
@@ -1079,7 +1079,7 @@ window.B2P = (function () {
     quizTitulo: 'Deine Vorlieben', quizPista: 'Wischen: rechts mag ich, links nicht',
     quizSi: 'Mag ich', quizNo: 'Nicht meins', quizDeshacer: 'Rückgängig', quizSaltar: 'Überspringen',
     quizListo: 'Fertig', quizResumen: 'Dir gefallen {a} von {b}. Das schärft deinen Plan.',
-    gen: { marca: 'Plan, für dich erzeugt', cuida: 'schone: {a}', datos: '{p} kg · {a} cm · {e} J.', menuAviso: '{n} Gerichte passen noch nicht zu deiner Ernährung: ein größeres Rezeptbuch kommt.', prepNota: 'Nur Rezepte mit „Batch“ werden sonntags vorgekocht; der Rest frisch. Die Einkaufsmengen rechnen die Wiederholungen der Woche schon mit.' },
+    gen: { chk1: 'Außerhalb des Korridors: erst Portionen und Schritte prüfen, bevor du etwas änderst. In den ersten Wochen bewegt sich auch Wasser.', chk2: 'Zwei Wochen daneben: 150 kcal Kohlenhydrate in die passende Richtung anpassen. Protein bleibt.', chk3: 'Abschluss: Fotos, Maße und der nächste Block, mit Daten entschieden.', lKgN: '−{v} kg', lKgD: 'Wochenschnitt {v} kg unter dem Start.', lKgUpN: '+{v} kg', lKgUpD: 'Wochenschnitt {v} kg über dem Start. Muskel, Stein auf Stein.', lCintN: 'Taille −{v}', lCintD: 'Taille unter {v} cm.', lReinaN: 'Königsmetrik', lReinaD: 'Taille unter der Hälfte deiner Größe: {v} cm.', lFinDesc: '{s}-Wochen-Plan beendet. Das Ziel war die Gewohnheit; der Rest ist Folge.', marca: 'Plan, für dich erzeugt', cuida: 'schone: {a}', datos: '{p} kg · {a} cm · {e} J.', menuAviso: '{n} Gerichte passen noch nicht zu deiner Ernährung: ein größeres Rezeptbuch kommt.', prepNota: 'Nur Rezepte mit „Batch“ werden sonntags vorgekocht; der Rest frisch. Die Einkaufsmengen rechnen die Wiederholungen der Woche schon mit.' },
     pBarraT: 'Die Hantel des Plans', pBarraSub: '{a} von {b} Scheiben aufgelegt',
     patrones: { eh: 'Horizontales Drücken', ev: 'Vertikales Drücken', th: 'Horizontales Ziehen', tv: 'Vertikales Ziehen', rod: 'Kniedominant', bis: 'Hüftbeuge', zan: 'Ausfallschritt', core: 'Stabiler Core', flex: 'Rumpfbeugung', curl: 'Ellbogenbeugung', ext: 'Ellbogenstreckung', gem: 'Wade', ais: 'Isolation' },
     quizCatEj: 'Übung', quizCatDep: 'Sportart', quizCatCom: 'Gericht',
@@ -1111,7 +1111,7 @@ window.B2P = (function () {
       objT: 'Was willst du?', objPerder: 'Fett verlieren', objRecomp: 'Rekomposition: weniger Fett, mehr Muskeln', objGanar: 'Muskeln aufbauen', objMantener: 'Halten',
       evT: 'Wofür?', evBoda: 'Eine Hochzeit', evOpo: 'Eine Prüfung', evVerano: 'Sommerfigur', evSiempre: 'Für immer',
       durT: 'Wie viel Zeit gibst du dir?', dur3: '3 Monate', dur6: '6 Monate', dur12: '12 Monate', durAlways: 'Ohne Datum: Gewohnheit',
-      histT: 'Wo kommst du her?', histP: 'Der Wiedereinstieg wird anders geplant: die Sehne gibt das Tempo vor.', histNunca: 'Nie trainiert', histRetoma: 'Zurück nach Jahren Pause', histActivo: 'Trainiere gerade',
+      histT: 'Wo kommst du her?', histP: 'Der Wiedereinstieg wird anders geplant: die Sehne gibt das Tempo vor.', histNunca: 'Nie trainiert', histRetoma: 'Comeback nach Jahren Pause', histActivo: 'Trainiere gerade',
       diasL: 'Tage pro Woche', minL: 'Minuten pro Einheit', franjaT: 'Wann passt es dir?', franjaM: 'Morgens', franjaMd: 'Mittags', franjaT2: 'Abends',
       matT: 'Welche Ausrüstung?', matNada: 'Keine', matCasa: 'Zuhause: Hanteln und Bänder', matGym: 'Komplettes Gym',
       lesT: 'Beschwerden oder Verletzungen?', lesRodilla: 'Knie', lesHombro: 'Schulter', lesLumbar: 'Unterer Rücken', lesNo: 'Keine',
@@ -1177,16 +1177,16 @@ window.B2P = (function () {
     nIngredientes: 'Zutaten (1 Portion)', nPasos: 'Schritte', opcionalParen: ' (optional)',
     chipsProg: ['Überblick', 'Gewicht', 'Taille', 'Gewichte', 'Wochen', 'Checkpoints'],
     pPeso: 'Gewicht', pPerdido: 'Verloren', pCintura: 'Taille', pAdh: 'Konstanz', pSesiones: 'Sessions', pRacha: 'Serie',
-    pMediaS: 'Schnitt W{w}', pSinDatos: 'keine Daten', pDesde: 'seit 95,1', pCinturaSub: '{f} · Ziel <91', pCinturaLunes: 'montags nüchtern',
+    pMediaS: 'Schnitt W{w}', pSinDatos: 'keine Daten', pDesde: 'ab {v}', pCinturaSub: '{f} · Ziel <{m}', pCinturaLunes: 'montags nüchtern',
     pFuerzas: '{a}/{b} Kraftsessions', pDeFuerza: 'Kraftsessions', pDiasCumplidos: 'Tage erfüllt',
     pPesoTitulo: 'Gewicht', pPesoSub: 'Punkte: Wiegungen · Linie: Wochenschnitt · Band: erwarteter Korridor',
-    pCinturaTitulo: 'Taille', pCinturaTituloSub: 'die Königsmetrik · Ziel <91 cm',
+    pCinturaTitulo: 'Taille', pCinturaTituloSub: 'die Königsmetrik · Ziel <{m} cm',
     pCargas: 'Gewichte', pCargasSub: 'Übungsgewicht, Session für Session',
     pAdhTitulo: 'Konstanz', pAdhSub: 'abgeschlossene Kraftsessions pro Woche',
     pChk: 'Checkpoints', pEsperado: 'Erwartet', pReal: 'Ist', pSiDesvias: 'Wenn du abweichst',
     pTabla: 'Tabelle', pGrafica: 'Grafik', pFecha: 'Datum',
     pLifts: { 'press-banca': 'Bank', 'sentadilla-barra': 'Kniebeuge', 'rdl-barra': 'RDL' },
-    pTuMarca: 'deine Bestmarke · {v} kg', pMeta91: 'Ziel 91', pAguaCreatina: 'Kreatin-Wasser', pLineaBase: 'Baseline',
+    pTuMarca: 'deine Bestmarke · {v} kg', pMeta91: 'Ziel {m}', pAguaCreatina: 'Wasser (erste Wochen)', pLineaBase: 'Baseline',
     pMediaSemana: 'Schnitt W{w}',
     pVacioPeso: 'Die Wiegungen von Montag, Mittwoch und Freitag erscheinen hier',
     pVacioCintura: 'Jeden Montag nüchtern: Maßband am Bauchnabel, ohne zu schnüren',
@@ -1212,9 +1212,9 @@ window.B2P = (function () {
     nuevoDia: 'Neuer Tag: {f}'
   };
 
-  UI.checkSalidaTitulo = 'Abschlusscheck (So, 30. Aug)';
+  UI.checkSalidaTitulo = 'Abschluss-Check ({f})';
   UI.checkSalidaTxt = 'Du schaffst beide Zirkel mit den Wdh von Woche 2 ohne Gelenkschmerz → Phase 2. Wenn etwas zwickt, wiederholst du eine Woche: Die Sehnen danken es dir.';
-  UI.planEmpiezaTitulo = 'Der Plan startet am Montag, dem 17. August';
+  UI.planEmpiezaTitulo = 'Der Plan startet am {f}';
   UI.planEmpiezaTxt = 'Phase 1 · Reaktivierung zuhause. Hier hast du alles, um mit gemachten Hausaufgaben anzutreten.';
 
     const QUIZ_DEP = [{ id: 'running', n: 'Laufen' }, { id: 'natacion', n: 'Schwimmen' }, { id: 'ciclismo', n: 'Radfahren' }, { id: 'padel', n: 'Padel' }, { id: 'futbol', n: 'Fußball' }, { id: 'baloncesto', n: 'Basketball' }, { id: 'volley', n: 'Volleyball' }, { id: 'yoga', n: 'Yoga' }, { id: 'calistenia', n: 'Calisthenics' }, { id: 'boxeo', n: 'Boxen' }];

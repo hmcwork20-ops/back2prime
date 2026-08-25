@@ -183,14 +183,32 @@
     'plan-completo': () => { if (hoyISO() < FIN) return false; let t = 0, k = 0; for (let w = 1; w <= 12; w++) sesionesFuerzaSemana(w).forEach(s => { t++; if (s.hecho) k++; }); return t && k / t >= 0.8; }
   };
   function bajadaMax() { const ms = mediasSemanales(); if (!ms.length) return 0; return D.META.perfil.pesoSalida - Math.min(...ms.map(x => x.m)); }
+  function subidaMax() { const ms = mediasSemanales(); if (!ms.length) return 0; return Math.max(...ms.map(x => x.m)) - D.META.perfil.pesoSalida; }
   function cinturaMin() { const cs = Object.values(S.dias).map(d => d.cintura).filter(Boolean); return cs.length ? Math.min(...cs) : null; }
-  function checkpointOk(i) { const cp = D.CHECKPOINTS[i]; if (hoyISO() < cp.fecha) return false; const m = mediaSemana(cp.sem); return m !== null && m <= cp.rango[1]; }
+  function checkpointOk(i) {
+    const cp = D.CHECKPOINTS[i]; if (!cp || hoyISO() < cp.fecha) return false;
+    const m = mediaSemana(cp.sem); if (m === null) return false;
+    // «dentro o mejor» depende de hacia dónde va el plan
+    return cp.dir === 'sube' ? m >= cp.rango[0] : m <= cp.rango[1];
+  }
+
+  /* Los logros generados traen umbrales a medida (kg-5, kgup-2, cint-83…):
+     las condiciones con número en el id se resuelven aquí, sin lista fija. */
+  function condDe(id) {
+    if (COND[id]) return COND[id];
+    let m;
+    if ((m = /^kg-(\d+)$/.exec(id))) return () => bajadaMax() >= +m[1];
+    if ((m = /^kgup-(\d+)$/.exec(id))) return () => subidaMax() >= +m[1];
+    if ((m = /^cint-(\d+)$/.exec(id))) return () => cinturaMin() !== null && cinturaMin() < +m[1];
+    return null;
+  }
 
   function evaluaLogros() {
     const nuevos = [];
     D.LOGROS.forEach(l => {
       if (S.logros[l.id]) return;
-      try { if (COND[l.id] && COND[l.id]()) { S.logros[l.id] = hoyISO(); nuevos.push(l); } } catch (e) { /* nunca romper por un logro */ }
+      const fn = condDe(l.id);
+      try { if (fn && fn()) { S.logros[l.id] = hoyISO(); nuevos.push(l); } } catch (e) { /* nunca romper por un logro */ }
     });
     if (nuevos.length) { save(); celebraCola(nuevos); }
     return nuevos;
@@ -652,7 +670,7 @@
     if (w === 0) {
       const falta = Math.ceil((fromISO(INICIO) - fromISO(hoy)) / 864e5);
       root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, falta > 1 ? tpl(TX.empiezaEnDias, { n: falta }) : falta === 1 ? TX.empiezaEn1 : TX.empiezaLunes),
-        el('p', { class: 'mut', style: 'padding:0 2px' }, TX.preplanSub));
+        el('p', { class: 'mut', style: 'padding:0 2px' }, tpl(TX.preplanSub, { f: fmtFecha(INICIO) })));
       const prep = [
         ['cintura', TX.prepCintura],
         ['foto', TX.prepFotos],

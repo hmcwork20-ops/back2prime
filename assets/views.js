@@ -97,7 +97,7 @@
             el('div', { class: 'sub' }, faseAct.fechas + ' · ' + faseAct.sub + ' · RPE ' + faseAct.rpe))),
         el('p', { style: 'font-size:14px;margin:4px 0 2px' }, faseAct.objetivo)));
     } else if (w === 0) {
-      root.append(el('div', { class: 'banner' }, el('div', null, el('b', null, TX.planEmpiezaTitulo), el('div', null, TX.planEmpiezaTxt))));
+      root.append(el('div', { class: 'banner' }, el('div', null, el('b', null, tpl(TX.planEmpiezaTitulo, { f: U.fmtFecha(D.META.inicioISO) })), el('div', null, TX.planEmpiezaTxt))));
     }
 
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vCalendario)));
@@ -168,7 +168,7 @@
       }));
       if (cardio.size) kids.push(el('div', { class: 'regla' }, el('b', null, TX.cardioFase),
         Array.from(cardio).map(id => el('div', { style: 'margin:4px 0' }, el('b', { style: 'font-family:var(--cuerpo);text-transform:none;font-size:13px;display:inline' }, D.SESIONES[id].nombre + ': '), D.SESIONES[id].detalle))));
-      if (f.id === 1) kids.push(el('div', { class: 'banner ok' }, el('div', null, el('b', null, TX.checkSalidaTitulo), el('div', null, TX.checkSalidaTxt))));
+      if (f.id === 1) kids.push(el('div', { class: 'banner ok' }, el('div', null, el('b', null, tpl(TX.checkSalidaTitulo, { f: U.fmtCorta(U.addDays(D.META.inicioISO, 13)) })), el('div', null, TX.checkSalidaTxt))));
       if (f.id === 2 && D.ARRANQUE) {
         const A = D.ARRANQUE;
         const ta = el('table', null, el('tr', null, el('th', null, TX.ejercicioLbl), el('th', null, 'S3'), el('th', null, 'S4'), el('th', null, 'S5')));
@@ -363,6 +363,7 @@
     const pesoAhora = ms.length ? ms[ms.length - 1].m : null;
     const cint = ultimaCintura();
     const adh = adherenciaGlobal();
+    const metaCint = D.META.perfil.cinturaMetaCm || 91;   // la meta de cintura sale del perfil
 
     const IDS_P = ['p-res', 'p-peso', 'p-cint', 'p-carg', 'p-adh', 'p-chk'];
     root.append(chipNav(IDS_P.map((id, i) => [id, TX.chipsProg[i]])));
@@ -442,8 +443,8 @@
     root.append(resumen);
     resumen.append(el('div', { class: 'statrow' },
       stat(TX.pPeso, pesoAhora ? U.kg1(pesoAhora) : '—', pesoAhora ? tpl(TX.pMediaS, { w: ms[ms.length - 1].w }) : TX.pSinDatos),
-      stat(TX.pPerdido, pesoAhora ? (D.META.perfil.pesoSalida - pesoAhora > 0.04 ? '−' + U.kg1(D.META.perfil.pesoSalida - pesoAhora) : '0,0') : '—', TX.pDesde),
-      stat(TX.pCintura, cint ? U.kg1(cint.v) : '—', cint ? tpl(TX.pCinturaSub, { f: U.fmtCorta(cint.f) }) : TX.pCinturaLunes),
+      stat(TX.pPerdido, pesoAhora ? (D.META.perfil.pesoSalida - pesoAhora > 0.04 ? '−' + U.kg1(D.META.perfil.pesoSalida - pesoAhora) : '0,0') : '—', tpl(TX.pDesde, { v: U.kg1(D.META.perfil.pesoSalida) })),
+      stat(TX.pCintura, cint ? U.kg1(cint.v) : '—', cint ? tpl(TX.pCinturaSub, { f: U.fmtCorta(cint.f), m: metaCint }) : TX.pCinturaLunes),
       stat(TX.pAdh, adh.tot ? Math.round(adh.ok / adh.tot * 100) + '%' : '—', tpl(TX.pFuerzas, { a: adh.ok, b: adh.tot })),
       stat(TX.pSesiones, String(U.totalFuerza()), TX.pDeFuerza),
       stat(TX.pRacha, String(U.racha(hoy)), TX.pDiasCumplidos)));
@@ -467,7 +468,7 @@
 
     // ---- cintura ----
     root.append(el('div', { id: 'p-cint', class: 'card chart-card' },
-      el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.pCinturaTitulo), el('div', { class: 'sub' }, TX.pCinturaTituloSub))),
+      el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.pCinturaTitulo), el('div', { class: 'sub' }, tpl(TX.pCinturaTituloSub, { m: metaCint })))),
       chartCintura()));
 
     // ---- cargas ----
@@ -499,7 +500,8 @@
     const tc = el('table', null, el('tr', null, el('th', null, TX.pFecha), el('th', null, TX.pEsperado), el('th', null, TX.pReal), el('th', null, TX.pSiDesvias)));
     D.CHECKPOINTS.forEach(c => {
       const m = U.mediaSemana(c.sem);
-      const estado = m === null ? '—' : (m <= c.rango[1] ? '✅ ' + U.kg1(m) : '⚠ ' + U.kg1(m));
+      const dentro = m !== null && (c.dir === 'sube' ? m >= c.rango[0] : m <= c.rango[1]);
+      const estado = m === null ? '—' : (dentro ? '✅ ' + U.kg1(m) : '⚠ ' + U.kg1(m));
       tc.append(el('tr', w === c.sem ? { class: 'now' } : null,
         el('td', null, 'S' + c.sem + ' · ' + U.fmtCorta(c.fecha)),
         el('td', { class: 'sr' }, U.kg1(c.rango[0]) + '–' + U.kg1(c.rango[1])),
@@ -569,22 +571,29 @@
     const pesos = Object.keys(S.dias).filter(f => S.dias[f].peso).sort()
       .map(f => ({ x: diaIdx(f), y: S.dias[f].peso, f })).filter(p => p.x >= -7 && p.x <= dias);
     const ms = U.mediasSemanales().map(m => ({ x: (m.w - 1) * 7 + 3, y: m.m, w: m.w }));
-    // dominio Y
-    const ys = pesos.map(p => p.y).concat([86, 95.6]);
+    /* dominio y corredor: del perfil del plan (salida → objetivo), pasando por
+       los checkpoints generados — la banda del dueño murió con el revamp */
+    const salida = D.META.perfil.pesoSalida;
+    const objv = D.META.perfil.objetivoKg || [salida - 1, salida + 1];
+    const objLo = Math.min(objv[0], objv[1]), objHi = Math.max(objv[0], objv[1]);
+    const ys = pesos.map(p => p.y).concat([salida, objLo, objHi]);
     const yMin = Math.floor(Math.min(...ys) - 1), yMax = Math.ceil(Math.max(...ys) + 0.5);
     const sx = x => L + (x + 7) / (dias + 7) * (W - L - R);
     const sy = y => T + (yMax - y) / (yMax - yMin) * (H - T - B);
     const svg = baseSVG(W, H, rotulo(TX.gPeso, pesos.map(p => p.y), 'kg'));
     // corredor esperado (banda neutra)
-    const cor = [[0, 95.6, 94.6], [27, 93.5, 92.5], [55, 91.3, 90.0], [83, 88.0, 86.0]];
+    const cor = [[0, salida + 0.5, salida - 0.5]].concat((D.CHECKPOINTS || [])
+      .filter(c => c.rango).map(c => [c.sem * 7 - 1, Math.max(c.rango[0], c.rango[1]), Math.min(c.rango[0], c.rango[1])]));
     const up = cor.map(c => sx(c[0]) + ',' + sy(c[1])).join(' ');
     const lo = cor.slice().reverse().map(c => sx(c[0]) + ',' + sy(c[2])).join(' ');
     svg.append(sv('polygon', { points: up + ' ' + lo, fill: 'rgba(255,255,255,.055)' }));
     svg.append(sv('polyline', { points: up, fill: 'none', stroke: 'rgba(255,255,255,.16)', 'stroke-dasharray': '3 4', 'stroke-width': 1 }));
     svg.append(sv('polyline', { points: cor.map(c => sx(c[0]) + ',' + sy(c[2])).join(' '), fill: 'none', stroke: 'rgba(255,255,255,.16)', 'stroke-dasharray': '3 4', 'stroke-width': 1 }));
-    // zona creatina (agua) sem 1-2
-    svg.append(sv('rect', { x: sx(0), y: T, width: sx(14) - sx(0), height: H - T - B, fill: 'rgba(102,160,232,.05)' }));
-    const zc = sv('text', { x: sx(7), y: T + 11, 'text-anchor': 'middle', 'font-size': 9.5, fill: 'rgba(167,175,185,.8)' }); zc.textContent = TX.pAguaCreatina; svg.append(zc);
+    // zona de agua de las primeras semanas: solo cuando el plan baja
+    if (objLo < salida) {
+      svg.append(sv('rect', { x: sx(0), y: T, width: sx(14) - sx(0), height: H - T - B, fill: 'rgba(102,160,232,.05)' }));
+      const zc = sv('text', { x: sx(7), y: T + 11, 'text-anchor': 'middle', 'font-size': 9.5, fill: 'rgba(167,175,185,.8)' }); zc.textContent = TX.pAguaCreatina; svg.append(zc);
+    }
     // grid Y
     for (let y = yMin + 1; y < yMax; y += 2) {
       svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' }));
@@ -613,14 +622,15 @@
     const S = U.S, W = 640, H = 200, L = 40, R = 14, T = 14, B = 28, dias = 84;
     const pts = Object.keys(S.dias).filter(f => S.dias[f].cintura).sort().map(f => ({ x: diaIdx(f), y: S.dias[f].cintura, f }));
     if (U.S.config.cinturaBase && !pts.some(p => p.x <= 0)) pts.unshift({ x: -3, y: U.S.config.cinturaBase, base: true });
-    const ys = pts.map(p => p.y).concat([90, U.S.config.cinturaBase || 100]);
-    const yMin = Math.floor(Math.min(...ys, 89) - 1), yMax = Math.ceil(Math.max(...ys) + 1);
+    const M = D.META.perfil.cinturaMetaCm || 91;          // la meta sale del perfil
+    const ys = pts.map(p => p.y).concat([M - 1, U.S.config.cinturaBase || M + 9]);
+    const yMin = Math.floor(Math.min(...ys, M - 2) - 1), yMax = Math.ceil(Math.max(...ys) + 1);
     const sx = x => L + (x + 7) / (dias + 7) * (W - L - R);
     const sy = y => T + (yMax - y) / (yMax - yMin) * (H - T - B);
     const svg = baseSVG(W, H, rotulo(TX.gCintura, pts.map(p => p.y), 'cm'));
-    // meta 91
-    svg.append(sv('line', { x1: L, x2: W - R, y1: sy(91), y2: sy(91), stroke: 'rgba(255,255,255,.22)', 'stroke-dasharray': '5 4' }));
-    const mt = sv('text', { x: W - R, y: sy(91) - 5, 'text-anchor': 'end', 'font-size': 10, fill: EJE2() }); mt.textContent = TX.pMeta91; svg.append(mt);
+    // línea de meta
+    svg.append(sv('line', { x1: L, x2: W - R, y1: sy(M), y2: sy(M), stroke: 'rgba(255,255,255,.22)', 'stroke-dasharray': '5 4' }));
+    const mt = sv('text', { x: W - R, y: sy(M) - 5, 'text-anchor': 'end', 'font-size': 10, fill: EJE2() }); mt.textContent = tpl(TX.pMeta91, { m: M }); svg.append(mt);
     for (let wk = 1; wk <= 12; wk += 2) { const t = sv('text', { x: sx((wk - 1) * 7 + 3), y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: EJE() }); t.textContent = 'S' + wk; svg.append(t); }
     for (let y = yMin + 1; y < yMax; y += 2) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = y; svg.append(t); }
     if (pts.length) {
@@ -747,7 +757,7 @@
       st(TX.lPerdido, U.bajadaMax() > 0 ? '−' + U.kg1(U.bajadaMax()) : '—'),
       st(TX.lMejorRacha, String(mejor)),
       st(TX.lLogrosN, Object.keys(S.logros).length + '/' + D.LOGROS.length),
-      st(TX.lFotos, D.FOTOS.filter(f => S.dias[f] && S.dias[f].foto).length + '/4')));
+      st(TX.lFotos, D.FOTOS.filter(f => S.dias[f] && S.dias[f].foto).length + '/' + D.FOTOS.length)));
 
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.lLogros)));
     const grid = el('div', { class: 'badges' });

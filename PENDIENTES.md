@@ -2,6 +2,35 @@
 
 Anotado el 14 ago 2026, al cierre de la v12.
 Ampliado el 15 ago 2026, al cierre de la auditoría (v22).
+Reordenado el 24 ago 2026, tras el critique dual (28/40) y el pivote a producto.
+
+> **Pivote (24 ago 2026).** La app ya no enseña ningún plan de serie: alta local
+> → cuestionario obligatorio → reveal → tour (v43). Todo el mundo — el autor
+> incluido — pasa por el mismo embudo. El plan base de `data.js` queda como
+> semilla del motor, nunca como vista.
+
+## Estado del ciclo de arreglos del critique (24 ago 2026)
+
+Hecho:
+- **v43 — Puerta de entrada** (P0 + pico-final + puerta médica): alta local con
+  nombre e idioma, quiz forzado, gate médica inmediata con pausa honesta,
+  REVEAL con las decisiones del motor (`__decisiones`), tour de 5 paradas.
+- **v44 — Superficies del dueño → perfil** (P1 contradicción): checkpoints,
+  fotos, corredor de la gráfica de peso, meta de cintura (mitad de estatura si
+  no se declaró), regla 4 y ciencia con `{p}`, título de carrera, escalera de
+  logros a medida (bajada/subida) y logros de cintura generados, sin marcas del
+  dueño, aviso legal neutro, fechas de preplan/plan/check de salida del plan
+  generado, `histRetoma` y logros sin género marcado.
+
+En curso (siguiente):
+- **Motor** (P2 + decisión «cablear las cuatro»): `duracionSem` real (12/24/48),
+  `minSesion` recortando bloques, `franja` en el orden del día, `evento` en la
+  meta; mazo filtrado por dieta (`recetaVale`), likes de deporte consumidos,
+  `esBW` resucitado (campo kg oculto en peso corporal), toma nocturna sin
+  lácteo para veganos/sin-lactosa.
+- **Menores del critique**: 10,5 px en 5 selectores, `.cuest-bar` width→
+  transform, em-dashes de PROGRESO, «Borrar todos» sin desarme, aviso de
+  re-mapeo en import, nombres-taxonomía en cartas del mazo.
 
 > **Marco de trabajo (15 ago 2026).** La app se construye para **cualquier
 > persona**, aunque de momento los únicos datos cargados sean los del autor.

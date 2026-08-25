@@ -218,7 +218,7 @@ window.B2P = (function () {
 
   /* ---------- REGOLE DI CORSA (evidenza BMI ~28) ---------- */
   const CARRERA = {
-    titulo: 'Come correre senza romperti (95 kg comandano)',
+    titulo: 'Correre senza romperti (comandano i {p} kg)',
     reglas: [
       'Cadenza 170-180 passi/min, falcata corta: riduce l\'impatto tibiale di ~11% e il tasso di carico di ~15%. Conta i passi per 30″ (85-90) o usa il metronomo dell\'orologio.',
       'Volume governato dalle sensazioni e dalla progressione del piano: non superare mai ~1,3× la media di quello che stai facendo nelle ultime 4 settimane (l\'app ti avvisa).',
@@ -621,7 +621,7 @@ window.B2P = (function () {
     { n: 1, t: 'RPE sotto controllo', d: 'Ogni fase ha il suo tetto di sforzo. Il tuo sistema nervoso si ricorda di essere stato un atleta; i tuoi tendini sono stati 5 anni sul divano. Frena tu prima che frenino loro.' },
     { n: 2, t: 'Doppia progressione', d: 'Prima sali di ripetizioni dentro il range, poi sali di peso (+2,5 kg; +5 kg in squat e stacco rumeno). Solo se la tecnica è stata pulita in TUTTE le serie. L\'app te lo suggerisce da sola.' },
     { n: 3, t: 'Bilancia = media settimanale', d: 'Pesati lunedì-mercoledì-venerdì a digiuno e guarda solo la media. Un giorno singolo non significa niente (acqua, sale, creatina).' },
-    { n: 4, t: 'Proteine: 190 g in 4 pasti', d: 'Colazione, pranzo, cena e uno spuntino prima di dormire. Nessun pasto sotto i 38-40 g. È la variabile che decide se i chili che perdi sono grasso o muscolo.' },
+    { n: 4, t: 'Proteine: {p} g in 4 pasti', d: 'Colazione, pranzo, cena e una porzione prima di dormire. Nessuna porzione sotto i {q} g. È la variabile che decide se il tuo cambio di peso è grasso o muscolo.' },
     { n: 5, t: '8.000–10.000 passi al giorno', d: 'Tutti i giorni, che ti alleni o no. Bruciano più calorie a settimana delle sessioni stesse.' },
     { n: 6, t: 'Sonno 7–8 h: non negoziabile', d: 'Non è un obiettivo, è una regola: dormire 5,5 h in deficit trasforma la perdita in −55% grasso e +60% muscolo (Nedeltcheva 2010). Caffeina forte solo prima delle 13-14.' },
     { n: 7, t: 'Un giorno saltato non si recupera', d: 'Non raddoppiare le sessioni né tagliare il cibo il giorno dopo. Segui il calendario da dove tocca.' },
@@ -643,7 +643,7 @@ window.B2P = (function () {
       { f: 'F3 (sett 6-9)',    kcal: 2350, p: 190, g: 70, c: 230, nota: 'Settimana 7: DIET BREAK a ~2.800' },
       { f: 'F4 (sett 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
-    escalado: 'Le proteine non si toccano mai: 190 g ≈ 2,5 g/kg di massa magra, il range che l\'evidenza chiede in deficit (Helms 2014). Quando sale il volume di allenamento sale solo il carboidrato. In pratica: in F3 aggiungi un frutto + 40 g di pane a pranzo nei giorni di allenamento; in F4, la stessa cosa tutti i giorni.',
+    escalado: 'Le proteine non si toccano mai: {p} g al giorno per te. Quando sale il volume, salgono solo i carboidrati. In pratica: in F3 aggiungi un frutto + 40 g di pane a pranzo nei giorni di allenamento; in F4, lo stesso tutti i giorni.',
     tomas: 'QUATTRO pasti proteici al giorno, nessuno sotto i 38-40 g: colazione, pranzo, cena e uno spuntino pre-nanna (skyr + whey). Comanda il totale giornaliero, ma dividerlo in 4 spreme la sintesi proteica e toglie la fame notturna.',
     plato: [
       { t: 'Proteine (a ogni pasto)', d: '200-250 g di pollo/tacchino/pesce bianco a crudo, o 170-180 g di salmone/manzo, o 3 uova + 2 albumi, o 250 g di skyr + whey. Riferimento visivo: un palmo e mezzo della mano.' },
@@ -656,7 +656,7 @@ window.B2P = (function () {
       { t: 'Whey', d: '1 misurino nello spuntino pre-nanna con lo skyr (e un altro dove serve nei giorni corti di proteine).' },
       { t: 'Caffeina', d: 'Stop alle 13-14: 200 mg alterano il sonno fino a 13 h dopo; un caffè, ~9 h (Gardiner 2023). Allenamento al mattino: caffè 30-45′ prima, perfetto. Di pomeriggio-sera: niente caffeina — il tuo pre-workout è la merenda (frutta + skyr 60-90′ prima).' },
       { t: 'Opzionali sensati', d: 'Vitamina D solo se le analisi escono sotto i 30 ng/mL (probabile con vita al chiuso). Omega-3 ~2 g EPA+DHA/giorno: beneficio modesto ma reale sulla forza e angolo antinfiammatorio/tendine.' },
-      { t: 'NON spendere in', d: 'Brucia-grassi, BCAA/EAA (ridondanti con 190 g di proteine), "testo booster". Niente di tutto questo sposta l\'ago.' }
+      { t: 'NON spendere in', d: 'Brucia-grassi, BCAA/EAA (ridondanti con le tue proteine giornaliere), "testo booster". Niente di tutto questo sposta l\'ago.' }
     ],
     hidratacion: 'Acqua: 2,5–3 L/giorno. Alcol: conta calorie e blocca il recupero — dentro il pasto libero, fuori dal resto della settimana.',
     comidaLibre: 'UN pasto a settimana (sabato di default), non un giorno intero. Ordini o mangi quello che ti va in quantità normale, senza compensare né prima né dopo. Serve a far reggere il piano per 12 settimane e una vita sociale. Se c\'è un impegno un altro giorno, si sposta — ma resta uno.'
@@ -818,7 +818,7 @@ window.B2P = (function () {
         'Mescola il misurino di whey con lo skyr fino a consistenza di mousse. Cannella sopra.',
         '30-60′ prima di andare a letto. Fine.'
       ],
-      tips: 'Questo spuntino è quello che porta la giornata a ~190 g di proteine e ammazza la fame notturna, il momento in cui muoiono le diete. La caseina del latte, a digestione lenta, lavora mentre dormi.'
+      tips: 'Questa porzione completa le proteine del giorno e uccide la fame notturna, il momento in cui muoiono le diete. La caseina del latte a digestione lenta lavora mentre dormi.'
     },
     {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Insalatona di tonno', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Senza fornelli (col batch)',
@@ -1009,9 +1009,9 @@ window.B2P = (function () {
     { id: 'pr-15',          icon: '🏆', nombre: '15 PR',              desc: 'Quindici PR. La memoria muscolare che paga i dividendi.' },
     { id: 'marca-banca',    icon: '🔓', nombre: 'Panca riconquistata', desc: 'Torni a muovere i tuoi 95 kg di panca piana. Cinque anni dopo.' },
     { id: 'marca-sentadilla', icon: '🔓', nombre: 'Squat riconquistato', desc: 'Torni a muovere i tuoi 100 kg di squat.' },
-    { id: 'dominada-libre', icon: '🦍', nombre: 'Trazione libera',    desc: 'Prima trazione senza assistenza. Bentornato.' },
+    { id: 'dominada-libre', icon: '🦍', nombre: 'Trazione libera',    desc: 'Prima trazione senza assistenza. Di nuovo nel club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Chef della domenica', desc: '4 domeniche di fila di meal prep.' },
-    { id: 'comeback',       icon: '🔁', nombre: 'Il ritorno',         desc: 'Sei tornato dopo 4 o più giorni fermo. Tornare conta più che cadere.' },
+    { id: 'comeback',       icon: '🔁', nombre: 'Il ritorno',         desc: 'Di ritorno dopo 4 o più giorni di stop. Tornare conta più che cadere.' },
     { id: 'fotos-4',        icon: '📸', nombre: 'La sequenza',        desc: 'Tutte e 4 le foto di progresso fatte.' },
     { id: 'checkpoint-s4',  icon: '✅', nombre: 'Checkpoint S4',      desc: 'Peso dentro il corridoio o meglio alla settimana 4.' },
     { id: 'checkpoint-s8',  icon: '✅', nombre: 'Checkpoint S8',      desc: 'Peso dentro il corridoio o meglio alla settimana 8.' },
@@ -1024,9 +1024,9 @@ window.B2P = (function () {
     temas: [
       { t: 'Memoria muscolare', d: 'Il recupero è reale e rapido: forza in ~8 settimane, volume in ~12. Il meccanismo (mionuclei vs epigenetica) è in discussione, ma l\'effetto no. Per questo la doppia progressione può andare più veloce che in un principiante — e proprio per questo NON si comprime il calendario: chi non corre è il tendine.', ref: 'Rahmati 2022 (meta-analisi, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
       { t: 'Tendine: il fattore limitante', d: 'Il collagene tendineo si rinnova ~10× più lentamente del muscolo. Cosa lo adatta davvero: carichi alti con contrazioni lente da ~3″ (HSR) e isometrie al 70% (5×45″), che in più tolgono il dolore all\'istante. La pliometria è un cattivo stimolo tendineo: niente salti per «preparare» la corsa.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
-      { t: 'Correre a 95 kg', d: 'In sovrappeso, partire con più di 3 km/sett di corsa fa schizzare gli infortuni (~31-48% in più). Alzare la cadenza a 170-180 riduce l\'impatto tibiale di ~11%. La progressione sicura non è la "regola del 10%": è non superare ~1,3× la tua media delle ultime 4 settimane.', ref: 'Bertelsen 2018 (RCT su principianti in sovrappeso) · revisione sulla cadenza 2025 · consenso CIO sul carico' },
+      { t: 'Correre in sovrappeso', d: 'In sovrappeso, partire con più di 3 km/sett di corsa fa schizzare gli infortuni (~31-48% in più). Alzare la cadenza a 170-180 riduce l\'impatto tibiale di ~11%. La progressione sicura non è la "regola del 10%": è non superare ~1,3× la tua media delle ultime 4 settimane.', ref: 'Bertelsen 2018 (RCT su principianti in sovrappeso) · revisione sulla cadenza 2025 · consenso CIO sul carico' },
       { t: 'Deficit ottimale', d: 'Un deficit oltre ~500-600 kcal annulla la crescita del muscolo anche se alleni la forza. Il ritmo ottimale per trattenere massa magra è ~0,7% del peso/settimana. Per questo il piano perde a 0,6-0,75 kg/sett e non a 0,9.', ref: 'Murphy & Koehler 2022 (meta-analisi, 59 studi) · Garthe 2011' },
-      { t: 'Proteine', d: 'In deficit, gli allenati hanno bisogno di 2,3-3,1 g/kg di massa magra. 190 g ti mettono comodo nel range, e dividerli in 4 pasti da ≥40 g spreme la sintesi proteica e controlla la fame.', ref: 'Helms 2014 (revisione sistematica) · Schoenfeld & Aragon (distribuzione per pasto)' },
+      { t: 'Proteine', d: 'In deficit, gli allenati hanno bisogno di 2,3-3,1 g/kg di massa magra. {p} g ti mettono comodo nel range, e dividerli in 4 pasti da ≥40 g spreme la sintesi proteica e controlla la fame.', ref: 'Helms 2014 (revisione sistematica) · Schoenfeld & Aragon (distribuzione per pasto)' },
       { t: 'Diet break', d: 'Alternare deficit e pause a mantenimento ha attenuato il calo metabolico e migliorato la perdita di grasso nello studio MATADOR. In 12 settimane il suo valore principale per il tuo profilo on/off è un altro: ti insegna che fermarti UNA settimana con un piano non è ricadere.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
       { t: 'Il volume giusto', d: 'Più serie = più muscolo ma con rendimenti decrescenti, e in deficit l\'eccesso aggiunge solo fatica e rischio. Bersaglio: ~10 serie/muscolo/sett in F2 e 12-18 in F3-F4. E il minimo non negoziabile (2 pesi + 1 cardio) ha basi solide: con quello il muscolo si CONSERVA davvero.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (dose minima)' },
       { t: 'Scarico fatto bene', d: 'Fermarsi del tutto per una settimana costa forza; quello che funziona è dimezzare il volume mantenendo il peso sul bilanciere. Per questo la settimana 9 è uno scarico OBBLIGATORIO di quel tipo, e la 10 (salto a 5 giorni) parte con una serie in meno su tutto.', ref: 'Coleman 2024 (PeerJ, RCT sullo scarico)' },
@@ -1037,7 +1037,7 @@ window.B2P = (function () {
 
   const CIERRE = 'Il vero obiettivo del piano non è l\'8 novembre: è arrivare a dicembre allenandoti 4 giorni per abitudine, senza ciclo on/off. Il peso è la conseguenza, non la meta.';
 
-  const AVISO_LEGAL = 'Piano elaborato il 13 ago 2026 (v2, rivisto contro l\'evidenza scientifica quello stesso giorno) con i dati: uomo, 30 anni, 183 cm, 95,1 kg, polso 16,1 cm, punto di partenza sedentario con un passato ad alto livello. Stime di kcal e macro con margine del ±10%: le regole di aggiustamento correggono quel margine con dati reali. Non sostituisce il parere medico; davanti a qualsiasi patologia o dolore persistente, consulta un professionista sanitario.';
+  const AVISO_LEGAL = 'Il tuo piano si genera dalle tue risposte con formule standard (Mifflin-St Jeor e fattori di attività classici), con un margine del ±10% che le regole di aggiustamento correggono con i tuoi dati reali. Niente di tutto questo sostituisce il parere medico: per qualsiasi patologia, dolore persistente o dubbio, rivolgiti a un professionista sanitario.';
 
   /* ---------- TESTI DI INTERFACCIA (traducibili come il resto) ----------
      Template con {x}: app.js li riempie con tpl(). Al cambio di lingua
@@ -1050,7 +1050,7 @@ window.B2P = (function () {
     hoyTag: 'OGGI',
     semanaLinea: 'Settimana {w} di 12 · Fase {f} · {n} · RPE tetto {r}',
     empiezaEnDias: 'Parte tra {n} giorni', empiezaEn1: 'Parte tra 1 giorno', empiezaLunes: 'Parte lunedì',
-    preplanSub: 'Lunedì 17 agosto · Fase 1 a casa. Nel frattempo, lascia pronta la linea di base:',
+    preplanSub: '{f} · Fase 1 a casa. Intanto, prepara la tua linea di base:',
     prepCintura: 'Misurati il girovita a digiuno (all\'altezza dell\'ombelico)',
     prepFotos: 'Foto giorno 0: fronte e profilo, stessa luce che userai sempre',
     prepCompra: 'Spesa della settimana 1 (lista in Cibo)',
@@ -1079,7 +1079,7 @@ window.B2P = (function () {
     quizTitulo: 'I tuoi gusti', quizPista: 'Scorri: destra mi piace, sinistra no',
     quizSi: 'Mi piace', quizNo: 'Non fa per me', quizDeshacer: 'Annulla', quizSaltar: 'Salta',
     quizListo: 'Fatto', quizResumen: 'Ti piacciono {a} su {b}. Affinerà il tuo piano.',
-    gen: { marca: 'Piano generato per te', cuida: 'proteggi: {a}', datos: '{p} kg · {a} cm · {e} anni', menuAviso: '{n} piatti del menù non combaciano ancora con la tua dieta: ricettario ampliato in arrivo.', prepNota: 'Solo le ricette segnate «batch» si preparano la domenica; il resto si cucina al momento. Le quantità della spesa contano già le ripetizioni della settimana.' },
+    gen: { chk1: 'Fuori dal corridoio: controlla porzioni e passi prima di toccare altro. Nelle prime settimane si muove anche l’acqua.', chk2: 'Due settimane fuori: aggiusta 150 kcal di carboidrati nella direzione giusta. Le proteine non si toccano.', chk3: 'Chiusura: foto, misure e il blocco successivo, deciso con i dati.', lKgN: '−{v} kg', lKgD: 'Media settimanale {v} kg sotto la partenza.', lKgUpN: '+{v} kg', lKgUpD: 'Media settimanale {v} kg sopra la partenza. Muscolo, mattone su mattone.', lCintN: 'Girovita −{v}', lCintD: 'Girovita sotto {v} cm.', lReinaN: 'Metrica regina', lReinaD: 'Girovita sotto la metà della tua statura: {v} cm.', lFinDesc: 'Piano di {s} settimane finito. L’obiettivo era l’abitudine; il resto è conseguenza.', marca: 'Piano generato per te', cuida: 'proteggi: {a}', datos: '{p} kg · {a} cm · {e} anni', menuAviso: '{n} piatti del menù non combaciano ancora con la tua dieta: ricettario ampliato in arrivo.', prepNota: 'Solo le ricette segnate «batch» si preparano la domenica; il resto si cucina al momento. Le quantità della spesa contano già le ripetizioni della settimana.' },
     pBarraT: 'Il bilanciere del piano', pBarraSub: '{a} dischi su {b} caricati',
     patrones: { eh: 'Spinta orizzontale', ev: 'Spinta verticale', th: 'Tirata orizzontale', tv: 'Tirata verticale', rod: 'Dominante di ginocchio', bis: 'Cerniera d’anca', zan: 'Affondo', core: 'Core stabile', flex: 'Flessione del tronco', curl: 'Flessione di gomito', ext: 'Estensione di gomito', gem: 'Polpaccio', ais: 'Isolamento' },
     quizCatEj: 'Esercizio', quizCatDep: 'Sport', quizCatCom: 'Piatto',
@@ -1111,7 +1111,7 @@ window.B2P = (function () {
       objT: 'Cosa cerchi?', objPerder: 'Perdere grasso', objRecomp: 'Ricomposizione: meno grasso, più muscolo', objGanar: 'Mettere muscolo', objMantener: 'Mantenermi',
       evT: 'Per cosa?', evBoda: 'Un matrimonio', evOpo: 'Un concorso', evVerano: 'Prova costume', evSiempre: 'Per sempre',
       durT: 'Quanto tempo ti dai?', dur3: '3 mesi', dur6: '6 mesi', dur12: '12 mesi', durAlways: 'Senza data: abitudine',
-      histT: 'Da dove vieni?', histP: 'Il rientro si programma diversamente: comanda il tendine.', histNunca: 'Mai allenato', histRetoma: 'Torno dopo anni fermo', histActivo: 'Mi alleno ora',
+      histT: 'Da dove vieni?', histP: 'Il rientro si programma diversamente: comanda il tendine.', histNunca: 'Mai allenato', histRetoma: 'Torno dopo anni di stop', histActivo: 'Mi alleno ora',
       diasL: 'Giorni a settimana', minL: 'Minuti a seduta', franjaT: 'Quando preferisci?', franjaM: 'Mattina', franjaMd: 'Mezzogiorno', franjaT2: 'Sera',
       matT: 'Con che attrezzatura?', matNada: 'Niente', matCasa: 'Casa: manubri ed elastici', matGym: 'Palestra completa',
       lesT: 'Fastidi o infortuni?', lesRodilla: 'Ginocchio', lesHombro: 'Spalla', lesLumbar: 'Lombare', lesNo: 'Nessuno',
@@ -1177,16 +1177,16 @@ window.B2P = (function () {
     nIngredientes: 'Ingredienti (1 porzione)', nPasos: 'Passaggi', opcionalParen: ' (opzionale)',
     chipsProg: ['Riepilogo', 'Peso', 'Girovita', 'Carichi', 'Settimane', 'Checkpoint'],
     pPeso: 'Peso', pPerdido: 'Perso', pCintura: 'Girovita', pAdh: 'Aderenza', pSesiones: 'Sessioni', pRacha: 'Striscia',
-    pMediaS: 'media S{w}', pSinDatos: 'niente dati', pDesde: 'da 95,1', pCinturaSub: '{f} · meta <91', pCinturaLunes: 'lunedì a digiuno',
+    pMediaS: 'media S{w}', pSinDatos: 'niente dati', pDesde: 'da {v}', pCinturaSub: '{f} · meta <{m}', pCinturaLunes: 'lunedì a digiuno',
     pFuerzas: '{a}/{b} pesi', pDeFuerza: 'di pesi', pDiasCumplidos: 'giorni chiusi',
     pPesoTitulo: 'Peso', pPesoSub: 'punti: pesate · linea: media settimanale · banda: corridoio atteso',
-    pCinturaTitulo: 'Girovita', pCinturaTituloSub: 'la metrica regina · obiettivo <91 cm',
+    pCinturaTitulo: 'Girovita', pCinturaTituloSub: 'la metrica regina · obiettivo <{m} cm',
     pCargas: 'Carichi', pCargasSub: 'peso dell\'esercizio, sessione dopo sessione',
     pAdhTitulo: 'Aderenza', pAdhSub: 'sessioni di pesi completate a settimana',
     pChk: 'Checkpoint', pEsperado: 'Atteso', pReal: 'Reale', pSiDesvias: 'Se sbandi',
     pTabla: 'tabella', pGrafica: 'grafico', pFecha: 'Data',
     pLifts: { 'press-banca': 'Panca', 'sentadilla-barra': 'Squat', 'rdl-barra': 'Rumeno' },
-    pTuMarca: 'il tuo massimale · {v} kg', pMeta91: 'meta 91', pAguaCreatina: 'acqua creatina', pLineaBase: 'Linea di base',
+    pTuMarca: 'il tuo massimale · {v} kg', pMeta91: 'meta {m}', pAguaCreatina: 'acqua (prime settimane)', pLineaBase: 'Linea di base',
     pMediaSemana: 'Media S{w}',
     pVacioPeso: 'Le pesate di lunedì, mercoledì e venerdì appariranno qui',
     pVacioCintura: 'Ogni lunedì a digiuno: metro all\'ombelico, senza stringere',
@@ -1212,9 +1212,9 @@ window.B2P = (function () {
     nuevoDia: 'Nuovo giorno: {f}'
   };
 
-  UI.checkSalidaTitulo = 'Check di uscita (dom 30 ago)';
+  UI.checkSalidaTitulo = 'Check di uscita ({f})';
   UI.checkSalidaTxt = 'Completi entrambi i circuiti con le reps della settimana 2 senza dolore articolare → Fase 2. Se qualcosa dà fastidio, ripeti una settimana: i tendini ringraziano.';
-  UI.planEmpiezaTitulo = 'Il piano parte lunedì 17 agosto';
+  UI.planEmpiezaTitulo = 'Il piano inizia il {f}';
   UI.planEmpiezaTxt = 'Fase 1 · Riattivazione a casa. Qui hai tutto per arrivare coi compiti fatti.';
 
     const QUIZ_DEP = [{ id: 'running', n: 'Corsa' }, { id: 'natacion', n: 'Nuoto' }, { id: 'ciclismo', n: 'Ciclismo' }, { id: 'padel', n: 'Padel' }, { id: 'futbol', n: 'Calcio' }, { id: 'baloncesto', n: 'Basket' }, { id: 'volley', n: 'Pallavolo' }, { id: 'yoga', n: 'Yoga' }, { id: 'calistenia', n: 'Calisthenics' }, { id: 'boxeo', n: 'Boxe' }];

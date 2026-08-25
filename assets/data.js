@@ -218,7 +218,7 @@ window.B2P = (function () {
 
   /* ---------- REGLAS DE CARRERA (evidencia BMI ~28) ---------- */
   const CARRERA = {
-    titulo: 'Cómo correr sin romperte (95 kg mandan)',
+    titulo: 'Cómo correr sin romperte ({p} kg mandan)',
     reglas: [
       'Cadencia 170-180 pasos/min, zancada corta: reduce el impacto tibial ~11% y la tasa de carga ~15%. Cuenta pasos 30″ (85-90) o usa el metrónomo del reloj.',
       'Volumen gobernado por sensaciones y progresión del plan: nunca subas más de ~1,3× lo que vienes haciendo de media las últimas 4 semanas (la app te avisa).',
@@ -621,7 +621,7 @@ window.B2P = (function () {
     { n: 1, t: 'RPE controlado', d: 'Cada fase tiene su tope de esfuerzo. Tu sistema nervioso recuerda ser atleta; tus tendones llevan 5 años en el sofá. Frena tú antes de que frenen ellos.' },
     { n: 2, t: 'Progresión doble', d: 'Primero sube repeticiones dentro del rango, luego sube peso (+2,5 kg; +5 kg en sentadilla y peso muerto rumano). Solo si la técnica fue limpia en TODAS las series. La app te lo sugiere sola.' },
     { n: 3, t: 'Báscula = media semanal', d: 'Pésate lunes-miércoles-viernes en ayunas y mira solo la media. Un día suelto no significa nada (agua, sal, creatina).' },
-    { n: 4, t: 'Proteína: 190 g en 4 tomas', d: 'Desayuno, comida, cena y una toma antes de dormir. Ninguna toma por debajo de 38-40 g. Es la variable que decide si los kilos que pierdes son grasa o músculo.' },
+    { n: 4, t: 'Proteína: {p} g en 4 tomas', d: 'Desayuno, comida, cena y una toma antes de dormir. Ninguna toma por debajo de {q} g. Es la variable que decide si tu cambio de peso es grasa o músculo.' },
     { n: 5, t: '8.000–10.000 pasos diarios', d: 'Todos los días, entrenes o no. Queman más a la semana que las propias sesiones.' },
     { n: 6, t: 'Sueño 7–8 h: innegociable', d: 'No es un objetivo, es una regla: dormir 5,5 h en déficit convierte la pérdida en −55% grasa y +60% músculo (Nedeltcheva 2010). Cafeína fuerte solo antes de las 13-14 h.' },
     { n: 7, t: 'Un día fallado no se recupera', d: 'No dobles sesiones ni recortes comida al día siguiente. Sigues el calendario donde toque.' },
@@ -643,7 +643,7 @@ window.B2P = (function () {
       { f: 'F3 (sem 6-9)',    kcal: 2350, p: 190, g: 70, c: 230, nota: 'Semana 7: DIET BREAK a ~2.800' },
       { f: 'F4 (sem 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
-    escalado: 'La proteína no se toca nunca: 190 g ≈ 2,5 g/kg de masa magra, el rango que la evidencia pide en déficit (Helms 2014). Al subir el volumen de entreno solo sube el carbohidrato. En la práctica: en F3 añade una pieza de fruta + 40 g de pan a la comida en días de entreno; en F4, eso mismo todos los días.',
+    escalado: 'La proteína no se toca nunca: {p} g al día para ti. Al subir el volumen de entreno solo sube el carbohidrato. En la práctica: en F3 añade una pieza de fruta + 40 g de pan a la comida en días de entreno; en F4, eso mismo todos los días.',
     tomas: 'CUATRO tomas de proteína al día, ninguna por debajo de 38-40 g: desayuno, comida, cena y una toma pre-sueño (skyr + whey). El total diario manda, pero el reparto en 4 exprime la síntesis proteica y quita hambre nocturna.',
     plato: [
       { t: 'Proteína (cada comida)', d: '200-250 g de pollo/pavo/pescado blanco en crudo, o 170-180 g de salmón/ternera, o 3 huevos + 2 claras, o 250 g de skyr + whey. Referencia visual: palma de la mano y media.' },
@@ -656,7 +656,7 @@ window.B2P = (function () {
       { t: 'Whey', d: '1 cazo en la toma pre-sueño con el skyr (y otro donde haga falta los días cortos de proteína).' },
       { t: 'Cafeína', d: 'Corte a las 13-14 h: 200 mg alteran el sueño hasta 13 h después; un café, ~9 h (Gardiner 2023). Entreno de mañana: café 30-45′ antes, perfecto. De tarde-noche: sin cafeína — tu pre-entreno es la merienda (fruta + skyr 60-90′ antes).' },
       { t: 'Opcionales con sentido', d: 'Vitamina D solo si la analítica sale por debajo de 30 ng/mL (probable con vida de interior). Omega-3 ~2 g EPA+DHA/día: beneficio modesto pero real en fuerza y ángulo antiinflamatorio/tendón.' },
-      { t: 'NO gastes en', d: 'Quemagrasas, BCAA/EAA (redundantes con 190 g de proteína), "testo boosters". Nada de eso mueve la aguja.' }
+      { t: 'NO gastes en', d: 'Quemagrasas, BCAA/EAA (redundantes con tu proteína diaria), "testo boosters". Nada de eso mueve la aguja.' }
     ],
     hidratacion: 'Agua: 2,5–3 L/día. Alcohol: cuenta calorías y bloquea la recuperación — dentro de la comida libre, fuera del resto de la semana.',
     comidaLibre: 'UNA comida a la semana (sábado por defecto), no un día. Pides o comes lo que te apetezca en cantidad normal, sin compensar antes ni después. Sirve para que el plan aguante 12 semanas y una vida social. Si hay plan otro día, se mueve — pero sigue siendo una.'
@@ -818,7 +818,7 @@ window.B2P = (function () {
         'Mezcla el cazo de whey con el skyr hasta textura de mousse. Canela por encima.',
         '30-60′ antes de acostarte. Ya está.'
       ],
-      tips: 'Esta toma es la que sube el día a ~190 g de proteína y mata el hambre nocturna, el momento donde mueren las dietas. La caseína láctea de digestión lenta trabaja mientras duermes.'
+      tips: 'Esta toma remata la proteína del día y mata el hambre nocturna, el momento donde mueren las dietas. La caseína láctea de digestión lenta trabaja mientras duermes.'
     },
     {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Ensalada completa de atún', tipo: 'Cena · 10′', tiempo: '10′', cocina: 'Sin fuego (con batch)',
@@ -1009,9 +1009,9 @@ window.B2P = (function () {
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',            desc: 'Quince PRs. La memoria muscular pagando dividendos.' },
     { id: 'marca-banca',    icon: '🔓', nombre: 'Banca recuperada',  desc: 'Vuelves a mover tus 95 kg en press banca. Cinco años después.' },
     { id: 'marca-sentadilla', icon: '🔓', nombre: 'Sentadilla recuperada', desc: 'Vuelves a mover tus 100 kg en sentadilla.' },
-    { id: 'dominada-libre', icon: '🦍', nombre: 'Dominada libre',    desc: 'Primera dominada sin asistencia. Bienvenido de vuelta.' },
+    { id: 'dominada-libre', icon: '🦍', nombre: 'Dominada libre',    desc: 'Primera dominada sin asistencia. De vuelta al club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Chef de domingo',   desc: '4 domingos seguidos de meal prep.' },
-    { id: 'comeback',       icon: '🔁', nombre: 'La vuelta',         desc: 'Volviste tras 4 o más días parado. Volver importa más que caer.' },
+    { id: 'comeback',       icon: '🔁', nombre: 'La vuelta',         desc: 'La vuelta tras 4 o más días sin entrenar. Volver importa más que caer.' },
     { id: 'fotos-4',        icon: '📸', nombre: 'La secuencia',      desc: 'Las 4 fotos de progreso hechas.' },
     { id: 'checkpoint-s4',  icon: '✅', nombre: 'Checkpoint S4',     desc: 'Peso dentro o mejor del corredor en la semana 4.' },
     { id: 'checkpoint-s8',  icon: '✅', nombre: 'Checkpoint S8',     desc: 'Peso dentro o mejor del corredor en la semana 8.' },
@@ -1024,9 +1024,9 @@ window.B2P = (function () {
     temas: [
       { t: 'Memoria muscular', d: 'Recuperar lo ganado es real y rápido: fuerza en ~8 semanas, tamaño en ~12. El mecanismo (mionúcleos vs epigenética) está en debate, pero el efecto no. Por eso la doble progresión puede ir más rápido que en un novato — y por eso mismo NO se comprime el calendario: el que no corre es el tendón.', ref: 'Rahmati 2022 (metaanálisis, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
       { t: 'Tendón: el limitante', d: 'El colágeno tendinoso se renueva ~10× más lento que el músculo. Lo que sí lo adapta: cargas altas con contracciones lentas de ~3″ (HSR) e isométricos al 70% (5×45″), que además quitan dolor al momento. La pliometría es mal estímulo tendinoso: nada de saltos para «preparar» el trote.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
-      { t: 'Correr a 95 kg', d: 'Con sobrepeso, empezar con más de 3 km/sem de trote dispara las lesiones (~31-48% más). Subir la cadencia a 170-180 reduce el impacto tibial ~11%. La progresión segura no es la "regla del 10%": es no superar ~1,3× tu media de las últimas 4 semanas.', ref: 'Bertelsen 2018 (ECA en noveles con sobrepeso) · revisión de cadencia 2025 · consenso COI de carga' },
+      { t: 'Correr con sobrepeso', d: 'Con sobrepeso, empezar con más de 3 km/sem de trote dispara las lesiones (~31-48% más). Subir la cadencia a 170-180 reduce el impacto tibial ~11%. La progresión segura no es la "regla del 10%": es no superar ~1,3× tu media de las últimas 4 semanas.', ref: 'Bertelsen 2018 (ECA en noveles con sobrepeso) · revisión de cadencia 2025 · consenso COI de carga' },
       { t: 'Déficit óptimo', d: 'Un déficit mayor de ~500-600 kcal anula la ganancia de músculo aunque entrenes fuerza. El ritmo óptimo para retener magro es ~0,7% del peso/semana. Por eso el plan pierde a 0,6-0,75 kg/sem y no a 0,9.', ref: 'Murphy & Koehler 2022 (metaanálisis, 59 estudios) · Garthe 2011' },
-      { t: 'Proteína', d: 'En déficit, los entrenados necesitan 2,3-3,1 g/kg de masa magra. 190 g te sitúa cómodo en el rango, y repartirlo en 4 tomas de ≥40 g exprime la síntesis proteica y controla el hambre.', ref: 'Helms 2014 (revisión sistemática) · Schoenfeld & Aragon (reparto por toma)' },
+      { t: 'Proteína', d: 'En déficit, los entrenados necesitan 2,3-3,1 g/kg de masa magra. {p} g te sitúa cómodo en el rango, y repartirlo en 4 tomas de ≥40 g exprime la síntesis proteica y controla el hambre.', ref: 'Helms 2014 (revisión sistemática) · Schoenfeld & Aragon (reparto por toma)' },
       { t: 'Diet break', d: 'Alternar déficit con descansos a mantenimiento atenuó la caída metabólica y mejoró la pérdida de grasa en el estudio MATADOR. En 12 semanas su valor principal para tu perfil on/off es otro: te enseña que parar UNA semana con plan no es recaer.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
       { t: 'Volumen justo', d: 'Más series = más músculo pero con rendimientos decrecientes, y en déficit el exceso solo suma fatiga y riesgo. Diana: ~10 series/músculo/sem en F2 y 12-18 en F3-F4. Y el mínimo innegociable (2 fuerzas + 1 cardio) tiene respaldo: con eso se CONSERVA músculo de verdad.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (dosis mínima)' },
       { t: 'Descarga bien hecha', d: 'Parar del todo una semana cuesta fuerza; lo que funciona es recortar el volumen a la mitad manteniendo el peso en la barra. Por eso la semana 9 es descarga OBLIGATORIA de ese tipo, y la 10 (salto a 5 días) entra con una serie menos en todo.', ref: 'Coleman 2024 (PeerJ, ECA de descarga)' },
@@ -1037,7 +1037,7 @@ window.B2P = (function () {
 
   const CIERRE = 'El objetivo real del plan no es el 8 de noviembre: es llegar a diciembre entrenando 4 días por costumbre, sin ciclo on/off. El peso es la consecuencia, no la meta.';
 
-  const AVISO_LEGAL = 'Plan elaborado el 13 ago 2026 (v2, revisado contra evidencia científica ese mismo día) con los datos: hombre, 30 años, 183 cm, 95,1 kg, muñeca 16,1 cm, punto de partida sedentario con historial de alto rendimiento. Estimaciones de kcal y macros con margen de ±10%: las reglas de ajuste corrigen ese margen con datos reales. No sustituye consejo médico; ante cualquier patología o dolor persistente, consulta con un profesional sanitario.';
+  const AVISO_LEGAL = 'Tu plan se genera con tus respuestas usando fórmulas estándar (Mifflin-St Jeor y factores de actividad clásicos), con un margen de ±10% que las reglas de ajuste corrigen con tus datos reales. Nada de esto sustituye consejo médico: ante cualquier patología, dolor persistente o duda, consulta con un profesional sanitario.';
 
   /* ---------- TEXTOS DE INTERFAZ (traducibles como el resto) ----------
      Plantillas con {x}: app.js las rellena con tpl(). Al cambiar de idioma
@@ -1050,7 +1050,7 @@ window.B2P = (function () {
     hoyTag: 'HOY',
     semanaLinea: 'Semana {w} de 12 · Fase {f} · {n} · RPE tope {r}',
     empiezaEnDias: 'Empieza en {n} días', empiezaEn1: 'Empieza en 1 día', empiezaLunes: 'Empieza el lunes',
-    preplanSub: 'Lunes 17 de agosto · Fase 1 en casa. Mientras tanto, deja lista la línea base:',
+    preplanSub: '{f} · Fase 1 en casa. Mientras tanto, deja lista la línea base:',
     prepCintura: 'Mídete la cintura en ayunas (a la altura del ombligo)',
     prepFotos: 'Fotos día 0: frente y perfil, misma luz que usarás siempre',
     prepCompra: 'Compra de la semana 1 (lista en Comida)',
@@ -1079,7 +1079,7 @@ window.B2P = (function () {
     quizTitulo: 'Tus gustos', quizPista: 'Desliza: derecha me gusta, izquierda no',
     quizSi: 'Me gusta', quizNo: 'No me va', quizDeshacer: 'Deshacer', quizSaltar: 'Saltar',
     quizListo: 'Listo', quizResumen: 'Te gustan {a} de {b}. Esto afinará tu plan.',
-    gen: { marca: 'Plan generado a tu medida', cuida: 'cuida: {a}', datos: '{p} kg · {a} cm · {e} años', menuAviso: '{n} platos del menú no encajan con tu dieta: el recetario ampliado llega pronto.', prepNota: 'Solo las recetas marcadas «batch» se dejan hechas el domingo; el resto se cocina al momento. Las cantidades de la compra ya cuentan las repeticiones de la semana.' },
+    gen: { chk1: 'Fuera del corredor: repasa raciones y pasos antes de tocar nada. Las primeras semanas también se mueve agua.', chk2: 'Dos semanas fuera: ajusta 150 kcal de carbohidrato en la dirección que toque. La proteína no se toca.', chk3: 'Cierre: fotos, medidas y el siguiente bloque, decidido con datos.', lKgN: '−{v} kg', lKgD: 'Media semanal {v} kg por debajo de la salida.', lKgUpN: '+{v} kg', lKgUpD: 'Media semanal {v} kg por encima de la salida. Músculo, ladrillo a ladrillo.', lCintN: 'Cintura −{v}', lCintD: 'Cintura por debajo de {v} cm.', lReinaN: 'Métrica reina', lReinaD: 'Cintura por debajo de la mitad de tu estatura: {v} cm.', lFinDesc: 'Plan de {s} semanas terminado. La meta era el hábito; lo demás es consecuencia.', marca: 'Plan generado a tu medida', cuida: 'cuida: {a}', datos: '{p} kg · {a} cm · {e} años', menuAviso: '{n} platos del menú no encajan con tu dieta: el recetario ampliado llega pronto.', prepNota: 'Solo las recetas marcadas «batch» se dejan hechas el domingo; el resto se cocina al momento. Las cantidades de la compra ya cuentan las repeticiones de la semana.' },
     pBarraT: 'La barra del plan', pBarraSub: '{a} de {b} discos cargados',
     patrones: { eh: 'Empuje horizontal', ev: 'Empuje vertical', th: 'Tirón horizontal', tv: 'Tirón vertical', rod: 'Dominante de rodilla', bis: 'Bisagra de cadera', zan: 'Zancada', core: 'Core estable', flex: 'Flexión de tronco', curl: 'Flexión de codo', ext: 'Extensión de codo', gem: 'Gemelo', ais: 'Aislamiento' },
     quizCatEj: 'Ejercicio', quizCatDep: 'Deporte', quizCatCom: 'Comida',
@@ -1111,7 +1111,7 @@ window.B2P = (function () {
       objT: '¿Qué buscas?', objPerder: 'Perder grasa', objRecomp: 'Recomponer: menos grasa, más músculo', objGanar: 'Ganar músculo', objMantener: 'Mantenerme',
       evT: '¿Para qué?', evBoda: 'Una boda', evOpo: 'Una oposición', evVerano: 'Operación verano', evSiempre: 'Para siempre',
       durT: '¿Cuánto tiempo te das?', dur3: '3 meses', dur6: '6 meses', dur12: '12 meses', durAlways: 'Sin fecha: hábito',
-      histT: '¿De dónde vienes?', histP: 'La vuelta se programa distinto: el tendón marca el ritmo.', histNunca: 'Nunca he entrenado', histRetoma: 'Vuelvo tras años parado', histActivo: 'Entreno ahora',
+      histT: '¿De dónde vienes?', histP: 'La vuelta se programa distinto: el tendón marca el ritmo.', histNunca: 'Nunca he entrenado', histRetoma: 'Vuelvo tras años sin entrenar', histActivo: 'Entreno ahora',
       diasL: 'Días por semana', minL: 'Minutos por sesión', franjaT: '¿Cuándo prefieres?', franjaM: 'Mañana', franjaMd: 'Mediodía', franjaT2: 'Tarde-noche',
       matT: '¿Con qué material?', matNada: 'Sin material', matCasa: 'Casa: mancuernas y bandas', matGym: 'Gimnasio completo',
       lesT: '¿Molestias o lesiones?', lesRodilla: 'Rodilla', lesHombro: 'Hombro', lesLumbar: 'Lumbar', lesNo: 'Ninguna',
@@ -1177,16 +1177,16 @@ window.B2P = (function () {
     nIngredientes: 'Ingredientes (1 ración)', nPasos: 'Pasos', opcionalParen: ' (opcional)',
     chipsProg: ['Resumen', 'Peso', 'Cintura', 'Cargas', 'Semanas', 'Checkpoints'],
     pPeso: 'Peso', pPerdido: 'Perdido', pCintura: 'Cintura', pAdh: 'Adherencia', pSesiones: 'Sesiones', pRacha: 'Racha',
-    pMediaS: 'media S{w}', pSinDatos: 'sin datos', pDesde: 'desde 95,1', pCinturaSub: '{f} · meta <91', pCinturaLunes: 'lunes en ayunas',
+    pMediaS: 'media S{w}', pSinDatos: 'sin datos', pDesde: 'desde {v}', pCinturaSub: '{f} · meta <{m}', pCinturaLunes: 'lunes en ayunas',
     pFuerzas: '{a}/{b} fuerzas', pDeFuerza: 'de fuerza', pDiasCumplidos: 'días cumplidos',
     pPesoTitulo: 'Peso', pPesoSub: 'puntos: pesajes · línea: media semanal · banda: corredor esperado',
-    pCinturaTitulo: 'Cintura', pCinturaTituloSub: 'la métrica reina · objetivo <91 cm',
+    pCinturaTitulo: 'Cintura', pCinturaTituloSub: 'la métrica reina · objetivo <{m} cm',
     pCargas: 'Cargas', pCargasSub: 'peso del ejercicio, sesión a sesión',
     pAdhTitulo: 'Adherencia', pAdhSub: 'sesiones de fuerza completadas por semana',
     pChk: 'Checkpoints', pEsperado: 'Esperado', pReal: 'Real', pSiDesvias: 'Si te desvías',
     pTabla: 'tabla', pGrafica: 'gráfica', pFecha: 'Fecha',
     pLifts: { 'press-banca': 'Banca', 'sentadilla-barra': 'Sentadilla', 'rdl-barra': 'Rumano' },
-    pTuMarca: 'tu marca · {v} kg', pMeta91: 'meta 91', pAguaCreatina: 'agua creatina', pLineaBase: 'Línea base',
+    pTuMarca: 'tu marca · {v} kg', pMeta91: 'meta {m}', pAguaCreatina: 'agua (primeras semanas)', pLineaBase: 'Línea base',
     pMediaSemana: 'Media S{w}',
     pVacioPeso: 'Los pesajes de lunes, miércoles y viernes aparecerán aquí',
     pVacioCintura: 'Cada lunes en ayunas: cinta al ombligo, sin apretar',
@@ -1212,9 +1212,9 @@ window.B2P = (function () {
     nuevoDia: 'Nuevo día: {f}'
   };
 
-  UI.checkSalidaTitulo = 'Check de salida (dom 30 ago)';
+  UI.checkSalidaTitulo = 'Check de salida ({f})';
   UI.checkSalidaTxt = 'Completas ambos circuitos con las reps de la semana 2 sin dolor articular → Fase 2. Si algo molesta, repites una semana: los tendones lo agradecen.';
-  UI.planEmpiezaTitulo = 'El plan empieza el lunes 17 de agosto';
+  UI.planEmpiezaTitulo = 'El plan empieza el {f}';
   UI.planEmpiezaTxt = 'Fase 1 · Reactivación en casa. Aquí tienes todo para llegar con los deberes hechos.';
 
     const QUIZ_DEP = [{ id: 'running', n: 'Correr' }, { id: 'natacion', n: 'Natación' }, { id: 'ciclismo', n: 'Ciclismo' }, { id: 'padel', n: 'Pádel' }, { id: 'futbol', n: 'Fútbol' }, { id: 'baloncesto', n: 'Baloncesto' }, { id: 'volley', n: 'Vóley' }, { id: 'yoga', n: 'Yoga' }, { id: 'calistenia', n: 'Calistenia' }, { id: 'boxeo', n: 'Boxeo' }];

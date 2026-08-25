@@ -235,7 +235,9 @@
   /* ==================== NUTRICIÓN ==================== */
   function renderNutricion(root) {
     const w = U.semanaDe(U.hoyISO());
-    const fi = w >= 10 ? 2 : (w >= 6 ? 1 : 0);
+    // la fila de kcal sigue a la FASE real del calendario, no a semanas fijas
+    const faseN = (w >= 1 && w <= SEMANAS) ? D.CAL[w - 1].fase : 1;
+    const fi = faseN === 4 ? 2 : faseN === 3 ? 1 : 0;
     const fn = D.NUTRI.fases[fi];
 
     const IDS_N = ['n-obj', 'n-plato', 'n-rec', 'n-menu', 'n-compra', 'n-prep', 'n-supl'];
@@ -453,7 +455,14 @@
     root.append(resumen);
     resumen.append(el('div', { class: 'statrow' },
       stat(TX.pPeso, pesoAhora ? U.kg1(pesoAhora) : '—', pesoAhora ? tpl(TX.pMediaS, { w: ms[ms.length - 1].w }) : TX.pSinDatos),
-      stat(TX.pPerdido, pesoAhora ? (D.META.perfil.pesoSalida - pesoAhora > 0.04 ? '−' + U.kg1(D.META.perfil.pesoSalida - pesoAhora) : '0,0') : '—', tpl(TX.pDesde, { v: U.kg1(D.META.perfil.pesoSalida) })),
+      // la báscula se cuenta en la dirección del objetivo: quien gana ve «Ganado»
+      (() => {
+        const gana = D.META.objetivo === 'ganar';
+        const dif = pesoAhora ? (gana ? pesoAhora - D.META.perfil.pesoSalida : D.META.perfil.pesoSalida - pesoAhora) : 0;
+        return stat(gana ? (TX.pGanado || TX.pPerdido) : TX.pPerdido,
+          pesoAhora ? (dif > 0.04 ? (gana ? '+' : '−') + U.kg1(dif) : '0,0') : '—',
+          tpl(TX.pDesde, { v: U.kg1(D.META.perfil.pesoSalida) }));
+      })(),
       stat(TX.pCintura, cint ? U.kg1(cint.v) : '—', cint ? tpl(TX.pCinturaSub, { f: U.fmtCorta(cint.f), m: metaCint }) : TX.pCinturaLunes),
       stat(TX.pAdh, adh.tot ? Math.round(adh.ok / adh.tot * 100) + '%' : '—', tpl(TX.pFuerzas, { a: adh.ok, b: adh.tot })),
       stat(TX.pSesiones, String(U.totalFuerza()), TX.pDeFuerza),
@@ -620,7 +629,7 @@
     // zona de agua de las primeras semanas: solo cuando el plan baja
     if (objLo < salida) {
       svg.append(sv('rect', { x: sx(0), y: T, width: sx(14) - sx(0), height: H - T - B, fill: 'rgba(102,160,232,.05)' }));
-      const zc = sv('text', { x: sx(7), y: T + 11, 'text-anchor': 'middle', 'font-size': 9.5, fill: 'rgba(167,175,185,.8)' }); zc.textContent = TX.pAguaCreatina; svg.append(zc);
+      const zc = sv('text', { x: sx(7), y: T + 11, 'text-anchor': 'middle', 'font-size': 10, fill: 'rgba(167,175,185,.8)' }); zc.textContent = TX.pAguaCreatina; svg.append(zc);
     }
     // grid Y
     for (let y = yMin + 1; y < yMax; y += 2) {
@@ -710,7 +719,7 @@
     const hoy = U.hoyISO(), wNow = U.semanaDe(hoy);
     const W = 640, H = 190, L = 34, R = 10, T = 16, B = 26;
     const wMax = wNow >= 1 && wNow <= SEMANAS ? wNow : (wNow === 99 ? SEMANAS : 0);
-    const svg = baseSVG(W, H, TX.gAdherencia + ': ' + (wMax ? tpl(TX.gSemanas, { n: wMax }) : TX.gSinDatos));
+    const svg = baseSVG(W, H, TX.gAdherencia + ': ' + (wMax ? tpl(TX.gSemanas, { n: wMax, t: SEMANAS }) : TX.gSinDatos));
     if (!wMax) { const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioAdh; svg.append(t); return svg; }
     const bw = (W - L - R) / SEMANAS;
     const sy = v => T + (1 - v) * (H - T - B);
@@ -718,7 +727,7 @@
     const tips = [];
     for (let i = 1; i <= SEMANAS; i++) {
       const x = L + (i - 1) * bw + 3, wdt = bw - 6;
-      const t = sv('text', { x: x + wdt / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 9.5, fill: i === wNow ? '#F2F4F0' : EJE() }); t.textContent = 'S' + i; svg.append(t);
+      const t = sv('text', { x: x + wdt / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: i === wNow ? '#F2F4F0' : EJE() }); t.textContent = 'S' + i; svg.append(t);
       if (i > wMax) { svg.append(sv('rect', { x, y: sy(0) - 2, width: wdt, height: 2, rx: 1, fill: 'rgba(255,255,255,.07)' })); continue; }
       const ses = U.sesionesFuerzaSemana(i).filter(s => s.f <= hoy);
       const tot = U.sesionesFuerzaSemana(i).length;
@@ -726,7 +735,7 @@
       const v = tot ? done / tot : 0;
       const hgt = Math.max(3, (H - T - B) * v);
       svg.append(sv('rect', { x, y: sy(0) - hgt, width: wdt, height: hgt, rx: 4, fill: COL.peso, opacity: i === wNow ? 1 : .78 }));
-      if (v > 0) { const pt = sv('text', { x: x + wdt / 2, y: sy(0) - hgt - 5, 'text-anchor': 'middle', 'font-size': 9.5, fill: i === wNow ? '#F2F4F0' : EJE() }); pt.textContent = done + '/' + tot; svg.append(pt); }
+      if (v > 0) { const pt = sv('text', { x: x + wdt / 2, y: sy(0) - hgt - 5, 'text-anchor': 'middle', 'font-size': 10, fill: i === wNow ? '#F2F4F0' : EJE() }); pt.textContent = done + '/' + tot; svg.append(pt); }
       tips.push({ x: i, y: v, cx: x + wdt / 2, cy: sy(0) - hgt, txt: 'S' + i + ' · ' + done + ' de ' + tot + ' fuerzas' });
     }
     return svg;
@@ -765,6 +774,8 @@
   /* ==================== LOGROS ==================== */
   function renderLogros(root) {
     const S = U.S;
+    // la vitrina se pone al día al entrar: un checkpoint ganado no espera al siguiente toggle
+    U.evaluaLogros();
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.lDiscos), el('span', { class: 'mini' }, TX.lDiscosSub)));
     const vit = el('div', { class: 'vitrina' });
     [['disco-10', '10', TX.fase + ' 1'], ['disco-15', '15', TX.fase + ' 2'], ['disco-20', '20', TX.fase + ' 3'], ['disco-25', '25', TX.fase + ' 4']].forEach(([id, kg, f]) => {
@@ -821,6 +832,23 @@
     const TX = U.TX, C = TX.cuest, S = U.S, tpl = U.tpl;
     const borr = S.ui.cuest = S.ui.cuest || { paso: 0, d: {} };
     const d = borr.d;
+    /* Rehacer no es re-empezar: con perfil guardado, el borrador arranca
+       relleno con tus respuestas (mazo incluido) — cambiar un dato son dos
+       toques, no 16 pantallas. */
+    if (S.perfil && !Object.keys(d).length) {
+      ['sexo', 'edad', 'alturaCm', 'pesoKg', 'cinturaCm', 'objetivo', 'evento', 'duracionSem', 'historial',
+        'diasSemana', 'minSesion', 'franja', 'material', 'lesiones', 'medico', 'dieta', 'sin'].forEach(k => {
+        if (S.perfil[k] !== undefined) d[k] = Array.isArray(S.perfil[k]) ? S.perfil[k].slice() : S.perfil[k];
+      });
+      if (d.medico === true) d.medicoOk = 1;      // el visto bueno ya se dio una vez
+      if (!S.ui.quiz) {
+        const g = S.perfil.gustos || {};
+        S.ui.quiz = { like: {}, no: {} };
+        (g.like || []).forEach(k => S.ui.quiz.like[k] = 1);
+        (g.no || []).forEach(k => S.ui.quiz.no[k] = 1);
+      }
+      U.save();
+    }
 
     const PASOS = [
       { id: 'sexo', t: C.sexoT, p: C.sexoP, tipo: 'uno', ops: [['h', C.sexoH], ['m', C.sexoM], ['x', C.sexoX]] },
@@ -852,7 +880,10 @@
       const paso = PASOS[borr.paso];
       // cabecera: titulo + barra de progreso (el mazo cuenta como un paso)
       root.append(el('div', { class: 'sec-h' }, el('h2', null, C.titulo),
-        el('span', { class: 'mini' }, (borr.paso + 1) + '/' + PASOS.length)));
+        el('span', { class: 'mini' }, (borr.paso + 1) + '/' + PASOS.length),
+        // con un plan ya generado, el cuestionario siempre tiene puerta de salida
+        S.perfil ? el('button', { class: 'plano qaux', type: 'button', style: 'margin-left:10px',
+          onclick: () => { location.hash = '#/hoy'; } }, TX.cerrarPanel) : null));
       const barra = el('div', { class: 'cuest-bar', role: 'progressbar',
         'aria-valuemin': '0', 'aria-valuemax': String(PASOS.length), 'aria-valuenow': String(borr.paso + 1) },
         // scaleX y no width: el progreso anima transform, nunca layout
@@ -975,17 +1006,21 @@
         const paso = PASOS.find(x => x.id === id); if (!paso || !paso.ops) return String(val);
         const op = paso.ops.find(o => o[0] === val); return op ? op[1] : String(val);
       };
+      /* cada fila con su etiqueta: «Frutos secos» a secas no dice si te gustan
+         o los evitas — el resumen es un contrato y se lee sin adivinar */
       const filas = [];
-      if (d.edad) filas.push(d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg');
-      ['sexo', 'objetivo', 'evento', 'duracionSem', 'historial', 'material', 'dieta', 'franja'].forEach(id => {
-        if (d[id] !== undefined) filas.push(dame(id, d[id]));
+      if (d.edad) filas.push([null, d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg' + (d.sexo !== undefined ? ' · ' + dame('sexo', d.sexo) : '')]);
+      [['objetivo', C.resLObj], ['evento', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
+       ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
+        if (d[par[0]] !== undefined) filas.push([par[1], dame(par[0], d[par[0]])]);
       });
-      if (d.diasSemana) filas.push(d.diasSemana + '×' + (d.minSesion || '—') + '′');
-      if (Array.isArray(d.lesiones) && d.lesiones.length) filas.push(d.lesiones.map(x => dame('lesiones', x)).join(' · '));
-      if (Array.isArray(d.sin) && d.sin.length) filas.push(d.sin.map(x => dame('sin', x)).join(' · '));
-      filas.push(tpl(C.resGustos, { a: Object.keys(est.like || {}).length, b: Object.keys(est.no || {}).length }));
+      if (d.diasSemana) filas.push([null, d.diasSemana + '×' + (d.minSesion || '—') + '′']);
+      if (Array.isArray(d.lesiones) && d.lesiones.length) filas.push([C.resLLes, d.lesiones.map(x => dame('lesiones', x)).join(' · ')]);
+      if (Array.isArray(d.sin) && d.sin.length) filas.push([C.resLSin, d.sin.map(x => dame('sin', x)).join(' · ')]);
+      filas.push([null, tpl(C.resGustos, { a: Object.keys(est.like || {}).length, b: Object.keys(est.no || {}).length })]);
       const tarjeta = el('div', { class: 'card', style: 'gap:8px' });
-      filas.forEach(f => tarjeta.append(el('div', { class: 'cres' }, f)));
+      filas.forEach(f => tarjeta.append(el('div', { class: 'cres' },
+        f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1])));
       cont.append(tarjeta);
 
       if (!apto) {
@@ -1027,19 +1062,27 @@
       'flexiones', 'fondos', 'plancha', 'burpees', 'zancadas'];
     const idsEj = deseo.filter(id => D.EJERCICIOS[id]);
     for (const k of Object.keys(D.EJERCICIOS)) { if (idsEj.length >= 10) break; if (!idsEj.includes(k)) idsEj.push(k); }
-    const mazo = [];
+    const ejs = [], deps = [], coms = [];
     idsEj.forEach(id => { const e = D.EJERCICIOS[id];
       // en la carta, el nombre a secas: la taxonomía «(asistidas → libres…)» no se lee en un segundo
-      mazo.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm }); });
-    (D.QUIZ_DEP || []).forEach(dep => mazo.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '' }));
+      ejs.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm }); });
+    (D.QUIZ_DEP || []).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '' }));
     /* La dieta se declaró dos pasos antes: una vegana no puntúa diez platos
        de carne. Se filtra con el mismo criterio que usará el motor. */
     const bd = (S.ui.cuest && S.ui.cuest.d) || {};
     const pd = { dieta: bd.dieta || 'normal', sin: Array.isArray(bd.sin) ? bd.sin : [] };
     (D.RECETAS || [])
       .filter(r => r.slot !== 'snack' && (!window.B2P_GEN || window.B2P_GEN.recetaVale(r, pd, new Set())))
-      .slice(0, 10).forEach(r => mazo.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
+      .slice(0, 10).forEach(r => coms.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
         sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
+    /* intercalado ej→dep→com: 30 decisiones seguidas se llevan mejor variadas
+       que en tres bloques monotemáticos de diez */
+    const mazo = [];
+    for (let i = 0; i < Math.max(ejs.length, deps.length, coms.length); i++) {
+      if (ejs[i]) mazo.push(ejs[i]);
+      if (deps[i]) mazo.push(deps[i]);
+      if (coms[i]) mazo.push(coms[i]);
+    }
 
     const est = S.ui.quiz = S.ui.quiz || { like: {}, no: {} };
     // al volver (Atrás desde el resumen, o salir y entrar), lo contestado no se

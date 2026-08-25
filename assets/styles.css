@@ -163,7 +163,7 @@ input,select,textarea{font-family:inherit;color:var(--ink)}
 :focus-visible{outline:2px solid var(--volt);outline-offset:2px;border-radius:4px}
 
 /* ---------- Layout ---------- */
-.wrap{max-width:640px;margin:0 auto;padding:0 14px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
 #view{padding-top:8px}
 section.block{margin:18px 0}
 
@@ -360,7 +360,7 @@ section.block{margin:18px 0}
 }
 .habit .hicon{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--surface);color:var(--ink2);flex:0 0 auto}
 .habit .hicon svg{width:17px;height:17px}
-.habit .ht{font-size:13px;font-weight:600;line-height:1.15}
+.habit .ht{font-size:13px;font-weight:600;line-height:1.3}
 .habit .hs{font-size:12px;color:var(--ink3)}
 .habit.on{border-color:var(--volt)}
 .habit.on .hicon{background:var(--volt);color:var(--volt-ink)}
@@ -404,7 +404,7 @@ details.fold[open]>summary::after{transform:rotate(-135deg)}
 details.fold .fold-in{padding:2px 13px 12px;font-size:14px}
 
 /* ---------- Tablas ---------- */
-.tw{overflow-x:auto;margin:10px 0;border:1px solid var(--line-soft);border-radius:var(--r-sm);background:var(--surface)}
+.tw{overflow-x:auto;margin:10px 0;padding:4px 10px;border:1px solid var(--line-soft);border-radius:var(--r-sm);background:var(--surface)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{
   font-family:var(--disp);text-transform:uppercase;letter-spacing:.06em;font-size:12px;font-weight:600;
@@ -955,6 +955,8 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   .b2-badge.locked{opacity:1;filter:saturate(.1)}
 }
 
+.cres-l{color:var(--ink3);font-size:11px;font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-right:7px}
+
 /* ---------- Puerta de entrada: alta, reveal, pausa médica y tour ----------
    Durante el alta/cuestionario/reveal la app no tiene barra: no hay a dónde
    ir hasta que existe un plan. La cabecera se queda (la marca saluda). */
@@ -974,7 +976,7 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .alta-marca .b2{color:var(--volt);font-size:38px;transform:translateY(1px)}
 .alta-sub{color:var(--ink2);text-align:center;font-size:15px;margin:0 6px}
 .alta-langs{display:flex;justify-content:center;gap:8px;margin-top:6px}
-.lpill{min-width:44px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;font-size:19px;
+.lpill{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;font-size:19px;
   background:var(--surface2);border:1px solid var(--line-soft);border-radius:999px;
   transition:border-color var(--t-pulsar) var(--ease-sale),transform var(--t-pulsar) var(--ease-sale)}
 .lpill.on{border-color:var(--volt)}

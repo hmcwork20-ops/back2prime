@@ -705,7 +705,7 @@
       D.FASES.forEach(f => strip.append(el('div', null,
         el('span', { class: 'disco d' + f.id, style: 'margin:0 auto' }, String(f.disco)),
         el('div', { class: 'mini', style: 'margin-top:5px;font-weight:600' }, 'F' + f.id),
-        el('div', { class: 'mini', style: 'font-size:10.5px' }, f.fechas))));
+        el('div', { class: 'mini', style: 'font-size:11px' }, f.fechas))));
       root.append(strip);
       const cc0 = cardComida(d); if (cc0) root.append(cc0);
     }

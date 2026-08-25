@@ -465,7 +465,7 @@ window.B2P_GEN = (function () {
     C.titulo = plantilla(C.titulo, { p: Math.round(p.pesoKg) });
     return C;
   }
-  function logrosGen(base, M) {
+  function logrosGen(base, M, chks) {
     const G = base.UI.gen || {};
     const salida = M.perfil.pesoSalida, obj = M.perfil.objetivoKg;
     const media = (Math.min(obj[0], obj[1]) + Math.max(obj[0], obj[1])) / 2;
@@ -497,6 +497,11 @@ window.B2P_GEN = (function () {
       if (/^kg-/.test(l.id)) { if (!kgHecho) { out.push.apply(out, escalera); kgHecho = true; } continue; }
       if (/^cintura-/.test(l.id)) { if (!cintHecho) { out.push.apply(out, cinturas); cintHecho = true; } continue; }
       if (l.id === 'plan-completo') { out.push(Object.assign({}, l, { desc: plantilla(G.lFinDesc || l.desc, { s: M.semanas }) })); continue; }
+      // las insignias de checkpoint nombran SU semana (S8/S16 en un plan de 24)
+      if ((l.id === 'checkpoint-s4' || l.id === 'checkpoint-s8') && chks) {
+        const c = chks[l.id === 'checkpoint-s4' ? 0 : 1];
+        if (c && G.lChkN) { out.push(Object.assign({}, l, { nombre: plantilla(G.lChkN, { s: c.sem }), desc: plantilla(G.lChkD, { s: c.sem }) })); continue; }
+      }
       out.push(l);
     }
     return out;
@@ -534,6 +539,7 @@ window.B2P_GEN = (function () {
     const cal = calGen(base, perfil);
     const usados = new Set();
     cal.forEach(wk => wk.dias.forEach(x => { const sid = typeof x === 'object' ? x.s : x; if (sid && sid !== 'libre') usados.add(sid); }));
+    const chks = checkpointsGen(base, meta.META, meta.ini);   // los logros nombran sus semanas
     return Object.assign({}, base, {
       META: meta.META,
       FASES: fasesGen(base, meta.ini, perfil),
@@ -545,12 +551,12 @@ window.B2P_GEN = (function () {
       COMPRA: compraGen(base, menu.MENU),
       MEALPREP: mealprepGen(base, menu.MENU),
       MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || base.MEALPREP_NOTA,
-      CHECKPOINTS: checkpointsGen(base, meta.META, meta.ini),
+      CHECKPOINTS: chks,
       FOTOS: fotosGen(meta.META, meta.ini),
       REGLAS: reglasGen(base, nutri.prot),
       CIENCIA: cienciaGen(base, nutri.prot),
       CARRERA: carreraGen(base, perfil),
-      LOGROS: logrosGen(base, meta.META),
+      LOGROS: logrosGen(base, meta.META, chks),
       __menuAvisos: menu.avisos || 0,
       __mantenimiento: Math.round(nutri.tdee / 100) * 100,
       __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),

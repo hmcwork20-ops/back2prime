@@ -39,8 +39,35 @@ Hecho:
   El aviso de re-mapeo del import ya no aplica: la copia lleva el perfil y el
   plan regenerado es idéntico.
 
-Ciclo del critique CERRADO (24 ago 2026). Siguiente lectura recomendada:
-re-critique para medir la subida desde 28/40, o Fase 3 de síntesis de texto.
+Ciclo del critique CERRADO (24 ago 2026).
+
+## Ronda 2 (25 ago 2026), tras el re-critique (25 → 28 → 27, con perfil de
+## hallazgos nuevo: los 9 problemas de las rondas previas quedaron resueltos)
+
+- **v48 — Progreso direccional + estado robusto** (P0 + 2×P1): alertas por el
+  corredor del perfil (bajar/subir/mantener) con textos propios; listener de
+  `storage` (dos pestañas ya no se machacan los datos); reveal sin mentiras
+  (sustituciones del calendario real, redondeo a 25, recetario con descartes);
+  sin insignias de cintura para quien gana sin declararla; recorte a 30′
+  conserva `elev-talones`; activos al trote desde el día 1; reps de semanas 3+
+  heredan la última definida + nota de progresión en circuitos.
+- **v49 — Rehacer con memoria + micro**: cuestionario prefill desde el perfil
+  con Cerrar visible; mazo intercalado; resumen etiquetado; «Ganado +x»;
+  insignias de checkpoint con semana real; vitrina al día al entrar; kcal de
+  Comida por fase real; tipografía (11 px, 1.3, 10, .tw, 16 px, 44 px).
+- **v50 — LA PROSA obedece al perfil** (P1 grande, decidido «variantes
+  completas»): reglas 1/8, intro y temas de Ciencia (con temas propios por
+  historial y «Superávit que construye»), nombres y objetivos de fase, cierre
+  por objetivo con fecha real (+ renovación en bloques sin fecha y botón
+  «Crear / rehacer mi plan» en Plan completado), «El plato» y el suplemento
+  proteico por dieta, «De dónde salen los números» y el ritmo esperado por
+  dirección con el corredor real, Caminar-trotar sin semanas del dueño,
+  hábito de proteína con {q}, protocolo rotuliano de F1 solo para quien
+  vuelve o empieza. ~220 cadenas nuevas ×5 idiomas (1.382 rutas validadas).
+
+Quedan anotados (menores de la ronda 2, sin hacer): compra por pasillo en
+planes generados, rotación de desayunos que favorece al plato original,
+«fases» con periodización real de volumen/reps (pregunta provocadora 2).
 
 > **Marco de trabajo (15 ago 2026).** La app se construye para **cualquier
 > persona**, aunque de momento los únicos datos cargados sean los del autor.

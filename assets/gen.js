@@ -87,9 +87,15 @@ window.B2P_GEN = (function () {
        Excepción: el bloque de gemelo lento (elev-talones) es el seguro del
        tendón — si el corte lo dejaba fuera, entra en el último puesto. */
     const maxBloques = p.minSesion <= 30 ? 4 : p.minSesion <= 45 ? 5 : 99;
+    /* el nombre del cardio ya no cita semanas del plan del dueño:
+       «Caminar-trotar S3» pasa a I/II/III */
+    const wjNombre = { wj3: G.wjN1, wj4: G.wjN2, wj5: G.wjN3 };
     for (const id of Object.keys(base.SESIONES)) {
       const s = base.SESIONES[id];
-      if (!s.bloques) { S[id] = s; continue; }
+      if (!s.bloques) {
+        S[id] = wjNombre[id] ? Object.assign({}, s, { nombre: wjNombre[id] }) : s;
+        continue;
+      }
       const c = Object.assign({}, s);
       if (s.bloques.length > maxBloques) {
         c.bloques = s.bloques.slice(0, maxBloques);
@@ -240,11 +246,41 @@ window.B2P_GEN = (function () {
     // la toma mínima por comida sale de TU proteína, no de la del dueño
     const qMin = Math.max(20, Math.round(m.p / 4 * 0.85 / 5) * 5);
     if (N.tomas) N.tomas = tpl(N.tomas, { q: qMin });
+    /* la guía del plato y el suplemento proteico respetan la dieta declarada:
+       a un vegano no se le receta pollo ni whey con skyr */
+    if (N.plato && N.plato.length) {
+      if (p.dieta === 'vegano' && G.platoVegano) N.plato[0].d = G.platoVegano;
+      else if (p.dieta === 'vegetariano' && G.platoVegetariano) N.plato[0].d = G.platoVegetariano;
+    }
+    if (N.suplementos && N.suplementos.length > 1 && (p.dieta === 'vegano' || (p.sin || []).includes('lactosa')) && G.suplVegT) {
+      N.suplementos[1] = Object.assign({}, N.suplementos[1], { t: G.suplVegT, d: G.suplVegD });
+    }
     if (N.calorias && N.calorias.length >= 3) {
       N.calorias[0].v = '~' + fmt(bmr) + ' kcal';
       N.calorias[0].n = tpl(G.datos, { p: Math.round(p.pesoKg), a: Math.round(p.alturaCm), e: p.edad });
       N.calorias[1].v = fmt(t - 80) + '–' + fmt(t + 80) + ' kcal';
       N.calorias[2].v = fmt(k - 75) + '–' + fmt(k + 75) + ' kcal';
+      /* «Déficit ~550-700» era la fila del dueño: la nota y el ritmo esperado
+         hablan del objetivo REAL, con el corredor real */
+      if (p.objetivo === 'recomp' && G.numRecomp) N.calorias[2].n = G.numRecomp;
+      else if (p.objetivo === 'ganar' && G.numSup) N.calorias[2].n = G.numSup;
+      else if (p.objetivo === 'mantener' && G.numMan) N.calorias[2].n = G.numMan;
+      if (N.calorias.length >= 4) {
+        const obj = objetivoKgDe(p), ST = semanasDe(p);
+        const r = (p.pesoKg - (Math.min(obj[0], obj[1]) + Math.max(obj[0], obj[1])) / 2) / ST;
+        const r05 = v => (Math.round(Math.abs(v) * 20) / 20).toLocaleString(base.UI.lang || 'es');
+        if (r > 0.05) {
+          N.calorias[3].v = r05(r * 0.85) + '–' + r05(r * 1.15) + ' kg/sem';
+        } else if (r < -0.05) {
+          if (G.ritmoSubeT) N.calorias[3].c = G.ritmoSubeT;
+          N.calorias[3].v = '+' + r05(r * 0.8) + '–' + r05(r * 1.2) + ' kg/sem';
+          if (G.ritmoSubeN) N.calorias[3].n = G.ritmoSubeN;
+        } else {
+          if (G.ritmoManT) N.calorias[3].c = G.ritmoManT;
+          N.calorias[3].v = '±' + r05(0.3) + ' kg/sem';
+          if (G.ritmoManN) N.calorias[3].n = G.ritmoManN;
+        }
+      }
     }
     if (N.fases && N.fases.length) {
       const ST = semanasDe(p), cortes = cortesDe(ST);
@@ -263,7 +299,7 @@ window.B2P_GEN = (function () {
         }
       });
     }
-    return { NUTRI: N, kcal: k, prot: m.p, tdee: t };
+    return { NUTRI: N, kcal: k, prot: m.p, tdee: t, qMin };
   }
 
   /* ---------- comidas: filtro por dieta, intolerancias y gustos ----------
@@ -364,6 +400,18 @@ window.B2P_GEN = (function () {
   }
 
   /* ---------- META y FASES ---------- */
+  /* El corredor de peso en un solo sitio: lo usan metaGen (la meta), nutriGen
+     (el ritmo esperado) y las gráficas a través de META. */
+  function objetivoKgDe(p) {
+    const ST = semanasDe(p);
+    const kg = p.pesoKg, f = ST / 12;
+    const pctPerder = Math.min(0.20, 0.0067 * ST);
+    return p.objetivo === 'perder' ? [Math.round(kg * (1 - pctPerder) - 1), Math.round(kg * (1 - pctPerder))]
+      : p.objetivo === 'recomp' ? [Math.round(kg - 4 * Math.min(2, f)), Math.round(kg - 2 * Math.min(2, f))]
+      : p.objetivo === 'ganar' ? [Math.round(kg + 1 * f), Math.round(kg + Math.min(10, 3 * f))]
+      : [Math.round(kg - 1), Math.round(kg + 1)];
+  }
+
   function metaGen(base, p, prot) {
     const M = JSON.parse(JSON.stringify(base.META));
     const ini = proximoLunes();
@@ -383,14 +431,8 @@ window.B2P_GEN = (function () {
     M.perfil.pesoSalida = p.pesoKg;
     M.perfil.alturaCm = p.alturaCm;
     M.perfil.proteinaDia = prot;
-    /* el objetivo escala con la duración real, con techos sensatos:
-       perder ~0,67%/sem hasta el 20%; ganar despacio; recomp acotada */
-    const kg = p.pesoKg, f = ST / 12;
-    const pctPerder = Math.min(0.20, 0.0067 * ST);
-    M.perfil.objetivoKg = p.objetivo === 'perder' ? [Math.round(kg * (1 - pctPerder) - 1), Math.round(kg * (1 - pctPerder))]
-      : p.objetivo === 'recomp' ? [Math.round(kg - 4 * Math.min(2, f)), Math.round(kg - 2 * Math.min(2, f))]
-      : p.objetivo === 'ganar' ? [Math.round(kg + 1 * f), Math.round(kg + Math.min(10, 3 * f))]
-      : [Math.round(kg - 1), Math.round(kg + 1)];
+    // el objetivo escala con la duración real, con techos sensatos (objetivoKgDe)
+    M.perfil.objetivoKg = objetivoKgDe(p);
     /* La métrica reina siempre tiene meta: con cintura declarada, bajar 6 cm
        sin pasar de la mitad de la estatura (que es el umbral con evidencia);
        sin cintura declarada, la mitad de la estatura a secas. */
@@ -406,6 +448,14 @@ window.B2P_GEN = (function () {
     const dias = Math.min(6, Math.max(2, p.diasSemana || 4));
     const splitTxt = dias <= 3 ? G.splitFbC : dias === 4 ? G.splitTpC : G.splitPplC;
     const rangos = [[1, cortes[0]], [cortes[0] + 1, cortes[1]], [cortes[1] + 1, cortes[2]], [cortes[2] + 1, ST]];
+    /* nombre y objetivo de fase por historial: «Reactivación» y la memoria
+       muscular son del que vuelve; quien empieza construye cimientos y quien
+       ya entrena hace base. La fase 4 es común (ya lleva {d}). */
+    const VAR = p.historial === 'nunca' ? [
+      { n: G.f1nNunca, o: G.f1oNunca }, { n: G.f2nNunca, o: G.f2oNunca }, { o: G.f3oNunca }, {}
+    ] : p.historial === 'activo' ? [
+      { n: G.f1nActivo, o: G.f1oActivo }, { n: G.f2nActivo, o: G.f2oActivo }, { o: G.f3oActivo }, {}
+    ] : [{}, {}, {}, {}];
     return base.FASES.map((f, i) => {
       const c = Object.assign({}, f);
       const semanas = [];
@@ -414,6 +464,8 @@ window.B2P_GEN = (function () {
       const a = addD(ini, (semanas[0] - 1) * 7);
       const b = addD(ini, semanas[semanas.length - 1] * 7 - 1);
       c.fechas = corta(a, meses) + ' – ' + corta(b, meses);
+      if (VAR[i].n) c.nombre = VAR[i].n;
+      if (VAR[i].o) c.objetivo = VAR[i].o;
       /* el sub deja de describir la progresión del dueño: F1 conserva su
          «en casa» solo si de verdad se reactiva en casa; el resto lleva el
          split real del perfil */
@@ -450,15 +502,56 @@ window.B2P_GEN = (function () {
     return [iso(ini), iso(addD(ini, Math.round(st / 3) * 7 - 1)),
       iso(addD(ini, Math.round(st * 2 / 3) * 7 - 1)), iso(addD(ini, st * 7 - 1))];
   }
-  function reglasGen(base, prot) {
+  function reglasGen(base, prot, p) {
+    const G = base.UI.gen || {};
     const q = Math.max(20, Math.round(prot / 4 * 0.85 / 5) * 5);   // toma mínima útil
-    return base.REGLAS.map(r => Object.assign({}, r, {
-      t: plantilla(r.t, { p: prot, q }), d: plantilla(r.d, { p: prot, q }) }));
+    const ST = semanasDe(p);
+    /* las reglas 1 y 8 narraban la biografía del dueño (5 años de sofá, ciclo
+       on/off): cada historial recibe la suya */
+    const var1 = p.historial === 'nunca' ? G.r1Nunca : p.historial === 'activo' ? G.r1Activo : null;
+    const var8 = p.historial === 'nunca' ? G.r8Nunca : p.historial === 'activo' ? G.r8Activo : null;
+    return base.REGLAS.map(r => {
+      const c = Object.assign({}, r);
+      if (r.n === 1 && var1) c.d = var1;
+      if (r.n === 8 && var8) c.d = var8;
+      c.t = plantilla(c.t, { p: prot, q, s: ST });
+      c.d = plantilla(c.d, { p: prot, q, s: ST });
+      return c;
+    });
   }
-  function cienciaGen(base, prot) {
+  /* CIENCIA por índice (el orden es idéntico en los 5 idiomas):
+     0 memoria muscular · 1 tendón · 2 correr con sobrepeso · 3 déficit óptimo
+     4 proteína · 5 diet break · 6 volumen · 7 descarga · 8 sueño · 9 salud */
+  function cienciaGen(base, prot, p) {
+    const G = base.UI.gen || {};
     const C = JSON.parse(JSON.stringify(base.CIENCIA));
-    if (C.temas) C.temas.forEach(x => { x.d = plantilla(x.d, { p: prot }); });
+    if (p.historial === 'nunca' && G.introNunca) C.intro = G.introNunca;
+    else if (p.historial === 'activo' && G.introActivo) C.intro = G.introActivo;
+    const imc = p.pesoKg / Math.pow(p.alturaCm / 100, 2);
+    const recorta = p.objetivo === 'perder' || p.objetivo === 'recomp';
+    const fuera = new Set();
+    if (p.historial !== 'retomador') fuera.add(0);            // la memoria muscular es del que vuelve
+    if (imc < 27) fuera.add(2);                               // correr con sobrepeso, solo si aplica
+    if (!recorta) { fuera.add(3); fuera.add(5); }             // déficit y diet break, solo si se recorta
+    const temas = (C.temas || []).filter((x, i) => !fuera.has(i));
+    // el hueco lo llena el tema propio del perfil
+    if (p.historial === 'nunca' && G.cNuncaT) temas.unshift({ t: G.cNuncaT, d: G.cNuncaD, ref: G.cNuncaR });
+    if (p.historial === 'activo' && G.cActivoT) temas.unshift({ t: G.cActivoT, d: G.cActivoD, ref: G.cActivoR });
+    if (p.objetivo === 'ganar' && G.cSupT) temas.splice(Math.min(3, temas.length), 0, { t: G.cSupT, d: G.cSupD, ref: G.cSupR });
+    temas.forEach(x => { x.d = plantilla(x.d, { p: prot }); });
+    C.temas = temas;
     return C;
+  }
+  /* el cierre cita la fecha REAL y habla del objetivo real */
+  function cierreGen(base, p, M) {
+    const G = base.UI.gen || {};
+    const meses = base.UI.meses;
+    const fin = M.finISO.split('-').map(Number);
+    const f = fin[2] + ' ' + meses[fin[1] - 1];
+    const txt = p.objetivo === 'perder' ? G.cierrePerder : p.objetivo === 'recomp' ? G.cierreRecomp
+      : p.objetivo === 'ganar' ? G.cierreGanar : G.cierreManten;
+    if (!txt) return base.CIERRE;
+    return plantilla(txt, { f }) + (M.abierto && G.cierreRenueva ? ' ' + G.cierreRenueva : '');
   }
   function carreraGen(base, p) {
     const C = Object.assign({}, base.CARRERA);
@@ -553,12 +646,14 @@ window.B2P_GEN = (function () {
       MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || base.MEALPREP_NOTA,
       CHECKPOINTS: chks,
       FOTOS: fotosGen(meta.META, meta.ini),
-      REGLAS: reglasGen(base, nutri.prot),
-      CIENCIA: cienciaGen(base, nutri.prot),
+      REGLAS: reglasGen(base, nutri.prot, perfil),
+      CIENCIA: cienciaGen(base, nutri.prot, perfil),
       CARRERA: carreraGen(base, perfil),
+      CIERRE: cierreGen(base, perfil, meta.META),
       LOGROS: logrosGen(base, meta.META, chks),
       __menuAvisos: menu.avisos || 0,
       __mantenimiento: Math.round(nutri.tdee / 100) * 100,
+      __qMin: nutri.qMin,
       __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),
       HISTORICO: {},          // las marcas del plan original eran de una persona
       ARRANQUE: null,         // su tabla de cargas también; la vista lo guarda

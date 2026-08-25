@@ -715,7 +715,10 @@
       root.append(el('div', { class: 'card', style: 'text-align:center;padding:26px 18px' },
         el('div', { style: 'font-size:44px' }, '🏁'),
         el('h2', null, TX.planCompletado),
-        el('p', { class: 'mut' }, D.CIERRE)));
+        el('p', { class: 'mut' }, D.CIERRE),
+        // el final nunca es un callejón: el siguiente bloque está a un toque
+        TX.ajRehacer ? el('button', { class: 'btn-b2p', style: 'margin-top:14px', type: 'button',
+          onclick: () => { location.hash = '#/quiz'; } }, TX.ajRehacer) : null));
     }
 
     /* — semana del plan — */
@@ -858,7 +861,8 @@
 
         // bloque tendón contextual
         const tb = [];
-        if (sl.ses.tendon === 'rodilla' || fase.id === 1) tb.push(D.TENDON.bloques[0]);
+        // el bloque rotuliano de F1 es del que vuelve o empieza; quien entrena ya no reactiva nada
+        if (sl.ses.tendon === 'rodilla' || (fase.id === 1 && D.META.historial !== 'activo')) tb.push(D.TENDON.bloques[0]);
         if (['torso-a', 'torso-b', 'fb-a', 'fb-b', 'push-a', 'pull-a', 'push-b', 'pull-b'].includes(sl.sid)) tb.push(D.TENDON.bloques[3]);
         if (tb.length) {
           const on = !!dd.tendon;
@@ -925,7 +929,7 @@
           el('div', null, el('div', { class: 'ht' }, titulo), sub ? el('div', { class: 'hs' }, sub) : null));
       };
       hb.append(mkHabit('pasos', '👟', TX.hPasos, TX.hPasosSub));
-      hb.append(mkHabit('prote', '🥩', TX.hProte, TX.hProteSub));
+      hb.append(mkHabit('prote', '🥩', TX.hProte, tpl(TX.hProteSub, { q: D.__qMin || 40 })));
 
       const dow = dowMon(d);
       if ([0, 2, 4].includes(dow)) {

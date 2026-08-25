@@ -963,6 +963,11 @@ body.onb{padding-bottom:24px}
 body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 
 .alta{min-height:72vh;max-width:430px;margin:0 auto;display:flex;flex-direction:column;justify-content:center;gap:14px;padding-top:8px}
+/* .btn-b2p trae flex:1 para repartirse en filas; en esta columna con hueco
+   (min-height) eso lo convertía en un botón a pantalla completa */
+.alta .btn-b2p,.alta .btn-ghost,.rev .btn-b2p{flex:0 0 auto}
+/* el nombre es prosa, no un número: fuera la monoespaciada de los campos de kg */
+.alta .field input{font-family:var(--cuerpo);font-weight:500}
 .alta-discos{display:flex;justify-content:center;gap:10px}
 .alta-discos .disco{margin:0}
 .alta-marca{display:flex;justify-content:center;align-items:baseline;gap:1px;font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:.03em;user-select:none}

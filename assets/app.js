@@ -1095,11 +1095,23 @@
       } });
       row.append(fileIn, el('button', { class: 'btn-ghost', onclick: () => fileIn.click() }, TX.ajImportar));
       sh.append(row);
+      // rehacer el plan: la puerta de vuelta al cuestionario vive aquí
+      if (S.perfil && TX.ajRehacer) {
+        sh.append(el('h4', null, TX.cuest && TX.cuest.titulo || ''));
+        sh.append(el('button', { class: 'btn-ghost', style: 'width:100%', onclick: () => {
+          closeSheet(); location.hash = '#/quiz';
+        } }, TX.ajRehacer));
+        sh.append(el('p', { class: 'mini' }, TX.ajRehacerNota));
+      }
       // reset
       sh.append(el('h4', null, TX.ajPeligro));
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;color:var(--danger)', onclick: ev => {
         if (ev.target.dataset.arm) { localStorage.removeItem(KEY); location.reload(); }
-        else { ev.target.dataset.arm = '1'; ev.target.textContent = TX.ajBorrarConfirma; }
+        else {
+          ev.target.dataset.arm = '1'; ev.target.textContent = TX.ajBorrarConfirma;
+          // armado con caducidad: si no confirmas en 4 s, el botón se desarma solo
+          setTimeout(() => { if (ev.target.isConnected) { delete ev.target.dataset.arm; ev.target.textContent = TX.ajBorrar; } }, 4000);
+        }
       } }, TX.ajBorrar));
       // Diagnóstico de pantalla: si la barra inferior no encaja, estos números
       // dicen exactamente por qué (y evitan diagnosticar sobre una captura).

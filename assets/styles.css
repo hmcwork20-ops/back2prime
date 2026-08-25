@@ -229,7 +229,7 @@ section.block{margin:18px 0}
   background:none;border:0;color:#98A1AE;cursor:pointer;padding:0;position:relative;
 }
 .tab svg{width:21px;height:21px;stroke-width:1.9;position:relative}
-.tab span{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1.1;position:relative}
+.tab span{font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1.1;position:relative}
 .tab.on{color:var(--volt)}
 /* UNA sola burbuja de cristal que viaja entre pestañas (bezier con rebote =
    sensación de muelle). Durante el arrastre se pega al dedo sin transición. */
@@ -444,7 +444,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
   padding:12px 13px;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-height:104px;
 }
 .rec-card:active{background:var(--surface2)}
-.rec-card .rtipo{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-family:var(--disp);font-weight:600;color:var(--nutri,#B7A7E8)}
+.rec-card .rtipo{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-family:var(--disp);font-weight:600;color:var(--nutri,#B7A7E8)}
 .rec-card h3{font-size:16.5px;line-height:1.1;letter-spacing:.01em}
 .rec-card .rmacros{margin-top:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
 .rec-card .rkcal{color:var(--ink);font-weight:700}
@@ -469,7 +469,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}
 .stat{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:10px 12px}
 .stat{min-width:0}
-.stat .sl{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-family:var(--disp);font-weight:600;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .sl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-family:var(--disp);font-weight:600;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* nowrap + clamp: con 4 columnas en un móvil de 375 px, «190 g» y «205 g»
    partían en dos líneas y descuadraban la fila. */
 .stat .sv{font-family:var(--mono);font-weight:700;font-size:clamp(15px,4.3vw,19px);margin-top:1px;white-space:nowrap}
@@ -522,7 +522,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .meal-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-soft);cursor:pointer}
 .meal-row:last-of-type{border-bottom:0}
 .meal-row .mi{font-size:17px;width:24px;text-align:center;flex:0 0 auto}
-.meal-row .ml{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);width:74px;flex:0 0 auto}
+.meal-row .ml{font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);width:74px;flex:0 0 auto}
 .meal-row .mn{flex:1;min-width:0;font-weight:600;font-size:14px}
 .meal-row .mk{font-family:var(--mono);font-size:11.5px;color:var(--ink2);flex:0 0 auto}
 .meal-row.libre .mn{color:var(--volt)}
@@ -560,7 +560,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .b2-badge .bi{font-size:20px;line-height:1.25;height:1.25em;display:block;flex:0 0 auto}
 .b2-badge .bn{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;line-height:1.15;overflow-wrap:anywhere}
 .b2-badge .bd{font-size:11.5px;color:var(--ink2);line-height:1.35;overflow-wrap:anywhere}
-.b2-badge .bwhen{font-family:var(--mono);font-size:10.5px;color:var(--volt-dim);margin-top:auto;padding-top:4px}
+.b2-badge .bwhen{font-family:var(--mono);font-size:11px;color:var(--volt-dim);margin-top:auto;padding-top:4px}
 /* La opacidad atenúa texto Y fondo a la vez, así que el contraste se hunde:
    a .42 la descripción quedaba en 2,36:1. Derivado: .70 es el mínimo con el
    que --ink2 sobre --surface vuelve a 4,5:1. Lo que de verdad dice "bloqueado"
@@ -647,7 +647,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 
 /* ---------- CUESTIONARIO: pasos de datos ---------- */
 .cuest-bar{height:3px;background:var(--surface2);border-radius:2px;margin:8px 0 16px;overflow:hidden}
-.cuest-bar i{display:block;height:100%;background:var(--volt);border-radius:2px;transition:width var(--t-medio) var(--ease-sale)}
+.cuest-bar i{display:block;height:100%;width:100%;background:var(--volt);border-radius:2px;transform-origin:left;transition:transform var(--t-medio) var(--ease-sale)}
 .cuest-t{font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:.01em;text-transform:uppercase;line-height:1.08;margin:6px 0 2px}
 .cuest-p{color:var(--ink2);font-size:14px;margin:4px 0 10px}
 .cuest-ops{display:flex;flex-direction:column;gap:10px;margin-top:14px}

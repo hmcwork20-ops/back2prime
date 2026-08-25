@@ -837,7 +837,8 @@
         el('span', { class: 'mini' }, (borr.paso + 1) + '/' + PASOS.length)));
       const barra = el('div', { class: 'cuest-bar', role: 'progressbar',
         'aria-valuemin': '0', 'aria-valuemax': String(PASOS.length), 'aria-valuenow': String(borr.paso + 1) },
-        el('i', { style: 'width:' + Math.round((borr.paso + 1) / PASOS.length * 100) + '%' }));
+        // scaleX y no width: el progreso anima transform, nunca layout
+        el('i', { style: 'transform:scaleX(' + ((borr.paso + 1) / PASOS.length).toFixed(4) + ')' }));
       root.append(barra);
 
       if (paso.tipo === 'mazo') { montaMazo(root, avanza); return; }
@@ -1010,7 +1011,8 @@
     for (const k of Object.keys(D.EJERCICIOS)) { if (idsEj.length >= 10) break; if (!idsEj.includes(k)) idsEj.push(k); }
     const mazo = [];
     idsEj.forEach(id => { const e = D.EJERCICIOS[id];
-      mazo.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre, sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm }); });
+      // en la carta, el nombre a secas: la taxonomía «(asistidas → libres…)» no se lee en un segundo
+      mazo.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm }); });
     (D.QUIZ_DEP || []).forEach(dep => mazo.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '' }));
     /* La dieta se declaró dos pasos antes: una vegana no puntúa diez platos
        de carne. Se filtra con el mismo criterio que usará el motor. */
@@ -1022,7 +1024,9 @@
         sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
 
     const est = S.ui.quiz = S.ui.quiz || { like: {}, no: {} };
-    let resto = mazo.slice(), historia = [], volando = false;
+    // al volver (Atrás desde el resumen, o salir y entrar), lo contestado no se
+    // re-pregunta: el contador retoma donde ibas en vez de fingir 0/30
+    let resto = mazo.filter(it => !est.like[it.k] && !est.no[it.k]), historia = [], volando = false;
 
     root.append(el('div', { class: 'cuest-t' }, TX.quizTitulo,
       el('span', { class: 'mini', id: 'qCuenta', style: 'margin-left:8px' })));

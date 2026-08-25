@@ -31,10 +31,16 @@ Hecho:
   (sin campo kg en peso corporal); toma nocturna vegetal para vegano/sin
   lactosa; diet break solo si el plan recorta, en su semana y a su kcal.
 
-En curso (siguiente):
-- **Menores del critique**: 10,5 px en 5 selectores, `.cuest-bar` width→
-  transform, em-dashes de PROGRESO, «Borrar todos» sin desarme, aviso de
-  re-mapeo en import, nombres-taxonomía en cartas del mazo.
+- **v46 — Menores del critique**: etiquetas de 10,5→11 px (5 selectores),
+  `.cuest-bar` anima transform, em-dashes de prosa fuera (los «—» de dato
+  vacío se quedan: son convención, no prosa), «Borrar todos» se desarma solo a
+  los 4 s, cartas del mazo sin taxonomía entre paréntesis, el mazo retoma
+  donde ibas (no finge 0/30), y Ajustes estrena «Crear / rehacer mi plan».
+  El aviso de re-mapeo del import ya no aplica: la copia lleva el perfil y el
+  plan regenerado es idéntico.
+
+Ciclo del critique CERRADO (24 ago 2026). Siguiente lectura recomendada:
+re-critique para medir la subida desde 28/40, o Fase 3 de síntesis de texto.
 
 > **Marco de trabajo (15 ago 2026).** La app se construye para **cualquier
 > persona**, aunque de momento los únicos datos cargados sean los del autor.

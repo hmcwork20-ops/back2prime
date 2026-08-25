@@ -75,12 +75,13 @@ window.B2P_GEN = (function () {
     lumbar: ['rdl-barra', 'remo-barra', 'peso-muerto', 'buenos-dias']
   };
 
-  function sesionesGen(base, p) {
+  function sesionesGen(base, p, stats) {
     const G = base.UI.gen || {};
     const tpl = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => o[k] !== undefined ? o[k] : m);
     const noQuiero = new Set((p.gustos && p.gustos.no) || []);
     const lesionTxt = { rodilla: base.UI.cuest.lesRodilla, hombro: base.UI.cuest.lesHombro, lumbar: base.UI.cuest.lesLumbar };
     const S = {};
+    const cambiados = new Set();                  // ids sustituidos, para el reveal
     for (const id of Object.keys(base.SESIONES)) {
       const s = base.SESIONES[id];
       if (!s.bloques) { S[id] = s; continue; }
@@ -90,7 +91,7 @@ window.B2P_GEN = (function () {
         const necesitaSub = !equipoVale((base.EJERCICIOS[b.e] || {}).equipo, p.material) || noQuiero.has('ej:' + b.e);
         if (necesitaSub) {
           const sub = eligeSub(base, b.e, p, noQuiero);
-          if (sub !== b.e) { nb.e = sub; nb.n = null; }   // la nota vieja hablaba del ejercicio viejo
+          if (sub !== b.e) { nb.e = sub; nb.n = null; cambiados.add(b.e); }   // la nota vieja hablaba del ejercicio viejo
         }
         // chip de cuidado por lesión declarada
         for (const z of (p.lesiones || [])) {
@@ -103,6 +104,7 @@ window.B2P_GEN = (function () {
       });
       S[id] = c;
     }
+    if (stats) stats.subs = cambiados.size;
     return S;
   }
 
@@ -301,23 +303,43 @@ window.B2P_GEN = (function () {
     });
   }
 
+  /* Las decisiones del motor, en datos: el reveal las enseña una a una.
+     Solo hechos que el plan generado cumple de verdad — nada de prometer. */
+  function decisionesGen(perfil, nutri, meta, menu, stats) {
+    const dias = Math.min(6, Math.max(2, perfil.diasSemana || 4));
+    const dec = [];
+    dec.push({ k: 'split', d: dias, tipo: dias <= 3 ? 'fb' : dias === 4 ? 'tp' : 'ppl' });
+    dec.push({ k: 'kcal', v: nutri.kcal, delta: nutri.kcal - nutri.tdee, obj: perfil.objetivo });
+    dec.push({ k: 'prot', v: nutri.prot, kg: Math.round(nutri.prot / perfil.pesoKg * 10) / 10 });
+    dec.push({ k: 'dur', s: meta.META.semanas, a: meta.META.inicioISO, b: meta.META.finISO });
+    if (stats.subs) dec.push({ k: 'subs', n: stats.subs });
+    if ((perfil.lesiones || []).length) dec.push({ k: 'cuida', zonas: perfil.lesiones.slice() });
+    if ((perfil.dieta && perfil.dieta !== 'normal') || (perfil.sin || []).length)
+      dec.push({ k: 'menu', avisos: menu.avisos || 0 });
+    const g = perfil.gustos || {};
+    if ((g.no || []).length) dec.push({ k: 'gustos', likes: (g.like || []).length, nos: g.no.length });
+    return dec;
+  }
+
   function generarPlan(perfil, base) {
     // sin los mínimos, no hay números fiables: se sirve el plan base
     if (!perfil || !perfil.pesoKg || !perfil.alturaCm || !perfil.edad) return base;
     const nutri = nutriGen(base, perfil);
     const menu = menuGen(base, perfil);
     const meta = metaGen(base, perfil, nutri.prot);
+    const stats = { subs: 0 };
     return Object.assign({}, base, {
       META: meta.META,
       FASES: fasesGen(base, meta.ini),
       CAL: calGen(base, perfil),
-      SESIONES: sesionesGen(base, perfil),
+      SESIONES: sesionesGen(base, perfil, stats),
       NUTRI: nutri.NUTRI,
       MENU: menu.MENU,
       COMPRA: compraGen(base, menu.MENU),
       MEALPREP: mealprepGen(base, menu.MENU),
       MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || base.MEALPREP_NOTA,
       __menuAvisos: menu.avisos || 0,
+      __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),
       HISTORICO: {},          // las marcas del plan original eran de una persona
       ARRANQUE: null,         // su tabla de cargas también; la vista lo guarda
       __gen: true

@@ -45,7 +45,7 @@
   const KEY = 'b2p_v1';
   let S;
   function defState() {
-    return { v: 1, config: { cinturaBase: null, creado: hoyISO(), onboarded: false },
+    return { v: 1, usuario: null, config: { cinturaBase: null, creado: hoyISO(), onboarded: false },
       dias: {}, logros: {}, prs: {}, prCount: 0, flags: {}, shop: {}, prep: {}, ui: {} };
   }
   function load() { try { S = Object.assign(defState(), JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { S = defState(); } }
@@ -1107,25 +1107,9 @@
     });
   }
 
-  /* ---------------- onboarding ---------------- */
-  function onboarding() {
-    openSheet(sh => {
-      sh.append(el('h2', null, TX.obTitulo),
-        el('div', { class: 'stag' }, TX.obSub),
-        el('p', { style: 'font-size:14px' }, TX.obTexto),
-        el('p', { class: 'mini' }, TX.obConsejo));
-      const cIn = el('input', { type: 'text', inputmode: 'decimal', id: 'b2p-cintura-ob', placeholder: TX.obPlaceholder });
-      sh.append(el('div', { class: 'field' }, el('label', { for: 'b2p-cintura-ob' }, TX.obCintura), cIn));
-      sh.append(el('button', { class: 'btn-b2p', style: 'width:100%', onclick: () => {
-        // El campo es opcional: vacío se pasa de largo. Pero si has escrito algo
-        // y está fuera de rango, no se ignora en silencio.
-        const r = valida(cIn.value, 'cintura');
-        if (r.malo) return;
-        if (!r.vacio) S.config.cinturaBase = r.v;
-        S.config.onboarded = true; save(); closeSheet();
-      } }, TX.obEmpezamos));
-    });
-  }
+  /* La hoja de bienvenida de la primera época (pedía la cintura y poco más)
+     murió con la puerta de entrada: el alta y el cuestionario son ahora el
+     único embudo, y la cintura se pregunta una sola vez, dentro del quiz. */
 
   /* ---------------- router ---------------- */
   const VIEWS = {};
@@ -1135,7 +1119,19 @@
   let rutaPrevia = null, primerRender = true, rachaPrevia = null;
 
   function render() {
-    const r = ruta(), root = $('#view');
+    let r = ruta();
+    /* Puerta de entrada. Sin usuario no hay app; sin perfil, lo primero es el
+       cuestionario (o su pausa médica); y el plan recién generado se presenta
+       en el reveal antes de soltarte en HOY. Se fuerza la RUTA, no la vista:
+       así título, foco y pestañas siguen saliendo del mismo sitio. */
+    const forzada = !S.usuario ? 'alta'
+      : !S.perfil ? (S.ui.gate ? 'gate' : 'quiz')
+      : S.ui.reveal ? 'reveal' : null;
+    if (forzada && r !== forzada) { history.replaceState(null, '', '#/' + forzada); r = forzada; }
+    else if (!forzada && (r === 'alta' || r === 'reveal' || r === 'gate')) { history.replaceState(null, '', '#/hoy'); r = 'hoy'; }
+    const enOnb = r === 'alta' || r === 'quiz' || r === 'reveal' || r === 'gate';
+    document.body.classList.toggle('onb', enOnb);
+    const root = $('#view');
     // render() se llama al navegar PERO también al marcar una casilla, cerrar
     // el día o importar. Solo lo primero es un cambio de vista, y solo ahí
     // procede mover el foco: hacerlo en un repintado te sacaría del control
@@ -1147,7 +1143,7 @@
     // chip de cabecera
     const w = semanaDe(hoyISO());
     const chip = $('#chipSem'), st = $('#streak');
-    if (w >= 1 && w <= 12) {
+    if (!enOnb && w >= 1 && w <= 12) {
       const f = D.FASES[D.CAL[w - 1].fase - 1];
       chip.hidden = false;
       $('#chipDot').style.background = 'var(--f' + f.id + ')';
@@ -1193,13 +1189,19 @@
        titular de esa pantalla). Las otras cuatro empezaban en h2 sin nada por
        encima: se les antepone un h1 invisible con el nombre de la sección,
        porque su equivalente visual es la pestaña activa. */
-    const nombreVista = r === 'quiz' ? TX.quizTitulo : (TX.tabs[ORDEN_VISTAS.indexOf(r)] || TX.tabs[0]);
+    const nombreVista = r === 'quiz' ? TX.cuest.titulo
+      : r === 'alta' ? (TX.alta ? TX.alta.t : 'BACK2PRIME')
+      : r === 'reveal' ? (TX.rev ? TX.rev.tAnon : 'BACK2PRIME')
+      : r === 'gate' ? TX.cuest.gateHoyT
+      : (TX.tabs[ORDEN_VISTAS.indexOf(r)] || TX.tabs[0]);
     document.title = nombreVista + ' · BACK2PRIME';
     let h1 = root.querySelector('h1');
     if (!h1) { h1 = el('h1', { class: 'sr-only' }, nombreVista); root.prepend(h1); }
     h1.tabIndex = -1;
     if (cambioDeVista && !primerRender) h1.focus({ preventScroll: true });
     primerRender = false;
+    // el tour de bienvenida arranca cuando HOY existe de verdad (onb.js)
+    if (window.B2P_ONB) window.B2P_ONB.tick(r);
   }
 
   /* ---------------- burbuja deslizante + arrastre (Liquid Glass) ----------
@@ -1270,13 +1272,16 @@
   addEventListener('hashchange', render);
   $$('.tab').forEach(t => t.onclick = () => { location.hash = '#/' + t.dataset.r; });
   $('#btnAjustes').onclick = sheetAjustes;
-  $('#brand').onclick = () => { selDia = hoyISO(); location.hash = '#/hoy'; render(); };
+  $('#brand').onclick = () => {
+    if (document.body.classList.contains('onb')) return;   // en la puerta de entrada, la marca no navega
+    selDia = hoyISO(); location.hash = '#/hoy'; render();
+  };
 
   /* ---------------- API compartida para views.js ---------------- */
   /* foto de un plato, si existe en el manifiesto (assets/fotos.js). Las fotos
      no van al precache: entran con carga perezosa y el SW las guarda al verlas. */
   const foto = id => (window.B2P_FOTOS && window.B2P_FOTOS.includes(id)) ? 'assets/fotos/' + id + '.webp' : null;
-  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl, foto,
+  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl, foto, IDIOMAS,
     hoyISO, semanaDe, slotDe, fechasSemana, dia, save, get S() { return S; },
     mediaSemana, mediasSemanales, pesosSemana, sesionesFuerzaSemana, cardioHechoSemana,
     racha, mejorRacha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,
@@ -1316,7 +1321,6 @@
     document.documentElement.lang = TX.lang;
     medirCabecera();
     render();
-    if (!S.config.onboarded) setTimeout(onboarding, 350);
   }
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', arrancar, { once: true });
   else setTimeout(arrancar, 0);

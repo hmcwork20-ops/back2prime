@@ -787,7 +787,7 @@
     const PASOS = [
       { id: 'sexo', t: C.sexoT, p: C.sexoP, tipo: 'uno', ops: [['h', C.sexoH], ['m', C.sexoM], ['x', C.sexoX]] },
       { id: 'medidas', t: C.medidasT, tipo: 'nums', campos: [
-        ['edad', C.edadL, 14, 90, false], ['alturaCm', C.alturaL, 120, 230, false],
+        ['edad', C.edadL, 16, 90, false], ['alturaCm', C.alturaL, 120, 230, false],
         ['pesoKg', C.pesoL, 35, 250, false], ['cinturaCm', C.cinturaL, 50, 200, true]] },
       { id: 'objetivo', t: C.objT, tipo: 'uno', ops: [['perder', C.objPerder], ['recomp', C.objRecomp], ['ganar', C.objGanar], ['mantener', C.objMantener]] },
       { id: 'evento', t: C.evT, tipo: 'uno', ops: [['boda', C.evBoda], ['oposicion', C.evOpo], ['verano', C.evVerano], ['siempre', C.evSiempre]] },
@@ -816,8 +816,8 @@
       root.append(el('div', { class: 'sec-h' }, el('h2', null, C.titulo),
         el('span', { class: 'mini' }, (borr.paso + 1) + '/' + PASOS.length)));
       const barra = el('div', { class: 'cuest-bar', role: 'progressbar',
-        'aria-valuemin': '0', 'aria-valuemax': String(PASOS.length - 1), 'aria-valuenow': String(borr.paso) },
-        el('i', { style: 'width:' + Math.round(borr.paso / (PASOS.length - 1) * 100) + '%' }));
+        'aria-valuemin': '0', 'aria-valuemax': String(PASOS.length), 'aria-valuenow': String(borr.paso + 1) },
+        el('i', { style: 'width:' + Math.round((borr.paso + 1) / PASOS.length * 100) + '%' }));
       root.append(barra);
 
       if (paso.tipo === 'mazo') { montaMazo(root, avanza); return; }
@@ -833,8 +833,15 @@
           caja.append(el('button', { class: 'copt plano' + (d[paso.id] === val ? ' on' : ''), type: 'button',
             onclick: ev => {
               d[paso.id] = val; guarda();
-              // el toque ES la respuesta: se marca y avanza solo
               [...caja.children].forEach(x => x.classList.toggle('on', x === ev.currentTarget));
+              /* La puerta médica salta AQUÍ, en el momento de la respuesta —
+                 no cuatro pantallas después, cuando ya no se sabe qué la
+                 activó. Y responder de nuevo resetea el visto bueno. */
+              if (paso.id === 'medico') {
+                delete d.medicoOk;
+                if (val === true) { guarda(); setTimeout(pintaGate, 170); return; }
+              }
+              // el toque ES la respuesta: se marca y avanza solo
               setTimeout(avanza, 170);
             } }, txt));
         });
@@ -904,9 +911,25 @@
         el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras), el('span')));
     }
 
+    /* La pausa médica: qué respuesta la activó, qué llevarle al médico y las
+       dos salidas honestas — seguir con el visto bueno, o salir con todo
+       guardado. Nunca un callejón sin salida. */
+    function pintaGate() {
+      root.innerHTML = '';
+      root.append(el('div', { class: 'sec-h' }, el('h2', null, C.titulo)));
+      root.append(el('div', { class: 'cuest-t' }, C.gateT));
+      root.append(el('div', { class: 'cuest-p' }, tpl(C.gateTxt, { d: d.diasSemana || 3 })));
+      root.append(el('div', { class: 'banner warn' }, el('div', null, C.gateGuardado)));
+      root.append(el('div', { class: 'cuest-pie' },
+        el('button', { class: 'plano qaux', type: 'button', onclick: () => {
+          S.ui.gate = 1; guarda(); location.hash = '#/hoy';   // el router la convierte en la pausa
+        } }, C.gateSalir),
+        el('button', { class: 'btn-b2p', type: 'button', onclick: () => { d.medicoOk = 1; guarda(); avanza(); } }, C.gateOk)));
+    }
+
     function pintaResumen(cont) {
       const est = S.ui.quiz || { like: {}, no: {} };
-      const apto = (d.edad === undefined || d.edad >= 16) && d.medico === false;
+      const apto = d.medico === false || d.medicoOk === 1;   // la edad ya la acota el propio campo (16–90)
       cont.append(el('div', { class: 'cuest-t' }, C.resT));
       cont.append(el('div', { class: 'cuest-p' }, C.resP));
       const dame = (id, val) => {
@@ -927,24 +950,31 @@
       cont.append(tarjeta);
 
       if (!apto) {
-        // puerta dura: sin plan; primero un profesional
+        // puerta dura: sin visto bueno no se genera nada, y se dice con salida
         cont.append(el('div', { class: 'banner warn' }, el('div', null, C.resProfesional)));
         cont.append(el('div', { class: 'cuest-pie' },
           el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
-          el('button', { class: 'plano qaux', type: 'button', onclick: () => { location.hash = '#/hoy'; } }, TX.quizSaltar)));
+          el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
+            S.ui.gate = 1; guarda(); location.hash = '#/hoy';
+          } }, C.gateSalir)));
         return;
       }
-      cont.append(el('p', { class: 'mini', style: 'margin-top:10px' }, C.resProx));
       cont.append(el('div', { class: 'cuest-pie' },
         el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
         el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
           S.perfil = Object.assign({ v: 1, creado: U.hoyISO() }, d,
             { gustos: { like: Object.keys(est.like || {}), no: Object.keys(est.no || {}) } });
+          S.ui.reveal = 1;     // el plan se presenta antes de soltarte en HOY
+          S.ui.tour = 1;       // y después, el paseo por la app
           delete S.ui.cuest;   // borrador fuera: la proxima visita empieza limpia
-          U.save(); U.toast(C.resGuardado);
-          // recarga real: gen.js corre en el arranque y sustituye el plan entero
-          setTimeout(() => { location.href = location.pathname + '#/hoy'; location.reload(); }, 450);
-        } }, C.resGuardar)));
+          U.save(); U.toast(C.resGen || C.resGuardado);
+          /* Recarga real: gen.js corre en el arranque y sustituye el plan
+             entero, y el router fuerza #/reveal él solo desde S.ui.reveal.
+             Nada de tocar location.href antes: el hashchange llegaba a
+             renderizar el reveal EN LA PÁGINA VIEJA (plan base, sin __gen),
+             su guarda borraba la bandera y la persistía antes del reload. */
+          setTimeout(() => location.reload(), 450);
+        } }, C.resCta || C.resGuardar)));
     }
 
     pintaPaso();

@@ -75,15 +75,17 @@ window.B2P_GEN = (function () {
     lumbar: ['rdl-barra', 'remo-barra', 'peso-muerto', 'buenos-dias']
   };
 
-  function sesionesGen(base, p, stats) {
+  function sesionesGen(base, p, stats, usados) {
     const G = base.UI.gen || {};
     const tpl = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => o[k] !== undefined ? o[k] : m);
     const noQuiero = new Set((p.gustos && p.gustos.no) || []);
     const lesionTxt = { rodilla: base.UI.cuest.lesRodilla, hombro: base.UI.cuest.lesHombro, lumbar: base.UI.cuest.lesLumbar };
     const S = {};
-    const cambiados = new Set();                  // ids sustituidos, para el reveal
+    const cambiados = new Set();                  // ids sustituidos EN SESIONES DEL CALENDARIO, para el reveal
     /* «30 minutos» significa 30 minutos: se quedan los primeros bloques (los
-       básicos van primero por diseño) y la duración anunciada dice la verdad */
+       básicos van primero por diseño) y la duración anunciada dice la verdad.
+       Excepción: el bloque de gemelo lento (elev-talones) es el seguro del
+       tendón — si el corte lo dejaba fuera, entra en el último puesto. */
     const maxBloques = p.minSesion <= 30 ? 4 : p.minSesion <= 45 ? 5 : 99;
     for (const id of Object.keys(base.SESIONES)) {
       const s = base.SESIONES[id];
@@ -91,6 +93,8 @@ window.B2P_GEN = (function () {
       const c = Object.assign({}, s);
       if (s.bloques.length > maxBloques) {
         c.bloques = s.bloques.slice(0, maxBloques);
+        const tendon = s.bloques.find(b => b.e === 'elev-talones');
+        if (tendon && !c.bloques.includes(tendon)) c.bloques[c.bloques.length - 1] = tendon;
         c.dur = plantilla(G.durAprox || c.dur, { m: p.minSesion });
         if (stats) stats.recorte = p.minSesion;
       }
@@ -99,7 +103,8 @@ window.B2P_GEN = (function () {
         const necesitaSub = !equipoVale((base.EJERCICIOS[b.e] || {}).equipo, p.material) || noQuiero.has('ej:' + b.e);
         if (necesitaSub) {
           const sub = eligeSub(base, b.e, p, noQuiero);
-          if (sub !== b.e) { nb.e = sub; nb.n = null; cambiados.add(b.e); }   // la nota vieja hablaba del ejercicio viejo
+          // la nota vieja hablaba del ejercicio viejo; el contador solo cuenta lo que el calendario usa
+          if (sub !== b.e) { nb.e = sub; nb.n = null; if (!usados || usados.has(id)) cambiados.add(b.e); }
         }
         // chip de cuidado por lesión declarada
         for (const z of (p.lesiones || [])) {
@@ -110,6 +115,12 @@ window.B2P_GEN = (function () {
         }
         return nb;
       });
+      /* los circuitos de casa viven 12+ semanas con las mismas reps escritas:
+         la progresión se prescribe con palabras, en el primer bloque */
+      if ((id === 'c-a' || id === 'c-b') && G.circProg && c.bloques.length) {
+        c.bloques[0] = Object.assign({}, c.bloques[0], {
+          n: c.bloques[0].n ? c.bloques[0].n + ' · ' + G.circProg : G.circProg });
+      }
       S[id] = c;
     }
     if (stats) stats.subs = cambiados.size;
@@ -147,8 +158,10 @@ window.B2P_GEN = (function () {
   function calGen(base, p) {
     const gustaCorrer = ((p.gustos && p.gustos.like) || []).includes('dep:running');
     const otrosDeportes = deportesGustados(base, p).length > (gustaCorrer ? 1 : 0);
+    /* quien ya entrena no pasa por el sofá-a-5k: entra directo al trote */
     const cardio = fase => gustaCorrer
-      ? (fase <= 1 ? 'wj3' : fase === 2 ? 'wj4' : fase === 3 ? 'trote25' : 'trote30')
+      ? (p.historial === 'activo' ? (fase <= 2 ? 'trote25' : 'trote30')
+        : (fase <= 1 ? 'wj3' : fase === 2 ? 'wj4' : fase === 3 ? 'trote25' : 'trote30'))
       : otrosDeportes && fase >= 2 ? 'cardio-libre'
       : (fase <= 2 ? 'cam40' : 'cam60');
     const SPLITS = {
@@ -363,6 +376,10 @@ window.B2P_GEN = (function () {
     M.franja = p.franja || null;
     M.dieta = p.dieta || 'normal';
     M.sin = (p.sin || []).slice();
+    M.objetivo = p.objetivo || 'mantener';
+    M.historial = p.historial || 'retomador';
+    M.gustosNo = ((p.gustos && p.gustos.no) || []).slice();
+    M.cinturaDeclarada = !!p.cinturaCm;
     M.perfil.pesoSalida = p.pesoKg;
     M.perfil.alturaCm = p.alturaCm;
     M.perfil.proteinaDia = prot;
@@ -465,7 +482,9 @@ window.B2P_GEN = (function () {
       vs.forEach(v => escalera.push({ id: 'kgup-' + v, icon: '📈',
         nombre: plantilla(G.lKgUpN, { v }), desc: plantilla(G.lKgUpD, { v }) }));
     }
-    const meta = M.perfil.cinturaMetaCm;
+    /* a quien quiere CRECER y no declaró cintura no se le cuelgan insignias de
+       encogerla: su vitrina ya tiene la escalera de subida y los PRs */
+    const meta = (M.objetivo === 'ganar' && !M.cinturaDeclarada) ? null : M.perfil.cinturaMetaCm;
     const cinturas = meta ? [
       { id: 'cint-' + (meta + 4), icon: '📏', nombre: plantilla(G.lCintN, { v: meta + 4 }), desc: plantilla(G.lCintD, { v: meta + 4 }) },
       { id: 'cint-' + (meta + 2), icon: '📏', nombre: plantilla(G.lCintN, { v: meta + 2 }), desc: plantilla(G.lCintD, { v: meta + 2 }) },
@@ -511,12 +530,16 @@ window.B2P_GEN = (function () {
     const menu = menuGen(base, perfil);
     const meta = metaGen(base, perfil, nutri.prot);
     const stats = { subs: 0 };
+    // el calendario primero: las sesiones que de verdad usa acotan el contador de sustituciones
+    const cal = calGen(base, perfil);
+    const usados = new Set();
+    cal.forEach(wk => wk.dias.forEach(x => { const sid = typeof x === 'object' ? x.s : x; if (sid && sid !== 'libre') usados.add(sid); }));
     return Object.assign({}, base, {
       META: meta.META,
       FASES: fasesGen(base, meta.ini, perfil),
-      CAL: calGen(base, perfil),
+      CAL: cal,
       HITOS_SEMANA: hitosGen(base, perfil, nutri),
-      SESIONES: sesionesGen(base, perfil, stats),
+      SESIONES: sesionesGen(base, perfil, stats, usados),
       NUTRI: nutri.NUTRI,
       MENU: menu.MENU,
       COMPRA: compraGen(base, menu.MENU),

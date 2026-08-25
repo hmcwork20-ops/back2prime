@@ -749,7 +749,13 @@
         sl.ses.bloques.forEach(b => {
           const e = D.EJERCICIOS[b.e]; if (!e) return;
           const lg = (dd.ej && dd.ej[b.e]) || {};
-          const reps = b.rW ? (b.rW[w] || Object.values(b.rW)[0]) : b.r;
+          /* rW define reps por semana; más allá de la última definida se
+             conserva LA ÚLTIMA (no la primera): las semanas 3+ de un circuito
+             heredaban las reps de la semana 1 y mataban la progresión */
+          const reps = b.rW ? (b.rW[w] || (() => {
+            const ks = Object.keys(b.rW).map(Number).filter(k => k <= w);
+            return ks.length ? b.rW[Math.max(...ks)] : Object.values(b.rW)[0];
+          })()) : b.r;
           /* La semana de descarga decía una cosa arriba y otra abajo: el banner
              pedía «la MITAD de series» y la dosis seguía marcando las series
              completas. La bandera del calendario no la consumía nadie.
@@ -981,7 +987,8 @@
         // comeback: hueco de ≥3 días. El plan solo deja libre el domingo, así que
         // 3 días ya es un parón real — a 4 el logro llegaba cuando ya se había ido.
         const previos = Object.keys(S.dias).filter(f => f < d && (S.dias[f].cerrado || S.dias[f].sesionOk)).sort();
-        if (previos.length) { const ult = previos[previos.length - 1]; if ((fromISO(d) - fromISO(ult)) / 864e5 >= 3) S.flags.comeback = true; }
+        // el logro dice «4 o más días»: el código dispara donde dice el texto
+        if (previos.length) { const ult = previos[previos.length - 1]; if ((fromISO(d) - fromISO(ult)) / 864e5 >= 4) S.flags.comeback = true; }
         const huboSesion = cuentaAhora();
         dd.cerrado = true; save();
         const nuevos = evaluaLogros();
@@ -1348,6 +1355,19 @@
   document.addEventListener('visibilitychange', () => { if (!document.hidden) relevoDia(); });
   addEventListener('focus', relevoDia);
   setInterval(relevoDia, 60000);
+
+  /* ---------------- dos pestañas, una verdad ----------------
+     localStorage ES la base de datos: si otra pestaña escribe, esta recarga su
+     estado en vez de machacarlo con su copia vieja en el siguiente save().
+     Si además cambió el perfil, el usuario o el idioma, el plan en memoria ya
+     no vale y toca recargar la página entera. */
+  addEventListener('storage', ev => {
+    if (ev.key !== KEY || ev.newValue === null) return;
+    const antes = JSON.stringify([S.perfil, S.usuario, S.config.lang]);
+    load();
+    if (JSON.stringify([S.perfil, S.usuario, S.config.lang]) !== antes) { location.reload(); return; }
+    render();
+  });
 
   /* ---------------- arranque ----------------
      El primer render se aplaza a DOMContentLoaded: views.js se carga DESPUÉS

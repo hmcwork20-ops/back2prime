@@ -270,7 +270,7 @@
     root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, TX.nRecetario), el('span', { class: 'mini' }, TX.nToca)));
     const grid = el('div', { class: 'rec-grid' });
     const misRecetas = (D.__gen && window.B2P_GEN)
-      ? D.RECETAS.filter(r => window.B2P_GEN.recetaVale(r, { dieta: D.META.dieta, sin: D.META.sin || [] }, new Set()))
+      ? D.RECETAS.filter(r => window.B2P_GEN.recetaVale(r, { dieta: D.META.dieta, sin: D.META.sin || [] }, new Set(D.META.gustosNo || [])))
       : D.RECETAS;
     misRecetas.forEach(r => {
       grid.append(el('button', { class: 'rec-card plano' + (U.foto(r.id) ? ' con-foto' : ''), type: 'button', onclick: () => sheetReceta(r) },
@@ -532,14 +532,32 @@
     }
     function alertas() {
       const out = [];
-      // ritmo de pérdida (2 deltas consecutivos, ignorando semana 7)
+      /* Ritmo con DIRECCIÓN: el corredor del perfil dice hacia dónde y a qué
+         velocidad debe moverse la báscula. Reñir a quien gana músculo por «no
+         perder» era heredar la lógica del plan original. Los deltas ignoran
+         las semanas de diet break (y la siguiente), estén donde estén. */
+      const G = TX.gen || {};
+      const objv = D.META.perfil.objetivoKg || [D.META.perfil.pesoSalida, D.META.perfil.pesoSalida];
+      const ritmo = (D.META.perfil.pesoSalida - (Math.min(objv[0], objv[1]) + Math.max(objv[0], objv[1])) / 2) / SEMANAS;
+      const esBreak = wk => { const h = D.HITOS_SEMANA[wk]; return h && (h.tipo === 'dietbreak' || (!D.__gen && wk === 7)); };
       const deltas = [];
       for (let i = 1; i < ms.length; i++) {
-        if (ms[i].w - ms[i - 1].w === 1 && ms[i].w !== 7 && ms[i].w !== 8) deltas.push(ms[i - 1].m - ms[i].m);
+        if (ms[i].w - ms[i - 1].w === 1 && !esBreak(ms[i].w) && !esBreak(ms[i].w - 1)) deltas.push(ms[i - 1].m - ms[i].m);
       }
       const d2 = deltas.slice(-2);
-      if (d2.length === 2 && d2.every(x => x > 1.0)) out.push(el('div', { class: 'banner hot' }, el('div', null, el('b', null, TX.pRapido), el('div', null, D.AJUSTES[0].accion))));
-      if (d2.length === 2 && d2.every(x => x < 0.45) && w > 3) out.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, TX.pLento), el('div', null, D.AJUSTES[1].accion))));
+      if (d2.length === 2) {
+        if (ritmo > 0.05) {          // el plan baja: delta positivo = pérdida
+          if (d2.every(x => x > Math.max(1.0, 2 * ritmo))) out.push(el('div', { class: 'banner hot' }, el('div', null, el('b', null, TX.pRapido), el('div', null, G.alRapidoBaja || D.AJUSTES[0].accion))));
+          else if (d2.every(x => x < 0.5 * ritmo) && w > 3) out.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, TX.pLento), el('div', null, G.alLentoBaja || D.AJUSTES[1].accion))));
+        } else if (ritmo < -0.05) {  // el plan sube: se vigila la ganancia
+          const g = -ritmo;
+          if (d2.every(x => -x > Math.max(0.35, 2.5 * g))) out.push(el('div', { class: 'banner hot' }, el('div', null, el('b', null, TX.pRapido), el('div', null, G.alRapidoSube))));
+          else if (d2.every(x => -x < 0.4 * g) && w > 3) out.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, TX.pLento), el('div', null, G.alLentoSube))));
+        } else if (G.alMantenT) {    // mantener: solo la deriva sostenida avisa
+          if ((d2.every(x => x > 0.4) || d2.every(x => x < -0.4)) && w > 3)
+            out.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, G.alMantenT), el('div', null, G.alMantenD))));
+        }
+      }
       // checkpoint de esta semana
       const cp = D.CHECKPOINTS.find(c => c.sem === w);
       if (cp) { const m = U.mediaSemana(w); out.push(el('div', { class: 'banner' }, el('div', null, el('b', null, TX.pCheckpointSemana), el('div', null, tpl(TX.pEsperadoRango, { a: U.kg1(cp.rango[0]), b: U.kg1(cp.rango[1]) }) + (m ? tpl(TX.pLlevas, { v: U.kg1(m) }) : TX.pSinPesajes))))); }

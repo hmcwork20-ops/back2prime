@@ -85,8 +85,9 @@
     dec.forEach(x => {
       if (x.k === 'split') fila('🏋️', tpl(R.splitT, { d: x.d }), x.tipo === 'fb' ? R.splitFb : x.tipo === 'tp' ? R.splitTp : R.splitPpl);
       else if (x.k === 'kcal') fila('🔥', tpl(R.kcalT, { k: fmtN(x.v) }),
-        x.delta < -100 ? tpl(R.kDef, { v: fmtN(Math.round(-x.delta / 10) * 10) })
-          : x.delta > 100 ? tpl(R.kSup, { v: fmtN(Math.round(x.delta / 10) * 10) }) : R.kMan);
+        // redondeo a 25: «superávit de 260» era ruido de redondeos encadenados
+        x.delta < -100 ? tpl(R.kDef, { v: fmtN(Math.round(-x.delta / 25) * 25) })
+          : x.delta > 100 ? tpl(R.kSup, { v: fmtN(Math.round(x.delta / 25) * 25) }) : R.kMan);
       else if (x.k === 'prot') fila('💪', tpl(R.protT, { p: x.v }), tpl(R.protSub, { v: String(x.kg).replace('.', ',') }));
       else if (x.k === 'dur') fila('📅', tpl(R.durT, { s: x.s }),
         x.abierto && R.durOpen ? tpl(R.durOpen, { s: x.s }) : tpl(R.durSub, { a: fmtF(x.a), b: fmtF(x.b) }));

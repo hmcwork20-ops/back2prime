@@ -82,11 +82,19 @@ window.B2P_GEN = (function () {
     const lesionTxt = { rodilla: base.UI.cuest.lesRodilla, hombro: base.UI.cuest.lesHombro, lumbar: base.UI.cuest.lesLumbar };
     const S = {};
     const cambiados = new Set();                  // ids sustituidos, para el reveal
+    /* «30 minutos» significa 30 minutos: se quedan los primeros bloques (los
+       básicos van primero por diseño) y la duración anunciada dice la verdad */
+    const maxBloques = p.minSesion <= 30 ? 4 : p.minSesion <= 45 ? 5 : 99;
     for (const id of Object.keys(base.SESIONES)) {
       const s = base.SESIONES[id];
       if (!s.bloques) { S[id] = s; continue; }
       const c = Object.assign({}, s);
-      c.bloques = s.bloques.map(b => {
+      if (s.bloques.length > maxBloques) {
+        c.bloques = s.bloques.slice(0, maxBloques);
+        c.dur = plantilla(G.durAprox || c.dur, { m: p.minSesion });
+        if (stats) stats.recorte = p.minSesion;
+      }
+      c.bloques = c.bloques.map(b => {
         const nb = Object.assign({}, b);
         const necesitaSub = !equipoVale((base.EJERCICIOS[b.e] || {}).equipo, p.material) || noQuiero.has('ej:' + b.e);
         if (necesitaSub) {
@@ -105,14 +113,43 @@ window.B2P_GEN = (function () {
       S[id] = c;
     }
     if (stats) stats.subs = cambiados.size;
+    /* el cardio del calendario puede ser «lo tuyo»: la sesión se fabrica aquí
+       con los deportes que gustaron en el mazo, con textos ya localizados */
+    const deps = deportesGustados(base, p).filter(n => n !== ((base.QUIZ_DEP || []).find(x => x.id === 'running') || {}).n);
+    if (deps.length) {
+      S['cardio-libre'] = {
+        nombre: plantilla(G.cardioLibreT, { d: deps.slice(0, 2).join(' · ') }),
+        tipo: 'cardio', icono: 'walk',
+        detalle: plantilla(G.cardioLibreD, { m: '30-40' })
+      };
+    }
     return S;
   }
 
-  /* ---------- calendario por días/semana ---------- */
+  /* ---------- duración y calendario por días/semana ----------
+     El plan dura lo que se pidió: 12, 24 o 48 semanas (0 = «sin fecha», que
+     internamente es un bloque de 12 renovable). Las 4 fases se estiran en
+     proporción y la descarga cae cada 9 semanas, que es a lo que el tejido
+     conectivo llega antes de pedir vacaciones. */
+  function semanasDe(p) {
+    return p.duracionSem === 24 ? 24 : p.duracionSem === 48 ? 48 : 12;
+  }
+  function cortesDe(ST) {
+    // fin de F1, F2 y F3 (F4 llega hasta ST); mismas fracciones que el 2/5/9 de 12
+    return [Math.max(2, Math.round(ST * 2 / 12)), Math.round(ST * 5 / 12), Math.round(ST * 9 / 12)];
+  }
+  function faseDe(w, cortes) { return w <= cortes[0] ? 1 : w <= cortes[1] ? 2 : w <= cortes[2] ? 3 : 4; }
+
+  function deportesGustados(base, p) {
+    const likes = ((p.gustos && p.gustos.like) || []).filter(k => k.startsWith('dep:')).map(k => k.slice(4));
+    return likes.map(id => { const dep = (base.QUIZ_DEP || []).find(x => x.id === id); return dep && dep.n; }).filter(Boolean);
+  }
   function calGen(base, p) {
     const gustaCorrer = ((p.gustos && p.gustos.like) || []).includes('dep:running');
+    const otrosDeportes = deportesGustados(base, p).length > (gustaCorrer ? 1 : 0);
     const cardio = fase => gustaCorrer
       ? (fase <= 1 ? 'wj3' : fase === 2 ? 'wj4' : fase === 3 ? 'trote25' : 'trote30')
+      : otrosDeportes && fase >= 2 ? 'cardio-libre'
       : (fase <= 2 ? 'cam40' : 'cam60');
     const SPLITS = {
       2: ['fb-a', 'fb-b'],
@@ -131,10 +168,11 @@ window.B2P_GEN = (function () {
       5: ['F0', 'F1', 'C', 'F2', 'F3', 'F4', 'libre'],
       6: ['F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'libre']
     }[dias];
+    const ST = semanasDe(p), cortes = cortesDe(ST);
     const CAL = [];
-    for (let w = 1; w <= 12; w++) {
-      const fase = w <= 2 ? 1 : w <= 5 ? 2 : w <= 9 ? 3 : 4;
-      // reactivación en casa las 2 primeras semanas, salvo quien ya entrena
+    for (let w = 1; w <= ST; w++) {
+      const fase = faseDe(w, cortes);
+      // reactivación en casa al principio, salvo quien ya entrena
       const enCasa = fase === 1 && p.historial !== 'activo';
       const soloCuerpo = p.material === 'nada';
       let fIdx = 0;
@@ -146,9 +184,34 @@ window.B2P_GEN = (function () {
         if (enCasa || soloCuerpo) return i % 2 === 0 ? 'c-a' : 'c-b';
         return split[i % split.length];
       });
-      CAL.push({ n: w, fase, descarga: w === 9 || undefined, dias: diasSemana });
+      CAL.push({ n: w, fase, descarga: (w % 9 === 0 && w < ST) || undefined, dias: diasSemana });
     }
     return CAL;
+  }
+
+  /* ---------- hitos de semana: regenerados y honestos ----------
+     El cribado solo si se vuelve de años parado; el diet break solo si el plan
+     recorta; la descarga siempre que toque. La transición a 5 días del plan
+     original no existe aquí: el split no cambia a mitad de camino. */
+  function hitosGen(base, p, nutri) {
+    const G = base.UI.gen || {};
+    const ST = semanasDe(p), cortes = cortesDe(ST);
+    const fmt = n => n.toLocaleString(base.UI.lang || 'es');
+    const H = {};
+    if (p.historial !== 'activo') {
+      const w = Math.min(cortes[1], Math.max(3, Math.round(ST * 5 / 12)));
+      H[w] = { t: G.hitoCribadoT, d: G.hitoCribadoD, tipo: 'cribado' };
+    }
+    const recorta = p.objetivo === 'perder' || p.objetivo === 'recomp';
+    if (recorta) {
+      for (let w = Math.round(ST * 7 / 12); w <= ST; w += 12) {
+        H[Math.min(w, ST)] = { t: G.hitoDietT, d: plantilla(G.hitoDietD, { k: fmt(Math.round(nutri.tdee / 100) * 100) }), tipo: 'dietbreak' };
+      }
+    }
+    for (let w = 9; w < ST; w += 9) {
+      H[w] = { t: G.hitoDescargaT, d: G.hitoDescargaD, tipo: 'descarga' };
+    }
+    return H;
   }
 
   /* ---------- nutrición ---------- */
@@ -161,6 +224,9 @@ window.B2P_GEN = (function () {
     const k = kcalObjetivo(p);
     const m = macros(p, k);
     const fmt = n => n.toLocaleString(base.UI.lang || 'es');
+    // la toma mínima por comida sale de TU proteína, no de la del dueño
+    const qMin = Math.max(20, Math.round(m.p / 4 * 0.85 / 5) * 5);
+    if (N.tomas) N.tomas = tpl(N.tomas, { q: qMin });
     if (N.calorias && N.calorias.length >= 3) {
       N.calorias[0].v = '~' + fmt(bmr) + ' kcal';
       N.calorias[0].n = tpl(G.datos, { p: Math.round(p.pesoKg), a: Math.round(p.alturaCm), e: p.edad });
@@ -168,10 +234,20 @@ window.B2P_GEN = (function () {
       N.calorias[2].v = fmt(k - 75) + '–' + fmt(k + 75) + ' kcal';
     }
     if (N.fases && N.fases.length) {
+      const ST = semanasDe(p), cortes = cortesDe(ST);
+      const recorta = p.objetivo === 'perder' || p.objetivo === 'recomp';
+      const wBreak = Math.round(ST * 7 / 12);
       N.fases.forEach((f, i) => {
         const kf = i === 0 ? k : i === 1 ? k + 50 : k + 100;   // leve subida con el volumen
         f.kcal = kf; f.p = m.p; f.g = m.g;
         f.c = Math.max(0, Math.round((kf - m.p * 4 - m.g * 9) / 4));
+        // las etiquetas de rango dicen las semanas REALES de este plan
+        f.f = tpl(G['nf' + (i + 1)] || f.f, { a: cortes[1], b: cortes[1] + 1, c: cortes[2], d: cortes[2] + 1, e: ST });
+        // la nota del diet break: solo si el plan recorta, y en su semana real
+        if (i === 1) {
+          if (recorta) f.nota = tpl(G.dietBreakNota || f.nota, { w: wBreak, k: fmt(t - t % 100) });
+          else delete f.nota;
+        }
       });
     }
     return { NUTRI: N, kcal: k, prot: m.p, tdee: t };
@@ -278,16 +354,25 @@ window.B2P_GEN = (function () {
   function metaGen(base, p, prot) {
     const M = JSON.parse(JSON.stringify(base.META));
     const ini = proximoLunes();
+    const ST = semanasDe(p);
     M.inicioISO = iso(ini);
-    M.finISO = iso(addD(ini, 12 * 7 - 1));
-    M.semanas = 12;
+    M.finISO = iso(addD(ini, ST * 7 - 1));
+    M.semanas = ST;
+    M.abierto = p.duracionSem === 0 || undefined;   // «sin fecha»: bloque renovable
+    M.evento = p.evento || null;
+    M.franja = p.franja || null;
+    M.dieta = p.dieta || 'normal';
+    M.sin = (p.sin || []).slice();
     M.perfil.pesoSalida = p.pesoKg;
     M.perfil.alturaCm = p.alturaCm;
     M.perfil.proteinaDia = prot;
-    const kg = p.pesoKg;
-    M.perfil.objetivoKg = p.objetivo === 'perder' ? [Math.round(kg * 0.92 - 1), Math.round(kg * 0.92)]
-      : p.objetivo === 'recomp' ? [Math.round(kg - 4), Math.round(kg - 2)]
-      : p.objetivo === 'ganar' ? [Math.round(kg + 1), Math.round(kg + 3)]
+    /* el objetivo escala con la duración real, con techos sensatos:
+       perder ~0,67%/sem hasta el 20%; ganar despacio; recomp acotada */
+    const kg = p.pesoKg, f = ST / 12;
+    const pctPerder = Math.min(0.20, 0.0067 * ST);
+    M.perfil.objetivoKg = p.objetivo === 'perder' ? [Math.round(kg * (1 - pctPerder) - 1), Math.round(kg * (1 - pctPerder))]
+      : p.objetivo === 'recomp' ? [Math.round(kg - 4 * Math.min(2, f)), Math.round(kg - 2 * Math.min(2, f))]
+      : p.objetivo === 'ganar' ? [Math.round(kg + 1 * f), Math.round(kg + Math.min(10, 3 * f))]
       : [Math.round(kg - 1), Math.round(kg + 1)];
     /* La métrica reina siempre tiene meta: con cintura declarada, bajar 6 cm
        sin pasar de la mitad de la estatura (que es el umbral con evidencia);
@@ -298,13 +383,26 @@ window.B2P_GEN = (function () {
       : mitad;
     return { META: M, ini };
   }
-  function fasesGen(base, ini) {
-    const meses = base.UI.meses;
-    return base.FASES.map(f => {
+  function fasesGen(base, ini, p) {
+    const meses = base.UI.meses, G = base.UI.gen || {};
+    const ST = semanasDe(p), cortes = cortesDe(ST);
+    const dias = Math.min(6, Math.max(2, p.diasSemana || 4));
+    const splitTxt = dias <= 3 ? G.splitFbC : dias === 4 ? G.splitTpC : G.splitPplC;
+    const rangos = [[1, cortes[0]], [cortes[0] + 1, cortes[1]], [cortes[1] + 1, cortes[2]], [cortes[2] + 1, ST]];
+    return base.FASES.map((f, i) => {
       const c = Object.assign({}, f);
-      const a = addD(ini, (f.semanas[0] - 1) * 7);
-      const b = addD(ini, f.semanas[f.semanas.length - 1] * 7 - 1);
+      const semanas = [];
+      for (let w = rangos[i][0]; w <= rangos[i][1]; w++) semanas.push(w);
+      c.semanas = semanas;
+      const a = addD(ini, (semanas[0] - 1) * 7);
+      const b = addD(ini, semanas[semanas.length - 1] * 7 - 1);
       c.fechas = corta(a, meses) + ' – ' + corta(b, meses);
+      /* el sub deja de describir la progresión del dueño: F1 conserva su
+         «en casa» solo si de verdad se reactiva en casa; el resto lleva el
+         split real del perfil */
+      const enCasa = i === 0 && p.historial !== 'activo';
+      if (!enCasa) c.sub = plantilla(G.faseSub, { s: splitTxt, d: dias });
+      c.objetivo = plantilla(c.objetivo, { d: dias });
       return c;
     });
   }
@@ -400,6 +498,9 @@ window.B2P_GEN = (function () {
       dec.push({ k: 'menu', avisos: menu.avisos || 0 });
     const g = perfil.gustos || {};
     if ((g.no || []).length) dec.push({ k: 'gustos', likes: (g.like || []).length, nos: g.no.length });
+    if (stats.recorte) dec.push({ k: 'min', v: stats.recorte });
+    if (perfil.evento && perfil.evento !== 'siempre') dec.push({ k: 'evento', v: perfil.evento });
+    if (perfil.duracionSem === 0) dec[dec.findIndex(x => x.k === 'dur')].abierto = true;
     return dec;
   }
 
@@ -412,8 +513,9 @@ window.B2P_GEN = (function () {
     const stats = { subs: 0 };
     return Object.assign({}, base, {
       META: meta.META,
-      FASES: fasesGen(base, meta.ini),
+      FASES: fasesGen(base, meta.ini, perfil),
       CAL: calGen(base, perfil),
+      HITOS_SEMANA: hitosGen(base, perfil, nutri),
       SESIONES: sesionesGen(base, perfil, stats),
       NUTRI: nutri.NUTRI,
       MENU: menu.MENU,
@@ -427,6 +529,7 @@ window.B2P_GEN = (function () {
       CARRERA: carreraGen(base, perfil),
       LOGROS: logrosGen(base, meta.META),
       __menuAvisos: menu.avisos || 0,
+      __mantenimiento: Math.round(nutri.tdee / 100) * 100,
       __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),
       HISTORICO: {},          // las marcas del plan original eran de una persona
       ARRANQUE: null,         // su tabla de cargas también; la vista lo guarda
@@ -434,7 +537,8 @@ window.B2P_GEN = (function () {
     });
   }
 
-  return { generarPlan };
+  // recetaVale se exporta para que el mazo y el recetario filtren en vivo
+  return { generarPlan, recetaVale };
 })();
 
 /* Si hay perfil guardado, el plan del arranque ES el generado: se sustituye

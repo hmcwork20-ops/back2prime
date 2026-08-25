@@ -11,6 +11,8 @@
   const D = window.B2P, U = window.UI;
   const el = U.el, TX = U.TX, tpl = U.tpl;
   const SVGNS = 'http://www.w3.org/2000/svg';
+  const SEMANAS = D.META.semanas || 12;   // duración real del plan cargado
+  const EJE_PASO = SEMANAS <= 12 ? 2 : SEMANAS <= 24 ? 4 : 8;
   const COL = { peso: '#C8F24E', cintura: '#66A0E8', banca: '#E5B63E', sent: '#E5685A', rdl: '#4CC07E', pasos: '#66A0E8' };
 
   /* Ejes y etiquetas de las gráficas: se leen DEL TOKEN, no de un hex copiado.
@@ -59,7 +61,7 @@
   /* ==================== PLAN (4 sub-secciones) ==================== */
   function renderPlan(root) {
     const hoy = U.hoyISO(), w = U.semanaDe(hoy);
-    const faseAct = (w >= 1 && w <= 12) ? D.FASES[D.CAL[w - 1].fase - 1] : null;
+    const faseAct = (w >= 1 && w <= SEMANAS) ? D.FASES[D.CAL[w - 1].fase - 1] : null;
     const fold = (titulo, abierto, ...kids) => el('details', { class: 'fold', ...(abierto ? { open: '' } : {}) }, el('summary', null, titulo), el('div', { class: 'fold-in' }, ...kids));
 
     // Segmentado: cada sub-sección carga sola → nada de scroll kilométrico
@@ -113,7 +115,7 @@
 
     // 12 semanas con estado
     const tsem = el('table', null, el('tr', null, el('th', null, TX.sem), el('th', null, TX.fechasLbl), el('th', null, TX.especial), el('th', null, TX.fuerzaLbl)));
-    for (let i = 1; i <= 12; i++) {
+    for (let i = 1; i <= SEMANAS; i++) {
       const fs = U.fechasSemana(i), ses = U.sesionesFuerzaSemana(i), done = ses.filter(s => s.hecho).length;
       const hito = D.HITOS_SEMANA[i];
       tsem.append(el('tr', i === w ? { class: 'now' } : null,
@@ -240,13 +242,15 @@
     root.append(chipNav(IDS_N.map((id, i) => [id, TX.chipsNutri[i]])));
 
     root.append(el('div', { id: 'n-obj', class: 'card fase-card pn' },
-      el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.nObjetivo), el('div', { class: 'sub' }, fn.f + (w >= 1 && w <= 12 ? ' · ' + tpl(TX.nSemana, { w }) : '')))),
+      el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.nObjetivo), el('div', { class: 'sub' }, fn.f + (w >= 1 && w <= SEMANAS ? ' · ' + tpl(TX.nSemana, { w }) : '')))),
       el('div', { class: 'statrow', style: 'grid-template-columns:repeat(4,1fr);margin:6px 0 2px' },
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.kcalLbl), el('div', { class: 'sv num' }, fn.kcal.toLocaleString('es-ES'))),
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nProteLbl), el('div', { class: 'sv num' }, fn.p + ' g')),
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nGrasaLbl), el('div', { class: 'sv num' }, fn.g + ' g')),
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nCarbosLbl), el('div', { class: 'sv num' }, fn.c + ' g'))),
-      w === 7 ? el('div', { class: 'banner', style: 'margin:8px 0 2px' }, el('div', null, el('b', null, TX.nDietBreakTitulo), el('div', null, TX.nDietBreakTxt))) : null,
+      ((D.HITOS_SEMANA[w] || {}).tipo === 'dietbreak' || (!D.__gen && w === 7))
+        ? el('div', { class: 'banner', style: 'margin:8px 0 2px' }, el('div', null, el('b', null, TX.nDietBreakTitulo),
+            el('div', null, tpl(TX.nDietBreakTxt, { k: (D.__mantenimiento || 2800).toLocaleString(TX.lang || 'es') })))) : null,
       el('p', { class: 'mini', style: 'margin-top:8px' }, D.NUTRI.tomas)));
 
     // números y escalado
@@ -262,10 +266,13 @@
     root.append(el('div', { id: 'n-plato', class: 'sec-h' }, el('h2', null, TX.nPlato)));
     root.append(el('div', { class: 'regla-g' }, D.NUTRI.plato.map(p => el('div', { class: 'regla' }, el('b', null, p.t), p.d))));
 
-    // recetas
+    // recetas — el recetario respeta la dieta declarada: primero (y solo) lo tuyo
     root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, TX.nRecetario), el('span', { class: 'mini' }, TX.nToca)));
     const grid = el('div', { class: 'rec-grid' });
-    D.RECETAS.forEach(r => {
+    const misRecetas = (D.__gen && window.B2P_GEN)
+      ? D.RECETAS.filter(r => window.B2P_GEN.recetaVale(r, { dieta: D.META.dieta, sin: D.META.sin || [] }, new Set()))
+      : D.RECETAS;
+    misRecetas.forEach(r => {
       grid.append(el('button', { class: 'rec-card plano' + (U.foto(r.id) ? ' con-foto' : ''), type: 'button', onclick: () => sheetReceta(r) },
         U.foto(r.id) ? el('img', { class: 'rfoto', src: U.foto(r.id), alt: '', loading: 'lazy', decoding: 'async', width: '640', height: '640' }) : null,
         el('div', { class: 'rtipo' }, r.tipo),
@@ -286,7 +293,10 @@
     if (D.__menuAvisos && TX.gen && TX.gen.menuAviso)
       root.append(el('div', { class: 'banner warn', style: 'margin:8px 0' },
         el('div', null, U.tpl(TX.gen.menuAviso, { n: D.__menuAvisos }))));
-    root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, TX.nTomaNota + D.NUTRI.comidaLibre));
+    // a quien no toma lácteos, la nota nocturna le ofrece su alternativa vegetal
+    const notaNoche = (D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa')) && TX.gen)
+      ? TX.gen.tomaNocheAlt : TX.nTomaNota;
+    root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, notaNoche + D.NUTRI.comidaLibre));
 
     // lista de la compra
     root.append(el('div', { id: 'n-compra', class: 'sec-h' }, el('h2', null, TX.nCompra),
@@ -517,7 +527,7 @@
     }
     function adherenciaGlobal() {
       let ok = 0, tot = 0;
-      for (let i = 1; i <= Math.min(w || 0, 12); i++) U.sesionesFuerzaSemana(i).forEach(s => { if (s.f <= hoy) { tot++; if (s.hecho) ok++; } });
+      for (let i = 1; i <= Math.min(w || 0, SEMANAS); i++) U.sesionesFuerzaSemana(i).forEach(s => { if (s.f <= hoy) { tot++; if (s.hecho) ok++; } });
       return { ok, tot };
     }
     function alertas() {
@@ -534,7 +544,7 @@
       const cp = D.CHECKPOINTS.find(c => c.sem === w);
       if (cp) { const m = U.mediaSemana(w); out.push(el('div', { class: 'banner' }, el('div', null, el('b', null, TX.pCheckpointSemana), el('div', null, tpl(TX.pEsperadoRango, { a: U.kg1(cp.rango[0]), b: U.kg1(cp.rango[1]) }) + (m ? tpl(TX.pLlevas, { v: U.kg1(m) }) : TX.pSinPesajes))))); }
       // ACWR del trote
-      if (w >= 4 && w <= 12) {
+      if (w >= 4 && w <= SEMANAS) {
         const carga = wk => { let m = 0; const fs = U.fechasSemana(wk); for (let i = 0; i < 7; i++) { const f = U.addDays(fs.ini, i), dd = S.dias[f], sl = U.slotDe(f); if (dd && dd.sesionOk && sl && sl.ses.tipo === 'cardio' && sl.ses.icono === 'run') m += dd.cardioMin || 28; } return m; };
         const prev = []; for (let i = Math.max(3, w - 4); i < w; i++) prev.push(carga(i));
         const media = prev.length ? prev.reduce((a, b) => a + b, 0) / prev.length : 0;
@@ -567,7 +577,7 @@
 
   function chartPeso() {
     const S = U.S, W = 640, H = 260, L = 40, R = 14, T = 16, B = 28;
-    const dias = 84;
+    const dias = SEMANAS * 7;
     const pesos = Object.keys(S.dias).filter(f => S.dias[f].peso).sort()
       .map(f => ({ x: diaIdx(f), y: S.dias[f].peso, f })).filter(p => p.x >= -7 && p.x <= dias);
     const ms = U.mediasSemanales().map(m => ({ x: (m.w - 1) * 7 + 3, y: m.m, w: m.w }));
@@ -600,7 +610,7 @@
       const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = y; svg.append(t);
     }
     // eje X: S1..S12 (cada 2)
-    for (let wk = 1; wk <= 12; wk += 2) {
+    for (let wk = 1; wk <= SEMANAS; wk += EJE_PASO) {
       const x = sx((wk - 1) * 7 + 3);
       const t = sv('text', { x, y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: EJE() }); t.textContent = 'S' + wk; svg.append(t);
     }
@@ -619,7 +629,7 @@
   }
 
   function chartCintura() {
-    const S = U.S, W = 640, H = 200, L = 40, R = 14, T = 14, B = 28, dias = 84;
+    const S = U.S, W = 640, H = 200, L = 40, R = 14, T = 14, B = 28, dias = SEMANAS * 7;
     const pts = Object.keys(S.dias).filter(f => S.dias[f].cintura).sort().map(f => ({ x: diaIdx(f), y: S.dias[f].cintura, f }));
     if (U.S.config.cinturaBase && !pts.some(p => p.x <= 0)) pts.unshift({ x: -3, y: U.S.config.cinturaBase, base: true });
     const M = D.META.perfil.cinturaMetaCm || 91;          // la meta sale del perfil
@@ -631,7 +641,7 @@
     // línea de meta
     svg.append(sv('line', { x1: L, x2: W - R, y1: sy(M), y2: sy(M), stroke: 'rgba(255,255,255,.22)', 'stroke-dasharray': '5 4' }));
     const mt = sv('text', { x: W - R, y: sy(M) - 5, 'text-anchor': 'end', 'font-size': 10, fill: EJE2() }); mt.textContent = tpl(TX.pMeta91, { m: M }); svg.append(mt);
-    for (let wk = 1; wk <= 12; wk += 2) { const t = sv('text', { x: sx((wk - 1) * 7 + 3), y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: EJE() }); t.textContent = 'S' + wk; svg.append(t); }
+    for (let wk = 1; wk <= SEMANAS; wk += EJE_PASO) { const t = sv('text', { x: sx((wk - 1) * 7 + 3), y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: EJE() }); t.textContent = 'S' + wk; svg.append(t); }
     for (let y = yMin + 1; y < yMax; y += 2) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = y; svg.append(t); }
     if (pts.length) {
       svg.append(sv('polyline', { points: pts.map(p => sx(p.x) + ',' + sy(p.y)).join(' '), fill: 'none', stroke: COL.cintura, 'stroke-width': 2, 'stroke-linejoin': 'round' }));
@@ -681,14 +691,14 @@
   function chartAdherencia() {
     const hoy = U.hoyISO(), wNow = U.semanaDe(hoy);
     const W = 640, H = 190, L = 34, R = 10, T = 16, B = 26;
-    const wMax = wNow >= 1 && wNow <= 12 ? wNow : (wNow === 99 ? 12 : 0);
+    const wMax = wNow >= 1 && wNow <= SEMANAS ? wNow : (wNow === 99 ? SEMANAS : 0);
     const svg = baseSVG(W, H, TX.gAdherencia + ': ' + (wMax ? tpl(TX.gSemanas, { n: wMax }) : TX.gSinDatos));
     if (!wMax) { const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioAdh; svg.append(t); return svg; }
-    const bw = (W - L - R) / 12;
+    const bw = (W - L - R) / SEMANAS;
     const sy = v => T + (1 - v) * (H - T - B);
     [.5, 1].forEach(v => { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 5, y: sy(v) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = v * 100 + '%'; svg.append(t); });
     const tips = [];
-    for (let i = 1; i <= 12; i++) {
+    for (let i = 1; i <= SEMANAS; i++) {
       const x = L + (i - 1) * bw + 3, wdt = bw - 6;
       const t = sv('text', { x: x + wdt / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 9.5, fill: i === wNow ? '#F2F4F0' : EJE() }); t.textContent = 'S' + i; svg.append(t);
       if (i > wMax) { svg.append(sv('rect', { x, y: sy(0) - 2, width: wdt, height: 2, rx: 1, fill: 'rgba(255,255,255,.07)' })); continue; }
@@ -1002,8 +1012,14 @@
     idsEj.forEach(id => { const e = D.EJERCICIOS[id];
       mazo.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre, sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm }); });
     (D.QUIZ_DEP || []).forEach(dep => mazo.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '' }));
-    (D.RECETAS || []).slice(0, 10).forEach(r => mazo.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
-      sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
+    /* La dieta se declaró dos pasos antes: una vegana no puntúa diez platos
+       de carne. Se filtra con el mismo criterio que usará el motor. */
+    const bd = (S.ui.cuest && S.ui.cuest.d) || {};
+    const pd = { dieta: bd.dieta || 'normal', sin: Array.isArray(bd.sin) ? bd.sin : [] };
+    (D.RECETAS || [])
+      .filter(r => r.slot !== 'snack' && (!window.B2P_GEN || window.B2P_GEN.recetaVale(r, pd, new Set())))
+      .slice(0, 10).forEach(r => mazo.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
+        sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
 
     const est = S.ui.quiz = S.ui.quiz || { like: {}, no: {} };
     let resto = mazo.slice(), historia = [], volando = false;

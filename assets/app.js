@@ -54,15 +54,16 @@
 
   /* ---------------- calendario del plan ---------------- */
   const INICIO = D.META.inicioISO, FIN = D.META.finISO;
-  function semanaDe(d) { // 1..12 · 0 = antes · 99 = después
+  const SEMANAS = D.META.semanas || 12;      // duración real del plan cargado
+  function semanaDe(d) { // 1..SEMANAS · 0 = antes · 99 = después
     const diff = Math.floor((fromISO(d) - fromISO(INICIO)) / 864e5);
     if (diff < 0) return 0;
     const w = Math.floor(diff / 7) + 1;
-    return w > 12 ? 99 : w;
+    return w > SEMANAS ? 99 : w;
   }
   function slotDe(d) {
     const w = semanaDe(d);
-    if (w < 1 || w > 12) return null;
+    if (w < 1 || w > SEMANAS) return null;
     const cal = D.CAL[w - 1];
     let s = cal.dias[dowMon(d)], opt = false;
     if (typeof s === 'object') { opt = !!s.opt; s = s.s; }
@@ -103,7 +104,7 @@
     return out;
   }
   function mediaSemana(w) { const p = pesosSemana(w); return p.length ? p.reduce((a, b) => a + b, 0) / p.length : null; }
-  function mediasSemanales() { const out = []; for (let w = 1; w <= 12; w++) { const m = mediaSemana(w); if (m) out.push({ w, m }); } return out; }
+  function mediasSemanales() { const out = []; for (let w = 1; w <= SEMANAS; w++) { const m = mediaSemana(w); if (m) out.push({ w, m }); } return out; }
 
   /* ---------------- adherencia ---------------- */
   function sesionesFuerzaSemana(w) {
@@ -158,8 +159,8 @@
     'sesiones-10': () => totalFuerza() >= 10,
     'sesiones-25': () => totalFuerza() >= 25,
     'sesiones-50': () => totalFuerza() >= 50,
-    'semana-perfecta': () => { for (let w = 1; w <= 12; w++) { const s = sesionesFuerzaSemana(w); if (s.length && s.every(x => x.hecho) && fechasSemana(w).ini <= hoyISO()) return true; } return false; },
-    'minimo-3': () => { let run = 0; for (let w = 1; w <= 12; w++) { if (fechasSemana(w).fin > hoyISO()) break; const f = sesionesFuerzaSemana(w).filter(x => x.hecho).length; if (f >= 2 && cardioHechoSemana(w) >= 1) { run++; if (run >= 3) return true; } else run = 0; } return false; },
+    'semana-perfecta': () => { for (let w = 1; w <= SEMANAS; w++) { const s = sesionesFuerzaSemana(w); if (s.length && s.every(x => x.hecho) && fechasSemana(w).ini <= hoyISO()) return true; } return false; },
+    'minimo-3': () => { let run = 0; for (let w = 1; w <= SEMANAS; w++) { if (fechasSemana(w).fin > hoyISO()) break; const f = sesionesFuerzaSemana(w).filter(x => x.hecho).length; if (f >= 2 && cardioHechoSemana(w) >= 1) { run++; if (run >= 3) return true; } else run = 0; } return false; },
     'racha-7': () => racha(hoyISO()) >= 7,
     'racha-14': () => racha(hoyISO()) >= 14,
     'racha-30': () => racha(hoyISO()) >= 30,
@@ -180,7 +181,7 @@
     'comeback': () => !!S.flags.comeback,
     'fotos-4': () => D.FOTOS.every(f => S.dias[f] && S.dias[f].foto),
     'checkpoint-s4': () => checkpointOk(0), 'checkpoint-s8': () => checkpointOk(1),
-    'plan-completo': () => { if (hoyISO() < FIN) return false; let t = 0, k = 0; for (let w = 1; w <= 12; w++) sesionesFuerzaSemana(w).forEach(s => { t++; if (s.hecho) k++; }); return t && k / t >= 0.8; }
+    'plan-completo': () => { if (hoyISO() < FIN) return false; let t = 0, k = 0; for (let w = 1; w <= SEMANAS; w++) sesionesFuerzaSemana(w).forEach(s => { t++; if (s.hecho) k++; }); return t && k / t >= 0.8; }
   };
   function bajadaMax() { const ms = mediasSemanales(); if (!ms.length) return 0; return D.META.perfil.pesoSalida - Math.min(...ms.map(x => x.m)); }
   function subidaMax() { const ms = mediasSemanales(); if (!ms.length) return 0; return Math.max(...ms.map(x => x.m)) - D.META.perfil.pesoSalida; }
@@ -593,10 +594,13 @@
     if (!menu) return null;
     const rec = id => D.RECETAS.find(r => r.id === id);
     const w = semanaDe(d);
-    const enPlan = w >= 1 && w <= 12;
+    const enPlan = w >= 1 && w <= SEMANAS;
     const fase = enPlan ? D.CAL[w - 1].fase : 1;
     const fn = D.NUTRI.fases[fase === 4 ? 2 : fase === 3 ? 1 : 0];
     const sl = enPlan ? slotDe(d) : null;
+    // la franja elegida en el cuestionario ordena el día: se dice donde se come
+    const franjaNota = (D.__gen && D.META.franja && sl && sl.ses && (sl.ses.tipo === 'fuerza' || sl.ses.tipo === 'cardio') && TX.gen)
+      ? TX.gen[{ manana: 'franjaM', mediodia: 'franjaMd', tarde: 'franjaT' }[D.META.franja]] : null;
 
     const card = el('div', { class: 'card' });
     card.append(el('div', { class: 'card-title' }, el('div', null,
@@ -618,18 +622,24 @@
         el('span', { class: 'mi' }, icono), el('span', { class: 'ml' }, etiqueta),
         el('span', { class: 'mn' }, r.nombre), el('span', { class: 'mk' }, r.macros.kcal + ' kcal'));
     };
+    // la toma láctea de la noche no se le planta a quien no toma lácteos
+    const vetaLacteo = D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa'));
     card.append(
       fila('🥣', TX.desayuno, menu.de),
       fila('🍗', TX.comidaLbl, menu.co),
       fila('🐟', TX.cena, menu.ce),
-      fila('🌙', TX.presueno, 'toma-noche')
+      vetaLacteo ? null : fila('🌙', TX.presueno, 'toma-noche')
     );
+    if (vetaLacteo && TX.gen) card.append(el('div', { class: 'mini', style: 'margin-top:6px' }, '🌙 ' + TX.gen.tomaNocheAlt));
+    if (franjaNota) card.append(el('div', { class: 'mini', style: 'margin-top:6px' }, franjaNota));
 
-    if (w === 7) card.append(el('div', { class: 'banner', style: 'margin:10px 0 2px' }, el('div', null, TX.dietBreakChip)));
+    // el diet break cae donde lo puso el motor, no en la semana 7 de nadie
+    const esBreak = enPlan && (((D.HITOS_SEMANA[w] || {}).tipo === 'dietbreak') || (!D.__gen && w === 7));
+    if (esBreak) card.append(el('div', { class: 'banner', style: 'margin:10px 0 2px' }, el('div', null, TX.dietBreakChip)));
     else if (enPlan && (fase === 4 || (fase === 3 && sl && sl.ses && sl.ses.tipo === 'fuerza')))
       card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, tpl(TX.extraChip, { f: fase })));
     else if (!enPlan && w === 0)
-      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, TX.practicaMenu));
+      card.append(el('div', { class: 'mini', style: 'margin-top:8px' }, tpl(TX.practicaMenu, { f: fmtFecha(INICIO) })));
     return card;
   }
 
@@ -709,7 +719,7 @@
     }
 
     /* — semana del plan — */
-    if (w >= 1 && w <= 12 && sl) {
+    if (w >= 1 && w <= SEMANAS && sl) {
       const fase = sl.fase;
       root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, sl.ses ? sl.ses.nombre : TX.descanso),
         el('div', { class: 'sub', style: 'padding:0 2px;color:var(--ink2)' },
@@ -717,7 +727,7 @@
 
       // banner de semana especial
       const hito = D.HITOS_SEMANA[w];
-      if (hito) root.append(el('div', { class: 'banner' + (w === 9 ? ' warn' : w === 10 ? ' hot' : '') },
+      if (hito) root.append(el('div', { class: 'banner' + (hito.tipo === 'descarga' || w === 9 ? ' warn' : hito.tipo === 'dietbreak' ? '' : w === 10 ? ' hot' : '') },
         el('div', null, el('b', null, hito.t), el('div', { style: 'margin-top:2px' }, hito.d))));
 
       /* sesión de fuerza */
@@ -749,8 +759,10 @@
           const enDescarga = !!(D.CAL[w - 1] && D.CAL[w - 1].descarga);
           const series = enDescarga ? Math.ceil(b.s / 2) : b.s;
           const dosis = series + '×' + reps;
-          const esBW = !ultimoLog(b.e, '9999') && !lg.kg && (fase.id === 1 || ['plancha', 'plancha-lastre', 'dead-bug', 'superman', 'elev-piernas', 'rueda-abdominal', 'crunch-polea', 'fondos', 'dominadas'].includes(b.e) === false && fase.id === 1);
-          const sug = sugerencia(b.e, d);
+          /* Sin carga externa no hay campo de kg: pedir un peso en la plancha
+             es pedir un dato sin respuesta. La mochila opcional sí carga. */
+          const esBW = /^(nada|toalla)/i.test(e.equipo || '') && !/mochila/i.test(e.equipo || '');
+          const sug = esBW ? null : sugerencia(b.e, d);
 
           // El placeholder NUNCA es la sugerencia: en gris se lee como valor ya
           // puesto y la gente marca ✓ sin registrar nada. La sugerencia vive en
@@ -832,7 +844,7 @@
                 el('button', { class: 'rest plano', type: 'button', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString(TX.lang || 'es') + '′' : b.d + '″')),
                 chipSug, repWrap),
               b.n ? el('div', { class: 'exnote' }, b.n) : null),
-            el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),
+            esBW ? null : el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),
             check);
           pintaRep();
           card.append(row);
@@ -1161,7 +1173,7 @@
     // chip de cabecera
     const w = semanaDe(hoyISO());
     const chip = $('#chipSem'), st = $('#streak');
-    if (!enOnb && w >= 1 && w <= 12) {
+    if (!enOnb && w >= 1 && w <= SEMANAS) {
       const f = D.FASES[D.CAL[w - 1].fase - 1];
       chip.hidden = false;
       $('#chipDot').style.background = 'var(--f' + f.id + ')';

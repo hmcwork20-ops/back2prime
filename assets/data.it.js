@@ -35,7 +35,7 @@ window.B2P = (function () {
       objetivo: 'Volume e intensità veri per forzare la ricomposizione: qui la memoria muscolare rende davvero. Chiudi ogni serie potendo fare 2 ripetizioni in più — e che siano vere: chi torna tende a sovrastimare quanto è vicino al cedimento.' },
     { id: 4, nombre: 'Picco', sub: 'Push / Pull / Legs ×5', semanas: [10, 11, 12], disco: 25, rpe: '8',
       fechas: '19 ott – 8 nov',
-      objetivo: 'Massimo stimolo per chiudere la ricomposizione. Cinque giorni, ma con sessioni da 60-75 minuti, non da 2 ore. RPE 8: 1-2 ripetizioni di riserva nelle ultime serie.' }
+      objetivo: 'Massimo stimolo per chiudere la ricomposizione. {d} giorni, ma con sessioni da 60-75 minuti, non da 2 ore. RPE 8: 1-2 ripetizioni di riserva nelle ultime serie.' }
   ];
 
   /* ---------- CALENDARIO: 12 settimane × 7 giorni (Lun..Dom) ----------
@@ -644,7 +644,7 @@ window.B2P = (function () {
       { f: 'F4 (sett 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
     escalado: 'Le proteine non si toccano mai: {p} g al giorno per te. Quando sale il volume, salgono solo i carboidrati. In pratica: in F3 aggiungi un frutto + 40 g di pane a pranzo nei giorni di allenamento; in F4, lo stesso tutti i giorni.',
-    tomas: 'QUATTRO pasti proteici al giorno, nessuno sotto i 38-40 g: colazione, pranzo, cena e uno spuntino pre-nanna (skyr + whey). Comanda il totale giornaliero, ma dividerlo in 4 spreme la sintesi proteica e toglie la fame notturna.',
+    tomas: 'QUATTRO pasti proteici al giorno, nessuno sotto i {q} g: colazione, pranzo, cena e uno spuntino pre-nanna. Comanda il totale giornaliero, ma dividerlo in 4 spreme la sintesi proteica e toglie la fame notturna.',
     plato: [
       { t: 'Proteine (a ogni pasto)', d: '200-250 g di pollo/tacchino/pesce bianco a crudo, o 170-180 g di salmone/manzo, o 3 uova + 2 albumi, o 250 g di skyr + whey. Riferimento visivo: un palmo e mezzo della mano.' },
       { t: 'Carboidrati', d: '60-75 g a crudo di riso/pasta, o 250-300 g di patate, o 60 g di pane integrale, o 50 g di avena. Riferimento: un pugno.' },
@@ -1055,7 +1055,7 @@ window.B2P = (function () {
     prepFotos: 'Foto giorno 0: fronte e profilo, stessa luce che userai sempre',
     prepCompra: 'Spesa della settimana 1 (lista in Cibo)',
     prepBascula: 'Decidi dove e quando ti pesi: lunedì-mercoledì-venerdì a digiuno',
-    practicaMenu: 'Puoi provare il menù fin da ora: lunedì 17 si fa sul serio.',
+    practicaMenu: 'Puoi provare il menù da subito: il {f} si fa sul serio.',
     descanso: 'Riposo', domingoPrep: 'Domenica: riposo + meal prep', planCompletado: 'Piano completato',
     calentamiento: '🔥 Riscaldamento · 6′',
     sesionSub: '{d} · recuperi su ogni riga (tocca per cronometrare)',
@@ -1079,12 +1079,12 @@ window.B2P = (function () {
     quizTitulo: 'I tuoi gusti', quizPista: 'Scorri: destra mi piace, sinistra no',
     quizSi: 'Mi piace', quizNo: 'Non fa per me', quizDeshacer: 'Annulla', quizSaltar: 'Salta',
     quizListo: 'Fatto', quizResumen: 'Ti piacciono {a} su {b}. Affinerà il tuo piano.',
-    gen: { chk1: 'Fuori dal corridoio: controlla porzioni e passi prima di toccare altro. Nelle prime settimane si muove anche l’acqua.', chk2: 'Due settimane fuori: aggiusta 150 kcal di carboidrati nella direzione giusta. Le proteine non si toccano.', chk3: 'Chiusura: foto, misure e il blocco successivo, deciso con i dati.', lKgN: '−{v} kg', lKgD: 'Media settimanale {v} kg sotto la partenza.', lKgUpN: '+{v} kg', lKgUpD: 'Media settimanale {v} kg sopra la partenza. Muscolo, mattone su mattone.', lCintN: 'Girovita −{v}', lCintD: 'Girovita sotto {v} cm.', lReinaN: 'Metrica regina', lReinaD: 'Girovita sotto la metà della tua statura: {v} cm.', lFinDesc: 'Piano di {s} settimane finito. L’obiettivo era l’abitudine; il resto è conseguenza.', marca: 'Piano generato per te', cuida: 'proteggi: {a}', datos: '{p} kg · {a} cm · {e} anni', menuAviso: '{n} piatti del menù non combaciano ancora con la tua dieta: ricettario ampliato in arrivo.', prepNota: 'Solo le ricette segnate «batch» si preparano la domenica; il resto si cucina al momento. Le quantità della spesa contano già le ripetizioni della settimana.' },
+    gen: { durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Busto · Gambe', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (sett 1-{a})', nf2: 'F3 (sett {b}-{c})', nf3: 'F4 (sett {d}-{e})', dietBreakNota: 'Settimana {w}: DIET BREAK a ~{k}', hitoCribadoT: 'Screening di salute', hitoCribadoD: 'Prima della fase di carico, se sei stato anni senza attività intensa: pressione in farmacia e un pannello base (lipidi, glucosio). 15 minuti che comprano tranquillità.', hitoDietT: 'DIET BREAK', hitoDietD: 'Tutta la settimana mangi a mantenimento (~{k} kcal: +2 porzioni di carboidrati al giorno, proteine invariate). L’allenamento non cambia. Ripristina NEAT e leptina e rompe il ciclo on/off. Il lunedì dopo, di nuovo deficit.', hitoDescargaT: 'SCARICO (non opzionale)', hitoDescargaD: 'Stessa routine con metà delle serie e lo stesso peso sul bilanciere. Non è uno stop: è manutenzione del tessuto e vacanza per tendini e articolazioni.', tomaNocheAlt: '+ ogni sera: porzione pre-sonno con la tua proteina vegetale (soia o pisello), ~40 g in shake. ', franjaM: 'Ti alleni al mattino: colazione dopo l’allenamento, non prima.', franjaMd: 'Ti alleni a mezzogiorno: il pasto principale cade subito dopo l’allenamento.', franjaT: 'Ti alleni la sera: qualcosa di leggero prima; la cena fa da pasto post-allenamento.', cardioLibreT: 'Cardio: {d}', cardioLibreD: '{m}′ a ritmo comodo e costante. Il tuo sport conta quanto la corsa: comanda la costanza.', chk1: 'Fuori dal corridoio: controlla porzioni e passi prima di toccare altro. Nelle prime settimane si muove anche l’acqua.', chk2: 'Due settimane fuori: aggiusta 150 kcal di carboidrati nella direzione giusta. Le proteine non si toccano.', chk3: 'Chiusura: foto, misure e il blocco successivo, deciso con i dati.', lKgN: '−{v} kg', lKgD: 'Media settimanale {v} kg sotto la partenza.', lKgUpN: '+{v} kg', lKgUpD: 'Media settimanale {v} kg sopra la partenza. Muscolo, mattone su mattone.', lCintN: 'Girovita −{v}', lCintD: 'Girovita sotto {v} cm.', lReinaN: 'Metrica regina', lReinaD: 'Girovita sotto la metà della tua statura: {v} cm.', lFinDesc: 'Piano di {s} settimane finito. L’obiettivo era l’abitudine; il resto è conseguenza.', marca: 'Piano generato per te', cuida: 'proteggi: {a}', datos: '{p} kg · {a} cm · {e} anni', menuAviso: '{n} piatti del menù non combaciano ancora con la tua dieta: ricettario ampliato in arrivo.', prepNota: 'Solo le ricette segnate «batch» si preparano la domenica; il resto si cucina al momento. Le quantità della spesa contano già le ripetizioni della settimana.' },
     pBarraT: 'Il bilanciere del piano', pBarraSub: '{a} dischi su {b} caricati',
     patrones: { eh: 'Spinta orizzontale', ev: 'Spinta verticale', th: 'Tirata orizzontale', tv: 'Tirata verticale', rod: 'Dominante di ginocchio', bis: 'Cerniera d’anca', zan: 'Affondo', core: 'Core stabile', flex: 'Flessione del tronco', curl: 'Flessione di gomito', ext: 'Estensione di gomito', gem: 'Polpaccio', ais: 'Isolamento' },
     quizCatEj: 'Esercizio', quizCatDep: 'Sport', quizCatCom: 'Piatto',
     alta: { t: 'Crea il tuo profilo', sub: 'Forza, cibo e progressi. Un piano su misura, in due minuti.', nombreL: 'Il tuo nome', ph: 'Come ti chiamiamo?', cta: 'Inizia', local: 'I tuoi dati vivono solo su questo dispositivo. Niente account, niente cloud.', valNombre: 'Scrivi un nome da 2 a 24 caratteri.', idioma: 'Lingua' },
-    rev: { t: '{n}, il tuo piano è pronto', tAnon: 'Il tuo piano è pronto', sub: 'Deciso dalle tue risposte. Questo non è un modello.',
+    rev: { minT: '{v} minuti a sessione', minSub: 'sessioni tagliate all’essenziale: i fondamentali restano', evT: 'Obiettivo: {e}', evSub: 'la data comanda: costanza sopra la perfezione', durOpen: 'Senza data: blocchi di {s} settimane, rinnovabili', t: '{n}, il tuo piano è pronto', tAnon: 'Il tuo piano è pronto', sub: 'Deciso dalle tue risposte. Questo non è un modello.',
       splitT: 'Forza {d} giorni a settimana', splitFb: 'full body: quello che rende di più con pochi giorni', splitTp: 'busto / gambe, in coppie', splitPpl: 'spinta / tirata / gambe',
       kcalT: '{k} kcal al giorno', kDef: 'deficit di {v} kcal: perdere grasso senza regalare muscolo', kSup: 'surplus di {v} kcal per costruire muscolo', kMan: 'al tuo mantenimento, con le proteine al comando',
       protT: '{p} g di proteine al giorno', protSub: '{v} g per chilo di peso',
@@ -1172,7 +1172,7 @@ window.B2P = (function () {
     nRecetario: 'Ricettario', nToca: 'tocca per cucinare', nMenu: 'Menù settimanale',
     nCompra: 'La spesa della settimana', nPrepDom: 'Meal prep della domenica', nSupl: 'Integratori',
     nReiniciar: 'ricomincia', nProteLbl: 'Prote', nGrasaLbl: 'Grassi', nCarbosLbl: 'Carbo', kcalLbl: 'kcal',
-    nDietBreakTitulo: 'Questa settimana: DIET BREAK', nDietBreakTxt: '~2.800 kcal: +2 porzioni di carboidrati al giorno. Proteine uguali. Allenamento uguale.',
+    nDietBreakTitulo: 'Questa settimana: DIET BREAK', nDietBreakTxt: '~{k} kcal: +2 porzioni di carboidrati al giorno. Proteine invariate. Allenamento invariato.',
     nTomaNota: '+ ogni sera: spuntino pre-nanna (skyr + whey). ',
     nIngredientes: 'Ingredienti (1 porzione)', nPasos: 'Passaggi', opcionalParen: ' (opzionale)',
     chipsProg: ['Riepilogo', 'Peso', 'Girovita', 'Carichi', 'Settimane', 'Checkpoint'],

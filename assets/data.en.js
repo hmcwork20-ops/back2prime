@@ -35,7 +35,7 @@ window.B2P = (function () {
       objetivo: 'Real volume and intensity to force the recomposition: this is where muscle memory truly pays. End every set able to do 2 more reps — and make them real: returning lifters tend to overestimate how close they are to failure.' },
     { id: 4, nombre: 'Peak', sub: 'Push / Pull / Legs ×5', semanas: [10, 11, 12], disco: 25, rpe: '8',
       fechas: '19 Oct – 8 Nov',
-      objetivo: 'Maximum stimulus to close out the recomposition. Five days, but 60-75 minute sessions, not 2-hour ones. RPE 8: 1-2 reps in reserve on the final sets.' }
+      objetivo: 'Maximum stimulus to close out the recomposition. {d} days, but 60-75 minute sessions, not 2-hour ones. RPE 8: 1-2 reps in reserve on the final sets.' }
   ];
 
   /* ---------- CALENDAR: 12 weeks × 7 days (Mon..Sun) ----------
@@ -644,7 +644,7 @@ window.B2P = (function () {
       { f: 'P4 (wk 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
     escalado: 'Protein never moves: {p} g a day for you. When training volume goes up, only carbs go up. In practice: in F3 add a piece of fruit + 40 g of bread to lunch on training days; in F4, the same every day.',
-    tomas: 'FOUR protein servings a day, none below 38-40 g: breakfast, lunch, dinner and a pre-sleep serving (skyr + whey). The daily total rules, but splitting it into 4 squeezes the most out of protein synthesis and kills evening hunger.',
+    tomas: 'FOUR protein servings a day, none below {q} g: breakfast, lunch, dinner and a pre-sleep serving. The daily total rules, but splitting it into 4 squeezes the most out of protein synthesis and kills evening hunger.',
     plato: [
       { t: 'Protein (every meal)', d: '200-250 g of raw chicken/turkey/white fish, or 170-180 g of salmon/beef, or 3 eggs + 2 whites, or 250 g of skyr + whey. Visual reference: a palm and a half.' },
       { t: 'Carbohydrate', d: '60-75 g raw of rice/pasta, or 250-300 g of potato, or 60 g of wholemeal bread, or 50 g of oats. Reference: one fist.' },
@@ -1055,7 +1055,7 @@ window.B2P = (function () {
     prepFotos: 'Day-0 photos: front and side, the same light you’ll always use',
     prepCompra: 'Week 1 shop (list under Food)',
     prepBascula: 'Decide where and when you weigh in: Monday-Wednesday-Friday, fasted',
-    practicaMenu: 'You can practise the menu from today: on Monday the 17th it’s for real.',
+    practicaMenu: 'You can practise the menu from today: on {f} it’s for real.',
     descanso: 'Rest', domingoPrep: 'Sunday: rest + meal prep', planCompletado: 'Plan complete',
     calentamiento: '🔥 Warm-up · 6′',
     sesionSub: '{d} · rest on every row (tap to start the timer)',
@@ -1079,12 +1079,12 @@ window.B2P = (function () {
     quizTitulo: 'Your likes', quizPista: 'Swipe: right = like, left = pass',
     quizSi: 'Like', quizNo: 'Pass', quizDeshacer: 'Undo', quizSaltar: 'Skip',
     quizListo: 'Done', quizResumen: 'You like {a} of {b}. This will tune your plan.',
-    gen: { chk1: 'Off the corridor: check portions and steps before touching anything. Early weeks also move water.', chk2: 'Two weeks off track: adjust 150 kcal of carbs in the right direction. Protein stays.', chk3: 'Closing: photos, measurements and the next block, decided with data.', lKgN: '−{v} kg', lKgD: 'Weekly average {v} kg below your start.', lKgUpN: '+{v} kg', lKgUpD: 'Weekly average {v} kg above your start. Muscle, brick by brick.', lCintN: 'Waist −{v}', lCintD: 'Waist below {v} cm.', lReinaN: 'Queen metric', lReinaD: 'Waist below half your height: {v} cm.', lFinDesc: '{s}-week plan finished. The goal was the habit; the rest is consequence.', marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet yet: a bigger recipe book is coming.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
+    gen: { durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Upper · Lower', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (wk 1-{a})', nf2: 'F3 (wk {b}-{c})', nf3: 'F4 (wk {d}-{e})', dietBreakNota: 'Week {w}: DIET BREAK at ~{k}', hitoCribadoT: 'Health screen', hitoCribadoD: 'Before the loading phase, if you have been inactive for years: blood pressure at a pharmacy and a basic panel (lipids, glucose). 15 minutes that buy peace of mind.', hitoDietT: 'DIET BREAK', hitoDietD: 'All week you eat at maintenance (~{k} kcal: +2 servings of carbs a day, protein unchanged). Training stays the same. It restores NEAT and leptin and breaks the on/off cycle. Next Monday, deficit again.', hitoDescargaT: 'DELOAD (not optional)', hitoDescargaD: 'Same routine with half the sets and the same weight on the bar. Not a stop: it is tissue maintenance and a holiday for tendons and joints.', tomaNocheAlt: '+ every night: pre-sleep serving with your plant protein (soy or pea), ~40 g in a shake. ', franjaM: 'You train in the morning: eat breakfast after training, not before.', franjaMd: 'You train at midday: your main meal lands right after training.', franjaT: 'You train in the evening: something light before; dinner is your post-workout meal.', cardioLibreT: 'Cardio: {d}', cardioLibreD: '{m}′ at a comfortable, steady pace. Your sport counts the same as jogging: consistency rules.', chk1: 'Off the corridor: check portions and steps before touching anything. Early weeks also move water.', chk2: 'Two weeks off track: adjust 150 kcal of carbs in the right direction. Protein stays.', chk3: 'Closing: photos, measurements and the next block, decided with data.', lKgN: '−{v} kg', lKgD: 'Weekly average {v} kg below your start.', lKgUpN: '+{v} kg', lKgUpD: 'Weekly average {v} kg above your start. Muscle, brick by brick.', lCintN: 'Waist −{v}', lCintD: 'Waist below {v} cm.', lReinaN: 'Queen metric', lReinaD: 'Waist below half your height: {v} cm.', lFinDesc: '{s}-week plan finished. The goal was the habit; the rest is consequence.', marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet yet: a bigger recipe book is coming.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
     pBarraT: 'The plan on the bar', pBarraSub: '{a} of {b} plates loaded',
     patrones: { eh: 'Horizontal push', ev: 'Vertical push', th: 'Horizontal pull', tv: 'Vertical pull', rod: 'Knee-dominant', bis: 'Hip hinge', zan: 'Lunge', core: 'Stable core', flex: 'Trunk flexion', curl: 'Elbow flexion', ext: 'Elbow extension', gem: 'Calf raise', ais: 'Isolation' },
     quizCatEj: 'Exercise', quizCatDep: 'Sport', quizCatCom: 'Food',
     alta: { t: 'Create your user', sub: 'Strength, food and progress. A plan built for you, in two minutes.', nombreL: 'Your name', ph: 'What should we call you?', cta: 'Start', local: 'Your data lives only on this device. No accounts, no cloud.', valNombre: 'Enter a name, 2 to 24 characters.', idioma: 'Language' },
-    rev: { t: '{n}, your plan is ready', tAnon: 'Your plan is ready', sub: 'Decided from your answers. This is not a template.',
+    rev: { minT: '{v} minutes per session', minSub: 'sessions trimmed to the essentials: the big lifts stay', evT: 'Goal: {e}', evSub: 'the date rules: consistency over perfection', durOpen: 'No deadline: {s}-week blocks, renewable', t: '{n}, your plan is ready', tAnon: 'Your plan is ready', sub: 'Decided from your answers. This is not a template.',
       splitT: 'Strength {d} days a week', splitFb: 'full body: what pays best on few days', splitTp: 'upper / lower, in pairs', splitPpl: 'push / pull / legs',
       kcalT: '{k} kcal a day', kDef: 'a {v} kcal deficit: lose fat without giving up muscle', kSup: 'a {v} kcal surplus to build muscle', kMan: 'at your maintenance, protein in charge',
       protT: '{p} g of protein a day', protSub: '{v} g per kilo of body weight',
@@ -1172,7 +1172,7 @@ window.B2P = (function () {
     nRecetario: 'Recipe book', nToca: 'tap to cook', nMenu: 'Weekly menu',
     nCompra: 'The week’s shop', nPrepDom: 'Sunday meal prep', nSupl: 'Supplements',
     nReiniciar: 'reset', nProteLbl: 'Protein', nGrasaLbl: 'Fat', nCarbosLbl: 'Carbs', kcalLbl: 'kcal',
-    nDietBreakTitulo: 'This week: DIET BREAK', nDietBreakTxt: '~2,800 kcal: +2 carb portions a day. Same protein. Same training.',
+    nDietBreakTitulo: 'This week: DIET BREAK', nDietBreakTxt: '~{k} kcal: +2 carb portions a day. Same protein. Same training.',
     nTomaNota: '+ every night: pre-sleep serving (skyr + whey). ',
     nIngredientes: 'Ingredients (1 serving)', nPasos: 'Steps', opcionalParen: ' (optional)',
     chipsProg: ['Overview', 'Weight', 'Waist', 'Loads', 'Weeks', 'Checkpoints'],

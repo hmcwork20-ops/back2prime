@@ -22,12 +22,16 @@ Hecho:
   dueño, aviso legal neutro, fechas de preplan/plan/check de salida del plan
   generado, `histRetoma` y logros sin género marcado.
 
+- **v45 — Motor cableado** (P2 + decisión «cablear las cuatro»): `duracionSem`
+  real (12/24/48; 0 = bloque de 12 renovable) con fases, calendario, hitos,
+  checkpoints, nutrición y gráficas escalados; `minSesion` recorta bloques y la
+  duración anunciada dice la verdad; `franja` ordena la comida del día;
+  `evento` en el reveal; mazo y recetario filtrados por dieta (`recetaVale`
+  exportado); likes de deporte → sesión «Cardio: {deportes}»; `esBW` vivo
+  (sin campo kg en peso corporal); toma nocturna vegetal para vegano/sin
+  lactosa; diet break solo si el plan recorta, en su semana y a su kcal.
+
 En curso (siguiente):
-- **Motor** (P2 + decisión «cablear las cuatro»): `duracionSem` real (12/24/48),
-  `minSesion` recortando bloques, `franja` en el orden del día, `evento` en la
-  meta; mazo filtrado por dieta (`recetaVale`), likes de deporte consumidos,
-  `esBW` resucitado (campo kg oculto en peso corporal), toma nocturna sin
-  lácteo para veganos/sin-lactosa.
 - **Menores del critique**: 10,5 px en 5 selectores, `.cuest-bar` width→
   transform, em-dashes de PROGRESO, «Borrar todos» sin desarme, aviso de
   re-mapeo en import, nombres-taxonomía en cartas del mazo.

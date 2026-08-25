@@ -88,7 +88,13 @@
         x.delta < -100 ? tpl(R.kDef, { v: fmtN(Math.round(-x.delta / 10) * 10) })
           : x.delta > 100 ? tpl(R.kSup, { v: fmtN(Math.round(x.delta / 10) * 10) }) : R.kMan);
       else if (x.k === 'prot') fila('💪', tpl(R.protT, { p: x.v }), tpl(R.protSub, { v: String(x.kg).replace('.', ',') }));
-      else if (x.k === 'dur') fila('📅', tpl(R.durT, { s: x.s }), tpl(R.durSub, { a: fmtF(x.a), b: fmtF(x.b) }));
+      else if (x.k === 'dur') fila('📅', tpl(R.durT, { s: x.s }),
+        x.abierto && R.durOpen ? tpl(R.durOpen, { s: x.s }) : tpl(R.durSub, { a: fmtF(x.a), b: fmtF(x.b) }));
+      else if (x.k === 'min' && R.minT) fila('⏱', tpl(R.minT, { v: x.v }), R.minSub);
+      else if (x.k === 'evento' && R.evT) {
+        const evTxt = { boda: C.evBoda, oposicion: C.evOpo, verano: C.evVerano }[x.v] || x.v;
+        fila('🎯', tpl(R.evT, { e: evTxt }), R.evSub);
+      }
       else if (x.k === 'subs') fila('🔁', tpl(R.subsT, { n: x.n }), R.subsSub);
       else if (x.k === 'cuida') fila('🛡️', tpl(R.cuidaT, { a: x.zonas.map(z => lesionTxt[z] || z).join(' · ') }), R.cuidaSub);
       else if (x.k === 'menu') fila('🍽️', R.menuT, x.avisos > 0 ? tpl(R.menuAv, { n: x.avisos }) : R.menuSub);

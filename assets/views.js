@@ -62,23 +62,15 @@
   function renderPlan(root) {
     const hoy = U.hoyISO(), w = U.semanaDe(hoy);
     const faseAct = (w >= 1 && w <= SEMANAS) ? D.FASES[D.CAL[w - 1].fase - 1] : null;
-    const fold = (titulo, abierto, ...kids) => el('details', { class: 'fold', ...(abierto ? { open: '' } : {}) }, el('summary', null, titulo), el('div', { class: 'fold-in' }, ...kids));
 
-    // Segmentado: cada sub-sección carga sola → nada de scroll kilométrico
-    const SECS = [['fases', TX.segPlan[0]], ['reglas', TX.segPlan[1]], ['ejercicios', TX.segPlan[2]], ['ciencia', TX.segPlan[3]]];
-    let sec = (U.S.ui && U.S.ui.plansec) || 'fases';
-    if (!SECS.some(s => s[0] === sec)) sec = 'fases';
-    const seg = el('div', { class: 'seg seg-plan', role: 'tablist' });
-    const cont = el('div');
-    SECS.forEach(([id, n]) => seg.append(el('button', { class: id === sec ? 'on' : '', role: 'tab', onclick: ev => {
-      sec = id; U.S.ui.plansec = id; U.save();
-      seg.querySelectorAll('button').forEach(b => b.classList.remove('on'));
-      ev.currentTarget.classList.add('on');
-      cont.innerHTML = ''; BUILD[id](cont); scrollTo(0, 0);
-    } }, n)));
-    root.append(seg, cont);
-    const BUILD = { fases: secFases, reglas: secReglas, ejercicios: secEjercicios, ciencia: secCiencia };
-    BUILD[sec](cont);
+    /* Como Comida y Progreso: burbujas-ancla con scroll-spy sobre una sola
+       página apilada — nada de subpáginas que cambian bajo la misma pestaña.
+       La Ciencia vive ahora en Mi Perfil, como lectura extra. */
+    const IDS_P = [['pl-fases', TX.segPlan[0]], ['pl-reglas', TX.segPlan[1]], ['pl-ej', TX.segPlan[2]]];
+    root.append(chipNav(IDS_P));
+    const sFases = el('div', { id: 'pl-fases' }); secFases(sFases); root.append(sFases);
+    const sReglas = el('div', { id: 'pl-reglas' }); secReglas(sReglas); root.append(sReglas);
+    const sEj = el('div', { id: 'pl-ej' }); secEjercicios(sEj); root.append(sEj);
 
     /* ---- REGLAS: sección propia, primera pantalla sin scroll ---- */
     function secReglas(root) {
@@ -223,14 +215,6 @@
     root.append(lib);
     }
 
-    /* ---- CIENCIA ---- */
-    function secCiencia(root) {
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vCiencia)));
-    root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, D.CIENCIA.intro));
-    D.CIENCIA.temas.forEach(t => root.append(fold('🔬 ' + t.t, false,
-      el('p', { style: 'margin-top:4px' }, t.d), el('p', { class: 'mini' }, '📚 ' + t.ref))));
-    root.append(el('p', { class: 'mini', style: 'margin:16px 2px 8px' }, D.AVISO_LEGAL));
-    }
   }
 
   /* ==================== NUTRICIÓN ==================== */

@@ -725,7 +725,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
    Siempre con width/height declarados: el hueco se reserva antes de que
    llegue la imagen y nada salta (CLS). aspect-ratio 1 porque son cuadradas. */
 .rec-card.con-foto{padding:0;overflow:hidden;min-height:0}
-.rec-card .rfoto{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:var(--surface2)}
+.rec-card .rfoto{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;background:var(--surface2)}
 .rec-card.con-foto .rtipo{margin:10px 13px 0}
 .rec-card.con-foto h3{margin:2px 13px 0}
 .rec-card.con-foto .rmacros{margin:auto 13px 12px}
@@ -956,6 +956,9 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 }
 
 .cres-l{color:var(--ink3);font-size:11px;font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-right:7px}
+
+.perfil-hero{gap:2px}
+.ph-nombre{font-family:var(--disp);font-weight:700;font-size:27px;letter-spacing:.02em}
 
 /* ---------- Puerta de entrada: alta, reveal, pausa médica y tour ----------
    Durante el alta/cuestionario/reveal la app no tiene barra: no hay a dónde

@@ -1081,11 +1081,66 @@
     ['es', '🇪🇸', 'Español'], ['en', '🇬🇧', 'English'], ['fr', '🇫🇷', 'Français'],
     ['de', '🇩🇪', 'Deutsch'], ['it', '🇮🇹', 'Italiano']
   ];
-  function sheetAjustes() {
-    openSheet(sh => {
-      sh.append(el('h2', null, TX.ajustes), el('div', { class: 'stag' }, TX.ajustesSub));
-      // idioma
-      sh.append(el('h4', null, '🌐 ' + TX.ajIdioma));
+  /* ---------------- MI PERFIL ----------------
+     Deja de ser una hoja de «configuración»: primero quién eres y qué plan
+     tienes (con la puerta de rehacerlo), después los ajustes, y la ciencia
+     como lectura extra para quien quiera investigar. */
+  function renderPerfil(root) {
+    const sh = root;                              // mismo cuerpo, ahora como vista
+    const C = TX.cuest || {};
+    // identidad
+    sh.append(el('div', { class: 'card perfil-hero' },
+      el('div', { class: 'ph-nombre' }, (S.usuario && S.usuario.nombre) || 'BACK2PRIME'),
+      S.usuario ? el('div', { class: 'mini' }, tpl(TX.pDesde || 'desde {v}', { v: fmtCorta(S.usuario.creado) })) : null,
+      el('div', { class: 'mini', style: 'margin-top:4px' }, TX.ajustesSub)));
+
+    // tus respuestas: el contrato del cuestionario, siempre a la vista
+    if (S.perfil && C.titulo) {
+      const P = S.perfil;
+      const M = {
+        objetivo: { perder: C.objPerder, recomp: C.objRecomp, ganar: C.objGanar, mantener: C.objMantener },
+        evento: { boda: C.evBoda, oposicion: C.evOpo, verano: C.evVerano, siempre: C.evSiempre },
+        duracionSem: { 12: C.dur3, 24: C.dur6, 48: C.dur12, 0: C.durAlways },
+        historial: { nunca: C.histNunca, retomador: C.histRetoma, activo: C.histActivo },
+        material: { nada: C.matNada, casa: C.matCasa, gym: C.matGym },
+        dieta: { normal: C.dietaNormal, vegetariano: C.dietaVegetariano, vegano: C.dietaVegano },
+        franja: { manana: C.franjaM, mediodia: C.franjaMd, tarde: C.franjaT2 },
+        les: { rodilla: C.lesRodilla, hombro: C.lesHombro, lumbar: C.lesLumbar },
+        sin: { gluten: C.sinGluten, lactosa: C.sinLactosa, frutos: C.sinFrutos }
+      };
+      const sx = { h: C.sexoH, m: C.sexoM, x: C.sexoX }[P.sexo];
+      const filas = [[null, P.edad + ' · ' + P.alturaCm + ' cm · ' + P.pesoKg + ' kg' + (sx ? ' · ' + sx : '')]];
+      [['objetivo', C.resLObj], ['evento', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
+       ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
+        const v = M[par[0]] && M[par[0]][P[par[0]]];
+        if (v) filas.push([par[1], v]);
+      });
+      if (P.diasSemana) filas.push([null, P.diasSemana + '×' + (P.minSesion || '—') + '′']);
+      if ((P.lesiones || []).length) filas.push([C.resLLes, P.lesiones.map(x => M.les[x] || x).join(' · ')]);
+      if ((P.sin || []).length) filas.push([C.resLSin, P.sin.map(x => M.sin[x] || x).join(' · ')]);
+      const tarj = el('div', { class: 'card', style: 'gap:8px' });
+      tarj.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.perfilDatosT || C.titulo))));
+      filas.forEach(f => tarj.append(el('div', { class: 'cres' }, f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1])));
+      tarj.append(el('button', { class: 'btn-b2p', style: 'width:100%;margin-top:8px', type: 'button',
+        onclick: () => { location.hash = '#/quiz'; } }, TX.ajRehacer));
+      tarj.append(el('p', { class: 'mini', style: 'margin:6px 0 0' }, TX.ajRehacerNota));
+      sh.append(tarj);
+    }
+
+    // tu plan, en corto
+    if (D.__gen && TX.perfilPlanT) {
+      const st = (l, v) => el('div', { class: 'stat' }, el('div', { class: 'sl' }, l), el('div', { class: 'sv num' }, v));
+      sh.append(el('div', { class: 'card' },
+        el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.perfilPlanT),
+          el('div', { class: 'sub' }, fmtCorta(D.META.inicioISO) + ' – ' + fmtCorta(D.META.finISO) + ' · ' + (D.FASES[1] ? D.FASES[1].sub : '')))),
+        el('div', { class: 'statrow' },
+          st(TX.sem, String(SEMANAS)),
+          st(TX.kcalLbl, String((D.NUTRI.fases[0] || {}).kcal || '—')),
+          st(TX.nProteLbl, D.META.perfil.proteinaDia + ' g'))));
+    }
+
+    // idioma
+    sh.append(el('h4', null, '🌐 ' + TX.ajIdioma));
       const actual = S.config.lang || 'es';
       const fila = el('div', { class: 'langrow' });
       IDIOMAS.forEach(([code, flag, nombre]) => {
@@ -1140,21 +1195,15 @@
           try {
             const j = JSON.parse(r.result);
             if (!j || typeof j !== 'object' || !j.dias) throw 0;
-            S = Object.assign(defState(), j); save(); toast(TX.ajImportOk); closeSheet(); render();
+            // la copia trae el perfil: recargar regenera el plan entero con él
+            S = Object.assign(defState(), j); save(); toast(TX.ajImportOk);
+            setTimeout(() => location.reload(), 400);
           } catch (e) { toast(TX.ajImportErr); }
         };
         r.readAsText(f);
       } });
       row.append(fileIn, el('button', { class: 'btn-ghost', onclick: () => fileIn.click() }, TX.ajImportar));
       sh.append(row);
-      // rehacer el plan: la puerta de vuelta al cuestionario vive aquí
-      if (S.perfil && TX.ajRehacer) {
-        sh.append(el('h4', null, TX.cuest && TX.cuest.titulo || ''));
-        sh.append(el('button', { class: 'btn-ghost', style: 'width:100%', onclick: () => {
-          closeSheet(); location.hash = '#/quiz';
-        } }, TX.ajRehacer));
-        sh.append(el('p', { class: 'mini' }, TX.ajRehacerNota));
-      }
       // reset
       sh.append(el('h4', null, TX.ajPeligro));
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;color:var(--danger)', onclick: ev => {
@@ -1197,8 +1246,18 @@
             : '<b style="color:var(--ok)">✓ El lienzo llega al borde de la pantalla.</b>'
         ].join('<br>');
       }, 60);
+      /* la ciencia del plan: lectura extra para quien quiera investigar —
+         fuera de Plan, donde ocupaba una subpágina entera */
+      if (D.CIENCIA && TX.vCiencia) {
+        sh.append(el('details', { class: 'fold', style: 'margin-top:16px' },
+          el('summary', null, '🔬 ' + TX.vCiencia),
+          el('div', { class: 'fold-in' },
+            el('p', { class: 'mini' }, D.CIENCIA.intro),
+            D.CIENCIA.temas.map(t => el('div', { class: 'regla', style: 'margin:8px 0' },
+              el('b', null, t.t), el('div', { style: 'margin:3px 0' }, t.d),
+              el('div', { class: 'mini' }, '📚 ' + t.ref))))));
+      }
       sh.append(el('p', { class: 'mini', style: 'margin-top:16px' }, D.AVISO_LEGAL));
-    });
   }
 
   /* La hoja de bienvenida de la primera época (pedía la cintura y poco más)
@@ -1261,6 +1320,7 @@
     } else { chip.hidden = true; st.hidden = true; }
 
     if (r === 'hoy') renderHoy(root);
+    else if (r === 'perfil') renderPerfil(root);
     else if (VIEWS[r]) VIEWS[r](root);
     else renderHoy(root);
     // instalada scrollea #scroller; en navegador scrollea el documento
@@ -1284,6 +1344,7 @@
        encima: se les antepone un h1 invisible con el nombre de la sección,
        porque su equivalente visual es la pestaña activa. */
     const nombreVista = r === 'quiz' ? TX.cuest.titulo
+      : r === 'perfil' ? (TX.perfilT || TX.ajustes)
       : r === 'alta' ? (TX.alta ? TX.alta.t : 'BACK2PRIME')
       : r === 'reveal' ? (TX.rev ? TX.rev.tAnon : 'BACK2PRIME')
       : r === 'gate' ? TX.cuest.gateHoyT
@@ -1310,7 +1371,10 @@
     bubble.style.transform = 'translateX(' + (t.offsetLeft + 5) + 'px)';
   }
   function moveBubble() {
-    const t = $('.tab.on', barIn) || $('.tab', barIn);
+    const on = $('.tab.on', barIn);
+    // en vistas sin pestaña (Mi perfil), la burbuja no finge estar en «Hoy»
+    bubble.style.opacity = on ? '' : '0';
+    const t = on || $('.tab', barIn);
     if (t) situaBurbuja(t);
   }
   let dragStart = null, realDrag = false, dragTab = null;
@@ -1365,7 +1429,7 @@
   addEventListener('orientationchange', () => setTimeout(medirCabecera, 120));
   addEventListener('hashchange', render);
   $$('.tab').forEach(t => t.onclick = () => { location.hash = '#/' + t.dataset.r; });
-  $('#btnAjustes').onclick = sheetAjustes;
+  $('#btnAjustes').onclick = () => { location.hash = '#/perfil'; };
   $('#brand').onclick = () => {
     if (document.body.classList.contains('onb')) return;   // en la puerta de entrada, la marca no navega
     selDia = hoyISO(); location.hash = '#/hoy'; render();

@@ -1198,7 +1198,7 @@ window.B2P = (function () {
     pFrenaTrote: 'Frena la corsa', pFrenaTxt: 'Questa settimana sei a {r}× la tua media recente di minuti di corsa. Sopra 1,3× il rischio di infortunio schizza: taglia o cammina.',
     lDiscos: 'La collezione di dischi', lDiscosSub: 'uno per ogni fase completata',
     lLogros: 'Traguardi', lFuerzas: 'Pesi', lPRs: 'PR', lPerdido: 'Perso', lMejorRacha: 'Miglior striscia', lLogrosN: 'Traguardi', lFotos: 'Foto',
-    ajustes: 'Impostazioni', ajustesSub: 'BACK2PRIME · i tuoi dati vivono SOLO su questo dispositivo',
+    perfilT: 'Il mio profilo', perfilDatosT: 'Le tue risposte', perfilPlanT: 'Il tuo piano, in breve', ajustes: 'Impostazioni', ajustesSub: 'BACK2PRIME · i tuoi dati vivono SOLO su questo dispositivo',
     ajLineaBase: 'Linea di base', ajCinturaIni: 'Girovita iniziale (cm)', ajGuardar: 'Salva linea di base', ajGuardado: 'Salvato',
     ajCopia: 'Copia di sicurezza',
     ajCopiaTxt: 'I dati non escono dal telefono. Fai una copia ogni tanto (o prima di cambiare dispositivo) e conservala dove vuoi.',

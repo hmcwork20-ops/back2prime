@@ -130,17 +130,33 @@
     if (sl && sl.ses && sl.ses.tipo === 'cardio' && !sl.opt) return !!(dd.sesionOk || dd.pasos);
     return !!(dd.pasos || dd.sesionOk || dd.cerrado);
   }
+  /* La racha cuenta DÍAS DE PLAN: solo los días con sesión programada (fuerza
+     o cardio no opcional) exigen y suman; los libres ni rompen ni inflan. Un
+     producto de 3 días por semana premia cumplir SU plan, no abrir la app a
+     diario — con la métrica vieja, el mejor usuario posible veía «racha 0». */
+  function exigeSesion(f) {
+    const sl = slotDe(f);
+    return !!(sl && sl.ses && (sl.ses.tipo === 'fuerza' || (sl.ses.tipo === 'cardio' && !sl.opt)));
+  }
   function racha(hasta) {
-    let n = 0, f = hasta;
-    while (cumplido(f)) { n++; f = addDays(f, -1); if (n > 400) break; }
+    let f = hasta;
+    if (exigeSesion(f) && !cumplido(f)) f = addDays(f, -1);   // el día en curso aún no rompe
+    let n = 0, guard = 0;
+    while (guard++ < 400 && f >= INICIO) {
+      if (exigeSesion(f)) { if (!cumplido(f)) break; n++; }
+      f = addDays(f, -1);
+    }
     return n;
   }
   // La racha se rompe de verdad, pero lo conseguido no se borra: esto es lo que
   // sobrevive a un día fallado, y la cabecera y el cierre lo enseñan.
   function mejorRacha() {
-    let best = 0, run = 0, f = addDays(INICIO, -14);
+    let best = 0, run = 0, f = INICIO;
     const hoy = hoyISO();
-    while (f <= hoy) { if (cumplido(f)) { run++; if (run > best) best = run; } else run = 0; f = addDays(f, 1); }
+    while (f <= hoy) {
+      if (exigeSesion(f)) { if (cumplido(f)) { run++; if (run > best) best = run; } else run = 0; }
+      f = addDays(f, 1);
+    }
     return best;
   }
 
@@ -624,12 +640,12 @@
     };
     // la toma láctea de la noche no se le planta a quien no toma lácteos
     const vetaLacteo = D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa'));
-    card.append(
-      fila('🥣', TX.desayuno, menu.de),
+    /* append nativo con null pinta la palabra «null»: se filtra antes */
+    [fila('🥣', TX.desayuno, menu.de),
       fila('🍗', TX.comidaLbl, menu.co),
       fila('🐟', TX.cena, menu.ce),
       vetaLacteo ? null : fila('🌙', TX.presueno, 'toma-noche')
-    );
+    ].filter(Boolean).forEach(x => card.append(x));
     if (vetaLacteo && TX.gen) card.append(el('div', { class: 'mini', style: 'margin-top:6px' }, '🌙 ' + TX.gen.tomaNocheAlt));
     if (franjaNota) card.append(el('div', { class: 'mini', style: 'margin-top:6px' }, franjaNota));
 
@@ -675,6 +691,15 @@
     root.append(nav);
     // el plan que ves salió de tu perfil, y se dice
     if (D.__gen && TX.gen) root.append(el('div', { class: 'mini', style: 'text-align:center;color:var(--volt);margin-top:2px' }, TX.gen.marca));
+    /* pausa médica declarada CON plan vigente: no se esconde el plan (eso lo
+       decide su médico), pero el estado queda a la vista con su salida */
+    if (S.ui.gate && S.perfil && TX.cuest && TX.cuest.gateHoyT) {
+      root.append(el('div', { class: 'banner warn' }, el('div', null,
+        el('b', null, TX.cuest.gateHoyT),
+        el('div', { style: 'margin-top:2px' }, TX.cuest.gateHoyTxt),
+        el('button', { class: 'plano qaux', type: 'button', style: 'margin-top:6px;padding:0',
+          onclick: () => { delete S.ui.gate; save(); location.hash = '#/quiz'; } }, TX.cuest.gateVolver))));
+    }
 
     /* — antes del plan — */
     if (w === 0) {

@@ -55,25 +55,43 @@ window.B2P_GEN = (function () {
     // nada: solo cuerpo, toalla, escalón, mochila
     return /^nada|toalla|escalón|escalon|mochila/.test(t);
   }
-  function eligeSub(base, id, p, noQuiero) {
+  /* La sustitución respeta el PATRÓN de movimiento (una bisagra se cambia por
+     otra bisagra, no por una sentadilla más), no repite ejercicio dentro de la
+     sesión, y tus «me gusta» del mazo van primero en la cola de candidatos. */
+  function eligeSub(base, id, p, noQuiero, likes, ocupados) {
     const e = base.EJERCICIOS[id]; if (!e) return id;
+    const cands = [];
     for (const k of Object.keys(base.EJERCICIOS)) {
       if (k === id) continue;
       const c = base.EJERCICIOS[k];
-      if (c.zona !== e.zona) continue;
       if (!equipoVale(c.equipo, p.material)) continue;
       if (noQuiero.has('ej:' + k)) continue;
-      return k;
+      if (ocupados && ocupados.has(k)) continue;
+      if (e.pat && c.pat === e.pat) cands.push([k, 0]);      // mismo patrón: primera fila
+      else if (c.zona === e.zona) cands.push([k, 1]);        // misma zona: plan B
     }
-    return id;                                    // sin candidato: honestidad, se queda
+    cands.sort((a, b) => (a[1] - b[1])
+      || ((likes && likes.has('ej:' + b[0]) ? 1 : 0) - (likes && likes.has('ej:' + a[0]) ? 1 : 0)));
+    return cands.length ? cands[0][0] : id;       // sin candidato: honestidad, se queda
   }
 
-  /* ---------- lesiones: qué ejercicios piden cuidado ---------- */
+  /* ---------- lesiones: qué ejercicios piden cuidado ----------
+     Por PATRÓN de movimiento (la lesión no distingue barra de mancuerna),
+     con listas de ids como refuerzo para los casos sin patrón claro. */
+  const RIESGO_PAT = { rodilla: ['rod', 'zan'], hombro: ['ev', 'eh'], lumbar: ['bis', 'th'] };
+  const RIESGO_ID = { lumbar: ['superman'] };
   const RIESGO = {
     rodilla: ['sentadilla-barra', 'zancadas', 'prensa', 'sentadilla-copa', 'extension-cuadriceps', 'sentadilla-peso'],
     hombro: ['press-banca', 'press-militar', 'fondos', 'press-inclinado', 'press-mancuernas'],
     lumbar: ['rdl-barra', 'remo-barra', 'peso-muerto', 'buenos-dias']
   };
+  function tocaLesion(base, zona, ejId) {
+    const e = base.EJERCICIOS[ejId] || {};
+    return (RIESGO_PAT[zona] || []).includes(e.pat)
+      || (RIESGO_ID[zona] || []).includes(ejId)
+      || (RIESGO[zona] || []).includes(ejId);
+  }
+  const esCorporal = eq => /^(nada|toalla)/i.test(eq || '') && !/mochila/i.test(eq || '');
 
   function sesionesGen(base, p, stats, usados, sinTrote) {
     const G = base.UI.gen || {};
@@ -104,19 +122,30 @@ window.B2P_GEN = (function () {
         c.dur = plantilla(G.durAprox || c.dur, { m: p.minSesion });
         if (stats) stats.recorte = p.minSesion;
       }
+      const likes = new Set((p.gustos && p.gustos.like) || []);
+      const enSesion = new Set(c.bloques.map(b => b.e));
       c.bloques = c.bloques.map(b => {
         const nb = Object.assign({}, b);
         const necesitaSub = !equipoVale((base.EJERCICIOS[b.e] || {}).equipo, p.material) || noQuiero.has('ej:' + b.e);
         if (necesitaSub) {
-          const sub = eligeSub(base, b.e, p, noQuiero);
+          enSesion.delete(b.e);
+          const sub = eligeSub(base, b.e, p, noQuiero, likes, enSesion);
           // la nota vieja hablaba del ejercicio viejo; el contador solo cuenta lo que el calendario usa
-          if (sub !== b.e) { nb.e = sub; nb.n = null; if (!usados || usados.has(id)) cambiados.add(b.e); }
+          if (sub !== b.e) {
+            nb.e = sub; nb.n = null;
+            if (!usados || usados.has(id)) cambiados.add(b.e);
+            // de barra a peso corporal: la dosis se lee distinto y se dice
+            if (esCorporal((base.EJERCICIOS[sub] || {}).equipo) && !esCorporal((base.EJERCICIOS[b.e] || {}).equipo) && G.subCorporal)
+              nb.n = G.subCorporal;
+          }
+          enSesion.add(nb.e);
         }
-        // chip de cuidado por lesión declarada
+        // chip de cuidado por lesión declarada (por patrón de movimiento)
         for (const z of (p.lesiones || [])) {
-          if ((RIESGO[z] || []).includes(nb.e)) {
+          if (tocaLesion(base, z, nb.e)) {
             const aviso = tpl(G.cuida, { a: lesionTxt[z] || z });
             nb.n = nb.n ? nb.n + ' · ' + aviso : aviso;
+            if (stats && (!usados || usados.has(id))) stats.cuida = (stats.cuida || 0) + 1;
           }
         }
         return nb;
@@ -626,7 +655,8 @@ window.B2P_GEN = (function () {
     dec.push({ k: 'prot', v: nutri.prot, kg: Math.round(nutri.prot / perfil.pesoKg * 10) / 10 });
     dec.push({ k: 'dur', s: meta.META.semanas, a: meta.META.inicioISO, b: meta.META.finISO });
     if (stats.subs) dec.push({ k: 'subs', n: stats.subs });
-    if ((perfil.lesiones || []).length) dec.push({ k: 'cuida', zonas: perfil.lesiones.slice() });
+    // la fila de cuidado solo existe si el plan lleva avisos DE VERDAD
+    if ((perfil.lesiones || []).length && stats.cuida) dec.push({ k: 'cuida', zonas: perfil.lesiones.slice() });
     if ((perfil.dieta && perfil.dieta !== 'normal') || (perfil.sin || []).length)
       dec.push({ k: 'menu', avisos: menu.avisos || 0 });
     const g = perfil.gustos || {};

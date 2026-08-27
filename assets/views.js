@@ -1039,6 +1039,8 @@
         el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
           S.perfil = Object.assign({ v: 1, creado: U.hoyISO() }, d,
             { gustos: { like: Object.keys(est.like || {}), no: Object.keys(est.no || {}) } });
+          // la cintura del cuestionario ES la línea base: no se pregunta dos veces
+          if (d.cinturaCm && !S.config.cinturaBase) S.config.cinturaBase = d.cinturaCm;
           S.ui.reveal = 1;     // el plan se presenta antes de soltarte en HOY
           S.ui.tour = 1;       // y después, el paseo por la app
           delete S.ui.cuest;   // borrador fuera: la proxima visita empieza limpia

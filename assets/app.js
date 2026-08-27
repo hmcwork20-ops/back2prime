@@ -726,7 +726,7 @@
       const fase = sl.fase;
       root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, sl.ses ? sl.ses.nombre : TX.descanso),
         el('div', { class: 'sub', style: 'padding:0 2px;color:var(--ink2)' },
-          tpl(TX.semanaLinea, { w, f: fase.id, n: fase.nombre, r: fase.rpe })));
+          tpl(TX.semanaLinea, { w, t: SEMANAS, f: fase.id, n: fase.nombre, r: fase.rpe })));
 
       // banner de semana especial
       const hito = D.HITOS_SEMANA[w];

@@ -198,7 +198,8 @@
       el('p', { style: 'font-size:14px' }, D.TENDON.intro),
       D.TENDON.bloques.map(b => el('div', { class: 'regla', style: 'margin:8px 0' }, el('b', null, b.nombre), el('div', { class: 'mini', style: 'margin-bottom:3px' }, '📍 ' + b.donde), b.detalle)),
       el('p', { class: 'mini' }, '⚠ ' + D.TENDON.nota)));
-    root.append(el('div', { class: 'card' },
+    // la tarjeta de carrera solo existe si el plan corre (el motor la anula si no)
+    if (D.CARRERA) root.append(el('div', { class: 'card' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, '🏃 ' + D.CARRERA.titulo))),
       el('ul', { style: 'font-size:14px;padding-left:19px' }, D.CARRERA.reglas.map(r => el('li', null, r)))));
 

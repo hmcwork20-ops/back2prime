@@ -75,7 +75,7 @@ window.B2P_GEN = (function () {
     lumbar: ['rdl-barra', 'remo-barra', 'peso-muerto', 'buenos-dias']
   };
 
-  function sesionesGen(base, p, stats, usados) {
+  function sesionesGen(base, p, stats, usados, sinTrote) {
     const G = base.UI.gen || {};
     const tpl = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => o[k] !== undefined ? o[k] : m);
     const noQuiero = new Set((p.gustos && p.gustos.no) || []);
@@ -126,6 +126,11 @@ window.B2P_GEN = (function () {
       if ((id === 'c-a' || id === 'c-b') && G.circProg && c.bloques.length) {
         c.bloques[0] = Object.assign({}, c.bloques[0], {
           n: c.bloques[0].n ? c.bloques[0].n + ' · ' + G.circProg : G.circProg });
+      }
+      /* sin trote en el plan, la nota del gemelo no habla de prepararlo */
+      if (sinTrote && G.gemNota) {
+        c.bloques = c.bloques.map(b => (b.e === 'elev-talones' && b.n)
+          ? Object.assign({}, b, { n: G.gemNota }) : b);
       }
       S[id] = c;
     }
@@ -246,6 +251,9 @@ window.B2P_GEN = (function () {
     // la toma mínima por comida sale de TU proteína, no de la del dueño
     const qMin = Math.max(20, Math.round(m.p / 4 * 0.85 / 5) * 5);
     if (N.tomas) N.tomas = tpl(N.tomas, { q: qMin });
+    // las dos plantillas que se colaban crudas o con el 12 del dueño
+    if (N.escalado) N.escalado = tpl(N.escalado, { p: m.p });
+    if (N.comidaLibre) N.comidaLibre = tpl(N.comidaLibre, { s: semanasDe(p) });
     /* la guía del plato y el suplemento proteico respetan la dieta declarada:
        a un vegano no se le receta pollo ni whey con skyr */
     if (N.plato && N.plato.length) {
@@ -456,6 +464,14 @@ window.B2P_GEN = (function () {
     ] : p.historial === 'activo' ? [
       { n: G.f1nActivo, o: G.f1oActivo }, { n: G.f2nActivo, o: G.f2oActivo }, { o: G.f3oActivo }, {}
     ] : [{}, {}, {}, {}];
+    /* la F2 base del retomador dice «Entrada al gym … con barra»: sin gimnasio,
+       la fase 2 habla de TU material */
+    if (p.historial === 'retomador' && p.material !== 'gym') {
+      VAR[1] = p.material === 'nada'
+        ? { n: G.f2nNada, o: G.f2oNada }
+        : { n: G.f2nCasa, o: G.f2oCasa };
+    }
+    const minTxt = p.minSesion <= 30 ? '~30' : p.minSesion <= 45 ? '~45' : '60-75';
     return base.FASES.map((f, i) => {
       const c = Object.assign({}, f);
       const semanas = [];
@@ -471,7 +487,7 @@ window.B2P_GEN = (function () {
          split real del perfil */
       const enCasa = i === 0 && p.historial !== 'activo';
       if (!enCasa) c.sub = plantilla(G.faseSub, { s: splitTxt, d: dias });
-      c.objetivo = plantilla(c.objetivo, { d: dias });
+      c.objetivo = plantilla(c.objetivo, { d: dias, min: minTxt });
       return c;
     });
   }
@@ -522,7 +538,7 @@ window.B2P_GEN = (function () {
   /* CIENCIA por índice (el orden es idéntico en los 5 idiomas):
      0 memoria muscular · 1 tendón · 2 correr con sobrepeso · 3 déficit óptimo
      4 proteína · 5 diet break · 6 volumen · 7 descarga · 8 sueño · 9 salud */
-  function cienciaGen(base, prot, p) {
+  function cienciaGen(base, prot, p, tieneTrote) {
     const G = base.UI.gen || {};
     const C = JSON.parse(JSON.stringify(base.CIENCIA));
     if (p.historial === 'nunca' && G.introNunca) C.intro = G.introNunca;
@@ -531,14 +547,14 @@ window.B2P_GEN = (function () {
     const recorta = p.objetivo === 'perder' || p.objetivo === 'recomp';
     const fuera = new Set();
     if (p.historial !== 'retomador') fuera.add(0);            // la memoria muscular es del que vuelve
-    if (imc < 27) fuera.add(2);                               // correr con sobrepeso, solo si aplica
+    if (imc < 27 || !tieneTrote) fuera.add(2);                // correr: solo si aplica Y el plan corre
     if (!recorta) { fuera.add(3); fuera.add(5); }             // déficit y diet break, solo si se recorta
     const temas = (C.temas || []).filter((x, i) => !fuera.has(i));
     // el hueco lo llena el tema propio del perfil
     if (p.historial === 'nunca' && G.cNuncaT) temas.unshift({ t: G.cNuncaT, d: G.cNuncaD, ref: G.cNuncaR });
     if (p.historial === 'activo' && G.cActivoT) temas.unshift({ t: G.cActivoT, d: G.cActivoD, ref: G.cActivoR });
     if (p.objetivo === 'ganar' && G.cSupT) temas.splice(Math.min(3, temas.length), 0, { t: G.cSupT, d: G.cSupD, ref: G.cSupR });
-    temas.forEach(x => { x.d = plantilla(x.d, { p: prot }); });
+    temas.forEach(x => { x.d = plantilla(x.d, { p: prot, s: semanasDe(p) }); });
     C.temas = temas;
     return C;
   }
@@ -633,12 +649,17 @@ window.B2P_GEN = (function () {
     const usados = new Set();
     cal.forEach(wk => wk.dias.forEach(x => { const sid = typeof x === 'object' ? x.s : x; if (sid && sid !== 'libre') usados.add(sid); }));
     const chks = checkpointsGen(base, meta.META, meta.ini);   // los logros nombran sus semanas
+    // ¿este plan corre? la tarjeta de carrera, el tema de ciencia y las notas
+    // de tendón sobre el trote solo existen si la respuesta es sí
+    const tieneTrote = [...usados].some(id => ((base.SESIONES[id] || {}).icono) === 'run');
     return Object.assign({}, base, {
       META: meta.META,
       FASES: fasesGen(base, meta.ini, perfil),
       CAL: cal,
       HITOS_SEMANA: hitosGen(base, perfil, nutri),
-      SESIONES: sesionesGen(base, perfil, stats, usados),
+      SESIONES: sesionesGen(base, perfil, stats, usados, !tieneTrote),
+      TENDON: (!tieneTrote && base.UI.gen && base.UI.gen.tendonSinTrote)
+        ? Object.assign({}, base.TENDON, { intro: base.UI.gen.tendonSinTrote }) : base.TENDON,
       NUTRI: nutri.NUTRI,
       MENU: menu.MENU,
       COMPRA: compraGen(base, menu.MENU),
@@ -647,8 +668,8 @@ window.B2P_GEN = (function () {
       CHECKPOINTS: chks,
       FOTOS: fotosGen(meta.META, meta.ini),
       REGLAS: reglasGen(base, nutri.prot, perfil),
-      CIENCIA: cienciaGen(base, nutri.prot, perfil),
-      CARRERA: carreraGen(base, perfil),
+      CIENCIA: cienciaGen(base, nutri.prot, perfil, tieneTrote),
+      CARRERA: tieneTrote ? carreraGen(base, perfil) : null,
       CIERRE: cierreGen(base, perfil, meta.META),
       LOGROS: logrosGen(base, meta.META, chks),
       __menuAvisos: menu.avisos || 0,

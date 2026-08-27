@@ -65,9 +65,38 @@ Ciclo del critique CERRADO (24 ago 2026).
   hábito de proteína con {q}, protocolo rotuliano de F1 solo para quien
   vuelve o empieza. ~220 cadenas nuevas ×5 idiomas (1.382 rutas validadas).
 
-Quedan anotados (menores de la ronda 2, sin hacer): compra por pasillo en
-planes generados, rotación de desayunos que favorece al plato original,
-«fases» con periodización real de volumen/reps (pregunta provocadora 2).
+## Ronda 3 (27-28 ago 2026), tras el tercer critique (25 → 28 → 27 → 28;
+## cuarta ronda con el perfil de hallazgos renovado y nada reaparecido)
+
+Decisiones del dueño: racha = días de plan · likes con peso real · todo.
+
+- **v51 — Hotfix del tour** (bug de dispositivo real): la burbuja elige lado
+  por hueco real, se clampa al viewport siempre y se recoloca al cargar las
+  fuentes web. Reproducido a 390×620 y verificado en los 5 pasos.
+- **v52 — P0 costuras de la prosa**: semanaLinea/comidaLibre con el total
+  real; `NUTRI.escalado` por fin templado (el `{p}` crudo, fuera); F2 del
+  retomador por material y F4 con minutos reales; voz base sin biografía
+  (regla 1, regla 8, ciencia Salud primero); sin trote no hay tarjeta de
+  carrera, ni tema de correr, ni notas de trote; diet break de ciencia con
+  las semanas del plan; meta description neutra. Candado nuevo: humo
+  anti-constantes del dueño (76-108 superficies × 4 perfiles).
+- **v53 — Lumbar por patrón + motor + racha**: el riesgo se detecta por
+  patrón de movimiento y el reveal solo anuncia avisos si existen (7 para
+  Óscar, antes 0); la sustitución respeta patrón, unicidad en sesión y
+  prioriza likes (su rdl → su puente de glúteo); nota de dosis al pasar a
+  corporal; racha de DÍAS DE PLAN (2 semanas cumplidas = 🔥10, antes 0);
+  pausa médica con plan vigente = banner con salida; la cintura del quiz
+  alimenta la línea base; el «null» visible, fuera.
+- **v54 — Nutrición honesta + cierres**: proteína sobre peso objetivo en
+  déficit (202→168 g para Óscar) y el hueco menú→objetivo enseñado con su
+  puente (~144 → 168 g); Cargas grafica los 3 ejercicios cargables de TU
+  plan; el fin de plan recapitula (kg, sesiones, PRs, racha, fotos) y
+  conserva la comida; descansos «1′15″» (no «1,25′»); locale por idioma;
+  búsqueda de YouTube sin taxonomía; CTA del mazo «Continuar».
+
+Menores aún anotados: compra por pasillo, rotación de desayunos, «fases»
+con periodización real de volumen/reps, ejes SVG a 10 px (convención),
+celebraciones en cola sin resumen agrupado.
 
 > **Marco de trabajo (15 ago 2026).** La app se construye para **cualquier
 > persona**, aunque de momento los únicos datos cargados sean los del autor.

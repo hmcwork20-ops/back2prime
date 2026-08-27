@@ -28,7 +28,12 @@ window.B2P_GEN = (function () {
     return Math.round(k / 5) * 5;
   }
   function macros(p, kcal) {
-    const prot = Math.round(p.pesoKg * (p.objetivo === 'ganar' || p.objetivo === 'mantener' ? 1.8 : 2.2));
+    /* la proteína se calcula sobre el peso de REFERENCIA: en déficit, el peso
+       objetivo (2,2 g/kg del peso actual con IMC alto da objetivos irreales
+       e inalcanzables con la propia ingesta) */
+    const o = objetivoKgDe(p);
+    const ref = (p.objetivo === 'perder' || p.objetivo === 'recomp') ? (o[0] + o[1]) / 2 : p.pesoKg;
+    const prot = Math.round(ref * (p.objetivo === 'ganar' || p.objetivo === 'mantener' ? 1.8 : 2.2));
     const grasa = Math.round(p.pesoKg * 0.9);
     const carbo = Math.max(0, Math.round((kcal - prot * 4 - grasa * 9) / 4));
     return { p: prot, g: grasa, c: carbo };
@@ -424,6 +429,20 @@ window.B2P_GEN = (function () {
       }))
     })).filter(c => c.items.length);
   }
+  /* cuánta proteína REAL da el menú medio del día: el hueco hasta el objetivo
+     se enseña con su puente, en vez de fingir que las cifras cuadran solas */
+  function protMenuMedia(base, MENU, vetaLacteo) {
+    let total = 0;
+    MENU.forEach(f => ['de', 'co', 'ce'].forEach(sl => {
+      const r = base.RECETAS.find(x => x.id === f[sl]);
+      if (r && r.macros) total += r.macros.p;
+      else if (f[sl] === 'LIBRE') total += 35;    // estimación honesta de la comida libre
+    }));
+    const noche = base.RECETAS.find(x => x.id === 'toma-noche');
+    total += 7 * (vetaLacteo ? 40 : (noche && noche.macros ? noche.macros.p : 45));
+    return Math.round(total / 7);
+  }
+
   function mealprepGen(base, MENU) {
     const vistos = new Set(), pasos = [];
     MENU.forEach(f => ['de', 'co', 'ce'].forEach(sl => {
@@ -705,6 +724,7 @@ window.B2P_GEN = (function () {
       __menuAvisos: menu.avisos || 0,
       __mantenimiento: Math.round(nutri.tdee / 100) * 100,
       __qMin: nutri.qMin,
+      __protMenu: protMenuMedia(base, menu.MENU, perfil.dieta === 'vegano' || (perfil.sin || []).includes('lactosa')),
       __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),
       HISTORICO: {},          // las marcas del plan original eran de una persona
       ARRANQUE: null,         // su tabla de cargas también; la vista lo guarda

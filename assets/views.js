@@ -158,7 +158,7 @@
             el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => U.fichaEjercicio(b.e, {}) },
               el('b', null, e.nombre), b.n ? el('div', { class: 'mini' }, b.n) : null)),
             el('td', { class: 'sr' }, b.s + '×' + reps),
-            el('td', { class: 'sr' }, b.d >= 60 ? (b.d / 60).toLocaleString('es-ES') + '′' : b.d + '″')));
+            el('td', { class: 'sr' }, b.d >= 60 ? Math.floor(b.d / 60) + '′' + (b.d % 60 ? (b.d % 60) + '″' : '') : b.d + '″')));
         });
         kids.push(el('div', { class: 'tw' }, t));
       }));
@@ -247,7 +247,7 @@
     root.append(el('div', { id: 'n-obj', class: 'card fase-card pn' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.nObjetivo), el('div', { class: 'sub' }, fn.f + (w >= 1 && w <= SEMANAS ? ' · ' + tpl(TX.nSemana, { w }) : '')))),
       el('div', { class: 'statrow', style: 'grid-template-columns:repeat(4,1fr);margin:6px 0 2px' },
-        el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.kcalLbl), el('div', { class: 'sv num' }, fn.kcal.toLocaleString('es-ES'))),
+        el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.kcalLbl), el('div', { class: 'sv num' }, fn.kcal.toLocaleString(TX.lang || 'es'))),
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nProteLbl), el('div', { class: 'sv num' }, fn.p + ' g')),
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nGrasaLbl), el('div', { class: 'sv num' }, fn.g + ' g')),
         el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nCarbosLbl), el('div', { class: 'sv num' }, fn.c + ' g'))),
@@ -262,7 +262,7 @@
         el('div', { class: 'tw' }, el('table', null, D.NUTRI.calorias.map(c => el('tr', null, el('td', null, c.c, el('div', { class: 'mini' }, c.n)), el('td', { class: 'sr' }, c.v))))),
         el('div', { class: 'tw' }, el('table', null,
           el('tr', null, el('th', null, TX.fase), el('th', null, TX.kcalLbl), el('th', null, 'P'), el('th', null, 'G'), el('th', null, 'C')),
-          D.NUTRI.fases.map((f, i) => el('tr', i === fi ? { class: 'now' } : null, el('td', null, f.f), el('td', { class: 'sr' }, f.kcal.toLocaleString('es-ES')), el('td', { class: 'sr' }, f.p), el('td', { class: 'sr' }, f.g), el('td', { class: 'sr' }, f.c))))),
+          D.NUTRI.fases.map((f, i) => el('tr', i === fi ? { class: 'now' } : null, el('td', null, f.f), el('td', { class: 'sr' }, f.kcal.toLocaleString(TX.lang || 'es')), el('td', { class: 'sr' }, f.p), el('td', { class: 'sr' }, f.g), el('td', { class: 'sr' }, f.c))))),
         el('p', { style: 'font-size:13px' }, D.NUTRI.escalado))));
 
     // plato
@@ -296,6 +296,11 @@
     if (D.__menuAvisos && TX.gen && TX.gen.menuAviso)
       root.append(el('div', { class: 'banner warn', style: 'margin:8px 0' },
         el('div', null, U.tpl(TX.gen.menuAviso, { n: D.__menuAvisos }))));
+    // el menú no llega solo al objetivo de proteína: el hueco se enseña con su puente
+    if (D.__gen && D.__protMenu && TX.gen && TX.gen.protHueco
+      && D.META.perfil.proteinaDia - D.__protMenu > 15)
+      root.append(el('p', { class: 'mini', style: 'padding:0 2px' },
+        U.tpl(TX.gen.protHueco, { m: D.__protMenu, p: D.META.perfil.proteinaDia })));
     // a quien no toma lácteos, la nota nocturna le ofrece su alternativa vegetal
     const notaNoche = (D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa')) && TX.gen)
       ? TX.gen.tomaNocheAlt : TX.nTomaNota;
@@ -494,8 +499,24 @@
     // ---- cargas ----
     const cardC = el('div', { id: 'p-carg', class: 'card chart-card' });
     cardC.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.pCargas), el('div', { class: 'sub' }, TX.pCargasSub))));
-    const LIFTS = [['press-banca', TX.pLifts['press-banca'], COL.banca], ['sentadilla-barra', TX.pLifts['sentadilla-barra'], COL.sent], ['rdl-barra', TX.pLifts['rdl-barra'], COL.rdl]];
-    let liftSel = S.ui.lift || 'press-banca';
+    /* las gráficas de cargas siguen a TU plan: los tres ejercicios cargables
+       más presentes en tu calendario, no los tres del plan original */
+    let LIFTS;
+    if (D.__gen) {
+      const cuenta = {};
+      const usados = new Set();
+      D.CAL.forEach(wk => wk.dias.forEach(x => { const s = typeof x === 'object' ? x.s : x; if (s && s !== 'libre') usados.add(s); }));
+      usados.forEach(id => ((D.SESIONES[id] || {}).bloques || []).forEach(b => {
+        const eq = (D.EJERCICIOS[b.e] || {}).equipo || '';
+        if (!/^(nada|toalla)/i.test(eq) || /mochila/i.test(eq)) cuenta[b.e] = (cuenta[b.e] || 0) + 1;
+      }));
+      const cols = [COL.banca, COL.sent, COL.rdl];
+      LIFTS = Object.entries(cuenta).sort((a, b) => b[1] - a[1]).slice(0, 3)
+        .map(([id], i) => [id, (D.EJERCICIOS[id].nombre || id).replace(/\s*\([^)]*\)\s*$/, '').split(' ').slice(0, 2).join(' '), cols[i]]);
+    }
+    if (!LIFTS || !LIFTS.length)
+      LIFTS = [['press-banca', TX.pLifts['press-banca'], COL.banca], ['sentadilla-barra', TX.pLifts['sentadilla-barra'], COL.sent], ['rdl-barra', TX.pLifts['rdl-barra'], COL.rdl]];
+    let liftSel = LIFTS.some(l => l[0] === S.ui.lift) ? S.ui.lift : LIFTS[0][0];
     const seg = el('div', { class: 'seg' });
     const chartHolder = el('div');
     LIFTS.forEach(([id, n]) => {
@@ -1115,7 +1136,7 @@
         zona.append(el('div', { class: 'qcard' },
           el('div', { class: 'qn' }, TX.quizListo),
           el('div', { class: 'qz', style: 'text-transform:none;letter-spacing:0' }, tpl(TX.quizResumen, { a: n, b: mazo.length })),
-          el('button', { class: 'btn-b2p', type: 'button', style: 'margin-top:14px', onclick: alFinal }, TX.quizListo)));
+          el('button', { class: 'btn-b2p', type: 'button', style: 'margin-top:14px', onclick: alFinal }, (TX.cuest && TX.cuest.sigue) || TX.quizListo)));
         fila.hidden = true;
         return;
       }

@@ -598,7 +598,7 @@
         + '<path d="M14.4848 20C14.4848 20 23.5695 20 25.8229 19.4C27.0917 19.06 28.0459 18.08 28.3808 16.87C29 14.65 29 9.98 29 9.98C29 9.98 29 5.34 28.3808 3.14C28.0459 1.9 27.0917 0.94 25.8229 0.61C23.5695 0 14.4848 0 14.4848 0C14.4848 0 5.42037 0 3.17711 0.61C1.9286 0.94 0.954148 1.9 0.59888 3.14C0 5.34 0 9.98 0 9.98C0 9.98 0 14.65 0.59888 16.87C0.954148 18.08 1.9286 19.06 3.17711 19.4C5.42037 20 14.4848 20 14.4848 20Z" fill="#FF0033"/>'
         + '<path d="M19 10L11.5 5.75V14.25L19 10Z" fill="#FFFFFF"/></svg>';
       sh.append(el('a', {
-        href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(e.nombre + ' ' + (TX.lang === 'es' ? 'técnica' : 'technique')),
+        href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(e.nombre.replace(/\s*\([^)]*\)\s*$/, '') + ' ' + (TX.lang === 'es' ? 'técnica' : 'technique')),
         target: '_blank', rel: 'noopener', class: 'yt-link'
       }, el('span', { class: 'yt-ico', html: ytIco }), TX.fVideo));
     });
@@ -744,6 +744,22 @@
         // el final nunca es un callejón: el siguiente bloque está a un toque
         TX.ajRehacer ? el('button', { class: 'btn-b2p', style: 'margin-top:14px', type: 'button',
           onclick: () => { location.hash = '#/quiz'; } }, TX.ajRehacer) : null));
+      /* el cierre recapitula con los datos que la app ya tiene: el único
+         momento con derecho a números propios no puede ser el más seco */
+      const ms = mediasSemanales();
+      const gana = D.META.objetivo === 'ganar';
+      const dif = ms.length ? (gana ? ms[ms.length - 1].m - D.META.perfil.pesoSalida : D.META.perfil.pesoSalida - ms[ms.length - 1].m) : 0;
+      const recap = el('div', { class: 'card' });
+      if (TX.gen && TX.gen.finRecapT) recap.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.gen.finRecapT))));
+      const st = (l, v) => el('div', { class: 'stat' }, el('div', { class: 'sl' }, l), el('div', { class: 'sv num' }, v));
+      recap.append(el('div', { class: 'statrow' },
+        st(gana ? (TX.pGanado || TX.pPerdido) : TX.pPerdido, ms.length && dif > 0.04 ? (gana ? '+' : '−') + kg1(dif) : '—'),
+        st(TX.pSesiones, String(totalFuerza())),
+        st('PRs', String(S.prCount || 0)),
+        st(TX.pRacha, String(mejorRacha())),
+        st(TX.lFotos, D.FOTOS.filter(f => S.dias[f] && S.dias[f].foto).length + '/' + D.FOTOS.length)));
+      root.append(recap);
+      const ccFin = cardComida(d); if (ccFin) root.append(ccFin);   // el menú sigue siendo válido
     }
 
     /* — semana del plan — */
@@ -875,7 +891,7 @@
                 e.nombre, el('span', { class: 'info', html: ' ⓘ' })),
               el('div', { class: 'exmeta' },
                 doseChip,
-                el('button', { class: 'rest plano', type: 'button', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? (b.d / 60).toLocaleString(TX.lang || 'es') + '′' : b.d + '″')),
+                el('button', { class: 'rest plano', type: 'button', onclick: ev => { ev.stopPropagation(); timerStart(b.d); } }, '⏱ ' + (b.d >= 60 ? Math.floor(b.d / 60) + '′' + (b.d % 60 ? (b.d % 60) + '″' : '') : b.d + '″')),
                 chipSug, repWrap),
               b.n ? el('div', { class: 'exnote' }, b.n) : null),
             esBW ? null : el('div', { class: 'kgbox' }, kgIn, el('span', { class: 'u' }, 'kg')),

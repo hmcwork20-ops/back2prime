@@ -165,11 +165,6 @@
     function pinta() {
       const t = targets()[i], p = T.pasos[i];
       if (!t || !p) { cierra(); return; }
-      const r = t.getBoundingClientRect(), m = 6;
-      // el tamaño cambia al instante; solo viaja el transform (nada de animar layout)
-      spot.style.width = (r.width + m * 2) + 'px';
-      spot.style.height = (r.height + m * 2) + 'px';
-      spot.style.transform = 'translate(' + (r.left - m) + 'px,' + (r.top - m) + 'px)';
       bub.innerHTML = '';
       bub.append(el('div', { class: 'mini tour-n' }, (i + 1) + '/' + T.pasos.length),
         el('h3', null, p[0]),
@@ -178,10 +173,32 @@
           el('button', { class: 'plano qaux', type: 'button', onclick: cierra }, T.salta),
           el('button', { class: 'btn-b2p', type: 'button', onclick: () => { i++; if (i >= T.pasos.length) cierra(); else pinta(); } },
             i === T.pasos.length - 1 ? T.listo : T.sigue)));
-      // burbuja al lado libre del objetivo
-      bub.style.top = ''; bub.style.bottom = '';
-      if (r.top > innerHeight * .55) bub.style.bottom = (innerHeight - r.top + 16) + 'px';
-      else bub.style.top = (r.bottom + 16) + 'px';
+      /* La burbuja va al lado del objetivo con hueco REAL y se clampa al
+         viewport SIEMPRE: en móviles bajos, «debajo de la tarjeta» podía caer
+         fuera de pantalla y el tour parecía colgado (spotlight sin botones).
+         Se recoloca además cuando cargan las fuentes web: el reflow movía el
+         objetivo después de habernos medido. */
+      const coloca = () => {
+        if (!bub.isConnected) return;
+        const rt = t.getBoundingClientRect(), m = 6;
+        spot.style.width = (rt.width + m * 2) + 'px';
+        spot.style.height = (rt.height + m * 2) + 'px';
+        spot.style.transform = 'translate(' + (rt.left - m) + 'px,' + (rt.top - m) + 'px)';
+        const bh = bub.offsetHeight || 180;
+        const huecoAbajo = innerHeight - rt.bottom - 16;
+        const huecoArriba = rt.top - 16;
+        let top;
+        if (huecoAbajo >= bh) top = rt.bottom + 16;
+        else if (huecoArriba >= bh) top = rt.top - 16 - bh;
+        else top = innerHeight - bh - 12;          // no cabe a ningún lado: pegada abajo, encima del recorte
+        top = Math.max(8, Math.min(top, innerHeight - bh - 8));
+        bub.style.bottom = '';
+        bub.style.top = top + 'px';
+      };
+      coloca();
+      requestAnimationFrame(coloca);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(coloca, 60));
+      addEventListener('resize', coloca, { once: true });
       bub.focus({ preventScroll: true });
     }
     pinta();

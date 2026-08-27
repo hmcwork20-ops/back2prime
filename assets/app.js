@@ -1081,6 +1081,27 @@
     ['es', '🇪🇸', 'Español'], ['en', '🇬🇧', 'English'], ['fr', '🇫🇷', 'Français'],
     ['de', '🇩🇪', 'Deutsch'], ['it', '🇮🇹', 'Italiano']
   ];
+  /* Añadir la cintura a posteriori: SOLO el dato que falta, en su hoja.
+     No toca ejercicios ni dieta (solo activa la meta y los logros de
+     cintura), así que se aplica sin preguntar y el plan se regenera solo. */
+  function hojaCintura() {
+    const C = TX.cuest || {};
+    openSheet(sh => {
+      sh.append(el('h2', null, (C.cinturaL || '').replace(/\s*·.*$/, '')));
+      sh.append(el('p', { class: 'mini' }, TX.perfilCinturaNota));
+      const inp = el('input', { type: 'text', inputmode: 'decimal', id: 'perfil-cint', placeholder: '100' });
+      sh.append(el('div', { class: 'field' }, el('label', { for: 'perfil-cint' }, C.cinturaL || 'cm'), inp));
+      sh.append(el('button', { class: 'btn-b2p', style: 'width:100%', type: 'button', onclick: () => {
+        const r = valida(inp.value, 'cintura');
+        if (r.malo || r.vacio) { if (r.vacio) toast(tpl(TX.valFuera, { a: RANGO.cintura[0], b: RANGO.cintura[1], u: RANGO.cintura[2] })); return; }
+        S.perfil.cinturaCm = r.v;
+        if (!S.config.cinturaBase) S.config.cinturaBase = r.v;
+        save(); toast(TX.ajGuardado); closeSheet();
+        setTimeout(() => location.reload(), 350);
+      } }, TX.ajGuardar));
+    });
+  }
+
   /* ---------------- MI PERFIL ----------------
      Deja de ser una hoja de «configuración»: primero quién eres y qué plan
      tienes (con la puerta de rehacerlo), después los ajustes, y la ciencia
@@ -1109,7 +1130,13 @@
         sin: { gluten: C.sinGluten, lactosa: C.sinLactosa, frutos: C.sinFrutos }
       };
       const sx = { h: C.sexoH, m: C.sexoM, x: C.sexoX }[P.sexo];
-      const filas = [[null, P.edad + ' · ' + P.alturaCm + ' cm · ' + P.pesoKg + ' kg' + (sx ? ' · ' + sx : '')]];
+      /* la cintura es un dato más de tus respuestas: si falta, un «+» al lado
+         deja añadir SOLO ese dato (los iniciales, en los que se basó el plan,
+         no se tocan aquí: para eso está rehacer). Añadirla no varía plan ni
+         dieta — solo activa su meta y sus logros — así que no hay pop-up. */
+      const medidas = P.edad + ' · ' + P.alturaCm + ' cm · ' + P.pesoKg + ' kg' + (sx ? ' · ' + sx : '')
+        + (P.cinturaCm ? ' · 📏 ' + P.cinturaCm + ' cm' : '');
+      const filas = [[null, medidas, !P.cinturaCm]];
       [['objetivo', C.resLObj], ['evento', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
        ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
         const v = M[par[0]] && M[par[0]][P[par[0]]];
@@ -1120,7 +1147,10 @@
       if ((P.sin || []).length) filas.push([C.resLSin, P.sin.map(x => M.sin[x] || x).join(' · ')]);
       const tarj = el('div', { class: 'card', style: 'gap:8px' });
       tarj.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.perfilDatosT || C.titulo))));
-      filas.forEach(f => tarj.append(el('div', { class: 'cres' }, f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1])));
+      filas.forEach(f => tarj.append(el('div', { class: 'cres' },
+        f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1],
+        f[2] && TX.perfilCinturaAdd ? el('button', { class: 'plano qaux', type: 'button', style: 'margin-left:8px',
+          onclick: hojaCintura }, TX.perfilCinturaAdd) : null)));
       tarj.append(el('button', { class: 'btn-b2p', style: 'width:100%;margin-top:8px', type: 'button',
         onclick: () => { location.hash = '#/quiz'; } }, TX.ajRehacer));
       tarj.append(el('p', { class: 'mini', style: 'margin:6px 0 0' }, TX.ajRehacerNota));
@@ -1167,21 +1197,8 @@
         } }, el('span', { class: 'lf' }, flag), el('span', { class: 'ln' }, nombre)));
       });
       sh.append(fila, el('p', { class: 'mini' }, TX.ajIdiomaNota));
-      // datos base
-      sh.append(el('h4', null, TX.ajLineaBase));
-      // el <label> ya existía, pero sin `for` no etiquetaba nada
-      const cIn = el('input', { type: 'text', inputmode: 'decimal', id: 'b2p-cintura-base', value: S.config.cinturaBase || '', placeholder: '100' });
-      sh.append(el('div', { class: 'field' }, el('label', { for: 'b2p-cintura-base' }, TX.ajCinturaIni), cIn));
-      sh.append(el('button', { class: 'btn-ghost', style: 'width:100%', onclick: () => {
-        // Pulsar «Guardar» con un valor fuera de rango no hacía absolutamente
-        // nada: ni guardaba ni lo decía.
-        const r = valida(cIn.value, 'cintura');
-        if (r.malo || r.vacio) { if (r.vacio) toast(tpl(TX.valFuera, { a: RANGO.cintura[0], b: RANGO.cintura[1], u: RANGO.cintura[2] })); return; }
-        S.config.cinturaBase = r.v; save(); toast(TX.ajGuardado);
-      } }, TX.ajGuardar));
-      // backup
-      sh.append(el('h4', null, TX.ajCopia));
-      sh.append(el('p', { class: 'mini' }, TX.ajCopiaTxt));
+      /* copia de seguridad: imprescindible en una app sin nube (es el ÚNICO
+         salvavidas al cambiar de móvil), pero plegada — no merece escaparate */
       const row = el('div', { class: 'btnrow' });
       row.append(el('button', { class: 'btn-b2p', onclick: () => {
         const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
@@ -1203,7 +1220,9 @@
         r.readAsText(f);
       } });
       row.append(fileIn, el('button', { class: 'btn-ghost', onclick: () => fileIn.click() }, TX.ajImportar));
-      sh.append(row);
+      sh.append(el('details', { class: 'fold', style: 'margin-top:12px' },
+        el('summary', null, '💾 ' + TX.ajCopia),
+        el('div', { class: 'fold-in' }, el('p', { class: 'mini' }, TX.ajCopiaTxt), row)));
       // reset
       sh.append(el('h4', null, TX.ajPeligro));
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;color:var(--danger)', onclick: ev => {
@@ -1214,38 +1233,6 @@
           setTimeout(() => { if (ev.target.isConnected) { delete ev.target.dataset.arm; ev.target.textContent = TX.ajBorrar; } }, 4000);
         }
       } }, TX.ajBorrar));
-      // Diagnóstico de pantalla: si la barra inferior no encaja, estos números
-      // dicen exactamente por qué (y evitan diagnosticar sobre una captura).
-      sh.append(el('details', { class: 'fold', style: 'margin-top:16px' },
-        el('summary', null, 'Diagnóstico de pantalla'),
-        el('div', { class: 'fold-in mini', id: 'diag' }, 'midiendo…')));
-      setTimeout(() => {
-        const d = $('#diag'); if (!d) return;
-        const tb = $('.tabbar').getBoundingClientRect();
-        const hd = $('.hdr').getBoundingClientRect();
-        const vw = $('#view').getBoundingClientRect();
-        const cs = getComputedStyle($('.tabbar'));
-        const inst = document.documentElement.classList.contains('pwa');
-        const hueco = Math.round(innerHeight - tb.bottom);
-        const vacio = Math.round(tb.top - vw.bottom);   // negro entre contenido y barra
-        // Franja muerta: el lienzo mide menos que la pantalla. Si además el
-        // inset de arriba es > 0, la app se dibuja BAJO el status bar, así que
-        // lo que falta cae al fondo → banda negra bajo la barra. Es el bug de
-        // apple-mobile-web-app-status-bar-style="black-translucent", y iOS
-        // congela esa etiqueta al instalar: solo se cura reinstalando.
-        const insetTop = Math.round(parseFloat(getComputedStyle($('.hdr')).paddingTop) || 0);
-        const alto = screen.height, perdido = Math.round(alto - innerHeight);
-        const franja = insetTop > 0 ? perdido : 0;
-        d.innerHTML = [
-          'Modo: <b>' + (inst ? 'app instalada' : 'navegador') + '</b>',
-          'Pantalla física: <b>' + screen.width + '×' + alto + '</b> · lienzo <b>' + innerWidth + '×' + innerHeight + '</b>',
-          'Inset arriba: <b>' + insetTop + 'px</b> · cabecera <b>' + Math.round(hd.height) + '</b>',
-          'Barra: alto <b>' + Math.round(tb.height) + '</b> · flotante a <b>' + hueco + ' px</b> del borde (diseño Liquid Glass)',
-          franja > 4
-            ? '<b style="color:var(--danger)">⚠ Franja muerta de ' + franja + ' px bajo la barra.</b> Borra el icono de la pantalla de inicio y vuelve a añadirlo: iOS congeló la configuración vieja al instalar.'
-            : '<b style="color:var(--ok)">✓ El lienzo llega al borde de la pantalla.</b>'
-        ].join('<br>');
-      }, 60);
       /* la ciencia del plan: lectura extra para quien quiera investigar —
          fuera de Plan, donde ocupaba una subpágina entera */
       if (D.CIENCIA && TX.vCiencia) {

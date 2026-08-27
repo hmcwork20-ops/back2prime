@@ -1198,7 +1198,7 @@ window.B2P = (function () {
     pFrenaTrote: 'Ease off the jogging', pFrenaTxt: 'This week you’re at {r}× your recent average of running minutes. Above 1.3× the injury risk spikes: cut back or walk.',
     lDiscos: 'The plate collection', lDiscosSub: 'one per phase completed',
     lLogros: 'Awards', lFuerzas: 'Strength', lPRs: 'PRs', lPerdido: 'Lost', lMejorRacha: 'Best streak', lLogrosN: 'Awards', lFotos: 'Photos',
-    perfilT: 'My profile', perfilDatosT: 'Your answers', perfilPlanT: 'Your plan, in short', ajustes: 'Settings', ajustesSub: 'BACK2PRIME · your data lives ONLY on this device',
+    perfilCinturaAdd: '+ Add waist', perfilCinturaNota: 'It becomes your baseline and unlocks the waist goal and badges. The rest of the plan does not change.', perfilT: 'My profile', perfilDatosT: 'Your answers', perfilPlanT: 'Your plan, in short', ajustes: 'Settings', ajustesSub: 'BACK2PRIME · your data lives ONLY on this device',
     ajLineaBase: 'Baseline', ajCinturaIni: 'Starting waist (cm)', ajGuardar: 'Save baseline', ajGuardado: 'Saved',
     ajCopia: 'Backup',
     ajCopiaTxt: 'Your data never leaves the phone. Make a backup now and then (or before switching devices) and keep it wherever you like.',

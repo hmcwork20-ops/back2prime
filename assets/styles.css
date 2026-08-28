@@ -972,6 +972,17 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .qcard .qimg{width:min(58%,168px);aspect-ratio:1;border-radius:18px;object-fit:cover;margin:2px auto 6px;display:block;background:var(--surface2)}
 .qcard .qemoji{font-size:64px;line-height:1.25;margin:6px 0 2px}
 
+/* burbuja flotante de busqueda: cristal de la casa, sobre el contenido y bajo las hojas */
+.fab{position:fixed;right:14px;bottom:calc(var(--tab-off) + var(--tab-h) + 14px);z-index:45;
+  width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:var(--ink);background:color-mix(in srgb,var(--surface) 76%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line-soft);box-shadow:0 6px 20px rgba(0,0,0,.35);
+  transition:transform var(--t-pulsar) var(--ease-sale)}
+.fab:active{transform:scale(.9)}
+body.onb .fab{display:none}
+.bsq-res{margin-top:10px;min-height:120px}
+
 /* ---------- Puerta de entrada: alta, reveal, pausa médica y tour ----------
    Durante el alta/cuestionario/reveal la app no tiene barra: no hay a dónde
    ir hasta que existe un plan. La cabecera se queda (la marca saluda). */

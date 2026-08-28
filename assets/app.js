@@ -1081,6 +1081,85 @@
     ['es', '🇪🇸', 'Español'], ['en', '🇬🇧', 'English'], ['fr', '🇫🇷', 'Français'],
     ['de', '🇩🇪', 'Deutsch'], ['it', '🇮🇹', 'Italiano']
   ];
+  /* ---------------- buscador global ----------------
+     Una burbuja flotante abre un buscador que lleva a cualquier parte:
+     secciones y apartados, cada ejercicio (su ficha) y cada plato (su
+     receta). El índice se construye al abrir, del plan YA generado. */
+  const sinAcentos = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  function irA(hash, id, folds) {
+    closeSheet();
+    const salto = () => setTimeout(() => {
+      (folds || []).forEach(fid => { const f = $('#' + fid); if (f) f.open = true; });
+      const t = id && document.getElementById(id);
+      if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY - 78, behavior: 'smooth' });
+    }, 380);
+    if (location.hash === hash) salto(); else { location.hash = hash; salto(); }
+  }
+  function construyeIndice() {
+    const IDX = [];
+    const secc = (t, hash, id, folds) => t && IDX.push({ t, sub: null, go: () => irA(hash, id, folds) });
+    const rutas = ['hoy', 'plan', 'nutricion', 'progreso', 'logros'];
+    TX.tabs.forEach((t, i) => secc(t, '#/' + rutas[i]));
+    secc(TX.perfilT, '#/perfil');
+    // apartados de Plan
+    secc(TX.segPlan[0], '#/plan', 'pl-fases');
+    secc(TX.segPlan[2], '#/plan', 'pl-ej');
+    secc(TX.vBiblioteca, '#/plan', 'pl-ej');
+    // apartados de Comida
+    [['n-obj', 0], ['n-plato', 1], ['n-rec', 2], ['n-menu', 3], ['n-compra', 4], ['n-prep', 5], ['n-supl', 6]]
+      .forEach(([id, i]) => secc(TX.chipsNutri[i], '#/nutricion', id));
+    // apartados de Progreso
+    [['p-res', 0], ['p-peso', 1], ['p-cint', 2], ['p-carg', 3], ['p-adh', 4], ['p-chk', 5]]
+      .forEach(([id, i]) => secc(TX.chipsProg[i], '#/progreso', id));
+    // Mi Perfil y su sala de máquinas
+    secc(TX.ajustes, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
+    secc(TX.ajIdioma, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
+    secc(TX.ajCopia, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
+    secc(TX.cerrarSesion, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
+    secc(TX.perfilDetrasT, '#/perfil', 'pf-detras', ['pf-detras']);
+    secc(TX.vReglas8, '#/perfil', 'pf-reglas', ['pf-detras', 'pf-reglas']);
+    secc(TX.nNumeros, '#/perfil', 'pf-numeros', ['pf-detras', 'pf-numeros']);
+    secc(TX.vCiencia, '#/perfil', 'pf-ciencia', ['pf-detras', 'pf-ciencia']);
+    secc(TX.ajRehacer, '#/perfil');
+    // cada ejercicio, a su ficha
+    Object.keys(D.EJERCICIOS).forEach(id => {
+      const e = D.EJERCICIOS[id];
+      IDX.push({ t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: TX.quizCatEj,
+        go: () => { closeSheet(); setTimeout(() => fichaEjercicio(id, {}), 230); } });
+    });
+    // cada plato (los tuyos), a su receta
+    const recetas = (D.__gen && window.B2P_GEN)
+      ? D.RECETAS.filter(r => window.B2P_GEN.recetaVale(r, { dieta: D.META.dieta, sin: D.META.sin || [] }, new Set(D.META.gustosNo || [])))
+      : D.RECETAS;
+    recetas.forEach(r => IDX.push({ t: r.nombre, sub: TX.quizCatCom,
+      go: () => { closeSheet(); setTimeout(() => { if (window.UI.sheetReceta) window.UI.sheetReceta(r); }, 230); } }));
+    return IDX;
+  }
+  function abreBuscador() {
+    openSheet(sh => {
+      sh.append(el('h2', null, TX.buscarT));
+      const inp = el('input', { type: 'search', id: 'bsq', placeholder: TX.buscarPH, autocomplete: 'off', enterkeyhint: 'go' });
+      sh.append(el('div', { class: 'field', style: 'margin-top:8px' }, inp));
+      const res = el('div', { class: 'bsq-res' });
+      sh.append(res);
+      const IDX = construyeIndice();
+      const pinta = () => {
+        const q = sinAcentos(inp.value.trim());
+        res.innerHTML = '';
+        const hits = q ? IDX.filter(x => sinAcentos(x.t).includes(q) || (x.sub && sinAcentos(x.sub).includes(q))).slice(0, 12)
+          : IDX.slice(0, 6);   // sin escribir: las puertas principales
+        if (!hits.length) { res.append(el('p', { class: 'mini' }, TX.buscarNada)); return; }
+        hits.forEach(x => res.append(el('button', { class: 'habit wide plano', type: 'button', style: 'margin:4px 0', onclick: x.go },
+          el('div', { class: 'hicon' }, x.sub === TX.quizCatEj ? '🏋️' : x.sub === TX.quizCatCom ? '🍽️' : '📍'),
+          el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, x.t), x.sub ? el('div', { class: 'hs' }, x.sub) : null))));
+      };
+      inp.addEventListener('input', pinta);
+      inp.addEventListener('keydown', ev => { if (ev.key === 'Enter') { const b = res.querySelector('button'); if (b) b.click(); } });
+      pinta();
+      setTimeout(() => inp.focus(), 120);
+    });
+  }
+
   /* Rehacer no es una sola puerta: eliges qué rehacer. Solo los datos (el
      mazo no se toca), solo el mazo (desde cero), o el cuestionario entero. */
   function hojaRehacer() {
@@ -1194,9 +1273,38 @@
           st(TX.nProteLbl, D.META.perfil.proteinaDia + ' g'))));
     }
 
-    /* ---- ⚙️ Configuración: todo lo que no es tu plan, agrupado ---- */
-    sh.append(el('h4', null, '⚙️ ' + TX.ajustes));
-    sh.append(el('div', { class: 'mini', style: 'margin:2px 0 6px' }, '🌐 ' + TX.ajIdioma));
+    /* ---- 🧠 Detrás del plan: reglas, números y ciencia — la sala de
+       máquinas, plegada para quien quiera mirar dentro ---- */
+    const foldSub = (id2, titulo, ...kids) => el('details', { class: 'fold', id: id2 },
+      el('summary', null, titulo), el('div', { class: 'fold-in' }, ...kids));
+    const wP = semanaDe(hoyISO());
+    const faseNP = (wP >= 1 && wP <= SEMANAS) ? D.CAL[wP - 1].fase : 1;
+    const fiN = faseNP === 4 ? 2 : faseNP === 3 ? 1 : 0;
+    sh.append(el('details', { class: 'fold', id: 'pf-detras', style: 'margin-top:14px' },
+      el('summary', null, '🧠 ' + TX.perfilDetrasT),
+      el('div', { class: 'fold-in' },
+        foldSub('pf-reglas', TX.vReglas8,
+          el('div', { class: 'mini', style: 'margin-bottom:6px' }, TX.vReglasSub),
+          el('div', { class: 'regla-g' }, D.REGLAS.map(r => el('div', { class: 'regla' }, el('b', null, r.n + ' · ' + r.t), r.d))),
+          el('div', { class: 'banner hot', style: 'margin-top:12px' }, el('div', null, el('b', null, TX.senalesTitulo), el('div', null, D.SENALES))),
+          el('div', { class: 'banner ok' }, el('div', null, el('b', null, TX.objetivoReal), el('div', null, D.CIERRE)))),
+        foldSub('pf-numeros', TX.nNumeros,
+          el('div', { class: 'tw' }, el('table', null, D.NUTRI.calorias.map(c => el('tr', null, el('td', null, c.c, el('div', { class: 'mini' }, c.n)), el('td', { class: 'sr' }, c.v))))),
+          el('div', { class: 'tw' }, el('table', null,
+            el('tr', null, el('th', null, TX.fase), el('th', null, TX.kcalLbl), el('th', null, 'P'), el('th', null, 'G'), el('th', null, 'C')),
+            D.NUTRI.fases.map((f, i) => el('tr', i === fiN ? { class: 'now' } : null, el('td', null, f.f), el('td', { class: 'sr' }, f.kcal.toLocaleString(TX.lang || 'es')), el('td', { class: 'sr' }, f.p), el('td', { class: 'sr' }, f.g), el('td', { class: 'sr' }, f.c))))),
+          el('p', { style: 'font-size:13px' }, D.NUTRI.escalado)),
+        foldSub('pf-ciencia', '🔬 ' + TX.vCiencia,
+          el('p', { class: 'mini' }, D.CIENCIA.intro),
+          D.CIENCIA.temas.map(t => el('div', { class: 'regla', style: 'margin:8px 0' },
+            el('b', null, t.t), el('div', { style: 'margin:3px 0' }, t.d),
+            el('div', { class: 'mini' }, '📚 ' + t.ref)))))));
+
+    /* ---- ⚙️ Ajustes: plegado — solo el título hasta que lo pides ---- */
+    const aj = el('div', { class: 'fold-in' });
+    sh.append(el('details', { class: 'fold', id: 'pf-ajustes' }, el('summary', null, '⚙️ ' + TX.ajustes), aj));
+    const sh2 = aj;
+    sh2.append(el('div', { class: 'mini', style: 'margin:2px 0 6px' }, '🌐 ' + TX.ajIdioma));
       const actual = S.config.lang || 'es';
       const fila = el('div', { class: 'langrow' });
       IDIOMAS.forEach(([code, flag, nombre]) => {
@@ -1222,7 +1330,7 @@
           location.reload();
         } }, el('span', { class: 'lf' }, flag), el('span', { class: 'ln' }, nombre)));
       });
-      sh.append(fila, el('p', { class: 'mini' }, TX.ajIdiomaNota));
+      sh2.append(fila, el('p', { class: 'mini' }, TX.ajIdiomaNota));
       /* copia de seguridad: imprescindible en una app sin nube (es el ÚNICO
          salvavidas al cambiar de móvil), pero plegada — no merece escaparate */
       const row = el('div', { class: 'btnrow' });
@@ -1246,19 +1354,19 @@
         r.readAsText(f);
       } });
       row.append(fileIn, el('button', { class: 'btn-ghost', onclick: () => fileIn.click() }, TX.ajImportar));
-      sh.append(el('details', { class: 'fold', style: 'margin-top:12px' },
+      sh2.append(el('details', { class: 'fold', style: 'margin-top:12px' },
         el('summary', null, '💾 ' + TX.ajCopia),
         el('div', { class: 'fold-in' }, el('p', { class: 'mini' }, TX.ajCopiaTxt), row)));
       /* cerrar sesión: sales a la puerta; el plan y los registros se quedan
          en el dispositivo (al volver a entrar con tu nombre, sigues donde ibas) */
       if (S.usuario && TX.cerrarSesion) {
-        sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px', type: 'button', onclick: () => {
+        sh2.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px', type: 'button', onclick: () => {
           delete S.usuario; save(); location.reload();
         } }, TX.cerrarSesion));
-        sh.append(el('p', { class: 'mini', style: 'margin:6px 0 0' }, TX.cerrarSesionNota));
+        sh2.append(el('p', { class: 'mini', style: 'margin:6px 0 0' }, TX.cerrarSesionNota));
       }
       // eliminar perfil y datos (armado con desarme: sigue siendo la puerta seria)
-      sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px;color:var(--danger)', onclick: ev => {
+      sh2.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px;color:var(--danger)', onclick: ev => {
         if (ev.target.dataset.arm) { localStorage.removeItem(KEY); location.reload(); }
         else {
           ev.target.dataset.arm = '1'; ev.target.textContent = TX.ajBorrarConfirma;
@@ -1266,17 +1374,6 @@
           setTimeout(() => { if (ev.target.isConnected) { delete ev.target.dataset.arm; ev.target.textContent = TX.ajBorrar; } }, 4000);
         }
       } }, TX.ajBorrar));
-      /* la ciencia del plan: lectura extra para quien quiera investigar —
-         fuera de Plan, donde ocupaba una subpágina entera */
-      if (D.CIENCIA && TX.vCiencia) {
-        sh.append(el('details', { class: 'fold', style: 'margin-top:16px' },
-          el('summary', null, '🔬 ' + TX.vCiencia),
-          el('div', { class: 'fold-in' },
-            el('p', { class: 'mini' }, D.CIENCIA.intro),
-            D.CIENCIA.temas.map(t => el('div', { class: 'regla', style: 'margin:8px 0' },
-              el('b', null, t.t), el('div', { style: 'margin:3px 0' }, t.d),
-              el('div', { class: 'mini' }, '📚 ' + t.ref))))));
-      }
       sh.append(el('p', { class: 'mini', style: 'margin-top:16px' }, D.AVISO_LEGAL));
   }
 
@@ -1512,6 +1609,11 @@
     const cOk = $('#celebraOk'); if (cOk) cOk.textContent = TX.celebraOk;
     document.documentElement.lang = TX.lang;
     medirCabecera();
+    // la burbuja de búsqueda flota sobre todo menos las hojas (se esconde en la puerta de entrada vía CSS)
+    const fab = el('button', { class: 'fab', type: 'button', 'aria-label': TX.buscarT || 'Buscar',
+      onclick: abreBuscador,
+      html: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.2" y2="16.2"/></svg>' });
+    document.body.append(fab);
     render();
   }
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', arrancar, { once: true });

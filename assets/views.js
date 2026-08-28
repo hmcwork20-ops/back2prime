@@ -66,19 +66,12 @@
     /* Como Comida y Progreso: burbujas-ancla con scroll-spy sobre una sola
        página apilada — nada de subpáginas que cambian bajo la misma pestaña.
        La Ciencia vive ahora en Mi Perfil, como lectura extra. */
-    const IDS_P = [['pl-fases', TX.segPlan[0]], ['pl-reglas', TX.segPlan[1]], ['pl-ej', TX.segPlan[2]]];
+    const IDS_P = [['pl-fases', TX.segPlan[0]], ['pl-ej', TX.segPlan[2]]];
     root.append(chipNav(IDS_P));
     const sFases = el('div', { id: 'pl-fases' }); secFases(sFases); root.append(sFases);
-    const sReglas = el('div', { id: 'pl-reglas' }); secReglas(sReglas); root.append(sReglas);
     const sEj = el('div', { id: 'pl-ej' }); secEjercicios(sEj); root.append(sEj);
 
-    /* ---- REGLAS: sección propia, primera pantalla sin scroll ---- */
-    function secReglas(root) {
-      root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vReglas8), el('span', { class: 'mini' }, TX.vReglasSub)));
-      root.append(el('div', { class: 'regla-g' }, D.REGLAS.map(r => el('div', { class: 'regla' }, el('b', null, r.n + ' · ' + r.t), r.d))));
-      root.append(el('div', { class: 'banner hot', style: 'margin-top:16px' }, el('div', null, el('b', null, TX.senalesTitulo), el('div', null, D.SENALES))));
-      root.append(el('div', { class: 'banner ok' }, el('div', null, el('b', null, TX.objetivoReal), el('div', null, D.CIERRE))));
-    }
+    /* las Reglas viven ahora en Mi Perfil → Detrás del plan */
 
     /* ---- FASES: fase actual + calendario + las 4 fases ---- */
     function secFases(root) {
@@ -240,14 +233,7 @@
             el('div', null, tpl(TX.nDietBreakTxt, { k: (D.__mantenimiento || 2800).toLocaleString(TX.lang || 'es') })))) : null,
       el('p', { class: 'mini', style: 'margin-top:8px' }, D.NUTRI.tomas)));
 
-    // números y escalado
-    root.append(el('details', { class: 'fold' }, el('summary', null, TX.nNumeros),
-      el('div', { class: 'fold-in' },
-        el('div', { class: 'tw' }, el('table', null, D.NUTRI.calorias.map(c => el('tr', null, el('td', null, c.c, el('div', { class: 'mini' }, c.n)), el('td', { class: 'sr' }, c.v))))),
-        el('div', { class: 'tw' }, el('table', null,
-          el('tr', null, el('th', null, TX.fase), el('th', null, TX.kcalLbl), el('th', null, 'P'), el('th', null, 'G'), el('th', null, 'C')),
-          D.NUTRI.fases.map((f, i) => el('tr', i === fi ? { class: 'now' } : null, el('td', null, f.f), el('td', { class: 'sr' }, f.kcal.toLocaleString(TX.lang || 'es')), el('td', { class: 'sr' }, f.p), el('td', { class: 'sr' }, f.g), el('td', { class: 'sr' }, f.c))))),
-        el('p', { style: 'font-size:13px' }, D.NUTRI.escalado))));
+    // «De dónde salen los números» vive ahora en Mi Perfil → Detrás del plan
 
     // plato
     root.append(el('div', { id: 'n-plato', class: 'sec-h' }, el('h2', null, TX.nPlato)));

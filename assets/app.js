@@ -1128,7 +1128,7 @@
     secc(TX.ajustes, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
     secc(TX.ajIdioma, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
     secc(TX.ajCopia, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
-    secc(TX.cerrarSesion, '#/perfil', 'pf-ajustes', ['pf-ajustes']);
+    secc(TX.cerrarSesion, '#/perfil');
     secc(TX.perfilDetrasT, '#/perfil', 'pf-detras', ['pf-detras']);
     secc(TX.vReglas8, '#/perfil', 'pf-reglas', ['pf-detras', 'pf-reglas']);
     secc(TX.nNumeros, '#/perfil', 'pf-numeros', ['pf-detras', 'pf-numeros']);
@@ -1380,12 +1380,6 @@
         el('div', { class: 'fold-in' }, el('p', { class: 'mini' }, TX.ajCopiaTxt), row)));
       /* cerrar sesión: sales a la puerta; el plan y los registros se quedan
          en el dispositivo (al volver a entrar con tu nombre, sigues donde ibas) */
-      if (S.usuario && TX.cerrarSesion) {
-        sh2.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px', type: 'button', onclick: () => {
-          delete S.usuario; save(); location.reload();
-        } }, TX.cerrarSesion));
-        sh2.append(el('p', { class: 'mini', style: 'margin:6px 0 0' }, TX.cerrarSesionNota));
-      }
       // eliminar perfil y datos (armado con desarme: sigue siendo la puerta seria)
       sh2.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px;color:var(--danger)', onclick: ev => {
         if (ev.target.dataset.arm) { localStorage.removeItem(KEY); location.reload(); }
@@ -1396,6 +1390,15 @@
         }
       } }, TX.ajBorrar));
       sh.append(el('p', { class: 'mini', style: 'margin-top:16px' }, D.AVISO_LEGAL));
+
+    /* cerrar sesión cierra la vista, no vive escondido en Ajustes: sales a la
+       puerta y tu plan y tus registros se quedan en el dispositivo */
+    if (S.usuario && TX.cerrarSesion) {
+      sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:18px', type: 'button', onclick: () => {
+        delete S.usuario; save(); location.reload();
+      } }, TX.cerrarSesion));
+      sh.append(el('p', { class: 'mini', style: 'margin:6px 0 0;text-align:center' }, TX.cerrarSesionNota));
+    }
   }
 
   /* La hoja de bienvenida de la primera época (pedía la cintura y poco más)

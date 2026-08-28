@@ -5,7 +5,7 @@
    banderas de idioma son la única excepción, a propósito).
    window.B2P_ICO[nombre] = contenido interno del <svg>.
    ============================================================ */
-window.B2P_IMG_V = 2;   // súbelo al re-procesar pictogramas: invalida SW y caché HTTP
+window.B2P_IMG_V = 3;   // súbelo al re-procesar pictogramas: invalida SW y caché HTTP
 window.B2P_ICO = {
   flame: '<path d="M12 22c4.4 0 7-2.8 7-6.5 0-2.5-1.2-4.2-2.6-5.9C15 8 14 6.5 14 4c-3 1.5-4.5 4-4.2 6.5-1-.5-1.7-1.3-2.2-2.5C6.2 9.7 5 11.6 5 15.5 5 19.2 7.6 22 12 22z"/>',
   taza: '<path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v7a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/>',

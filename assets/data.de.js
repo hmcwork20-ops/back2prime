@@ -361,6 +361,42 @@ window.B2P = (function () {
       mol: 'Die sicherste Übung im Plan; wenn etwas zwickt, prüf, ob der untere Rücken abhebt.'
     },
 
+    'pike-flexiones': { pat: 'ev',
+      nombre: 'Pike-Liegestütze', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Vordere Schulter', 'Trizeps'], equipo: 'Nichts',
+      cues: ['Umgedrehtes V: Hände und Füße nah beieinander, Hüfte weit oben', 'Der Kopf geht ZWISCHEN die Hände, nicht davor', 'Ellbogen 45° zum Körper, nie ausgestellt', 'Oben ganz durchstrecken, ohne die Schultern hochzuziehen'],
+      err: ['Die Hüfte absenken und daraus einen normalen Liegestütz machen', 'Den Kopf vor die Hände bringen (da zahlt die Schulter)', 'Halbe Wiederholungen, um mehr zählen zu können'],
+      alt: [{ n: 'Füße auf einem Stuhl', por: 'wenn 12 leicht fallen' }, { n: 'Hände auf einer Stufe', por: 'wenn es noch nicht sauber runtergeht' }],
+      mol: 'Wenn die Schulter meckert: Hüfte etwas absenken, bis der Winkel angenehm ist. Vertikales Drücken verlangt die meiste Beweglichkeit im ganzen Plan.'
+    },
+    'jalon-toalla': { pat: 'tv',
+      nombre: 'Handtuch-Latzug', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Latissimus', 'Bizeps'], equipo: 'Handtuch',
+      cues: ['Handtuch straff über dem Kopf: ein Arm zieht nach unten, der andere HÄLT DAGEGEN', 'Der ziehende Ellbogen geht zur Seite, nicht nach vorne', 'Schulterblatt nach unten ziehen und 1″ halten', 'In 3″ zurück nach oben, mit dem Gegenarm bremsen'],
+      err: ['Mit dem Bizeps ziehen statt mit dem Rücken', 'Die Schulter hochziehen, statt das Schulterblatt zu senken', 'Mit dem oberen Arm nicht gegenhalten: ohne Spannung kein Reiz'],
+      alt: [{ n: 'Umgekehrtes Rudern unter einem stabilen Tisch', por: 'viel messbarer: wenn du einen Tisch hast, mach lieber das' }, { n: 'Klimmzüge', por: 'sobald du eine Stange hast' }],
+      mol: 'Ohne Stange ist vertikales Ziehen am schwersten ehrlich zu ersetzen: wenn möglich, nimm das Rudern unter dem Tisch, das lädt wirklich Gewicht auf.'
+    },
+    'abduccion-lado': { pat: 'ais',
+      nombre: 'Seitliches Beinheben in Seitlage', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Gluteus medius'], equipo: 'Nichts',
+      cues: ['In Seitlage, Körper in einer Linie, Hüfte senkrecht zum Boden', 'Oberes Bein heben, Ferse leicht nach hinten', 'In 1″ hoch, 1″ halten, in 3″ runter', 'Fußspitze zeigt nach vorne, nicht zur Decke'],
+      err: ['Die Hüfte nach hinten rollen (dann arbeitet der Hüftbeuger, nicht der Po)', 'Das Bein höher heben, als die Hüfte zulässt', 'Zu schnell machen: hier zählt die Zeit unter Spannung'],
+      alt: [{ n: 'Mit Band über den Knien', por: 'wenn 20 Wiederholungen nicht mehr brennen' }, { n: 'Muschel, Knie gebeugt', por: 'wenn der untere Rücken mitmacht' }],
+      mol: 'Das ist zugleich die Reha-Übung für den Gluteus medius: wenn dein Knie beim Laufen oder Kniebeugen nach innen fällt, ist das deine Versicherung.'
+    },
+    'crunch-inverso': { pat: 'flex',
+      nombre: 'Reverse Crunch', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Unterer Bauch'], equipo: 'Nichts',
+      cues: ['Auf dem Rücken, Hände neben dem Körper oder unter dem Kreuzbein', 'Knie zur Brust bringen, indem du das Becken EINROLLST, nicht nur die Hüfte beugst', 'Der untere Rücken hebt sich fingerbreit vom Boden: das ist der ganze Weg', 'In 3″ absenken, ohne die Beine fallen zu lassen'],
+      err: ['Mit den Beinen Schwung holen', 'Beim Absenken ins Hohlkreuz gehen', 'Bewegungsumfang suchen, indem du die ganze Hüfte hebst'],
+      alt: [{ n: 'Hängendes Beinheben', por: 'sobald du eine Stange hast' }, { n: 'Dead Bug', por: 'wenn sich der untere Rücken unkontrolliert abhebt' }],
+      mol: 'Wenn der untere Rücken meckert: Hände unters Kreuzbein und den Weg halbieren, bis die Kontrolle da ist.'
+    },
+    'curl-mochila': { pat: 'curl',
+      nombre: 'Rucksack-Curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bizeps', 'Unterarm'], equipo: 'Rucksack',
+      cues: ['Den Rucksack am oberen Griff oder an beiden Trägern fassen', 'Ellbogen eng am Körper und FIXIERT', 'Hoch ohne Schwung, runter in 3″', 'Du steigerst dich mit Büchern oder Wasserflaschen'],
+      err: ['Mit dem Oberkörper schwingen', 'Die Ellbogen oben nach vorne schieben', 'So schwer packen, dass der Griff vor dem Bizeps aufgibt'],
+      alt: [{ n: 'Selbstwiderstands-Curl mit Handtuch', por: 'ohne Rucksack: ein Arm hebt, der andere bremst' }, { n: 'Kurzhantel-Curl', por: 'sobald du Material hast' }],
+      mol: 'Wenn das Handgelenk meckert: beide Träger statt des Griffs fassen, das hält das Handgelenk neutral.'
+    },
+
     /* — Gym: Drücken — */
     'press-banca': { pat: 'eh',
       nombre: 'Bankdrücken', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Brust', 'Trizeps, vordere Schulter'], equipo: 'Langhantel + Bank',

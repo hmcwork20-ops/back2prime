@@ -361,6 +361,42 @@ window.B2P = (function () {
       mol: 'It’s the safest exercise in the plan; if anything complains, check the lower back isn’t lifting.'
     },
 
+    'pike-flexiones': { pat: 'ev',
+      nombre: 'Pike push-ups', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Front deltoid', 'triceps'], equipo: 'Nothing',
+      cues: ['Upside-down V: hands and feet close in, hips high', 'Your head goes down BETWEEN your hands, not in front of them', 'Elbows at 45° to your body, never flared', 'Lock out fully at the top without shrugging'],
+      err: ['Dropping the hips and turning it into a normal push-up', 'Taking your head in front of your hands (that is where the shoulder pays)', 'Half reps so you can count more of them'],
+      alt: [{ n: 'Feet up on a chair', por: 'once 12 feel easy' }, { n: 'Hands on a step', por: 'if you cannot come down clean yet' }],
+      mol: 'If the shoulder complains: lower the hips a little until the angle feels fine. Vertical pressing asks for more mobility than anything else in the plan.'
+    },
+    'jalon-toalla': { pat: 'tv',
+      nombre: 'Towel lat pulldown', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'Towel',
+      cues: ['Towel tight overhead: one arm pulls down while the other RESISTS', 'The pulling elbow travels to your side, not forward', 'Drive the shoulder blade down and hold 1″', 'Come back up over 3″, braking with the other arm'],
+      err: ['Pulling with the biceps instead of the back', 'Shrugging instead of depressing the shoulder blade', 'Not resisting with the top arm: no tension, no stimulus'],
+      alt: [{ n: 'Inverted row under a solid table', por: 'far more measurable: if you have a table, do that instead' }, { n: 'Pull-ups', por: 'as soon as you have a bar' }],
+      mol: 'With no bar, vertical pulling is the hardest thing to replace honestly: if you can, favour the table row, which actually loads real weight.'
+    },
+    'abduccion-lado': { pat: 'ais',
+      nombre: 'Side-lying hip abduction', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Gluteus medius'], equipo: 'Nothing',
+      cues: ['On your side, body in a line, hips stacked square to the floor', 'Lift the top leg with the heel slightly behind you', 'Up in 1″, hold 1″, down in 3″', 'Toes pointing forward, not at the ceiling'],
+      err: ['Rolling the hip back (then the hip flexor works, not the glute)', 'Lifting the leg higher than the hip allows', 'Rushing: time under tension is the whole point here'],
+      alt: [{ n: 'Band above the knees', por: 'once 20 reps stop burning' }, { n: 'Clamshell, knees bent', por: 'if your lower back joins in' }],
+      mol: 'This doubles as the rehab exercise for the gluteus medius: if your knee caves inward when you run or squat, this is your insurance.'
+    },
+    'crunch-inverso': { pat: 'flex',
+      nombre: 'Reverse crunch', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Lower abs'], equipo: 'Nothing',
+      cues: ['On your back, hands by your sides or under your sacrum', 'Bring the knees to your chest by CURLING the pelvis, not just folding the hip', 'Your lower back lifts a finger off the floor: that is the whole range', 'Come down over 3″ without dropping the legs'],
+      err: ['Swinging the legs for momentum', 'Arching the lower back on the way down', 'Chasing range by lifting the whole hip'],
+      alt: [{ n: 'Hanging leg raise', por: 'once you have a bar' }, { n: 'Dead bug', por: 'if your lower back lifts without control' }],
+      mol: 'If your lower back complains: hands under the sacrum and cut the range in half until the control shows up.'
+    },
+    'curl-mochila': { pat: 'curl',
+      nombre: 'Backpack curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'forearm'], equipo: 'Backpack',
+      cues: ['Grab the backpack by the top handle or by both straps', 'Elbows tight to your body and FIXED', 'Up without swinging, down over 3″', 'You progress by adding books or water bottles'],
+      err: ['Swinging your torso to get it up', 'Letting the elbows drift forward at the top', 'Loading it so heavy that your grip fails before the biceps'],
+      alt: [{ n: 'Self-resisted towel curl', por: 'no backpack: one arm lifts, the other brakes' }, { n: 'Dumbbell curl', por: 'once you have kit' }],
+      mol: 'If your wrist complains: hold both straps instead of the handle, which keeps the wrist neutral.'
+    },
+
     /* — Gym: push — */
     'press-banca': { pat: 'eh',
       nombre: 'Bench Press', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps, front delts'], equipo: 'Barbell + bench',

@@ -362,6 +362,42 @@ window.B2P = (function () {
       mol: 'É o exercício mais seguro do plano; se algo incomodar, confirma que a lombar não se descola.'
     },
 
+    'pike-flexiones': { pat: 'ev',
+      nombre: 'Flexões em pica', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoide anterior', 'tricípite'], equipo: 'Nada',
+      cues: ['V invertido: mãos e pés perto, anca bem no alto', 'A cabeça desce ENTRE as mãos, não à frente', 'Cotovelos a 45° do corpo, nunca abertos', 'Em cima estende por completo, sem encolher os ombros'],
+      err: ['Baixar a anca e transformá-lo numa flexão normal', 'Levar a cabeça à frente das mãos (é aí que o ombro paga)', 'Meio percurso para poder contar mais repetições'],
+      alt: [{ n: 'Com os pés numa cadeira', por: 'quando 12 já saírem fáceis' }, { n: 'Com as mãos num degrau', por: 'se ainda não desces limpo' }],
+      mol: 'Se o ombro incomodar: baixa um pouco a anca até o ângulo ficar confortável. O empurrão vertical é o que mais mobilidade pede em todo o plano.'
+    },
+    'jalon-toalla': { pat: 'tv',
+      nombre: 'Puxada com toalha', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Grande dorsal', 'bicípite'], equipo: 'Toalha',
+      cues: ['Toalha esticada acima da cabeça: um braço puxa para baixo e o outro RESISTE', 'O cotovelo que puxa vai ao lado do corpo, não à frente', 'Baixa a omoplata e aguenta 1″', 'Volta a subir em 3″ a travar com o braço contrário'],
+      err: ['Puxar com o bicípite em vez das costas', 'Encolher o ombro em vez de baixar a omoplata', 'Não resistir com o braço de cima: sem tensão não há estímulo'],
+      alt: [{ n: 'Remada invertida debaixo de uma mesa firme', por: 'muito mais mensurável: se tens mesa, faz antes isso' }, { n: 'Elevações', por: 'assim que tiveres uma barra' }],
+      mol: 'Sem barra, a puxada vertical é a mais difícil de substituir a sério: se puderes, dá prioridade à remada debaixo da mesa, que carrega peso a sério.'
+    },
+    'abduccion-lado': { pat: 'ais',
+      nombre: 'Abdução de anca deitado de lado', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Glúteo médio'], equipo: 'Nada',
+      cues: ['Deitado de lado, corpo alinhado e anca perpendicular ao chão', 'Sobe a perna de cima com o calcanhar ligeiramente atrasado', 'Sobe em 1″, aguenta 1″ e desce em 3″', 'A ponta do pé olha em frente, não para o teto'],
+      err: ['Rodar a anca para trás (assim trabalha o flexor, não o glúteo)', 'Subir a perna mais alto do que a anca permite', 'Ir depressa: aqui manda o tempo sob tensão'],
+      alt: [{ n: 'Com banda acima dos joelhos', por: 'quando 20 repetições deixarem de arder' }, { n: 'Amêijoa, com os joelhos dobrados', por: 'se a lombar se meter ao barulho' }],
+      mol: 'É também o exercício de reabilitação do glúteo médio: se o joelho te cai para dentro a correr ou a agachar, este é o teu seguro.'
+    },
+    'crunch-inverso': { pat: 'flex',
+      nombre: 'Crunch invertido', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Abdómen inferior'], equipo: 'Nada',
+      cues: ['Deitado, mãos ao lado do corpo ou debaixo do sacro', 'Leva os joelhos ao peito ENROLANDO a bacia, não só dobrando a anca', 'A lombar descola um dedo do chão: é esse o percurso todo', 'Desce em 3″ sem deixar cair as pernas'],
+      err: ['Ganhar balanço com as pernas', 'Arquear a lombar ao descer', 'Procurar amplitude levantando a anca inteira'],
+      alt: [{ n: 'Elevação de pernas suspenso', por: 'quando tiveres barra' }, { n: 'Dead bug', por: 'se a lombar descolar sem controlo' }],
+      mol: 'Se a lombar incomodar: mãos debaixo do sacro e corta o percurso a metade até o controlo aparecer.'
+    },
+    'curl-mochila': { pat: 'curl',
+      nombre: 'Curl com mochila', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicípite', 'antebraço'], equipo: 'Mochila',
+      cues: ['Agarra a mochila pela pega de cima ou pelas duas alças', 'Cotovelos colados ao corpo e FIXOS', 'Sobe sem baloiçar e desce em 3″', 'Progrides metendo livros ou garrafas de água'],
+      err: ['Baloiçar o tronco para subir', 'Adiantar os cotovelos na parte alta', 'Carregar tanto a mochila que a preensão falhe antes do bicípite'],
+      alt: [{ n: 'Curl com toalha auto-resistido', por: 'sem mochila: um braço sobe e o outro trava' }, { n: 'Curl com halteres', por: 'quando tiveres material' }],
+      mol: 'Se o punho incomodar: agarra pelas duas alças em vez da pega, que deixa o punho neutro.'
+    },
+
     /* — Ginásio: empurrar — */
     'press-banca': { pat: 'eh',
       nombre: 'Supino', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Peitoral', 'tríceps, deltoide anterior'], equipo: 'Barra + banco',

@@ -361,6 +361,42 @@ window.B2P = (function () {
       mol: 'Es el ejercicio más seguro del plan; si algo molesta, revisa que la lumbar no se despegue.'
     },
 
+    'pike-flexiones': { pat: 'ev',
+      nombre: 'Flexiones en pica', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoides anterior', 'tríceps'], equipo: 'Nada',
+      cues: ['V invertida: manos y pies cerca, cadera bien arriba', 'La cabeza baja ENTRE las manos, no por delante', 'Codos a 45° del cuerpo, nunca en cruz', 'Arriba extiende del todo, sin encoger los hombros'],
+      err: ['Bajar la cadera y convertirlo en una flexión normal', 'Llevar la cabeza por delante de las manos (ahí paga el hombro)', 'Medio recorrido para poder hacer más repeticiones'],
+      alt: [{ n: 'Con los pies en una silla', por: 'cuando 12 salen fáciles' }, { n: 'Con las manos en un escalón', por: 'si todavía no bajas limpio' }],
+      mol: 'Si molesta el hombro: baja un poco la cadera hasta que el ángulo sea cómodo. El empuje vertical es el que más movilidad pide de todo el plan.'
+    },
+    'jalon-toalla': { pat: 'tv',
+      nombre: 'Jalón con toalla', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Toalla',
+      cues: ['Toalla tensa sobre la cabeza: un brazo tira hacia abajo y el otro RESISTE', 'El codo que tira va al costado, no hacia delante', 'Aprieta la escápula hacia abajo y aguanta 1″', 'Vuelve arriba en 3″ frenando con el brazo contrario'],
+      err: ['Tirar con el bíceps en vez de con la espalda', 'Encoger el hombro en vez de bajar la escápula', 'No resistir con el brazo de arriba: sin tensión no hay estímulo'],
+      alt: [{ n: 'Remo invertido bajo una mesa firme', por: 'mucho más medible: si tienes mesa, mejor esto' }, { n: 'Dominadas', por: 'en cuanto tengas una barra' }],
+      mol: 'Sin barra, el tirón vertical es lo más difícil de sustituir de verdad: si puedes, prioriza el remo bajo mesa, que sí carga peso real.'
+    },
+    'abduccion-lado': { pat: 'ais',
+      nombre: 'Abducción tumbado de lado', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Glúteo medio'], equipo: 'Nada',
+      cues: ['Tumbado de lado, cuerpo en línea y cadera perpendicular al suelo', 'Sube la pierna de arriba con el talón ligeramente atrasado', 'Sube en 1″, aguanta 1″ y baja en 3″', 'La punta del pie mira al frente, no al techo'],
+      err: ['Rodar la cadera hacia atrás (entonces trabaja el flexor, no el glúteo)', 'Subir la pierna más alto de lo que la cadera permite', 'Ir rápido: aquí manda el tiempo bajo tensión'],
+      alt: [{ n: 'Con banda por encima de las rodillas', por: 'cuando 20 repeticiones dejen de quemar' }, { n: 'Almeja, con las rodillas dobladas', por: 'si la lumbar se mete en el movimiento' }],
+      mol: 'Es además el ejercicio de rehabilitación del glúteo medio: si la rodilla se te va hacia dentro al correr o al sentadillar, este es tu seguro.'
+    },
+    'crunch-inverso': { pat: 'flex',
+      nombre: 'Crunch inverso', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Abdomen inferior'], equipo: 'Nada',
+      cues: ['Tumbado, manos al lado del cuerpo o bajo el sacro', 'Lleva las rodillas al pecho ENROLLANDO la pelvis, no solo doblando la cadera', 'La lumbar se despega un dedo del suelo: ese es todo el recorrido', 'Baja en 3″ sin dejar caer las piernas'],
+      err: ['Coger impulso con las piernas', 'Arquear la lumbar al bajar', 'Buscar amplitud levantando la cadera entera'],
+      alt: [{ n: 'Elevación de piernas suspendido', por: 'cuando tengas barra' }, { n: 'Dead bug', por: 'si la lumbar se despega sin control' }],
+      mol: 'Si molesta la lumbar: manos bajo el sacro y recorta el recorrido a la mitad hasta que el control llegue.'
+    },
+    'curl-mochila': { pat: 'curl',
+      nombre: 'Curl con mochila', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bíceps', 'antebrazo'], equipo: 'Mochila',
+      cues: ['Agarra la mochila por el asa de arriba o por las dos correas', 'Codos pegados al cuerpo y FIJOS', 'Sube sin balancearte y baja en 3″', 'Progresas metiendo libros o botellas de agua'],
+      err: ['Balancear el tronco para subir', 'Adelantar los codos en la parte alta', 'Cargar tanto la mochila que falle el agarre antes que el bíceps'],
+      alt: [{ n: 'Curl con toalla auto-resistido', por: 'sin mochila: un brazo sube y el otro frena' }, { n: 'Curl con mancuernas', por: 'cuando tengas material' }],
+      mol: 'Si molesta la muñeca: agarra por las dos correas en vez de por el asa, que deja la muñeca neutra.'
+    },
+
     /* — Gym: empuje — */
     'press-banca': { pat: 'eh',
       nombre: 'Press banca', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral', 'tríceps, deltoides anterior'], equipo: 'Barra + banco',

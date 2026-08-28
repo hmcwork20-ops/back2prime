@@ -362,6 +362,42 @@ window.B2P = (function () {
       mol: 'C’est l’exercice le plus sûr du plan ; si quelque chose gêne, vérifie que les lombaires ne décollent pas.'
     },
 
+    'pike-flexiones': { pat: 'ev',
+      nombre: 'Pompes piquées', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoïde antérieur', 'triceps'], equipo: 'Rien',
+      cues: ['V inversé : mains et pieds rapprochés, hanches bien hautes', 'La tête descend ENTRE les mains, pas devant', 'Coudes à 45° du corps, jamais écartés', 'En haut, extension complète sans remonter les épaules'],
+      err: ['Baisser les hanches et en faire une pompe classique', 'Amener la tête devant les mains (c’est là que l’épaule paie)', 'Demi-amplitude pour en compter davantage'],
+      alt: [{ n: 'Pieds sur une chaise', por: 'quand 12 deviennent faciles' }, { n: 'Mains sur une marche', por: 'si tu ne descends pas encore proprement' }],
+      mol: 'Si l’épaule proteste : baisse un peu les hanches jusqu’à ce que l’angle soit confortable. La poussée verticale est ce qui demande le plus de mobilité dans tout le plan.'
+    },
+    'jalon-toalla': { pat: 'tv',
+      nombre: 'Tirage vertical à la serviette', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Grand dorsal', 'biceps'], equipo: 'Serviette',
+      cues: ['Serviette tendue au-dessus de la tête : un bras tire vers le bas, l’autre RÉSISTE', 'Le coude qui tire va vers le flanc, pas vers l’avant', 'Abaisse l’omoplate et tiens 1″', 'Remonte en 3″ en freinant avec l’autre bras'],
+      err: ['Tirer avec le biceps au lieu du dos', 'Hausser l’épaule au lieu d’abaisser l’omoplate', 'Ne pas résister avec le bras du haut : sans tension, pas de stimulus'],
+      alt: [{ n: 'Rowing inversé sous une table solide', por: 'bien plus mesurable : si tu as une table, fais plutôt ça' }, { n: 'Tractions', por: 'dès que tu as une barre' }],
+      mol: 'Sans barre, le tirage vertical est le plus difficile à remplacer honnêtement : si tu peux, privilégie le rowing sous la table, qui charge vraiment.'
+    },
+    'abduccion-lado': { pat: 'ais',
+      nombre: 'Abduction de hanche sur le côté', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Moyen fessier'], equipo: 'Rien',
+      cues: ['Allongé sur le côté, corps aligné, hanches perpendiculaires au sol', 'Monte la jambe du dessus, talon légèrement en arrière', 'Monte en 1″, tiens 1″, descends en 3″', 'La pointe du pied regarde devant, pas le plafond'],
+      err: ['Rouler la hanche vers l’arrière (alors c’est le fléchisseur qui travaille, pas le fessier)', 'Monter la jambe plus haut que la hanche ne le permet', 'Aller vite : ici c’est le temps sous tension qui compte'],
+      alt: [{ n: 'Avec un élastique au-dessus des genoux', por: 'quand 20 répétitions ne brûlent plus' }, { n: 'Clam, genoux pliés', por: 'si le bas du dos s’en mêle' }],
+      mol: 'C’est aussi l’exercice de rééducation du moyen fessier : si ton genou rentre vers l’intérieur en courant ou en squattant, c’est ton assurance.'
+    },
+    'crunch-inverso': { pat: 'flex',
+      nombre: 'Crunch inversé', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Bas des abdominaux'], equipo: 'Rien',
+      cues: ['Sur le dos, mains le long du corps ou sous le sacrum', 'Amène les genoux à la poitrine en ENROULANT le bassin, pas en pliant seulement la hanche', 'Le bas du dos décolle d’un doigt : c’est toute l’amplitude', 'Descends en 3″ sans laisser tomber les jambes'],
+      err: ['Prendre de l’élan avec les jambes', 'Cambrer le bas du dos à la descente', 'Chercher de l’amplitude en levant toute la hanche'],
+      alt: [{ n: 'Relevé de jambes suspendu', por: 'quand tu auras une barre' }, { n: 'Dead bug', por: 'si le bas du dos décolle sans contrôle' }],
+      mol: 'Si le bas du dos proteste : mains sous le sacrum et réduis l’amplitude de moitié le temps que le contrôle arrive.'
+    },
+    'curl-mochila': { pat: 'curl',
+      nombre: 'Curl avec sac à dos', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'avant-bras'], equipo: 'Sac à dos',
+      cues: ['Attrape le sac par la poignée du haut ou par les deux bretelles', 'Coudes collés au corps et FIXES', 'Monte sans balancer, descends en 3″', 'Tu progresses en ajoutant des livres ou des bouteilles d’eau'],
+      err: ['Balancer le buste pour monter', 'Avancer les coudes en haut', 'Charger le sac au point que la prise lâche avant le biceps'],
+      alt: [{ n: 'Curl auto-résisté à la serviette', por: 'sans sac : un bras monte, l’autre freine' }, { n: 'Curl avec haltères', por: 'quand tu auras du matériel' }],
+      mol: 'Si le poignet proteste : attrape les deux bretelles plutôt que la poignée, ça garde le poignet neutre.'
+    },
+
     /* — Salle : poussée — */
     'press-banca': { pat: 'eh',
       nombre: 'Développé couché', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps, deltoïde antérieur'], equipo: 'Barre + banc',

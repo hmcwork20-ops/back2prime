@@ -62,7 +62,8 @@ window.B2P_GEN = (function () {
     ['nada',
       'sentadilla-pc', 'flexiones', 'puente-gluteo', 'plancha', 'elev-talones',
       'zancada-alterna', 'remo-toalla', 'rdl-1p', 'superman', 'dead-bug',
-      'fondos-silla', 'flexion-diamante'],
+      'fondos-silla', 'flexion-diamante', 'pike-flexiones', 'jalon-toalla', 'abduccion-lado',
+      'crunch-inverso', 'curl-mochila'],
     ['casa',
       'plancha-lastre', 'banda-remo', 'banda-jalon', 'banda-rotacion', 'banda-abduccion',
       'elev-laterales', 'encogimientos', 'zancada-mc', 'elev-piernas', 'rueda-abdominal',
@@ -80,7 +81,8 @@ window.B2P_GEN = (function () {
   /* Peso corporal puro: sirve para avisar de que una sustitución bajó a suelo.
      Va aparte porque «mochila» y «escalón» son nivel nada pero no son corporal. */
   const EQ_CORPORAL = new Set(['sentadilla-pc', 'flexiones', 'puente-gluteo', 'plancha',
-    'zancada-alterna', 'superman', 'dead-bug', 'fondos-silla', 'flexion-diamante']);
+    'zancada-alterna', 'superman', 'dead-bug', 'fondos-silla', 'flexion-diamante',
+    'pike-flexiones', 'jalon-toalla', 'abduccion-lado', 'crunch-inverso']);
 
   /* Un ejercicio que no esté en la tabla (añadido nuevo) cae en el filtro por
      texto de siempre: en español acierta, y así nunca desaparece del plan. */

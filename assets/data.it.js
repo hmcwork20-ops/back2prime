@@ -361,6 +361,42 @@ window.B2P = (function () {
       mol: 'È l\'esercizio più sicuro del piano; se qualcosa dà fastidio, controlla che la lombare non si stacchi.'
     },
 
+    'pike-flexiones': { pat: 'ev',
+      nombre: 'Piegamenti a pica', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoide anteriore', 'tricipite'], equipo: 'Niente',
+      cues: ['V rovesciata: mani e piedi vicini, anca bene in alto', 'La testa scende TRA le mani, non davanti', 'Gomiti a 45° dal corpo, mai aperti', 'In alto estendi del tutto, senza alzare le spalle'],
+      err: ['Abbassare l’anca e trasformarlo in un piegamento normale', 'Portare la testa davanti alle mani (lì paga la spalla)', 'Mezza escursione per contarne di più'],
+      alt: [{ n: 'Con i piedi su una sedia', por: 'quando 12 diventano facili' }, { n: 'Con le mani su un gradino', por: 'se ancora non scendi pulito' }],
+      mol: 'Se la spalla protesta: abbassa un po’ l’anca finché l’angolo non è comodo. La spinta verticale è ciò che chiede più mobilità di tutto il piano.'
+    },
+    'jalon-toalla': { pat: 'tv',
+      nombre: 'Lat machine con asciugamano', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Gran dorsale', 'bicipite'], equipo: 'Asciugamano',
+      cues: ['Asciugamano teso sopra la testa: un braccio tira giù e l’altro RESISTE', 'Il gomito che tira va al fianco, non in avanti', 'Abbassa la scapola e tieni 1″', 'Torna su in 3″ frenando con l’altro braccio'],
+      err: ['Tirare con il bicipite invece che con la schiena', 'Alzare la spalla invece di abbassare la scapola', 'Non resistere con il braccio in alto: senza tensione non c’è stimolo'],
+      alt: [{ n: 'Rematore inverso sotto un tavolo solido', por: 'molto più misurabile: se hai un tavolo, meglio quello' }, { n: 'Trazioni', por: 'appena hai una sbarra' }],
+      mol: 'Senza sbarra la tirata verticale è la più difficile da sostituire davvero: se puoi, dai la precedenza al rematore sotto il tavolo, che carica peso vero.'
+    },
+    'abduccion-lado': { pat: 'ais',
+      nombre: 'Abduzione dell’anca su un fianco', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Piccolo e medio gluteo'], equipo: 'Niente',
+      cues: ['Sdraiato su un fianco, corpo in linea e anca perpendicolare al pavimento', 'Alza la gamba di sopra con il tallone leggermente arretrato', 'Sali in 1″, tieni 1″, scendi in 3″', 'La punta del piede guarda avanti, non il soffitto'],
+      err: ['Ruotare l’anca all’indietro (così lavora il flessore, non il gluteo)', 'Alzare la gamba più di quanto l’anca permetta', 'Andare veloce: qui comanda il tempo sotto tensione'],
+      alt: [{ n: 'Con elastico sopra le ginocchia', por: 'quando 20 ripetizioni non bruciano più' }, { n: 'Clam, ginocchia piegate', por: 'se la lombare si intromette' }],
+      mol: 'È anche l’esercizio di riabilitazione del medio gluteo: se il ginocchio ti cade verso l’interno correndo o accosciando, questa è la tua assicurazione.'
+    },
+    'crunch-inverso': { pat: 'flex',
+      nombre: 'Crunch inverso', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Addome basso'], equipo: 'Niente',
+      cues: ['Sdraiato, mani lungo il corpo o sotto il sacro', 'Porta le ginocchia al petto ARROTOLANDO il bacino, non solo piegando l’anca', 'La lombare si stacca di un dito dal pavimento: è tutta l’escursione', 'Scendi in 3″ senza lasciar cadere le gambe'],
+      err: ['Prendere slancio con le gambe', 'Inarcare la lombare mentre scendi', 'Cercare escursione alzando tutta l’anca'],
+      alt: [{ n: 'Sollevamento gambe alla sbarra', por: 'quando avrai una sbarra' }, { n: 'Dead bug', por: 'se la lombare si stacca senza controllo' }],
+      mol: 'Se la lombare protesta: mani sotto il sacro e dimezza l’escursione finché non arriva il controllo.'
+    },
+    'curl-mochila': { pat: 'curl',
+      nombre: 'Curl con zaino', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicipite', 'avambraccio'], equipo: 'Zaino',
+      cues: ['Prendi lo zaino dalla maniglia in alto o dalle due bretelle', 'Gomiti attaccati al corpo e FERMI', 'Sali senza dondolare, scendi in 3″', 'Progredisci mettendoci libri o bottiglie d’acqua'],
+      err: ['Dondolare il busto per salire', 'Portare i gomiti avanti in alto', 'Caricarlo tanto che la presa ceda prima del bicipite'],
+      alt: [{ n: 'Curl con asciugamano auto-resistito', por: 'senza zaino: un braccio sale, l’altro frena' }, { n: 'Curl con manubri', por: 'quando avrai attrezzatura' }],
+      mol: 'Se protesta il polso: prendi le due bretelle invece della maniglia, così il polso resta neutro.'
+    },
+
     /* — Palestra: spinta — */
     'press-banca': { pat: 'eh',
       nombre: 'Panca piana', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorali', 'tricipiti, deltoide anteriore'], equipo: 'Bilanciere + panca',

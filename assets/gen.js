@@ -111,19 +111,30 @@ window.B2P_GEN = (function () {
      sesión, y tus «me gusta» del mazo van primero en la cola de candidatos. */
   function eligeSub(base, id, p, noQuiero, likes, ocupados) {
     const e = base.EJERCICIOS[id]; if (!e) return id;
+    /* Cuántas veces sale ya ese ejercicio en la sesión. Acepta el Map con
+       cuentas y, por compatibilidad, un Set de toda la vida. */
+    const veces = k => !ocupados ? 0
+      : (typeof ocupados.get === 'function' ? (ocupados.get(k) || 0) : (ocupados.has(k) ? 1 : 0));
     const cands = [];
     for (const k of Object.keys(base.EJERCICIOS)) {
       if (k === id) continue;
       const c = base.EJERCICIOS[k];
       if (!equipoValeId(base, k, p.material)) continue;
       if (noQuiero.has('ej:' + k)) continue;
-      if (ocupados && ocupados.has(k)) continue;
-      if (e.pat && c.pat === e.pat) cands.push([k, 0]);      // mismo patrón: primera fila
-      else if (c.zona === e.zona) cands.push([k, 1]);        // misma zona: plan B
+      const mismoPat = !!(e.pat && c.pat === e.pat);
+      if (!mismoPat && c.zona !== e.zona) continue;
+      const n = veces(k);
+      /* Sin material no hay treinta variantes de cada patrón: con cinco días
+         se piden más huecos de bíceps o tríceps de los que existen. Antes que
+         devolver el original —una polea a quien entrena en el salón— se repite,
+         pero repetir el PATRÓN que la sesión pedía va antes que coger otro
+         patrón solo porque esté libre: así la sesión conserva su equilibrio. */
+      cands.push([k, mismoPat ? (n ? 1 : 0) : (n ? 3 : 2), n]);
     }
-    cands.sort((a, b) => (a[1] - b[1])
+    cands.sort((a, b) => (a[1] - b[1])            // preferencia de patrón/zona
+      || (a[2] - b[2])                            // a igualdad, el menos repetido
       || ((likes && likes.has('ej:' + b[0]) ? 1 : 0) - (likes && likes.has('ej:' + a[0]) ? 1 : 0)));
-    return cands.length ? cands[0][0] : id;       // sin candidato: honestidad, se queda
+    return cands.length ? cands[0][0] : id;       // sin nada que ofrecer: se queda
   }
 
   /* ---------- lesiones: qué ejercicios piden cuidado ----------
@@ -177,12 +188,15 @@ window.B2P_GEN = (function () {
          justo lo contrario de lo que promete el reveal). */
       if (p.minSesion && G.durAprox) c.dur = plantilla(G.durAprox, { m: p.minSesion });
       const likes = new Set((p.gustos && p.gustos.like) || []);
-      const enSesion = new Set(c.bloques.map(b => b.e));
+      /* con cuentas, no solo presencia: el reparto de repeticiones lo necesita */
+      const enSesion = new Map();
+      c.bloques.forEach(b => enSesion.set(b.e, (enSesion.get(b.e) || 0) + 1));
       c.bloques = c.bloques.map(b => {
         const nb = Object.assign({}, b);
         const necesitaSub = !equipoValeId(base, b.e, p.material) || noQuiero.has('ej:' + b.e);
         if (necesitaSub) {
-          enSesion.delete(b.e);
+          const quedan = (enSesion.get(b.e) || 1) - 1;   // este bloque deja de ocupar
+          if (quedan > 0) enSesion.set(b.e, quedan); else enSesion.delete(b.e);
           const sub = eligeSub(base, b.e, p, noQuiero, likes, enSesion);
           // la nota vieja hablaba del ejercicio viejo; el contador solo cuenta lo que el calendario usa
           if (sub !== b.e) {
@@ -191,8 +205,10 @@ window.B2P_GEN = (function () {
             // de barra a peso corporal: la dosis se lee distinto y se dice
             if (esCorporalId(sub) && !esCorporalId(b.e) && G.subCorporal)
               nb.n = G.subCorporal;
+            // segunda vuelta: el patrón ya salió antes en esta misma sesión
+            if (enSesion.has(sub) && G.subRepe) nb.n = G.subRepe;
           }
-          enSesion.add(nb.e);
+          enSesion.set(nb.e, (enSesion.get(nb.e) || 0) + 1);
         }
         // chip de cuidado por lesión declarada (por patrón de movimiento)
         for (const z of (p.lesiones || [])) {
@@ -303,14 +319,17 @@ window.B2P_GEN = (function () {
       const fase = faseDe(w, cortes);
       // reactivación en casa al principio, salvo quien ya entrena
       const enCasa = fase === 1 && p.historial !== 'activo';
-      const soloCuerpo = p.material === 'nada';
       let fIdx = 0;
       const diasSemana = PATRON.map(slot => {
         if (slot === 'libre') return 'libre';
         if (slot === 'C') return cardio(fase);
         if (slot === 'O') return { s: cardio(fase), opt: true };
         const i = fIdx++;
-        if (enCasa || soloCuerpo) return i % 2 === 0 ? 'c-a' : 'c-b';
+        /* Los circuitos son la REACTIVACIÓN (fase 1), no el plan entero: sin
+           material se quedaban puestos las doce semanas, con siete patrones de
+           trece y la app anunciando cuatro fases. Ahora sube al mismo reparto
+           que los demás y cada ejercicio se sustituye por su versión corporal. */
+        if (enCasa) return i % 2 === 0 ? 'c-a' : 'c-b';
         return split[i % split.length];
       });
       CAL.push({ n: w, fase, descarga: (w % 9 === 0 && w < ST) || undefined, dias: diasSemana });

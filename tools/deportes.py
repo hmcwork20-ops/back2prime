@@ -45,7 +45,9 @@ def comprime(img_bytes, destino):
     lado = min(w, h)
     im = im.crop(((w - lado) // 2, (h - lado) // 2, (w - lado) // 2 + lado, (h - lado) // 2 + lado))
     im = im.resize((LADO, LADO), Image.LANCZOS)
-    im.save(destino, 'WEBP', quality=80, method=6)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import pictos
+    pictos.transparenta(im).save(destino, 'WEBP', quality=85, method=6)
     return os.path.getsize(destino)
 
 

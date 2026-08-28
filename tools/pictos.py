@@ -42,6 +42,35 @@ PATRONES = {
 }
 
 
+def transparenta(im, tol=55):
+    """Fondo oscuro fuera por flood-fill desde los bordes (los oscuros
+    interiores de la silueta sobreviven), con feather de 1 px."""
+    from PIL import Image, ImageFilter
+    from collections import deque
+    im = im.convert('RGB'); W, H = im.size; px = im.load()
+    esquinas = [px[0, 0], px[W - 1, 0], px[0, H - 1], px[W - 1, H - 1]]
+    bg = tuple(sorted(c[i] for c in esquinas)[1] for i in range(3)); t2 = tol * tol
+    def cerca(p):
+        dr = p[0] - bg[0]; dg = p[1] - bg[1]; db = p[2] - bg[2]
+        return dr * dr + dg * dg + db * db < t2
+    mask = bytearray(W * H); dq = deque()
+    for x in range(W):
+        for y in (0, H - 1):
+            if not mask[y * W + x] and cerca(px[x, y]): mask[y * W + x] = 1; dq.append((x, y))
+    for y in range(H):
+        for x in (0, W - 1):
+            if not mask[y * W + x] and cerca(px[x, y]): mask[y * W + x] = 1; dq.append((x, y))
+    while dq:
+        x, y = dq.popleft()
+        for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+            if 0 <= nx < W and 0 <= ny < H and not mask[ny * W + nx] and cerca(px[nx, ny]):
+                mask[ny * W + nx] = 1; dq.append((nx, ny))
+    a = Image.new('L', (W, H)); a.putdata(bytes(0 if m else 255 for m in mask))
+    a = a.filter(ImageFilter.BoxBlur(1))
+    out = im.convert('RGBA'); out.putalpha(a)
+    return out
+
+
 def comprime(img_bytes, destino):
     from PIL import Image
     im = Image.open(io.BytesIO(img_bytes)).convert('RGB')
@@ -49,7 +78,7 @@ def comprime(img_bytes, destino):
     lado = min(w, h)
     im = im.crop(((w - lado) // 2, (h - lado) // 2, (w - lado) // 2 + lado, (h - lado) // 2 + lado))
     im = im.resize((LADO, LADO), Image.LANCZOS)
-    im.save(destino, 'WEBP', quality=80, method=6)
+    transparenta(im).save(destino, 'WEBP', quality=85, method=6)
     return os.path.getsize(destino)
 
 

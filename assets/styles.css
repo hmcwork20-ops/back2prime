@@ -960,6 +960,18 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .perfil-hero{gap:2px}
 .ph-nombre{font-family:var(--disp);font-weight:700;font-size:27px;letter-spacing:.02em}
 
+/* chip de anyadir dato: la paleta volt de los chips de sugerencia, en pastilla */
+.addchip{display:inline-flex;align-items:center;margin-left:8px;padding:5px 12px;min-height:30px;
+  border-radius:999px;font-size:12px;font-weight:700;font-family:var(--disp);letter-spacing:.05em;text-transform:uppercase;
+  color:var(--volt);background:color-mix(in srgb,var(--volt) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--volt) 30%,transparent);
+  transition:transform var(--t-pulsar) var(--ease-sale),background var(--t-pulsar) var(--ease-sale)}
+.addchip:active{transform:scale(.94);background:color-mix(in srgb,var(--volt) 20%,transparent)}
+
+/* imagenes de las cartas del mazo */
+.qcard .qimg{width:min(58%,168px);aspect-ratio:1;border-radius:18px;object-fit:cover;margin:2px auto 6px;display:block;background:var(--surface2)}
+.qcard .qemoji{font-size:64px;line-height:1.25;margin:6px 0 2px}
+
 /* ---------- Puerta de entrada: alta, reveal, pausa médica y tour ----------
    Durante el alta/cuestionario/reveal la app no tiene barra: no hay a dónde
    ir hasta que existe un plan. La cabecera se queda (la marca saluda). */

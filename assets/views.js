@@ -847,7 +847,10 @@
         if (S.perfil[k] !== undefined) d[k] = Array.isArray(S.perfil[k]) ? S.perfil[k].slice() : S.perfil[k];
       });
       if (d.medico === true) d.medicoOk = 1;      // el visto bueno ya se dio una vez
-      if (!S.ui.quiz) {
+      /* los gustos previos solo se siembran cuando el mazo NO se re-juega
+         («solo datos» o entrada directa); en «solo gustos» y «todo» el mazo
+         empieza de cero a propósito */
+      if (!S.ui.quiz && borr.solo !== 'gustos' && borr.solo !== 'todo') {
         const g = S.perfil.gustos || {};
         S.ui.quiz = { like: {}, no: {} };
         (g.like || []).forEach(k => S.ui.quiz.like[k] = 1);
@@ -875,7 +878,10 @@
       { id: 'sin', t: C.sinT, tipo: 'multi', ops: [['gluten', C.sinGluten], ['lactosa', C.sinLactosa], ['frutos', C.sinFrutos]], nada: C.sinNada },
       { id: 'mazo', tipo: 'mazo' },
       { id: 'resumen', tipo: 'resumen' }
-    ];
+    ].filter(p =>
+      borr.solo === 'gustos' ? (p.tipo === 'mazo' || p.tipo === 'resumen')
+      : borr.solo === 'datos' ? p.tipo !== 'mazo'
+      : true);
 
     function guarda() { U.save(); }
     function avanza() { if (borr.paso < PASOS.length - 1) { borr.paso++; guarda(); pintaPaso(); } }
@@ -1071,10 +1077,14 @@
     const idsEj = deseo.filter(id => D.EJERCICIOS[id]);
     for (const k of Object.keys(D.EJERCICIOS)) { if (idsEj.length >= 10) break; if (!idsEj.includes(k)) idsEj.push(k); }
     const ejs = [], deps = [], coms = [];
+    // las cartas llevan imagen: pictograma del patrón (ejercicios), foto del
+    // plato (comidas) y emoji grande (deportes) — una carta se lee en 1 s
+    const DEP_EMOJI = { running: '🏃', natacion: '🏊', ciclismo: '🚴', padel: '🎾', futbol: '⚽', baloncesto: '🏀', volley: '🏐', yoga: '🧘', calistenia: '🤸', boxeo: '🥊' };
     idsEj.forEach(id => { const e = D.EJERCICIOS[id];
+      const img = (window.B2P_PICTOS && e.pat && window.B2P_PICTOS.includes(e.pat)) ? 'assets/pictos/' + e.pat + '.webp' : null;
       // en la carta, el nombre a secas: la taxonomía «(asistidas → libres…)» no se lee en un segundo
-      ejs.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm }); });
-    (D.QUIZ_DEP || []).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '' }));
+      ejs.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm, img }); });
+    (D.QUIZ_DEP || []).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '', emoji: DEP_EMOJI[dep.id] || '🏅' }));
     /* La dieta se declaró dos pasos antes: una vegana no puntúa diez platos
        de carne. Se filtra con el mismo criterio que usará el motor. */
     const bd = (S.ui.cuest && S.ui.cuest.d) || {};
@@ -1082,7 +1092,7 @@
     (D.RECETAS || [])
       .filter(r => r.slot !== 'snack' && (!window.B2P_GEN || window.B2P_GEN.recetaVale(r, pd, new Set())))
       .slice(0, 10).forEach(r => coms.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
-        sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '' }));
+        sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '', img: U.foto(r.id) }));
     /* intercalado ej→dep→com: 30 decisiones seguidas se llevan mejor variadas
        que en tres bloques monotemáticos de diez */
     const mazo = [];
@@ -1130,7 +1140,9 @@
         const c = el('div', { class: 'qcard' + (i === 1 ? ' detras' : i === 2 ? ' detras2' : '') },
           el('span', { class: 'qsi' }, TX.quizSi), el('span', { class: 'qno' }, TX.quizNo),
           el('div', { class: 'qcat qcat-' + it.cls }, it.cat),
-          it.mm && window.B2P_MAPA ? el('div', { class: 'mapa mapa-carta', html: window.B2P_MAPA.svg(it.mm, { mini: true }) }) : null,
+          it.img ? el('img', { class: 'qimg', src: it.img, alt: '', decoding: 'async' })
+            : it.emoji ? el('div', { class: 'qemoji', 'aria-hidden': 'true' }, it.emoji)
+            : it.mm && window.B2P_MAPA ? el('div', { class: 'mapa mapa-carta', html: window.B2P_MAPA.svg(it.mm, { mini: true }) }) : null,
           el('div', { class: 'qn' }, it.t),
           it.sub ? el('div', { class: 'qz' }, it.sub) : null,
           historia.length === 0 && i === 0 ? el('div', { class: 'mini', style: 'margin-top:6px' }, TX.quizPista) : null);

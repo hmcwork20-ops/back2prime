@@ -743,7 +743,7 @@
         el('p', { class: 'mut' }, D.CIERRE),
         // el final nunca es un callejón: el siguiente bloque está a un toque
         TX.ajRehacer ? el('button', { class: 'btn-b2p', style: 'margin-top:14px', type: 'button',
-          onclick: () => { location.hash = '#/quiz'; } }, TX.ajRehacer) : null));
+          onclick: hojaRehacer }, TX.ajRehacer) : null));
       /* el cierre recapitula con los datos que la app ya tiene: el único
          momento con derecho a números propios no puede ser el más seco */
       const ms = mediasSemanales();
@@ -1081,6 +1081,31 @@
     ['es', '🇪🇸', 'Español'], ['en', '🇬🇧', 'English'], ['fr', '🇫🇷', 'Français'],
     ['de', '🇩🇪', 'Deutsch'], ['it', '🇮🇹', 'Italiano']
   ];
+  /* Rehacer no es una sola puerta: eliges qué rehacer. Solo los datos (el
+     mazo no se toca), solo el mazo (desde cero), o el cuestionario entero. */
+  function hojaRehacer() {
+    openSheet(sh => {
+      sh.append(el('h2', null, TX.ajRehacer), el('div', { class: 'stag' }, TX.rehacerSub));
+      const opcion = (icono, t, sub, solo) => el('button', { class: 'habit wide plano', type: 'button', style: 'margin:5px 0',
+        onclick: () => {
+          delete S.ui.cuest;
+          /* el estado del mazo se limpia SIEMPRE: el prefill del cuestionario
+             lo re-siembra desde el perfil solo cuando el mazo no se re-juega
+             («solo datos») — así un intento abandonado no pisa tus gustos */
+          delete S.ui.quiz;
+          S.ui.cuest = { paso: 0, d: {}, solo };    // el prefill rellena los datos al entrar
+          save(); closeSheet(); location.hash = '#/quiz';
+        } },
+        el('div', { class: 'hicon' }, icono),
+        el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, t), el('div', { class: 'hs' }, sub)));
+      sh.append(
+        opcion('📋', TX.rehacerDatos, TX.rehacerDatosSub, 'datos'),
+        opcion('🃏', TX.rehacerGustos, TX.rehacerGustosSub, 'gustos'),
+        opcion('🔁', TX.rehacerTodo, TX.rehacerTodoSub, 'todo'));
+      sh.append(el('p', { class: 'mini', style: 'margin-top:8px' }, TX.ajRehacerNota));
+    });
+  }
+
   /* Añadir la cintura a posteriori: SOLO el dato que falta, en su hoja.
      No toca ejercicios ni dieta (solo activa la meta y los logros de
      cintura), así que se aplica sin preguntar y el plan se regenera solo. */
@@ -1149,10 +1174,10 @@
       tarj.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.perfilDatosT || C.titulo))));
       filas.forEach(f => tarj.append(el('div', { class: 'cres' },
         f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1],
-        f[2] && TX.perfilCinturaAdd ? el('button', { class: 'plano qaux', type: 'button', style: 'margin-left:8px',
+        f[2] && TX.perfilCinturaAdd ? el('button', { class: 'addchip plano', type: 'button',
           onclick: hojaCintura }, TX.perfilCinturaAdd) : null)));
       tarj.append(el('button', { class: 'btn-b2p', style: 'width:100%;margin-top:8px', type: 'button',
-        onclick: () => { location.hash = '#/quiz'; } }, TX.ajRehacer));
+        onclick: hojaRehacer }, TX.ajRehacer));
       tarj.append(el('p', { class: 'mini', style: 'margin:6px 0 0' }, TX.ajRehacerNota));
       sh.append(tarj);
     }

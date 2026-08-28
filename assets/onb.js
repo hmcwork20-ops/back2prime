@@ -27,7 +27,8 @@
       if (n.length < 2) { U.toast(A.valNombre); inp.focus(); return; }
       S.usuario = { nombre: n, creado: U.hoyISO() };
       U.save();
-      location.hash = '#/quiz';                    // el router hace el resto
+      // si el dispositivo ya tiene un plan (cerraste sesión), se vuelve a él
+      location.hash = S.perfil ? '#/hoy' : '#/quiz';
     };
     inp.addEventListener('keydown', ev => { if (ev.key === 'Enter') crea(); });
     caja.append(el('div', { class: 'field' }, el('label', { for: 'alta-nombre' }, A.nombreL), inp));

@@ -1169,8 +1169,9 @@
           st(TX.nProteLbl, D.META.perfil.proteinaDia + ' g'))));
     }
 
-    // idioma
-    sh.append(el('h4', null, '🌐 ' + TX.ajIdioma));
+    /* ---- ⚙️ Configuración: todo lo que no es tu plan, agrupado ---- */
+    sh.append(el('h4', null, '⚙️ ' + TX.ajustes));
+    sh.append(el('div', { class: 'mini', style: 'margin:2px 0 6px' }, '🌐 ' + TX.ajIdioma));
       const actual = S.config.lang || 'es';
       const fila = el('div', { class: 'langrow' });
       IDIOMAS.forEach(([code, flag, nombre]) => {
@@ -1223,9 +1224,16 @@
       sh.append(el('details', { class: 'fold', style: 'margin-top:12px' },
         el('summary', null, '💾 ' + TX.ajCopia),
         el('div', { class: 'fold-in' }, el('p', { class: 'mini' }, TX.ajCopiaTxt), row)));
-      // reset
-      sh.append(el('h4', null, TX.ajPeligro));
-      sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;color:var(--danger)', onclick: ev => {
+      /* cerrar sesión: sales a la puerta; el plan y los registros se quedan
+         en el dispositivo (al volver a entrar con tu nombre, sigues donde ibas) */
+      if (S.usuario && TX.cerrarSesion) {
+        sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px', type: 'button', onclick: () => {
+          delete S.usuario; save(); location.reload();
+        } }, TX.cerrarSesion));
+        sh.append(el('p', { class: 'mini', style: 'margin:6px 0 0' }, TX.cerrarSesionNota));
+      }
+      // eliminar perfil y datos (armado con desarme: sigue siendo la puerta seria)
+      sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px;color:var(--danger)', onclick: ev => {
         if (ev.target.dataset.arm) { localStorage.removeItem(KEY); location.reload(); }
         else {
           ev.target.dataset.arm = '1'; ev.target.textContent = TX.ajBorrarConfirma;
@@ -1475,6 +1483,7 @@
     load();
     // textos estáticos de index.html al idioma cargado
     $$('.tab span').forEach((s, i) => { if (TX.tabs[i]) s.textContent = TX.tabs[i]; });
+    if (TX.perfilT) $('#btnAjustes').setAttribute('aria-label', TX.perfilT);
     const cOk = $('#celebraOk'); if (cOk) cOk.textContent = TX.celebraOk;
     document.documentElement.lang = TX.lang;
     medirCabecera();

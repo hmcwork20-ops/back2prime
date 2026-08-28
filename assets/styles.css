@@ -802,7 +802,14 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .qbtn.si:active{background:var(--volt);color:var(--volt-ink)}
 .qbtn.no:active{background:color-mix(in srgb,var(--danger) 20%,var(--surface2))}
 .quiz-aux{display:flex;gap:22px;justify-content:center;margin-top:12px}
-.qaux{min-height:44px;padding:0 10px;font-size:13px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px}
+/* acciones secundarias (atrás, deshacer, saltar, cerrar…): la misma pastilla
+   volt del chip de añadir dato — una sola voz para todo lo auxiliar */
+.qaux{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:6px 14px;
+  border-radius:999px;font-size:12px;font-weight:700;font-family:var(--disp);letter-spacing:.05em;text-transform:uppercase;
+  color:var(--volt);background:color-mix(in srgb,var(--volt) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--volt) 30%,transparent);text-decoration:none;
+  transition:transform var(--t-pulsar) var(--ease-sale),background var(--t-pulsar) var(--ease-sale)}
+.qaux:active{transform:scale(.94);background:color-mix(in srgb,var(--volt) 20%,transparent)}
 
 /* Versión nueva esperando: píldora persistente sobre la barra, al alcance del
    pulgar. Es un botón de verdad (44 px) y no caduca sola: una actualización
@@ -982,6 +989,9 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 .fab:active{transform:scale(.9)}
 body.onb .fab{display:none}
 .bsq-res{margin-top:10px;min-height:120px}
+
+.ico{display:inline-flex;vertical-align:-3px;line-height:0}
+summary .ico,.hicon .ico{vertical-align:middle}
 
 /* ---------- Puerta de entrada: alta, reveal, pausa médica y tour ----------
    Durante el alta/cuestionario/reveal la app no tiene barra: no hay a dónde

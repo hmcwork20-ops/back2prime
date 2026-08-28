@@ -66,15 +66,16 @@
     /* Como Comida y Progreso: burbujas-ancla con scroll-spy sobre una sola
        página apilada — nada de subpáginas que cambian bajo la misma pestaña.
        La Ciencia vive ahora en Mi Perfil, como lectura extra. */
-    const IDS_P = [['pl-fases', TX.segPlan[0]], ['pl-ej', TX.segPlan[2]]];
+    const IDS_P = [['pl-cal', TX.vCalendario], ['pl-fases', TX.chipFases || TX.vFasesDetalle], ['pl-ej', TX.segPlan[2]]];
     root.append(chipNav(IDS_P));
-    const sFases = el('div', { id: 'pl-fases' }); secFases(sFases); root.append(sFases);
+    const sCal = el('div', { id: 'pl-cal' }); secCal(sCal); root.append(sCal);
+    const sFases = el('div', { id: 'pl-fases' }); secFasesDetalle(sFases); root.append(sFases);
     const sEj = el('div', { id: 'pl-ej' }); secEjercicios(sEj); root.append(sEj);
 
     /* las Reglas viven ahora en Mi Perfil → Detrás del plan */
 
-    /* ---- FASES: fase actual + calendario + las 4 fases ---- */
-    function secFases(root) {
+    /* ---- CALENDARIO: la fase de hoy + las 4 fases con sus semanas dentro ---- */
+    function secCal(root) {
     // cabecera de fase actual
     if (faseAct) {
       root.append(el('div', { class: 'card fase-card p' + faseAct.id },
@@ -87,31 +88,32 @@
       root.append(el('div', { class: 'banner' }, el('div', null, el('b', null, tpl(TX.planEmpiezaTitulo, { f: U.fmtFecha(D.META.inicioISO) })), el('div', null, TX.planEmpiezaTxt))));
     }
 
+    /* cada fase es un desplegable: el anillo de color, el rango y las fechas
+       a la vista; sus semanas (con hito y estado) se abren al tocarla */
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vCalendario)));
-    const tcal = el('div', { class: 'tw' }, el('table', null,
-      el('tr', null, el('th'), el('th', null, TX.fase), el('th', null, TX.sem), el('th', null, TX.fechasLbl), el('th', null, 'RPE')),
-      D.FASES.map(f => el('tr', faseAct && f.id === faseAct.id ? { class: 'now' } : null,
-        el('td', null, el('span', { class: 'disco d' + f.id }, String(f.disco))),
-        el('td', null, el('b', null, f.nombre), el('div', { class: 'mini' }, f.sub)),
-        el('td', { class: 'sr' }, f.semanas[0] + '–' + f.semanas[f.semanas.length - 1]),
-        el('td', null, f.fechas),
-        el('td', { class: 'sr' }, f.rpe)))));
-    root.append(tcal);
-
-    // 12 semanas con estado
-    const tsem = el('table', null, el('tr', null, el('th', null, TX.sem), el('th', null, TX.fechasLbl), el('th', null, TX.especial), el('th', null, TX.fuerzaLbl)));
-    for (let i = 1; i <= SEMANAS; i++) {
-      const fs = U.fechasSemana(i), ses = U.sesionesFuerzaSemana(i), done = ses.filter(s => s.hecho).length;
-      const hito = D.HITOS_SEMANA[i];
-      tsem.append(el('tr', i === w ? { class: 'now' } : null,
-        el('td', { class: 'sr' }, 'S' + i),
-        el('td', null, U.fmtCorta(fs.ini) + ' – ' + U.fmtCorta(fs.fin)),
-        el('td', { class: 'mini' }, hito ? hito.t : '—'),
-        el('td', { class: 'sr' }, fs.ini <= hoy ? done + '/' + ses.length : '·')));
+    D.FASES.forEach(f => {
+      const activa = faseAct && f.id === faseAct.id;
+      const tsem = el('table', null, el('tr', null, el('th', null, TX.sem), el('th', null, TX.fechasLbl), el('th', null, TX.especial), el('th', null, TX.fuerzaLbl)));
+      f.semanas.forEach(i => {
+        const fs = U.fechasSemana(i), ses = U.sesionesFuerzaSemana(i), done = ses.filter(s => s.hecho).length;
+        const hito = D.HITOS_SEMANA[i];
+        tsem.append(el('tr', i === w ? { class: 'now' } : null,
+          el('td', { class: 'sr' }, 'S' + i),
+          el('td', null, U.fmtCorta(fs.ini) + ' – ' + U.fmtCorta(fs.fin)),
+          el('td', { class: 'mini' }, hito ? hito.t : '—'),
+          el('td', { class: 'sr' }, fs.ini <= hoy ? done + '/' + ses.length : '·')));
+      });
+      root.append(el('details', { class: 'fold' + (activa ? ' now' : ''), ...(activa ? { open: '' } : {}) },
+        el('summary', null,
+          el('span', { class: 'disco d' + f.id, style: 'width:26px;height:26px;border-width:4px;font-size:10px;margin-right:2px' }, String(f.disco)),
+          el('b', null, f.nombre),
+          el('span', { class: 'mini', style: 'margin-left:8px' }, 'S' + f.semanas[0] + '–S' + f.semanas[f.semanas.length - 1] + ' · ' + f.fechas + ' · RPE ' + f.rpe)),
+        el('div', { class: 'fold-in' }, el('div', { class: 'tw' }, tsem))));
+    });
     }
-    root.append(el('div', { class: 'tw' }, tsem));
 
-    // Fases en detalle
+    /* ---- LAS 4 FASES, AL DETALLE ---- */
+    function secFasesDetalle(root) {
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vFasesDetalle)));
     const DIAS_C = TX.dias.map(d => d.slice(0, 2));
     D.FASES.forEach(f => {
@@ -163,7 +165,7 @@
           el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => U.fichaEjercicio(r.ej, {}) },
             el('b', null, D.EJERCICIOS[r.ej].nombre), el('div', { class: 'mini' }, r.n))),
           el('td', { class: 'sr' }, r.s3), el('td', { class: 'sr' }, r.s4), el('td', { class: 'sr' }, r.s5))));
-        kids.push(el('div', { class: 'regla destaca' }, el('b', null, '🔓 ' + A.titulo), A.derivacion));
+        kids.push(el('div', { class: 'regla destaca' }, el('b', null, A.titulo), A.derivacion));
         kids.push(el('div', { class: 'tw' }, ta));
         kids.push(el('p', { class: 'mini' }, A.resto));
         kids.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, 'Te van a parecer pesos ridículos'), el('div', null, A.aviso))));
@@ -175,19 +177,8 @@
     });
     }
 
-    /* ---- EJERCICIOS: seguros del plan + biblioteca ---- */
+    /* ---- EJERCICIOS: la biblioteca (los seguros viven en Detrás del plan) ---- */
     function secEjercicios(root) {
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vSeguros)));
-    root.append(el('div', { class: 'card' },
-      el('div', { class: 'card-title' }, el('div', null, el('h2', null, '🛡 ' + D.TENDON.titulo))),
-      el('p', { style: 'font-size:14px' }, D.TENDON.intro),
-      D.TENDON.bloques.map(b => el('div', { class: 'regla', style: 'margin:8px 0' }, el('b', null, b.nombre), el('div', { class: 'mini', style: 'margin-bottom:3px' }, '📍 ' + b.donde), b.detalle)),
-      el('p', { class: 'mini' }, '⚠ ' + D.TENDON.nota)));
-    // la tarjeta de carrera solo existe si el plan corre (el motor la anula si no)
-    if (D.CARRERA) root.append(el('div', { class: 'card' },
-      el('div', { class: 'card-title' }, el('div', null, el('h2', null, '🏃 ' + D.CARRERA.titulo))),
-      el('ul', { style: 'font-size:14px;padding-left:19px' }, D.CARRERA.reglas.map(r => el('li', null, r)))));
-
     // Biblioteca de ejercicios
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vBiblioteca), el('span', { class: 'mini' }, TX.vTocaCualquiera)));
     const ZONAS = [['empuje', TX.zonas.empuje], ['tiron', TX.zonas.tiron], ['pierna', TX.zonas.pierna], ['core', TX.zonas.core]];
@@ -319,7 +310,7 @@
     // suplementos + agua
     root.append(el('div', { id: 'n-supl', class: 'sec-h' }, el('h2', null, TX.nSupl)));
     root.append(el('div', { class: 'regla-g' }, D.NUTRI.suplementos.map(s => el('div', { class: 'regla' }, el('b', null, s.t), s.d))));
-    root.append(el('p', { class: 'mini', style: 'margin:12px 2px' }, '💧 ' + D.NUTRI.hidratacion));
+    root.append(el('p', { class: 'mini', style: 'margin:12px 2px' }, D.NUTRI.hidratacion));
   }
 
   function sheetReceta(r) {
@@ -339,7 +330,7 @@
       sh.append(el('div', { class: 'tw' }, t));
       sh.append(el('h4', null, TX.nPasos));
       sh.append(el('ol', { style: 'padding-left:20px;font-size:14px' }, r.pasos.map(p => el('li', { style: 'margin:6px 0' }, p))));
-      if (r.tips) sh.append(el('div', { class: 'alt', style: 'margin-top:12px' }, el('b', null, '💡 '), r.tips));
+      if (r.tips) sh.append(el('div', { class: 'alt', style: 'margin-top:12px' }, r.tips));
     });
   }
   U.sheetReceta = sheetReceta;   // la usa la tarjeta «La comida de hoy» (app.js)
@@ -512,7 +503,7 @@
     D.CHECKPOINTS.forEach(c => {
       const m = U.mediaSemana(c.sem);
       const dentro = m !== null && (c.dir === 'sube' ? m >= c.rango[0] : m <= c.rango[1]);
-      const estado = m === null ? '—' : (dentro ? '✅ ' + U.kg1(m) : '⚠ ' + U.kg1(m));
+      const estado = m === null ? '—' : (dentro ? '✓ ' + U.kg1(m) : '! ' + U.kg1(m));
       tc.append(el('tr', w === c.sem ? { class: 'now' } : null,
         el('td', null, 'S' + c.sem + ' · ' + U.fmtCorta(c.fecha)),
         el('td', { class: 'sr' }, U.kg1(c.rango[0]) + '–' + U.kg1(c.rango[1])),
@@ -795,7 +786,7 @@
     D.LOGROS.filter(l => !l.disco).forEach(l => {
       const won = S.logros[l.id];
       grid.append(el('div', { class: 'b2-badge' + (won ? '' : ' locked') },
-        el('div', { class: 'bi' }, l.icon),
+        el('div', { class: 'bi' }, U.icoLogro ? U.icoLogro(l, 30) : l.icon),
         el('div', { class: 'bn' }, l.nombre),
         el('div', { class: 'bd' }, l.desc),
         won ? el('div', { class: 'bwhen' }, '✓ ' + U.fmtCorta(won)) : null));
@@ -1070,7 +1061,9 @@
       const img = (window.B2P_PICTOS && e.pat && window.B2P_PICTOS.includes(e.pat)) ? 'assets/pictos/' + e.pat + '.webp' : null;
       // en la carta, el nombre a secas: la taxonomía «(asistidas → libres…)» no se lee en un segundo
       ejs.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm, img }); });
-    (D.QUIZ_DEP || []).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '', emoji: DEP_EMOJI[dep.id] || '🏅' }));
+    (D.QUIZ_DEP || []).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '',
+      img: (window.B2P_DEPORTES || []).includes(dep.id) ? 'assets/deportes/' + dep.id + '.webp' : null,
+      emoji: DEP_EMOJI[dep.id] || '🏅' }));
     /* La dieta se declaró dos pasos antes: una vegana no puntúa diez platos
        de carne. Se filtra con el mismo criterio que usará el motor. */
     const bd = (S.ui.cuest && S.ui.cuest.d) || {};

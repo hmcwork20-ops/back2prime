@@ -84,23 +84,23 @@
       el('span', { class: 'rev-ico', 'aria-hidden': 'true' }, icono),
       el('div', { class: 'rev-txt' }, el('div', { class: 'rev-rt' }, t), sub ? el('div', { class: 'mini' }, sub) : null)));
     dec.forEach(x => {
-      if (x.k === 'split') fila('🏋️', tpl(R.splitT, { d: x.d }), x.tipo === 'fb' ? R.splitFb : x.tipo === 'tp' ? R.splitTp : R.splitPpl);
-      else if (x.k === 'kcal') fila('🔥', tpl(R.kcalT, { k: fmtN(x.v) }),
+      if (x.k === 'split') fila(U.icono('mancuerna', 20), tpl(R.splitT, { d: x.d }), x.tipo === 'fb' ? R.splitFb : x.tipo === 'tp' ? R.splitTp : R.splitPpl);
+      else if (x.k === 'kcal') fila(U.icono('flame', 20), tpl(R.kcalT, { k: fmtN(x.v) }),
         // redondeo a 25: «superávit de 260» era ruido de redondeos encadenados
         x.delta < -100 ? tpl(R.kDef, { v: fmtN(Math.round(-x.delta / 25) * 25) })
           : x.delta > 100 ? tpl(R.kSup, { v: fmtN(Math.round(x.delta / 25) * 25) }) : R.kMan);
-      else if (x.k === 'prot') fila('💪', tpl(R.protT, { p: x.v }), tpl(R.protSub, { v: String(x.kg).replace('.', ',') }));
-      else if (x.k === 'dur') fila('📅', tpl(R.durT, { s: x.s }),
+      else if (x.k === 'prot') fila(U.icono('rayo', 20), tpl(R.protT, { p: x.v }), tpl(R.protSub, { v: String(x.kg).replace('.', ',') }));
+      else if (x.k === 'dur') fila(U.icono('calendario', 20), tpl(R.durT, { s: x.s }),
         x.abierto && R.durOpen ? tpl(R.durOpen, { s: x.s }) : tpl(R.durSub, { a: fmtF(x.a), b: fmtF(x.b) }));
-      else if (x.k === 'min' && R.minT) fila('⏱', tpl(R.minT, { v: x.v }), R.minSub);
+      else if (x.k === 'min' && R.minT) fila(U.icono('reloj', 20), tpl(R.minT, { v: x.v }), R.minSub);
       else if (x.k === 'evento' && R.evT) {
         const evTxt = { boda: C.evBoda, oposicion: C.evOpo, verano: C.evVerano }[x.v] || x.v;
-        fila('🎯', tpl(R.evT, { e: evTxt }), R.evSub);
+        fila(U.icono('diana', 20), tpl(R.evT, { e: evTxt }), R.evSub);
       }
-      else if (x.k === 'subs') fila('🔁', tpl(R.subsT, { n: x.n }), R.subsSub);
-      else if (x.k === 'cuida') fila('🛡️', tpl(R.cuidaT, { a: x.zonas.map(z => lesionTxt[z] || z).join(' · ') }), R.cuidaSub);
-      else if (x.k === 'menu') fila('🍽️', R.menuT, x.avisos > 0 ? tpl(R.menuAv, { n: x.avisos }) : R.menuSub);
-      else if (x.k === 'gustos') fila('👍', tpl(R.gustosT, { a: x.likes, b: x.nos }), R.gustosSub);
+      else if (x.k === 'subs') fila(U.icono('repetir', 20), tpl(R.subsT, { n: x.n }), R.subsSub);
+      else if (x.k === 'cuida') fila(U.icono('escudo', 20), tpl(R.cuidaT, { a: x.zonas.map(z => lesionTxt[z] || z).join(' · ') }), R.cuidaSub);
+      else if (x.k === 'menu') fila(U.icono('cubiertos', 20), R.menuT, x.avisos > 0 ? tpl(R.menuAv, { n: x.avisos }) : R.menuSub);
+      else if (x.k === 'gustos') fila(U.icono('pulgar', 20), tpl(R.gustosT, { a: x.likes, b: x.nos }), R.gustosSub);
     });
     caja.append(lista);
     caja.append(el('button', { class: 'btn-b2p', style: 'width:100%', type: 'button', onclick: () => {
@@ -125,7 +125,7 @@
   function renderGate(root) {
     const S = U.S, C = TX.cuest;
     root.append(el('div', { class: 'alta', style: 'min-height:60vh' },
-      el('div', { style: 'font-size:44px;text-align:center', 'aria-hidden': 'true' }, '🩺'),
+      el('div', { style: 'text-align:center', 'aria-hidden': 'true' }, U.icono('corazon', 42)),
       el('h2', { style: 'text-align:center' }, C.gateHoyT),
       el('p', { class: 'mut', style: 'text-align:center' }, C.gateHoyTxt),
       el('button', { class: 'btn-b2p', style: 'width:100%', type: 'button', onclick: () => {

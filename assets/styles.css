@@ -852,7 +852,7 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
 #confetti{position:fixed;inset:0;z-index:96;pointer-events:none}
 
 /* ---------- Selector de idioma ---------- */
-.langrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:4px 0 8px}
+.langrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:4px 0 8px}
 .langbtn{
   display:flex;flex-direction:column;align-items:center;gap:3px;
   background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);

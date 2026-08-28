@@ -107,7 +107,7 @@ try {
 (function () {
   try {
     var lang = ((JSON.parse(localStorage.b2p_v1 || '{}').config || {}).lang) || 'es';
-    if (['en', 'fr', 'de', 'it'].indexOf(lang) >= 0) {
+    if (['en', 'fr', 'de', 'it', 'pt'].indexOf(lang) >= 0) {
       document.write('<scr' + 'ipt src="assets/data.' + lang + '.js"></scr' + 'ipt>');
     }
   } catch (e) { }

@@ -1102,7 +1102,8 @@
   /* ---------------- ajustes / backup ---------------- */
   const IDIOMAS = [
     ['es', '🇪🇸', 'Español'], ['en', '🇬🇧', 'English'], ['fr', '🇫🇷', 'Français'],
-    ['de', '🇩🇪', 'Deutsch'], ['it', '🇮🇹', 'Italiano']
+    ['de', '🇩🇪', 'Deutsch'], ['it', '🇮🇹', 'Italiano'],
+    ['pt', '🇵🇹', 'Português']
   ];
   /* ---------------- buscador global ----------------
      Una burbuja flotante abre un buscador que lleva a cualquier parte:

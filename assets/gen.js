@@ -50,7 +50,46 @@ window.B2P_GEN = (function () {
   function addD(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
   function corta(d, meses) { return d.getDate() + ' ' + meses[d.getMonth()]; }
 
-  /* ---------- material y sustituciones ---------- */
+  /* ---------- material y sustituciones ----------
+     El material se decide por ID, no por el texto del campo `equipo`: ese
+     texto se traduce («Polea alta» → «Lat pulldown» → «Polia alta») y con él
+     el filtro dejaba pasar barras y poleas a un plan de casa en cuanto la app
+     no estaba en español. Los ids no se traducen nunca. La tabla se generó
+     del español, así que en castellano el plan sale idéntico a antes. */
+  const EQ_NIVEL = { nada: 0, casa: 1, gym: 2 };
+  const EQ_ID = {};
+  [
+    ['nada',
+      'sentadilla-pc', 'flexiones', 'puente-gluteo', 'plancha', 'elev-talones',
+      'zancada-alterna', 'remo-toalla', 'rdl-1p', 'superman', 'dead-bug'],
+    ['casa',
+      'plancha-lastre', 'banda-remo', 'banda-jalon', 'banda-rotacion', 'banda-abduccion',
+      'elev-laterales', 'encogimientos', 'zancada-mc', 'elev-piernas', 'rueda-abdominal',
+      'curl-martillo'],
+    ['gym',
+      'press-banca', 'press-inclinado-mc', 'press-inclinado-barra', 'press-plano-mc',
+      'press-militar', 'press-militar-mc', 'laterales-polea', 'fondos', 'ext-triceps-polea',
+      'ext-triceps-cabeza', 'press-frances', 'remo-barra', 'remo-polea', 'remo-mancuerna',
+      'jalon-pecho', 'jalon-estrecho', 'dominadas', 'pullover-polea', 'face-pull',
+      'sentadilla-barra', 'prensa', 'rdl-barra', 'hip-thrust', 'zancada-bulgara',
+      'ext-cuadriceps', 'curl-femoral-tumbado', 'curl-femoral-sentado', 'gemelo-pie',
+      'gemelo-sentado', 'crunch-polea', 'curl-barra-z', 'curl-inclinado', 'curl-polea']
+  ].forEach(fila => fila.slice(1).forEach(id => { EQ_ID[id] = fila[0]; }));
+
+  /* Peso corporal puro: sirve para avisar de que una sustitución bajó a suelo.
+     Va aparte porque «mochila» y «escalón» son nivel nada pero no son corporal. */
+  const EQ_CORPORAL = new Set(['sentadilla-pc', 'flexiones', 'puente-gluteo', 'plancha',
+    'zancada-alterna', 'superman', 'dead-bug']);
+
+  /* Un ejercicio que no esté en la tabla (añadido nuevo) cae en el filtro por
+     texto de siempre: en español acierta, y así nunca desaparece del plan. */
+  function equipoValeId(base, id, material) {
+    const n = EQ_ID[id];
+    if (n === undefined) return equipoVale(((base.EJERCICIOS || {})[id] || {}).equipo, material);
+    return EQ_NIVEL[n] <= (EQ_NIVEL[material] !== undefined ? EQ_NIVEL[material] : 2);
+  }
+  const esCorporalId = id => EQ_CORPORAL.has(id);
+
   function equipoVale(txt, material) {
     const t = (txt || '').toLowerCase();
     if (material === 'gym') return true;
@@ -73,7 +112,7 @@ window.B2P_GEN = (function () {
     for (const k of Object.keys(base.EJERCICIOS)) {
       if (k === id) continue;
       const c = base.EJERCICIOS[k];
-      if (!equipoVale(c.equipo, p.material)) continue;
+      if (!equipoValeId(base, k, p.material)) continue;
       if (noQuiero.has('ej:' + k)) continue;
       if (ocupados && ocupados.has(k)) continue;
       if (e.pat && c.pat === e.pat) cands.push([k, 0]);      // mismo patrón: primera fila
@@ -138,7 +177,7 @@ window.B2P_GEN = (function () {
       const enSesion = new Set(c.bloques.map(b => b.e));
       c.bloques = c.bloques.map(b => {
         const nb = Object.assign({}, b);
-        const necesitaSub = !equipoVale((base.EJERCICIOS[b.e] || {}).equipo, p.material) || noQuiero.has('ej:' + b.e);
+        const necesitaSub = !equipoValeId(base, b.e, p.material) || noQuiero.has('ej:' + b.e);
         if (necesitaSub) {
           enSesion.delete(b.e);
           const sub = eligeSub(base, b.e, p, noQuiero, likes, enSesion);
@@ -147,7 +186,7 @@ window.B2P_GEN = (function () {
             nb.e = sub; nb.n = null;
             if (!usados || usados.has(id)) cambiados.add(b.e);
             // de barra a peso corporal: la dosis se lee distinto y se dice
-            if (esCorporal((base.EJERCICIOS[sub] || {}).equipo) && !esCorporal((base.EJERCICIOS[b.e] || {}).equipo) && G.subCorporal)
+            if (esCorporalId(sub) && !esCorporalId(b.e) && G.subCorporal)
               nb.n = G.subCorporal;
           }
           enSesion.add(nb.e);
@@ -823,7 +862,7 @@ window.B2P_GEN = (function () {
 
   // recetaVale se exporta para que el mazo y el recetario filtren en vivo
   // el mazo del cuestionario filtra sus cartas con los mismos criterios que el motor
-  return { generarPlan, recetaVale, equipoVale, tocaLesion };
+  return { generarPlan, recetaVale, equipoVale, equipoValeId, tocaLesion };
 })();
 
 /* Si hay perfil guardado, el plan del arranque ES el generado: se sustituye

@@ -614,6 +614,34 @@ window.B2P = (function () {
       mol: 'Sem incidentes típicos se fletires a partir das costelas.'
     },
 
+    'fondos-silla': { pat: 'ext', pic: 'fondos',
+      nombre: 'Dips na cadeira', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricípite', 'peito baixo, ombro'], equipo: 'Nada (cadeira ou sofá)',
+      cues: ['Mãos na borda da cadeira, dedos para fora, ombros LONGE das orelhas', 'Desce até 90° de cotovelo, nem um grau mais: abaixo disso quem paga é o ombro', 'Cotovelos para trás, a roçar o corpo, nunca abertos', 'As costas sobem e descem coladas ao canto da cadeira'],
+      err: ['Descer até ao fundo à procura de alongamento (é assim que nasce a dor de ombro)', 'Afastar tanto os pés que o peso vai parar às pernas', 'Encolher os ombros na direção das orelhas'],
+      alt: [{ n: 'Com os joelhos dobrados e os pés perto', por: 'se não saírem 8 limpas' }, { n: 'Com os pés noutra cadeira', por: 'quando 15 já forem fáceis' }],
+      mol: 'Se o ombro incomodar à frente: encurta o percurso para 60°, ou troca por flexões diamante, que deixam a articulação em paz.'
+    },
+    'flexion-diamante': { pat: 'ext', pic: 'eh',
+      nombre: 'Flexões diamante', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricípite', 'peitoral interno'], equipo: 'Nada',
+      cues: ['Indicadores e polegares a formar um losango debaixo do esterno', 'Cotovelos colados ao corpo durante todo o percurso', 'Corpo em prancha: glúteo e abdómen apertados', 'Peito às mãos, e em cima estende por completo'],
+      err: ['Abrir os cotovelos (passa a ser uma flexão normal)', 'Pôr as mãos à altura da cara em vez do esterno', 'Anca a ceder'],
+      alt: [{ n: 'Com as mãos no sofá ou numa mesa', por: 'se do chão não saírem limpas' }, { n: 'Com os pés elevados', por: 'se passares de 12 fáceis' }],
+      mol: 'Se o punho incomodar: apoia nos punhos ou desce aos joelhos. Se for o cotovelo, sobe para 15 repetições e abranda o ritmo.'
+    },
+    'ext-triceps-banda': { pat: 'ext',
+      nombre: 'Extensão de tricípite com banda', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricípite (as três cabeças)'], equipo: 'Elástico',
+      cues: ['Prende a banda em cima (porta ou puxador) e dá um passo atrás', 'Cotovelos colados às costelas e QUIETOS: só o antebraço se mexe', 'Estende até ao bloqueio suave e aguenta 1″ em baixo', 'Volta em 2-3″ a resistir ao elástico'],
+      err: ['Deixar os cotovelos viajar para a frente ou para cima', 'Empurrar com o ombro, inclinando o tronco', 'Largar a volta e deixar o elástico mandar'],
+      alt: [{ n: 'Acima da cabeça com a banda pisada', por: 'trabalha mais a cabeça longa' }, { n: 'Kickback com haltere', por: 'se não tiveres onde prender' }],
+      mol: 'É o exercício mais simpático com o cotovelo de todo o plano: quando os outros incomodam, costuma ser o refúgio. Sobe repetições antes de subir a dureza da banda.'
+    },
+    'press-frances-mc': { pat: 'ext',
+      nombre: 'French press com halteres', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricípite (cabeça longa)'], equipo: 'Halteres',
+      cues: ['Deitado no chão, halteres em cima, palmas viradas uma para a outra', 'Desce na direção das orelhas dobrando só o cotovelo, em 2-3″', 'Cotovelos a apontar ao teto e quietos', 'Estende sem bloquear de repente'],
+      err: ['Deixar os cotovelos abrirem para fora', 'Transformá-lo num press mexendo o ombro', 'Descer tão depressa que o chão trave o haltere'],
+      alt: [{ n: 'Extensão acima da cabeça sentado', por: 'mais percurso na cabeça longa' }, { n: 'Extensão de tricípite com banda', por: 'se o cotovelo pedir tensão mais suave' }],
+      mol: 'Se o cotovelo incomodar: passa para a versão com banda a 15 repetições. O chão, ainda por cima, corta-te o percurso mesmo onde o cotovelo sofre.'
+    },
     /* — Braços — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'Curl com barra W', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bíceps'], equipo: 'Barra W',

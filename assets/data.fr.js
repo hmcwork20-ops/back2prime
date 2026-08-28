@@ -615,6 +615,34 @@ window.B2P = (function () {
       mol: 'Pas d’incident typique si tu fléchis depuis les côtes.'
     },
 
+    'fondos-silla': { pat: 'ext', pic: 'fondos',
+      nombre: 'Dips sur chaise', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'bas des pectoraux, épaule'], equipo: 'Rien (chaise ou canapé)',
+      cues: ['Mains au bord de la chaise, doigts vers l’extérieur, épaules LOIN des oreilles', 'Descends jusqu’à 90° au coude, pas un degré de plus : en dessous, c’est l’épaule qui paie', 'Coudes vers l’arrière, frôlant le corps, jamais écartés', 'Le dos monte et descend collé au bord de la chaise'],
+      err: ['Descendre à fond en cherchant l’étirement (c’est là que naît la douleur d’épaule)', 'Éloigner les pieds au point que le poids parte dans les jambes', 'Remonter les épaules vers les oreilles'],
+      alt: [{ n: 'Genoux pliés, pieds rapprochés', por: 'si tu ne sors pas 8 répétitions propres' }, { n: 'Pieds sur une deuxième chaise', por: 'quand 15 deviennent faciles' }],
+      mol: 'Si l’avant de l’épaule proteste : réduis l’amplitude à 60°, ou passe aux pompes diamant, qui laissent l’articulation tranquille.'
+    },
+    'flexion-diamante': { pat: 'ext', pic: 'eh',
+      nombre: 'Pompes diamant', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'pectoral interne'], equipo: 'Rien',
+      cues: ['Index et pouces formant un losange sous le sternum', 'Coudes collés au corps pendant tout le mouvement', 'Corps en planche : fessiers et abdos serrés', 'Poitrine aux mains, puis extension complète en haut'],
+      err: ['Ouvrir les coudes (ça redevient une pompe classique)', 'Poser les mains sous le visage au lieu du sternum', 'Bassin qui s’affaisse'],
+      alt: [{ n: 'Mains sur le canapé ou une table', por: 'si au sol elles ne sortent pas propres' }, { n: 'Pieds surélevés', por: 'si tu dépasses 12 faciles' }],
+      mol: 'Si le poignet proteste : appuie sur les poings ou passe à genoux. Si c’est le coude, monte à 15 répétitions et ralentis le tempo.'
+    },
+    'ext-triceps-banda': { pat: 'ext',
+      nombre: 'Extension triceps à l’élastique', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (les trois chefs)'], equipo: 'Élastique',
+      cues: ['Fixe l’élastique en hauteur (porte ou poignée) et recule d’un pas', 'Coudes collés aux côtes et IMMOBILES : seul l’avant-bras bouge', 'Étends jusqu’au verrouillage souple et tiens 1″ en bas', 'Reviens en 2-3″ en résistant à l’élastique'],
+      err: ['Laisser les coudes partir vers l’avant ou vers le haut', 'Pousser avec l’épaule en penchant le buste', 'Lâcher le retour et laisser l’élastique commander'],
+      alt: [{ n: 'Au-dessus de la tête, élastique sous les pieds', por: 'travaille davantage le chef long' }, { n: 'Kickback avec haltère', por: 'si tu n’as nulle part où fixer' }],
+      mol: 'C’est l’exercice le plus tendre avec le coude de tout le plan : quand les autres gênent, c’est souvent le refuge. Monte les répétitions avant la dureté de l’élastique.'
+    },
+    'press-frances-mc': { pat: 'ext',
+      nombre: 'Barre au front avec haltères', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (chef long)'], equipo: 'Haltères',
+      cues: ['Allongé au sol, haltères en haut, paumes face à face', 'Descends vers les oreilles en pliant seulement le coude, en 2-3″', 'Coudes pointés vers le plafond et immobiles', 'Étends sans verrouiller d’un coup'],
+      err: ['Laisser les coudes s’ouvrir', 'En faire un développé en bougeant l’épaule', 'Descendre si vite que le sol arrête l’haltère'],
+      alt: [{ n: 'Extension au-dessus de la tête assis', por: 'plus d’amplitude sur le chef long' }, { n: 'Extension triceps à l’élastique', por: 'si le coude demande une tension plus douce' }],
+      mol: 'Si le coude proteste : passe à la version élastique à 15 répétitions. Le sol te coupe en plus l’amplitude juste là où le coude souffre.'
+    },
     /* — Bras — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'Curl barre EZ', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'Barre EZ',

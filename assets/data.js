@@ -613,6 +613,34 @@ window.B2P = (function () {
       mol: 'Sin incidencias típicas si flexionas desde las costillas.'
     },
 
+    'fondos-silla': { pat: 'ext', pic: 'fondos',
+      nombre: 'Fondos en silla', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tríceps', 'pecho bajo, hombro'], equipo: 'Nada (silla o sofá)',
+      cues: ['Manos en el borde de la silla, dedos hacia fuera y hombros LEJOS de las orejas', 'Baja hasta 90° de codo, ni un grado más: por debajo el hombro paga la factura', 'Codos hacia atrás, rozando el cuerpo, nunca abiertos', 'La espalda sube y baja pegada al canto de la silla'],
+      err: ['Bajar hasta el fondo buscando estiramiento (así nace el dolor de hombro)', 'Alejar tanto los pies que el peso se vaya a las piernas', 'Encoger los hombros hacia las orejas'],
+      alt: [{ n: 'Con las rodillas dobladas y los pies cerca', por: 'si no salen 8 limpios' }, { n: 'Con los pies en otra silla', por: 'cuando pasas de 15 fáciles' }],
+      mol: 'Si molesta el hombro por delante: acorta el recorrido a 60° o cámbialo por flexiones diamante, que no comprometen la articulación.'
+    },
+    'flexion-diamante': { pat: 'ext', pic: 'eh',
+      nombre: 'Flexiones diamante', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tríceps', 'pectoral interno'], equipo: 'Nada',
+      cues: ['Índices y pulgares formando un rombo bajo el esternón', 'Codos pegados al cuerpo durante todo el recorrido', 'Cuerpo en tabla: glúteo y abdomen apretados', 'Pecho a las manos, y arriba extiende del todo'],
+      err: ['Abrir los codos (se convierte en una flexión normal)', 'Poner las manos a la altura de la cara en vez del esternón', 'Cadera caída'],
+      alt: [{ n: 'Con las manos en el sofá o una mesa', por: 'si del suelo no salen limpias' }, { n: 'Con los pies elevados', por: 'si superas 12 fáciles' }],
+      mol: 'Si molesta la muñeca: apoya en puños o baja a rodillas. Si molesta el codo, sube a 15 repeticiones y baja el ritmo.'
+    },
+    'ext-triceps-banda': { pat: 'ext',
+      nombre: 'Extensión de tríceps con banda', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tríceps (las tres cabezas)'], equipo: 'Banda',
+      cues: ['Ancla la banda en alto (puerta o pomo) y da un paso atrás', 'Codos pegados al costado y QUIETOS: solo se mueve el antebrazo', 'Extiende hasta el bloqueo suave y aguanta 1″ abajo', 'Vuelve en 2-3″ resistiendo la goma'],
+      err: ['Que los codos viajen hacia delante o hacia arriba', 'Empujar con el hombro inclinando el tronco', 'Soltar la vuelta y dejar que la banda mande'],
+      alt: [{ n: 'Sobre la cabeza con la banda pisada', por: 'trabaja más la cabeza larga' }, { n: 'Patada de tríceps con mancuerna', por: 'si no tienes dónde anclar' }],
+      mol: 'Es el ejercicio más amable con el codo del plan: si otros molestan, este suele ser el refugio. Sube repeticiones antes que dureza de banda.'
+    },
+    'press-frances-mc': { pat: 'ext',
+      nombre: 'Press francés con mancuernas', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Mancuernas',
+      cues: ['Tumbado en el suelo, mancuernas arriba con las palmas enfrentadas', 'Baja hacia las orejas doblando solo el codo, en 2-3″', 'Codos apuntando al techo y quietos', 'Extiende sin bloquear de golpe'],
+      err: ['Que los codos se abran hacia fuera', 'Convertirlo en press moviendo el hombro', 'Bajar tan rápido que el suelo frene la mancuerna'],
+      alt: [{ n: 'Extensión sobre la cabeza sentado', por: 'más recorrido en la cabeza larga' }, { n: 'Extensión de tríceps con banda', por: 'si el codo pide tensión más suave' }],
+      mol: 'Si molesta el codo: cámbialo por la versión con banda a 15 repeticiones. El suelo, además, te corta el recorrido justo donde el codo sufre.'
+    },
     /* — Brazos — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'Curl con barra Z', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bíceps'], equipo: 'Barra Z',

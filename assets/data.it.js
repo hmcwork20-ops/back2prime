@@ -613,6 +613,34 @@ window.B2P = (function () {
       mol: 'Nessun problema tipico se fletti dalle costole.'
     },
 
+    'fondos-silla': { pat: 'ext', pic: 'fondos',
+      nombre: 'Dips sulla sedia', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricipite', 'petto basso, spalla'], equipo: 'Niente (sedia o divano)',
+      cues: ['Mani sul bordo della sedia, dita in fuori, spalle LONTANE dalle orecchie', 'Scendi fino a 90° di gomito, nemmeno un grado di più: sotto paga la spalla', 'Gomiti indietro, che sfiorano il corpo, mai aperti', 'La schiena sale e scende incollata al bordo della sedia'],
+      err: ['Scendere fino in fondo cercando l’allungamento (è così che nasce il dolore di spalla)', 'Allontanare i piedi al punto che il peso finisce sulle gambe', 'Alzare le spalle verso le orecchie'],
+      alt: [{ n: 'Ginocchia piegate, piedi vicini', por: 'se non escono 8 ripetizioni pulite' }, { n: 'Piedi su una seconda sedia', por: 'quando 15 diventano facili' }],
+      mol: 'Se la parte anteriore della spalla protesta: accorcia l’escursione a 60°, oppure passa ai piegamenti a diamante, che lasciano stare l’articolazione.'
+    },
+    'flexion-diamante': { pat: 'ext', pic: 'eh',
+      nombre: 'Piegamenti a diamante', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricipite', 'petto interno'], equipo: 'Niente',
+      cues: ['Indici e pollici a formare un rombo sotto lo sterno', 'Gomiti attaccati al corpo per tutta la ripetizione', 'Corpo in plank: glutei e addome stretti', 'Petto alle mani, e in alto estendi del tutto'],
+      err: ['Aprire i gomiti (torna a essere un piegamento normale)', 'Mettere le mani sotto il viso invece che sotto lo sterno', 'Bacino che cede'],
+      alt: [{ n: 'Mani sul divano o su un tavolo', por: 'se a terra non escono pulite' }, { n: 'Piedi rialzati', por: 'se superi 12 facili' }],
+      mol: 'Se protesta il polso: appoggia sui pugni o scendi sulle ginocchia. Se protesta il gomito, sali a 15 ripetizioni e rallenta il tempo.'
+    },
+    'ext-triceps-banda': { pat: 'ext',
+      nombre: 'Estensione tricipiti con elastico', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricipite (tutti e tre i capi)'], equipo: 'Elastico',
+      cues: ['Fissa l’elastico in alto (porta o maniglia) e fai un passo indietro', 'Gomiti attaccati ai fianchi e FERMI: si muove solo l’avambraccio', 'Estendi fino al blocco morbido e tieni 1″ in basso', 'Torna in 2-3″ resistendo all’elastico'],
+      err: ['Lasciare che i gomiti scappino avanti o in alto', 'Spingere con la spalla inclinando il busto', 'Mollare il ritorno e lasciare comandare l’elastico'],
+      alt: [{ n: 'Sopra la testa con l’elastico sotto i piedi', por: 'colpisce di più il capo lungo' }, { n: 'Kickback con manubrio', por: 'se non hai dove fissarlo' }],
+      mol: 'È l’esercizio più gentile con il gomito di tutto il piano: quando gli altri danno fastidio, di solito è il rifugio. Aumenta le ripetizioni prima della durezza dell’elastico.'
+    },
+    'press-frances-mc': { pat: 'ext',
+      nombre: 'French press con manubri', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricipite (capo lungo)'], equipo: 'Manubri',
+      cues: ['Sdraiato a terra, manubri in alto, palmi che si guardano', 'Scendi verso le orecchie piegando solo il gomito, in 2-3″', 'Gomiti puntati al soffitto e fermi', 'Estendi senza bloccare di colpo'],
+      err: ['Lasciare che i gomiti si aprano', 'Trasformarlo in una spinta muovendo la spalla', 'Scendere così in fretta che il pavimento fermi il manubrio'],
+      alt: [{ n: 'Estensione sopra la testa da seduto', por: 'più escursione sul capo lungo' }, { n: 'Estensione tricipiti con elastico', por: 'se il gomito chiede tensione più dolce' }],
+      mol: 'Se protesta il gomito: passa alla versione con elastico a 15 ripetizioni. Il pavimento inoltre ti taglia l’escursione proprio dove il gomito soffre.'
+    },
     /* — Braccia — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'Curl con bilanciere EZ', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bicipiti'], equipo: 'Bilanciere EZ',

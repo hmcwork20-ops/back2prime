@@ -613,6 +613,34 @@ window.B2P = (function () {
       mol: 'No typical issues if you flex from the ribs.'
     },
 
+    'fondos-silla': { pat: 'ext', pic: 'fondos',
+      nombre: 'Chair dips', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'lower chest, shoulder'], equipo: 'Nothing (chair or sofa)',
+      cues: ['Hands on the chair edge, fingers pointing out, shoulders AWAY from your ears', 'Go down to 90° at the elbow and no further: below that your shoulder pays for it', 'Elbows back, brushing your body, never flared', 'Your back slides up and down against the chair edge'],
+      err: ['Dropping all the way down chasing a stretch (that is how shoulder pain starts)', 'Placing your feet so far out that the weight shifts to your legs', 'Shrugging your shoulders towards your ears'],
+      alt: [{ n: 'Knees bent, feet close in', por: 'if you cannot get 8 clean reps' }, { n: 'Feet up on a second chair', por: 'once 15 feel easy' }],
+      mol: 'If the front of the shoulder complains: shorten the range to 60°, or swap in diamond push-ups, which leave the joint alone.'
+    },
+    'flexion-diamante': { pat: 'ext', pic: 'eh',
+      nombre: 'Diamond push-ups', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'inner chest'], equipo: 'Nothing',
+      cues: ['Index fingers and thumbs forming a diamond under your sternum', 'Elbows tight to your body through the whole rep', 'Body in a plank: glutes and abs squeezed', 'Chest to your hands, then lock out fully at the top'],
+      err: ['Letting the elbows flare (it turns into a normal push-up)', 'Putting your hands under your face instead of your sternum', 'Hips sagging'],
+      alt: [{ n: 'Hands on the sofa or a table', por: 'if floor reps are not clean yet' }, { n: 'Feet elevated', por: 'once you pass 12 easy reps' }],
+      mol: 'If your wrist complains: go up on fists or drop to your knees. If the elbow does, move to 15 reps and slow the tempo down.'
+    },
+    'ext-triceps-banda': { pat: 'ext',
+      nombre: 'Band triceps pushdown', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (all three heads)'], equipo: 'Band',
+      cues: ['Anchor the band high (door or handle) and take a step back', 'Elbows pinned to your sides and STILL: only the forearm moves', 'Extend to a soft lockout and hold 1″ at the bottom', 'Come back up over 2-3″, resisting the band'],
+      err: ['Letting the elbows drift forward or up', 'Pushing with the shoulder by leaning your torso in', 'Letting go on the way up and letting the band run the show'],
+      alt: [{ n: 'Overhead with the band under your feet', por: 'hits the long head harder' }, { n: 'Dumbbell kickback', por: 'if you have nowhere to anchor' }],
+      mol: 'This is the kindest exercise on the elbow in the plan: when others hurt, this is usually the refuge. Add reps before you add band tension.'
+    },
+    'press-frances-mc': { pat: 'ext',
+      nombre: 'Dumbbell skull crushers', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (long head)'], equipo: 'Dumbbells',
+      cues: ['Lying on the floor, dumbbells up, palms facing each other', 'Lower towards your ears bending only the elbow, over 2-3″', 'Elbows pointing at the ceiling and still', 'Extend without snapping into lockout'],
+      err: ['Letting the elbows flare out', 'Turning it into a press by moving the shoulder', 'Dropping so fast that the floor stops the dumbbell'],
+      alt: [{ n: 'Seated overhead extension', por: 'more range on the long head' }, { n: 'Band triceps pushdown', por: 'if your elbow wants gentler tension' }],
+      mol: 'If your elbow complains: switch to the band version at 15 reps. The floor also cuts the range exactly where the elbow suffers.'
+    },
     /* — Arms — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'EZ Bar Curl', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'EZ bar',

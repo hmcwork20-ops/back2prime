@@ -613,6 +613,34 @@ window.B2P = (function () {
       mol: 'Keine typischen Beschwerden, wenn du aus den Rippen beugst.'
     },
 
+    'fondos-silla': { pat: 'ext', pic: 'fondos',
+      nombre: 'Dips am Stuhl', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Trizeps', 'untere Brust, Schulter'], equipo: 'Nichts (Stuhl oder Sofa)',
+      cues: ['Hände auf die Stuhlkante, Finger nach außen, Schultern WEG von den Ohren', 'Nur bis 90° im Ellbogen herunter, kein Grad tiefer: darunter zahlt die Schulter', 'Ellbogen nach hinten, am Körper entlang, nie ausgestellt', 'Der Rücken gleitet dicht an der Stuhlkante auf und ab'],
+      err: ['Ganz tief gehen, um zu dehnen (so entstehen Schulterschmerzen)', 'Die Füße so weit weg setzen, dass das Gewicht in die Beine wandert', 'Die Schultern zu den Ohren ziehen'],
+      alt: [{ n: 'Knie gebeugt, Füße nah am Körper', por: 'wenn keine 8 sauberen Wiederholungen kommen' }, { n: 'Füße auf einem zweiten Stuhl', por: 'wenn 15 leicht fallen' }],
+      mol: 'Wenn die Schulter vorne meckert: Bewegungsumfang auf 60° kürzen oder auf Diamant-Liegestütze wechseln, die das Gelenk in Ruhe lassen.'
+    },
+    'flexion-diamante': { pat: 'ext', pic: 'eh',
+      nombre: 'Diamant-Liegestütze', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Trizeps', 'innere Brust'], equipo: 'Nichts',
+      cues: ['Zeigefinger und Daumen bilden eine Raute unter dem Brustbein', 'Ellbogen die ganze Wiederholung über eng am Körper', 'Körper wie ein Brett: Po und Bauch fest', 'Brust zu den Händen, oben ganz durchstrecken'],
+      err: ['Die Ellbogen ausstellen (dann ist es ein normaler Liegestütz)', 'Die Hände unter das Gesicht setzen statt unter das Brustbein', 'Durchhängende Hüfte'],
+      alt: [{ n: 'Hände auf Sofa oder Tisch', por: 'wenn es am Boden noch nicht sauber läuft' }, { n: 'Füße erhöht', por: 'wenn du über 12 leichte schaffst' }],
+      mol: 'Wenn das Handgelenk meckert: auf Fäusten stützen oder auf die Knie gehen. Meckert der Ellbogen, geh auf 15 Wiederholungen und mach das Tempo langsamer.'
+    },
+    'ext-triceps-banda': { pat: 'ext',
+      nombre: 'Trizepsdrücken am Band', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Trizeps (alle drei Köpfe)'], equipo: 'Band',
+      cues: ['Band hoch befestigen (Tür oder Griff) und einen Schritt zurücktreten', 'Ellbogen an den Rippen und STILL: nur der Unterarm bewegt sich', 'Bis zur weichen Streckung ausstrecken und unten 1″ halten', 'In 2-3″ zurück, gegen das Band arbeiten'],
+      err: ['Die Ellbogen nach vorne oder oben wandern lassen', 'Mit der Schulter drücken, indem du dich vorlehnst', 'Den Rückweg loslassen und das Band bestimmen lassen'],
+      alt: [{ n: 'Über Kopf, Band unter den Füßen', por: 'trifft den langen Kopf stärker' }, { n: 'Kickback mit Kurzhantel', por: 'wenn du nichts zum Befestigen hast' }],
+      mol: 'Das ist die ellbogenfreundlichste Übung im Plan: wenn andere zwicken, ist das meist die Zuflucht. Erhöhe die Wiederholungen, bevor du ein härteres Band nimmst.'
+    },
+    'press-frances-mc': { pat: 'ext',
+      nombre: 'Stirndrücken mit Kurzhanteln', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Trizeps (langer Kopf)'], equipo: 'Kurzhanteln',
+      cues: ['Am Boden liegend, Hanteln oben, Handflächen zueinander', 'In 2-3″ Richtung Ohren senken, nur der Ellbogen beugt', 'Ellbogen zeigen zur Decke und bleiben still', 'Strecken, ohne ruckartig einzurasten'],
+      err: ['Die Ellbogen nach außen ausstellen', 'Daraus ein Drücken machen, indem die Schulter mitgeht', 'So schnell absenken, dass der Boden die Hantel stoppt'],
+      alt: [{ n: 'Überkopfstrecken im Sitzen', por: 'mehr Bewegungsumfang für den langen Kopf' }, { n: 'Trizepsdrücken am Band', por: 'wenn der Ellbogen sanftere Spannung will' }],
+      mol: 'Wenn der Ellbogen meckert: auf die Bandvariante mit 15 Wiederholungen wechseln. Der Boden kürzt den Weg außerdem genau dort, wo der Ellbogen leidet.'
+    },
     /* — Arme — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'SZ-Curls', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Bizeps'], equipo: 'SZ-Stange',

@@ -1000,6 +1000,10 @@ summary .ico,.hicon .ico{vertical-align:middle}
 .qfin-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:280px;margin:0 auto}
 .qfin-cta{width:100%;max-width:280px;margin:6px auto 0}
 
+/* fila del resumen tocable: se lee igual, pero lleva a su paso */
+.cres-btn{display:flex;align-items:center;gap:2px;width:100%;text-align:left;min-height:38px;color:var(--ink)}
+.cres-btn:active{opacity:.7}
+
 /* ---------- Puerta de entrada: alta, reveal, pausa médica y tour ----------
    Durante el alta/cuestionario/reveal la app no tiene barra: no hay a dónde
    ir hasta que existe un plan. La cabecera se queda (la marca saluda). */

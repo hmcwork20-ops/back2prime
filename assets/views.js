@@ -505,12 +505,17 @@
     const tc = el('table', null, el('tr', null, el('th', null, TX.pFecha), el('th', null, TX.pEsperado), el('th', null, TX.pReal), el('th', null, TX.pSiDesvias)));
     D.CHECKPOINTS.forEach(c => {
       const m = U.mediaSemana(c.sem);
-      const dentro = m !== null && (c.dir === 'sube' ? m >= c.rango[0] : m <= c.rango[1]);
-      const estado = m === null ? '—' : (dentro ? '✓ ' + U.kg1(m) : '! ' + U.kg1(m));
+      /* el corredor es un corredor: se comprueban LOS DOS lados. Antes, quien
+         bajaba de más recibía un ✓ verde mientras la alerta de ritmo le decía
+         que frenara — dos componentes de la misma pantalla en contra. */
+      const G = TX.gen || {};
+      const fuera = m === null ? null : (m < c.rango[0] ? 'bajo' : m > c.rango[1] ? 'alto' : null);
+      const estado = m === null ? '—' : (!fuera ? '✓ ' + U.kg1(m) : (fuera === 'bajo' ? '↓ ' : '↑ ') + U.kg1(m));
+      const glosa = m === null ? null : (!fuera ? G.chkDentro : fuera === 'bajo' ? G.chkBajo : G.chkAlto);
       tc.append(el('tr', w === c.sem ? { class: 'now' } : null,
         el('td', null, 'S' + c.sem + ' · ' + U.fmtCorta(c.fecha)),
         el('td', { class: 'sr' }, U.kg1(c.rango[0]) + '–' + U.kg1(c.rango[1])),
-        el('td', { class: 'sr' }, estado),
+        el('td', { class: 'sr' }, estado, glosa ? el('div', { class: 'mini' }, glosa) : null),
         el('td', { class: 'mini' }, c.si)));
     });
     root.append(el('div', { class: 'tw' }, tc));
@@ -882,7 +887,7 @@
         el('i', { style: 'transform:scaleX(' + ((borr.paso + 1) / PASOS.length).toFixed(4) + ')' }));
       root.append(barra);
 
-      if (paso.tipo === 'mazo') { montaMazo(root, avanza); return; }
+      if (paso.tipo === 'mazo') { montaMazo(root, avanza, borr.paso > 0 ? atras : null); return; }
       if (paso.tipo === 'resumen') { pintaResumen(root); return; }
 
       root.append(el('div', { class: 'cuest-t' }, paso.t));
@@ -1001,18 +1006,28 @@
       /* cada fila con su etiqueta: «Frutos secos» a secas no dice si te gustan
          o los evitas — el resumen es un contrato y se lee sin adivinar */
       const filas = [];
-      if (d.edad) filas.push([null, d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg' + (d.sexo !== undefined ? ' · ' + dame('sexo', d.sexo) : '')]);
+      if (d.edad) filas.push([null, d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg' + (d.sexo !== undefined ? ' · ' + dame('sexo', d.sexo) : ''), 'medidas']);
       [['objetivo', C.resLObj], ['evento', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
        ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
-        if (d[par[0]] !== undefined) filas.push([par[1], dame(par[0], d[par[0]])]);
+        if (d[par[0]] !== undefined) filas.push([par[1], dame(par[0], d[par[0]]), par[0]]);
       });
-      if (d.diasSemana) filas.push([null, d.diasSemana + '×' + (d.minSesion || '—') + '′']);
-      if (Array.isArray(d.lesiones) && d.lesiones.length) filas.push([C.resLLes, d.lesiones.map(x => dame('lesiones', x)).join(' · ')]);
-      if (Array.isArray(d.sin) && d.sin.length) filas.push([C.resLSin, d.sin.map(x => dame('sin', x)).join(' · ')]);
-      filas.push([null, tpl(C.resGustos, { a: Object.keys(est.like || {}).length, b: Object.keys(est.no || {}).length })]);
+      if (d.diasSemana) filas.push([null, d.diasSemana + '×' + (d.minSesion || '—') + '′', 'diasSemana']);
+      if (Array.isArray(d.lesiones) && d.lesiones.length) filas.push([C.resLLes, d.lesiones.map(x => dame('lesiones', x)).join(' · '), 'lesiones']);
+      if (Array.isArray(d.sin) && d.sin.length) filas.push([C.resLSin, d.sin.map(x => dame('sin', x)).join(' · '), 'sin']);
+      filas.push([null, tpl(C.resGustos, { a: Object.keys(est.like || {}).length, b: Object.keys(est.no || {}).length }), 'mazo']);
       const tarjeta = el('div', { class: 'card', style: 'gap:8px' });
-      filas.forEach(f => tarjeta.append(el('div', { class: 'cres' },
-        f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1])));
+      /* cada fila salta a su paso: el resumen es el único sitio donde se ven
+         los 14 datos juntos, o sea donde se detecta el error — y ahí hay que
+         poder corregirlo sin rehacer el cuestionario entero */
+      filas.forEach(f => {
+        const iPaso = f[2] !== undefined ? PASOS.findIndex(x => x.id === f[2]) : -1;
+        if (iPaso < 0) { tarjeta.append(el('div', { class: 'cres' }, f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1])); return; }
+        tarjeta.append(el('button', { class: 'cres cres-btn plano', type: 'button',
+          onclick: () => { borr.paso = iPaso; guarda(); pintaPaso(); } },
+          f[0] ? el('span', { class: 'cres-l' }, f[0]) : null,
+          el('span', { style: 'flex:1' }, f[1]),
+          el('span', { class: 'mini', style: 'color:var(--ink3)' }, '›')));
+      });
       cont.append(tarjeta);
 
       if (!apto) {
@@ -1049,12 +1064,26 @@
   }
 
   /* ---- el mazo de gustos, ahora como pieza del flujo ---- */
-  function montaMazo(root, alFinal) {
+  function montaMazo(root, alFinal, alAtras) {
     const TX = U.TX, S = U.S, tpl = U.tpl;
     const menosMovimiento = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const deseo = ['press-banca', 'sentadilla-barra', 'dominadas', 'remo-barra', 'rdl-barra',
       'flexiones', 'fondos', 'plancha', 'burpees', 'zancadas'];
-    const idsEj = deseo.filter(id => D.EJERCICIOS[id]);
+    /* las cartas se puntúan sobre lo que TU plan puede proponerte: dos pasos
+       antes declaraste material y lesiones, así que no se pregunta por barra
+       a quien entrena en casa ni por press a quien declaró hombro */
+    const bd0 = (S.ui.cuest && S.ui.cuest.d) || {};
+    const mat = bd0.material || (S.perfil && S.perfil.material) || 'gym';
+    const lesD = Array.isArray(bd0.lesiones) ? bd0.lesiones : ((S.perfil && S.perfil.lesiones) || []);
+    const G2 = window.B2P_GEN;
+    const cartaVale = id => {
+      const e = D.EJERCICIOS[id]; if (!e) return false;
+      if (G2 && G2.equipoVale && !G2.equipoVale(e.equipo, mat)) return false;
+      if (G2 && G2.tocaLesion && lesD.some(z => G2.tocaLesion(D, z, id))) return false;
+      return true;
+    };
+    const idsEj = deseo.filter(id => D.EJERCICIOS[id] && cartaVale(id));
+    for (const k of Object.keys(D.EJERCICIOS)) { if (idsEj.length >= 10) break; if (!idsEj.includes(k) && cartaVale(k)) idsEj.push(k); }
     for (const k of Object.keys(D.EJERCICIOS)) { if (idsEj.length >= 10) break; if (!idsEj.includes(k)) idsEj.push(k); }
     const ejs = [], deps = [], coms = [];
     // las cartas llevan imagen: pictograma del patrón (ejercicios), foto del
@@ -1100,6 +1129,9 @@
       el('button', { class: 'qbtn si plano', type: 'button', 'aria-label': TX.quizSi, onclick: () => resolver(true, null) }, '\u2713'));
     root.append(fila);
     root.append(el('div', { class: 'quiz-aux' },
+      // el mazo también tiene puerta de salida hacia atrás: sin ella, un dato
+      // mal puesto en los pasos previos no se podía corregir antes de generar
+      alAtras ? el('button', { class: 'plano qaux', type: 'button', onclick: alAtras }, (TX.cuest && TX.cuest.atras) || '') : null,
       el('button', { class: 'plano qaux', type: 'button', onclick: deshacer }, TX.quizDeshacer),
       el('button', { class: 'plano qaux', type: 'button', onclick: alFinal }, TX.quizSaltar)));
 

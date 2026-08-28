@@ -211,8 +211,9 @@
   function checkpointOk(i) {
     const cp = D.CHECKPOINTS[i]; if (!cp || hoyISO() < cp.fecha) return false;
     const m = mediaSemana(cp.sem); if (m === null) return false;
-    // «dentro o mejor» depende de hacia dónde va el plan
-    return cp.dir === 'sube' ? m >= cp.rango[0] : m <= cp.rango[1];
+    // dentro del corredor es DENTRO, por los dos lados: la insignia y el
+    // banner de ritmo leen ahora el mismo hecho y no pueden contradecirse
+    return m >= cp.rango[0] && m <= cp.rango[1];
   }
 
   /* Los logros generados traen umbrales a medida (kg-5, kgup-2, cint-83…):
@@ -913,8 +914,14 @@
         // bloque tendón contextual
         const tb = [];
         // el bloque rotuliano de F1 es del que vuelve o empieza; quien entrena ya no reactiva nada
-        if (sl.ses.tendon === 'rodilla' || (fase.id === 1 && D.META.historial !== 'activo')) tb.push(D.TENDON.bloques[0]);
-        if (['torso-a', 'torso-b', 'fb-a', 'fb-b', 'push-a', 'pull-a', 'push-b', 'pull-b'].includes(sl.sid)) tb.push(D.TENDON.bloques[3]);
+        /* los bloques ya vienen filtrados por perfil (gen.js): aquí solo se
+           elige cuál toca hoy por su id, no por su posición */
+        const bloqPorId = id2 => (D.TENDON.bloques || []).find(b => b.id === id2);
+        const bHombro = bloqPorId('tendon-hombro'), bRodilla = bloqPorId('tendon-rodilla');
+        if (bHombro && ['torso-a', 'torso-b', 'push-a', 'push-b', 'fb-a', 'fb-b', 'c-a', 'c-b'].includes(sl.sid)) tb.push(bHombro);
+        if (bRodilla && (sl.ses.tendon === 'rodilla' || (fase.id === 1 && D.META.historial !== 'activo'))) tb.push(bRodilla);
+        const bCodo = bloqPorId('tendon-codo');
+        if (bCodo && ['torso-a', 'torso-b', 'fb-a', 'fb-b', 'push-a', 'pull-a', 'push-b', 'pull-b'].includes(sl.sid)) tb.push(bCodo);
         if (tb.length) {
           const on = !!dd.tendon;
           card.append(el('button', { class: 'habit wide' + (on ? ' on' : '') + ' plano', type: 'button', style: 'margin-top:10px',

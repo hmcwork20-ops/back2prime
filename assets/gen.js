@@ -267,7 +267,7 @@ window.B2P_GEN = (function () {
       }
     }
     for (let w = 9; w < ST; w += 9) {
-      H[w] = { t: G.hitoDescargaT, d: G.hitoDescargaD, tipo: 'descarga' };
+      H[w] = { t: G.hitoDescargaT, d: (p.material !== 'gym' && G.descargaSinBarra) || G.hitoDescargaD, tipo: 'descarga' };
     }
     return H;
   }
@@ -482,6 +482,7 @@ window.B2P_GEN = (function () {
     M.sin = (p.sin || []).slice();
     M.objetivo = p.objetivo || 'mantener';
     M.historial = p.historial || 'retomador';
+    M.material = p.material || 'gym';
     M.gustosNo = ((p.gustos && p.gustos.no) || []).slice();
     M.cinturaDeclarada = !!p.cinturaCm;
     M.perfil.pesoSalida = p.pesoKg;
@@ -540,6 +541,30 @@ window.B2P_GEN = (function () {
     });
   }
 
+  /* El bloque de seguridad también se genera: se queda lo que TU plan usa
+     (rodilla si hay pierna cargada, tibial solo si corres, codo solo si hay
+     volumen de torso con material) y entra el de la lesión que declaraste.
+     Era el único bloque que seguía siendo del dueño — justo el del riesgo. */
+  function tendonGen(base, p, tieneTrote) {
+    const G = base.UI.gen || {};
+    const T = JSON.parse(JSON.stringify(base.TENDON));
+    if (!tieneTrote && G.tendonSinTrote) T.intro = G.tendonSinTrote;
+    const les = p.lesiones || [];
+    const conMaterial = p.material !== 'nada';
+    T.bloques = (T.bloques || []).filter(b => {
+      if (b.id === 'tendon-tibial') return tieneTrote;                       // es «antes de cada trote»
+      if (b.id === 'tendon-codo') return conMaterial && p.historial !== 'nunca';
+      if (b.id === 'tendon-rodilla') return !les.includes('hombro') || les.includes('rodilla') || true;
+      return true;
+    });
+    // el hombro declarado tiene su propio bloque: manguito y serrato con banda
+    if (les.includes('hombro') && G.tHombroT) {
+      T.bloques.unshift({ id: 'tendon-hombro', nombre: G.tHombroT,
+        donde: G.tHombroW, detalle: G.tHombroD });
+    }
+    return T;
+  }
+
   /* ---------- superficies que eran del dueño: ahora salen del perfil ----------
      Todo lo que enseñe un número tiene que poder defenderlo: checkpoints,
      fotos, reglas, ciencia, carrera y logros se regeneran con tus datos. */
@@ -574,10 +599,13 @@ window.B2P_GEN = (function () {
        on/off): cada historial recibe la suya */
     const var1 = p.historial === 'nunca' ? G.r1Nunca : p.historial === 'activo' ? G.r1Activo : null;
     const var8 = p.historial === 'nunca' ? G.r8Nunca : p.historial === 'activo' ? G.r8Activo : null;
+    const sinBarra = p.material !== 'gym';
     return base.REGLAS.map(r => {
       const c = Object.assign({}, r);
       if (r.n === 1 && var1) c.d = var1;
       if (r.n === 8 && var8) c.d = var8;
+      // la progresión doble no puede citar «+5 kg en sentadilla» sin barra
+      if (r.n === 2 && sinBarra && G.r2SinBarra) c.d = G.r2SinBarra;
       c.t = plantilla(c.t, { p: prot, q, s: ST });
       c.d = plantilla(c.d, { p: prot, q, s: ST });
       return c;
@@ -651,13 +679,15 @@ window.B2P_GEN = (function () {
     let kgHecho = false, cintHecho = false;
     for (const l of base.LOGROS) {
       if (l.id === 'marca-banca' || l.id === 'marca-sentadilla') continue;   // sin marcas previas no hay nada que recuperar
+      // ni insignias imposibles: sin barra de dominadas (o habiéndolas descartado) no hay dominada libre
+      if (l.id === 'dominada-libre' && (M.material === 'nada' || (M.gustosNo || []).includes('ej:dominadas'))) continue;
       if (/^kg-/.test(l.id)) { if (!kgHecho) { out.push.apply(out, escalera); kgHecho = true; } continue; }
       if (/^cintura-/.test(l.id)) { if (!cintHecho) { out.push.apply(out, cinturas); cintHecho = true; } continue; }
       if (l.id === 'plan-completo') { out.push(Object.assign({}, l, { desc: plantilla(G.lFinDesc || l.desc, { s: M.semanas }) })); continue; }
       // las insignias de checkpoint nombran SU semana (S8/S16 en un plan de 24)
       if ((l.id === 'checkpoint-s4' || l.id === 'checkpoint-s8') && chks) {
         const c = chks[l.id === 'checkpoint-s4' ? 0 : 1];
-        if (c && G.lChkN) { out.push(Object.assign({}, l, { nombre: plantilla(G.lChkN, { s: c.sem }), desc: plantilla(G.lChkD, { s: c.sem }) })); continue; }
+        if (c && G.lChkN) { out.push(Object.assign({}, l, { nombre: plantilla(G.lChkN, { s: c.sem }), desc: plantilla(G.lChkD2 || G.lChkD, { s: c.sem }) })); continue; }
       }
       out.push(l);
     }
@@ -707,8 +737,7 @@ window.B2P_GEN = (function () {
       CAL: cal,
       HITOS_SEMANA: hitosGen(base, perfil, nutri),
       SESIONES: sesionesGen(base, perfil, stats, usados, !tieneTrote),
-      TENDON: (!tieneTrote && base.UI.gen && base.UI.gen.tendonSinTrote)
-        ? Object.assign({}, base.TENDON, { intro: base.UI.gen.tendonSinTrote }) : base.TENDON,
+      TENDON: tendonGen(base, perfil, tieneTrote),
       NUTRI: nutri.NUTRI,
       MENU: menu.MENU,
       COMPRA: compraGen(base, menu.MENU),
@@ -733,7 +762,8 @@ window.B2P_GEN = (function () {
   }
 
   // recetaVale se exporta para que el mazo y el recetario filtren en vivo
-  return { generarPlan, recetaVale };
+  // el mazo del cuestionario filtra sus cartas con los mismos criterios que el motor
+  return { generarPlan, recetaVale, equipoVale, tocaLesion };
 })();
 
 /* Si hay perfil guardado, el plan del arranque ES el generado: se sustituye

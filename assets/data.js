@@ -1239,6 +1239,7 @@ window.B2P = (function () {
     obConsejo: 'Consejo: añádela a la pantalla de inicio (Compartir → Añadir a pantalla de inicio) para usarla como una app de verdad.',
     obCintura: 'Cintura inicial — tu métrica reina', obPlaceholder: 'cm (opcional, puedes hacerlo luego)', obEmpezamos: 'Empezamos',
     celebraOk: 'Seguimos',
+    navAria: 'Navegación principal',
     nuevoDia: 'Nuevo día: {f}'
   };
 

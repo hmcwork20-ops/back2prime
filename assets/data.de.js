@@ -1239,6 +1239,7 @@ window.B2P = (function () {
     obConsejo: 'Tipp: Leg sie auf den Homescreen (Teilen → Zum Home-Bildschirm) und nutz sie wie eine echte App.',
     obCintura: 'Anfangstaille — deine Königsmetrik', obPlaceholder: 'cm (optional, geht auch später)', obEmpezamos: 'Los geht’s',
     celebraOk: 'Weiter geht’s',
+    navAria: 'Hauptnavigation',
     nuevoDia: 'Neuer Tag: {f}'
   };
 

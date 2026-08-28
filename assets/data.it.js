@@ -1239,6 +1239,7 @@ window.B2P = (function () {
     obConsejo: 'Consiglio: aggiungila alla schermata iniziale (Condividi → Aggiungi alla schermata Home) per usarla come una vera app.',
     obCintura: 'Girovita iniziale — la tua metrica regina', obPlaceholder: 'cm (opzionale, puoi farlo dopo)', obEmpezamos: 'Si parte',
     celebraOk: 'Avanti',
+    navAria: 'Navigazione principale',
     nuevoDia: 'Nuovo giorno: {f}'
   };
 

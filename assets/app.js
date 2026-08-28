@@ -1652,6 +1652,7 @@
     // textos estáticos de index.html al idioma cargado
     $$('.tab span').forEach((s, i) => { if (TX.tabs[i]) s.textContent = TX.tabs[i]; });
     if (TX.perfilT) $('#btnAjustes').setAttribute('aria-label', TX.perfilT);
+    if (TX.navAria) $('.tabbar').setAttribute('aria-label', TX.navAria);
     const cOk = $('#celebraOk'); if (cOk) cOk.textContent = TX.celebraOk;
     document.documentElement.lang = TX.lang;
     medirCabecera();

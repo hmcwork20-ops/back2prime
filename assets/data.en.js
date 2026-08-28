@@ -1239,6 +1239,7 @@ window.B2P = (function () {
     obConsejo: 'Tip: add it to your home screen (Share → Add to Home Screen) to use it like a real app.',
     obCintura: 'Starting waist — your master metric', obPlaceholder: 'cm (optional, you can do it later)', obEmpezamos: 'Let’s go',
     celebraOk: 'Keep going',
+    navAria: 'Main navigation',
     nuevoDia: 'New day: {f}'
   };
 

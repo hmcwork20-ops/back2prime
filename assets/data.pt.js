@@ -1240,6 +1240,7 @@ window.B2P = (function () {
     obConsejo: 'Dica: adiciona-a ao ecrã principal (Partilhar → Adicionar ao ecrã principal) para a usares como uma app a sério.',
     obCintura: 'Cintura inicial — a tua métrica rainha', obPlaceholder: 'cm (opcional, podes fazê-lo depois)', obEmpezamos: 'Vamos a isto',
     celebraOk: 'Seguimos',
+    navAria: 'Navegação principal',
     nuevoDia: 'Novo dia: {f}'
   };
 

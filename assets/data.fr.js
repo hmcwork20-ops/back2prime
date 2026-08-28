@@ -1243,6 +1243,7 @@ window.B2P = (function () {
     obConsejo: 'Conseil : ajoute-la à l’écran d’accueil (Partager → Sur l’écran d’accueil) pour l’utiliser comme une vraie app.',
     obCintura: 'Tour de taille initial — ta métrique reine', obPlaceholder: 'cm (optionnel, tu peux le faire plus tard)', obEmpezamos: 'On y va',
     celebraOk: 'On continue',
+    navAria: 'Navigation principale',
     nuevoDia: 'Nouveau jour : {f}'
   };
 

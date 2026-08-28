@@ -181,13 +181,16 @@
     function secEjercicios(root) {
     // Biblioteca de ejercicios
     root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vBiblioteca), el('span', { class: 'mini' }, TX.vTocaCualquiera)));
+    /* agrupada por zona y plegada: cada grupo enseña su nombre y cuántos
+       ejercicios guarda; se abre al tocarlo */
     const ZONAS = [['empuje', TX.zonas.empuje], ['tiron', TX.zonas.tiron], ['pierna', TX.zonas.pierna], ['core', TX.zonas.core]];
-    const lib = el('div', { class: 'card exlib' });
     ZONAS.forEach(([z, zt]) => {
-      lib.append(el('div', { class: 'zona-h' }, zt));
-      Object.keys(D.EJERCICIOS).filter(id => D.EJERCICIOS[id].zona === z).forEach(id => {
+      const ids = Object.keys(D.EJERCICIOS).filter(id => D.EJERCICIOS[id].zona === z);
+      if (!ids.length) return;
+      const lista = el('div', { class: 'exlib' });
+      ids.forEach(id => {
         const e = D.EJERCICIOS[id];
-        lib.append(el('div', { class: 'exrow' },
+        lista.append(el('div', { class: 'exrow' },
           el('button', { class: 'exmain plano', type: 'button', onclick: () => U.fichaEjercicio(id, {}) },
             el('div', { class: 'exname' },
               window.B2P_MAPA && e.mm ? el('span', { class: 'mapa-mini', html: window.B2P_MAPA.svg(e.mm, { mini: true }) }) : null,
@@ -195,8 +198,10 @@
             el('div', { class: 'exmeta' }, el('span', { class: 'dose' }, e.musc[0]), el('span', { class: 'mini' }, e.equipo))),
           el('span', { class: 'mini', style: 'color:var(--ink3)' }, '›')));
       });
+      root.append(el('details', { class: 'fold' },
+        el('summary', null, el('b', null, zt), el('span', { class: 'mini', style: 'margin-left:8px' }, String(ids.length))),
+        el('div', { class: 'fold-in' }, lista)));
     });
-    root.append(lib);
     }
 
   }
@@ -209,8 +214,10 @@
     const fi = faseN === 4 ? 2 : faseN === 3 ? 1 : 0;
     const fn = D.NUTRI.fases[fi];
 
-    const IDS_N = ['n-obj', 'n-plato', 'n-rec', 'n-menu', 'n-compra', 'n-prep', 'n-supl'];
-    root.append(chipNav(IDS_N.map((id, i) => [id, TX.chipsNutri[i]])));
+    // «El plato» vive en Mi Perfil → Detrás del plan
+    const IDS_N = [['n-obj', TX.chipsNutri[0]], ['n-rec', TX.chipsNutri[2]], ['n-menu', TX.chipsNutri[3]],
+      ['n-compra', TX.chipsNutri[4]], ['n-prep', TX.chipsNutri[5]], ['n-supl', TX.chipsNutri[6]]];
+    root.append(chipNav(IDS_N));
 
     root.append(el('div', { id: 'n-obj', class: 'card fase-card pn' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.nObjetivo), el('div', { class: 'sub' }, fn.f + (w >= 1 && w <= SEMANAS ? ' · ' + tpl(TX.nSemana, { w }) : '')))),
@@ -225,10 +232,6 @@
       el('p', { class: 'mini', style: 'margin-top:8px' }, D.NUTRI.tomas)));
 
     // «De dónde salen los números» vive ahora en Mi Perfil → Detrás del plan
-
-    // plato
-    root.append(el('div', { id: 'n-plato', class: 'sec-h' }, el('h2', null, TX.nPlato)));
-    root.append(el('div', { class: 'regla-g' }, D.NUTRI.plato.map(p => el('div', { class: 'regla' }, el('b', null, p.t), p.d))));
 
     // recetas — el recetario respeta la dieta declarada: primero (y solo) lo tuyo
     root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, TX.nRecetario), el('span', { class: 'mini' }, TX.nToca)));
@@ -1057,12 +1060,14 @@
     // las cartas llevan imagen: pictograma del patrón (ejercicios), foto del
     // plato (comidas) y emoji grande (deportes) — una carta se lee en 1 s
     const DEP_EMOJI = { running: '🏃', natacion: '🏊', ciclismo: '🚴', padel: '🎾', futbol: '⚽', baloncesto: '🏀', volley: '🏐', yoga: '🧘', calistenia: '🤸', boxeo: '🥊' };
+    const IMGV = '?v=' + (window.B2P_IMG_V || 1);
     idsEj.forEach(id => { const e = D.EJERCICIOS[id];
-      const img = (window.B2P_PICTOS && e.pat && window.B2P_PICTOS.includes(e.pat)) ? 'assets/pictos/' + e.pat + '.webp' : null;
+      const patPic = (e.pic && window.B2P_PICTOS && window.B2P_PICTOS.includes(e.pic)) ? e.pic : e.pat;
+      const img = (window.B2P_PICTOS && patPic && window.B2P_PICTOS.includes(patPic)) ? 'assets/pictos/' + patPic + '.webp' + IMGV : null;
       // en la carta, el nombre a secas: la taxonomía «(asistidas → libres…)» no se lee en un segundo
       ejs.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm, img }); });
     (D.QUIZ_DEP || []).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '',
-      img: (window.B2P_DEPORTES || []).includes(dep.id) ? 'assets/deportes/' + dep.id + '.webp' : null,
+      img: (window.B2P_DEPORTES || []).includes(dep.id) ? 'assets/deportes/' + dep.id + '.webp' + IMGV : null,
       emoji: DEP_EMOJI[dep.id] || '🏅' }));
     /* La dieta se declaró dos pasos antes: una vegana no puntúa diez platos
        de carne. Se filtra con el mismo criterio que usará el motor. */

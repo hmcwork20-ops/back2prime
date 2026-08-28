@@ -390,7 +390,7 @@ window.B2P = (function () {
       alt: [{ n: 'Dumbbells', por: 'if the cables are taken' }],
       mol: 'Same as with dumbbells: thumb up and the plane slightly forward.'
     },
-    'fondos': { pat: 'ev',
+    'fondos': { pat: 'ev', pic: 'fondos',
       nombre: 'Assisted Dips', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Lower chest', 'triceps'], equipo: 'Assisted dip machine or bands',
       cues: ['Body leaning slightly forward (more chest)', 'Lower to 90° of elbow, no further if the shoulder protests', 'Elbows that don’t flare out wide'],
       err: ['Going too deep', 'Shoulders shrugged up to the ears'],

@@ -390,7 +390,7 @@ window.B2P = (function () {
       alt: [{ n: 'Kurzhanteln', por: 'wenn die Kabelzüge belegt sind' }],
       mol: 'Wie mit Kurzhanteln: Daumen hoch und Ebene leicht nach vorn.'
     },
-    'fondos': { pat: 'ev',
+    'fondos': { pat: 'ev', pic: 'fondos',
       nombre: 'Dips (assistiert)', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Untere Brust', 'Trizeps'], equipo: 'Dip-Maschine mit Unterstützung oder Bänder',
       cues: ['Körper leicht nach vorn gelehnt (mehr Brust)', 'Runter bis 90° Ellbogen, nicht tiefer, wenn die Schulter protestiert', 'Ellbogen nicht im Kreuz aufgehen lassen'],
       err: ['Zu tief absinken', 'Schultern zu den Ohren hochgezogen'],

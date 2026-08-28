@@ -551,10 +551,13 @@
       if (window.B2P_MAPA && e.mm) sh.append(el('div', { class: 'mapa', html: window.B2P_MAPA.svg(e.mm, { label: e.nombre + ' · ' + e.musc.join(', ') }) }));
       // el patron de movimiento: que se HACE, junto a que trabaja
       if (e.pat && TX.patrones && TX.patrones[e.pat]) {
-        // pictograma como imagen si esta importado; el SVG por codigo, de respaldo
-        const conImg = window.B2P_PICTOS && window.B2P_PICTOS.includes(e.pat);
+        /* pictograma como imagen si está importado; `pic` permite a un
+           ejercicio su dibujo propio (fondos ≠ press militar) sin tocar el
+           patrón lógico. El ?v= invalida SW y caché HTTP al re-procesar. */
+        const patPic = (e.pic && window.B2P_PICTOS && window.B2P_PICTOS.includes(e.pic)) ? e.pic : e.pat;
+        const conImg = window.B2P_PICTOS && window.B2P_PICTOS.includes(patPic);
         const ico = conImg
-          ? el('img', { class: 'pat-img', src: 'assets/pictos/' + e.pat + '.webp', alt: '', loading: 'lazy', decoding: 'async', width: '256', height: '256' })
+          ? el('img', { class: 'pat-img', src: 'assets/pictos/' + patPic + '.webp?v=' + (window.B2P_IMG_V || 1), alt: '', loading: 'lazy', decoding: 'async', width: '256', height: '256' })
           : (window.B2P_MAPA && window.B2P_MAPA.svgPat ? el('span', { class: 'pat-ico', html: window.B2P_MAPA.svgPat(e.pat) }) : null);
         if (ico) sh.append(el('div', { class: 'pat-fila' }, ico,
           el('span', { class: 'pat-txt' }, TX.patrones[e.pat])));
@@ -1114,9 +1117,10 @@
     secc(TX.segPlan[2], '#/plan', 'pl-ej');
     secc(TX.vBiblioteca, '#/plan', 'pl-ej');
     secc(TX.vSeguros, '#/perfil', 'pf-seguros', ['pf-detras', 'pf-seguros']);
-    // apartados de Comida
-    [['n-obj', 0], ['n-plato', 1], ['n-rec', 2], ['n-menu', 3], ['n-compra', 4], ['n-prep', 5], ['n-supl', 6]]
+    // apartados de Comida (el plato vive en Detrás del plan)
+    [['n-obj', 0], ['n-rec', 2], ['n-menu', 3], ['n-compra', 4], ['n-prep', 5], ['n-supl', 6]]
       .forEach(([id, i]) => secc(TX.chipsNutri[i], '#/nutricion', id));
+    secc(TX.nPlato, '#/perfil', 'pf-plato', ['pf-detras', 'pf-plato']);
     // apartados de Progreso
     [['p-res', 0], ['p-peso', 1], ['p-cint', 2], ['p-carg', 3], ['p-adh', 4], ['p-chk', 5]]
       .forEach(([id, i]) => secc(TX.chipsProg[i], '#/progreso', id));
@@ -1303,6 +1307,8 @@
           el('p', { class: 'mini' }, D.TENDON.nota),
           D.CARRERA ? el('div', { class: 'regla', style: 'margin-top:10px' }, el('b', null, D.CARRERA.titulo),
             el('ul', { style: 'font-size:13px;padding-left:17px;margin:6px 0 0' }, D.CARRERA.reglas.map(r => el('li', null, r)))) : null),
+        foldSub('pf-plato', TX.nPlato,
+          el('div', { class: 'regla-g' }, D.NUTRI.plato.map(pp => el('div', { class: 'regla' }, el('b', null, pp.t), pp.d)))),
         foldSub('pf-numeros', TX.nNumeros,
           el('div', { class: 'tw' }, el('table', null, D.NUTRI.calorias.map(c => el('tr', null, el('td', null, c.c, el('div', { class: 'mini' }, c.n)), el('td', { class: 'sr' }, c.v))))),
           el('div', { class: 'tw' }, el('table', null,

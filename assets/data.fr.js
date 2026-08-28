@@ -391,7 +391,7 @@ window.B2P = (function () {
       alt: [{ n: 'Haltères', por: 'si les poulies sont prises' }],
       mol: 'Comme avec les haltères : pouce vers le haut et plan légèrement avancé.'
     },
-    'fondos': { pat: 'ev',
+    'fondos': { pat: 'ev', pic: 'fondos',
       nombre: 'Dips assistés', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Bas des pectoraux', 'triceps'], equipo: 'Machine à dips assistés ou élastiques',
       cues: ['Corps légèrement penché en avant (plus de pecs)', 'Descends jusqu’à 90° de coude, pas plus si l’épaule proteste', 'Coudes qui ne s’ouvrent pas en croix'],
       err: ['Descendre trop profond', 'Épaules haussées vers les oreilles'],

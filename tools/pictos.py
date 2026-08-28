@@ -39,6 +39,7 @@ PATRONES = {
     'ext':  'performing a cable triceps pushdown: standing, elbow pinned to the side, forearm pressing the handle down',
     'gem':  'performing a standing calf raise on the edge of a step: heels lifted high, body vertical',
     'ais':  'a single dumbbell shown on its own, side view, as an icon',
+    'fondos': 'performing parallel-bar dips: body upright between two parallel bars, elbows bent at 90 degrees lowering the torso, the bars drawn in lime-green',
 }
 
 

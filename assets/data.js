@@ -390,7 +390,7 @@ window.B2P = (function () {
       alt: [{ n: 'Mancuernas', por: 'si las poleas están ocupadas' }],
       mol: 'Igual que con mancuernas: pulgar arriba y plano ligeramente adelantado.'
     },
-    'fondos': { pat: 'ev',
+    'fondos': { pat: 'ev', pic: 'fondos',
       nombre: 'Fondos asistidos', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Pectoral inferior', 'tríceps'], equipo: 'Máquina de fondos asistidos o bandas',
       cues: ['Cuerpo ligeramente inclinado adelante (más pecho)', 'Baja hasta 90° de codo, no más si el hombro protesta', 'Codos que no se abran en cruz'],
       err: ['Bajar demasiado profundo', 'Hombros encogidos hacia las orejas'],

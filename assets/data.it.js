@@ -390,7 +390,7 @@ window.B2P = (function () {
       alt: [{ n: 'Manubri', por: 'se i cavi sono occupati' }],
       mol: 'Come coi manubri: pollice in su e piano leggermente avanzato.'
     },
-    'fondos': { pat: 'ev',
+    'fondos': { pat: 'ev', pic: 'fondos',
       nombre: 'Dip assistiti', mm: { p: ['pecho'], s: ['triceps'] }, zona: 'empuje', musc: ['Pettorale basso', 'tricipiti'], equipo: 'Macchina per dip assistiti o elastici',
       cues: ['Corpo leggermente inclinato in avanti (più petto)', 'Scendi fino a 90° di gomito, non oltre se la spalla protesta', 'Gomiti che non si aprono a croce'],
       err: ['Scendere troppo in profondità', 'Spalle sollevate verso le orecchie'],

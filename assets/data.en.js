@@ -1189,7 +1189,7 @@ window.B2P = (function () {
     segPlan: ['Phases', 'Rules', 'Exercises', 'Science'],
     vReglas8: 'The 8 rules', vReglasSub: 'when in doubt, the rule wins',
     vCalendario: 'Calendar', vFasesDetalle: 'The 4 phases, in detail',
-    vSeguros: 'The plan’s insurance', vBiblioteca: 'Exercise library', vTocaCualquiera: 'tap any of them',
+    vSeguros: 'The plan’s insurance', libDescartado: 'passed', libSinMaterial: 'no gear', libFuera: 'not in your plan', vBiblioteca: 'Exercise library', vTocaCualquiera: 'tap any of them',
     vCiencia: 'The science behind the plan',
     senalesTitulo: 'Signs to stop', objetivoReal: 'The real goal', recuerda: 'Remember',
     fase: 'Phase', sem: 'Wk', fechasLbl: 'Dates', especial: 'Special', fuerzaLbl: 'Strength',

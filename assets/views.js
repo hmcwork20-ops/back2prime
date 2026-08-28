@@ -188,15 +188,25 @@
       const ids = Object.keys(D.EJERCICIOS).filter(id => D.EJERCICIOS[id].zona === z);
       if (!ids.length) return;
       const lista = el('div', { class: 'exlib' });
+      /* el reveal promete que lo descartado no aparece en tu plan: aquí sigue
+         consultable (es la biblioteca), pero se dice que no está en el tuyo */
+      const G3 = window.B2P_GEN;
+      const fueraDe = id => {
+        if (!D.__gen) return null;
+        if ((D.META.gustosNo || []).includes('ej:' + id)) return TX.libDescartado;
+        if (G3 && G3.equipoVale && !G3.equipoVale((D.EJERCICIOS[id] || {}).equipo, D.META.material)) return TX.libSinMaterial;
+        return null;
+      };
       ids.forEach(id => {
         const e = D.EJERCICIOS[id];
-        lista.append(el('div', { class: 'exrow' },
+        const tag = fueraDe(id);
+        lista.append(el('div', { class: 'exrow' + (tag ? ' fuera' : '') },
           el('button', { class: 'exmain plano', type: 'button', onclick: () => U.fichaEjercicio(id, {}) },
             el('div', { class: 'exname' },
               window.B2P_MAPA && e.mm ? el('span', { class: 'mapa-mini', html: window.B2P_MAPA.svg(e.mm, { mini: true }) }) : null,
               e.nombre),
             el('div', { class: 'exmeta' }, el('span', { class: 'dose' }, e.musc[0]), el('span', { class: 'mini' }, e.equipo))),
-          el('span', { class: 'mini', style: 'color:var(--ink3)' }, '›')));
+          tag ? el('span', { class: 'fuera-tag' }, tag) : el('span', { class: 'mini', style: 'color:var(--ink3)' }, '›')));
       });
       root.append(el('details', { class: 'fold' },
         el('summary', null, el('b', null, zt), el('span', { class: 'mini', style: 'margin-left:8px' }, String(ids.length))),
@@ -631,7 +641,7 @@
     // zona de agua de las primeras semanas: solo cuando el plan baja
     if (objLo < salida) {
       svg.append(sv('rect', { x: sx(0), y: T, width: sx(14) - sx(0), height: H - T - B, fill: 'rgba(102,160,232,.05)' }));
-      const zc = sv('text', { x: sx(7), y: T + 11, 'text-anchor': 'middle', 'font-size': 10, fill: 'rgba(167,175,185,.8)' }); zc.textContent = TX.pAguaCreatina; svg.append(zc);
+      const zc = sv('text', { x: sx(7), y: T + 11, 'text-anchor': 'middle', 'font-size': 11, fill: 'rgba(167,175,185,.9)' }); zc.textContent = TX.pAguaCreatina; svg.append(zc);
     }
     // grid Y
     for (let y = yMin + 1; y < yMax; y += 2) {

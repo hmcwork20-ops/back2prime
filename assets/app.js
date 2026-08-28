@@ -54,7 +54,11 @@
     return { v: 1, usuario: null, config: { cinturaBase: null, creado: hoyISO(), onboarded: false },
       dias: {}, logros: {}, prs: {}, prCount: 0, flags: {}, shop: {}, prep: {}, ui: {} };
   }
-  function load() { try { S = Object.assign(defState(), JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { S = defState(); } }
+  function load() {
+    try { S = Object.assign(defState(), JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { S = defState(); }
+    // residuo del Plan con subpáginas: se limpia también en disco
+    if (S.ui && S.ui.plansec) { delete S.ui.plansec; try { save(); } catch (e) {} }
+  }
   function save() { localStorage.setItem(KEY, JSON.stringify(S)); }
   function dia(d) { return S.dias[d] || (S.dias[d] = {}); }
 
@@ -383,6 +387,7 @@
       sh.setAttribute('aria-label', TX.panelSinTitulo);
     }
     bg.hidden = false;
+    sh.removeAttribute('inert');      // el diálogo cerrado no existe para el lector
     fondoInerte(true);
     // setTimeout y no requestAnimationFrame: rAF no se dispara si la pestaña
     // no está componiendo frames y la hoja se quedaría sin abrir.
@@ -404,6 +409,7 @@
       const sh = $('#sheet'), bg = $('#sheetBg');
       bg.hidden = true; bg.style.opacity = '';
       sh.style.transition = ''; sh.style.transform = '';
+      sh.setAttribute('inert', '');
     }, 300);
   }
 
@@ -1142,9 +1148,13 @@
     secc(TX.vCiencia, '#/perfil', 'pf-ciencia', ['pf-detras', 'pf-ciencia']);
     secc(TX.ajRehacer, '#/perfil');
     // cada ejercicio, a su ficha
+    const G4 = window.B2P_GEN;
+    const fueraPlan = id => D.__gen && (
+      (D.META.gustosNo || []).includes('ej:' + id)
+      || (G4 && G4.equipoVale && !G4.equipoVale((D.EJERCICIOS[id] || {}).equipo, D.META.material)));
     Object.keys(D.EJERCICIOS).forEach(id => {
       const e = D.EJERCICIOS[id];
-      IDX.push({ t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: TX.quizCatEj,
+      IDX.push({ t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: TX.quizCatEj + (fueraPlan(id) ? ' · ' + TX.libFuera : ''),
         go: () => { closeSheet(); setTimeout(() => fichaEjercicio(id, {}), 230); } });
     });
     // cada plato (los tuyos), a su receta
@@ -1498,8 +1508,12 @@
       : r === 'gate' ? TX.cuest.gateHoyT
       : (TX.tabs[ORDEN_VISTAS.indexOf(r)] || TX.tabs[0]);
     document.title = nombreVista + ' · BACK2PRIME';
+    /* el h1 invisible solo se añade si la vista no trae el suyo. En el primer
+       pintado el DOM aún no tenía el h1 propio y salían los dos: se comprueba
+       tras el render, no antes. */
     let h1 = root.querySelector('h1');
     if (!h1) { h1 = el('h1', { class: 'sr-only' }, nombreVista); root.prepend(h1); }
+    else { const extra = root.querySelector('h1.sr-only'); if (extra && extra !== h1) extra.remove(); }
     h1.tabIndex = -1;
     if (cambioDeVista && !primerRender) h1.focus({ preventScroll: true });
     primerRender = false;

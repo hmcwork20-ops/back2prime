@@ -128,9 +128,12 @@ window.B2P_GEN = (function () {
         c.bloques = s.bloques.slice(0, maxBloques);
         const tendon = s.bloques.find(b => b.e === 'elev-talones');
         if (tendon && !c.bloques.includes(tendon)) c.bloques[c.bloques.length - 1] = tendon;
-        c.dur = plantilla(G.durAprox || c.dur, { m: p.minSesion });
         if (stats) stats.recorte = p.minSesion;
       }
+      /* La duración anunciada es la que el usuario pidió, siempre: sin
+         recorte se conservaba la del plan base («~35′» a quien pidió 45,
+         justo lo contrario de lo que promete el reveal). */
+      if (p.minSesion && G.durAprox) c.dur = plantilla(G.durAprox, { m: p.minSesion });
       const likes = new Set((p.gustos && p.gustos.like) || []);
       const enSesion = new Set(c.bloques.map(b => b.e));
       c.bloques = c.bloques.map(b => {
@@ -175,7 +178,12 @@ window.B2P_GEN = (function () {
     if (stats) stats.subs = cambiados.size;
     /* el cardio del calendario puede ser «lo tuyo»: la sesión se fabrica aquí
        con los deportes que gustaron en el mazo, con textos ya localizados */
-    const deps = deportesGustados(base, p).filter(n => n !== ((base.QUIZ_DEP || []).find(x => x.id === 'running') || {}).n);
+    /* natación y ciclismo piden piscina y bici, que nunca se preguntaron:
+       si no hay más deportes, el cardio se queda en caminata (cam*) */
+    const CON_MATERIAL = ['natacion', 'ciclismo'];
+    const idsGustados = ((p.gustos && p.gustos.like) || []).filter(k => k.startsWith('dep:')).map(k => k.slice(4));
+    const idsCardio = idsGustados.filter(id => id !== 'running' && !CON_MATERIAL.includes(id));
+    const deps = idsCardio.map(id => ((base.QUIZ_DEP || []).find(x => x.id === id) || {}).n).filter(Boolean);
     if (deps.length) {
       S['cardio-libre'] = {
         nombre: plantilla(G.cardioLibreT, { d: deps.slice(0, 2).join(' · ') }),
@@ -220,7 +228,10 @@ window.B2P_GEN = (function () {
   }
   function calGen(base, p) {
     const gustaCorrer = ((p.gustos && p.gustos.like) || []).includes('dep:running');
-    const otrosDeportes = deportesGustados(base, p).length > (gustaCorrer ? 1 : 0);
+    // mismo criterio que la sesión: solo deportes que no exigen material extra
+    const CON_MAT = ['running', 'natacion', 'ciclismo'];
+    const otrosDeportes = ((p.gustos && p.gustos.like) || [])
+      .filter(k => k.startsWith('dep:') && !CON_MAT.includes(k.slice(4))).length > 0;
     /* quien ya entrena no pasa por el sofá-a-5k: entra directo al trote */
     const cardio = fase => gustaCorrer
       ? (p.historial === 'activo' ? (fase <= 2 ? 'trote25' : 'trote30')
@@ -380,19 +391,31 @@ window.B2P_GEN = (function () {
   function menuGen(base, p) {
     let avisos = 0;                               // platos que quedan sin encajar
     const noQuiero = new Set((p.gustos && p.gustos.no) || []);
+    const like = new Set((p.gustos && p.gustos.like) || []);
+    /* Los «me gusta» del mazo pesan: los platos que marcaste van primero en
+       la cola de sustitución. Antes el mazo pedía 10 decisiones de comida y
+       el menú solo usaba los descartes — la mitad del gesto se perdía. */
     const pool = { de: [], co: [], ce: [] };
     base.RECETAS.forEach(r => { if (pool[r.slot] && recetaVale(r, p, noQuiero)) pool[r.slot].push(r.id); });
+    ['de', 'co', 'ce'].forEach(sl => pool[sl].sort((a, b) =>
+      (like.has('com:' + b) ? 1 : 0) - (like.has('com:' + a) ? 1 : 0)));
     const idx = { de: 0, co: 0, ce: 0 };
+    // y un plato no se repite mientras queden alternativas sin usar esa semana
+    const usados = { de: new Set(), co: new Set(), ce: new Set() };
     const MENU = base.MENU.map(fila => {
       const f = Object.assign({}, fila);
       ['de', 'co', 'ce'].forEach(slot => {
         const id = f[slot];
         if (id === 'LIBRE') return;
         const r = base.RECETAS.find(x => x.id === id);
-        if (r && recetaVale(r, p, noQuiero)) return;         // la de serie vale
         const alt = pool[slot];
-        if (alt.length) { f[slot] = alt[idx[slot] % alt.length]; idx[slot]++; }
-        else avisos++;   // se queda la original, pero se cuenta y se avisa
+        const sirve = r && recetaVale(r, p, noQuiero);
+        // la de serie vale y no está repetida: se queda
+        if (sirve && !usados[slot].has(id)) { usados[slot].add(id); return; }
+        const libres = alt.filter(x => !usados[slot].has(x));
+        const cola = libres.length ? libres : alt;
+        if (cola.length) { const el2 = cola[idx[slot] % cola.length]; f[slot] = el2; usados[slot].add(el2); idx[slot]++; }
+        else if (!sirve) avisos++;   // se queda la original, pero se cuenta y se avisa
       });
       return f;
     });

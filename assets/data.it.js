@@ -1189,7 +1189,7 @@ window.B2P = (function () {
     segPlan: ['Fasi', 'Regole', 'Esercizi', 'Scienza'],
     vReglas8: 'Le 8 regole', vReglasSub: 'nel dubbio, vince la regola',
     vCalendario: 'Calendario', vFasesDetalle: 'Le 4 fasi, nel dettaglio',
-    vSeguros: 'Le assicurazioni del piano', vBiblioteca: 'Libreria degli esercizi', vTocaCualquiera: 'toccane uno qualsiasi',
+    vSeguros: 'Le assicurazioni del piano', libDescartado: 'scartato', libSinMaterial: 'senza attrezzatura', libFuera: 'fuori dal tuo piano', vBiblioteca: 'Libreria degli esercizi', vTocaCualquiera: 'toccane uno qualsiasi',
     vCiencia: 'La scienza del piano',
     senalesTitulo: 'Segnali per fermarsi', objetivoReal: 'Il vero obiettivo', recuerda: 'Ricorda',
     fase: 'Fase', sem: 'Sett', fechasLbl: 'Date', especial: 'Speciale', fuerzaLbl: 'Pesi',

@@ -95,7 +95,9 @@
       else if (x.k === 'min' && R.minT) fila(U.icono('reloj', 20), tpl(R.minT, { v: x.v }), R.minSub);
       else if (x.k === 'evento' && R.evT) {
         const evTxt = { boda: C.evBoda, oposicion: C.evOpo, verano: C.evVerano }[x.v] || x.v;
-        fila(U.icono('diana', 20), tpl(R.evT, { e: evTxt }), R.evSub);
+        // con fecha, el plan termina antes y se dice; sin fecha, no se promete
+        const sub = x.manda && x.f ? tpl(R.evFecha, { b: fmtF(x.f) }) : (R.evSinFecha || R.evSub);
+        fila(U.icono('diana', 20), tpl(R.evT, { e: evTxt }), sub);
       }
       else if (x.k === 'subs') fila(U.icono('repetir', 20), tpl(R.subsT, { n: x.n }), R.subsSub);
       else if (x.k === 'cuida') fila(U.icono('escudo', 20), tpl(R.cuidaT, { a: x.zonas.map(z => lesionTxt[z] || z).join(' · ') }), R.cuidaSub);

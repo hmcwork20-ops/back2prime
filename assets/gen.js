@@ -56,7 +56,11 @@ window.B2P_GEN = (function () {
     if (material === 'gym') return true;
     if (/polea|máquina|maquina|multipower|rack|prensa/.test(t)) return false;
     if (/barra(?! de dominadas)/.test(t)) return false;       // barra olímpica no; dominadas depende
-    if (material === 'casa') return !/barra de dominadas/.test(t) || true;
+    /* el banco tampoco: «casa: mancuernas y bandas» no incluye banco, y casi
+       toda la sesión de torso colgaba de él. Un ejercicio que lo pide se
+       sustituye por su pariente de suelo (mismo patrón). */
+    if (/banco/.test(t)) return false;
+    if (material === 'casa') return true;                     // mancuernas, bandas, toalla, suelo
     // nada: solo cuerpo, toalla, escalón, mochila
     return /^nada|toalla|escalón|escalon|mochila/.test(t);
   }
@@ -187,8 +191,22 @@ window.B2P_GEN = (function () {
      internamente es un bloque de 12 renovable). Las 4 fases se estiran en
      proporción y la descarga cae cada 9 semanas, que es a lo que el tejido
      conectivo llega antes de pedir vacaciones. */
+  /* Semanas del plan. Si declaraste un EVENTO con fecha, manda el evento:
+     el plan termina lo más cerca posible de ella (acotado a 8-48 semanas,
+     que es donde el motor sabe periodizar). Antes se preguntaba el evento,
+     se enseñaba en el reveal con «la fecha manda»… y no movía ni un número. */
   function semanasDe(p) {
+    const w = semanasHastaEvento(p);
+    if (w) return w;
     return p.duracionSem === 24 ? 24 : p.duracionSem === 48 ? 48 : 12;
+  }
+  function semanasHastaEvento(p) {
+    if (!p.eventoFecha) return 0;
+    const ini = proximoLunes();
+    const f = new Date(p.eventoFecha + 'T12:00:00');
+    if (isNaN(f)) return 0;
+    const w = Math.round((f - ini) / (7 * 864e5));
+    return (w >= 8 && w <= 48) ? w : 0;      // fuera de rango: manda la duración elegida
   }
   function cortesDe(ST) {
     // fin de F1, F2 y F3 (F4 llega hasta ST); mismas fracciones que el 2/5/9 de 12
@@ -443,6 +461,22 @@ window.B2P_GEN = (function () {
     return Math.round(total / 7);
   }
 
+  /* Media de kcal del día según los platos prescritos: el menú se arma con
+     recetas de tamaño fijo, así que casi nunca cuadra al dígito con el
+     objetivo. En vez de callarlo (el usuario suma y ve el desfase), se
+     calcula y la vista lo enseña con su puente. */
+  function kcalMenuMedia(base, MENU, vetaLacteo) {
+    let total = 0;
+    MENU.forEach(f => ['de', 'co', 'ce'].forEach(sl => {
+      const r = base.RECETAS.find(x => x.id === f[sl]);
+      if (r && r.macros) total += r.macros.kcal;
+      else if (f[sl] === 'LIBRE') total += 800;    // estimación honesta de la comida libre
+    }));
+    const noche = base.RECETAS.find(x => x.id === 'toma-noche');
+    total += 7 * (vetaLacteo ? 230 : (noche && noche.macros ? noche.macros.kcal : 270));
+    return Math.round(total / 7 / 5) * 5;
+  }
+
   function mealprepGen(base, MENU) {
     const vistos = new Set(), pasos = [];
     MENU.forEach(f => ['de', 'co', 'ce'].forEach(sl => {
@@ -477,6 +511,8 @@ window.B2P_GEN = (function () {
     M.semanas = ST;
     M.abierto = p.duracionSem === 0 || undefined;   // «sin fecha»: bloque renovable
     M.evento = p.evento || null;
+    M.eventoFecha = p.eventoFecha || null;
+    M.eventoManda = !!semanasHastaEvento(p);
     M.franja = p.franja || null;
     M.dieta = p.dieta || 'normal';
     M.sin = (p.sin || []).slice();
@@ -711,7 +747,7 @@ window.B2P_GEN = (function () {
     const g = perfil.gustos || {};
     if ((g.no || []).length) dec.push({ k: 'gustos', likes: (g.like || []).length, nos: g.no.length });
     if (stats.recorte) dec.push({ k: 'min', v: stats.recorte });
-    if (perfil.evento && perfil.evento !== 'siempre') dec.push({ k: 'evento', v: perfil.evento });
+    if (perfil.evento && perfil.evento !== 'siempre') dec.push({ k: 'evento', v: perfil.evento, f: meta.META.eventoFecha, manda: meta.META.eventoManda });
     if (perfil.duracionSem === 0) dec[dec.findIndex(x => x.k === 'dur')].abierto = true;
     return dec;
   }
@@ -754,6 +790,7 @@ window.B2P_GEN = (function () {
       __mantenimiento: Math.round(nutri.tdee / 100) * 100,
       __qMin: nutri.qMin,
       __protMenu: protMenuMedia(base, menu.MENU, perfil.dieta === 'vegano' || (perfil.sin || []).includes('lactosa')),
+      __kcalMenu: kcalMenuMedia(base, menu.MENU, perfil.dieta === 'vegano' || (perfil.sin || []).includes('lactosa')),
       __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),
       HISTORICO: {},          // las marcas del plan original eran de una persona
       ARRANQUE: null,         // su tabla de cargas también; la vista lo guarda

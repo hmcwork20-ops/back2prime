@@ -265,6 +265,17 @@
       && D.META.perfil.proteinaDia - D.__protMenu > 15)
       root.append(el('p', { class: 'mini', style: 'padding:0 2px' },
         U.tpl(TX.gen.protHueco, { m: D.__protMenu, p: D.META.perfil.proteinaDia })));
+    /* y tampoco llega al objetivo de kcal: el menú se arma con recetas de
+       tamaño fijo, así que se dice el desfase y por dónde se cierra */
+    if (D.__gen && D.__kcalMenu && TX.gen && TX.gen.kcalHueco) {
+      const obj = (D.NUTRI.fases[fi] || {}).kcal || 0;
+      const dif = D.__kcalMenu - obj;
+      if (obj && Math.abs(dif) >= 100) {
+        const q = dif < 0 ? U.tpl(TX.gen.kcalSube, { d: Math.abs(dif) }) : U.tpl(TX.gen.kcalBaja, { d: dif });
+        root.append(el('p', { class: 'mini', style: 'padding:0 2px' },
+          U.tpl(TX.gen.kcalHueco, { m: D.__kcalMenu.toLocaleString(TX.lang || 'es'), k: obj.toLocaleString(TX.lang || 'es'), q })));
+      }
+    }
     // a quien no toma lácteos, la nota nocturna le ofrece su alternativa vegetal
     const notaNoche = (D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa')) && TX.gen)
       ? TX.gen.tomaNocheAlt : TX.nTomaNota;
@@ -844,13 +855,15 @@
       U.save();
     }
 
-    const PASOS = [
+    const PASOS_TODOS = [
       { id: 'sexo', t: C.sexoT, p: C.sexoP, tipo: 'uno', ops: [['h', C.sexoH], ['m', C.sexoM], ['x', C.sexoX]] },
       { id: 'medidas', t: C.medidasT, tipo: 'nums', campos: [
         ['edad', C.edadL, 16, 90, false], ['alturaCm', C.alturaL, 120, 230, false],
         ['pesoKg', C.pesoL, 35, 250, false], ['cinturaCm', C.cinturaL, 50, 200, true]] },
       { id: 'objetivo', t: C.objT, tipo: 'uno', ops: [['perder', C.objPerder], ['recomp', C.objRecomp], ['ganar', C.objGanar], ['mantener', C.objMantener]] },
       { id: 'evento', t: C.evT, tipo: 'uno', ops: [['boda', C.evBoda], ['oposicion', C.evOpo], ['verano', C.evVerano], ['siempre', C.evSiempre]] },
+      // la fecha solo se pregunta si el evento la tiene: «para siempre» no la tiene
+      { id: 'eventoFecha', t: C.evFechaT, p: C.evFechaP, tipo: 'fecha', si: d => d.evento && d.evento !== 'siempre' },
       { id: 'duracionSem', t: C.durT, tipo: 'uno', ops: [[12, C.dur3], [24, C.dur6], [48, C.dur12], [0, C.durAlways]] },
       { id: 'historial', t: C.histT, p: C.histP, tipo: 'uno', ops: [['nunca', C.histNunca], ['retomador', C.histRetoma], ['activo', C.histActivo]] },
       { id: 'diasSemana', t: C.diasL, tipo: 'uno', fila: true, ops: [[2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']] },
@@ -863,17 +876,23 @@
       { id: 'sin', t: C.sinT, tipo: 'multi', ops: [['gluten', C.sinGluten], ['lactosa', C.sinLactosa], ['frutos', C.sinFrutos]], nada: C.sinNada },
       { id: 'mazo', tipo: 'mazo' },
       { id: 'resumen', tipo: 'resumen' }
-    ].filter(p =>
-      borr.solo === 'gustos' ? (p.tipo === 'mazo' || p.tipo === 'resumen')
-      : borr.solo === 'datos' ? p.tipo !== 'mazo'
-      : true);
+    ];
+    /* Los pasos VIVOS se recalculan en cada pintado: un paso condicional
+       (la fecha del evento) depende de una respuesta anterior, así que
+       filtrar una sola vez al montar lo dejaba fuera para siempre. */
+    const pasosVivos = () => PASOS_TODOS
+      .filter(x => !x.si || x.si(d))
+      .filter(x => borr.solo === 'gustos' ? (x.tipo === 'mazo' || x.tipo === 'resumen')
+        : borr.solo === 'datos' ? x.tipo !== 'mazo'
+        : true);
 
     function guarda() { U.save(); }
-    function avanza() { if (borr.paso < PASOS.length - 1) { borr.paso++; guarda(); pintaPaso(); } }
+    function avanza() { if (borr.paso < pasosVivos().length - 1) { borr.paso++; guarda(); pintaPaso(); } }
     function atras() { if (borr.paso > 0) { borr.paso--; guarda(); pintaPaso(); } }
 
     function pintaPaso() {
       root.innerHTML = '';
+      const PASOS = pasosVivos();
       const paso = PASOS[borr.paso];
       // cabecera: titulo + barra de progreso (el mazo cuenta como un paso)
       root.append(el('div', { class: 'sec-h' }, el('h2', null, C.titulo),
@@ -941,6 +960,29 @@
         return;
       }
 
+      if (paso.tipo === 'fecha') {
+        /* fecha del evento: el input nativo de fecha ya trae calendario,
+           idioma y validación del sistema. Acotada a 2-12 meses porque es
+           donde el motor sabe periodizar; saltarla es una opción de primera. */
+        const hoy = new Date(); hoy.setHours(12, 0, 0, 0);
+        const iso = dd => dd.getFullYear() + '-' + String(dd.getMonth() + 1).padStart(2, '0') + '-' + String(dd.getDate()).padStart(2, '0');
+        const min = new Date(hoy); min.setDate(min.getDate() + 56);
+        const max = new Date(hoy); max.setDate(max.getDate() + 350);
+        const inp = el('input', { type: 'date', id: 'cuest-fecha', min: iso(min), max: iso(max),
+          value: d[paso.id] || '' });
+        root.append(el('div', { class: 'cuest-nums' }, el('div', { class: 'cnum' }, inp)));
+        root.append(el('div', { class: 'cuest-pie' },
+          el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
+          el('button', { class: 'plano qaux', type: 'button', onclick: () => { delete d[paso.id]; guarda(); avanza(); } }, C.evFechaSaltar),
+          el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
+            const val = (inp.value || '').trim();
+            if (!val) { U.toast(C.evFechaMal); return; }
+            if (val < iso(min) || val > iso(max)) { U.toast(C.evFechaMal); return; }
+            d[paso.id] = val; guarda(); avanza();
+          } }, C.sigue)));
+        return;
+      }
+
       if (paso.tipo === 'nums') {
         const caja = el('div', { class: 'cuest-nums' });
         const entradas = {};
@@ -1000,14 +1042,14 @@
       cont.append(el('div', { class: 'cuest-t' }, C.resT));
       cont.append(el('div', { class: 'cuest-p' }, C.resP));
       const dame = (id, val) => {
-        const paso = PASOS.find(x => x.id === id); if (!paso || !paso.ops) return String(val);
+        const paso = pasosVivos().find(x => x.id === id); if (!paso || !paso.ops) return String(val);
         const op = paso.ops.find(o => o[0] === val); return op ? op[1] : String(val);
       };
       /* cada fila con su etiqueta: «Frutos secos» a secas no dice si te gustan
          o los evitas — el resumen es un contrato y se lee sin adivinar */
       const filas = [];
       if (d.edad) filas.push([null, d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg' + (d.sexo !== undefined ? ' · ' + dame('sexo', d.sexo) : ''), 'medidas']);
-      [['objetivo', C.resLObj], ['evento', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
+      [['objetivo', C.resLObj], ['evento', C.resLEv], ['eventoFecha', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
        ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
         if (d[par[0]] !== undefined) filas.push([par[1], dame(par[0], d[par[0]]), par[0]]);
       });
@@ -1020,7 +1062,7 @@
          los 14 datos juntos, o sea donde se detecta el error — y ahí hay que
          poder corregirlo sin rehacer el cuestionario entero */
       filas.forEach(f => {
-        const iPaso = f[2] !== undefined ? PASOS.findIndex(x => x.id === f[2]) : -1;
+        const iPaso = f[2] !== undefined ? pasosVivos().findIndex(x => x.id === f[2]) : -1;
         if (iPaso < 0) { tarjeta.append(el('div', { class: 'cres' }, f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1])); return; }
         tarjeta.append(el('button', { class: 'cres cres-btn plano', type: 'button',
           onclick: () => { borr.paso = iPaso; guarda(); pintaPaso(); } },

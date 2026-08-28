@@ -1105,11 +1105,24 @@
       const cuenta = root.querySelector('#qCuenta');
       if (cuenta) cuenta.textContent = (mazo.length - resto.length) + '/' + mazo.length;
       if (!resto.length) {
-        const n = Object.keys(est.like).length;
-        zona.append(el('div', { class: 'qcard' },
+        /* el cierre del mazo es un cierre, no una carta más: check de la casa,
+           el balance en dos stats y un CTA a su tamaño */
+        const nSi = Object.keys(est.like).length, nNo = Object.keys(est.no).length;
+        const fin = el('div', { class: 'qcard qfin' },
+          el('div', { class: 'qfin-ico' }, U.icono ? U.icono('hecho', 46) : '✓'),
           el('div', { class: 'qn' }, TX.quizListo),
-          el('div', { class: 'qz', style: 'text-transform:none;letter-spacing:0' }, tpl(TX.quizResumen, { a: n, b: mazo.length })),
-          el('button', { class: 'btn-b2p', type: 'button', style: 'margin-top:14px', onclick: alFinal }, (TX.cuest && TX.cuest.sigue) || TX.quizListo)));
+          el('div', { class: 'statrow qfin-stats' },
+            el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.quizSi), el('div', { class: 'sv num' }, String(nSi))),
+            el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.quizNo), el('div', { class: 'sv num' }, String(nNo)))),
+          TX.quizAfinara ? el('div', { class: 'mini' }, TX.quizAfinara) : null,
+          el('button', { class: 'btn-b2p qfin-cta', type: 'button', onclick: alFinal }, (TX.cuest && TX.cuest.sigue) || TX.quizListo));
+        zona.append(fin);
+        if (!menosMovimiento) {
+          const ic = fin.querySelector('.qfin-ico');
+          if (ic) ic.animate(
+            [{ transform: 'scale(.5)', opacity: 0 }, { transform: 'scale(1.12)', opacity: 1, offset: .7 }, { transform: 'scale(1)' }],
+            { duration: 360, easing: 'cubic-bezier(.2,1.4,.4,1)', fill: 'backwards' });
+        }
         fila.hidden = true;
         return;
       }

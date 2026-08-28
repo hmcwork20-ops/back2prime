@@ -993,6 +993,13 @@ body.onb .fab{display:none}
 .ico{display:inline-flex;vertical-align:-3px;line-height:0}
 summary .ico,.hicon .ico{vertical-align:middle}
 
+/* cierre del mazo: la ultima carta es un cierre, no otra carta */
+.qcard .btn-b2p{flex:0 0 auto}
+.qfin{justify-content:center;gap:12px}
+.qfin-ico{color:var(--volt);display:flex;justify-content:center}
+.qfin-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:280px;margin:0 auto}
+.qfin-cta{width:100%;max-width:280px;margin:6px auto 0}
+
 /* ---------- Puerta de entrada: alta, reveal, pausa médica y tour ----------
    Durante el alta/cuestionario/reveal la app no tiene barra: no hay a dónde
    ir hasta que existe un plan. La cabecera se queda (la marca saluda). */

@@ -397,6 +397,78 @@ window.B2P = (function () {
       mol: 'Se protesta il polso: prendi le due bretelle invece della maniglia, così il polso resta neutro.'
     },
 
+    'flexion-declinada': { pat: 'eh',
+      nombre: 'Piegamenti declinati', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Petto alto', 'spalla, tricipite'], equipo: 'Niente (sedia o divano)',
+      cues: ['Piedi sulla sedia, mani poco più larghe delle spalle', 'Più alti i piedi, più peso ti carichi addosso', 'Corpo in plank: glutei e addome stretti', 'Petto quasi a terra a ogni ripetizione'],
+      err: ['Alzare il bacino per alleggerire', 'Dimezzare l’escursione appena alzi i piedi', 'Collo proteso verso il pavimento'],
+      alt: [{ n: 'Piegamenti normali', por: 'se qui non escono 8 puliti' }, { n: 'Con i piedi più alti', por: 'la progressione: ogni spanna pesa di più' }],
+      mol: 'È il gradino successivo ai piegamenti: superate le 15 pulite, alza i piedi invece di contare fino a venti.'
+    },
+    'pino-pared': { pat: 'ev',
+      nombre: 'Piegamento in verticale al muro', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoidi', 'tricipite'], equipo: 'Niente (muro)',
+      cues: ['Di spalle al muro, sali con i piedi camminando fino a essere quasi verticale', 'Mani poco più larghe delle spalle, dita aperte che afferrano il pavimento', 'Scendi SOLO quanto controlli: all’inizio due dita', 'Corpo stretto: senza inarcare la lombare'],
+      err: ['Scendere fino in fondo il primo giorno: si parte con escursione corta', 'Lasciar cadere la testa senza controllo', 'Inarcare la schiena per compensare'],
+      alt: [{ n: 'Piegamenti a pica', por: 'la versione di partenza, molto più gentile' }, { n: 'Con i piedi su una sedia invece che al muro', por: 'il passaggio intermedio' }],
+      mol: 'È la variante avanzata della spinta verticale: solo se i piegamenti a pica escono a 15 puliti e la spalla non dice nulla. Con fastidio di spalla, non è il momento.'
+    },
+    'remo-mesa': { pat: 'th',
+      nombre: 'Rematore inverso sotto il tavolo', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Gran dorsale', 'alta schiena, bicipite'], equipo: 'Niente (tavolo solido)',
+      cues: ['Sdraiati sotto un tavolo solido e afferralo per il bordo', 'Corpo in plank dai talloni alle spalle', 'Tira portando il PETTO al tavolo, gomiti al fianco', 'Stringi le scapole 1″ in alto e scendi in 3″'],
+      err: ['Portare avanti il bacino prima del petto', 'Tirare solo con le braccia senza stringere le scapole', 'Usare un tavolo che si solleva: controllalo prima'],
+      alt: [{ n: 'Ginocchia piegate, piedi a terra', por: 'la versione facile' }, { n: 'Con i piedi su una sedia', por: 'la progressione: più orizzontale, più peso' }],
+      mol: 'Questa è la tirata che carica davvero senza sbarra: se hai un tavolo solido, preferiscila alla lat machine con asciugamano.'
+    },
+    'pistol-asistida': { pat: 'rod',
+      nombre: 'Squat su una gamba assistito', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipite', 'gluteo'], equipo: 'Niente (sedia)',
+      cues: ['In piedi di spalle a una sedia, un piede a terra e l’altro teso davanti', 'Scendi in 3″ fino a sfiorare la sedia col gluteo e risali senza sederti', 'Ginocchio in linea con il piede, mai verso l’interno', 'Braccia avanti come contrappeso'],
+      err: ['Lasciarsi cadere sulla sedia e rimbalzare', 'Ginocchio che cade dentro (è lì che si paga)', 'Tallone che si alza: scendi meno finché la caviglia non lo permette'],
+      alt: [{ n: 'Squat a corpo libero su due gambe', por: 'la versione di partenza' }, { n: 'Una sedia più bassa', por: 'la progressione, fino al pistol completo' }],
+      mol: 'Se il ginocchio protesta: alza la sedia e frena la discesa. È una progressione di squat, non un salto nel vuoto: 8 ripetizioni pulite a due gambe prima di provarci su una.'
+    },
+    'curl-toalla': { pat: 'curl',
+      nombre: 'Curl con asciugamano auto-resistito', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicipite', 'avambraccio'], equipo: 'Asciugamano',
+      cues: ['Un piede blocca un capo dell’asciugamano, la mano sale dall’altro', 'Il braccio libero può tirare in basso per aggiungere resistenza', 'Gomito attaccato al corpo e fermo', 'Sali in 2″, scendi in 3″ senza mollare la tensione'],
+      err: ['Perdere la tensione in alto o in basso', 'Dondolare il busto', 'Mettere tanta resistenza che il movimento si blocca a metà'],
+      alt: [{ n: 'Curl con zaino', por: 'più misurabile: puoi pesare quello che ci metti' }, { n: 'Curl con manubri', por: 'quando avrai attrezzatura' }],
+      mol: 'Senza niente in casa è il ricambio del curl: non si misura in chili, si misura in quanto reggi la discesa.'
+    },
+
+    'zancada-bulgara-pc': { pat: 'zan',
+      nombre: 'Affondo bulgaro a corpo libero', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipite', 'gluteo'], equipo: 'Niente (sedia)',
+      cues: ['Collo del piede dietro sulla sedia, quello davanti a un passo lungo', 'Scendi dritto, ginocchio dietro verso il pavimento', 'Il peso vive nel tallone davanti', 'Scendi in 3″ e sali senza rimbalzare'],
+      err: ['Piede davanti troppo vicino (il ginocchio va avanti e paga)', 'Sbilanciarti in avanti per arrivare', 'Rimbalzare in basso con il ginocchio dietro'],
+      alt: [{ n: 'Affondi alternati sul posto', por: 'la versione di partenza' }, { n: 'Con uno zaino carico', por: 'la progressione quando 12 diventano facili' }],
+      mol: 'Se il ginocchio protesta: allontana di una spanna il piede davanti e scendi meno. È tra le migliori per le gambe senza attrezzi, ma chiede equilibrio: reggiti al muro le prime volte.'
+    },
+    'puente-1p': { pat: 'bis',
+      nombre: 'Ponte per glutei su una gamba', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Grande gluteo', 'ischiocrurali'], equipo: 'Niente',
+      cues: ['Sdraiato, un piede a terra e l’altra gamba tesa in avanti', 'Sali spingendo con il TALLONE fino ad allineare anca e coscia', 'Stringi il gluteo 2″ in alto, senza inarcare la lombare', 'Scendi in 3″ senza appoggiare del tutto'],
+      err: ['Salire inarcando la schiena invece di stringere il gluteo', 'Anca che cede da un lato', 'Appoggiare il piede così lontano che lavora l’ischiocrurale'],
+      alt: [{ n: 'Ponte con due piedi', por: 'la versione di partenza' }, { n: 'Spalle sul divano', por: 'più escursione, più gluteo' }],
+      mol: 'Se la lombare si intromette: avvicina il tallone al gluteo e sali meno. L’anca non deve ruotare: se cade da un lato, torna a due gambe.'
+    },
+    'elev-piernas-suelo': { pat: 'flex',
+      nombre: 'Sollevamento gambe da sdraiato', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Addome basso'], equipo: 'Niente',
+      cues: ['Sdraiato, mani sotto il sacro e lombare INCOLLATA al pavimento', 'Alza le gambe tese fino alla verticale', 'Scendi in 3″ e fermati dove la lombare inizia a staccarsi', 'Quel punto è la tua escursione: scenderà settimana dopo settimana'],
+      err: ['Lasciare inarcare la lombare in discesa (l’errore che infortuna)', 'Prendere slancio con le gambe', 'Scendere più di quanto l’addome regga'],
+      alt: [{ n: 'Crunch inverso', por: 'la versione di partenza' }, { n: 'Sollevamento gambe alla sbarra', por: 'quando avrai una sbarra' }],
+      mol: 'È la progressione del crunch inverso: se la lombare si stacca, piega un po’ le ginocchia e accorcia l’escursione finché non tiene.'
+    },
+    'elev-talon-1p': { pat: 'gem',
+      nombre: 'Calf raise su una gamba', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Polpaccio e soleo'], equipo: 'Niente (gradino)',
+      cues: ['Mezza pianta sul bordo di un gradino, l’altra gamba raccolta', 'Scendi il tallone il più possibile e tieni 1″ in basso', 'Sali verticale, pausa di 1″ in alto: niente rimbalzi', 'Appoggiati al muro solo per l’equilibrio'],
+      err: ['Rimbalzare sfruttando il riflesso del tendine: toglie proprio lo stimolo che cerchiamo', 'Mezza escursione', 'Scaricare il peso sulla mano d’appoggio'],
+      alt: [{ n: 'Calf raise a due gambe', por: 'la versione di partenza' }, { n: 'Con uno zaino carico', por: 'quando 20 per gamba diventano facili' }],
+      mol: 'Se l’Achille dà fastidio: solo isometrie in alto, 3×30″ quella settimana. È l’assicurazione del tendine per la corsa: non saltarla.'
+    },
+    'plancha-lateral': { pat: 'core',
+      nombre: 'Plank laterale', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Obliqui', 'medio gluteo'], equipo: 'Niente',
+      cues: ['Gomito sotto la spalla, corpo in linea dalla caviglia alla testa', 'Alza l’anca e TIENILA: il pavimento non la tocca', 'Spalla lontana dall’orecchio', 'Tieni il tempo previsto per ogni lato'],
+      err: ['Anca che cede (l’obliquo smette di lavorare)', 'Ruotare il petto verso il pavimento', 'Trattenere il respiro'],
+      alt: [{ n: 'Sulle ginocchia', por: 'la versione di partenza' }, { n: 'Con la gamba di sopra sollevata', por: 'la progressione, che chiede anche medio gluteo' }],
+      mol: 'Se la spalla protesta: sali sulla mano a braccio teso, o falla in ginocchio. È la metà laterale del plank: il core non regge solo di fronte.'
+    },
+
     /* — Palestra: spinta — */
     'press-banca': { pat: 'eh',
       nombre: 'Panca piana', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorali', 'tricipiti, deltoide anteriore'], equipo: 'Bilanciere + panca',

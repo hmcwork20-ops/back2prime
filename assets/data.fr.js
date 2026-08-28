@@ -398,6 +398,78 @@ window.B2P = (function () {
       mol: 'Si le poignet proteste : attrape les deux bretelles plutôt que la poignée, ça garde le poignet neutre.'
     },
 
+    'flexion-declinada': { pat: 'eh',
+      nombre: 'Pompes déclinées', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Haut des pectoraux', 'épaule, triceps'], equipo: 'Rien (chaise ou canapé)',
+      cues: ['Pieds sur la chaise, mains un peu plus larges que les épaules', 'Plus les pieds sont hauts, plus tu portes de poids', 'Corps en planche : fessiers et abdos serrés', 'Poitrine presque au sol à chaque répétition'],
+      err: ['Casser les hanches pour se soulager', 'Réduire l’amplitude de moitié dès que les pieds montent', 'Cou tendu vers le sol'],
+      alt: [{ n: 'Pompes classiques', por: 'si tu ne sors pas 8 propres ici' }, { n: 'Pieds plus hauts', por: 'la progression : chaque empan pèse davantage' }],
+      mol: 'C’est la marche suivante après les pompes : passé 15 répétitions propres, monte les pieds au lieu de compter jusqu’à vingt.'
+    },
+    'pino-pared': { pat: 'ev',
+      nombre: 'Pompe en équilibre contre le mur', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoïdes', 'triceps'], equipo: 'Rien (mur)',
+      cues: ['Dos au mur, remonte les pieds en marchant jusqu’à être presque vertical', 'Mains un peu plus larges que les épaules, doigts écartés qui agrippent le sol', 'Descends SEULEMENT ce que tu contrôles : deux doigts au début', 'Corps gainé : sans cambrer le bas du dos'],
+      err: ['Descendre à fond dès le premier jour : on commence avec une amplitude courte', 'Laisser tomber la tête sans contrôle', 'Cambrer le dos pour compenser'],
+      alt: [{ n: 'Pompes piquées', por: 'la version de départ, bien plus douce' }, { n: 'Pieds sur une chaise plutôt qu’au mur', por: 'l’étape intermédiaire' }],
+      mol: 'C’est la variante avancée de la poussée verticale : seulement si les pompes piquées sortent à 15 propres et que l’épaule ne dit rien. Avec une gêne d’épaule, ce n’est pas le moment.'
+    },
+    'remo-mesa': { pat: 'th',
+      nombre: 'Rowing inversé sous la table', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Grand dorsal', 'haut du dos, biceps'], equipo: 'Rien (table solide)',
+      cues: ['Allonge-toi sous une table solide et attrape-la par le bord', 'Corps en planche des talons aux épaules', 'Tire en amenant la POITRINE à la table, coudes au corps', 'Serre les omoplates 1″ en haut et descends en 3″'],
+      err: ['Sortir les hanches avant la poitrine', 'Tirer avec les bras seuls sans serrer les omoplates', 'Utiliser une table qui se soulève : vérifie-la avant'],
+      alt: [{ n: 'Genoux pliés, pieds au sol', por: 'la version facile' }, { n: 'Pieds sur une chaise', por: 'la progression : plus horizontal, plus lourd' }],
+      mol: 'C’est le tirage qui charge vraiment sans barre : si tu as une table solide, préfère-le au tirage à la serviette.'
+    },
+    'pistol-asistida': { pat: 'rod',
+      nombre: 'Squat sur une jambe assisté', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien (chaise)',
+      cues: ['Debout dos à une chaise, un pied au sol, l’autre tendu devant', 'Descends en 3″ jusqu’à effleurer la chaise, puis remonte sans t’asseoir', 'Genou aligné avec le pied, jamais vers l’intérieur', 'Bras devant en contrepoids'],
+      err: ['Se laisser tomber sur la chaise et rebondir', 'Genou qui rentre (c’est là que ça se paie)', 'Talon qui décolle : descends moins jusqu’à ce que la cheville suive'],
+      alt: [{ n: 'Squat au poids du corps sur deux jambes', por: 'la version de départ' }, { n: 'Une chaise plus basse', por: 'la progression, jusqu’au pistol complet' }],
+      mol: 'Si le genou proteste : remonte la hauteur de la chaise et freine la descente. C’est une progression de squat, pas un saut dans le vide : 8 répétitions propres à deux jambes avant d’essayer sur une.'
+    },
+    'curl-toalla': { pat: 'curl',
+      nombre: 'Curl auto-résisté à la serviette', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'avant-bras'], equipo: 'Serviette',
+      cues: ['Un pied bloque un bout de la serviette, la main remonte l’autre', 'Le bras libre peut tirer vers le bas pour ajouter de la résistance', 'Coude collé au corps et fixe', 'Monte en 2″, descends en 3″ sans lâcher la tension'],
+      err: ['Relâcher la tension en haut ou en bas', 'Balancer le buste', 'Mettre tant de résistance que le mouvement se bloque à mi-chemin'],
+      alt: [{ n: 'Curl avec sac à dos', por: 'plus mesurable : tu peux peser ce que tu mets' }, { n: 'Curl avec haltères', por: 'quand tu auras du matériel' }],
+      mol: 'Sans rien à la maison, c’est le remplaçant du curl : il ne se mesure pas en kilos, il se mesure à la durée de la descente.'
+    },
+
+    'zancada-bulgara-pc': { pat: 'zan',
+      nombre: 'Fente bulgare au poids du corps', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien (chaise)',
+      cues: ['Dessus du pied arrière sur la chaise, pied avant à une grande enjambée', 'Descends droit, genou arrière vers le sol', 'Le poids vit dans le talon avant', 'Descends en 3″ et remonte sans rebondir'],
+      err: ['Pied avant trop près (le genou part devant et paie)', 'Se pencher en avant pour y arriver', 'Rebondir en bas avec le genou arrière'],
+      alt: [{ n: 'Fentes alternées sur place', por: 'la version de départ' }, { n: 'Avec un sac à dos chargé', por: 'la progression quand 12 deviennent faciles' }],
+      mol: 'Si le genou proteste : éloigne le pied avant d’un empan et descends moins. C’est l’un des meilleurs mouvements de jambes sans matériel, mais il demande de l’équilibre : tiens-toi au mur les premières fois.'
+    },
+    'puente-1p': { pat: 'bis',
+      nombre: 'Pont fessier sur une jambe', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Grand fessier', 'ischio-jambiers'], equipo: 'Rien',
+      cues: ['Allongé, un pied au sol et l’autre jambe tendue devant', 'Monte en poussant par le TALON jusqu’à aligner hanche et cuisse', 'Serre le fessier 2″ en haut, sans cambrer', 'Descends en 3″ sans reposer complètement'],
+      err: ['Monter en cambrant le dos au lieu de serrer le fessier', 'Hanche qui tombe d’un côté', 'Poser le pied si loin que l’ischio prend le relais'],
+      alt: [{ n: 'Pont sur deux pieds', por: 'la version de départ' }, { n: 'Épaules sur le canapé', por: 'plus d’amplitude, plus de fessier' }],
+      mol: 'Si le bas du dos s’en mêle : rapproche le talon du fessier et monte moins haut. La hanche ne doit pas tourner : si elle tombe d’un côté, reviens à deux jambes.'
+    },
+    'elev-piernas-suelo': { pat: 'flex',
+      nombre: 'Relevé de jambes allongé', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Bas des abdominaux'], equipo: 'Rien',
+      cues: ['Sur le dos, mains sous le sacrum et bas du dos COLLÉ au sol', 'Monte les jambes tendues à la verticale', 'Descends en 3″ et arrête-toi là où le bas du dos commence à décoller', 'Ce point est ton amplitude : il descendra chaque semaine'],
+      err: ['Laisser le bas du dos se cambrer à la descente (l’erreur qui blesse)', 'Prendre de l’élan avec les jambes', 'Descendre plus bas que ce que les abdos tiennent'],
+      alt: [{ n: 'Crunch inversé', por: 'la version de départ' }, { n: 'Relevé de jambes suspendu', por: 'quand tu auras une barre' }],
+      mol: 'C’est la progression du crunch inversé : si le bas du dos décolle, plie un peu les genoux et raccourcis l’amplitude jusqu’à ce que ça tienne.'
+    },
+    'elev-talon-1p': { pat: 'gem',
+      nombre: 'Extension du mollet sur une jambe', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Mollet et soléaire'], equipo: 'Rien (marche)',
+      cues: ['Demi-plante sur le bord d’une marche, l’autre jambe repliée', 'Descends le talon au maximum et tiens 1″ en bas', 'Monte à la verticale, pause d’1″ en haut : pas de rebond', 'Appuie-toi au mur seulement pour l’équilibre'],
+      err: ['Rebondir sur le réflexe du tendon : ça enlève justement le stimulus recherché', 'Demi-amplitude', 'Charger le poids sur la main qui s’appuie'],
+      alt: [{ n: 'Extension des mollets sur deux jambes', por: 'la version de départ' }, { n: 'Avec un sac à dos chargé', por: 'quand 20 par jambe deviennent faciles' }],
+      mol: 'Si l’Achille gêne : uniquement des isométriques en haut, 3×30″ cette semaine. C’est l’assurance tendon pour la course : ne le saute pas.'
+    },
+    'plancha-lateral': { pat: 'core',
+      nombre: 'Planche latérale', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Obliques', 'moyen fessier'], equipo: 'Rien',
+      cues: ['Coude sous l’épaule, corps aligné de la cheville à la tête', 'Monte la hanche et TIENS-LA : le sol ne la touche pas', 'Épaule loin de l’oreille', 'Tiens le temps prévu de chaque côté'],
+      err: ['Hanche qui s’affaisse (l’oblique arrête de travailler)', 'Rouler la poitrine vers le sol', 'Bloquer la respiration'],
+      alt: [{ n: 'Sur les genoux', por: 'la version de départ' }, { n: 'Jambe du dessus levée', por: 'la progression, qui demande en plus du moyen fessier' }],
+      mol: 'Si l’épaule proteste : monte sur la main bras tendu, ou fais-la à genoux. C’est la moitié latérale de la planche : le gainage ne tient pas que de face.'
+    },
+
     /* — Salle : poussée — */
     'press-banca': { pat: 'eh',
       nombre: 'Développé couché', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps, deltoïde antérieur'], equipo: 'Barre + banc',

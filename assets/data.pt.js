@@ -398,6 +398,78 @@ window.B2P = (function () {
       mol: 'Se o punho incomodar: agarra pelas duas alças em vez da pega, que deixa o punho neutro.'
     },
 
+    'flexion-declinada': { pat: 'eh',
+      nombre: 'Flexões declinadas', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Peitoral superior', 'ombro, tricípite'], equipo: 'Nada (cadeira ou sofá)',
+      cues: ['Pés na cadeira, mãos um pouco mais largas do que os ombros', 'Quanto mais altos os pés, mais peso levas em cima', 'Corpo em prancha: glúteo e abdómen apertados', 'Peito quase ao chão em cada repetição'],
+      err: ['Levantar a anca em pico para aliviar', 'Cortar o percurso a meio assim que sobes os pés', 'Pescoço esticado à procura do chão'],
+      alt: [{ n: 'Flexões normais', por: 'se aqui não saírem 8 limpas' }, { n: 'Com os pés mais altos', por: 'a progressão: cada palmo pesa mais' }],
+      mol: 'É o degrau a seguir às flexões: passadas 15 limpas, sobe os pés em vez de contar até vinte.'
+    },
+    'pino-pared': { pat: 'ev',
+      nombre: 'Flexão em pino contra a parede', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoides', 'tricípite'], equipo: 'Nada (parede)',
+      cues: ['De costas para a parede, sobe os pés a caminhar até ficares quase vertical', 'Mãos um pouco mais largas do que os ombros, dedos abertos a agarrar o chão', 'Desce SÓ o que controlares: ao início, dois dedos', 'Corpo apertado: sem arquear a lombar'],
+      err: ['Descer até ao fundo no primeiro dia: começa-se com percurso curto', 'Deixar cair a cabeça sem controlo', 'Arquear as costas para compensar'],
+      alt: [{ n: 'Flexões em pica', por: 'a versão de partida, muito mais simpática' }, { n: 'Com os pés numa cadeira em vez da parede', por: 'o passo intermédio' }],
+      mol: 'É a variante avançada do empurrão vertical: só se as flexões em pica te saírem a 15 limpas e o ombro não disser nada. Com incómodo no ombro, não é agora.'
+    },
+    'remo-mesa': { pat: 'th',
+      nombre: 'Remada invertida debaixo da mesa', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Grande dorsal', 'costas altas, bicípite'], equipo: 'Nada (mesa firme)',
+      cues: ['Deita-te debaixo de uma mesa sólida e agarra-a pela borda', 'Corpo em prancha dos calcanhares aos ombros', 'Puxa levando o PEITO à mesa, cotovelos ao lado do corpo', 'Aperta as omoplatas 1″ em cima e desce em 3″'],
+      err: ['Levar a anca à frente do peito', 'Puxar só com os braços sem juntar as omoplatas', 'Usar uma mesa que se levante: confirma antes'],
+      alt: [{ n: 'Com os joelhos dobrados e os pés no chão', por: 'a versão fácil' }, { n: 'Com os pés numa cadeira', por: 'a progressão: mais horizontal, mais peso' }],
+      mol: 'Esta é a puxada que carrega a sério sem barra: se tens uma mesa firme, dá-lhe preferência sobre a puxada com toalha.'
+    },
+    'pistol-asistida': { pat: 'rod',
+      nombre: 'Agachamento a uma perna assistido', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadríceps', 'glúteo'], equipo: 'Nada (cadeira)',
+      cues: ['De pé, de costas para uma cadeira, um pé no chão e o outro esticado à frente', 'Desce em 3″ até roçar a cadeira com o glúteo e sobe sem te sentares', 'Joelho alinhado com o pé, nunca a cair para dentro', 'Braços à frente fazem de contrapeso'],
+      err: ['Deixares-te cair na cadeira e ressaltar', 'Joelho para dentro (é aí que se paga)', 'Calcanhar que levanta: desce menos até o tornozelo permitir'],
+      alt: [{ n: 'Agachamento ao peso do corpo com as duas pernas', por: 'a versão de partida' }, { n: 'Uma cadeira mais baixa', por: 'a progressão, até ao pistol completo' }],
+      mol: 'Se o joelho incomodar: sobe a altura da cadeira e trava a descida. É progressão de agachamento, não um salto no escuro: 8 limpas com as duas pernas antes de tentares a uma.'
+    },
+    'curl-toalla': { pat: 'curl',
+      nombre: 'Curl com toalha auto-resistido', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicípite', 'antebraço'], equipo: 'Toalha',
+      cues: ['Um pé pisa uma ponta da toalha, a mão sobe pela outra', 'O braço livre pode puxar para baixo para pôr mais resistência', 'Cotovelo colado ao corpo e fixo', 'Sobe em 2″, desce em 3″ sem largar a tensão'],
+      err: ['Largar a tensão em cima ou em baixo', 'Baloiçar o tronco', 'Pôr tanta resistência que o movimento trave a meio'],
+      alt: [{ n: 'Curl com mochila', por: 'mais mensurável: podes pesar o que lá metes' }, { n: 'Curl com halteres', por: 'quando tiveres material' }],
+      mol: 'Sem nada em casa é o substituto do curl: não se mede em quilos, mede-se em quanto aguentas a descida.'
+    },
+
+    'zancada-bulgara-pc': { pat: 'zan',
+      nombre: 'Afundo búlgaro ao peso do corpo', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadríceps', 'glúteo'], equipo: 'Nada (cadeira)',
+      cues: ['Peito do pé de trás na cadeira, o da frente a uma passada larga', 'Desce a direito, joelho de trás na direção do chão', 'O peso vive no calcanhar da frente', 'Desce em 3″ e sobe sem ressaltar'],
+      err: ['Pôr o pé da frente demasiado perto (o joelho vai à frente e paga)', 'Inclinares-te para a frente para chegar', 'Ressaltar em baixo com o joelho de trás'],
+      alt: [{ n: 'Afundo alternado no sítio', por: 'a versão de partida' }, { n: 'Com uma mochila carregada', por: 'a progressão quando 12 saírem fáceis' }],
+      mol: 'Se o joelho incomodar: afasta um palmo o pé da frente e desce menos. É das que mais perna dão sem material, mas pede equilíbrio: agarra-te a uma parede das primeiras vezes.'
+    },
+    'puente-1p': { pat: 'bis',
+      nombre: 'Ponte de glúteo a uma perna', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Grande glúteo', 'isquiotibiais'], equipo: 'Nada',
+      cues: ['Deitado, um pé apoiado e a outra perna esticada à frente', 'Sobe a empurrar com o CALCANHAR até alinhar anca e coxa', 'Aperta o glúteo 2″ em cima, sem arquear a lombar', 'Desce em 3″ sem apoiar por completo'],
+      err: ['Subir a arquear as costas em vez de apertar o glúteo', 'Anca que cai para um lado', 'Apoiar o pé tão longe que passa a trabalhar o isquiotibial'],
+      alt: [{ n: 'Ponte com os dois pés', por: 'a versão de partida' }, { n: 'Com os ombros no sofá', por: 'mais percurso, mais glúteo' }],
+      mol: 'Se a lombar se meter: aproxima o calcanhar do glúteo e sobe menos. A anca não deve rodar: se cai para um lado, volta a duas pernas.'
+    },
+    'elev-piernas-suelo': { pat: 'flex',
+      nombre: 'Elevação de pernas deitado', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Abdómen inferior'], equipo: 'Nada',
+      cues: ['Deitado, mãos debaixo do sacro e lombar COLADA ao chão', 'Sobe as pernas esticadas até à vertical', 'Desce em 3″ e para onde a lombar começar a descolar', 'Esse ponto é o teu percurso: vai descendo cada semana'],
+      err: ['Deixar a lombar arquear ao descer (o erro que lesiona)', 'Ganhar balanço com as pernas', 'Descer mais do que o abdómen aguenta'],
+      alt: [{ n: 'Crunch invertido', por: 'a versão de partida' }, { n: 'Elevação de pernas suspenso', por: 'quando tiveres barra' }],
+      mol: 'É a progressão do crunch invertido: se a lombar descolar, dobra um pouco os joelhos e corta o percurso até aguentar.'
+    },
+    'elev-talon-1p': { pat: 'gem',
+      nombre: 'Elevação de calcanhar a uma perna', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Gémeo e solear'], equipo: 'Nada (degrau)',
+      cues: ['Meia planta na borda de um degrau, a outra perna recolhida', 'Desce o calcanhar o máximo que der e aguenta 1″ em baixo', 'Sobe na vertical, pausa de 1″ em cima: sem ressaltos', 'Apoia-te na parede só para o equilíbrio'],
+      err: ['Ressaltar a aproveitar o reflexo do tendão: tira exatamente o estímulo que queremos', 'Meio percurso', 'Descarregar o peso na mão que se apoia'],
+      alt: [{ n: 'Elevação de calcanhares a duas pernas', por: 'a versão de partida' }, { n: 'Com uma mochila carregada', por: 'quando 20 por perna saírem fáceis' }],
+      mol: 'Se o Aquiles incomodar: só isométricos em cima, 3×30″ nessa semana. Este é o seguro do tendão para a corrida: não o saltes.'
+    },
+    'plancha-lateral': { pat: 'core',
+      nombre: 'Prancha lateral', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Oblíquos', 'glúteo médio'], equipo: 'Nada',
+      cues: ['Cotovelo debaixo do ombro, corpo alinhado do tornozelo à cabeça', 'Sobe a anca e MANTÉM-NA: o chão não lhe toca', 'Ombro longe da orelha', 'Aguenta o tempo marcado de cada lado'],
+      err: ['Anca a ceder (o oblíquo deixa de trabalhar)', 'Rodar o peito na direção do chão', 'Prender a respiração'],
+      alt: [{ n: 'Com os joelhos apoiados', por: 'a versão de partida' }, { n: 'Com a perna de cima elevada', por: 'a progressão, que ainda pede glúteo médio' }],
+      mol: 'Se o ombro incomodar: apoia na mão com o braço esticado, ou fá-la de joelhos. É a metade lateral da prancha: o core não aguenta só de frente.'
+    },
+
     /* — Ginásio: empurrar — */
     'press-banca': { pat: 'eh',
       nombre: 'Supino', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Peitoral', 'tríceps, deltoide anterior'], equipo: 'Barra + banco',

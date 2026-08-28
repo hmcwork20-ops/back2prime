@@ -397,6 +397,78 @@ window.B2P = (function () {
       mol: 'Si molesta la muñeca: agarra por las dos correas en vez de por el asa, que deja la muñeca neutra.'
     },
 
+    'flexion-declinada': { pat: 'eh',
+      nombre: 'Flexiones declinadas', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Nada (silla o sofá)',
+      cues: ['Pies en la silla, manos algo más anchas que los hombros', 'Cuanto más altos los pies, más peso llevas encima', 'Cuerpo en tabla: glúteo y abdomen apretados', 'Pecho casi al suelo en cada repetición'],
+      err: ['Cadera en pico para aliviar', 'Bajar solo medio recorrido al subir la altura', 'Cuello adelantado buscando el suelo'],
+      alt: [{ n: 'Flexiones normales', por: 'si aquí no salen 8 limpias' }, { n: 'Con los pies más altos', por: 'la progresión: cada palmo pesa más' }],
+      mol: 'Es el escalón siguiente a las flexiones: cuando pases de 15 limpias, sube los pies en vez de contar hasta veinte.'
+    },
+    'pino-pared': { pat: 'ev',
+      nombre: 'Flexión en pino contra pared', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoides', 'tríceps'], equipo: 'Nada (pared)',
+      cues: ['De espaldas a la pared, sube los pies caminando hasta quedar casi vertical', 'Manos algo más anchas que los hombros, dedos abiertos agarrando el suelo', 'Baja SOLO lo que controles: al principio, dos dedos', 'Cuerpo apretado: sin arquear la lumbar'],
+      err: ['Subir del todo el primer día: se empieza con el recorrido corto', 'Dejar caer la cabeza sin control', 'Arquear la espalda para compensar'],
+      alt: [{ n: 'Flexiones en pica', por: 'la versión de partida, mucho más amable' }, { n: 'Con los pies en una silla en vez de la pared', por: 'paso intermedio' }],
+      mol: 'Es la variante avanzada del empuje vertical: solo si las flexiones en pica te salen a 15 limpias y el hombro no dice nada. Con molestia de hombro, no toca.'
+    },
+    'remo-mesa': { pat: 'th',
+      nombre: 'Remo invertido bajo la mesa', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'espalda alta, bíceps'], equipo: 'Nada (mesa firme)',
+      cues: ['Túmbate bajo una mesa sólida y agárrala por el borde', 'Cuerpo en tabla desde talones a hombros', 'Tira llevando el PECHO a la mesa, codos al costado', 'Aprieta las escápulas 1″ arriba y baja en 3″'],
+      err: ['Sacar la cadera antes que el pecho', 'Tirar solo con los brazos sin juntar escápulas', 'Usar una mesa que se levante: compruébala antes'],
+      alt: [{ n: 'Con las rodillas dobladas y los pies en el suelo', por: 'la versión fácil' }, { n: 'Con los pies en una silla', por: 'la progresión: más horizontal, más peso' }],
+      mol: 'Este es el tirón que de verdad carga sin barra: si tienes una mesa firme, prefiérelo al jalón con toalla.'
+    },
+    'pistol-asistida': { pat: 'rod',
+      nombre: 'Sentadilla a una pierna asistida', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada (silla)',
+      cues: ['De pie frente a una silla, un pie en el suelo y el otro estirado delante', 'Baja en 3″ hasta rozar la silla con el glúteo y sube sin sentarte', 'Rodilla alineada con el pie, sin caer hacia dentro', 'Brazos al frente hacen de contrapeso'],
+      err: ['Dejarte caer en la silla y rebotar', 'Rodilla hacia dentro (ahí es donde se paga)', 'Talón que se levanta: baja menos hasta que el tobillo dé'],
+      alt: [{ n: 'Con las dos piernas, sentadilla al peso corporal', por: 'la versión de partida' }, { n: 'Con una silla más baja', por: 'la progresión, hasta llegar a la pistol completa' }],
+      mol: 'Si la rodilla molesta: sube la altura de la silla y frena la bajada. Es progresión de sentadilla, no un salto al vacío: 8 limpias con las dos piernas antes de intentarla a una.'
+    },
+    'curl-toalla': { pat: 'curl',
+      nombre: 'Curl con toalla auto-resistido', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bíceps', 'antebrazo'], equipo: 'Toalla',
+      cues: ['Un pie pisa un extremo de la toalla, la mano sube por el otro', 'El brazo libre puede tirar hacia abajo para poner más resistencia', 'Codo pegado al cuerpo y fijo', 'Sube en 2″, baja en 3″ sin soltar tensión'],
+      err: ['Soltar la tensión arriba o abajo', 'Balancear el tronco', 'Poner tanta resistencia que el movimiento se corte a la mitad'],
+      alt: [{ n: 'Curl con mochila', por: 'más medible: puedes pesar lo que metes' }, { n: 'Curl con mancuernas', por: 'cuando tengas material' }],
+      mol: 'Sin nada en casa es el recambio del curl: no se mide en kilos, se mide en cuánto aguantas la bajada.'
+    },
+
+    'zancada-bulgara-pc': { pat: 'zan',
+      nombre: 'Zancada búlgara al peso corporal', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada (silla)',
+      cues: ['Empeine del pie de atrás sobre la silla, el de delante a un paso largo', 'Baja recto, la rodilla de atrás hacia el suelo', 'El peso vive en el talón de delante', 'Baja en 3″ y sube sin rebotar'],
+      err: ['Poner el pie de delante demasiado cerca (la rodilla se adelanta y paga)', 'Inclinarte hacia delante para llegar', 'Rebotar abajo con la rodilla de atrás'],
+      alt: [{ n: 'Zancada alterna en el sitio', por: 'la versión de partida' }, { n: 'Con una mochila cargada', por: 'la progresión cuando 12 salen fáciles' }],
+      mol: 'Si la rodilla molesta: aleja un palmo el pie de delante y baja menos. Es de las que más pierna dan sin material, pero pide equilibrio: agárrate a una pared las primeras veces.'
+    },
+    'puente-1p': { pat: 'bis',
+      nombre: 'Puente de glúteo a una pierna', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glúteo mayor', 'isquiotibiales'], equipo: 'Nada',
+      cues: ['Tumbado, un pie apoyado y la otra pierna estirada al frente', 'Sube empujando con el TALÓN hasta alinear cadera y muslo', 'Aprieta el glúteo 2″ arriba, sin arquear la lumbar', 'Baja en 3″ sin apoyar del todo'],
+      err: ['Subir arqueando la espalda en vez de apretando el glúteo', 'Cadera que se descuelga hacia un lado', 'Apoyar el pie tan lejos que trabaje el isquio y no el glúteo'],
+      alt: [{ n: 'Puente con los dos pies', por: 'la versión de partida' }, { n: 'Con los hombros en el sofá', por: 'más recorrido, más glúteo' }],
+      mol: 'Si la lumbar se mete: acerca el talón al glúteo y sube menos. La cadera no debe rotar: si se cae de un lado, vuelve a dos piernas.'
+    },
+    'elev-piernas-suelo': { pat: 'flex',
+      nombre: 'Elevación de piernas tumbado', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Abdomen inferior'], equipo: 'Nada',
+      cues: ['Tumbado, manos bajo el sacro y lumbar PEGADA al suelo', 'Sube las piernas rectas hasta la vertical', 'Baja en 3″ y para donde la lumbar empiece a despegarse', 'Ese punto es tu recorrido: irá bajando cada semana'],
+      err: ['Dejar que la lumbar se arquee al bajar (el error que lesiona)', 'Coger impulso con las piernas', 'Bajar más de lo que el abdomen aguanta'],
+      alt: [{ n: 'Crunch inverso', por: 'la versión de partida' }, { n: 'Elevación de piernas suspendido', por: 'cuando tengas barra' }],
+      mol: 'Es la progresión del crunch inverso: si la lumbar se despega, dobla un poco las rodillas y recorta el recorrido hasta que aguante.'
+    },
+    'elev-talon-1p': { pat: 'gem',
+      nombre: 'Elevación de talón a una pierna', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Gemelo y sóleo'], equipo: 'Nada (escalón)',
+      cues: ['Media planta en el borde de un escalón, la otra pierna recogida', 'Baja el talón todo lo que dé y aguanta 1″ abajo', 'Sube vertical, pausa de 1″ arriba: sin rebotes', 'Apóyate en la pared solo para el equilibrio'],
+      err: ['Rebotar aprovechando el reflejo del tendón: quita justo el estímulo que buscamos', 'Medio recorrido', 'Cargar el peso en la mano que se apoya'],
+      alt: [{ n: 'Elevación de talones a dos piernas', por: 'la versión de partida' }, { n: 'Con una mochila cargada', por: 'cuando 20 por pierna salgan fáciles' }],
+      mol: 'Si el Aquiles incomoda: solo isométricos arriba, 3×30″ esa semana. Este es el seguro del tendón para el trote: no lo saltes.'
+    },
+    'plancha-lateral': { pat: 'core',
+      nombre: 'Plancha lateral', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Oblicuos', 'glúteo medio'], equipo: 'Nada',
+      cues: ['Codo bajo el hombro, cuerpo en línea de tobillo a cabeza', 'Sube la cadera y MANTÉNLA: el suelo no la toca', 'Hombro lejos de la oreja', 'Aguanta el tiempo marcado por cada lado'],
+      err: ['Cadera caída (deja de trabajar el oblicuo)', 'Rodar el pecho hacia el suelo', 'Aguantar la respiración'],
+      alt: [{ n: 'Con las rodillas apoyadas', por: 'la versión de partida' }, { n: 'Con la pierna de arriba elevada', por: 'la progresión, que además pide glúteo medio' }],
+      mol: 'Si el hombro molesta: apoya en la mano con el brazo estirado, o hazla de rodillas. Es el complemento lateral de la plancha: el core no solo aguanta de frente.'
+    },
+
     /* — Gym: empuje — */
     'press-banca': { pat: 'eh',
       nombre: 'Press banca', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral', 'tríceps, deltoides anterior'], equipo: 'Barra + banco',

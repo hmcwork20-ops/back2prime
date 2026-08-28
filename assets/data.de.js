@@ -397,6 +397,78 @@ window.B2P = (function () {
       mol: 'Wenn das Handgelenk meckert: beide Träger statt des Griffs fassen, das hält das Handgelenk neutral.'
     },
 
+    'flexion-declinada': { pat: 'eh',
+      nombre: 'Liegestütze mit erhöhten Füßen', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Obere Brust', 'Schulter, Trizeps'], equipo: 'Nichts (Stuhl oder Sofa)',
+      cues: ['Füße auf den Stuhl, Hände etwas weiter als schulterbreit', 'Je höher die Füße, desto mehr Gewicht liegt auf den Händen', 'Körper wie ein Brett: Po und Bauch fest', 'Brust bei jeder Wiederholung fast zum Boden'],
+      err: ['Die Hüfte hochschieben, um es leichter zu machen', 'Den Weg halbieren, sobald die Füße höher stehen', 'Den Hals zum Boden strecken'],
+      alt: [{ n: 'Normale Liegestütze', por: 'wenn hier keine 8 sauberen kommen' }, { n: 'Füße höher', por: 'die Steigerung: jede Handbreit wiegt mehr' }],
+      mol: 'Das ist die nächste Stufe nach den Liegestützen: ab 15 sauberen Wiederholungen die Füße höher legen, statt bis zwanzig zu zählen.'
+    },
+    'pino-pared': { pat: 'ev',
+      nombre: 'Handstand-Liegestütz an der Wand', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltamuskel', 'Trizeps'], equipo: 'Nichts (Wand)',
+      cues: ['Mit dem Rücken zur Wand die Füße hochlaufen, bis du fast senkrecht stehst', 'Hände etwas weiter als schulterbreit, Finger gespreizt und im Boden verankert', 'Nur so weit runter, wie du es kontrollierst: anfangs zwei Fingerbreit', 'Ganzer Körper fest: kein Hohlkreuz'],
+      err: ['Am ersten Tag ganz runtergehen: man startet mit kurzem Weg', 'Den Kopf unkontrolliert fallen lassen', 'Den Rücken zum Ausgleich überstrecken'],
+      alt: [{ n: 'Pike-Liegestütze', por: 'die Einstiegsversion, deutlich freundlicher' }, { n: 'Füße auf einem Stuhl statt an der Wand', por: 'die Zwischenstufe' }],
+      mol: 'Das ist die fortgeschrittene Variante des vertikalen Drückens: nur wenn Pike-Liegestütze sauber 15-mal kommen und die Schulter nichts sagt. Bei Schulterbeschwerden nicht.'
+    },
+    'remo-mesa': { pat: 'th',
+      nombre: 'Umgekehrtes Rudern unter dem Tisch', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Latissimus', 'oberer Rücken, Bizeps'], equipo: 'Nichts (stabiler Tisch)',
+      cues: ['Leg dich unter einen stabilen Tisch und greif die Kante', 'Körper wie ein Brett von den Fersen bis zu den Schultern', 'Zieh die BRUST zum Tisch, Ellbogen am Körper', 'Schulterblätter oben 1″ zusammendrücken, in 3″ ablassen'],
+      err: ['Mit der Hüfte zuerst statt mit der Brust', 'Nur mit den Armen ziehen, ohne die Schulterblätter zu schließen', 'Einen Tisch nehmen, der hochkippt: vorher prüfen'],
+      alt: [{ n: 'Knie gebeugt, Füße am Boden', por: 'die leichte Version' }, { n: 'Füße auf einem Stuhl', por: 'die Steigerung: waagerechter, schwerer' }],
+      mol: 'Das ist der Zug, der ohne Stange wirklich lädt: wenn du einen stabilen Tisch hast, nimm ihn statt des Handtuch-Latzugs.'
+    },
+    'pistol-asistida': { pat: 'rod',
+      nombre: 'Einbeinige Kniebeuge mit Hilfe', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts (Stuhl)',
+      cues: ['Mit dem Rücken zum Stuhl stehen, ein Fuß am Boden, das andere Bein nach vorn gestreckt', 'In 3″ runter, bis der Po den Stuhl streift, dann hoch ohne dich zu setzen', 'Knie über dem Fuß, nie nach innen', 'Arme nach vorn als Gegengewicht'],
+      err: ['Sich auf den Stuhl fallen lassen und abfedern', 'Knie fällt nach innen (da zahlst du)', 'Ferse hebt ab: geh weniger tief, bis das Sprunggelenk mitmacht'],
+      alt: [{ n: 'Beidbeinige Kniebeuge ohne Gewicht', por: 'die Einstiegsversion' }, { n: 'Ein niedrigerer Stuhl', por: 'die Steigerung, bis zur vollen Pistol' }],
+      mol: 'Wenn das Knie meckert: Stuhl höher stellen und langsamer absenken. Das ist eine Kniebeugen-Steigerung, kein Sprung ins Leere: 8 saubere beidbeinige Wiederholungen, bevor du es einbeinig probierst.'
+    },
+    'curl-toalla': { pat: 'curl',
+      nombre: 'Selbstwiderstands-Curl mit Handtuch', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bizeps', 'Unterarm'], equipo: 'Handtuch',
+      cues: ['Ein Fuß fixiert ein Ende des Handtuchs, die Hand curlt am anderen hoch', 'Der freie Arm kann nach unten ziehen und Widerstand geben', 'Ellbogen eng am Körper und fixiert', 'In 2″ hoch, in 3″ runter, ohne die Spannung loszulassen'],
+      err: ['Oben oder unten die Spannung verlieren', 'Mit dem Oberkörper schwingen', 'So viel Widerstand geben, dass die Bewegung auf halbem Weg stehen bleibt'],
+      alt: [{ n: 'Rucksack-Curl', por: 'messbarer: du kannst wiegen, was reinkommt' }, { n: 'Kurzhantel-Curl', por: 'sobald du Material hast' }],
+      mol: 'Ohne alles zu Hause ist das der Ersatz-Curl: er misst sich nicht in Kilo, sondern darin, wie lange du das Absenken hältst.'
+    },
+
+    'zancada-bulgara-pc': { pat: 'zan',
+      nombre: 'Bulgarische Kniebeuge ohne Gewicht', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts (Stuhl)',
+      cues: ['Spann des hinteren Fußes auf den Stuhl, vorderer Fuß einen langen Schritt entfernt', 'Gerade nach unten, hinteres Knie Richtung Boden', 'Das Gewicht liegt in der vorderen Ferse', 'In 3″ runter und ohne Federn hoch'],
+      err: ['Vorderen Fuß zu nah setzen (das Knie wandert nach vorn und zahlt)', 'Sich nach vorn lehnen, um unten anzukommen', 'Unten mit dem hinteren Knie abfedern'],
+      alt: [{ n: 'Ausfallschritte im Wechsel auf der Stelle', por: 'die Einstiegsversion' }, { n: 'Mit beladenem Rucksack', por: 'die Steigerung, wenn 12 leicht fallen' }],
+      mol: 'Wenn das Knie meckert: vorderen Fuß eine Handbreit weiter nach vorn und weniger tief. Eine der besten Beinübungen ohne Material, aber sie verlangt Gleichgewicht: halt dich die ersten Male an der Wand fest.'
+    },
+    'puente-1p': { pat: 'bis',
+      nombre: 'Einbeinige Glute Bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Großer Gesäßmuskel', 'Beinbeuger'], equipo: 'Nichts',
+      cues: ['Auf dem Rücken, ein Fuß aufgestellt, das andere Bein gestreckt nach vorn', 'Über die FERSE hochdrücken, bis Hüfte und Oberschenkel eine Linie bilden', 'Oben 2″ das Gesäß anspannen, ohne ins Hohlkreuz zu gehen', 'In 3″ ablassen, ohne ganz abzulegen'],
+      err: ['Über das Hohlkreuz hochkommen statt über das Gesäß', 'Die Hüfte zur Seite kippen lassen', 'Den Fuß so weit weg stellen, dass der Beinbeuger übernimmt'],
+      alt: [{ n: 'Brücke mit beiden Füßen', por: 'die Einstiegsversion' }, { n: 'Schultern auf dem Sofa', por: 'mehr Weg, mehr Gesäß' }],
+      mol: 'Wenn der untere Rücken mitmacht: Ferse näher ans Gesäß und weniger hoch. Die Hüfte darf nicht rotieren: kippt sie zur Seite, zurück auf beide Beine.'
+    },
+    'elev-piernas-suelo': { pat: 'flex',
+      nombre: 'Beinheben im Liegen', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Unterer Bauch'], equipo: 'Nichts',
+      cues: ['Auf dem Rücken, Hände unter dem Kreuzbein, unterer Rücken FEST am Boden', 'Gestreckte Beine bis in die Senkrechte heben', 'In 3″ senken und dort stoppen, wo der untere Rücken abhebt', 'Dieser Punkt ist dein Weg: er sinkt Woche für Woche'],
+      err: ['Den unteren Rücken beim Absenken ins Hohlkreuz gehen lassen (der Verletzungsfehler)', 'Mit den Beinen Schwung holen', 'Tiefer gehen, als der Bauch halten kann'],
+      alt: [{ n: 'Reverse Crunch', por: 'die Einstiegsversion' }, { n: 'Hängendes Beinheben', por: 'sobald du eine Stange hast' }],
+      mol: 'Das ist die Steigerung des Reverse Crunch: hebt der untere Rücken ab, Knie leicht beugen und den Weg kürzen, bis er hält.'
+    },
+    'elev-talon-1p': { pat: 'gem',
+      nombre: 'Einbeiniges Wadenheben', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Wade und Schollenmuskel'], equipo: 'Nichts (Stufe)',
+      cues: ['Halber Fuß auf der Stufenkante, das andere Bein angezogen', 'Ferse so tief wie möglich senken und unten 1″ halten', 'Senkrecht hoch, 1″ Pause oben: kein Federn', 'An der Wand nur zum Gleichgewicht abstützen'],
+      err: ['Über den Sehnenreflex federn: das nimmt genau den Reiz weg, den wir wollen', 'Halber Weg', 'Das Gewicht auf die stützende Hand verlagern'],
+      alt: [{ n: 'Beidbeiniges Wadenheben', por: 'die Einstiegsversion' }, { n: 'Mit beladenem Rucksack', por: 'wenn 20 pro Bein leicht fallen' }],
+      mol: 'Wenn die Achillessehne zwickt: nur Isometrie oben, 3×30″ in der Woche. Das ist die Sehnenversicherung fürs Laufen: nicht auslassen.'
+    },
+    'plancha-lateral': { pat: 'core',
+      nombre: 'Seitstütz', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Schräge Bauchmuskeln', 'Gluteus medius'], equipo: 'Nichts',
+      cues: ['Ellbogen unter der Schulter, Körper in einer Linie von Knöchel bis Kopf', 'Hüfte anheben und OBEN HALTEN: der Boden berührt sie nicht', 'Schulter weg vom Ohr', 'Die vorgegebene Zeit pro Seite halten'],
+      err: ['Absinkende Hüfte (der schräge Bauchmuskel steigt aus)', 'Die Brust Richtung Boden drehen', 'Die Luft anhalten'],
+      alt: [{ n: 'Auf den Knien', por: 'die Einstiegsversion' }, { n: 'Oberes Bein angehoben', por: 'die Steigerung, die zusätzlich den Gluteus medius fordert' }],
+      mol: 'Wenn die Schulter meckert: auf die Hand mit gestrecktem Arm wechseln oder aus dem Knien. Das ist die seitliche Hälfte der Planke: der Rumpf hält nicht nur von vorn.'
+    },
+
     /* — Gym: Drücken — */
     'press-banca': { pat: 'eh',
       nombre: 'Bankdrücken', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Brust', 'Trizeps, vordere Schulter'], equipo: 'Langhantel + Bank',

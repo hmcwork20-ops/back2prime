@@ -397,6 +397,78 @@ window.B2P = (function () {
       mol: 'If your wrist complains: hold both straps instead of the handle, which keeps the wrist neutral.'
     },
 
+    'flexion-declinada': { pat: 'eh',
+      nombre: 'Decline push-ups', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Upper chest', 'shoulder, triceps'], equipo: 'Nothing (chair or sofa)',
+      cues: ['Feet on the chair, hands slightly wider than your shoulders', 'The higher the feet, the more of you is on your hands', 'Body in a plank: glutes and abs squeezed', 'Chest almost to the floor on every rep'],
+      err: ['Piking the hips to make it easier', 'Cutting the range in half once the feet go up', 'Neck reaching for the floor'],
+      alt: [{ n: 'Regular push-ups', por: 'if you cannot get 8 clean ones here' }, { n: 'Feet higher', por: 'the progression: every extra hand-span weighs more' }],
+      mol: 'This is the next step up from push-ups: once you pass 15 clean reps, raise your feet instead of counting to twenty.'
+    },
+    'pino-pared': { pat: 'ev',
+      nombre: 'Wall handstand push-up', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoids', 'triceps'], equipo: 'Nothing (wall)',
+      cues: ['Back to the wall, walk your feet up until you are nearly vertical', 'Hands slightly wider than your shoulders, fingers spread and gripping the floor', 'Only go down as far as you control: two finger-widths at first', 'Whole body tight: no arching the lower back'],
+      err: ['Going all the way down on day one: you start with a short range', 'Letting your head drop without control', 'Arching your back to compensate'],
+      alt: [{ n: 'Pike push-ups', por: 'the starting version, far kinder' }, { n: 'Feet on a chair instead of the wall', por: 'the step in between' }],
+      mol: 'This is the advanced vertical press: only if pike push-ups come out at 15 clean and the shoulder says nothing. With shoulder pain, not today.'
+    },
+    'remo-mesa': { pat: 'th',
+      nombre: 'Under-table inverted row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'upper back, biceps'], equipo: 'Nothing (solid table)',
+      cues: ['Lie under a solid table and grab it by the edge', 'Body in a plank from heels to shoulders', 'Pull your CHEST to the table, elbows by your sides', 'Squeeze the shoulder blades 1″ at the top, down over 3″'],
+      err: ['Leading with the hips instead of the chest', 'Pulling with the arms alone without squeezing the blades', 'Using a table that lifts: check it first'],
+      alt: [{ n: 'Knees bent, feet on the floor', por: 'the easy version' }, { n: 'Feet up on a chair', por: 'the progression: more horizontal, more weight' }],
+      mol: 'This is the pull that actually loads without a bar: if you have a solid table, pick it over the towel pulldown.'
+    },
+    'pistol-asistida': { pat: 'rod',
+      nombre: 'Assisted single-leg squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glute'], equipo: 'Nothing (chair)',
+      cues: ['Stand facing away from a chair, one foot down, the other straight out in front', 'Down over 3″ until your glute brushes the chair, then up without sitting', 'Knee tracking over the foot, never caving inward', 'Arms out front work as a counterweight'],
+      err: ['Dropping onto the chair and bouncing', 'Knee caving in (that is where you pay)', 'Heel lifting: go shallower until the ankle allows it'],
+      alt: [{ n: 'Two-legged bodyweight squat', por: 'the starting version' }, { n: 'A lower chair', por: 'the progression, all the way to a full pistol' }],
+      mol: 'If the knee complains: raise the chair and slow the descent. This is a squat progression, not a leap: 8 clean two-legged reps before you try one leg.'
+    },
+    'curl-toalla': { pat: 'curl',
+      nombre: 'Self-resisted towel curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'forearm'], equipo: 'Towel',
+      cues: ['One foot pins one end of the towel, your hand curls up the other', 'The free arm can pull down to add resistance', 'Elbow tight to your body and fixed', 'Up over 2″, down over 3″ without letting go of the tension'],
+      err: ['Losing the tension at the top or the bottom', 'Swinging the torso', 'Adding so much resistance that the movement stalls halfway'],
+      alt: [{ n: 'Backpack curl', por: 'more measurable: you can weigh what goes in' }, { n: 'Dumbbell curl', por: 'once you have kit' }],
+      mol: 'With nothing at home this is the curl stand-in: it is not measured in kilos, it is measured in how long you hold the way down.'
+    },
+
+    'zancada-bulgara-pc': { pat: 'zan',
+      nombre: 'Bodyweight Bulgarian split squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glute'], equipo: 'Nothing (chair)',
+      cues: ['Top of the back foot on the chair, front foot a long stride away', 'Go straight down, back knee towards the floor', 'The weight lives in the front heel', 'Down over 3″, up without bouncing'],
+      err: ['Front foot too close in (the knee travels forward and pays)', 'Leaning forward to reach the bottom', 'Bouncing the back knee off the floor'],
+      alt: [{ n: 'Alternating lunges in place', por: 'the starting version' }, { n: 'With a loaded backpack', por: 'the progression once 12 feel easy' }],
+      mol: 'If the knee complains: move the front foot a hand-span further out and go shallower. It is one of the best leg movements with no kit, but it asks for balance: hold a wall the first few times.'
+    },
+    'puente-1p': { pat: 'bis',
+      nombre: 'Single-leg glute bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glute max', 'hamstrings'], equipo: 'Nothing',
+      cues: ['On your back, one foot planted, the other leg straight out', 'Drive up through the HEEL until hip and thigh line up', 'Squeeze the glute 2″ at the top without arching your back', 'Down over 3″ without fully resting'],
+      err: ['Rising by arching the back instead of squeezing the glute', 'Letting the hip drop to one side', 'Planting the foot so far out that the hamstring takes over'],
+      alt: [{ n: 'Two-foot bridge', por: 'the starting version' }, { n: 'Shoulders on the sofa', por: 'more range, more glute' }],
+      mol: 'If your lower back joins in: bring the heel closer to your glute and go less high. The hip must not rotate: if it drops to one side, go back to two legs.'
+    },
+    'elev-piernas-suelo': { pat: 'flex',
+      nombre: 'Lying leg raise', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Lower abs'], equipo: 'Nothing',
+      cues: ['On your back, hands under the sacrum, lower back PINNED to the floor', 'Raise straight legs to vertical', 'Down over 3″, stopping where your lower back starts to lift', 'That point is your range: it will drop week by week'],
+      err: ['Letting the lower back arch on the way down (the injury error)', 'Swinging the legs for momentum', 'Going lower than your abs can hold'],
+      alt: [{ n: 'Reverse crunch', por: 'the starting version' }, { n: 'Hanging leg raise', por: 'once you have a bar' }],
+      mol: 'This is the reverse crunch progression: if your lower back lifts, bend the knees slightly and shorten the range until it holds.'
+    },
+    'elev-talon-1p': { pat: 'gem',
+      nombre: 'Single-leg calf raise', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Calf and soleus'], equipo: 'Nothing (step)',
+      cues: ['Half your foot on the edge of a step, the other leg tucked up', 'Drop the heel as far as it goes and hold 1″ at the bottom', 'Rise straight up, 1″ pause at the top: no bouncing', 'Touch the wall for balance only'],
+      err: ['Bouncing off the tendon reflex: it removes exactly the stimulus we want', 'Half range', 'Putting your weight through the supporting hand'],
+      alt: [{ n: 'Two-leg calf raise', por: 'the starting version' }, { n: 'With a loaded backpack', por: 'once 20 per leg feel easy' }],
+      mol: 'If the Achilles complains: isometrics at the top only, 3×30″ that week. This is the tendon insurance for running: do not skip it.'
+    },
+    'plancha-lateral': { pat: 'core',
+      nombre: 'Side plank', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Obliques', 'gluteus medius'], equipo: 'Nothing',
+      cues: ['Elbow under the shoulder, body in a line from ankle to head', 'Lift the hip and HOLD it: the floor does not touch it', 'Shoulder away from your ear', 'Hold the set time on each side'],
+      err: ['Hip sagging (the oblique stops working)', 'Rolling your chest towards the floor', 'Holding your breath'],
+      alt: [{ n: 'On your knees', por: 'the starting version' }, { n: 'Top leg raised', por: 'the progression, which also asks for gluteus medius' }],
+      mol: 'If the shoulder complains: come up onto your hand with a straight arm, or do it from the knees. It is the sideways half of the plank: the core does not only hold from the front.'
+    },
+
     /* — Gym: push — */
     'press-banca': { pat: 'eh',
       nombre: 'Bench Press', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps, front delts'], equipo: 'Barbell + bench',

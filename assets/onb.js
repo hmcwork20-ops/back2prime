@@ -23,7 +23,7 @@
     const inp = el('input', { type: 'text', id: 'alta-nombre', autocomplete: 'given-name',
       maxlength: '24', enterkeyhint: 'go', placeholder: A.ph });
     const crea = () => {
-      const n = (inp.value || '').trim();
+      const n = U.saneaNombre(inp.value);
       if (n.length < 2) { U.toast(A.valNombre); inp.focus(); return; }
       S.usuario = { nombre: n, creado: U.hoyISO() };
       U.save();

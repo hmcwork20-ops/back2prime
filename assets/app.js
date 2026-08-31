@@ -49,13 +49,22 @@
 
   /* ---------------- estado ---------------- */
   const KEY = 'b2p_v1';
+  /* JSON de fuera (localStorage puede haberlo tocado otra pestana; el import
+     viene de un fichero cualquiera): se parsea sin claves capaces de mover el
+     prototipo, y con limites. */
+  const parseSeguro = t => JSON.parse(t, function (k, v) {
+    return (k === '__proto__' || k === 'constructor' || k === 'prototype') ? undefined : v;
+  });
+  const saneaNombre = n => String(n || '')
+    .replace(/[\u0000-\u001F\u007F\u200B-\u200F\u2028\u2029]/g, '')  // control e invisibles
+    .replace(/\s+/g, ' ').trim().slice(0, 24);
   let S;
   function defState() {
     return { v: 1, usuario: null, config: { cinturaBase: null, creado: hoyISO(), onboarded: false },
       dias: {}, logros: {}, prs: {}, prCount: 0, flags: {}, shop: {}, prep: {}, ui: {} };
   }
   function load() {
-    try { S = Object.assign(defState(), JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { S = defState(); }
+    try { S = Object.assign(defState(), parseSeguro(localStorage.getItem(KEY) || '{}')); } catch (e) { S = defState(); }
     // residuo del Plan con subpáginas: se limpia también en disco
     if (S.ui && S.ui.plansec) { delete S.ui.plansec; try { save(); } catch (e) {} }
   }
@@ -1176,7 +1185,7 @@
       sh.append(res);
       const IDX = construyeIndice();
       const pinta = () => {
-        const q = sinAcentos(inp.value.trim());
+        const q = sinAcentos(inp.value.trim().slice(0, 60));
         res.innerHTML = '';
         const hits = q ? IDX.filter(x => sinAcentos(x.t).includes(q) || (x.sub && sinAcentos(x.sub).includes(q))).slice(0, 12)
           : IDX.slice(0, 6);   // sin escribir: las puertas principales
@@ -1381,13 +1390,34 @@
       } }, TX.ajExportar));
       const fileIn = el('input', { type: 'file', accept: '.json,application/json', style: 'display:none', onchange: ev => {
         const f = ev.target.files[0]; if (!f) return;
+        // una copia real pesa decenas de KB; 2 MB ya no es una copia
+        if (f.size > 2 * 1024 * 1024) { toast(TX.ajImportErr); ev.target.value = ''; return; }
         const r = new FileReader();
         r.onload = () => {
           try {
-            const j = JSON.parse(r.result);
-            if (!j || typeof j !== 'object' || !j.dias) throw 0;
+            const j = parseSeguro(r.result);
+            if (!j || typeof j !== 'object' || Array.isArray(j)) throw 0;
+            /* Solo entran las claves del estado y con su tipo: un fichero
+               ajeno no cuela campos nuevos ni cambia un objeto por un texto.
+               Lo desconocido se ignora en silencio (copias de versiones
+               futuras siguen entrando en lo que esta version entiende). */
+            const FORMA = { v: 'number', prCount: 'number', usuario: 'object', config: 'object',
+              dias: 'object', logros: 'object', prs: 'object', flags: 'object', shop: 'object',
+              prep: 'object', ui: 'object', perfil: 'object' };
+            const limpio = {};
+            for (const k in FORMA) {
+              if (!(k in j)) continue;
+              const ok = FORMA[k] === 'object'
+                ? (typeof j[k] === 'object' && !Array.isArray(j[k]))   // null pasa: claves anulables
+                : typeof j[k] === FORMA[k];
+              if (!ok) throw 0;
+              limpio[k] = j[k];
+            }
+            if (!limpio.dias) throw 0;
+            if (limpio.usuario && typeof limpio.usuario.nombre === 'string')
+              limpio.usuario.nombre = saneaNombre(limpio.usuario.nombre) || null;
             // la copia trae el perfil: recargar regenera el plan entero con él
-            S = Object.assign(defState(), j); save(); toast(TX.ajImportOk);
+            S = Object.assign(defState(), limpio); save(); toast(TX.ajImportOk);
             setTimeout(() => location.reload(), 400);
           } catch (e) { toast(TX.ajImportErr); }
         };
@@ -1603,7 +1633,7 @@
   /* foto de un plato, si existe en el manifiesto (assets/fotos.js). Las fotos
      no van al precache: entran con carga perezosa y el SW las guarda al verlas. */
   const foto = id => (window.B2P_FOTOS && window.B2P_FOTOS.includes(id)) ? 'assets/fotos/' + id + '.webp' : null;
-  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl, foto, IDIOMAS, icono, icoLogro,
+  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl, foto, IDIOMAS, icono, icoLogro, saneaNombre,
     hoyISO, semanaDe, slotDe, fechasSemana, dia, save, get S() { return S; },
     mediaSemana, mediasSemanales, pesosSemana, sesionesFuerzaSemana, cardioHechoSemana,
     racha, mejorRacha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,

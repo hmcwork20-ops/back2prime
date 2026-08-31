@@ -2,12 +2,13 @@
   "name": "back2prime",
   "version": "1.0.0",
   "private": true,
-  "description": "BACK2PRIME — plan de fuerza, nutricion y progreso, generado a medida",
+  "description": "BACK2PRIME \u2014 plan de fuerza, nutricion y progreso, generado a medida",
   "scripts": {
     "build": "node tools/build-www.mjs",
     "sync": "npm run build && cap sync",
     "android": "npm run sync && cap open android",
-    "ios": "npm run sync && cap open ios"
+    "ios": "npm run sync && cap open ios",
+    "guardia": "node tools/guardia-secretos.mjs"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.0"

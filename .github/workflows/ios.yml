@@ -43,6 +43,9 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
+      - name: Guardia de secretos
+        run: npm run guardia
+
       - name: Preparar www y sincronizar iOS
         run: |
           npm run build

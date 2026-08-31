@@ -11,8 +11,12 @@
    JAMÁS puede aparecer aquí ni en ningún fichero del repo es la clave de
    servicio del panel: esa vive solo en el servidor, y el guardián de
    secretos la caza por nombre si alguien la pega.
+
+   OJO con la url: es la Project URL a secas, SIN /rest/v1. El cliente
+   añade él la ruta de cada servicio (rest, auth, realtime); con el
+   sufijo puesto construiría direcciones dobles y nada respondería.
    ============================================================ */
 window.B2P_NUBE_CFG = {
-  url: null,    // p. ej. 'https://abcdefghijkl.supabase.co'
-  anon: null    // la anon key del panel (Settings → API) — pública por diseño; al pegarla, añade al final de su línea:  guardia:permitir
+  url: 'https://uvxzbwmlyjrurlduzxwq.supabase.co',
+  anon: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2eHpid21seWpydXJsZHV6eHdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxNzg5NzMsImV4cCI6MjEwMzc1NDk3M30.oUhg-uQJELMnnFCaZtIWnyHPpjWfJPzgQ1Z7Lv_qdR8'   // guardia:permitir — anon key: pública por diseño, la seguridad la ponen las políticas RLS
 };

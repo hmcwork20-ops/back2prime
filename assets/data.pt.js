@@ -470,6 +470,28 @@ window.B2P = (function () {
       mol: 'Se o ombro incomodar: apoia na mão com o braço esticado, ou fá-la de joelhos. É a metade lateral da prancha: o core não aguenta só de frente.'
     },
 
+    'elev-y-suelo': { pat: 'ais',
+      nombre: 'Elevação em Y de barriga para baixo', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Ombro (coifa)', 'trapézio inferior'], equipo: 'Nada',
+      cues: ['De barriga para baixo, braços esticados a formar um Y com os polegares para o teto', 'Sobe os braços SEM encolher os ombros: o pescoço fica comprido', 'Aguenta 2″ em cima e desce em 3″', 'A testa não descola: o movimento é de omoplata, não de pescoço'],
+      err: ['Encolher os ombros na direção das orelhas', 'Levantar a cabeça para ajudar', 'Ir depressa: aqui não há peso, o estímulo é o controlo'],
+      alt: [{ n: 'Rotação externa com banda', por: 'quando tiveres banda' }, { n: 'Com uma garrafa pequena em cada mão', por: 'a progressão: pesa pouco e nota-se' }],
+      mol: 'É o exercício de ombro do protocolo do tendão, sem material: a coifa não ganha com peso, ganha com controlo. Se o ombro incomodar, este é dos poucos que costuma assentar bem.'
+    },
+    'curl-nordico': { pat: 'ais',
+      nombre: 'Curl nórdico assistido', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Isquiotibiais'], equipo: 'Nada (algo que segure os tornozelos)',
+      cues: ['De joelhos sobre algo macio, tornozelos presos debaixo de um móvel firme', 'Desce MUITO devagar mantendo anca e ombros em linha', 'Aguenta até onde conseguires e amortece com as mãos', 'Volta a empurrar-te com os braços: a subida não conta'],
+      err: ['Dobrar a anca para facilitar (o isquiotibial deixa de trabalhar)', 'Deixares-te cair sem travar', 'Começar pelo percurso completo: ganha-se centímetro a centímetro'],
+      alt: [{ n: 'Ponte de glúteo a uma perna', por: 'se o nórdico ainda ficar grande' }, { n: 'Curl femoral na máquina', por: 'no ginásio' }],
+      mol: 'É o trabalho de isquiotibiais mais potente sem material, e também o que deixa mais dores: começa com 3 repetições e sobe uma de cada vez. Se o joelho incomodar, põe uma toalha dobrada por baixo.'
+    },
+    'encogimiento-mochila': { pat: 'ais',
+      nombre: 'Encolhimentos com mochila', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapézio superior'], equipo: 'Mochila',
+      cues: ['Mochila pendurada nas duas mãos ou abraçada ao peito', 'Sobe os ombros A DIREITO na direção das orelhas, sem os rodar', 'Aperta 2″ em cima e desce a controlar', 'Pescoço relaxado: não empurres o queixo para a frente'],
+      err: ['Rodar os ombros para trás (não acrescenta nada e carrega o pescoço)', 'Usar impulso das pernas', 'Meio percurso'],
+      alt: [{ n: 'Encolhimentos com halteres', por: 'quando tiveres material' }, { n: 'Com a mochila mais carregada', por: 'a progressão: aqui podes pesar o que lá metes' }],
+      mol: 'Se sentires tensão no pescoço: baixa a carga e sobe menos. O trapézio superior já trabalha bastante no dia a dia; duas séries bem feitas chegam.'
+    },
+
     /* — Ginásio: empurrar — */
     'press-banca': { pat: 'eh',
       nombre: 'Supino', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Peitoral', 'tríceps, deltoide anterior'], equipo: 'Barra + banco',

@@ -469,6 +469,28 @@ window.B2P = (function () {
       mol: 'If the shoulder complains: come up onto your hand with a straight arm, or do it from the knees. It is the sideways half of the plank: the core does not only hold from the front.'
     },
 
+    'elev-y-suelo': { pat: 'ais',
+      nombre: 'Prone Y raise', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Shoulder (rotator cuff)', 'lower traps'], equipo: 'Nothing',
+      cues: ['Face down, arms out in a Y with thumbs to the ceiling', 'Lift the arms WITHOUT shrugging: keep the neck long', 'Hold 2″ at the top, down over 3″', 'Forehead stays down: the movement is scapular, not neck'],
+      err: ['Shrugging towards your ears', 'Lifting your head to help', 'Rushing: there is no weight here, the stimulus is control'],
+      alt: [{ n: 'Band external rotation', por: 'once you have a band' }, { n: 'A small bottle in each hand', por: 'the progression: it weighs little and you feel it' }],
+      mol: 'This is the tendon protocol shoulder exercise with no kit: the cuff does not gain from weight, it gains from control. If your shoulder complains, this is one of the few that usually feels fine.'
+    },
+    'curl-nordico': { pat: 'ais',
+      nombre: 'Assisted nordic curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Hamstrings'], equipo: 'Nothing (something to hook your ankles)',
+      cues: ['Kneel on something soft, ankles hooked under solid furniture', 'Lower VERY slowly keeping hips and shoulders in line', 'Hold as far as you can and catch yourself with your hands', 'Push back up with your arms: the way up does not count'],
+      err: ['Bending at the hip to make it easier (the hamstring stops working)', 'Dropping without braking', 'Starting at full range: you earn it centimetre by centimetre'],
+      alt: [{ n: 'Single-leg glute bridge', por: 'if the nordic is still too much' }, { n: 'Machine leg curl', por: 'in a gym' }],
+      mol: 'This is the strongest hamstring work with no kit, and also the one that leaves the most soreness: start with 3 reps and add one at a time. If your knee complains, fold a towel underneath.'
+    },
+    'encogimiento-mochila': { pat: 'ais',
+      nombre: 'Backpack shrugs', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Upper traps'], equipo: 'Backpack',
+      cues: ['Backpack hanging from both hands or hugged to your chest', 'Lift the shoulders STRAIGHT towards your ears, no rolling', 'Squeeze 2″ at the top and lower under control', 'Neck relaxed: do not push your chin forward'],
+      err: ['Rolling the shoulders back (adds nothing and loads the neck)', 'Using leg drive', 'Half range'],
+      alt: [{ n: 'Dumbbell shrugs', por: 'once you have kit' }, { n: 'A heavier backpack', por: 'the progression: here you can weigh what goes in' }],
+      mol: 'If you feel it in your neck: drop the load and lift less. The upper traps already work plenty in daily life; two good sets are enough.'
+    },
+
     /* — Gym: push — */
     'press-banca': { pat: 'eh',
       nombre: 'Bench Press', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps, front delts'], equipo: 'Barbell + bench',

@@ -65,7 +65,8 @@ window.B2P_GEN = (function () {
       'fondos-silla', 'flexion-diamante', 'pike-flexiones', 'jalon-toalla', 'abduccion-lado',
       'crunch-inverso', 'curl-mochila', 'flexion-declinada', 'pino-pared', 'remo-mesa',
       'pistol-asistida', 'curl-toalla', 'zancada-bulgara-pc', 'puente-1p', 'elev-piernas-suelo',
-      'elev-talon-1p', 'plancha-lateral'],
+      'elev-talon-1p', 'plancha-lateral', 'elev-y-suelo', 'curl-nordico',
+      'encogimiento-mochila'],
     ['casa',
       'plancha-lastre', 'banda-remo', 'banda-jalon', 'banda-rotacion', 'banda-abduccion',
       'elev-laterales', 'encogimientos', 'zancada-mc', 'elev-piernas', 'rueda-abdominal',
@@ -86,7 +87,8 @@ window.B2P_GEN = (function () {
     'zancada-alterna', 'superman', 'dead-bug', 'fondos-silla', 'flexion-diamante',
     'pike-flexiones', 'jalon-toalla', 'abduccion-lado', 'crunch-inverso',
     'flexion-declinada', 'pino-pared', 'remo-mesa', 'pistol-asistida', 'curl-toalla',
-    'zancada-bulgara-pc', 'puente-1p', 'elev-piernas-suelo', 'elev-talon-1p', 'plancha-lateral']);
+    'zancada-bulgara-pc', 'puente-1p', 'elev-piernas-suelo', 'elev-talon-1p', 'plancha-lateral',
+    'elev-y-suelo', 'curl-nordico']);
 
   /* Dificultad: 1 base · 2 progresión · 3 avanzada. Solo se anota lo que NO es
      base, que es la excepción. Sin material la carga sube cambiando la palanca,
@@ -94,7 +96,7 @@ window.B2P_GEN = (function () {
   const EJ_NIVEL = {
     'flexion-diamante': 2, 'flexion-declinada': 2, 'pino-pared': 3, 'remo-mesa': 2,
     'pistol-asistida': 2, 'zancada-bulgara-pc': 2, 'puente-1p': 2, 'elev-piernas-suelo': 2,
-    'elev-talon-1p': 2
+    'elev-talon-1p': 2, 'curl-nordico': 2
   };
   /* Quien nunca ha entrenado no recibe variantes avanzadas: antes que un pino
      contra la pared, repite la versión base. */
@@ -137,25 +139,35 @@ window.B2P_GEN = (function () {
       const c = base.EJERCICIOS[k];
       if (!equipoValeId(base, k, p.material)) continue;
       if (noQuiero.has('ej:' + k)) continue;
+      /* El mismo patrón no basta si cambia la zona: «aislamiento» agrupa
+         rotación de hombro, encogimientos, abducción de cadera y curl femoral,
+         y sin esta condición el hueco del curl femoral se llenaba con una
+         rotación externa de hombro en pleno día de pierna. Es el único patrón
+         que cruza zonas, así que esto no toca a ningún otro. */
+      if (c.zona !== e.zona) continue;
       const mismoPat = !!(e.pat && c.pat === e.pat);
-      if (!mismoPat && c.zona !== e.zona) continue;
       const niv = EJ_NIVEL[k] || 1;
       if (niv > nivelTope(p)) continue;
+      /* Dentro del patrón manda el músculo: el hueco del curl femoral pide
+         isquiotibiales, y entre abducción de cadera (fácil) y curl nórdico
+         (duro) el que sirve es el segundo. La dificultad desempata después. */
+      const mismoMusc = ((e.mm && e.mm.p) || [])[0] && ((c.mm && c.mm.p) || [])[0] === ((e.mm && e.mm.p) || [])[0];
       const n = veces(k);
       /* Sin material no hay treinta variantes de cada patrón: con cinco días
          se piden más huecos de bíceps o tríceps de los que existen. Antes que
          devolver el original —una polea a quien entrena en el salón— se repite,
          pero repetir el PATRÓN que la sesión pedía va antes que coger otro
          patrón solo porque esté libre: así la sesión conserva su equilibrio. */
-      cands.push([k, mismoPat ? (n ? 1 : 0) : (n ? 3 : 2), niv, n]);
+      cands.push([k, mismoPat ? (n ? 1 : 0) : (n ? 3 : 2), mismoMusc ? 0 : 1, niv, n]);
     }
     /* El primer hueco del patrón se lleva la versión base; el segundo, la
        progresión sin usar antes que repetir la base. Así una sesión de empuje
        sin material es flexiones y luego flexiones declinadas: la misma escalera
        que en el gimnasio hacen los kilos. */
     cands.sort((a, b) => (a[1] - b[1])            // preferencia de patrón/zona
-      || (a[2] - b[2])                            // la variante más fácil primero
-      || (a[3] - b[3])                            // a igualdad, la menos repetida
+      || (a[2] - b[2])                            // el que trabaja el mismo músculo
+      || (a[3] - b[3])                            // la variante más fácil primero
+      || (a[4] - b[4])                            // a igualdad, la menos repetida
       || ((likes && likes.has('ej:' + b[0]) ? 1 : 0) - (likes && likes.has('ej:' + a[0]) ? 1 : 0)));
     return cands.length ? cands[0][0] : id;       // sin nada que ofrecer: se queda
   }

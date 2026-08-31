@@ -469,6 +469,28 @@ window.B2P = (function () {
       mol: 'Wenn die Schulter meckert: auf die Hand mit gestrecktem Arm wechseln oder aus dem Knien. Das ist die seitliche Hälfte der Planke: der Rumpf hält nicht nur von vorn.'
     },
 
+    'elev-y-suelo': { pat: 'ais',
+      nombre: 'Y-Heben in Bauchlage', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Schulter (Rotatorenmanschette)', 'unterer Trapez'], equipo: 'Nichts',
+      cues: ['Bauchlage, Arme in einem Y ausgestreckt, Daumen zur Decke', 'Arme heben OHNE die Schultern hochzuziehen: der Nacken bleibt lang', 'Oben 2″ halten, in 3″ ablassen', 'Die Stirn bleibt unten: die Bewegung kommt aus dem Schulterblatt, nicht aus dem Nacken'],
+      err: ['Die Schultern zu den Ohren ziehen', 'Den Kopf heben, um zu helfen', 'Zu schnell machen: hier gibt es kein Gewicht, der Reiz ist die Kontrolle'],
+      alt: [{ n: 'Außenrotation am Band', por: 'sobald du ein Band hast' }, { n: 'Eine kleine Flasche in jeder Hand', por: 'die Steigerung: wiegt wenig und man merkt es' }],
+      mol: 'Das ist die Schulterübung aus dem Sehnenprotokoll, ohne Material: die Manschette gewinnt nicht durch Gewicht, sondern durch Kontrolle. Wenn die Schulter zwickt, ist das eine der wenigen, die meist gut tut.'
+    },
+    'curl-nordico': { pat: 'ais',
+      nombre: 'Assistierter Nordic Curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Beinbeuger'], equipo: 'Nichts (etwas, das die Knöchel hält)',
+      cues: ['Auf etwas Weichem knien, Knöchel unter einem stabilen Möbel fixiert', 'SEHR langsam absenken, Hüfte und Schultern in einer Linie', 'So weit halten, wie du kannst, und mit den Händen abfangen', 'Mit den Armen zurückdrücken: der Weg nach oben zählt nicht'],
+      err: ['In der Hüfte einknicken, um es leichter zu machen (der Beinbeuger steigt aus)', 'Sich ungebremst fallen lassen', 'Mit dem vollen Weg anfangen: den verdient man sich Zentimeter für Zentimeter'],
+      alt: [{ n: 'Einbeinige Glute Bridge', por: 'wenn der Nordic noch zu viel ist' }, { n: 'Beinbeuger an der Maschine', por: 'im Studio' }],
+      mol: 'Das ist die stärkste Beinbeuger-Arbeit ohne Material und auch die mit dem meisten Muskelkater: starte mit 3 Wiederholungen und steigere um eine. Wenn das Knie meckert, leg ein gefaltetes Handtuch darunter.'
+    },
+    'encogimiento-mochila': { pat: 'ais',
+      nombre: 'Shrugs mit Rucksack', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Oberer Trapez'], equipo: 'Rucksack',
+      cues: ['Rucksack in beiden Händen hängend oder vor der Brust', 'Die Schultern GERADE zu den Ohren ziehen, ohne zu kreisen', 'Oben 2″ anspannen und kontrolliert ablassen', 'Nacken locker: das Kinn nicht nach vorn schieben'],
+      err: ['Die Schultern nach hinten kreisen (bringt nichts und belastet den Nacken)', 'Mit den Beinen Schwung holen', 'Halber Weg'],
+      alt: [{ n: 'Shrugs mit Kurzhanteln', por: 'sobald du Material hast' }, { n: 'Ein schwererer Rucksack', por: 'die Steigerung: hier kannst du wiegen, was reinkommt' }],
+      mol: 'Wenn du es im Nacken spürst: weniger Last und weniger hoch. Der obere Trapez arbeitet im Alltag schon genug; zwei saubere Sätze reichen.'
+    },
+
     /* — Gym: Drücken — */
     'press-banca': { pat: 'eh',
       nombre: 'Bankdrücken', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Brust', 'Trizeps, vordere Schulter'], equipo: 'Langhantel + Bank',

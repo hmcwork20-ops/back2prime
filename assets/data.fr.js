@@ -470,6 +470,28 @@ window.B2P = (function () {
       mol: 'Si l’épaule proteste : monte sur la main bras tendu, ou fais-la à genoux. C’est la moitié latérale de la planche : le gainage ne tient pas que de face.'
     },
 
+    'elev-y-suelo': { pat: 'ais',
+      nombre: 'Élévation en Y au sol', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Épaule (coiffe)', 'trapèze inférieur'], equipo: 'Rien',
+      cues: ['À plat ventre, bras tendus en Y, pouces vers le plafond', 'Monte les bras SANS hausser les épaules : la nuque reste longue', 'Tiens 2″ en haut et descends en 3″', 'Le front ne décolle pas : le mouvement vient de l’omoplate, pas du cou'],
+      err: ['Hausser les épaules vers les oreilles', 'Lever la tête pour s’aider', 'Aller vite : il n’y a pas de poids ici, le stimulus c’est le contrôle'],
+      alt: [{ n: 'Rotation externe à l’élastique', por: 'quand tu auras un élastique' }, { n: 'Une petite bouteille dans chaque main', por: 'la progression : ça pèse peu et ça se sent' }],
+      mol: 'C’est l’exercice d’épaule du protocole tendon, sans matériel : la coiffe ne gagne pas avec du poids, elle gagne avec du contrôle. Si l’épaule gêne, c’est l’un des rares qui passe bien.'
+    },
+    'curl-nordico': { pat: 'ais',
+      nombre: 'Leg curl nordique assisté', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischio-jambiers'], equipo: 'Rien (de quoi bloquer les chevilles)',
+      cues: ['À genoux sur quelque chose de doux, chevilles bloquées sous un meuble solide', 'Descends TRÈS lentement en gardant hanches et épaules alignées', 'Tiens aussi loin que possible et amortis avec les mains', 'Remonte en poussant avec les bras : la montée ne compte pas'],
+      err: ['Casser la hanche pour se faciliter la tâche (l’ischio arrête de travailler)', 'Se laisser tomber sans freiner', 'Commencer par l’amplitude complète : ça se gagne centimètre par centimètre'],
+      alt: [{ n: 'Pont fessier sur une jambe', por: 'si le nordique est encore trop dur' }, { n: 'Leg curl à la machine', por: 'en salle' }],
+      mol: 'C’est le meilleur travail d’ischios sans matériel, et aussi celui qui laisse le plus de courbatures : commence à 3 répétitions et monte une par une. Si le genou gêne, plie une serviette dessous.'
+    },
+    'encogimiento-mochila': { pat: 'ais',
+      nombre: 'Shrugs avec sac à dos', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapèze supérieur'], equipo: 'Sac à dos',
+      cues: ['Sac suspendu aux deux mains ou serré contre la poitrine', 'Monte les épaules DROIT vers les oreilles, sans les rouler', 'Serre 2″ en haut et descends en contrôlant', 'Nuque détendue : ne pousse pas le menton en avant'],
+      err: ['Rouler les épaules en arrière (ça n’apporte rien et charge le cou)', 'Prendre de l’élan avec les jambes', 'Demi-amplitude'],
+      alt: [{ n: 'Shrugs avec haltères', por: 'quand tu auras du matériel' }, { n: 'Un sac plus chargé', por: 'la progression : ici tu peux peser ce que tu mets' }],
+      mol: 'Si tu le sens dans le cou : baisse la charge et monte moins. Le trapèze supérieur travaille déjà beaucoup au quotidien ; deux séries bien faites suffisent.'
+    },
+
     /* — Salle : poussée — */
     'press-banca': { pat: 'eh',
       nombre: 'Développé couché', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps, deltoïde antérieur'], equipo: 'Barre + banc',

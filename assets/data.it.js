@@ -469,6 +469,28 @@ window.B2P = (function () {
       mol: 'Se la spalla protesta: sali sulla mano a braccio teso, o falla in ginocchio. È la metà laterale del plank: il core non regge solo di fronte.'
     },
 
+    'elev-y-suelo': { pat: 'ais',
+      nombre: 'Alzata a Y da prono', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Spalla (cuffia)', 'trapezio inferiore'], equipo: 'Niente',
+      cues: ['A pancia in giù, braccia tese a formare una Y con i pollici al soffitto', 'Alza le braccia SENZA alzare le spalle: il collo resta lungo', 'Tieni 2″ in alto e scendi in 3″', 'La fronte non si stacca: il movimento è di scapola, non di collo'],
+      err: ['Alzare le spalle verso le orecchie', 'Sollevare la testa per aiutarsi', 'Andare veloce: qui non c’è peso, lo stimolo è il controllo'],
+      alt: [{ n: 'Rotazione esterna con elastico', por: 'quando avrai un elastico' }, { n: 'Con una bottiglietta per mano', por: 'la progressione: pesa poco e si sente' }],
+      mol: 'È l’esercizio di spalla del protocollo tendine, senza attrezzi: la cuffia non guadagna col peso, guadagna col controllo. Se la spalla dà fastidio, è tra i pochi che di solito va bene.'
+    },
+    'curl-nordico': { pat: 'ais',
+      nombre: 'Nordic curl assistito', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischiocrurali'], equipo: 'Niente (qualcosa che blocchi le caviglie)',
+      cues: ['In ginocchio su qualcosa di morbido, caviglie bloccate sotto un mobile solido', 'Scendi MOLTO lentamente tenendo anca e spalle in linea', 'Tieni fin dove riesci e ammortizza con le mani', 'Risali spingendo con le braccia: la salita non conta'],
+      err: ['Piegare l’anca per farlo più facile (l’ischiocrurale smette di lavorare)', 'Lasciarsi cadere senza frenare', 'Partire dall’escursione completa: si guadagna centimetro dopo centimetro'],
+      alt: [{ n: 'Ponte per glutei su una gamba', por: 'se il nordic è ancora troppo' }, { n: 'Leg curl alla macchina', por: 'in palestra' }],
+      mol: 'È il lavoro di ischiocrurali più potente senza attrezzi, e anche quello che lascia più dolori: parti da 3 ripetizioni e sali di una alla volta. Se il ginocchio dà fastidio, metti un asciugamano piegato sotto.'
+    },
+    'encogimiento-mochila': { pat: 'ais',
+      nombre: 'Scrollate con zaino', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapezio superiore'], equipo: 'Zaino',
+      cues: ['Zaino appeso alle due mani o stretto al petto', 'Alza le spalle DRITTE verso le orecchie, senza ruotarle', 'Stringi 2″ in alto e scendi controllando', 'Collo rilassato: non spingere il mento in avanti'],
+      err: ['Ruotare le spalle indietro (non aggiunge nulla e carica il collo)', 'Usare lo slancio delle gambe', 'Mezza escursione'],
+      alt: [{ n: 'Scrollate con manubri', por: 'quando avrai attrezzatura' }, { n: 'Con lo zaino più carico', por: 'la progressione: qui puoi pesare quello che ci metti' }],
+      mol: 'Se lo senti nel collo: abbassa il carico e sali meno. Il trapezio superiore lavora già parecchio nella vita di tutti i giorni; due serie fatte bene bastano.'
+    },
+
     /* — Palestra: spinta — */
     'press-banca': { pat: 'eh',
       nombre: 'Panca piana', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorali', 'tricipiti, deltoide anteriore'], equipo: 'Bilanciere + panca',

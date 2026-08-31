@@ -469,6 +469,28 @@ window.B2P = (function () {
       mol: 'Si el hombro molesta: apoya en la mano con el brazo estirado, o hazla de rodillas. Es el complemento lateral de la plancha: el core no solo aguanta de frente.'
     },
 
+    'elev-y-suelo': { pat: 'ais',
+      nombre: 'Elevación en Y tumbado', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Hombro (manguito)', 'trapecio inferior'], equipo: 'Nada',
+      cues: ['Boca abajo, brazos estirados formando una Y con pulgares al techo', 'Sube los brazos SIN encoger los hombros: el cuello queda largo', 'Aguanta 2″ arriba y baja en 3″', 'La frente no se despega: el movimiento es de escápula, no de cuello'],
+      err: ['Encoger los hombros hacia las orejas', 'Levantar la cabeza para ayudar', 'Ir rápido: aquí no hay peso, el estímulo es el control'],
+      alt: [{ n: 'Rotación externa con banda', por: 'cuando tengas banda' }, { n: 'Con una botella pequeña en cada mano', por: 'la progresión: pesa poco y se nota' }],
+      mol: 'Es el ejercicio de hombro del protocolo del tendón, sin material: el manguito no gana con peso, gana con control. Si el hombro molesta, este es de los pocos que suele sentar bien.'
+    },
+    'curl-nordico': { pat: 'ais',
+      nombre: 'Curl nórdico asistido', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Isquiotibiales'], equipo: 'Nada (algo que sujete los tobillos)',
+      cues: ['De rodillas sobre algo blando, tobillos sujetos bajo un mueble firme', 'Baja MUY despacio manteniendo cadera y hombros en línea', 'Aguanta hasta donde puedas y amortigua con las manos', 'Vuelve empujándote con los brazos: la subida no cuenta'],
+      err: ['Doblar la cadera para hacerlo más fácil (deja de trabajar el isquio)', 'Dejarte caer sin frenar', 'Empezar por el recorrido completo: se gana centímetro a centímetro'],
+      alt: [{ n: 'Puente de glúteo a una pierna', por: 'si el nórdico todavía queda grande' }, { n: 'Curl femoral en máquina', por: 'en gimnasio' }],
+      mol: 'Es el trabajo de isquiotibiales más potente sin material, y también el que más agujetas deja: empieza con 3 repeticiones y sube de una en una. Si la rodilla molesta, ponte una toalla doblada debajo.'
+    },
+    'encogimiento-mochila': { pat: 'ais',
+      nombre: 'Encogimientos con mochila', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapecio superior'], equipo: 'Mochila',
+      cues: ['Mochila colgada de las dos manos o abrazada al pecho', 'Sube los hombros RECTOS hacia las orejas, sin rotarlos', 'Aprieta 2″ arriba y baja controlando', 'Cuello relajado: no empujes la barbilla adelante'],
+      err: ['Rotar los hombros hacia atrás (no aporta y carga el cuello)', 'Usar impulso de piernas', 'Medio recorrido'],
+      alt: [{ n: 'Encogimientos con mancuernas', por: 'cuando tengas material' }, { n: 'Con la mochila más cargada', por: 'la progresión: aquí sí puedes pesar lo que metes' }],
+      mol: 'Si notas tensión en el cuello: baja la carga y sube menos. El trapecio superior ya trabaja bastante en el día a día; con dos series bien hechas basta.'
+    },
+
     /* — Gym: empuje — */
     'press-banca': { pat: 'eh',
       nombre: 'Press banca', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral', 'tríceps, deltoides anterior'], equipo: 'Barra + banco',

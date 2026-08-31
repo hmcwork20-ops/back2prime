@@ -838,11 +838,12 @@ window.B2P = (function () {
       { t: 'Fat', d: '10 g of olive oil per main meal (one tablespoon) and stop counting. It’s where calories slip away unnoticed.' }
     ],
     suplementos: [
-      { t: 'Creatine monohydrate', d: '5 g daily, any time of day, no loading phase, starting now. WARNING: it holds 1-2 kg of water in the first weeks. It’s not fat: trust the waist and the weekly average, not a single reading (the app flags it on the chart).' },
-      { t: 'Whey', d: '1 scoop in the pre-sleep serving with the skyr (and another wherever needed on short-protein days).' },
-      { t: 'Caffeine', d: 'Cut-off at 1-2 pm: 200 mg disrupts sleep up to 13 h later; one coffee, ~9 h (Gardiner 2023). Morning training: coffee 30-45′ before, perfect. Evening training: no caffeine — your pre-workout is the afternoon snack (fruit + skyr 60-90′ before).' },
-      { t: 'Sensible optionals', d: 'Vitamin D only if bloods come back under 30 ng/mL (likely with an indoor life). Omega-3 ~2 g EPA+DHA/day: a modest but real benefit for strength, plus the anti-inflammatory/tendon angle.' },
-      { t: 'Don’t spend on', d: 'Fat burners, BCAA/EAA (redundant with your daily protein), "testo boosters". None of it moves the needle.' }
+      { id: 'creatina', t: 'Creatine monohydrate', d: '5 g daily, any time of day, no loading phase, starting now. WARNING: it holds 1-2 kg of water in the first weeks. It’s not fat: trust the waist and the weekly average, not a single reading (the app flags it on the chart).' },
+      { id: 'whey', t: 'Whey', d: '1 scoop in the pre-sleep serving with the skyr (and another wherever needed on short-protein days).' },
+      { id: 'cafeina', t: 'Caffeine', d: 'Cut-off at 1-2 pm: 200 mg disrupts sleep up to 13 h later; one coffee, ~9 h (Gardiner 2023). Morning training: coffee 30-45′ before, perfect. Evening training: no caffeine — your pre-workout is the afternoon snack (fruit + skyr 60-90′ before).' },
+      { id: 'vitamina-d', t: 'Vitamin D', d: 'Vitamin D only if bloods come back under 30 ng/mL (likely with an indoor life).' },
+      { id: 'omega-3', t: 'Omega-3', d: 'Omega-3 ~2 g EPA+DHA/day: a modest but real benefit for strength, plus the anti-inflammatory/tendon angle.' },
+      { id: 'no', t: 'Don’t spend on', d: 'Fat burners, BCAA/EAA (redundant with your daily protein), "testo boosters". None of it moves the needle.' }
     ],
     hidratacion: 'Water: 2.5–3 L/day. Alcohol: counts calories and blocks recovery — inside the free meal, out for the rest of the week.',
     comidaLibre: 'ONE meal a week (Saturday by default), not a whole day. Order or eat whatever you fancy in a normal amount, no compensating before or after. It’s what lets the plan survive {s} weeks and a social life. If plans land on another day, move it — but it stays just one.'
@@ -855,11 +856,11 @@ window.B2P = (function () {
       id: 'bol-skyr', slot: 'de', tags: ['lacteo', 'frutos'], nombre: 'Skyr bowl', tipo: 'Breakfast A', tiempo: '5′', cocina: 'No cooking',
       macros: { kcal: 520, p: 35, g: 11, c: 72 },
       ing: [
-        { q: '250 g', i: 'natural skyr (or 0% fat quark)' },
-        { q: '50 g', i: 'rolled oats' },
-        { q: '1 (120 g)', i: 'banana' },
-        { q: '10 g', i: 'walnuts' },
-        { q: 'to taste', i: 'cinnamon' }
+        { pid: 'skyr', q: '250 g', i: 'natural skyr (or 0% fat quark)' },
+        { pid: 'avena', q: '50 g', i: 'rolled oats' },
+        { pid: 'platano', q: '1 (120 g)', i: 'banana' },
+        { pid: 'nueces', q: '10 g', i: 'walnuts' },
+        { pid: 'canela', q: 'to taste', i: 'cinnamon' }
       ],
       pasos: [
         'Skyr into the bowl, oats on top (as they come if you like texture, or soaked 5′ in a splash of milk or water).',
@@ -871,12 +872,12 @@ window.B2P = (function () {
       id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelette with bread and tomato', tipo: 'Breakfast B', tiempo: '10′', cocina: 'Frying pan',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
-        { q: '3', i: 'medium eggs' },
-        { q: '2 (or 100 ml carton)', i: 'egg whites' },
-        { q: '60 g (2 slices)', i: 'wholemeal bread' },
-        { q: '100 g', i: 'grated tomato' },
-        { q: '5 g', i: 'EVOO' },
-        { q: 'pinch', i: 'salt' }
+        { pid: 'huevos', q: '3', i: 'medium eggs' },
+        { pid: 'huevos', q: '2 (or 100 ml carton)', i: 'egg whites' },
+        { pid: 'pan', q: '60 g (2 slices)', i: 'wholemeal bread' },
+        { pid: 'tomate', q: '100 g', i: 'grated tomato' },
+        { pid: 'aove', q: '5 g', i: 'EVOO' },
+        { pid: 'sal', q: 'pinch', i: 'salt' }
       ],
       pasos: [
         'Beat the eggs and whites with the salt.',
@@ -889,10 +890,10 @@ window.B2P = (function () {
       id: 'pollo-asado', slot: 'co', tags: ['carne'], nombre: 'Roast chicken with potatoes', tipo: 'Lunch · Sunday batch', tiempo: '45′ oven (from meal prep)', cocina: 'Oven',
       macros: { kcal: 780, p: 70, g: 19, c: 68 },
       ing: [
-        { q: '250 g raw (~200 g cooked)', i: 'chicken breast', n: 'batch: 1.2 kg = 5 servings' },
-        { q: '300 g', i: 'roasted potato wedges + pepper + onion', n: 'batch: 1.5 kg potato + 2 peppers + 2 onions' },
-        { q: '10 g', i: 'EVOO (part of the roast)' },
-        { q: 'to taste', i: 'paprika, garlic powder, salt, oregano' }
+        { pid: 'pollo', q: '250 g raw (~200 g cooked)', i: 'chicken breast', n: 'batch: 1.2 kg = 5 servings' },
+        { pid: 'patata', q: '300 g', i: 'roasted potato wedges + pepper + onion', n: 'batch: 1.5 kg potato + 2 peppers + 2 onions' },
+        { pid: 'aove', q: '10 g', i: 'EVOO (part of the roast)' },
+        { pid: 'especias', q: 'to taste', i: 'paprika, garlic powder, salt, oregano' }
       ],
       pasos: [
         'Oven to 200°. Season the breasts and rub them with paprika + garlic powder.',
@@ -906,15 +907,15 @@ window.B2P = (function () {
       id: 'lentejas-pollo', slot: 'co', tags: ['carne'], nombre: 'Lentils with chicken', tipo: 'Lunch · Sunday batch', tiempo: '25′ pot', cocina: 'Pot',
       macros: { kcal: 760, p: 52, g: 16, c: 80 },
       ing: [
-        { q: '250 g drained', i: 'tinned cooked lentils', n: 'batch: 2 tins = 3 servings' },
-        { q: '120 g', i: 'roast chicken in strips (from the oven batch)' },
-        { q: '¼', i: 'onion' },
-        { q: '½', i: 'pepper' },
-        { q: '1', i: 'carrot' },
-        { q: '4 g', i: 'EVOO (part of the sofrito)' },
-        { q: '1 tsp / ½ tsp', i: 'paprika / cumin' },
-        { q: '150 ml', i: 'stock or water' },
-        { q: '1 piece', i: 'fruit for dessert' }
+        { pid: 'lentejas', q: '250 g drained', i: 'tinned cooked lentils', n: 'batch: 2 tins = 3 servings' },
+        { pid: 'pollo', q: '120 g', i: 'roast chicken in strips (from the oven batch)' },
+        { pid: 'cebolla', q: '¼', i: 'onion' },
+        { pid: 'pimiento', q: '½', i: 'pepper' },
+        { pid: 'zanahoria', q: '1', i: 'carrot' },
+        { pid: 'aove', q: '4 g', i: 'EVOO (part of the sofrito)' },
+        { pid: 'especias', q: '1 tsp / ½ tsp', i: 'paprika / cumin' },
+        { pid: 'caldo', q: '150 ml', i: 'stock or water' },
+        { pid: 'fruta', q: '1 piece', i: 'fruit for dessert' }
       ],
       pasos: [
         'Sofrito, 8′: diced onion, pepper and carrot with 10 g of EVOO (for the 3-serving batch).',
@@ -927,11 +928,11 @@ window.B2P = (function () {
       id: 'salteado-ternera', slot: 'co', tags: ['carne'], nombre: 'Beef stir-fry', tipo: 'Lunch · 15′ fresh', tiempo: '15′', cocina: 'Wok / frying pan',
       macros: { kcal: 730, p: 45, g: 20, c: 60 },
       ing: [
-        { q: '180-200 g', i: 'lean beef strips' },
-        { q: '70 g raw (≈ 180 g cooked)', i: 'rice', n: 'use the batch rice' },
-        { q: '250 g', i: 'mixed veg: pepper, onion, courgette, carrot' },
-        { q: '15 ml', i: 'soy sauce' },
-        { q: '8 g', i: 'EVOO' }
+        { pid: 'ternera', q: '180-200 g', i: 'lean beef strips' },
+        { pid: 'arroz', q: '70 g raw (≈ 180 g cooked)', i: 'rice', n: 'use the batch rice' },
+        { pid: 'verduras', q: '250 g', i: 'mixed veg: pepper, onion, courgette, carrot' },
+        { pid: 'salsa-soja', q: '15 ml', i: 'soy sauce' },
+        { pid: 'aove', q: '8 g', i: 'EVOO' }
       ],
       pasos: [
         'Wok or pan VERY hot with the EVOO: sear the beef 1-2′ and set it aside (leave it in and it stews and toughens).',
@@ -944,11 +945,11 @@ window.B2P = (function () {
       id: 'salmon-arroz', slot: 'ce', tags: ['pescado'], nombre: 'Salmon with rice and broccoli', tipo: 'Dinner · 15′', tiempo: '15′', cocina: 'Pan or oven',
       macros: { kcal: 760, p: 40, g: 28, c: 62 },
       ing: [
-        { q: '170-180 g', i: 'salmon fillet' },
-        { q: '75 g raw (≈ 190 g cooked)', i: 'rice', n: 'from the batch' },
-        { q: '200 g', i: 'broccoli' },
-        { q: '½', i: 'lemon' },
-        { q: 'pinch', i: 'salt' }
+        { pid: 'salmon', q: '170-180 g', i: 'salmon fillet' },
+        { pid: 'arroz', q: '75 g raw (≈ 190 g cooked)', i: 'rice', n: 'from the batch' },
+        { pid: 'brocoli', q: '200 g', i: 'broccoli' },
+        { pid: 'limon', q: '½', i: 'lemon' },
+        { pid: 'sal', q: 'pinch', i: 'salt' }
       ],
       pasos: [
         'Broccoli in the microwave in a covered bowl with a splash of water: 4-5′ (or steamed).',
@@ -961,11 +962,11 @@ window.B2P = (function () {
       id: 'merluza-patata', slot: 'ce', tags: ['pescado', 'lacteo'], nombre: 'Hake with roast potatoes', tipo: 'Dinner · 20′', tiempo: '20′', cocina: 'Oven or micro+pan',
       macros: { kcal: 740, p: 55, g: 15, c: 55 },
       ing: [
-        { q: '250 g', i: 'hake or sea bass fillets' },
-        { q: '250 g', i: 'potato' },
-        { q: 'bowl', i: 'green salad (lettuce, tomato, onion)' },
-        { q: '10 g', i: 'EVOO (5 potato + 5 salad)' },
-        { q: '1', i: 'skyr for dessert' }
+        { pid: 'merluza', q: '250 g', i: 'hake or sea bass fillets' },
+        { pid: 'patata', q: '250 g', i: 'potato' },
+        { pid: 'lechuga', q: 'bowl', i: 'green salad (lettuce, tomato, onion)' },
+        { pid: 'aove', q: '10 g', i: 'EVOO (5 potato + 5 salad)' },
+        { pid: 'skyr', q: '1', i: 'skyr for dessert' }
       ],
       pasos: [
         'Potato in ½ cm slices: microwave 8′ covered (or oven 25′ with 5 g of EVOO, salt and oregano).',
@@ -978,12 +979,12 @@ window.B2P = (function () {
       id: 'revuelto-gambas', slot: 'ce', tags: ['pescado', 'huevo', 'gluten'], nombre: 'Scrambled eggs with prawns', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'Frying pan',
       macros: { kcal: 620, p: 45, g: 30, c: 25 },
       ing: [
-        { q: '3', i: 'medium eggs' },
-        { q: '150 g', i: 'peeled prawns (frozen work perfectly)' },
-        { q: '40 g', i: 'wholemeal bread' },
-        { q: 'bowl', i: 'green salad' },
-        { q: '8 g', i: 'EVOO' },
-        { q: '1 clove', i: 'garlic' }
+        { pid: 'huevos', q: '3', i: 'medium eggs' },
+        { pid: 'gambas', q: '150 g', i: 'peeled prawns (frozen work perfectly)' },
+        { pid: 'pan', q: '40 g', i: 'wholemeal bread' },
+        { pid: 'lechuga', q: 'bowl', i: 'green salad' },
+        { pid: 'aove', q: '8 g', i: 'EVOO' },
+        { pid: 'ajo', q: '1 clove', i: 'garlic' }
       ],
       pasos: [
         'Brown the sliced garlic in the EVOO; prawns 2′ (defrosted and patted dry first).',
@@ -996,9 +997,9 @@ window.B2P = (function () {
       id: 'toma-noche', slot: 'snack', tags: ['lacteo'], nombre: 'Pre-sleep serving', tipo: 'Serving 4 · daily', tiempo: '1′', cocina: 'No cooking',
       macros: { kcal: 270, p: 49, g: 2, c: 14 },
       ing: [
-        { q: '250 g', i: 'skyr or 0% fat quark' },
-        { q: '1 scoop (30 g)', i: 'whey (a flavour you won’t tire of)' },
-        { q: 'to taste', i: 'cinnamon' }
+        { pid: 'skyr', q: '250 g', i: 'skyr or 0% fat quark' },
+        { pid: 'whey', q: '1 scoop (30 g)', i: 'whey (a flavour you won’t tire of)' },
+        { pid: 'canela', q: 'to taste', i: 'cinnamon' }
       ],
       pasos: [
         'Mix the scoop of whey into the skyr until mousse-like. Cinnamon on top.',
@@ -1010,13 +1011,13 @@ window.B2P = (function () {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Complete tuna salad', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'No cooking (uses batch)',
       macros: { kcal: 700, p: 45, g: 25, c: 50 },
       ing: [
-        { q: '2 tins (120 g drained)', i: 'tuna in spring water' },
-        { q: '1', i: 'hard-boiled egg (from the batch)' },
-        { q: '150 g', i: 'boiled potato (from the batch)' },
-        { q: '150 g', i: 'tomato' },
-        { q: '30 g', i: 'olives' },
-        { q: '¼', i: 'red onion' },
-        { q: '10 g', i: 'EVOO' }
+        { pid: 'atun', q: '2 tins (120 g drained)', i: 'tuna in spring water' },
+        { pid: 'huevos', q: '1', i: 'hard-boiled egg (from the batch)' },
+        { pid: 'patata', q: '150 g', i: 'boiled potato (from the batch)' },
+        { pid: 'tomate', q: '150 g', i: 'tomato' },
+        { pid: 'aceitunas', q: '30 g', i: 'olives' },
+        { pid: 'cebolla', q: '¼', i: 'red onion' },
+        { pid: 'aove', q: '10 g', i: 'EVOO' }
       ],
       pasos: [
         'Everything into the bowl: diced potato, tomato in wedges, thinly sliced onion, drained tuna, quartered egg, olives.',
@@ -1026,62 +1027,62 @@ window.B2P = (function () {
     },
     { id: 'porridge-soja', slot: 'de', tags: [], nombre: 'Oat and protein porridge', tipo: 'Breakfast C', tiempo: '8′', cocina: 'Pan or microwave',
       macros: { kcal: 545, p: 37, g: 11, c: 69 },
-      ing: [{ q: '70 g', i: 'rolled oats (certified gluten-free)' }, { q: '250 ml', i: 'unsweetened soy milk' }, { q: '25 g', i: 'pea protein, plain or vanilla' }, { q: '1', i: 'banana, sliced' }, { q: 'to taste', i: 'cinnamon' }],
+      ing: [{ pid: 'avena', q: '70 g', i: 'rolled oats (certified gluten-free)' }, { pid: 'bebida-soja', q: '250 ml', i: 'unsweetened soy milk' }, { pid: 'prote-vegetal', q: '25 g', i: 'pea protein, plain or vanilla' }, { pid: 'platano', q: '1', i: 'banana, sliced' }, { pid: 'canela', q: 'to taste', i: 'cinnamon' }],
       pasos: ['Heat the oats with the soy milk 4-5′, stirring until thick.', 'Off the heat, stir in the protein: boiling it makes it clump.', 'Top with the banana and cinnamon.'],
       tips: 'Make it the night before (overnight oats) and just stir in the protein in the morning.' },
     { id: 'tofu-revuelto', slot: 'de', tags: [], nombre: 'Scrambled tofu on toast', tipo: 'Breakfast D', tiempo: '12′', cocina: 'Pan',
       macros: { kcal: 570, p: 41, g: 25, c: 42 },
-      ing: [{ q: '200 g', i: 'firm tofu, crumbled' }, { q: '2 slices (70 g)', i: 'gluten-free bread' }, { q: '10 g', i: 'nutritional yeast' }, { q: '1', i: 'tomato, sliced' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'turmeric, kala namak black salt, pepper' }],
+      ing: [{ pid: 'tofu', q: '200 g', i: 'firm tofu, crumbled' }, { pid: 'pan-sg', q: '2 slices (70 g)', i: 'gluten-free bread' }, { pid: 'levadura', q: '10 g', i: 'nutritional yeast' }, { pid: 'tomate', q: '1', i: 'tomato, sliced' }, { pid: 'aove', q: '5 g', i: 'extra-virgin olive oil' }, { pid: 'especias', q: 'to taste', i: 'turmeric, kala namak black salt, pepper' }],
       pasos: ['Sauté the crumbled tofu in the oil 3-4′ over medium-high heat.', 'Add turmeric, yeast and black salt (the eggy flavour); 2′ more.', 'Toast the bread and build with the tomato.'],
       tips: 'Kala namak is the secret: without it it’s tofu with turmeric; with it, a scramble.' },
     { id: 'bol-soja-frutos', slot: 'de', tags: [], nombre: 'Soy yogurt bowl with berries', tipo: 'Breakfast E', tiempo: '5′', cocina: 'No cooking',
       macros: { kcal: 415, p: 29, g: 11, c: 41 },
-      ing: [{ q: '250 g', i: 'plain unsweetened soy yogurt' }, { q: '20 g', i: 'plant protein powder' }, { q: '120 g', i: 'berries (frozen are fine)' }, { q: '15 g', i: 'chia seeds' }, { q: '1', i: 'small banana' }],
+      ing: [{ pid: 'yogur-soja', q: '250 g', i: 'plain unsweetened soy yogurt' }, { pid: 'prote-vegetal', q: '20 g', i: 'plant protein powder' }, { pid: 'frutos-rojos', q: '120 g', i: 'berries (frozen are fine)' }, { pid: 'chia', q: '15 g', i: 'chia seeds' }, { pid: 'platano', q: '1', i: 'small banana' }],
       pasos: ['Whisk the yogurt with the protein until smooth.', 'Add the chia and wait 5′: it thickens on its own.', 'Top with the berries and the banana.'],
       tips: 'Frozen berries straight from the bag chill and thicken the bowl: better than fresh here.' },
     { id: 'revuelto-espinacas', slot: 'de', tags: ['huevo'], nombre: 'Scrambled eggs with spinach', tipo: 'Breakfast F', tiempo: '10′', cocina: 'Pan',
       macros: { kcal: 510, p: 28, g: 21, c: 46 },
-      ing: [{ q: '3', i: 'eggs' }, { q: '100 g', i: 'fresh spinach' }, { q: '100 g', i: 'sliced mushrooms' }, { q: '50 g', i: 'gluten-free bread' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: '150 g', i: 'seasonal fruit' }],
+      ing: [{ pid: 'huevos', q: '3', i: 'eggs' }, { pid: 'espinacas', q: '100 g', i: 'fresh spinach' }, { pid: 'champinones', q: '100 g', i: 'sliced mushrooms' }, { pid: 'pan-sg', q: '50 g', i: 'gluten-free bread' }, { pid: 'aove', q: '5 g', i: 'extra-virgin olive oil' }, { pid: 'fruta', q: '150 g', i: 'seasonal fruit' }],
       pasos: ['Sauté the mushrooms 3′; add the spinach until it wilts.', 'Beaten eggs in, low heat, stirring: creamy, not dry.', 'Serve with the toasted bread and the fruit on the side.'],
       tips: 'Kill the heat while it still looks slightly underdone: residual heat finishes it.' },
     { id: 'curry-lentejas', slot: 'co', tags: [], nombre: 'Red lentil curry with rice', tipo: 'Lunch · Sunday batch', tiempo: '25′ pot', cocina: 'Pot',
       macros: { kcal: 755, p: 31, g: 18, c: 108 },
-      ing: [{ q: '100 g', i: 'dry red lentils' }, { q: '100 ml', i: 'light coconut milk' }, { q: '150 g', i: 'crushed tomatoes' }, { q: '50 g', i: 'dry basmati rice' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'onion, garlic, ginger, curry powder, salt' }],
+      ing: [{ pid: 'lentejas-rojas', q: '100 g', i: 'dry red lentils' }, { pid: 'leche-coco', q: '100 ml', i: 'light coconut milk' }, { pid: 'tomate-triturado', q: '150 g', i: 'crushed tomatoes' }, { pid: 'arroz', q: '50 g', i: 'dry basmati rice' }, { pid: 'aove', q: '10 g', i: 'extra-virgin olive oil' }, { pid: 'especias', q: 'to taste', i: 'onion, garlic, ginger, curry powder, salt' }],
       pasos: ['Sweat onion, garlic and ginger 3′; add the curry and toast it 30″.', 'Lentils, tomato, coconut and 300 ml water: 18-20′ over medium heat until they fall apart.', 'Rice on the side (12′). Curry on top.'],
       tips: 'Batch: ×4 keeps 4 days in the fridge and freezes perfectly. Red lentils need no soaking.' },
     { id: 'tofu-salteado', slot: 'co', tags: [], nombre: 'Stir-fried tofu with veg and brown rice', tipo: 'Lunch · 20′', tiempo: '20′', cocina: 'Wok / pan',
       macros: { kcal: 775, p: 47, g: 34, c: 71 },
-      ing: [{ q: '200 g', i: 'firm tofu, cubed' }, { q: '70 g', i: 'dry brown rice' }, { q: '250 g', i: 'broccoli, pepper and carrot' }, { q: '15 ml', i: 'tamari (gluten-free soy sauce)' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: '10 g', i: 'sesame seeds' }],
+      ing: [{ pid: 'tofu', q: '200 g', i: 'firm tofu, cubed' }, { pid: 'arroz', q: '70 g', i: 'dry brown rice' }, { pid: 'verduras', q: '250 g', i: 'broccoli, pepper and carrot' }, { pid: 'tamari', q: '15 ml', i: 'tamari (gluten-free soy sauce)' }, { pid: 'aove', q: '10 g', i: 'extra-virgin olive oil' }, { pid: 'sesamo', q: '10 g', i: 'sesame seeds' }],
       pasos: ['Cook the brown rice (25′; batch it).', 'Tofu over high heat until golden on all sides (6-7′); set aside.', 'Veg 4′ in the wok, tofu back in, tamari and sesame; 1′ and done.'],
       tips: 'Press the tofu 10′ between two plates with a weight: it sheds water and actually browns.' },
     { id: 'bol-garbanzos', slot: 'co', tags: [], nombre: 'Roasted chickpea bowl with quinoa and hummus', tipo: 'Lunch · 15′ fresh', tiempo: '15′ (+ oven)', cocina: 'Oven + no cooking',
       macros: { kcal: 780, p: 31, g: 24, c: 103 },
-      ing: [{ q: '200 g', i: 'cooked chickpeas' }, { q: '60 g', i: 'dry quinoa' }, { q: '50 g', i: 'hummus' }, { q: '150 g', i: 'roasted pepper and cucumber' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'cumin, paprika, lemon, salt' }],
+      ing: [{ pid: 'garbanzos', q: '200 g', i: 'cooked chickpeas' }, { pid: 'quinoa', q: '60 g', i: 'dry quinoa' }, { pid: 'hummus', q: '50 g', i: 'hummus' }, { pid: 'pimiento', q: '150 g', i: 'roasted pepper and cucumber' }, { pid: 'aove', q: '5 g', i: 'extra-virgin olive oil' }, { pid: 'especias', q: 'to taste', i: 'cumin, paprika, lemon, salt' }],
       pasos: ['Drained chickpeas with paprika, cumin and salt: oven 200° for 20′ until crunchy (batch).', 'Quinoa: rinse, 12′ in twice its water, rest covered.', 'Build the bowl: quinoa, chickpeas, veg, hummus and lemon.'],
       tips: 'Roasted chickpeas keep 5 days in a jar: they are this plan’s snack.' },
     { id: 'pasta-lentejas-tempeh', slot: 'co', tags: [], nombre: 'Lentil pasta with tempeh in tomato sauce', tipo: 'Lunch · 20′', tiempo: '20′', cocina: 'Pot + pan',
       macros: { kcal: 665, p: 46, g: 26, c: 67 },
-      ing: [{ q: '80 g', i: 'red lentil pasta (gluten-free)' }, { q: '120 g', i: 'tempeh, cubed' }, { q: '200 g', i: 'crushed tomatoes' }, { q: '80 g', i: 'onion and garlic' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'basil, oregano, salt' }],
+      ing: [{ pid: 'pasta-lentejas', q: '80 g', i: 'red lentil pasta (gluten-free)' }, { pid: 'tempeh', q: '120 g', i: 'tempeh, cubed' }, { pid: 'tomate-triturado', q: '200 g', i: 'crushed tomatoes' }, { pid: 'cebolla', q: '80 g', i: 'onion and garlic' }, { pid: 'aove', q: '10 g', i: 'extra-virgin olive oil' }, { pid: 'especias', q: 'to taste', i: 'basil, oregano, salt' }],
       pasos: ['Lentil pasta 7-8′ (it overcooks fast: taste before the packet time).', 'Tempeh browned in the oil 4′; onion and garlic 3′ more.', 'Tomato, oregano and salt, 5′; toss with the pasta and basil.'],
       tips: 'Tempeh improves a lot if you steam it 8′ before browning: the bitterness goes.' },
     { id: 'tortilla-garbanzo', slot: 'ce', tags: [], nombre: 'Chickpea-flour omelette with courgette', tipo: 'Dinner · 20′', tiempo: '20′', cocina: 'Pan',
       macros: { kcal: 460, p: 20, g: 16, c: 62 },
-      ing: [{ q: '80 g', i: 'chickpea flour (gluten-free)' }, { q: '200 g', i: 'courgette, thinly sliced' }, { q: '80 g', i: 'onion' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: '100 g', i: 'green salad' }, { q: 'to taste', i: 'salt, pepper, turmeric' }],
+      ing: [{ pid: 'harina-garbanzo', q: '80 g', i: 'chickpea flour (gluten-free)' }, { pid: 'calabacin', q: '200 g', i: 'courgette, thinly sliced' }, { pid: 'cebolla', q: '80 g', i: 'onion' }, { pid: 'aove', q: '10 g', i: 'extra-virgin olive oil' }, { pid: 'lechuga', q: '100 g', i: 'green salad' }, { pid: 'especias', q: 'to taste', i: 'salt, pepper, turmeric' }],
       pasos: ['Mix the flour with 160 ml water, salt and turmeric; rest 10′.', 'Courgette and onion 8′ over medium heat until tender.', 'Pour the batter over, lid on, 5′ per side. Salad alongside.'],
       tips: 'The real “eggless omelette”: sets the same and travels well cold.' },
     { id: 'crema-calabaza-tofu', slot: 'ce', tags: [], nombre: 'Pumpkin soup with edamame and seared tofu', tipo: 'Dinner · 25′', tiempo: '25′', cocina: 'Pot + griddle',
       macros: { kcal: 590, p: 41, g: 24, c: 38 },
-      ing: [{ q: '300 g', i: 'pumpkin, diced' }, { q: '100 g', i: 'shelled edamame (frozen)' }, { q: '150 g', i: 'firm tofu, sliced' }, { q: '60 g', i: 'onion' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: '10 g', i: 'pumpkin seeds' }],
+      ing: [{ pid: 'calabaza', q: '300 g', i: 'pumpkin, diced' }, { pid: 'edamame', q: '100 g', i: 'shelled edamame (frozen)' }, { pid: 'tofu', q: '150 g', i: 'firm tofu, sliced' }, { pid: 'cebolla', q: '60 g', i: 'onion' }, { pid: 'aove', q: '10 g', i: 'extra-virgin olive oil' }, { pid: 'pipas', q: '10 g', i: 'pumpkin seeds' }],
       pasos: ['Onion and pumpkin in 5 g oil 3′; barely cover with water, 15′ and blend.', 'Edamame 4′ in boiling water; drain and stir into the soup.', 'Tofu seared in the remaining oil, 3′ per side. Seeds on top.'],
       tips: 'No cream, no potato: blended pumpkin is creamy on its own.' },
     { id: 'ensalada-quinoa-alubias', slot: 'ce', tags: [], nombre: 'Warm quinoa, black bean and avocado salad', tipo: 'Dinner · 15′', tiempo: '15′', cocina: 'Pot + no cooking',
       macros: { kcal: 610, p: 25, g: 21, c: 82 },
-      ing: [{ q: '40 g', i: 'dry quinoa' }, { q: '200 g', i: 'cooked black beans' }, { q: '80 g', i: 'avocado' }, { q: '120 g', i: 'tomato, red onion and coriander' }, { q: '5 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'lime, cumin, salt' }],
+      ing: [{ pid: 'quinoa', q: '40 g', i: 'dry quinoa' }, { pid: 'alubias', q: '200 g', i: 'cooked black beans' }, { pid: 'aguacate', q: '80 g', i: 'avocado' }, { pid: 'tomate', q: '120 g', i: 'tomato, red onion and coriander' }, { pid: 'aove', q: '5 g', i: 'extra-virgin olive oil' }, { pid: 'especias', q: 'to taste', i: 'lime, cumin, salt' }],
       pasos: ['Quinoa 12′ in twice its water; drain.', 'Beans drained and rinsed, into the still-warm quinoa.', 'Avocado, tomato, onion and coriander; dress with lime, cumin and oil.'],
       tips: 'Travels well to work: cut the avocado at the last minute.' },
     { id: 'bolonesa-soja', slot: 'ce', tags: [], nombre: 'Textured soy bolognese with courgette noodles', tipo: 'Dinner · 20′', tiempo: '20′', cocina: 'Pan',
       macros: { kcal: 445, p: 37, g: 13, c: 47 },
-      ing: [{ q: '60 g', i: 'fine textured soy protein (dry)' }, { q: '250 g', i: 'crushed tomatoes' }, { q: '300 g', i: 'courgette spirals or ribbons' }, { q: '100 g', i: 'onion, carrot and garlic' }, { q: '10 g', i: 'extra-virgin olive oil' }, { q: 'to taste', i: 'oregano, paprika, salt' }],
+      ing: [{ pid: 'soja-text', q: '60 g', i: 'fine textured soy protein (dry)' }, { pid: 'tomate-triturado', q: '250 g', i: 'crushed tomatoes' }, { pid: 'calabacin', q: '300 g', i: 'courgette spirals or ribbons' }, { pid: 'verduras', q: '100 g', i: 'onion, carrot and garlic' }, { pid: 'aove', q: '10 g', i: 'extra-virgin olive oil' }, { pid: 'especias', q: 'to taste', i: 'oregano, paprika, salt' }],
       pasos: ['Soak the soy 10′ in hot water with a pinch of salt; drain well.', 'Soffritto 5′; drained soy 3′ over high heat; tomato and oregano, 8′.', 'Courgette 2′ in a separate pan (so it doesn’t weep). Bolognese on top.'],
       tips: 'Textured soy has 50 g protein per 100 g dry: the cheapest “mince” there is.' }
   ];
@@ -1284,7 +1285,7 @@ window.B2P = (function () {
       ['This is TODAY', 'Your day, already set: session, meals and logging. Tick ✓ and the app keeps count.'],
       ['The bar moves you', 'Today, Plan, Exercises, Food, Progress and Achievements. Tap, or drag the bubble.'],
       ['The whole plan', 'A calendar with the phases coloured in: tap any day to see its training and its meals.'],
-      ['Your table', 'Weekly menu, recipes with photos, shopping and meal prep, already filtered for you.'],
+      ['Your table', 'A recipe book grouped by meal, with photos and steps; the weekly shopping list you can tick off; and the meal prep. All filtered for you.'],
       ['Honest progress', 'Weight, waist, loads and consistency. Going too fast? The app slows you down.'] ] },
     cuest: {
       evFechaT: 'What day is it?', evFechaP: 'With a date, the plan ends right before it. Without one, the horizon you pick rules.', evFechaSaltar: 'I don’t know yet', evFechaMal: 'Pick a date between 2 and 12 months from today.', 

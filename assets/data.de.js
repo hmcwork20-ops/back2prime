@@ -838,11 +838,12 @@ window.B2P = (function () {
       { t: 'Fett', d: '10 g natives Olivenöl extra pro Hauptmahlzeit (ein Esslöffel), und Schluss. Hier entwischen die Kalorien, ohne dass du es merkst.' }
     ],
     suplementos: [
-      { t: 'Kreatin-Monohydrat', d: '5 g täglich, egal zu welcher Uhrzeit, ohne Ladephase, ab sofort. ACHTUNG: hält in den ersten Wochen 1-2 kg Wasser zurück. Das ist kein Fett: Vertrau der Taille und dem Wochenschnitt, nicht der einzelnen Zahl (die App markiert es in der Grafik).' },
-      { t: 'Whey', d: '1 Messlöffel in der Pre-Sleep-Portion mit dem Skyr (und ein weiterer, wo nötig, an proteinarmen Tagen).' },
-      { t: 'Koffein', d: 'Schluss um 13-14 Uhr: 200 mg stören den Schlaf bis zu 13 h danach; ein Kaffee ~9 h (Gardiner 2023). Training am Morgen: Kaffee 30-45′ vorher, perfekt. Abends: kein Koffein — dein Pre-Workout ist der Nachmittagssnack (Obst + Skyr 60-90′ vorher).' },
-      { t: 'Sinnvolle Optionen', d: 'Vitamin D nur, wenn das Blutbild unter 30 ng/mL liegt (wahrscheinlich bei Indoor-Leben). Omega-3 ~2 g EPA+DHA/Tag: bescheidener, aber realer Nutzen für die Kraft plus entzündungshemmender Sehnen-Winkel.' },
-      { t: 'KEIN Geld für', d: 'Fatburner, BCAA/EAA (überflüssig neben deinem täglichen Protein), „Testo-Booster". Nichts davon bewegt die Nadel.' }
+      { id: 'creatina', t: 'Kreatin-Monohydrat', d: '5 g täglich, egal zu welcher Uhrzeit, ohne Ladephase, ab sofort. ACHTUNG: hält in den ersten Wochen 1-2 kg Wasser zurück. Das ist kein Fett: Vertrau der Taille und dem Wochenschnitt, nicht der einzelnen Zahl (die App markiert es in der Grafik).' },
+      { id: 'whey', t: 'Whey', d: '1 Messlöffel in der Pre-Sleep-Portion mit dem Skyr (und ein weiterer, wo nötig, an proteinarmen Tagen).' },
+      { id: 'cafeina', t: 'Koffein', d: 'Schluss um 13-14 Uhr: 200 mg stören den Schlaf bis zu 13 h danach; ein Kaffee ~9 h (Gardiner 2023). Training am Morgen: Kaffee 30-45′ vorher, perfekt. Abends: kein Koffein — dein Pre-Workout ist der Nachmittagssnack (Obst + Skyr 60-90′ vorher).' },
+      { id: 'vitamina-d', t: 'Vitamin D', d: 'Vitamin D nur, wenn das Blutbild unter 30 ng/mL liegt (wahrscheinlich bei Indoor-Leben).' },
+      { id: 'omega-3', t: 'Omega-3', d: 'Omega-3 ~2 g EPA+DHA/Tag: bescheidener, aber realer Nutzen für die Kraft plus entzündungshemmender Sehnen-Winkel.' },
+      { id: 'no', t: 'KEIN Geld für', d: 'Fatburner, BCAA/EAA (überflüssig neben deinem täglichen Protein), „Testo-Booster". Nichts davon bewegt die Nadel.' }
     ],
     hidratacion: 'Wasser: 2,5–3 L/Tag. Alkohol: zählt Kalorien und blockiert die Regeneration — innerhalb der freien Mahlzeit ja, im Rest der Woche nicht.',
     comidaLibre: 'EINE Mahlzeit pro Woche (standardmäßig Samstag), kein ganzer Tag. Bestell oder iss, worauf du Lust hast, in normaler Menge, ohne davor oder danach zu kompensieren. Dafür hält der Plan {s} Wochen und ein Sozialleben durch. Gibt es an einem anderen Tag was vor, wird sie verschoben — bleibt aber eine.'
@@ -855,11 +856,11 @@ window.B2P = (function () {
       id: 'bol-skyr', slot: 'de', tags: ['lacteo', 'frutos'], nombre: 'Skyr-Bowl', tipo: 'Frühstück A', tiempo: '5′', cocina: 'Ohne Kochen',
       macros: { kcal: 520, p: 35, g: 11, c: 72 },
       ing: [
-        { q: '250 g', i: 'Skyr natur (oder Magerquark)' },
-        { q: '50 g', i: 'Haferflocken' },
-        { q: '1 Stück (120 g)', i: 'Banane' },
-        { q: '10 g', i: 'Walnüsse' },
-        { q: 'nach Geschmack', i: 'Zimt' }
+        { pid: 'skyr', q: '250 g', i: 'Skyr natur (oder Magerquark)' },
+        { pid: 'avena', q: '50 g', i: 'Haferflocken' },
+        { pid: 'platano', q: '1 Stück (120 g)', i: 'Banane' },
+        { pid: 'nueces', q: '10 g', i: 'Walnüsse' },
+        { pid: 'canela', q: 'nach Geschmack', i: 'Zimt' }
       ],
       pasos: [
         'Skyr in die Bowl und die Haferflocken darüber (pur, wenn du Biss magst, oder 5′ in einem Fingerbreit Milch oder Wasser eingeweicht).',
@@ -871,12 +872,12 @@ window.B2P = (function () {
       id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelett mit Brot und Tomate', tipo: 'Frühstück B', tiempo: '10′', cocina: 'Pfanne',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
-        { q: '3 Stück', i: 'Eier (M)' },
-        { q: '2 Stück (oder 100 ml flüssig)', i: 'Eiklar' },
-        { q: '60 g (2 Scheiben)', i: 'Vollkornbrot' },
-        { q: '100 g', i: 'geriebene Tomate' },
-        { q: '5 g', i: 'natives Olivenöl extra' },
-        { q: 'Prise', i: 'Salz' }
+        { pid: 'huevos', q: '3 Stück', i: 'Eier (M)' },
+        { pid: 'huevos', q: '2 Stück (oder 100 ml flüssig)', i: 'Eiklar' },
+        { pid: 'pan', q: '60 g (2 Scheiben)', i: 'Vollkornbrot' },
+        { pid: 'tomate', q: '100 g', i: 'geriebene Tomate' },
+        { pid: 'aove', q: '5 g', i: 'natives Olivenöl extra' },
+        { pid: 'sal', q: 'Prise', i: 'Salz' }
       ],
       pasos: [
         'Eier und Eiklar mit dem Salz verquirlen.',
@@ -889,10 +890,10 @@ window.B2P = (function () {
       id: 'pollo-asado', slot: 'co', tags: ['carne'], nombre: 'Ofenhähnchen mit Kartoffeln', tipo: 'Mittag · Sonntags-Batch', tiempo: '45′ Ofen (aus dem Meal Prep)', cocina: 'Ofen',
       macros: { kcal: 780, p: 70, g: 19, c: 68 },
       ing: [
-        { q: '250 g roh (~200 g gegart)', i: 'Hähnchenbrust', n: 'Batch: 1,2 kg = 5 Portionen' },
-        { q: '300 g', i: 'Kartoffelspalten + Paprika + Zwiebel aus dem Ofen', n: 'Batch: 1,5 kg Kartoffeln + 2 Paprika + 2 Zwiebeln' },
-        { q: '10 g', i: 'natives Olivenöl extra (Teil des Ofengemüses)' },
-        { q: 'nach Geschmack', i: 'Paprikapulver, Knoblauchpulver, Salz, Oregano' }
+        { pid: 'pollo', q: '250 g roh (~200 g gegart)', i: 'Hähnchenbrust', n: 'Batch: 1,2 kg = 5 Portionen' },
+        { pid: 'patata', q: '300 g', i: 'Kartoffelspalten + Paprika + Zwiebel aus dem Ofen', n: 'Batch: 1,5 kg Kartoffeln + 2 Paprika + 2 Zwiebeln' },
+        { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra (Teil des Ofengemüses)' },
+        { pid: 'especias', q: 'nach Geschmack', i: 'Paprikapulver, Knoblauchpulver, Salz, Oregano' }
       ],
       pasos: [
         'Ofen auf 200°. Die Brüste salzen, pfeffern und mit Paprika- + Knoblauchpulver einreiben.',
@@ -906,15 +907,15 @@ window.B2P = (function () {
       id: 'lentejas-pollo', slot: 'co', tags: ['carne'], nombre: 'Linsen mit Hähnchen', tipo: 'Mittag · Sonntags-Batch', tiempo: '25′ Topf', cocina: 'Topf',
       macros: { kcal: 760, p: 52, g: 16, c: 80 },
       ing: [
-        { q: '250 g abgetropft', i: 'gekochte Linsen aus der Dose', n: 'Batch: 2 Dosen = 3 Portionen' },
-        { q: '120 g', i: 'Ofenhähnchen in Streifen (vom Backen)' },
-        { q: '¼ Stück', i: 'Zwiebel' },
-        { q: '½ Stück', i: 'Paprika' },
-        { q: '1 Stück', i: 'Karotte' },
-        { q: '4 g', i: 'natives Olivenöl extra (fürs Anschwitzen)' },
-        { q: '1 TL / ½ TL', i: 'Paprikapulver / Kreuzkümmel' },
-        { q: '150 ml', i: 'Brühe oder Wasser' },
-        { q: '1 Stück', i: 'Obst zum Nachtisch' }
+        { pid: 'lentejas', q: '250 g abgetropft', i: 'gekochte Linsen aus der Dose', n: 'Batch: 2 Dosen = 3 Portionen' },
+        { pid: 'pollo', q: '120 g', i: 'Ofenhähnchen in Streifen (vom Backen)' },
+        { pid: 'cebolla', q: '¼ Stück', i: 'Zwiebel' },
+        { pid: 'pimiento', q: '½ Stück', i: 'Paprika' },
+        { pid: 'zanahoria', q: '1 Stück', i: 'Karotte' },
+        { pid: 'aove', q: '4 g', i: 'natives Olivenöl extra (fürs Anschwitzen)' },
+        { pid: 'especias', q: '1 TL / ½ TL', i: 'Paprikapulver / Kreuzkümmel' },
+        { pid: 'caldo', q: '150 ml', i: 'Brühe oder Wasser' },
+        { pid: 'fruta', q: '1 Stück', i: 'Obst zum Nachtisch' }
       ],
       pasos: [
         'Anschwitzen 8′: gehackte Zwiebel, Paprika und Karotte mit 10 g Olivenöl (für den 3-Portionen-Batch).',
@@ -927,11 +928,11 @@ window.B2P = (function () {
       id: 'salteado-ternera', slot: 'co', tags: ['carne'], nombre: 'Rind-Gemüse-Pfanne', tipo: 'Mittag · 15′ frisch', tiempo: '15′', cocina: 'Wok / Pfanne',
       macros: { kcal: 730, p: 45, g: 20, c: 60 },
       ing: [
-        { q: '180-200 g', i: 'mageres Rindfleisch in Streifen' },
-        { q: '70 g roh (≈ 180 g gegart)', i: 'Reis', n: 'nimm den aus dem Batch' },
-        { q: '250 g', i: 'gemischtes Gemüse: Paprika, Zwiebel, Zucchini, Karotte' },
-        { q: '15 ml', i: 'Sojasauce' },
-        { q: '8 g', i: 'natives Olivenöl extra' }
+        { pid: 'ternera', q: '180-200 g', i: 'mageres Rindfleisch in Streifen' },
+        { pid: 'arroz', q: '70 g roh (≈ 180 g gegart)', i: 'Reis', n: 'nimm den aus dem Batch' },
+        { pid: 'verduras', q: '250 g', i: 'gemischtes Gemüse: Paprika, Zwiebel, Zucchini, Karotte' },
+        { pid: 'salsa-soja', q: '15 ml', i: 'Sojasauce' },
+        { pid: 'aove', q: '8 g', i: 'natives Olivenöl extra' }
       ],
       pasos: [
         'Wok oder Pfanne RICHTIG heiß mit dem Olivenöl: Das Rind 1-2′ scharf anbraten und rausnehmen (bleibt es drin, kocht es und wird zäh).',
@@ -944,11 +945,11 @@ window.B2P = (function () {
       id: 'salmon-arroz', slot: 'ce', tags: ['pescado'], nombre: 'Lachs mit Reis und Brokkoli', tipo: 'Abend · 15′', tiempo: '15′', cocina: 'Grillpfanne oder Ofen',
       macros: { kcal: 760, p: 40, g: 28, c: 62 },
       ing: [
-        { q: '170-180 g', i: 'Lachsfilet' },
-        { q: '75 g roh (≈ 190 g gegart)', i: 'Reis', n: 'aus dem Batch' },
-        { q: '200 g', i: 'Brokkoli' },
-        { q: '½ Stück', i: 'Zitrone' },
-        { q: 'Prise', i: 'Salz' }
+        { pid: 'salmon', q: '170-180 g', i: 'Lachsfilet' },
+        { pid: 'arroz', q: '75 g roh (≈ 190 g gegart)', i: 'Reis', n: 'aus dem Batch' },
+        { pid: 'brocoli', q: '200 g', i: 'Brokkoli' },
+        { pid: 'limon', q: '½ Stück', i: 'Zitrone' },
+        { pid: 'sal', q: 'Prise', i: 'Salz' }
       ],
       pasos: [
         'Brokkoli in der Mikrowelle in abgedeckter Schüssel mit einem Fingerbreit Wasser: 4-5′ (oder Dampf).',
@@ -961,11 +962,11 @@ window.B2P = (function () {
       id: 'merluza-patata', slot: 'ce', tags: ['pescado', 'lacteo'], nombre: 'Seehecht mit Ofenkartoffeln', tipo: 'Abend · 20′', tiempo: '20′', cocina: 'Ofen oder Mikro+Pfanne',
       macros: { kcal: 740, p: 55, g: 15, c: 55 },
       ing: [
-        { q: '250 g', i: 'Seehecht oder Wolfsbarsch als Filet' },
-        { q: '250 g', i: 'Kartoffeln' },
-        { q: 'Schüssel', i: 'grüner Salat (Kopfsalat, Tomate, Zwiebel)' },
-        { q: '10 g', i: 'natives Olivenöl extra (5 Kartoffeln + 5 Salat)' },
-        { q: '1 Stück', i: 'Skyr zum Nachtisch' }
+        { pid: 'merluza', q: '250 g', i: 'Seehecht oder Wolfsbarsch als Filet' },
+        { pid: 'patata', q: '250 g', i: 'Kartoffeln' },
+        { pid: 'lechuga', q: 'Schüssel', i: 'grüner Salat (Kopfsalat, Tomate, Zwiebel)' },
+        { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra (5 Kartoffeln + 5 Salat)' },
+        { pid: 'skyr', q: '1 Stück', i: 'Skyr zum Nachtisch' }
       ],
       pasos: [
         'Kartoffeln in ½-cm-Scheiben: 8′ abgedeckt in die Mikrowelle (oder 25′ Ofen mit 5 g Olivenöl, Salz und Oregano).',
@@ -978,12 +979,12 @@ window.B2P = (function () {
       id: 'revuelto-gambas', slot: 'ce', tags: ['pescado', 'huevo', 'gluten'], nombre: 'Rührei mit Garnelen', tipo: 'Abend · 10′', tiempo: '10′', cocina: 'Pfanne',
       macros: { kcal: 620, p: 45, g: 30, c: 25 },
       ing: [
-        { q: '3 Stück', i: 'Eier (M)' },
-        { q: '150 g', i: 'geschälte Garnelen (tiefgekühlt funktionieren perfekt)' },
-        { q: '40 g', i: 'Vollkornbrot' },
-        { q: 'Schüssel', i: 'grüner Salat' },
-        { q: '8 g', i: 'natives Olivenöl extra' },
-        { q: '1 Zehe', i: 'Knoblauch' }
+        { pid: 'huevos', q: '3 Stück', i: 'Eier (M)' },
+        { pid: 'gambas', q: '150 g', i: 'geschälte Garnelen (tiefgekühlt funktionieren perfekt)' },
+        { pid: 'pan', q: '40 g', i: 'Vollkornbrot' },
+        { pid: 'lechuga', q: 'Schüssel', i: 'grüner Salat' },
+        { pid: 'aove', q: '8 g', i: 'natives Olivenöl extra' },
+        { pid: 'ajo', q: '1 Zehe', i: 'Knoblauch' }
       ],
       pasos: [
         'Knoblauch in Scheiben im Olivenöl goldbraun anbraten; Garnelen 2′ (vorher aufgetaut und trockengetupft).',
@@ -996,9 +997,9 @@ window.B2P = (function () {
       id: 'toma-noche', slot: 'snack', tags: ['lacteo'], nombre: 'Pre-Sleep-Portion', tipo: 'Portion 4 · täglich', tiempo: '1′', cocina: 'Ohne Kochen',
       macros: { kcal: 270, p: 49, g: 2, c: 14 },
       ing: [
-        { q: '250 g', i: 'Skyr oder Magerquark' },
-        { q: '1 Messlöffel (30 g)', i: 'Whey (die Sorte, die dich nicht langweilt)' },
-        { q: 'nach Geschmack', i: 'Zimt' }
+        { pid: 'skyr', q: '250 g', i: 'Skyr oder Magerquark' },
+        { pid: 'whey', q: '1 Messlöffel (30 g)', i: 'Whey (die Sorte, die dich nicht langweilt)' },
+        { pid: 'canela', q: 'nach Geschmack', i: 'Zimt' }
       ],
       pasos: [
         'Den Messlöffel Whey mit dem Skyr zu Mousse-Textur verrühren. Zimt darüber.',
@@ -1010,13 +1011,13 @@ window.B2P = (function () {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Kompletter Thunfischsalat', tipo: 'Abend · 10′', tiempo: '10′', cocina: 'Ohne Herd (mit Batch)',
       macros: { kcal: 700, p: 45, g: 25, c: 50 },
       ing: [
-        { q: '2 Dosen (120 g abgetropft)', i: 'Thunfisch im eigenen Saft' },
-        { q: '1 Stück', i: 'hartgekochtes Ei (aus dem Batch)' },
-        { q: '150 g', i: 'gekochte Kartoffeln (aus dem Batch)' },
-        { q: '150 g', i: 'Tomate' },
-        { q: '30 g', i: 'Oliven' },
-        { q: '¼ Stück', i: 'rote Zwiebel' },
-        { q: '10 g', i: 'natives Olivenöl extra' }
+        { pid: 'atun', q: '2 Dosen (120 g abgetropft)', i: 'Thunfisch im eigenen Saft' },
+        { pid: 'huevos', q: '1 Stück', i: 'hartgekochtes Ei (aus dem Batch)' },
+        { pid: 'patata', q: '150 g', i: 'gekochte Kartoffeln (aus dem Batch)' },
+        { pid: 'tomate', q: '150 g', i: 'Tomate' },
+        { pid: 'aceitunas', q: '30 g', i: 'Oliven' },
+        { pid: 'cebolla', q: '¼ Stück', i: 'rote Zwiebel' },
+        { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra' }
       ],
       pasos: [
         'Alles in die Schüssel: Kartoffelwürfel, Tomatenspalten, fein geschnittene Zwiebel, abgetropfter Thunfisch, geviertelte Eier, Oliven.',
@@ -1026,62 +1027,62 @@ window.B2P = (function () {
     },
     { id: 'porridge-soja', slot: 'de', tags: [], nombre: 'Hafer-Protein-Porridge', tipo: 'Frühstück C', tiempo: '8′', cocina: 'Topf oder Mikrowelle',
       macros: { kcal: 545, p: 37, g: 11, c: 69 },
-      ing: [{ q: '70 g', i: 'Haferflocken (zertifiziert glutenfrei)' }, { q: '250 ml', i: 'Sojadrink ohne Zucker' }, { q: '25 g', i: 'Erbsenprotein, neutral oder Vanille' }, { q: '1', i: 'Banane in Scheiben' }, { q: 'nach Geschmack', i: 'Zimt' }],
+      ing: [{ pid: 'avena', q: '70 g', i: 'Haferflocken (zertifiziert glutenfrei)' }, { pid: 'bebida-soja', q: '250 ml', i: 'Sojadrink ohne Zucker' }, { pid: 'prote-vegetal', q: '25 g', i: 'Erbsenprotein, neutral oder Vanille' }, { pid: 'platano', q: '1', i: 'Banane in Scheiben' }, { pid: 'canela', q: 'nach Geschmack', i: 'Zimt' }],
       pasos: ['Hafer mit Sojadrink 4-5′ unter Rühren erhitzen, bis es dick wird.', 'Vom Herd nehmen und das Protein einrühren: gekocht klumpt es.', 'Mit Banane und Zimt toppen.'],
       tips: 'Abends im Kühlschrank vorbereiten (Overnight Oats), morgens nur das Protein einrühren.' },
     { id: 'tofu-revuelto', slot: 'de', tags: [], nombre: 'Tofu-Rührei auf Toast', tipo: 'Frühstück D', tiempo: '12′', cocina: 'Pfanne',
       macros: { kcal: 570, p: 41, g: 25, c: 42 },
-      ing: [{ q: '200 g', i: 'fester Tofu, zerbröselt' }, { q: '2 Scheiben (70 g)', i: 'glutenfreies Brot' }, { q: '10 g', i: 'Hefeflocken' }, { q: '1', i: 'Tomate in Scheiben' }, { q: '5 g', i: 'natives Olivenöl extra' }, { q: 'nach Geschmack', i: 'Kurkuma, Kala-Namak-Schwarzsalz, Pfeffer' }],
+      ing: [{ pid: 'tofu', q: '200 g', i: 'fester Tofu, zerbröselt' }, { pid: 'pan-sg', q: '2 Scheiben (70 g)', i: 'glutenfreies Brot' }, { pid: 'levadura', q: '10 g', i: 'Hefeflocken' }, { pid: 'tomate', q: '1', i: 'Tomate in Scheiben' }, { pid: 'aove', q: '5 g', i: 'natives Olivenöl extra' }, { pid: 'especias', q: 'nach Geschmack', i: 'Kurkuma, Kala-Namak-Schwarzsalz, Pfeffer' }],
       pasos: ['Zerbröselten Tofu im Öl 3-4′ bei mittlerer bis hoher Hitze anbraten.', 'Kurkuma, Hefeflocken und Schwarzsalz (der Ei-Geschmack) dazu; 2′ weiter.', 'Brot toasten und mit der Tomate anrichten.'],
       tips: 'Kala Namak ist der Schlüssel: ohne ist es Tofu mit Kurkuma, mit ist es Rührei.' },
     { id: 'bol-soja-frutos', slot: 'de', tags: [], nombre: 'Sojajoghurt-Bowl mit Beeren', tipo: 'Frühstück E', tiempo: '5′', cocina: 'Ohne Kochen',
       macros: { kcal: 415, p: 29, g: 11, c: 41 },
-      ing: [{ q: '250 g', i: 'Sojajoghurt natur, ungesüßt' }, { q: '20 g', i: 'pflanzliches Proteinpulver' }, { q: '120 g', i: 'Beeren (tiefgekühlt geht)' }, { q: '15 g', i: 'Chiasamen' }, { q: '1', i: 'kleine Banane' }],
+      ing: [{ pid: 'yogur-soja', q: '250 g', i: 'Sojajoghurt natur, ungesüßt' }, { pid: 'prote-vegetal', q: '20 g', i: 'pflanzliches Proteinpulver' }, { pid: 'frutos-rojos', q: '120 g', i: 'Beeren (tiefgekühlt geht)' }, { pid: 'chia', q: '15 g', i: 'Chiasamen' }, { pid: 'platano', q: '1', i: 'kleine Banane' }],
       pasos: ['Joghurt mit dem Protein glatt rühren.', 'Chia dazu, 5′ warten: dickt von selbst an.', 'Mit Beeren und Banane toppen.'],
       tips: 'Tiefgekühlte Beeren direkt aus der Packung kühlen und binden die Bowl: hier besser als frische.' },
     { id: 'revuelto-espinacas', slot: 'de', tags: ['huevo'], nombre: 'Rührei mit Spinat', tipo: 'Frühstück F', tiempo: '10′', cocina: 'Pfanne',
       macros: { kcal: 510, p: 28, g: 21, c: 46 },
-      ing: [{ q: '3', i: 'Eier' }, { q: '100 g', i: 'frischer Spinat' }, { q: '100 g', i: 'Champignons in Scheiben' }, { q: '50 g', i: 'glutenfreies Brot' }, { q: '5 g', i: 'natives Olivenöl extra' }, { q: '150 g', i: 'Obst der Saison' }],
+      ing: [{ pid: 'huevos', q: '3', i: 'Eier' }, { pid: 'espinacas', q: '100 g', i: 'frischer Spinat' }, { pid: 'champinones', q: '100 g', i: 'Champignons in Scheiben' }, { pid: 'pan-sg', q: '50 g', i: 'glutenfreies Brot' }, { pid: 'aove', q: '5 g', i: 'natives Olivenöl extra' }, { pid: 'fruta', q: '150 g', i: 'Obst der Saison' }],
       pasos: ['Champignons 3′ anbraten; Spinat dazu, bis er zusammenfällt.', 'Verquirlte Eier rein, kleine Hitze, rühren: cremig, nicht trocken.', 'Mit dem getoasteten Brot und dem Obst servieren.'],
       tips: 'Herd aus, solange es noch leicht roh aussieht: die Restwärme macht den Rest.' },
     { id: 'curry-lentejas', slot: 'co', tags: [], nombre: 'Rotes-Linsen-Curry mit Reis', tipo: 'Mittag · Sonntags-Batch', tiempo: '25′ Topf', cocina: 'Topf',
       macros: { kcal: 755, p: 31, g: 18, c: 108 },
-      ing: [{ q: '100 g', i: 'rote Linsen, trocken' }, { q: '100 ml', i: 'leichte Kokosmilch' }, { q: '150 g', i: 'passierte Tomaten' }, { q: '50 g', i: 'Basmatireis, trocken' }, { q: '10 g', i: 'natives Olivenöl extra' }, { q: 'nach Geschmack', i: 'Zwiebel, Knoblauch, Ingwer, Currypulver, Salz' }],
+      ing: [{ pid: 'lentejas-rojas', q: '100 g', i: 'rote Linsen, trocken' }, { pid: 'leche-coco', q: '100 ml', i: 'leichte Kokosmilch' }, { pid: 'tomate-triturado', q: '150 g', i: 'passierte Tomaten' }, { pid: 'arroz', q: '50 g', i: 'Basmatireis, trocken' }, { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra' }, { pid: 'especias', q: 'nach Geschmack', i: 'Zwiebel, Knoblauch, Ingwer, Currypulver, Salz' }],
       pasos: ['Zwiebel, Knoblauch und Ingwer 3′ anschwitzen; Curry dazu und 30″ rösten.', 'Linsen, Tomate, Kokos und 300 ml Wasser: 18-20′ bei mittlerer Hitze, bis sie zerfallen.', 'Reis separat (12′). Curry obendrauf.'],
       tips: 'Batch: ×4 hält 4 Tage im Kühlschrank und lässt sich perfekt einfrieren. Rote Linsen müssen nicht einweichen.' },
     { id: 'tofu-salteado', slot: 'co', tags: [], nombre: 'Gebratener Tofu mit Gemüse und Vollkornreis', tipo: 'Mittag · 20′', tiempo: '20′', cocina: 'Wok / Pfanne',
       macros: { kcal: 775, p: 47, g: 34, c: 71 },
-      ing: [{ q: '200 g', i: 'fester Tofu, gewürfelt' }, { q: '70 g', i: 'Vollkornreis, trocken' }, { q: '250 g', i: 'Brokkoli, Paprika und Karotte' }, { q: '15 ml', i: 'Tamari (glutenfreie Sojasauce)' }, { q: '10 g', i: 'natives Olivenöl extra' }, { q: '10 g', i: 'Sesam' }],
+      ing: [{ pid: 'tofu', q: '200 g', i: 'fester Tofu, gewürfelt' }, { pid: 'arroz', q: '70 g', i: 'Vollkornreis, trocken' }, { pid: 'verduras', q: '250 g', i: 'Brokkoli, Paprika und Karotte' }, { pid: 'tamari', q: '15 ml', i: 'Tamari (glutenfreie Sojasauce)' }, { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra' }, { pid: 'sesamo', q: '10 g', i: 'Sesam' }],
       pasos: ['Vollkornreis kochen (25′; im Batch vorkochen).', 'Tofu bei starker Hitze rundum goldbraun braten (6-7′); beiseitestellen.', 'Gemüse 4′ im Wok, Tofu zurück, Tamari und Sesam; 1′ und fertig.'],
       tips: 'Tofu 10′ zwischen zwei Tellern mit Gewicht pressen: er verliert Wasser und bräunt wirklich.' },
     { id: 'bol-garbanzos', slot: 'co', tags: [], nombre: 'Bowl mit gerösteten Kichererbsen, Quinoa und Hummus', tipo: 'Mittag · 15′ frisch', tiempo: '15′ (+ Ofen)', cocina: 'Ofen + ohne Kochen',
       macros: { kcal: 780, p: 31, g: 24, c: 103 },
-      ing: [{ q: '200 g', i: 'gekochte Kichererbsen' }, { q: '60 g', i: 'Quinoa, trocken' }, { q: '50 g', i: 'Hummus' }, { q: '150 g', i: 'gegrillte Paprika und Gurke' }, { q: '5 g', i: 'natives Olivenöl extra' }, { q: 'nach Geschmack', i: 'Kreuzkümmel, Paprikapulver, Zitrone, Salz' }],
+      ing: [{ pid: 'garbanzos', q: '200 g', i: 'gekochte Kichererbsen' }, { pid: 'quinoa', q: '60 g', i: 'Quinoa, trocken' }, { pid: 'hummus', q: '50 g', i: 'Hummus' }, { pid: 'pimiento', q: '150 g', i: 'gegrillte Paprika und Gurke' }, { pid: 'aove', q: '5 g', i: 'natives Olivenöl extra' }, { pid: 'especias', q: 'nach Geschmack', i: 'Kreuzkümmel, Paprikapulver, Zitrone, Salz' }],
       pasos: ['Abgetropfte Kichererbsen mit Paprika, Kreuzkümmel und Salz: Ofen 200° 20′ bis knusprig (Batch).', 'Quinoa: waschen, 12′ in der doppelten Menge Wasser, zugedeckt ruhen lassen.', 'Bowl bauen: Quinoa, Kichererbsen, Gemüse, Hummus und Zitrone.'],
       tips: 'Geröstete Kichererbsen halten 5 Tage im Glas: der Snack dieses Plans.' },
     { id: 'pasta-lentejas-tempeh', slot: 'co', tags: [], nombre: 'Linsennudeln mit Tempeh in Tomatensauce', tipo: 'Mittag · 20′', tiempo: '20′', cocina: 'Topf + Pfanne',
       macros: { kcal: 665, p: 46, g: 26, c: 67 },
-      ing: [{ q: '80 g', i: 'Nudeln aus roten Linsen (glutenfrei)' }, { q: '120 g', i: 'Tempeh, gewürfelt' }, { q: '200 g', i: 'passierte Tomaten' }, { q: '80 g', i: 'Zwiebel und Knoblauch' }, { q: '10 g', i: 'natives Olivenöl extra' }, { q: 'nach Geschmack', i: 'Basilikum, Oregano, Salz' }],
+      ing: [{ pid: 'pasta-lentejas', q: '80 g', i: 'Nudeln aus roten Linsen (glutenfrei)' }, { pid: 'tempeh', q: '120 g', i: 'Tempeh, gewürfelt' }, { pid: 'tomate-triturado', q: '200 g', i: 'passierte Tomaten' }, { pid: 'cebolla', q: '80 g', i: 'Zwiebel und Knoblauch' }, { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra' }, { pid: 'especias', q: 'nach Geschmack', i: 'Basilikum, Oregano, Salz' }],
       pasos: ['Linsennudeln 7-8′ (zerkochen schnell: vor der Packungszeit probieren).', 'Tempeh im Öl 4′ anbraten; Zwiebel und Knoblauch 3′ dazu.', 'Tomate, Oregano und Salz, 5′; mit Nudeln und Basilikum mischen.'],
       tips: 'Tempeh wird viel besser, wenn du ihn vor dem Anbraten 8′ dämpfst: die Bitterkeit verschwindet.' },
     { id: 'tortilla-garbanzo', slot: 'ce', tags: [], nombre: 'Kichererbsenmehl-Omelett mit Zucchini', tipo: 'Abend · 20′', tiempo: '20′', cocina: 'Pfanne',
       macros: { kcal: 460, p: 20, g: 16, c: 62 },
-      ing: [{ q: '80 g', i: 'Kichererbsenmehl (glutenfrei)' }, { q: '200 g', i: 'Zucchini in dünnen Scheiben' }, { q: '80 g', i: 'Zwiebel' }, { q: '10 g', i: 'natives Olivenöl extra' }, { q: '100 g', i: 'grüner Salat' }, { q: 'nach Geschmack', i: 'Salz, Pfeffer, Kurkuma' }],
+      ing: [{ pid: 'harina-garbanzo', q: '80 g', i: 'Kichererbsenmehl (glutenfrei)' }, { pid: 'calabacin', q: '200 g', i: 'Zucchini in dünnen Scheiben' }, { pid: 'cebolla', q: '80 g', i: 'Zwiebel' }, { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra' }, { pid: 'lechuga', q: '100 g', i: 'grüner Salat' }, { pid: 'especias', q: 'nach Geschmack', i: 'Salz, Pfeffer, Kurkuma' }],
       pasos: ['Mehl mit 160 ml Wasser, Salz und Kurkuma verrühren; 10′ ruhen.', 'Zucchini und Zwiebel 8′ bei mittlerer Hitze weich dünsten.', 'Teig darübergießen, Deckel drauf, 5′ pro Seite. Salat dazu.'],
       tips: 'Das echte „Omelett ohne Ei“: stockt genauso und schmeckt kalt in der Lunchbox.' },
     { id: 'crema-calabaza-tofu', slot: 'ce', tags: [], nombre: 'Kürbissuppe mit Edamame und gebratenem Tofu', tipo: 'Abend · 25′', tiempo: '25′', cocina: 'Topf + Grillpfanne',
       macros: { kcal: 590, p: 41, g: 24, c: 38 },
-      ing: [{ q: '300 g', i: 'Kürbis, gewürfelt' }, { q: '100 g', i: 'Edamame, gepult (TK)' }, { q: '150 g', i: 'fester Tofu in Scheiben' }, { q: '60 g', i: 'Zwiebel' }, { q: '10 g', i: 'natives Olivenöl extra' }, { q: '10 g', i: 'Kürbiskerne' }],
+      ing: [{ pid: 'calabaza', q: '300 g', i: 'Kürbis, gewürfelt' }, { pid: 'edamame', q: '100 g', i: 'Edamame, gepult (TK)' }, { pid: 'tofu', q: '150 g', i: 'fester Tofu in Scheiben' }, { pid: 'cebolla', q: '60 g', i: 'Zwiebel' }, { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra' }, { pid: 'pipas', q: '10 g', i: 'Kürbiskerne' }],
       pasos: ['Zwiebel und Kürbis in 5 g Öl 3′; knapp mit Wasser bedecken, 15′, pürieren.', 'Edamame 4′ in kochendem Wasser; abgießen und in die Suppe.', 'Tofu im restlichen Öl braten, 3′ pro Seite. Kerne obendrauf.'],
       tips: 'Ohne Sahne, ohne Kartoffel: pürierter Kürbis ist von allein cremig.' },
     { id: 'ensalada-quinoa-alubias', slot: 'ce', tags: [], nombre: 'Lauwarmer Salat mit Quinoa, schwarzen Bohnen und Avocado', tipo: 'Abend · 15′', tiempo: '15′', cocina: 'Topf + ohne Kochen',
       macros: { kcal: 610, p: 25, g: 21, c: 82 },
-      ing: [{ q: '40 g', i: 'Quinoa, trocken' }, { q: '200 g', i: 'gekochte schwarze Bohnen' }, { q: '80 g', i: 'Avocado' }, { q: '120 g', i: 'Tomate, rote Zwiebel und Koriander' }, { q: '5 g', i: 'natives Olivenöl extra' }, { q: 'nach Geschmack', i: 'Limette, Kreuzkümmel, Salz' }],
+      ing: [{ pid: 'quinoa', q: '40 g', i: 'Quinoa, trocken' }, { pid: 'alubias', q: '200 g', i: 'gekochte schwarze Bohnen' }, { pid: 'aguacate', q: '80 g', i: 'Avocado' }, { pid: 'tomate', q: '120 g', i: 'Tomate, rote Zwiebel und Koriander' }, { pid: 'aove', q: '5 g', i: 'natives Olivenöl extra' }, { pid: 'especias', q: 'nach Geschmack', i: 'Limette, Kreuzkümmel, Salz' }],
       pasos: ['Quinoa 12′ in der doppelten Menge Wasser; abgießen.', 'Bohnen abgießen, abspülen, in die noch warme Quinoa.', 'Avocado, Tomate, Zwiebel und Koriander; mit Limette, Kreuzkümmel und Öl anmachen.'],
       tips: 'Nimmt man problemlos mit ins Büro: Avocado erst im letzten Moment schneiden.' },
     { id: 'bolonesa-soja', slot: 'ce', tags: [], nombre: 'Bolognese aus Sojagranulat mit Zucchini-Spaghetti', tipo: 'Abend · 20′', tiempo: '20′', cocina: 'Pfanne',
       macros: { kcal: 445, p: 37, g: 13, c: 47 },
-      ing: [{ q: '60 g', i: 'feines Sojagranulat (trocken)' }, { q: '250 g', i: 'passierte Tomaten' }, { q: '300 g', i: 'Zucchini in Spiralen oder Streifen' }, { q: '100 g', i: 'Zwiebel, Karotte und Knoblauch' }, { q: '10 g', i: 'natives Olivenöl extra' }, { q: 'nach Geschmack', i: 'Oregano, Paprikapulver, Salz' }],
+      ing: [{ pid: 'soja-text', q: '60 g', i: 'feines Sojagranulat (trocken)' }, { pid: 'tomate-triturado', q: '250 g', i: 'passierte Tomaten' }, { pid: 'calabacin', q: '300 g', i: 'Zucchini in Spiralen oder Streifen' }, { pid: 'verduras', q: '100 g', i: 'Zwiebel, Karotte und Knoblauch' }, { pid: 'aove', q: '10 g', i: 'natives Olivenöl extra' }, { pid: 'especias', q: 'nach Geschmack', i: 'Oregano, Paprikapulver, Salz' }],
       pasos: ['Soja 10′ in heißem Wasser mit einer Prise Salz einweichen; gut abtropfen.', 'Soffritto 5′; abgetropftes Soja 3′ bei starker Hitze; Tomate und Oregano, 8′.', 'Zucchini 2′ in separater Pfanne (damit sie kein Wasser zieht). Bolognese obendrauf.'],
       tips: 'Sojagranulat hat 50 g Protein pro 100 g trocken: das günstigste „Hackfleisch“, das es gibt.' }
   ];
@@ -1284,7 +1285,7 @@ window.B2P = (function () {
       ['Das ist HEUTE', 'Dein Tag, fertig aufgebaut: Einheit, Mahlzeiten, Protokoll. Hak ✓ ab, die App zählt mit.'],
       ['Die Leiste bewegt dich', 'Heute, Plan, Übungen, Essen, Fortschritt und Erfolge. Tippe, oder zieh die Blase.'],
       ['Der ganze Plan', 'Ein Kalender mit den Phasen in Farbe: tippe auf einen Tag und du siehst sein Training und seine Mahlzeiten.'],
-      ['Dein Tisch', 'Wochenmenü, Rezepte mit Foto, Einkauf und Meal Prep, schon für dich gefiltert.'],
+      ['Dein Tisch', 'Ein Rezeptbuch nach Mahlzeiten, mit Fotos und Schritten; die Wochen-Einkaufsliste zum Abhaken; und das Meal Prep. Alles für dich gefiltert.'],
       ['Ehrlicher Fortschritt', 'Gewicht, Taille, Lasten und Konstanz. Zu schnell? Die App bremst dich.'] ] },
     cuest: {
       evFechaT: 'An welchem Tag?', evFechaP: 'Mit Datum endet der Plan genau davor. Ohne Datum regiert der gewählte Horizont.', evFechaSaltar: 'Weiß ich noch nicht', evFechaMal: 'Wähle ein Datum zwischen 2 und 12 Monaten ab heute.', 

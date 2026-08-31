@@ -257,6 +257,7 @@
   }
 
   /* ==================== NUTRICIÓN ==================== */
+  let grupoRec = null;         // el grupo abierto del recetario (de/co/ce/supl)
   function renderNutricion(root) {
     const w = U.semanaDe(U.hoyISO());
     // la fila de kcal sigue a la FASE real del calendario, no a semanas fijas
@@ -265,8 +266,8 @@
     const fn = D.NUTRI.fases[fi];
 
     // «El plato» vive en Mi Perfil → Detrás del plan
-    const IDS_N = [['n-obj', TX.chipsNutri[0]], ['n-rec', TX.chipsNutri[2]], ['n-menu', TX.chipsNutri[3]],
-      ['n-compra', TX.chipsNutri[4]], ['n-prep', TX.chipsNutri[5]], ['n-supl', TX.chipsNutri[6]]];
+    const IDS_N = [['n-obj', TX.chipsNutri[0]], ['n-rec', TX.chipsNutri[2]],
+      ['n-compra', TX.chipsNutri[4]], ['n-prep', TX.chipsNutri[5]]];
     root.append(chipNav(IDS_N));
 
     root.append(el('div', { id: 'n-obj', class: 'card fase-card pn' },
@@ -283,40 +284,16 @@
 
     // «De dónde salen los números» vive ahora en Mi Perfil → Detrás del plan
 
-    // recetas — el recetario respeta la dieta declarada: primero (y solo) lo tuyo
-    root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, TX.nRecetario), el('span', { class: 'mini' }, TX.nToca)));
-    const grid = el('div', { class: 'rec-grid' });
-    const misRecetas = (D.__gen && window.B2P_GEN)
-      ? D.RECETAS.filter(r => window.B2P_GEN.recetaVale(r, { dieta: D.META.dieta, sin: D.META.sin || [] }, new Set(D.META.gustosNo || [])))
-      : D.RECETAS;
-    misRecetas.forEach(r => {
-      grid.append(el('button', { class: 'rec-card plano' + (U.foto(r.id) ? ' con-foto' : ''), type: 'button', onclick: () => sheetReceta(r) },
-        U.foto(r.id) ? el('img', { class: 'rfoto', src: U.foto(r.id), alt: '', loading: 'lazy', decoding: 'async', width: '640', height: '640' }) : null,
-        el('div', { class: 'rtipo' }, r.tipo),
-        el('h3', null, r.nombre),
-        el('div', { class: 'rmacros' }, el('span', { class: 'rkcal' }, r.macros.kcal), ' kcal · P', r.macros.p, ' G', r.macros.g, ' C', r.macros.c)));
-    });
-    root.append(grid);
-
-    // menú semanal
-    root.append(el('div', { id: 'n-menu', class: 'sec-h' }, el('h2', null, TX.nMenu)));
-    const rec = id => D.RECETAS.find(r => r.id === id);
-    const tm = el('table', null, el('tr', null, el('th', null, TX.diaLbl), el('th', null, TX.desayuno), el('th', null, TX.comidaLbl), el('th', null, TX.cena)));
-    const celda = id => id === 'LIBRE' ? el('td', null, el('b', { style: 'color:var(--volt)' }, TX.comidaLibreMn)) :
-      el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => sheetReceta(rec(id)) }, rec(id).nombre));
-    D.MENU.forEach(m => tm.append(el('tr', null, el('td', { class: 'sr' }, m.d), celda(m.de), celda(m.co), celda(m.ce))));
-    root.append(el('div', { class: 'tw' }, tm));
-    // el motor no encontro alternativa para todos los platos: se dice, no se calla
+    /* Los avisos del menu (desfases de kcal y proteina, platos sin encaje)
+       siguen aqui aunque el menu como tabla viva ahora en el calendario de
+       Plan: hablan de TU semana de comida, no de una vista. */
     if (D.__menuAvisos && TX.gen && TX.gen.menuAviso)
       root.append(el('div', { class: 'banner warn', style: 'margin:8px 0' },
         el('div', null, U.tpl(TX.gen.menuAviso, { n: D.__menuAvisos }))));
-    // el menú no llega solo al objetivo de proteína: el hueco se enseña con su puente
     if (D.__gen && D.__protMenu && TX.gen && TX.gen.protHueco
       && D.META.perfil.proteinaDia - D.__protMenu > 15)
       root.append(el('p', { class: 'mini', style: 'padding:0 2px' },
         U.tpl(TX.gen.protHueco, { m: D.__protMenu, p: D.META.perfil.proteinaDia })));
-    /* y tampoco llega al objetivo de kcal: el menú se arma con recetas de
-       tamaño fijo, así que se dice el desfase y por dónde se cierra */
     if (D.__gen && D.__kcalMenu && TX.gen && TX.gen.kcalHueco) {
       const obj = (D.NUTRI.fases[fi] || {}).kcal || 0;
       const dif = D.__kcalMenu - obj;
@@ -326,36 +303,117 @@
           U.tpl(TX.gen.kcalHueco, { m: D.__kcalMenu.toLocaleString(TX.lang || 'es'), k: obj.toLocaleString(TX.lang || 'es'), q })));
       }
     }
-    // a quien no toma lácteos, la nota nocturna le ofrece su alternativa vegetal
     const notaNoche = (D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa')) && TX.gen)
       ? TX.gen.tomaNocheAlt : TX.nTomaNota;
     root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, notaNoche + D.NUTRI.comidaLibre));
 
-    // lista de la compra
-    root.append(el('div', { id: 'n-compra', class: 'sec-h' }, el('h2', null, TX.nCompra),
-      el('button', { class: 'tbl-toggle', onclick: () => { U.S.shop = {}; U.save(); render(); } }, TX.nReiniciar)));
-    const shop = el('div', { class: 'card shoplist' });
-    D.COMPRA.forEach((c, ci) => {
-      shop.append(el('div', { class: 'shopcat' }, c.cat));
-      c.items.forEach((it, ii) => {
-        const k = ci + '-' + ii, on = !!U.S.shop[k];
-        // toggle EN EL SITIO: re-pintar la vista hacía scroll-arriba en cada marca
-        shop.append(el('button', { class: 'shopitem' + (on ? ' on' : '') + ' plano', type: 'button', 'aria-pressed': on ? 'true' : 'false',
-          onclick: ev => {
-            U.S.shop[k] = !U.S.shop[k]; U.save();
-            const v = !!U.S.shop[k];
-            ev.currentTarget.classList.toggle('on', v);
-            ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
-          } },
-          el('span', { class: 'sq' }, it.q), el('span', { class: 'si' }, it.i + (it.opc ? TX.opcionalParen : '')),
-          el('span', { class: 'tick', html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' })));
+    /* ---- recetario por comidas: grupos primero, dentro los platos ----
+       Como Ejercicios: cuatro tarjetas (Desayuno, Comida, Cena y Suplementos)
+       y al tocar una, sus fichas. La toma pre-sueno (slot snack) vive en
+       Cena: es la toma de la noche. */
+    root.append(el('div', { id: 'n-rec', class: 'sec-h' }, el('h2', null, TX.nRecetario), el('span', { class: 'mini' }, TX.nToca)));
+    const misRecetas = (D.__gen && window.B2P_GEN)
+      ? D.RECETAS.filter(r => window.B2P_GEN.recetaVale(r, { dieta: D.META.dieta, sin: D.META.sin || [] }, new Set(D.META.gustosNo || [])))
+      : D.RECETAS;
+    const IMGV2 = '?v=' + (window.B2P_IMG_V || 1);
+    const deGrupo = (r, gid) => gid === 'ce' ? (r.slot === 'ce' || r.slot === 'snack') : r.slot === gid;
+    const supls = (D.NUTRI.suplementos || []).filter(x => x.id && x.id !== 'no');
+    const imgSupl = id => (window.B2P_SUPL || []).includes(id) ? 'assets/supl/' + id + '.webp' + IMGV2 : null;
+    const GRUPOS_R = [['de', TX.desayuno], ['co', TX.comidaLbl], ['ce', TX.cena], ['supl', TX.nSupl]];
+    const recCont = el('div');
+    root.append(recCont);
+
+    const cartaReceta = r => el('button', { class: 'rec-card plano' + (U.foto(r.id) ? ' con-foto' : ''), type: 'button', onclick: () => sheetReceta(r) },
+      U.foto(r.id) ? el('img', { class: 'rfoto', src: U.foto(r.id), alt: '', loading: 'lazy', decoding: 'async', width: '640', height: '640' }) : null,
+      el('div', { class: 'rtipo' }, r.tipo),
+      el('h3', null, r.nombre),
+      el('div', { class: 'rmacros' }, el('span', { class: 'rkcal' }, r.macros.kcal), ' kcal \u00b7 P', r.macros.p, ' G', r.macros.g, ' C', r.macros.c));
+
+    const pintaGruposR = () => {
+      const g = el('div', { class: 'rec-grupos' });
+      GRUPOS_R.forEach(par => {
+        const gid = par[0], gt = par[1];
+        const n = gid === 'supl' ? supls.length : misRecetas.filter(r => deGrupo(r, gid)).length;
+        if (!n) return;
+        let cover = null;
+        if (gid === 'supl') cover = imgSupl('creatina');
+        else { const conFoto = misRecetas.find(r => deGrupo(r, gid) && U.foto(r.id)); if (conFoto) cover = U.foto(conFoto.id); }
+        g.append(el('button', { class: 'rg-card plano', type: 'button', onclick: () => { grupoRec = gid; pintaR(); } },
+          cover ? el('img', { class: 'rg-img', src: cover, alt: '', loading: 'lazy' })
+                : el('div', { class: 'rg-ph' }, U.icono(gid === 'supl' ? 'matraz' : 'cubiertos', 30)),
+          el('b', null, gt), el('span', { class: 'mini' }, String(n))));
       });
+      recCont.replaceChildren(g);
+    };
+    const pintaListaR = () => {
+      const gt = (GRUPOS_R.find(x => x[0] === grupoRec) || [])[1] || '';
+      const atras = el('div', { class: 'ej-atras' },
+        el('button', { class: 'plano qaux', type: 'button', onclick: () => { grupoRec = null; pintaR(); } }, '\u2039 ' + TX.nRecetario),
+        el('b', null, gt));
+      if (grupoRec === 'supl') {
+        const g = el('div', { class: 'rec-grid' });
+        supls.forEach(x => g.append(el('button', { class: 'rec-card plano' + (imgSupl(x.id) ? ' con-foto' : ''), type: 'button', onclick: () => sheetSupl(x) },
+          imgSupl(x.id) ? el('img', { class: 'rfoto', src: imgSupl(x.id), alt: '', loading: 'lazy' })
+                        : el('div', { class: 'rg-ph chica' }, U.icono('matraz', 24)),
+          el('h3', null, x.t))));
+        const no = (D.NUTRI.suplementos || []).find(x => x.id === 'no');
+        recCont.replaceChildren(atras, g,
+          no ? el('div', { class: 'banner warn', style: 'margin:10px 0 4px' }, el('div', null, el('b', null, no.t), el('div', null, no.d))) : el('span'),
+          el('p', { class: 'mini', style: 'margin:10px 2px 0' }, D.NUTRI.hidratacion));
+      } else {
+        const g = el('div', { class: 'rec-grid' });
+        misRecetas.filter(r => deGrupo(r, grupoRec)).forEach(r => g.append(cartaReceta(r)));
+        recCont.replaceChildren(atras, g);
+      }
+    };
+    const pintaR = () => { if (grupoRec) pintaListaR(); else pintaGruposR(); };
+    pintaR();
+
+    /* ---- la compra: cada grupo plegable con su progreso; cada producto
+       con su imagen a la izquierda, el nombre en el centro y la cantidad
+       semanal a la derecha; y lo marcado cae al final de SU grupo, para que
+       lo pendiente quede siempre arriba ---- */
+    root.append(el('div', { id: 'n-compra', class: 'sec-h' }, el('h2', null, TX.nCompra),
+      el('button', { class: 'tbl-toggle', onclick: () => {
+        U.S.shop = {}; U.save();
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+      } }, TX.nReiniciar)));
+    const cap = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+    const imgProd = pid => (pid && (window.B2P_PRODUCTOS || []).includes(pid)) ? 'assets/productos/' + pid + '.webp' + IMGV2 : null;
+    const TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    D.COMPRA.forEach((c, ci) => {
+      const kDe = (it, ii) => 'c' + ci + ':' + (it.pid || 'x') + ':' + ii;
+      const cuerpo = el('div', { class: 'shoplista' });
+      const prog = el('span', { class: 'mini', style: 'margin-left:auto' });
+      const pinta = () => {
+        const orden = c.items.map((it, ii) => [it, ii])
+          .sort((a, b) => (U.S.shop[kDe(a[0], a[1])] ? 1 : 0) - (U.S.shop[kDe(b[0], b[1])] ? 1 : 0) || a[1] - b[1]);
+        cuerpo.replaceChildren(...orden.map(par => {
+          const it = par[0], ii = par[1], k = kDe(it, ii), on = !!U.S.shop[k];
+          const src = imgProd(it.pid);
+          return el('button', { class: 'shopitem' + (on ? ' on' : '') + ' plano', type: 'button', 'aria-pressed': on ? 'true' : 'false',
+            onclick: () => { U.S.shop[k] = !U.S.shop[k]; U.save(); pinta(); } },
+            src ? el('img', { class: 'pimg', src, alt: '', loading: 'lazy' })
+                : el('span', { class: 'pimg ph', 'aria-hidden': 'true' }, (it.i || '?').charAt(0).toUpperCase()),
+            el('span', { class: 'si' }, cap(it.i) + (it.opc ? TX.opcionalParen : '')),
+            el('span', { class: 'sq' }, it.q),
+            el('span', { class: 'tick', html: TICK }));
+        }));
+        const hechos = c.items.filter((it, ii) => U.S.shop[kDe(it, ii)]).length;
+        prog.textContent = hechos + '/' + c.items.length;
+      };
+      pinta();
+      root.append(el('details', { class: 'fold shopfold', open: '' },
+        el('summary', null, el('b', null, c.cat), prog),
+        el('div', { class: 'fold-in' }, cuerpo)));
     });
-    root.append(shop);
 
     // meal prep
     root.append(el('div', { id: 'n-prep', class: 'sec-h' }, el('h2', null, TX.nPrepDom),
-      el('button', { class: 'tbl-toggle', onclick: () => { U.S.prep = {}; U.save(); render(); } }, TX.nReiniciar)));
+      el('button', { class: 'tbl-toggle', onclick: () => {
+        U.S.prep = {}; U.save();
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+      } }, TX.nReiniciar)));
     const mp = el('div', { class: 'card' });
     D.MEALPREP.forEach((p, i) => {
       const on = !!U.S.prep[i];
@@ -371,10 +429,6 @@
     mp.append(el('p', { class: 'mini', style: 'margin:10px 0 2px' }, D.MEALPREP_NOTA));
     root.append(mp);
 
-    // suplementos + agua
-    root.append(el('div', { id: 'n-supl', class: 'sec-h' }, el('h2', null, TX.nSupl)));
-    root.append(el('div', { class: 'regla-g' }, D.NUTRI.suplementos.map(s => el('div', { class: 'regla' }, el('b', null, s.t), s.d))));
-    root.append(el('p', { class: 'mini', style: 'margin:12px 2px' }, D.NUTRI.hidratacion));
   }
 
   function sheetReceta(r) {
@@ -397,6 +451,14 @@
       if (r.tips) sh.append(el('div', { class: 'alt', style: 'margin-top:12px' }, r.tips));
     });
   }
+  function sheetSupl(x) {
+    U.openSheet(sh => {
+      const src = (window.B2P_SUPL || []).includes(x.id) ? 'assets/supl/' + x.id + '.webp?v=' + (window.B2P_IMG_V || 1) : null;
+      if (src) sh.append(el('img', { class: 'rhero', src, alt: '', decoding: 'async' }));
+      sh.append(el('h2', null, x.t), el('p', { style: 'margin-top:8px' }, x.d));
+    });
+  }
+
   U.sheetReceta = sheetReceta;   // la usa la tarjeta «La comida de hoy» (app.js)
 
   /* ==================== PROGRESO ==================== */

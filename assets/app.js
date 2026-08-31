@@ -1150,8 +1150,9 @@
     secc(TX.vBiblioteca, '#/ejercicios');
     secc(TX.vSeguros, '#/perfil', 'pf-seguros', ['pf-detras', 'pf-seguros']);
     // apartados de Comida (el plato vive en Detrás del plan)
-    [['n-obj', 0], ['n-rec', 2], ['n-menu', 3], ['n-compra', 4], ['n-prep', 5], ['n-supl', 6]]
+    [['n-obj', 0], ['n-rec', 2], ['n-compra', 4], ['n-prep', 5]]
       .forEach(([id, i]) => secc(TX.chipsNutri[i], '#/nutricion', id));
+    secc(TX.chipsNutri[6], '#/nutricion', 'n-rec');   // los suplementos viven en el recetario
     secc(TX.nPlato, '#/perfil', 'pf-plato', ['pf-detras', 'pf-plato']);
     // apartados de Progreso
     [['p-res', 0], ['p-peso', 1], ['p-cint', 2], ['p-carg', 3], ['p-adh', 4], ['p-chk', 5]]

@@ -839,11 +839,12 @@ window.B2P = (function () {
       { t: 'Gordura', d: '10 g de azeite por refeição principal (uma colher de sopa) e para de contar. É por aí que as calorias fogem sem dares conta.' }
     ],
     suplementos: [
-      { t: 'Creatina mono-hidratada', d: '5 g diários, a qualquer hora, sem fase de carga, desde já. AVISO: retém 1-2 kg de água nas primeiras semanas. Não é gordura: fia-te da cintura e da média semanal, não do número solto (a app marca-o no gráfico).' },
-      { t: 'Whey', d: '1 colher na toma antes de dormir com o skyr (e outra onde fizer falta nos dias curtos de proteína).' },
-      { t: 'Cafeína', d: 'Corte às 13-14 h: 200 mg alteram o sono até 13 h depois; um café, ~9 h (Gardiner 2023). Treino de manhã: café 30-45′ antes, perfeito. De tarde-noite: sem cafeína — o teu pré-treino é o lanche (fruta + skyr 60-90′ antes).' },
-      { t: 'Opcionais com sentido', d: 'Vitamina D só se as análises derem abaixo de 30 ng/mL (provável com vida de interior). Ómega-3 ~2 g EPA+DHA/dia: benefício modesto mas real em força e no ângulo anti-inflamatório/tendão.' },
-      { t: 'NÃO gastes em', d: 'Queimadores de gordura, BCAA/EAA (redundantes com a tua proteína diária), «testo boosters». Nada disso mexe o ponteiro.' }
+      { id: 'creatina', t: 'Creatina mono-hidratada', d: '5 g diários, a qualquer hora, sem fase de carga, desde já. AVISO: retém 1-2 kg de água nas primeiras semanas. Não é gordura: fia-te da cintura e da média semanal, não do número solto (a app marca-o no gráfico).' },
+      { id: 'whey', t: 'Whey', d: '1 colher na toma antes de dormir com o skyr (e outra onde fizer falta nos dias curtos de proteína).' },
+      { id: 'cafeina', t: 'Cafeína', d: 'Corte às 13-14 h: 200 mg alteram o sono até 13 h depois; um café, ~9 h (Gardiner 2023). Treino de manhã: café 30-45′ antes, perfeito. De tarde-noite: sem cafeína — o teu pré-treino é o lanche (fruta + skyr 60-90′ antes).' },
+      { id: 'vitamina-d', t: 'Vitamina D', d: 'Vitamina D só se as análises derem abaixo de 30 ng/mL (provável com vida de interior).' },
+      { id: 'omega-3', t: 'Ómega-3', d: 'Ómega-3 ~2 g EPA+DHA/dia: benefício modesto mas real em força e no ângulo anti-inflamatório/tendão.' },
+      { id: 'no', t: 'NÃO gastes em', d: 'Queimadores de gordura, BCAA/EAA (redundantes com a tua proteína diária), «testo boosters». Nada disso mexe o ponteiro.' }
     ],
     hidratacion: 'Água: 2,5–3 L/dia. Álcool: conta calorias e bloqueia a recuperação — dentro da refeição livre, fora do resto da semana.',
     comidaLibre: 'UMA refeição por semana (sábado por defeito), não um dia. Pedes ou comes o que te apetecer em quantidade normal, sem compensar antes nem depois. Serve para que o plano aguente {s} semanas e uma vida social. Se houver plano noutro dia, muda-se — mas continua a ser uma.'
@@ -856,11 +857,11 @@ window.B2P = (function () {
       id: 'bol-skyr', slot: 'de', tags: ['lacteo', 'frutos'], nombre: 'Taça de skyr', tipo: 'Pequeno-almoço A', tiempo: '5′', cocina: 'Sem cozinha',
       macros: { kcal: 520, p: 35, g: 11, c: 72 },
       ing: [
-        { q: '250 g', i: 'skyr natural (ou queijo fresco batido 0%)' },
-        { q: '50 g', i: 'flocos de aveia' },
-        { q: '1 ud (120 g)', i: 'banana' },
-        { q: '10 g', i: 'nozes' },
-        { q: 'a gosto', i: 'canela' }
+        { pid: 'skyr', q: '250 g', i: 'skyr natural (ou queijo fresco batido 0%)' },
+        { pid: 'avena', q: '50 g', i: 'flocos de aveia' },
+        { pid: 'platano', q: '1 ud (120 g)', i: 'banana' },
+        { pid: 'nueces', q: '10 g', i: 'nozes' },
+        { pid: 'canela', q: 'a gosto', i: 'canela' }
       ],
       pasos: [
         'Skyr na taça e a aveia por cima (assim mesmo se gostas com textura, ou demolhada 5′ num dedo de leite ou água).',
@@ -872,12 +873,12 @@ window.B2P = (function () {
       id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelete com pão e tomate', tipo: 'Pequeno-almoço B', tiempo: '10′', cocina: 'Frigideira',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
-        { q: '3 ud', i: 'ovos M' },
-        { q: '2 ud (ou 100 ml embaladas)', i: 'claras' },
-        { q: '60 g (2 fatias)', i: 'pão integral' },
-        { q: '100 g', i: 'tomate ralado' },
-        { q: '5 g', i: 'azeite' },
-        { q: 'pitada', i: 'sal' }
+        { pid: 'huevos', q: '3 ud', i: 'ovos M' },
+        { pid: 'huevos', q: '2 ud (ou 100 ml embaladas)', i: 'claras' },
+        { pid: 'pan', q: '60 g (2 fatias)', i: 'pão integral' },
+        { pid: 'tomate', q: '100 g', i: 'tomate ralado' },
+        { pid: 'aove', q: '5 g', i: 'azeite' },
+        { pid: 'sal', q: 'pitada', i: 'sal' }
       ],
       pasos: [
         'Bate ovos e claras com o sal.',
@@ -890,10 +891,10 @@ window.B2P = (function () {
       id: 'pollo-asado', slot: 'co', tags: ['carne'], nombre: 'Frango assado com batata', tipo: 'Almoço · batch domingo', tiempo: '45′ forno (do meal prep)', cocina: 'Forno',
       macros: { kcal: 780, p: 70, g: 19, c: 68 },
       ing: [
-        { q: '250 g cru (~200 g feito)', i: 'peito de frango', n: 'batch: 1,2 kg = 5 porções' },
-        { q: '300 g', i: 'batata aos gomos + pimento + cebola assados', n: 'batch: 1,5 kg batata + 2 pimentos + 2 cebolas' },
-        { q: '10 g', i: 'azeite (parte do assado)' },
-        { q: 'a gosto', i: 'colorau, alho em pó, sal, orégãos' }
+        { pid: 'pollo', q: '250 g cru (~200 g feito)', i: 'peito de frango', n: 'batch: 1,2 kg = 5 porções' },
+        { pid: 'patata', q: '300 g', i: 'batata aos gomos + pimento + cebola assados', n: 'batch: 1,5 kg batata + 2 pimentos + 2 cebolas' },
+        { pid: 'aove', q: '10 g', i: 'azeite (parte do assado)' },
+        { pid: 'especias', q: 'a gosto', i: 'colorau, alho em pó, sal, orégãos' }
       ],
       pasos: [
         'Forno a 200°. Tempera os peitos e unta-os com colorau + alho em pó.',
@@ -907,15 +908,15 @@ window.B2P = (function () {
       id: 'lentejas-pollo', slot: 'co', tags: ['carne'], nombre: 'Lentilhas com frango', tipo: 'Almoço · batch domingo', tiempo: '25′ panela', cocina: 'Panela',
       macros: { kcal: 760, p: 52, g: 16, c: 80 },
       ing: [
-        { q: '250 g escorridas', i: 'lentilhas cozidas de frasco', n: 'batch: 2 frascos = 3 porções' },
-        { q: '120 g', i: 'frango assado às tiras (do assado)' },
-        { q: '¼ ud', i: 'cebola' },
-        { q: '½ ud', i: 'pimento' },
-        { q: '1 ud', i: 'cenoura' },
-        { q: '4 g', i: 'azeite (parte do refogado)' },
-        { q: '1 c. chá / ½ c. chá', i: 'colorau / cominhos' },
-        { q: '150 ml', i: 'caldo ou água' },
-        { q: '1 peça', i: 'fruta de sobremesa' }
+        { pid: 'lentejas', q: '250 g escorridas', i: 'lentilhas cozidas de frasco', n: 'batch: 2 frascos = 3 porções' },
+        { pid: 'pollo', q: '120 g', i: 'frango assado às tiras (do assado)' },
+        { pid: 'cebolla', q: '¼ ud', i: 'cebola' },
+        { pid: 'pimiento', q: '½ ud', i: 'pimento' },
+        { pid: 'zanahoria', q: '1 ud', i: 'cenoura' },
+        { pid: 'aove', q: '4 g', i: 'azeite (parte do refogado)' },
+        { pid: 'especias', q: '1 c. chá / ½ c. chá', i: 'colorau / cominhos' },
+        { pid: 'caldo', q: '150 ml', i: 'caldo ou água' },
+        { pid: 'fruta', q: '1 peça', i: 'fruta de sobremesa' }
       ],
       pasos: [
         'Refogado 8′: cebola, pimento e cenoura picados com 10 g de azeite (para o batch de 3 porções).',
@@ -928,11 +929,11 @@ window.B2P = (function () {
       id: 'salteado-ternera', slot: 'co', tags: ['carne'], nombre: 'Salteado de vaca', tipo: 'Almoço · 15′ fresco', tiempo: '15′', cocina: 'Wok / frigideira',
       macros: { kcal: 730, p: 45, g: 20, c: 60 },
       ing: [
-        { q: '180-200 g', i: 'vaca magra às tiras' },
-        { q: '70 g cru (≈ 180 g cozido)', i: 'arroz', n: 'usa o do batch' },
-        { q: '250 g', i: 'legumes variados: pimento, cebola, courgette, cenoura' },
-        { q: '15 ml', i: 'molho de soja' },
-        { q: '8 g', i: 'azeite' }
+        { pid: 'ternera', q: '180-200 g', i: 'vaca magra às tiras' },
+        { pid: 'arroz', q: '70 g cru (≈ 180 g cozido)', i: 'arroz', n: 'usa o do batch' },
+        { pid: 'verduras', q: '250 g', i: 'legumes variados: pimento, cebola, courgette, cenoura' },
+        { pid: 'salsa-soja', q: '15 ml', i: 'molho de soja' },
+        { pid: 'aove', q: '8 g', i: 'azeite' }
       ],
       pasos: [
         'Wok ou frigideira MUITO quente com o azeite: sela a carne 1-2′ e reserva (se a deixares, coze e fica dura).',
@@ -945,11 +946,11 @@ window.B2P = (function () {
       id: 'salmon-arroz', slot: 'ce', tags: ['pescado'], nombre: 'Salmão com arroz e brócolos', tipo: 'Jantar · 15′', tiempo: '15′', cocina: 'Grelha ou forno',
       macros: { kcal: 760, p: 40, g: 28, c: 62 },
       ing: [
-        { q: '170-180 g', i: 'lombo de salmão' },
-        { q: '75 g cru (≈ 190 g cozido)', i: 'arroz', n: 'do batch' },
-        { q: '200 g', i: 'brócolos' },
-        { q: '½ ud', i: 'limão' },
-        { q: 'pitada', i: 'sal' }
+        { pid: 'salmon', q: '170-180 g', i: 'lombo de salmão' },
+        { pid: 'arroz', q: '75 g cru (≈ 190 g cozido)', i: 'arroz', n: 'do batch' },
+        { pid: 'brocoli', q: '200 g', i: 'brócolos' },
+        { pid: 'limon', q: '½ ud', i: 'limão' },
+        { pid: 'sal', q: 'pitada', i: 'sal' }
       ],
       pasos: [
         'Brócolos no micro-ondas numa taça tapada com um dedo de água: 4-5′ (ou a vapor).',
@@ -962,11 +963,11 @@ window.B2P = (function () {
       id: 'merluza-patata', slot: 'ce', tags: ['pescado', 'lacteo'], nombre: 'Pescada com batata a padeiro', tipo: 'Jantar · 20′', tiempo: '20′', cocina: 'Forno ou micro+grelha',
       macros: { kcal: 740, p: 55, g: 15, c: 55 },
       ing: [
-        { q: '250 g', i: 'pescada ou robalo em lombos' },
-        { q: '250 g', i: 'batata' },
-        { q: 'taça', i: 'salada verde (alface, tomate, cebola)' },
-        { q: '10 g', i: 'azeite (5 batata + 5 salada)' },
-        { q: '1 ud', i: 'skyr de sobremesa' }
+        { pid: 'merluza', q: '250 g', i: 'pescada ou robalo em lombos' },
+        { pid: 'patata', q: '250 g', i: 'batata' },
+        { pid: 'lechuga', q: 'taça', i: 'salada verde (alface, tomate, cebola)' },
+        { pid: 'aove', q: '10 g', i: 'azeite (5 batata + 5 salada)' },
+        { pid: 'skyr', q: '1 ud', i: 'skyr de sobremesa' }
       ],
       pasos: [
         'Batata às rodelas de ½ cm: micro-ondas 8′ tapada (ou forno 25′ com 5 g de azeite, sal e orégãos).',
@@ -979,12 +980,12 @@ window.B2P = (function () {
       id: 'revuelto-gambas', slot: 'ce', tags: ['pescado', 'huevo', 'gluten'], nombre: 'Ovos mexidos com camarão', tipo: 'Jantar · 10′', tiempo: '10′', cocina: 'Frigideira',
       macros: { kcal: 620, p: 45, g: 30, c: 25 },
       ing: [
-        { q: '3 ud', i: 'ovos M' },
-        { q: '150 g', i: 'camarão descascado (congelado serve perfeitamente)' },
-        { q: '40 g', i: 'pão integral' },
-        { q: 'taça', i: 'salada verde' },
-        { q: '8 g', i: 'azeite' },
-        { q: '1 dente', i: 'alho' }
+        { pid: 'huevos', q: '3 ud', i: 'ovos M' },
+        { pid: 'gambas', q: '150 g', i: 'camarão descascado (congelado serve perfeitamente)' },
+        { pid: 'pan', q: '40 g', i: 'pão integral' },
+        { pid: 'lechuga', q: 'taça', i: 'salada verde' },
+        { pid: 'aove', q: '8 g', i: 'azeite' },
+        { pid: 'ajo', q: '1 dente', i: 'alho' }
       ],
       pasos: [
         'Aloura o alho laminado com o azeite; camarão 2′ (descongelado e seco antes).',
@@ -997,9 +998,9 @@ window.B2P = (function () {
       id: 'toma-noche', slot: 'snack', tags: ['lacteo'], nombre: 'Toma antes de dormir', tipo: 'Toma 4 · diária', tiempo: '1′', cocina: 'Sem cozinha',
       macros: { kcal: 270, p: 49, g: 2, c: 14 },
       ing: [
-        { q: '250 g', i: 'skyr ou queijo fresco batido 0%' },
-        { q: '1 colher (30 g)', i: 'whey (o sabor de que não te fartas)' },
-        { q: 'a gosto', i: 'canela' }
+        { pid: 'skyr', q: '250 g', i: 'skyr ou queijo fresco batido 0%' },
+        { pid: 'whey', q: '1 colher (30 g)', i: 'whey (o sabor de que não te fartas)' },
+        { pid: 'canela', q: 'a gosto', i: 'canela' }
       ],
       pasos: [
         'Mistura a colher de whey com o skyr até ficar textura de mousse. Canela por cima.',
@@ -1011,13 +1012,13 @@ window.B2P = (function () {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Salada completa de atum', tipo: 'Jantar · 10′', tiempo: '10′', cocina: 'Sem lume (com batch)',
       macros: { kcal: 700, p: 45, g: 25, c: 50 },
       ing: [
-        { q: '2 latas (120 g escorrido)', i: 'atum ao natural' },
-        { q: '1 ud', i: 'ovo cozido (do batch)' },
-        { q: '150 g', i: 'batata cozida (do batch)' },
-        { q: '150 g', i: 'tomate' },
-        { q: '30 g', i: 'azeitonas' },
-        { q: '¼ ud', i: 'cebola roxa' },
-        { q: '10 g', i: 'azeite' }
+        { pid: 'atun', q: '2 latas (120 g escorrido)', i: 'atum ao natural' },
+        { pid: 'huevos', q: '1 ud', i: 'ovo cozido (do batch)' },
+        { pid: 'patata', q: '150 g', i: 'batata cozida (do batch)' },
+        { pid: 'tomate', q: '150 g', i: 'tomate' },
+        { pid: 'aceitunas', q: '30 g', i: 'azeitonas' },
+        { pid: 'cebolla', q: '¼ ud', i: 'cebola roxa' },
+        { pid: 'aove', q: '10 g', i: 'azeite' }
       ],
       pasos: [
         'Tudo para a taça: batata aos cubos, tomate aos gomos, cebola fina, atum escorrido, ovo aos quartos, azeitonas.',
@@ -1027,62 +1028,62 @@ window.B2P = (function () {
     },
     { id: 'porridge-soja', slot: 'de', tags: [], nombre: 'Papas de aveia com proteína', tipo: 'Pequeno-almoço C', tiempo: '8′', cocina: 'Tacho ou micro',
       macros: { kcal: 545, p: 37, g: 11, c: 69 },
-      ing: [{ q: '70 g', i: 'flocos de aveia (certificada sem glúten)' }, { q: '250 ml', i: 'bebida de soja sem açúcar' }, { q: '25 g', i: 'proteína de ervilha, sabor neutro ou baunilha' }, { q: '1', i: 'banana às rodelas' }, { q: 'a gosto', i: 'canela' }],
+      ing: [{ pid: 'avena', q: '70 g', i: 'flocos de aveia (certificada sem glúten)' }, { pid: 'bebida-soja', q: '250 ml', i: 'bebida de soja sem açúcar' }, { pid: 'prote-vegetal', q: '25 g', i: 'proteína de ervilha, sabor neutro ou baunilha' }, { pid: 'platano', q: '1', i: 'banana às rodelas' }, { pid: 'canela', q: 'a gosto', i: 'canela' }],
       pasos: ['Aquece a aveia com a bebida de soja 4-5′ a mexer até engrossar.', 'Fora do lume, mistura a proteína: se a ferveres, empelota.', 'Coroa com a banana e a canela.'],
       tips: 'Deixa-as feitas na noite anterior no frigorífico (overnight) e de manhã só juntas a proteína.' },
     { id: 'tofu-revuelto', slot: 'de', tags: [], nombre: 'Tofu mexido com torradas', tipo: 'Pequeno-almoço D', tiempo: '12′', cocina: 'Frigideira',
       macros: { kcal: 570, p: 41, g: 25, c: 42 },
-      ing: [{ q: '200 g', i: 'tofu firme esmigalhado' }, { q: '2 fatias (70 g)', i: 'pão sem glúten' }, { q: '10 g', i: 'levedura nutricional' }, { q: '1', i: 'tomate às rodelas' }, { q: '5 g', i: 'azeite' }, { q: 'a gosto', i: 'curcuma, sal negro kala namak, pimenta' }],
+      ing: [{ pid: 'tofu', q: '200 g', i: 'tofu firme esmigalhado' }, { pid: 'pan-sg', q: '2 fatias (70 g)', i: 'pão sem glúten' }, { pid: 'levadura', q: '10 g', i: 'levedura nutricional' }, { pid: 'tomate', q: '1', i: 'tomate às rodelas' }, { pid: 'aove', q: '5 g', i: 'azeite' }, { pid: 'especias', q: 'a gosto', i: 'curcuma, sal negro kala namak, pimenta' }],
       pasos: ['Salteia o tofu esmigalhado com o azeite 3-4′ em lume médio-alto.', 'Junta curcuma, levedura e sal negro (é o que dá o sabor a ovo); mais 2′.', 'Torra o pão e monta com o tomate.'],
       tips: 'O sal kala namak é a chave: sem ele é tofu com curcuma; com ele, uns mexidos.' },
     { id: 'bol-soja-frutos', slot: 'de', tags: [], nombre: 'Taça de iogurte de soja e frutos vermelhos', tipo: 'Pequeno-almoço E', tiempo: '5′', cocina: 'Sem cozinha',
       macros: { kcal: 415, p: 29, g: 11, c: 41 },
-      ing: [{ q: '250 g', i: 'iogurte de soja natural sem açúcar' }, { q: '20 g', i: 'proteína vegetal em pó' }, { q: '120 g', i: 'frutos vermelhos (congelados servem)' }, { q: '15 g', i: 'sementes de chia' }, { q: '1', i: 'banana pequena' }],
+      ing: [{ pid: 'yogur-soja', q: '250 g', i: 'iogurte de soja natural sem açúcar' }, { pid: 'prote-vegetal', q: '20 g', i: 'proteína vegetal em pó' }, { pid: 'frutos-rojos', q: '120 g', i: 'frutos vermelhos (congelados servem)' }, { pid: 'chia', q: '15 g', i: 'sementes de chia' }, { pid: 'platano', q: '1', i: 'banana pequena' }],
       pasos: ['Mistura o iogurte com a proteína até não ficarem grumos.', 'Junta a chia e deixa 5′: engrossa sozinha.', 'Coroa com os frutos vermelhos e a banana.'],
       tips: 'Os frutos vermelhos congelados, deitados assim mesmo, arrefecem e engrossam a taça: aqui são melhores do que os frescos.' },
     { id: 'revuelto-espinacas', slot: 'de', tags: ['huevo'], nombre: 'Ovos mexidos com espinafres', tipo: 'Pequeno-almoço F', tiempo: '10′', cocina: 'Frigideira',
       macros: { kcal: 510, p: 28, g: 21, c: 46 },
-      ing: [{ q: '3', i: 'ovos' }, { q: '100 g', i: 'espinafres frescos' }, { q: '100 g', i: 'cogumelos laminados' }, { q: '50 g', i: 'pão sem glúten' }, { q: '5 g', i: 'azeite' }, { q: '150 g', i: 'fruta da época' }],
+      ing: [{ pid: 'huevos', q: '3', i: 'ovos' }, { pid: 'espinacas', q: '100 g', i: 'espinafres frescos' }, { pid: 'champinones', q: '100 g', i: 'cogumelos laminados' }, { pid: 'pan-sg', q: '50 g', i: 'pão sem glúten' }, { pid: 'aove', q: '5 g', i: 'azeite' }, { pid: 'fruta', q: '150 g', i: 'fruta da época' }],
       pasos: ['Salteia os cogumelos 3′; junta os espinafres até murcharem.', 'Ovos batidos lá dentro, lume brando, a mexer: cremoso, não seco.', 'Serve com o pão torrado e a fruta à parte.'],
       tips: 'Desliga o lume quando ainda parecer um pouco cru: o calor residual acaba o trabalho.' },
     { id: 'curry-lentejas', slot: 'co', tags: [], nombre: 'Caril de lentilhas vermelhas com arroz', tipo: 'Almoço · batch domingo', tiempo: '25′ panela', cocina: 'Panela',
       macros: { kcal: 755, p: 31, g: 18, c: 108 },
-      ing: [{ q: '100 g', i: 'lentilhas vermelhas secas' }, { q: '100 ml', i: 'leite de coco light' }, { q: '150 g', i: 'tomate triturado' }, { q: '50 g', i: 'arroz basmati seco' }, { q: '10 g', i: 'azeite' }, { q: 'a gosto', i: 'cebola, alho, gengibre, caril em pó, sal' }],
+      ing: [{ pid: 'lentejas-rojas', q: '100 g', i: 'lentilhas vermelhas secas' }, { pid: 'leche-coco', q: '100 ml', i: 'leite de coco light' }, { pid: 'tomate-triturado', q: '150 g', i: 'tomate triturado' }, { pid: 'arroz', q: '50 g', i: 'arroz basmati seco' }, { pid: 'aove', q: '10 g', i: 'azeite' }, { pid: 'especias', q: 'a gosto', i: 'cebola, alho, gengibre, caril em pó, sal' }],
       pasos: ['Refoga cebola, alho e gengibre 3′; junta o caril e torra-o 30″.', 'Lentilhas, tomate, coco e 300 ml de água: 18-20′ em lume médio até se desfazerem.', 'Arroz à parte (12′). Serve o caril por cima.'],
       tips: 'Batch: multiplica ×4, dura 4 dias no frigorífico e congela na perfeição. As lentilhas vermelhas não precisam de demolha.' },
     { id: 'tofu-salteado', slot: 'co', tags: [], nombre: 'Tofu salteado com legumes e arroz integral', tipo: 'Almoço · 20′', tiempo: '20′', cocina: 'Wok / frigideira',
       macros: { kcal: 775, p: 47, g: 34, c: 71 },
-      ing: [{ q: '200 g', i: 'tofu firme aos cubos' }, { q: '70 g', i: 'arroz integral seco' }, { q: '250 g', i: 'brócolos, pimento e cenoura' }, { q: '15 ml', i: 'tamari (molho de soja sem glúten)' }, { q: '10 g', i: 'azeite' }, { q: '10 g', i: 'sementes de sésamo' }],
+      ing: [{ pid: 'tofu', q: '200 g', i: 'tofu firme aos cubos' }, { pid: 'arroz', q: '70 g', i: 'arroz integral seco' }, { pid: 'verduras', q: '250 g', i: 'brócolos, pimento e cenoura' }, { pid: 'tamari', q: '15 ml', i: 'tamari (molho de soja sem glúten)' }, { pid: 'aove', q: '10 g', i: 'azeite' }, { pid: 'sesamo', q: '10 g', i: 'sementes de sésamo' }],
       pasos: ['Arroz integral a cozer (25′; faz de batch).', 'Tofu em lume forte até alourar de todos os lados (6-7′); reserva.', 'Legumes 4′ no wok, volta o tofu, tamari e sésamo; 1′ e fora.'],
       tips: 'Prensa o tofu 10′ entre dois pratos com peso: larga água e aloura a sério.' },
     { id: 'bol-garbanzos', slot: 'co', tags: [], nombre: 'Taça de grão assado com quinoa e húmus', tipo: 'Almoço · 15′ fresco', tiempo: '15′ (+ forno)', cocina: 'Forno + sem lume',
       macros: { kcal: 780, p: 31, g: 24, c: 103 },
-      ing: [{ q: '200 g', i: 'grão-de-bico cozido' }, { q: '60 g', i: 'quinoa seca' }, { q: '50 g', i: 'húmus' }, { q: '150 g', i: 'pimento assado e pepino' }, { q: '5 g', i: 'azeite' }, { q: 'a gosto', i: 'cominhos, colorau, limão, sal' }],
+      ing: [{ pid: 'garbanzos', q: '200 g', i: 'grão-de-bico cozido' }, { pid: 'quinoa', q: '60 g', i: 'quinoa seca' }, { pid: 'hummus', q: '50 g', i: 'húmus' }, { pid: 'pimiento', q: '150 g', i: 'pimento assado e pepino' }, { pid: 'aove', q: '5 g', i: 'azeite' }, { pid: 'especias', q: 'a gosto', i: 'cominhos, colorau, limão, sal' }],
       pasos: ['Grão escorrido com colorau, cominhos e sal: forno 200° 20′ até ficar crocante (batch).', 'Quinoa: lava, 12′ no dobro de água, repousa tapada.', 'Monta a taça: quinoa, grão, legumes, húmus e limão.'],
       tips: 'O grão assado aguenta 5 dias num frasco: é o «petisco» deste plano.' },
     { id: 'pasta-lentejas-tempeh', slot: 'co', tags: [], nombre: 'Massa de lentilhas com tempeh ao tomate', tipo: 'Almoço · 20′', tiempo: '20′', cocina: 'Panela + frigideira',
       macros: { kcal: 665, p: 46, g: 26, c: 67 },
-      ing: [{ q: '80 g', i: 'massa de lentilhas vermelhas (sem glúten)' }, { q: '120 g', i: 'tempeh aos cubos' }, { q: '200 g', i: 'tomate triturado' }, { q: '80 g', i: 'cebola e alho' }, { q: '10 g', i: 'azeite' }, { q: 'a gosto', i: 'manjericão, orégãos, sal' }],
+      ing: [{ pid: 'pasta-lentejas', q: '80 g', i: 'massa de lentilhas vermelhas (sem glúten)' }, { pid: 'tempeh', q: '120 g', i: 'tempeh aos cubos' }, { pid: 'tomate-triturado', q: '200 g', i: 'tomate triturado' }, { pid: 'cebolla', q: '80 g', i: 'cebola e alho' }, { pid: 'aove', q: '10 g', i: 'azeite' }, { pid: 'especias', q: 'a gosto', i: 'manjericão, orégãos, sal' }],
       pasos: ['Massa de lentilhas 7-8′ (passa depressa: prova antes do tempo do pacote).', 'Tempeh alourado no azeite 4′; junta cebola e alho mais 3′.', 'Tomate, orégãos e sal, 5′; mistura com a massa e o manjericão.'],
       tips: 'O tempeh ganha muito se o cozeres 8′ a vapor antes de alourar: perde o amargo.' },
     { id: 'tortilla-garbanzo', slot: 'ce', tags: [], nombre: 'Omelete de farinha de grão com courgette', tipo: 'Jantar · 20′', tiempo: '20′', cocina: 'Frigideira',
       macros: { kcal: 460, p: 20, g: 16, c: 62 },
-      ing: [{ q: '80 g', i: 'farinha de grão-de-bico (sem glúten)' }, { q: '200 g', i: 'courgette em lâminas finas' }, { q: '80 g', i: 'cebola' }, { q: '10 g', i: 'azeite' }, { q: '100 g', i: 'salada verde' }, { q: 'a gosto', i: 'sal, pimenta, curcuma' }],
+      ing: [{ pid: 'harina-garbanzo', q: '80 g', i: 'farinha de grão-de-bico (sem glúten)' }, { pid: 'calabacin', q: '200 g', i: 'courgette em lâminas finas' }, { pid: 'cebolla', q: '80 g', i: 'cebola' }, { pid: 'aove', q: '10 g', i: 'azeite' }, { pid: 'lechuga', q: '100 g', i: 'salada verde' }, { pid: 'especias', q: 'a gosto', i: 'sal, pimenta, curcuma' }],
       pasos: ['Mistura a farinha com 160 ml de água, sal e curcuma; deixa repousar 10′.', 'Courgette e cebola 8′ em lume médio até ficarem tenras.', 'Deita a massa por cima, tapa, 5′ de cada lado. Salada ao lado.'],
       tips: 'É a «omelete sem ovo» a sério: coalha na mesma e aguenta fria para levar.' },
     { id: 'crema-calabaza-tofu', slot: 'ce', tags: [], nombre: 'Creme de abóbora com edamame e tofu grelhado', tipo: 'Jantar · 25′', tiempo: '25′', cocina: 'Panela + grelha',
       macros: { kcal: 590, p: 41, g: 24, c: 38 },
-      ing: [{ q: '300 g', i: 'abóbora aos cubos' }, { q: '100 g', i: 'edamame debulhado (congelado)' }, { q: '150 g', i: 'tofu firme em filetes' }, { q: '60 g', i: 'cebola' }, { q: '10 g', i: 'azeite' }, { q: '10 g', i: 'sementes de abóbora' }],
+      ing: [{ pid: 'calabaza', q: '300 g', i: 'abóbora aos cubos' }, { pid: 'edamame', q: '100 g', i: 'edamame debulhado (congelado)' }, { pid: 'tofu', q: '150 g', i: 'tofu firme em filetes' }, { pid: 'cebolla', q: '60 g', i: 'cebola' }, { pid: 'aove', q: '10 g', i: 'azeite' }, { pid: 'pipas', q: '10 g', i: 'sementes de abóbora' }],
       pasos: ['Cebola e abóbora com 5 g de azeite 3′; cobre de água à justa, 15′ e tritura.', 'Edamame 4′ em água a ferver; escorre e junta ao creme.', 'Tofu grelhado com o resto do azeite, 3′ de cada lado. Sementes por cima.'],
       tips: 'O creme sem natas nem batata: a abóbora triturada já é cremosa sozinha.' },
     { id: 'ensalada-quinoa-alubias', slot: 'ce', tags: [], nombre: 'Salada morna de quinoa, feijão preto e abacate', tipo: 'Jantar · 15′', tiempo: '15′', cocina: 'Panela + sem lume',
       macros: { kcal: 610, p: 25, g: 21, c: 82 },
-      ing: [{ q: '40 g', i: 'quinoa seca' }, { q: '200 g', i: 'feijão preto cozido' }, { q: '80 g', i: 'abacate' }, { q: '120 g', i: 'tomate, cebola roxa e coentros' }, { q: '5 g', i: 'azeite' }, { q: 'a gosto', i: 'lima, cominhos, sal' }],
+      ing: [{ pid: 'quinoa', q: '40 g', i: 'quinoa seca' }, { pid: 'alubias', q: '200 g', i: 'feijão preto cozido' }, { pid: 'aguacate', q: '80 g', i: 'abacate' }, { pid: 'tomate', q: '120 g', i: 'tomate, cebola roxa e coentros' }, { pid: 'aove', q: '5 g', i: 'azeite' }, { pid: 'especias', q: 'a gosto', i: 'lima, cominhos, sal' }],
       pasos: ['Quinoa 12′ no dobro de água; escorre.', 'Feijão escorrido e lavado, com a quinoa ainda morna.', 'Abacate, tomate, cebola e coentros; tempera com lima, cominhos e azeite.'],
       tips: 'Leva-se para o trabalho sem problema: o abacate, de preferência cortado na hora.' },
     { id: 'bolonesa-soja', slot: 'ce', tags: [], nombre: 'Bolonhesa de soja texturizada com courgette em espiral', tipo: 'Jantar · 20′', tiempo: '20′', cocina: 'Frigideira',
       macros: { kcal: 445, p: 37, g: 13, c: 47 },
-      ing: [{ q: '60 g', i: 'soja texturizada fina (seca)' }, { q: '250 g', i: 'tomate triturado' }, { q: '300 g', i: 'courgette em espirais ou tiras' }, { q: '100 g', i: 'cebola, cenoura e alho' }, { q: '10 g', i: 'azeite' }, { q: 'a gosto', i: 'orégãos, colorau, sal' }],
+      ing: [{ pid: 'soja-text', q: '60 g', i: 'soja texturizada fina (seca)' }, { pid: 'tomate-triturado', q: '250 g', i: 'tomate triturado' }, { pid: 'calabacin', q: '300 g', i: 'courgette em espirais ou tiras' }, { pid: 'verduras', q: '100 g', i: 'cebola, cenoura e alho' }, { pid: 'aove', q: '10 g', i: 'azeite' }, { pid: 'especias', q: 'a gosto', i: 'orégãos, colorau, sal' }],
       pasos: ['Hidrata a soja 10′ em água quente com uma pitada de sal; escorre bem.', 'Refogado 5′; soja escorrida 3′ em lume forte; tomate e orégãos, 8′.', 'Courgette 2′ em frigideira à parte (para não largar água). Bolonhesa por cima.'],
       tips: 'A soja texturizada tem 50 g de proteína por 100 g em seco: é a «carne picada» mais barata que existe.' }
   ];
@@ -1285,7 +1286,7 @@ window.B2P = (function () {
       ['Isto é HOJE', 'O teu dia, já montado: sessão, refeições e registo. Marca ✓ e a app leva as contas.'],
       ['A barra move-te', 'Hoje, Plano, Exercícios, Comida, Progresso e Conquistas. Toca, ou arrasta a bolha.'],
       ['O plano inteiro', 'Um calendário com as fases coloridas: toca num dia e vês o seu treino e as suas refeições.'],
-      ['A tua mesa', 'Menu semanal, receitas com foto, compras e meal prep, já filtrados para ti.'],
+      ['A tua mesa', 'Um receituário por refeições, com foto e passo a passo; as compras da semana para ires riscando; e o meal prep. Tudo filtrado para ti.'],
       ['Progresso honesto', 'Peso, cintura, cargas e constância. Se vais depressa demais, a app trava-te.'] ] },
     cuest: {
       evFechaT: 'Que dia é?', evFechaP: 'Com a data, o plano termina mesmo antes. Sem ela, manda o prazo que escolheres.', evFechaSaltar: 'Ainda não sei', evFechaMal: 'Escolhe uma data entre 2 e 12 meses a partir de hoje.',

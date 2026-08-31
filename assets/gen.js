@@ -551,7 +551,7 @@ window.B2P_GEN = (function () {
         const clave = (ing.i || '').trim().toLowerCase();
         const q = parseQ(ing.q);
         const bolsa = porSlot[r.slot];
-        if (!bolsa[clave]) bolsa[clave] = { i: ing.i, n: 0, u: null, texto: null, sumable: !!q };
+        if (!bolsa[clave]) bolsa[clave] = { i: ing.i, pid: ing.pid || null, n: 0, u: null, texto: null, sumable: !!q };
         const e = bolsa[clave];
         if (q && e.sumable) { e.n += q.n * veces[id]; e.u = q.u; }
         else { e.sumable = false; e.texto = ing.q; e.n += veces[id]; }
@@ -562,7 +562,7 @@ window.B2P_GEN = (function () {
       cat: par[1],
       items: Object.values(porSlot[par[0]]).map(e => ({
         q: e.sumable ? fmtQ(e.n, e.u, lang) : (e.texto + (e.n > 1 ? ' ×' + e.n : '')),
-        i: e.i
+        i: e.i, pid: e.pid
       }))
     })).filter(c => c.items.length);
   }

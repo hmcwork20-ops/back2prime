@@ -1158,14 +1158,11 @@
       .filter(r => r.slot !== 'snack' && (!window.B2P_GEN || window.B2P_GEN.recetaVale(r, pd, new Set())))
       .slice(0, 10).forEach(r => coms.push({ k: 'com:' + r.id, cls: 'com', cat: TX.quizCatCom, t: r.nombre,
         sub: r.macros ? (r.macros.kcal + ' kcal · P ' + r.macros.p + ' g') : '', img: U.foto(r.id) }));
-    /* intercalado ej→dep→com: 30 decisiones seguidas se llevan mejor variadas
-       que en tres bloques monotemáticos de diez */
-    const mazo = [];
-    for (let i = 0; i < Math.max(ejs.length, deps.length, coms.length); i++) {
-      if (ejs[i]) mazo.push(ejs[i]);
-      if (deps[i]) mazo.push(deps[i]);
-      if (coms[i]) mazo.push(coms[i]);
-    }
+    /* Por bloques: deportes, ejercicios y comidas. Comparar diez cosas del
+       mismo tipo seguidas es más fácil que saltar de una sentadilla a un plato
+       de lentejas y volver, y el chip de categoría de la carta dice siempre en
+       cuál vas. Los deportes abren porque son la decisión más rápida. */
+    const mazo = deps.concat(ejs, coms);
 
     const est = S.ui.quiz = S.ui.quiz || { like: {}, no: {} };
     // al volver (Atrás desde el resumen, o salir y entrar), lo contestado no se

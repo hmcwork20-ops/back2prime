@@ -1151,3 +1151,16 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
   font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink3) }
 .shopitem .sq { min-width: 0; text-align: right }
 .shopitem.on .pimg { opacity: .4; filter: grayscale(1) }
+
+
+/* segunda burbuja: reportar, a la izquierda de la de buscar */
+.fab-rep { right: calc(14px + 48px + 10px) }
+.rep-tipos { display: flex; gap: 8px; margin: 0 0 4px }
+.rep-tipos .lpill { flex: 1 }
+.rep-txt {
+  width: 100%; resize: vertical; min-height: 96px;
+  font-family: var(--cuerpo); font-size: 15px; color: var(--ink);
+  background: var(--surface2); border: 1px solid var(--line);
+  border-radius: var(--r-sm); padding: 10px 12px;
+}
+.rep-txt:focus { outline: 2px solid var(--volt); outline-offset: 1px }

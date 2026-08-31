@@ -139,6 +139,22 @@ window.B2P_NUBE = (function () {
     return {};
   }
 
+  /* ---------- reportar un fallo o una idea ----------
+     El contexto lo arma la app, no la persona: sin version ni plataforma,
+     «no me funciona» no se puede arreglar. Va acotado y sin un solo dato
+     del entrenamiento. */
+  async function reporta(tipo, texto, ctx) {
+    if (!sesion) return { err: 'errRed' };
+    const t = String(texto || '').trim().slice(0, 2000);
+    if (t.length < 4) return { err: 'repCorto' };
+    const { error } = await sb.from('reportes')
+      .insert({ user_id: sesion.user.id, tipo, texto: t, ctx: ctx || null });
+    if (!error) return {};
+    const m = (error.message || '').toLowerCase();
+    if (m.includes('demasiados')) return { err: 'repRitmo' };
+    return { err: mapaError(error) };
+  }
+
   /* ---------- compartir el plan ---------- */
   async function compartePlan(plan) {
     const { data, error } = await sb.rpc('comparte_plan', { p: plan });
@@ -162,6 +178,6 @@ window.B2P_NUBE = (function () {
 
   return { activo: true, sesion: () => sesion, enRecuperacion: () => recuperando,
     arranca, programa, fuerza: sube,
-    registra, entra, olvide, nuevaClave, sale, borraCuenta,
+    registra, entra, olvide, nuevaClave, sale, borraCuenta, reporta,
     compartePlan, descomparte, planCompartido, estadisticas };
 })();

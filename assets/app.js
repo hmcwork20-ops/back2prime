@@ -1139,6 +1139,58 @@
     }, 380);
     if (location.hash === hash) salto(); else { location.hash = hash; salto(); }
   }
+  /* ---------------- reportar un fallo o una idea ----------------
+     Tres tipos, un texto acotado y el contexto tecnico que la app adjunta
+     sola. Se dice lo que se adjunta: nadie deberia enviar datos suyos sin
+     saber cuales. */
+  function abreReporte() {
+    const R = TX.rep, N = window.B2P_NUBE;
+    if (!R || !N || !N.activo) return;
+    openSheet(sh => {
+      sh.append(el('h2', null, R.t), el('p', { class: 'mini', style: 'margin:2px 0 12px' }, R.sub));
+      let tipo = 'bug';
+      const fila = el('div', { class: 'rep-tipos', role: 'group', 'aria-label': R.t });
+      const TIPOS = [['bug', R.bug], ['idea', R.idea], ['otro', R.otro]];
+      const pinta = () => [...fila.children].forEach((b, i) => {
+        const on = TIPOS[i][0] === tipo;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      TIPOS.forEach(par => fila.append(el('button', { class: 'lpill plano', type: 'button',
+        onclick: () => { tipo = par[0]; pinta(); } }, par[1])));
+      pinta();
+      sh.append(fila);
+
+      const ta = el('textarea', { class: 'rep-txt', maxlength: '2000', rows: '5', placeholder: R.ph });
+      const cuenta = el('div', { class: 'mini', style: 'text-align:right' }, '0/2000');
+      ta.addEventListener('input', () => { cuenta.textContent = ta.value.length + '/2000'; });
+      sh.append(el('div', { class: 'field' }, el('label', null, R.txtL), ta), cuenta);
+
+      const envia = el('button', { class: 'btn-b2p', style: 'width:100%;margin-top:8px', type: 'button',
+        onclick: async () => {
+          const t = ta.value.trim();
+          if (t.length < 4) { toast(R.corto); ta.focus(); return; }
+          envia.disabled = true;
+          /* contexto: entorno, nunca entrenamiento. Se arma aqui para que
+             lo que se manda sea exactamente lo que se enumera abajo. */
+          const nat = window.B2P_NATIVO || {};
+          const r = await N.reporta(tipo, t, {
+            v: (self.B2P_SW_V || '') || (D.META && D.META.version) || 'web',
+            plataforma: nat.nativo ? nat.plataforma : 'web',
+            idioma: TX.lang,
+            ruta: location.hash || '#/hoy',
+            pantalla: innerWidth + 'x' + innerHeight,
+            ua: navigator.userAgent.slice(0, 180)
+          });
+          envia.disabled = false;
+          if (r.err) { toast((R[r.err] || (TX.nube && TX.nube[r.err])) || R.errRed); return; }
+          closeSheet(); toast(R.gracias);
+        } }, R.enviar);
+      sh.append(envia);
+      sh.append(el('p', { class: 'mini', style: 'margin-top:10px' }, R.adjunta));
+    });
+  }
+
   function construyeIndice() {
     const IDX = [];
     const secc = (t, hash, id, folds) => t && IDX.push({ t, sub: null, go: () => irA(hash, id, folds) });
@@ -1806,6 +1858,14 @@
       onclick: abreBuscador,
       html: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.2" y2="16.2"/></svg>' });
     document.body.append(fab);
+    /* la segunda burbuja, a la izquierda: reportar un fallo o una idea.
+       Solo con nube: sin cuenta no hay a donde mandarlo. */
+    if (window.B2P_NUBE && window.B2P_NUBE.activo && TX.rep) {
+      const fabR = el('button', { class: 'fab fab-rep', type: 'button', 'aria-label': TX.rep.t,
+        onclick: abreReporte,
+        html: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="15.5" x2="12" y2="15.6"/></svg>' });
+      document.body.append(fabR);
+    }
     render();
   }
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', arrancar, { once: true });

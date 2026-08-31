@@ -57,7 +57,7 @@
   });
   const saneaNombre = n => String(n || '')
     .replace(/[\u0000-\u001F\u007F\u200B-\u200F\u2028\u2029]/g, '')  // control e invisibles
-    .replace(/\s+/g, ' ').trim().slice(0, 24);
+    .replace(/\s+/g, ' ').trim().slice(0, 24).trim();
   let S;
   function defState() {
     return { v: 1, usuario: null, config: { cinturaBase: null, creado: hoyISO(), onboarded: false },

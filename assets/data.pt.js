@@ -1229,8 +1229,10 @@ window.B2P = (function () {
      carrega-se assets/data.<lang>.js, que substitui TODO o window.B2P.    */
   const UI = {
     lang: 'pt',
-    tabs: ['Hoje', 'Plano', 'Comida', 'Progresso', 'Conquistas'],
+    tabs: ['Hoje', 'Plano', 'Exercícios', 'Comida', 'Progresso', 'Conquistas'],
     dias: ['segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado', 'domingo'],
+    diasIni: ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+    calComidas: 'As refeições do dia',
     meses: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
     hoyTag: 'HOJE',
     semanaLinea: 'Semana {w} de {t} · Fase {f} · {n} · RPE teto {r}',
@@ -1281,8 +1283,8 @@ window.B2P = (function () {
       cta: 'Ver a minha semana 1', micro: 'Refaz o questionário quando quiseres: tudo se recalcula.' },
     tour: { salta: 'Saltar', sigue: 'Seguinte', listo: 'A treinar', pasos: [
       ['Isto é HOJE', 'O teu dia, já montado: sessão, refeições e registo. Marca ✓ e a app leva as contas.'],
-      ['A barra move-te', 'Hoje, Plano, Comida, Progresso e Conquistas. Toca, ou arrasta a bolha.'],
-      ['O plano inteiro', 'Fases, calendário, regras e a biblioteca de exercícios com a técnica em vídeo.'],
+      ['A barra move-te', 'Hoje, Plano, Exercícios, Comida, Progresso e Conquistas. Toca, ou arrasta a bolha.'],
+      ['O plano inteiro', 'Um calendário com as fases coloridas: toca num dia e vês o seu treino e as suas refeições.'],
       ['A tua mesa', 'Menu semanal, receitas com foto, compras e meal prep, já filtrados para ti.'],
       ['Progresso honesto', 'Peso, cintura, cargas e constância. Se vais depressa demais, a app trava-te.'] ] },
     cuest: {

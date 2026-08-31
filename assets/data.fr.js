@@ -1232,8 +1232,10 @@ window.B2P = (function () {
      on charge assets/data.<lang>.js, qui remplace TOUT window.B2P.        */
   const UI = {
     lang: 'fr',
-    tabs: ['Aujourd’hui', 'Plan', 'Nutrition', 'Progrès', 'Succès'],
+    tabs: ['Aujourd’hui', 'Plan', 'Exercices', 'Nutrition', 'Progrès', 'Succès'],
     dias: ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
+    diasIni: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+    calComidas: 'Les repas du jour',
     meses: ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'],
     hoyTag: 'AUJOURD’HUI',
     semanaLinea: 'Semaine {w} sur {t} · Phase {f} · {n} · RPE max {r}',
@@ -1284,8 +1286,8 @@ window.B2P = (function () {
       cta: 'Voir ma semaine 1', micro: 'Refais le questionnaire quand tu veux : tout se recalcule.' },
     tour: { salta: 'Passer', sigue: 'Suivant', listo: 'À l’entraînement', pasos: [
       ['Voici Aujourd’hui', 'Ta journée, déjà montée : séance, repas et suivi. Coche ✓, l’app tient les comptes.'],
-      ['La barre te déplace', 'Aujourd’hui, Plan, Nutrition, Progrès et Succès. Touche, ou fais glisser la bulle.'],
-      ['Le plan entier', 'Phases, calendrier, règles et la bibliothèque d’exercices avec technique en vidéo.'],
+      ['La barre te déplace', 'Aujourd’hui, Plan, Exercices, Assiette, Progrès et Succès. Touche, ou fais glisser la bulle.'],
+      ['Le plan entier', 'Un calendrier avec les phases en couleur : touche un jour pour voir son entraînement et ses repas.'],
       ['Ta table', 'Menu de la semaine, recettes en photo, courses et meal prep, déjà filtrés pour toi.'],
       ['Un progrès honnête', 'Poids, taille, charges et régularité. Trop vite ? L’app te freine.'] ] },
     cuest: {

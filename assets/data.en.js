@@ -1228,8 +1228,10 @@ window.B2P = (function () {
      loads assets/data.<lang>.js, which replaces ALL of window.B2P.        */
   const UI = {
     lang: 'en',
-    tabs: ['Today', 'Plan', 'Food', 'Progress', 'Awards'],
+    tabs: ['Today', 'Plan', 'Exercises', 'Food', 'Progress', 'Awards'],
     dias: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    diasIni: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    calComidas: 'The day\'s meals',
     meses: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     hoyTag: 'TODAY',
     semanaLinea: 'Week {w} of {t} · Phase {f} · {n} · RPE cap {r}',
@@ -1280,8 +1282,8 @@ window.B2P = (function () {
       cta: 'See my week 1', micro: 'Redo the questionnaire any time: everything recalculates.' },
     tour: { salta: 'Skip', sigue: 'Next', listo: 'Let’s train', pasos: [
       ['This is TODAY', 'Your day, already set: session, meals and logging. Tick ✓ and the app keeps count.'],
-      ['The bar moves you', 'Today, Plan, Food, Progress and Awards. Tap, or drag the bubble.'],
-      ['The whole plan', 'Phases, calendar, rules and the exercise library with video technique.'],
+      ['The bar moves you', 'Today, Plan, Exercises, Food, Progress and Achievements. Tap, or drag the bubble.'],
+      ['The whole plan', 'A calendar with the phases coloured in: tap any day to see its training and its meals.'],
       ['Your table', 'Weekly menu, recipes with photos, shopping and meal prep, already filtered for you.'],
       ['Honest progress', 'Weight, waist, loads and consistency. Going too fast? The app slows you down.'] ] },
     cuest: {

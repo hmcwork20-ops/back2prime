@@ -1058,3 +1058,56 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 @media(prefers-reduced-motion:reduce){
   .tour-spot{transition:none}
 }
+
+/* ==================== PLAN: calendario real ==================== */
+/* Seis pestañas: la etiqueta cede tamaño antes que romperse en dos líneas. */
+@media (max-width: 409px) { .tab span { font-size: 9.5px; letter-spacing: .02em } }
+
+.fases-leyenda { display: flex; flex-direction: column; gap: 6px; margin: 0 0 14px }
+.fase-banda { border: 1px solid var(--line); border-radius: 12px; background: var(--surface) }
+.fase-banda summary { display: flex; align-items: center; gap: 8px; padding: 10px 12px; cursor: pointer; list-style: none }
+.fase-banda summary::-webkit-details-marker { display: none }
+.fase-banda .fase-obj { padding: 0 12px 10px; color: var(--ink2) }
+.fase-punto { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto }
+.fase-punto.f1 { background: var(--f1) } .fase-punto.f2 { background: var(--f2) }
+.fase-punto.f3 { background: var(--f3) } .fase-punto.f4 { background: var(--f4) }
+
+.mes { padding: 12px 12px 14px; margin-bottom: 12px }
+.mes-t { font-family: var(--disp); font-weight: 700; letter-spacing: .1em; font-size: 12px; color: var(--ink2); margin-bottom: 8px }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px }
+.cal-dn { text-align: center; color: var(--ink3); padding-bottom: 2px }
+.cal-d {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 9px; background: var(--surface2); color: var(--ink);
+  font-family: var(--mono); font-size: 13px; padding: 0; cursor: pointer; position: relative;
+}
+.cal-d.off { background: none; color: var(--ink3); opacity: .35; pointer-events: none }
+/* el tinte de cada fase: el mismo disco que ya identifica al plan */
+.cal-d.f1 { background: color-mix(in srgb, var(--f1) 24%, var(--surface2)) }
+.cal-d.f2 { background: color-mix(in srgb, var(--f2) 24%, var(--surface2)) }
+.cal-d.f3 { background: color-mix(in srgb, var(--f3) 24%, var(--surface2)) }
+.cal-d.f4 { background: color-mix(in srgb, var(--f4) 24%, var(--surface2)) }
+.cal-d.con-f::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .8 }
+.cal-d.con-h::before { content: ''; position: absolute; top: 3px; right: 3px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--volt) }
+.cal-d.hoyd { outline: 2px solid var(--volt); outline-offset: 1px }
+.cal-d:active { transform: scale(.94) }
+
+.dia-quieto { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 12px }
+.meal-row .mf { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; flex: 0 0 auto }
+
+/* ==================== EJERCICIOS: tarjetas con mapa ==================== */
+.ej-zonas, .ej-lista { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+.ej-zcard, .ej-card {
+  display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center;
+  padding: 14px 10px 12px; border: 1px solid var(--line); border-radius: 16px;
+  background: var(--surface); cursor: pointer; position: relative;
+}
+.ej-zcard:active, .ej-card:active { background: var(--surface2) }
+.ej-zcard .ej-zmapa svg { width: 88px; height: auto }
+.ej-card .ej-mapa svg { width: 62px; height: auto }
+.ej-card .ej-nom { font-size: 13.5px; line-height: 1.2 }
+.ej-card.fuera { opacity: .55 }
+.ej-card .fuera-tag { position: absolute; top: 6px; right: 6px }
+.ej-atras { display: flex; align-items: center; gap: 10px; margin: 2px 0 12px }

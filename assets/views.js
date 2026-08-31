@@ -59,161 +59,201 @@
   addEventListener('scroll', () => { if (window.__b2pSpy) window.__b2pSpy(); }, { passive: true });
 
   /* ==================== PLAN (4 sub-secciones) ==================== */
+  /* ==================== PLAN: EL CALENDARIO ====================
+     Un calendario de pared: meses reales, cada dia tenido del color de su
+     fase. Tocas un dia y su pop-up trae el entreno (cada ejercicio abre su
+     ficha) y las comidas (cada plato abre su receta). Las fases van arriba
+     como leyenda desplegable con su objetivo y su tope de RPE, y los hitos
+     (diet break, descarga, cribado) se marcan en su semana y se cuentan en
+     el pop-up: "Fases al detalle" vive ahora repartido donde se usa. */
   function renderPlan(root) {
-    const hoy = U.hoyISO(), w = U.semanaDe(hoy);
-    const faseAct = (w >= 1 && w <= SEMANAS) ? D.FASES[D.CAL[w - 1].fase - 1] : null;
+    const hoy = U.hoyISO();
 
-    /* Como Comida y Progreso: burbujas-ancla con scroll-spy sobre una sola
-       página apilada — nada de subpáginas que cambian bajo la misma pestaña.
-       La Ciencia vive ahora en Mi Perfil, como lectura extra. */
-    const IDS_P = [['pl-cal', TX.vCalendario], ['pl-fases', TX.chipFases || TX.vFasesDetalle], ['pl-ej', TX.segPlan[2]]];
-    root.append(chipNav(IDS_P));
-    const sCal = el('div', { id: 'pl-cal' }); secCal(sCal); root.append(sCal);
-    const sFases = el('div', { id: 'pl-fases' }); secFasesDetalle(sFases); root.append(sFases);
-    const sEj = el('div', { id: 'pl-ej' }); secEjercicios(sEj); root.append(sEj);
-
-    /* las Reglas viven ahora en Mi Perfil → Detrás del plan */
-
-    /* ---- CALENDARIO: la fase de hoy + las 4 fases con sus semanas dentro ---- */
-    function secCal(root) {
-    // cabecera de fase actual
-    if (faseAct) {
-      root.append(el('div', { class: 'card fase-card p' + faseAct.id },
-        el('div', { class: 'card-title' },
-          el('span', { class: 'disco d' + faseAct.id }, String(faseAct.disco)),
-          el('div', null, el('h2', null, TX.fase + ' ' + faseAct.id + ' · ' + faseAct.nombre),
-            el('div', { class: 'sub' }, faseAct.fechas + ' · ' + faseAct.sub + ' · RPE ' + faseAct.rpe))),
-        el('p', { style: 'font-size:14px;margin:4px 0 2px' }, faseAct.objetivo)));
-    } else if (w === 0) {
-      root.append(el('div', { class: 'banner' }, el('div', null, el('b', null, tpl(TX.planEmpiezaTitulo, { f: U.fmtFecha(D.META.inicioISO) })), el('div', null, TX.planEmpiezaTxt))));
-    }
-
-    /* cada fase es un desplegable: el anillo de color, el rango y las fechas
-       a la vista; sus semanas (con hito y estado) se abren al tocarla */
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vCalendario)));
+    // — la leyenda de fases: color, semanas, RPE; el objetivo se despliega —
+    const ley = el('div', { class: 'fases-leyenda' });
     D.FASES.forEach(f => {
-      const activa = faseAct && f.id === faseAct.id;
-      const tsem = el('table', null, el('tr', null, el('th', null, TX.sem), el('th', null, TX.fechasLbl), el('th', null, TX.especial), el('th', null, TX.fuerzaLbl)));
-      f.semanas.forEach(i => {
-        const fs = U.fechasSemana(i), ses = U.sesionesFuerzaSemana(i), done = ses.filter(s => s.hecho).length;
-        const hito = D.HITOS_SEMANA[i];
-        tsem.append(el('tr', i === w ? { class: 'now' } : null,
-          el('td', { class: 'sr' }, 'S' + i),
-          el('td', null, U.fmtCorta(fs.ini) + ' – ' + U.fmtCorta(fs.fin)),
-          el('td', { class: 'mini' }, hito ? hito.t : '—'),
-          el('td', { class: 'sr' }, fs.ini <= hoy ? done + '/' + ses.length : '·')));
-      });
-      root.append(el('details', { class: 'fold' + (activa ? ' now' : ''), ...(activa ? { open: '' } : {}) },
+      const sem = f.semanas || [];
+      ley.append(el('details', { class: 'fase-banda' },
         el('summary', null,
-          el('span', { class: 'disco d' + f.id, style: 'width:26px;height:26px;border-width:4px;font-size:10px;margin-right:2px' }, String(f.disco)),
+          el('span', { class: 'fase-punto f' + f.id, 'aria-hidden': 'true' }),
           el('b', null, f.nombre),
-          el('span', { class: 'mini', style: 'margin-left:8px' }, 'S' + f.semanas[0] + '–S' + f.semanas[f.semanas.length - 1] + ' · ' + f.fechas + ' · RPE ' + f.rpe)),
-        el('div', { class: 'fold-in' }, el('div', { class: 'tw' }, tsem))));
+          el('span', { class: 'mini', style: 'margin-left:auto' },
+            'S' + sem[0] + '\u2013S' + sem[sem.length - 1] + ' \u00b7 RPE ' + f.rpe)),
+        el('div', { class: 'fase-obj mini' }, f.objetivo)));
     });
-    }
+    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vCalendario)), ley);
 
-    /* ---- LAS 4 FASES, AL DETALLE ---- */
-    function secFasesDetalle(root) {
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vFasesDetalle)));
-    const DIAS_C = TX.dias.map(d => d.slice(0, 2));
-    D.FASES.forEach(f => {
-      const kids = [];
-      kids.push(el('p', { style: 'margin-top:2px' }, f.objetivo));
-      // semana tipo
-      const cal = D.CAL[f.semanas[0] - 1];
-      const st = el('table', null, el('tr', null, DIAS_C.map(d => el('th', null, d))),
-        el('tr', null, cal.dias.map(s => {
-          const opt = typeof s === 'object'; const id = opt ? s.s : s; const ses = D.SESIONES[id];
-          return el('td', { style: 'font-size:12px' }, (ses.tipo === 'fuerza' ? el('b', null, ses.nombre) : ses.nombre + (opt ? ' (' + TX.opcional + ')' : '')));
-        })));
-      kids.push(el('div', { class: 'tw compact' }, st));
-      // hitos de la fase
-      f.semanas.forEach(wn => { if (D.HITOS_SEMANA[wn]) kids.push(el('div', { class: 'banner' + (wn === 9 ? ' warn' : wn === 10 ? ' hot' : ''), style: 'margin:8px 0' }, el('div', null, el('b', null, 'S' + wn + ' · ' + D.HITOS_SEMANA[wn].t), el('div', null, D.HITOS_SEMANA[wn].d)))); });
-      // sesiones de fuerza de la fase
-      const vistos = new Set();
-      D.CAL.filter(c => c.fase === f.id).forEach(c => c.dias.forEach(s => {
-        const id = typeof s === 'object' ? s.s : s;
-        const ses = D.SESIONES[id];
-        if (!ses || ses.tipo !== 'fuerza' || vistos.has(id)) return;
-        vistos.add(id);
-        const t = el('table', null, el('tr', null, el('th', null, ses.nombre), el('th', null, TX.seriesLbl), el('th', null, TX.descLbl)));
-        ses.bloques.forEach(b => {
-          const e = D.EJERCICIOS[b.e];
-          if (!e) { console.warn('B2P: falta ficha de', b.e); return; }
-          const reps = b.rW ? Object.values(b.rW).join(' → ') : b.r;
-          t.append(el('tr', null,
-            el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => U.fichaEjercicio(b.e, {}) },
-              el('b', null, e.nombre), b.n ? el('div', { class: 'mini' }, b.n) : null)),
-            el('td', { class: 'sr' }, b.s + '×' + reps),
-            el('td', { class: 'sr' }, b.d >= 60 ? Math.floor(b.d / 60) + '′' + (b.d % 60 ? (b.d % 60) + '″' : '') : b.d + '″')));
-        });
-        kids.push(el('div', { class: 'tw' }, t));
-      }));
-      // cardio de la fase
-      const cardio = new Set();
-      D.CAL.filter(c => c.fase === f.id).forEach(c => c.dias.forEach(s => {
-        const id = typeof s === 'object' ? s.s : s; const ses = D.SESIONES[id];
-        if (ses && ses.tipo === 'cardio') cardio.add(id);
-      }));
-      if (cardio.size) kids.push(el('div', { class: 'regla' }, el('b', null, TX.cardioFase),
-        Array.from(cardio).map(id => el('div', { style: 'margin:4px 0' }, el('b', { style: 'font-family:var(--cuerpo);text-transform:none;font-size:13px;display:inline' }, D.SESIONES[id].nombre + ': '), D.SESIONES[id].detalle))));
-      if (f.id === 1) kids.push(el('div', { class: 'banner ok' }, el('div', null, el('b', null, tpl(TX.checkSalidaTitulo, { f: U.fmtCorta(U.addDays(D.META.inicioISO, 13)) })), el('div', null, TX.checkSalidaTxt))));
-      if (f.id === 2 && D.ARRANQUE) {
-        const A = D.ARRANQUE;
-        const ta = el('table', null, el('tr', null, el('th', null, TX.ejercicioLbl), el('th', null, 'S3'), el('th', null, 'S4'), el('th', null, 'S5')));
-        A.tabla.forEach(r => ta.append(el('tr', null,
-          el('td', null, el('button', { class: 'plano celda-btn', type: 'button', onclick: () => U.fichaEjercicio(r.ej, {}) },
-            el('b', null, D.EJERCICIOS[r.ej].nombre), el('div', { class: 'mini' }, r.n))),
-          el('td', { class: 'sr' }, r.s3), el('td', { class: 'sr' }, r.s4), el('td', { class: 'sr' }, r.s5))));
-        kids.push(el('div', { class: 'regla destaca' }, el('b', null, A.titulo), A.derivacion));
-        kids.push(el('div', { class: 'tw' }, ta));
-        kids.push(el('p', { class: 'mini' }, A.resto));
-        kids.push(el('div', { class: 'banner warn' }, el('div', null, el('b', null, 'Te van a parecer pesos ridículos'), el('div', null, A.aviso))));
-        kids.push(el('div', { class: 'banner' }, el('div', null, el('b', null, 'Lo que dicen tus marcas'), el('div', null, A.desequilibrio))));
+    // — los meses, del primero al ultimo del plan —
+    const d0 = U.fromISO(D.META.inicioISO), d1 = U.fromISO(D.META.finISO);
+    const cursor = new Date(d0.getFullYear(), d0.getMonth(), 1);
+    const tope = new Date(d1.getFullYear(), d1.getMonth(), 1);
+    while (cursor <= tope) {
+      const y = cursor.getFullYear(), mo = cursor.getMonth();
+      const card = el('div', { class: 'card mes' });
+      card.append(el('div', { class: 'mes-t' }, (TX.meses[mo] || '').toUpperCase() + ' ' + y));
+      const grid = el('div', { class: 'cal-grid' });
+      (TX.diasIni || []).forEach(dn => grid.append(el('span', { class: 'cal-dn mini' }, dn)));
+      const hueco = (new Date(y, mo, 1).getDay() + 6) % 7;      // lunes = 0
+      for (let k = 0; k < hueco; k++) grid.append(el('span'));
+      const nDias = new Date(y, mo + 1, 0).getDate();
+      for (let dd = 1; dd <= nDias; dd++) {
+        const iso = y + '-' + U.pad(mo + 1) + '-' + U.pad(dd);
+        const w = U.semanaDe(iso);
+        if (!(w >= 1 && w <= SEMANAS)) { grid.append(el('span', { class: 'cal-d off' }, String(dd))); continue; }
+        const cal = D.CAL[w - 1];
+        const dow = U.dowMon(iso);
+        const slot = cal.dias[dow];
+        const sid = typeof slot === 'object' ? slot.s : slot;
+        const ses = D.SESIONES[sid];
+        const fuerza = !!(ses && ses.tipo === 'fuerza');
+        const hito = dow === 0 && D.HITOS_SEMANA[w];
+        grid.append(el('button', {
+          class: 'cal-d f' + cal.fase + (iso === hoy ? ' hoyd' : '') + (fuerza ? ' con-f' : '') + (hito ? ' con-h' : ''),
+          type: 'button', 'aria-label': U.fmtFecha(iso), onclick: () => abreDia(iso)
+        }, String(dd)));
       }
-      root.append(el('details', { class: 'fold' },
-        el('summary', null, el('span', { class: 'disco d' + f.id, style: 'width:26px;height:26px;border-width:4px;font-size:10px;margin-right:2px' }, String(f.disco)), TX.fase + ' ' + f.id + ' · ' + f.nombre),
-        el('div', { class: 'fold-in' }, kids)));
-    });
+      card.append(grid);
+      root.append(card);
+      cursor.setMonth(cursor.getMonth() + 1);
     }
 
-    /* ---- EJERCICIOS: la biblioteca (los seguros viven en Detrás del plan) ---- */
-    function secEjercicios(root) {
-    // Biblioteca de ejercicios
-    root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.vBiblioteca), el('span', { class: 'mini' }, TX.vTocaCualquiera)));
-    /* agrupada por zona y plegada: cada grupo enseña su nombre y cuántos
-       ejercicios guarda; se abre al tocarlo */
-    const ZONAS = [['empuje', TX.zonas.empuje], ['tiron', TX.zonas.tiron], ['pierna', TX.zonas.pierna], ['core', TX.zonas.core]];
-    ZONAS.forEach(([z, zt]) => {
-      const ids = Object.keys(D.EJERCICIOS).filter(id => D.EJERCICIOS[id].zona === z);
-      if (!ids.length) return;
-      const lista = el('div', { class: 'exlib' });
-      /* el reveal promete que lo descartado no aparece en tu plan: aquí sigue
-         consultable (es la biblioteca), pero se dice que no está en el tuyo */
-      const G3 = window.B2P_GEN;
-      const fueraDe = id => {
-        if (!D.__gen) return null;
-        if ((D.META.gustosNo || []).includes('ej:' + id)) return TX.libDescartado;
-        if (G3 && G3.equipoVale && !G3.equipoVale((D.EJERCICIOS[id] || {}).equipo, D.META.material)) return TX.libSinMaterial;
-        return null;
-      };
+    // — el pop-up del dia —
+    function abreDia(iso) {
+      const w = U.semanaDe(iso), dow = U.dowMon(iso);
+      const cal = D.CAL[w - 1], fase = D.FASES[cal.fase - 1] || {};
+      // abrir una ficha DESDE el pop-up: se cierra este y se abre la otra
+      const relevo = fn => { U.closeSheet(); setTimeout(fn, 230); };
+      U.openSheet(sh => {
+        sh.append(el('h3', null, U.fmtFecha(iso)));
+        sh.append(el('div', { class: 'mini', style: 'margin:2px 0 10px' },
+          tpl(TX.semanaLinea, { w, t: SEMANAS, f: fase.id, n: fase.nombre, r: fase.rpe })));
+        if (D.HITOS_SEMANA[w]) {
+          const h = D.HITOS_SEMANA[w];
+          sh.append(el('div', { class: 'banner' + (cal.descarga ? ' warn' : ''), style: 'margin:0 0 10px' },
+            el('div', null, el('b', null, 'S' + w + ' \u00b7 ' + h.t), el('div', null, h.d))));
+        }
+
+        // el entreno del dia
+        const slot = cal.dias[dow];
+        const opc = typeof slot === 'object';
+        const sid = opc ? slot.s : slot;
+        const ses = D.SESIONES[sid];
+        if (sid === 'libre' || !ses) {
+          sh.append(el('div', { class: 'dia-quieto' }, el('b', null, dow === 6 ? TX.domingoPrep : TX.descanso)));
+        } else if (ses.tipo === 'fuerza') {
+          const t = el('table', null, el('tr', null,
+            el('th', null, ses.nombre + (ses.dur ? ' \u00b7 ' + ses.dur : '')),
+            el('th', null, TX.seriesLbl), el('th', null, TX.descLbl)));
+          (ses.bloques || []).forEach(b => {
+            const e = D.EJERCICIOS[b.e]; if (!e) return;
+            const reps = b.rW ? Object.values(b.rW).join(' \u2192 ') : b.r;
+            t.append(el('tr', null,
+              el('td', null, el('button', { class: 'plano celda-btn', type: 'button',
+                onclick: () => relevo(() => U.fichaEjercicio(b.e, {})) },
+                el('b', null, e.nombre), b.n ? el('div', { class: 'mini' }, b.n) : null)),
+              el('td', { class: 'sr' }, b.s + '\u00d7' + reps),
+              el('td', { class: 'sr' }, b.d >= 60 ? Math.floor(b.d / 60) + '\u2032' + (b.d % 60 ? (b.d % 60) + '\u2033' : '') : b.d + '\u2033')));
+          });
+          sh.append(el('div', { class: 'tw compact' }, t));
+        } else {
+          sh.append(el('div', { class: 'dia-quieto' },
+            el('b', null, ses.nombre + (opc ? ' (' + TX.opcional + ')' : '')),
+            ses.detalle ? el('div', { class: 'mini', style: 'margin-top:4px' }, ses.detalle) : null));
+        }
+
+        // las comidas del dia, cada plato a su receta
+        sh.append(el('h4', null, TX.calComidas));
+        const menu = D.MENU[dow] || {};
+        [['de', TX.desayuno], ['co', TX.comidaLbl], ['ce', TX.cena]].forEach(par => {
+          const id = menu[par[0]];
+          if (!id) return;
+          if (id === 'LIBRE') {
+            sh.append(el('div', { class: 'meal-row' },
+              el('span', { class: 'ml' }, par[1]),
+              el('span', { class: 'mn' }, TX.comidaLibreTitulo),
+              el('span', { class: 'mk' }, TX.comidaLibreTag)));
+            return;
+          }
+          const r = D.RECETAS.find(x => x.id === id); if (!r) return;
+          const f = U.foto(r.id);
+          sh.append(el('button', { class: 'meal-row plano', type: 'button', style: 'width:100%;text-align:left',
+            onclick: () => relevo(() => { if (window.UI.sheetReceta) window.UI.sheetReceta(r); }) },
+            f ? el('img', { class: 'mf', src: f, alt: '', loading: 'lazy' }) : null,
+            el('span', { class: 'ml' }, par[1]),
+            el('span', { class: 'mn' }, r.nombre),
+            r.macros ? el('span', { class: 'mk' }, r.macros.kcal + ' kcal') : null));
+        });
+      });
+    }
+  }
+
+  /* ==================== EJERCICIOS: LA BIBLIOTECA ====================
+     Como el recetario: tarjetas. Primero las cuatro zonas, cada una con el
+     mapa muscular encendido con TODO lo que se trabaja dentro; al tocar una,
+     sus ejercicios, cada uno con su propio mapa. Lo descartado o sin tu
+     material sigue consultable, pero avisa de que no esta en tu plan. */
+  let zonaEj = null;
+  function renderEjercicios(root) {
+    const ZONAS = [['empuje', TX.zonas.empuje], ['tiron', TX.zonas.tiron],
+      ['pierna', TX.zonas.pierna], ['core', TX.zonas.core]];
+    const G3 = window.B2P_GEN;
+    const fueraDe = id => {
+      if (!D.__gen) return null;
+      if ((D.META.gustosNo || []).includes('ej:' + id)) return TX.libDescartado;
+      if (G3 && G3.equipoVale && !G3.equipoVale((D.EJERCICIOS[id] || {}).equipo, D.META.material)) return TX.libSinMaterial;
+      return null;
+    };
+    const porZona = z => Object.keys(D.EJERCICIOS).filter(id => D.EJERCICIOS[id].zona === z);
+    const cont = el('div');
+    root.append(cont);
+
+    const pintaZonas = () => {
+      cont.replaceChildren(el('div', { class: 'sec-h' },
+        el('h2', null, TX.vBiblioteca), el('span', { class: 'mini' }, TX.vTocaCualquiera)));
+      const grid = el('div', { class: 'ej-zonas' });
+      ZONAS.forEach(par => {
+        const z = par[0], zt = par[1];
+        const ids = porZona(z);
+        if (!ids.length) return;
+        /* el mapa de la zona: la union de todo lo que ahi se trabaja */
+        const P = new Set(), Sx = new Set();
+        ids.forEach(id => { const mm = D.EJERCICIOS[id].mm || {};
+          (mm.p || []).forEach(x => P.add(x)); (mm.s || []).forEach(x => Sx.add(x)); });
+        P.forEach(x => Sx.delete(x));
+        grid.append(el('button', { class: 'ej-zcard plano', type: 'button',
+          onclick: () => { zonaEj = z; pintaLista(); scrollTo(0, 0); } },
+          window.B2P_MAPA ? el('div', { class: 'ej-zmapa', 'aria-hidden': 'true',
+            html: window.B2P_MAPA.svg({ p: [...P], s: [...Sx] }, { mini: true }) }) : null,
+          el('b', null, zt),
+          el('span', { class: 'mini' }, String(ids.length))));
+      });
+      cont.append(grid);
+    };
+
+    const pintaLista = () => {
+      const z = zonaEj;
+      const zt = (ZONAS.find(par => par[0] === z) || [])[1] || '';
+      const ids = porZona(z);
+      cont.replaceChildren(el('div', { class: 'ej-atras' },
+        el('button', { class: 'plano qaux', type: 'button',
+          onclick: () => { zonaEj = null; pintaZonas(); } }, '\u2039 ' + TX.vBiblioteca),
+        el('b', null, zt), el('span', { class: 'mini' }, String(ids.length))));
+      const grid = el('div', { class: 'ej-lista' });
       ids.forEach(id => {
         const e = D.EJERCICIOS[id];
         const tag = fueraDe(id);
-        lista.append(el('div', { class: 'exrow' + (tag ? ' fuera' : '') },
-          el('button', { class: 'exmain plano', type: 'button', onclick: () => U.fichaEjercicio(id, {}) },
-            el('div', { class: 'exname' },
-              window.B2P_MAPA && e.mm ? el('span', { class: 'mapa-mini', html: window.B2P_MAPA.svg(e.mm, { mini: true }) }) : null,
-              e.nombre),
-            el('div', { class: 'exmeta' }, el('span', { class: 'dose' }, e.musc[0]), el('span', { class: 'mini' }, e.equipo))),
-          tag ? el('span', { class: 'fuera-tag' }, tag) : el('span', { class: 'mini', style: 'color:var(--ink3)' }, '›')));
+        grid.append(el('button', { class: 'ej-card plano' + (tag ? ' fuera' : ''), type: 'button',
+          onclick: () => U.fichaEjercicio(id, {}) },
+          window.B2P_MAPA && e.mm ? el('div', { class: 'ej-mapa', 'aria-hidden': 'true',
+            html: window.B2P_MAPA.svg(e.mm, { mini: true }) }) : null,
+          el('b', { class: 'ej-nom' }, e.nombre),
+          el('span', { class: 'mini' }, e.musc[0]),
+          tag ? el('span', { class: 'fuera-tag' }, tag) : null));
       });
-      root.append(el('details', { class: 'fold' },
-        el('summary', null, el('b', null, zt), el('span', { class: 'mini', style: 'margin-left:8px' }, String(ids.length))),
-        el('div', { class: 'fold-in' }, lista)));
-    });
-    }
+      cont.append(grid);
+    };
 
+    if (zonaEj) pintaLista(); else pintaZonas();
   }
 
   /* ==================== NUTRICIÓN ==================== */
@@ -1322,6 +1362,7 @@
 
   window.B2P_REG('quiz', renderQuiz);
   window.B2P_REG('plan', renderPlan);
+  window.B2P_REG('ejercicios', renderEjercicios);
   window.B2P_REG('nutricion', renderNutricion);
   window.B2P_REG('progreso', renderProgreso);
   window.B2P_REG('logros', renderLogros);

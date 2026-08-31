@@ -604,6 +604,14 @@
         sh.append(el('h4', null, TX.fArranque));
         sh.append(el('div', { class: 'mini' }, tpl(TX.fArranqueTxt, { v: kg1(ARR0[ejId]) }) + ' ' + ((((D.ARRANQUE || {}).tabla || []).find(r => r.ej === ejId) || {}).n || '')));
       }
+      // el video de tecnica abre la seccion: se mira antes de leer
+      const ytIco = '<svg viewBox="0 0 29 20" aria-hidden="true" focusable="false">'
+        + '<path d="M14.4848 20C14.4848 20 23.5695 20 25.8229 19.4C27.0917 19.06 28.0459 18.08 28.3808 16.87C29 14.65 29 9.98 29 9.98C29 9.98 29 5.34 28.3808 3.14C28.0459 1.9 27.0917 0.94 25.8229 0.61C23.5695 0 14.4848 0 14.4848 0C14.4848 0 5.42037 0 3.17711 0.61C1.9286 0.94 0.954148 1.9 0.59888 3.14C0 5.34 0 9.98 0 9.98C0 9.98 0 14.65 0.59888 16.87C0.954148 18.08 1.9286 19.06 3.17711 19.4C5.42037 20 14.4848 20 14.4848 20Z" fill="#FF0033"/>'
+        + '<path d="M19 10L11.5 5.75V14.25L19 10Z" fill="#FFFFFF"/></svg>';
+      sh.append(el('a', {
+        href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(e.nombre.replace(/\s*\([^)]*\)\s*$/, '') + ' ' + (TX.lang === 'es' ? 'técnica' : 'technique')),
+        target: '_blank', rel: 'noopener', class: 'yt-link'
+      }, el('span', { class: 'yt-ico', html: ytIco }), TX.fVideo));
       sh.append(el('h4', null, TX.fComo));
       sh.append(el('ul', null, e.cues.map(c => el('li', null, c))));
       sh.append(el('h4', null, TX.fErrores));
@@ -623,13 +631,6 @@
       /* Logo oficial de YouTube (pastilla + triángulo), transcrito del SVG de
          youtube.com. Se usa tal cual como enlace a YouTube, que es el uso que
          sus propias guías de marca contemplan. */
-      const ytIco = '<svg viewBox="0 0 29 20" aria-hidden="true" focusable="false">'
-        + '<path d="M14.4848 20C14.4848 20 23.5695 20 25.8229 19.4C27.0917 19.06 28.0459 18.08 28.3808 16.87C29 14.65 29 9.98 29 9.98C29 9.98 29 5.34 28.3808 3.14C28.0459 1.9 27.0917 0.94 25.8229 0.61C23.5695 0 14.4848 0 14.4848 0C14.4848 0 5.42037 0 3.17711 0.61C1.9286 0.94 0.954148 1.9 0.59888 3.14C0 5.34 0 9.98 0 9.98C0 9.98 0 14.65 0.59888 16.87C0.954148 18.08 1.9286 19.06 3.17711 19.4C5.42037 20 14.4848 20 14.4848 20Z" fill="#FF0033"/>'
-        + '<path d="M19 10L11.5 5.75V14.25L19 10Z" fill="#FFFFFF"/></svg>';
-      sh.append(el('a', {
-        href: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(e.nombre.replace(/\s*\([^)]*\)\s*$/, '') + ' ' + (TX.lang === 'es' ? 'técnica' : 'technique')),
-        target: '_blank', rel: 'noopener', class: 'yt-link'
-      }, el('span', { class: 'yt-ico', html: ytIco }), TX.fVideo));
     });
   }
 
@@ -1134,14 +1135,12 @@
   function construyeIndice() {
     const IDX = [];
     const secc = (t, hash, id, folds) => t && IDX.push({ t, sub: null, go: () => irA(hash, id, folds) });
-    const rutas = ['hoy', 'plan', 'nutricion', 'progreso', 'logros'];
+    const rutas = ['hoy', 'plan', 'ejercicios', 'nutricion', 'progreso', 'logros'];
     TX.tabs.forEach((t, i) => secc(t, '#/' + rutas[i]));
     secc(TX.perfilT, '#/perfil');
-    // apartados de Plan
-    secc(TX.vCalendario, '#/plan', 'pl-cal');
-    secc(TX.chipFases || TX.vFasesDetalle, '#/plan', 'pl-fases');
-    secc(TX.segPlan[2], '#/plan', 'pl-ej');
-    secc(TX.vBiblioteca, '#/plan', 'pl-ej');
+    // Plan es el calendario entero; la biblioteca vive en su pestana
+    secc(TX.vCalendario, '#/plan');
+    secc(TX.vBiblioteca, '#/ejercicios');
     secc(TX.vSeguros, '#/perfil', 'pf-seguros', ['pf-detras', 'pf-seguros']);
     // apartados de Comida (el plato vive en Detrás del plan)
     [['n-obj', 0], ['n-rec', 2], ['n-menu', 3], ['n-compra', 4], ['n-prep', 5], ['n-supl', 6]]
@@ -1508,7 +1507,7 @@
   const VIEWS = {};
   window.B2P_REG = (name, fn) => { VIEWS[name] = fn; };
   function ruta() { return (location.hash.replace('#/', '') || 'hoy'); }
-  const ORDEN_VISTAS = ['hoy', 'plan', 'nutricion', 'progreso', 'logros'];
+  const ORDEN_VISTAS = ['hoy', 'plan', 'ejercicios', 'nutricion', 'progreso', 'logros'];
   let rutaPrevia = null, primerRender = true, rachaPrevia = null;
 
   function render() {

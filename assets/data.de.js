@@ -1228,8 +1228,10 @@ window.B2P = (function () {
      wird assets/data.<lang>.js geladen, das GANZ window.B2P ersetzt.   */
   const UI = {
     lang: 'de',
-    tabs: ['Heute', 'Plan', 'Essen', 'Fortschritt', 'Erfolge'],
+    tabs: ['Heute', 'Plan', 'Übungen', 'Essen', 'Fortschritt', 'Erfolge'],
     dias: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
+    diasIni: ['M', 'D', 'M', 'D', 'F', 'S', 'S'],
+    calComidas: 'Die Mahlzeiten des Tages',
     meses: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
     hoyTag: 'HEUTE',
     semanaLinea: 'Woche {w} von {t} · Phase {f} · {n} · RPE-Deckel {r}',
@@ -1280,8 +1282,8 @@ window.B2P = (function () {
       cta: 'Meine Woche 1 sehen', micro: 'Mach den Fragebogen jederzeit neu: alles wird neu berechnet.' },
     tour: { salta: 'Überspringen', sigue: 'Weiter', listo: 'Ans Training', pasos: [
       ['Das ist HEUTE', 'Dein Tag, fertig aufgebaut: Einheit, Mahlzeiten, Protokoll. Hak ✓ ab, die App zählt mit.'],
-      ['Die Leiste bewegt dich', 'Heute, Plan, Essen, Fortschritt und Erfolge. Tippe, oder zieh die Blase.'],
-      ['Der ganze Plan', 'Phasen, Kalender, Regeln und die Übungsbibliothek mit Technik im Video.'],
+      ['Die Leiste bewegt dich', 'Heute, Plan, Übungen, Essen, Fortschritt und Erfolge. Tippe, oder zieh die Blase.'],
+      ['Der ganze Plan', 'Ein Kalender mit den Phasen in Farbe: tippe auf einen Tag und du siehst sein Training und seine Mahlzeiten.'],
       ['Dein Tisch', 'Wochenmenü, Rezepte mit Foto, Einkauf und Meal Prep, schon für dich gefiltert.'],
       ['Ehrlicher Fortschritt', 'Gewicht, Taille, Lasten und Konstanz. Zu schnell? Die App bremst dich.'] ] },
     cuest: {

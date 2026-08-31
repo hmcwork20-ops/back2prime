@@ -34,11 +34,40 @@
           if (r.err) { U.toast(NU[r.err] || NU.errRed); return; }
           U.toast(NU.cambiada); location.reload();
         };
-        caja.append(el('div', { class: 'field' }, el('label', null, NU.nuevaClaveT), nc));
+        const ojoN = el('button', { class: 'ojo plano', type: 'button',
+          'aria-label': NU.verClave, 'aria-pressed': 'false',
+          onclick: () => {
+            const visible = nc.type === 'text';
+            nc.type = visible ? 'password' : 'text';
+            ojoN.setAttribute('aria-pressed', visible ? 'false' : 'true');
+            ojoN.setAttribute('aria-label', visible ? NU.verClave : NU.ocultarClave);
+            ojoN.replaceChildren(U.icono(visible ? 'ojo' : 'ojoNo', 19));
+            nc.focus();
+          } }, U.icono('ojo', 19));
+        caja.append(el('div', { class: 'field' }, el('label', null, NU.nuevaClaveT),
+          el('div', { class: 'con-ojo' }, nc, ojoN)));
         caja.append(el('button', { class: 'btn-b2p', style: 'width:100%', type: 'button', onclick: guarda }, NU.guardarClave));
         root.append(caja);
         return;
       }
+
+      /* Campo de contrasena con ojo: escribir a ciegas en un movil es la
+         primera causa de «no me deja entrar». El boton alterna el tipo del
+         input y su propio icono, y se anuncia con aria-pressed. */
+      const campoClave = (inp, etiqueta) => {
+        const ojo = el('button', { class: 'ojo plano', type: 'button', tabindex: '0',
+          'aria-label': NU.verClave, 'aria-pressed': 'false',
+          onclick: () => {
+            const visible = inp.type === 'text';
+            inp.type = visible ? 'password' : 'text';
+            ojo.setAttribute('aria-pressed', visible ? 'false' : 'true');
+            ojo.setAttribute('aria-label', visible ? NU.verClave : NU.ocultarClave);
+            ojo.replaceChildren(U.icono(visible ? 'ojo' : 'ojoNo', 19));
+            inp.focus();
+          } }, U.icono('ojo', 19));
+        return el('div', { class: 'field' }, el('label', null, etiqueta),
+          el('div', { class: 'con-ojo' }, inp, ojo));
+      };
 
       let modo = 'entrar';                          // quien vuelve es mas frecuente que quien llega
       const nom = el('input', { type: 'text', autocomplete: 'name', maxlength: '24', placeholder: A.ph });
@@ -89,7 +118,7 @@
 
       caja.append(fNom,
         el('div', { class: 'field' }, el('label', null, NU.correoL), cor),
-        el('div', { class: 'field' }, el('label', null, NU.claveL), cla),
+        campoClave(cla, NU.claveL),
         bPrin, bCambia, bOlvide,
         el('p', { class: 'mini', style: 'text-align:center' }, NU.local));
       pinta();

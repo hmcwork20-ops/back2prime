@@ -1114,3 +1114,16 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 
 /* el mapa dentro de tarjeta: compacto, sin el margen de la ficha */
 .ej-zcard .ej-zmapa svg, .ej-card .ej-mapa svg { margin: 0 auto }
+
+/* Contraseña con ojo: el botón vive DENTRO del campo, y el input reserva
+   sitio a la derecha para que el texto nunca pase por debajo. 44px de lado
+   porque es un objetivo táctil, no un adorno. */
+.con-ojo { position: relative; display: block }
+.con-ojo input { width: 100%; padding-right: 46px }
+.con-ojo .ojo {
+  position: absolute; right: 2px; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  background: none; border: 0; color: var(--ink3); cursor: pointer; border-radius: 10px;
+}
+.con-ojo .ojo:hover, .con-ojo .ojo[aria-pressed="true"] { color: var(--ink) }
+.con-ojo .ojo:active { background: var(--surface2) }

@@ -69,9 +69,11 @@
     if (S.ui && S.ui.plansec) { delete S.ui.plansec; try { save(); } catch (e) {} }
   }
   function save() {
+    S._mod = Date.now();               // reloj para decidir que copia manda entre dispositivos
     localStorage.setItem(KEY, JSON.stringify(S));
     // en la app de tienda, copia fuera del webview: iOS puede purgarlo
     if (window.B2P_NATIVO && window.B2P_NATIVO.nativo) window.B2P_NATIVO.espeja(S);
+    if (window.B2P_NUBE && window.B2P_NUBE.activo) window.B2P_NUBE.programa(S);
   }
   function dia(d) { return S.dias[d] || (S.dias[d] = {}); }
 
@@ -1258,7 +1260,7 @@
     sh.append(el('div', { class: 'card perfil-hero' },
       el('div', { class: 'ph-nombre' }, (S.usuario && S.usuario.nombre) || 'BACK2PRIME'),
       S.usuario ? el('div', { class: 'mini' }, tpl(TX.pDesde || 'desde {v}', { v: fmtCorta(S.usuario.creado) })) : null,
-      el('div', { class: 'mini', style: 'margin-top:4px' }, TX.ajustesSub)));
+      el('div', { class: 'mini', style: 'margin-top:4px' }, ((window.B2P_NUBE && window.B2P_NUBE.activo && TX.nube) ? TX.nube.ajustesSub : TX.ajustesSub))));
 
     // tus respuestas: el contrato del cuestionario, siempre a la vista
     if (S.perfil && C.titulo) {
@@ -1431,7 +1433,17 @@
          en el dispositivo (al volver a entrar con tu nombre, sigues donde ibas) */
       // eliminar perfil y datos (armado con desarme: sigue siendo la puerta seria)
       sh2.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:12px;color:var(--danger)', onclick: ev => {
-        if (ev.target.dataset.arm) { localStorage.removeItem(KEY); location.reload(); }
+        if (ev.target.dataset.arm) {
+          const N = window.B2P_NUBE;
+          if (N && N.activo && N.sesion()) {
+            N.borraCuenta().then(r => {
+              if (r && r.err) { toast((TX.nube && TX.nube[r.err]) || TX.ajImportErr); return; }
+              localStorage.removeItem(KEY); location.reload();
+            });
+            return;
+          }
+          localStorage.removeItem(KEY); location.reload();
+        }
         else {
           ev.target.dataset.arm = '1'; ev.target.textContent = TX.ajBorrarConfirma;
           // armado con caducidad: si no confirmas en 4 s, el botón se desarma solo
@@ -1440,13 +1452,51 @@
       } }, TX.ajBorrar));
       sh.append(el('p', { class: 'mini', style: 'margin-top:16px' }, D.AVISO_LEGAL));
 
+    /* compartir el plan: enlace publico de solo lectura, sin registros.
+       El resumen se construye AQUI, eligiendo campo a campo lo que sale:
+       nada de volcar el estado (ahi van peso, cintura y dias). */
+    const NB = window.B2P_NUBE;
+    if (NB && NB.activo && NB.sesion() && S.perfil && TX.comp) {
+      const yaTok = S.config.compToken;
+      const fila = el('div', { style: 'margin-top:18px' });
+      const arma = () => {
+        fila.replaceChildren(
+          el('button', { class: 'btn-ghost', style: 'width:100%', type: 'button', onclick: async ev => {
+            ev.target.disabled = true;
+            const G2 = D.UI.gen || {};
+            const splitTxt = S.perfil.diasSemana <= 3 ? G2.splitFbC : S.perfil.diasSemana === 4 ? G2.splitTpC : G2.splitPplC;
+            const resumen = { v: 1, n: (S.usuario && S.usuario.nombre) || '', sem: D.META.semanas,
+              dias: S.perfil.diasSemana, kcal: (D.NUTRI.fases[0] || {}).kcal, prot: (D.NUTRI.fases[0] || {}).p,
+              split: splitTxt || '', fases: D.FASES.map(f => f.nombre) };
+            const r = await NB.compartePlan(resumen);
+            ev.target.disabled = false;
+            if (r.err) { toast((TX.nube && TX.nube[r.err]) || TX.ajImportErr); return; }
+            S.config.compToken = r.token; save();
+            const enlace = location.origin + location.pathname + '#/comp?' + r.token;
+            try { await navigator.clipboard.writeText(enlace); } catch (e) {}
+            toast(TX.comp.copiado); arma();
+          } }, TX.comp.t),
+          el('p', { class: 'mini', style: 'margin:6px 0 0;text-align:center' }, TX.comp.nota),
+          S.config.compToken ? el('button', { class: 'plano qaux', style: 'width:100%;margin-top:6px', type: 'button', onclick: async () => {
+            const r = await NB.descomparte();
+            if (r.err) { toast((TX.nube && TX.nube[r.err]) || TX.ajImportErr); return; }
+            delete S.config.compToken; save(); toast(TX.comp.quitado); arma();
+          } }, TX.comp.quitar) : null);
+      };
+      arma();
+      sh.append(fila);
+    }
+
     /* cerrar sesión cierra la vista, no vive escondido en Ajustes: sales a la
        puerta y tu plan y tus registros se quedan en el dispositivo */
     if (S.usuario && TX.cerrarSesion) {
       sh.append(el('button', { class: 'btn-ghost', style: 'width:100%;margin-top:18px', type: 'button', onclick: () => {
+        const N = window.B2P_NUBE;
+        if (N && N.activo) { N.sale().finally(() => location.reload()); return; }
         delete S.usuario; save(); location.reload();
       } }, TX.cerrarSesion));
-      sh.append(el('p', { class: 'mini', style: 'margin:6px 0 0;text-align:center' }, TX.cerrarSesionNota));
+      sh.append(el('p', { class: 'mini', style: 'margin:6px 0 0;text-align:center' },
+        (window.B2P_NUBE && window.B2P_NUBE.activo && TX.nube) ? TX.nube.cerrarSesionNota : TX.cerrarSesionNota));
     }
   }
 
@@ -1462,17 +1512,20 @@
   let rutaPrevia = null, primerRender = true, rachaPrevia = null;
 
   function render() {
-    let r = ruta();
+    let r = ruta().split('?')[0];      // lo de despues del ? es de la vista (p. ej. el token del visor)
     /* Puerta de entrada. Sin usuario no hay app; sin perfil, lo primero es el
        cuestionario (o su pausa médica); y el plan recién generado se presenta
        en el reveal antes de soltarte en HOY. Se fuerza la RUTA, no la vista:
        así título, foco y pestañas siguen saliendo del mismo sitio. */
-    const forzada = !S.usuario ? 'alta'
+    const N = window.B2P_NUBE;
+    const forzada = r === 'comp' ? null            // el visor del enlace es publico: sin cuenta
+      : (N && N.activo && !N.sesion()) ? 'alta'    // nube activa: sin sesion no hay app
+      : !S.usuario ? 'alta'
       : !S.perfil ? (S.ui.gate ? 'gate' : 'quiz')
       : S.ui.reveal ? 'reveal' : null;
     if (forzada && r !== forzada) { history.replaceState(null, '', '#/' + forzada); r = forzada; }
     else if (!forzada && (r === 'alta' || r === 'reveal' || r === 'gate')) { history.replaceState(null, '', '#/hoy'); r = 'hoy'; }
-    const enOnb = r === 'alta' || r === 'quiz' || r === 'reveal' || r === 'gate';
+    const enOnb = r === 'alta' || r === 'quiz' || r === 'reveal' || r === 'gate' || r === 'comp';
     document.body.classList.toggle('onb', enOnb);
     const root = $('#view');
     // render() se llama al navegar PERO también al marcar una casilla, cerrar
@@ -1678,8 +1731,18 @@
      aquí mismo, VIEWS aún está vacío y una URL con #/logros (justo lo que
      reabre una PWA instalada) caería al fallback de HOY con la pestaña
      equivocada marcada.                                                    */
-  function arrancar() {
+  async function arrancar() {
     load();
+    if (window.B2P_NUBE && window.B2P_NUBE.activo) {
+      /* devuelve rapido: la sesion es una lectura local; solo con sesion hay
+         un fetch para comparar relojes. Si la nube va por delante, pisa la
+         copia local y se recarga una vez. Sin red, se sigue en local. */
+      try {
+        const res = await window.B2P_NUBE.arranca();
+        if (res && res.reemplazado) { location.reload(); return; }
+        load();                        // por si arranca() aparto una copia ajena
+      } catch (e) { /* sin red: modo local hasta que vuelva */ }
+    }
     // textos estáticos de index.html al idioma cargado
     $$('.tab span').forEach((s, i) => { if (TX.tabs[i]) s.textContent = TX.tabs[i]; });
     if (TX.perfilT) $('#btnAjustes').setAttribute('aria-label', TX.perfilT);

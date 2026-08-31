@@ -20,6 +20,103 @@
     caja.append(el('div', { class: 'alta-marca', 'aria-hidden': 'true' }, 'BACK', el('span', { class: 'b2' }, '2'), 'PRIME'));
     caja.append(el('p', { class: 'alta-sub' }, A.sub));
 
+    const NB = window.B2P_NUBE;
+    if (NB && NB.activo) {
+      const NU = TX.nube || {};
+      /* llego por el enlace de recuperar contrasena: un solo campo */
+      if (NB.enRecuperacion && NB.enRecuperacion()) {
+        const nc = el('input', { type: 'password', autocomplete: 'new-password', minlength: '8', placeholder: '········' });
+        const guarda = async ev => {
+          if ((nc.value || '').length < 8) { U.toast(NU.errClaveCorta); nc.focus(); return; }
+          ev.target.disabled = true;
+          const r = await NB.nuevaClave(nc.value);
+          ev.target.disabled = false;
+          if (r.err) { U.toast(NU[r.err] || NU.errRed); return; }
+          U.toast(NU.cambiada); location.reload();
+        };
+        caja.append(el('div', { class: 'field' }, el('label', null, NU.nuevaClaveT), nc));
+        caja.append(el('button', { class: 'btn-b2p', style: 'width:100%', type: 'button', onclick: guarda }, NU.guardarClave));
+        root.append(caja);
+        return;
+      }
+
+      let modo = 'entrar';                          // quien vuelve es mas frecuente que quien llega
+      const nom = el('input', { type: 'text', autocomplete: 'name', maxlength: '24', placeholder: A.ph });
+      const cor = el('input', { type: 'email', autocomplete: 'email', inputmode: 'email', placeholder: 'correo@ejemplo.com' });
+      const cla = el('input', { type: 'password', autocomplete: 'current-password', minlength: '8', placeholder: '········' });
+      const fNom = el('div', { class: 'field' }, el('label', null, A.nombreL), nom);
+      const bPrin = el('button', { class: 'btn-b2p', style: 'width:100%', type: 'button' });
+      const bCambia = el('button', { class: 'plano qaux', style: 'width:100%;margin-top:8px', type: 'button' });
+      const bOlvide = el('button', { class: 'plano qaux', style: 'width:100%;margin-top:2px', type: 'button' }, NU.olvide);
+
+      const entraApp = () => {
+        const ses = NB.sesion();
+        const meta = (ses && ses.user && ses.user.user_metadata) || {};
+        const n = U.saneaNombre(nom.value || meta.nombre || (ses && ses.user.email || '').split('@')[0]);
+        if (!S.usuario || !S.usuario.nombre) S.usuario = { nombre: n || 'B2P', creado: U.hoyISO() };
+        S.config.uid = ses && ses.user.id;          // marca de dueno de la copia local
+        U.save();
+        location.reload();                          // arranca() compara relojes y decide la copia
+      };
+      const acciona = async () => {
+        const correo = (cor.value || '').trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) { U.toast(NU.errCorreo); cor.focus(); return; }
+        if ((cla.value || '').length < 8) { U.toast(NU.errClaveCorta); cla.focus(); return; }
+        if (modo === 'crear' && U.saneaNombre(nom.value).length < 2) { U.toast(A.valNombre); nom.focus(); return; }
+        bPrin.disabled = true;
+        const r = modo === 'crear' ? await NB.registra(correo, cla.value, U.saneaNombre(nom.value)) : await NB.entra(correo, cla.value);
+        bPrin.disabled = false;
+        if (r.err) { U.toast(NU[r.err] || NU.errRed); return; }
+        if (r.confirma) { U.toast(NU.confirmaCorreo); modo = 'entrar'; pinta(); return; }
+        entraApp();
+      };
+      const pinta = () => {
+        fNom.style.display = modo === 'crear' ? '' : 'none';
+        cla.autocomplete = modo === 'crear' ? 'new-password' : 'current-password';
+        bPrin.textContent = modo === 'crear' ? NU.crear : NU.entrar;
+        bCambia.textContent = modo === 'crear' ? NU.aEntrar : NU.aCrear;
+        bOlvide.style.display = modo === 'crear' ? 'none' : '';
+      };
+      bPrin.addEventListener('click', acciona);
+      cla.addEventListener('keydown', ev => { if (ev.key === 'Enter') acciona(); });
+      bCambia.addEventListener('click', () => { modo = modo === 'crear' ? 'entrar' : 'crear'; pinta(); });
+      bOlvide.addEventListener('click', async () => {
+        const correo = (cor.value || '').trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) { U.toast(NU.errCorreo); cor.focus(); return; }
+        const r = await NB.olvide(correo);
+        U.toast(r.err ? (NU[r.err] || NU.errRed) : NU.enviadoReset);
+      });
+
+      caja.append(fNom,
+        el('div', { class: 'field' }, el('label', null, NU.correoL), cor),
+        el('div', { class: 'field' }, el('label', null, NU.claveL), cla),
+        bPrin, bCambia, bOlvide,
+        el('p', { class: 'mini', style: 'text-align:center' }, NU.local));
+      pinta();
+
+      // idioma tambien en la puerta con cuenta
+      const filaN = el('div', { class: 'alta-langs', role: 'group', 'aria-label': A.idioma });
+      (U.IDIOMAS || []).forEach(par => {
+        const code = par[0], flag = par[1], nombre = par[2];
+        filaN.append(el('button', { class: 'lpill plano' + ((S.config.lang || 'es') === code ? ' on' : ''),
+          type: 'button', 'aria-label': nombre, onclick: async () => {
+            if ((S.config.lang || 'es') === code) return;
+            if (code !== 'es') {
+              let ok = false;
+              try { ok = (await fetch('./assets/data.' + code + '.js')).ok; } catch (e) { ok = false; }
+              if (!ok) { U.toast(TX.ajIdiomaSinRed); return; }
+            }
+            S.config.lang = code; U.save(); location.reload();
+          } }, flag));
+      });
+      caja.append(filaN);
+      root.append(caja);
+      if (!menosMovimiento()) caja.animate(
+        [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 260, easing: 'cubic-bezier(.23,1,.32,1)' });
+      return;
+    }
+
     const inp = el('input', { type: 'text', id: 'alta-nombre', autocomplete: 'given-name',
       maxlength: '24', enterkeyhint: 'go', placeholder: A.ph });
     const crea = () => {
@@ -208,7 +305,40 @@
     if (!menosMovimiento()) capa.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'linear' });
   }
 
+  /* ---------------- visor del plan compartido ----------------
+     Publico y de solo lectura: pinta el resumen que el dueno decidio
+     compartir. Sin cuenta, sin registros, sin datos de nadie mas. */
+  function renderComp(root) {
+    const NB = window.B2P_NUBE, CO = TX.comp || {};
+    const caja = el('div', { class: 'alta' });
+    caja.append(el('div', { class: 'alta-marca', 'aria-hidden': 'true' }, 'BACK', el('span', { class: 'b2' }, '2'), 'PRIME'));
+    root.append(caja);
+    const token = (location.hash.split('?')[1] || '').trim();
+    if (!NB || !NB.activo || !token) { caja.append(el('p', { class: 'alta-sub' }, CO.noExiste || '')); return; }
+    caja.append(el('p', { class: 'alta-sub', id: 'comp-esp' }, '…'));
+    NB.planCompartido(token).then(r => {
+      const esp = caja.querySelector('#comp-esp'); if (esp) esp.remove();
+      if (r.err || !r.plan) { caja.append(el('p', { class: 'alta-sub' }, CO.noExiste)); return; }
+      const pl = r.plan;
+      caja.append(el('h2', { class: 'rev-t' }, U.tpl(CO.vT, { n: U.saneaNombre(pl.n) || 'B2P' })));
+      caja.append(el('p', { class: 'mini', style: 'text-align:center' }, CO.vSub));
+      const filas = [
+        [U.tpl(CO.sem, { s: parseInt(pl.sem) || 0 }), U.tpl(CO.dias, { d: parseInt(pl.dias) || 0 })],
+        [String(pl.split || ''), (parseInt(pl.kcal) || 0) + ' kcal · P ' + (parseInt(pl.prot) || 0) + ' g']
+      ];
+      const tabla = el('div', { class: 'card', style: 'margin-top:14px;text-align:center' });
+      filas.forEach(f => tabla.append(el('div', { style: 'padding:6px 0' },
+        el('b', null, f[0]), el('div', { class: 'mini' }, f[1]))));
+      if (Array.isArray(pl.fases)) tabla.append(el('div', { class: 'mini', style: 'padding:6px 0' },
+        pl.fases.slice(0, 6).map(x => String(x)).join(' · ')));
+      caja.append(tabla);
+      caja.append(el('a', { class: 'btn-b2p', style: 'display:block;text-align:center;margin-top:16px;text-decoration:none',
+        href: location.origin + location.pathname }, CO.vCta));
+    });
+  }
+
   window.B2P_REG('alta', renderAlta);
+  window.B2P_REG('comp', renderComp);
   window.B2P_REG('reveal', renderReveal);
   window.B2P_REG('gate', renderGate);
   window.B2P_ONB = { tick };

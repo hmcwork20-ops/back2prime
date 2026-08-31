@@ -1396,6 +1396,8 @@ window.B2P = (function () {
     obCintura: 'Starting waist — your master metric', obPlaceholder: 'cm (optional, you can do it later)', obEmpezamos: 'Let’s go',
     celebraOk: 'Keep going',
     navAria: 'Main navigation',
+    nube: { correoL: 'Email', claveL: 'Password (8 minimum)', entrar: 'Sign in', crear: 'Create account', aCrear: 'First time? Create your account', aEntrar: 'Already have an account? Sign in', olvide: 'I forgot my password', enviadoReset: 'Email sent: open the link to change it', nuevaClaveT: 'Choose a new password', guardarClave: 'Save password', cambiada: 'Password changed: you can sign in now', confirmaCorreo: 'Check your inbox and confirm the account, then sign in here', yaExiste: 'That email already has an account: sign in with your password', errCred: 'Wrong email or password', errCorreo: 'Enter a valid email', errClaveCorta: 'The password needs at least 8 characters', errRitmo: 'Too many attempts in a row: wait a moment', errRed: 'No connection to the server: try again', local: 'Your account keeps your plan and follows you on any device. Only you can see it.', ajustesSub: 'BACK2PRIME · your plan lives in your account and only you can see it', cerrarSesionNota: 'Back to the front door. Your plan stays in your account: sign in again and pick up where you left off.' },
+    comp: { t: 'Share my plan', nota: 'Create a public read-only link with your plan: no weight, no logs.', copiado: 'Link copied', quitar: 'Stop sharing', quitado: 'Link disabled', vT: '{n}\'s plan', vSub: 'Generated with BACK2PRIME', vCta: 'Build yours', noExiste: 'That link does not exist or its owner disabled it', sem: '{s} weeks', dias: '{d} days/week' },
     nuevoDia: 'New day: {f}'
   };
 

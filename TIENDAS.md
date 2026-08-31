@@ -112,8 +112,13 @@ La ficha pide descripción, capturas de teléfono, icono de 512, gráfico
 destacado de 1024×500, una **política de privacidad con URL pública**, el
 cuestionario de contenido y la sección *Data safety*.
 
-Para *Data safety* la respuesta es corta y verdadera: la app **no recoge ni
-transmite ningún dato**. Todo vive en el dispositivo y no hay servidor.
+Para *Data safety*, con la nube activa la respuesta honesta es: la app
+recoge **correo electrónico** (autenticación) y **datos de salud y forma
+física** (el plan y los registros), asociados a la cuenta, cifrados en
+tránsito, sin venta ni compartición con terceros, y **con borrado dentro de
+la app** (Mi perfil → eliminar cuenta borra servidor y dispositivo). Mientras
+`nube-config.js` siga a null, la respuesta antigua sigue valiendo: nada sale
+del dispositivo.
 
 La primera versión pasa por una revisión que suele tardar de unas horas a unos
 días. Cuentas nuevas pueden tener que hacer además una prueba cerrada con
@@ -196,9 +201,10 @@ Store) o con `xcrun altool`. A partir de ahí, TestFlight y revisión.
 
 > **El riesgo de revisión que hay que tener presente** es la guideline 4.2 de
 > Apple: rechazan apps que son solo el envoltorio de una web. Lo que separa a
-> esta de ese caso es que funciona entera sin conexión, genera el plan en el
-> dispositivo y no consulta ningún servidor. Conviene decirlo así en las notas
-> para el revisor, y que las capturas la enseñen funcionando en modo avión.
+> esta de ese caso: el plan se genera en el dispositivo, la app entera
+> funciona sin conexión una vez dentro (la nube solo sincroniza), y trae
+> capas nativas propias (botón atrás, Preferences, enlaces al navegador).
+> Conviene decirlo así en las notas para el revisor.
 
 ---
 

@@ -127,7 +127,14 @@
     const visor = el('div', { class: 'cal-visor' }, tarjetasMes);
     const envuelve = el('div', { class: 'cal-envoltura' }, visor);
     if (tarjetasMes.length > 1) {
-      const mueve = dir => visor.scrollBy({ left: dir * visor.clientWidth, behavior: 'smooth' });
+      /* por indice y con scrollTo: scrollBy suave se lleva mal con el snap
+         obligatorio (el gesto puede quedarse en el mes de partida) */
+      const mueve = dir => {
+        const w = visor.clientWidth || 1;
+        const i = Math.max(0, Math.min(tarjetasMes.length - 1, Math.round(visor.scrollLeft / w) + dir));
+        const suave = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        visor.scrollTo({ left: i * w, behavior: suave });
+      };
       envuelve.append(
         el('button', { class: 'cal-nav izq plano', type: 'button', 'aria-label': '‹', onclick: () => mueve(-1) }, '‹'),
         el('button', { class: 'cal-nav der plano', type: 'button', 'aria-label': '›', onclick: () => mueve(1) }, '›'));

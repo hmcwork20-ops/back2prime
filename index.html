@@ -118,11 +118,17 @@ try {
 <script src="assets/fotos.js"></script>
 <script src="assets/pictos.js"></script>
 <script src="assets/deportes.js"></script>
+<script src="assets/nativo.js"></script>
 <script src="assets/app.js"></script>
 <script src="assets/views.js"></script>
 <script src="assets/onb.js"></script>
 <script>
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+/* Dentro de la app de tienda los ficheros ya son locales: un service worker
+   cache-first encima solo puede servir una version vieja despues de que la
+   tienda actualice la app. */
+var esApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())
+  || location.protocol === 'capacitor:';
+if ('serviceWorker' in navigator && location.protocol !== 'file:' && !esApp) {
   addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
 }
 </script>

@@ -6,3 +6,9 @@
 
 # grafo local de graphify: nunca al repo
 .graphify/
+
+# Capacitor: node_modules y el www/ generado no se versionan.
+# Los proyectos nativos (android/, ios/) SI, porque llevan la firma, los
+# permisos y los iconos: sin ellos el build no es reproducible.
+node_modules/
+www/

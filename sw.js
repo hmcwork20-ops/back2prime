@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v75';
+const V = 'b2p-v76';
 const CORE = [
   './',
   './index.html',
@@ -16,6 +16,7 @@ const CORE = [
   './assets/pictos.js',
   './assets/deportes.js',
   './assets/iconos.js',
+  './assets/nativo.js',   // inerte en la web; en la app de tienda hace de puente
   './assets/app.js',
   './assets/views.js',
   './assets/onb.js',

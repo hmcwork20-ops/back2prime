@@ -59,7 +59,11 @@
     // residuo del Plan con subpáginas: se limpia también en disco
     if (S.ui && S.ui.plansec) { delete S.ui.plansec; try { save(); } catch (e) {} }
   }
-  function save() { localStorage.setItem(KEY, JSON.stringify(S)); }
+  function save() {
+    localStorage.setItem(KEY, JSON.stringify(S));
+    // en la app de tienda, copia fuera del webview: iOS puede purgarlo
+    if (window.B2P_NATIVO && window.B2P_NATIVO.nativo) window.B2P_NATIVO.espeja(S);
+  }
   function dia(d) { return S.dias[d] || (S.dias[d] = {}); }
 
   /* ---------------- calendario del plan ---------------- */

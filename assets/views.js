@@ -267,7 +267,7 @@
 
     // «El plato» vive en Mi Perfil → Detrás del plan
     const IDS_N = [['n-obj', TX.chipsNutri[0]], ['n-rec', TX.chipsNutri[2]],
-      ['n-compra', TX.chipsNutri[4]], ['n-prep', TX.chipsNutri[5]]];
+      ['n-compra', TX.chipsNutri[4]]];
     root.append(chipNav(IDS_N));
 
     root.append(el('div', { id: 'n-obj', class: 'card fase-card pn' },
@@ -408,26 +408,6 @@
         el('div', { class: 'fold-in' }, cuerpo)));
     });
 
-    // meal prep
-    root.append(el('div', { id: 'n-prep', class: 'sec-h' }, el('h2', null, TX.nPrepDom),
-      el('button', { class: 'tbl-toggle', onclick: () => {
-        U.S.prep = {}; U.save();
-        window.dispatchEvent(new HashChangeEvent('hashchange'));
-      } }, TX.nReiniciar)));
-    const mp = el('div', { class: 'card' });
-    D.MEALPREP.forEach((p, i) => {
-      const on = !!U.S.prep[i];
-      mp.append(el('button', { class: 'prep-step' + (on ? ' on' : '') + ' plano', type: 'button', 'aria-pressed': on ? 'true' : 'false',
-        onclick: ev => {
-          U.S.prep[i] = !U.S.prep[i]; U.save();
-          const v = !!U.S.prep[i];
-          ev.currentTarget.classList.toggle('on', v);
-          ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
-        } },
-        el('span', { class: 'pmin' }, p.min), el('span', { class: 'pt' }, p.paso)));
-    });
-    mp.append(el('p', { class: 'mini', style: 'margin:10px 0 2px' }, D.MEALPREP_NOTA));
-    root.append(mp);
 
   }
 

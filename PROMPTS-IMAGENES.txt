@@ -1,0 +1,219 @@
+PROMPTS DE IMAGEN - BACK2PRIME
+==============================================================
+
+Genera cada imagen con su prompt y guardala con EXACTAMENTE el
+nombre indicado (.png, .jpg o .webp: el formato da igual).
+
+  productos    ->  Escritorio, carpeta  productos
+  suplementos  ->  Escritorio, carpeta  suplementos
+
+No hace falta hacerlas todas de una vez: se importan las que haya
+y al volver a lanzar esto solo se listan las que sigan faltando.
+
+
+==============================================================
+PRODUCTOS DE LA COMPRA  (faltan 61)
+==============================================================
+
+--- aceitunas.png
+Fotografía de producto minimalista de bol pequeño de aceitunas verdes, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- aguacate.png
+Fotografía de producto minimalista de aguacate abierto por la mitad, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- ajo.png
+Fotografía de producto minimalista de cabeza de ajo con un diente suelto, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- alubias.png
+Fotografía de producto minimalista de bote de cristal de alubias negras cocidas, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- aove.png
+Fotografía de producto minimalista de botella de aceite de oliva virgen extra, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- arroz.png
+Fotografía de producto minimalista de bol de arroz crudo, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- atun.png
+Fotografía de producto minimalista de lata de atún al natural abierta, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- avena.png
+Fotografía de producto minimalista de bol de copos de avena, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- bebida-soja.png
+Fotografía de producto minimalista de brik de bebida de soja, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- brocoli.png
+Fotografía de producto minimalista de brócoli fresco entero, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- calabacin.png
+Fotografía de producto minimalista de calabacín fresco entero, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- calabaza.png
+Fotografía de producto minimalista de trozo de calabaza con dados cortados, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- caldo.png
+Fotografía de producto minimalista de brik de caldo de verduras, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- canela.png
+Fotografía de producto minimalista de canela en rama con un montoncito molido, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- cebolla.png
+Fotografía de producto minimalista de cebolla entera y media cebolla, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- champinones.png
+Fotografía de producto minimalista de champiñones frescos, uno laminado, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- chia.png
+Fotografía de producto minimalista de cuenco pequeño de semillas de chía, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- edamame.png
+Fotografía de producto minimalista de bol de vainas de edamame, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- especias.png
+Fotografía de producto minimalista de tres botes pequeños de especias (pimentón, comino, orégano), centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- espinacas.png
+Fotografía de producto minimalista de puñado de espinacas frescas, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- fruta.png
+Fotografía de producto minimalista de frutero con plátano, manzana y naranja, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- frutos-rojos.png
+Fotografía de producto minimalista de bol de frutos rojos (arándanos, frambuesas, fresas), centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- gambas.png
+Fotografía de producto minimalista de gambas peladas crudas en un bol, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- garbanzos.png
+Fotografía de producto minimalista de bote de cristal de garbanzos cocidos, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- harina-garbanzo.png
+Fotografía de producto minimalista de bol de harina de garbanzo con cuchara, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- huevos.png
+Fotografía de producto minimalista de media docena de huevos en su huevera, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- hummus.png
+Fotografía de producto minimalista de bol de hummus con un hilo de aceite, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- leche-coco.png
+Fotografía de producto minimalista de lata de leche de coco abierta, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- lechuga.png
+Fotografía de producto minimalista de lechuga fresca con tomate y cebolla (base de ensalada), centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- lentejas.png
+Fotografía de producto minimalista de bote de cristal de lentejas cocidas, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- lentejas-rojas.png
+Fotografía de producto minimalista de bol de lentejas rojas secas, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- levadura.png
+Fotografía de producto minimalista de bote de levadura nutricional en copos, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- limon.png
+Fotografía de producto minimalista de limones, uno cortado por la mitad, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- merluza.png
+Fotografía de producto minimalista de lomos de merluza fresca, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- nueces.png
+Fotografía de producto minimalista de nueces peladas y una con cáscara, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- pan.png
+Fotografía de producto minimalista de barra de pan integral con dos rebanadas, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- pan-sg.png
+Fotografía de producto minimalista de pan de molde sin gluten, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- pasta-lentejas.png
+Fotografía de producto minimalista de pasta seca de lentejas rojas, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- patata.png
+Fotografía de producto minimalista de patatas enteras, una cortada en gajos, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- pimiento.png
+Fotografía de producto minimalista de pimiento rojo y pimiento verde, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- pipas.png
+Fotografía de producto minimalista de cuenco pequeño de pipas de calabaza, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- platano.png
+Fotografía de producto minimalista de plátanos, uno pelado a medias, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- pollo.png
+Fotografía de producto minimalista de pechuga de pollo cruda en una tabla, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- prote-vegetal.png
+Fotografía de producto minimalista de bote de proteína vegetal en polvo con cazo, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- quinoa.png
+Fotografía de producto minimalista de bol de quinoa cruda, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- sal.png
+Fotografía de producto minimalista de salero pequeño con sal gruesa, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- salsa-soja.png
+Fotografía de producto minimalista de botella pequeña de salsa de soja, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- salmon.png
+Fotografía de producto minimalista de lomo de salmón fresco, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- sesamo.png
+Fotografía de producto minimalista de cuenco pequeño de semillas de sésamo, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- skyr.png
+Fotografía de producto minimalista de tarrina de skyr con cuchara, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- soja-text.png
+Fotografía de producto minimalista de bol de soja texturizada fina seca, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- tamari.png
+Fotografía de producto minimalista de botella pequeña de salsa tamari, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- tempeh.png
+Fotografía de producto minimalista de bloque de tempeh con dos dados cortados, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- ternera.png
+Fotografía de producto minimalista de tiras de ternera magra cruda en una tabla, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- tofu.png
+Fotografía de producto minimalista de bloque de tofu firme con dos dados cortados, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- tomate.png
+Fotografía de producto minimalista de tomates maduros, uno en rodajas, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- tomate-triturado.png
+Fotografía de producto minimalista de bote de cristal de tomate triturado, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- verduras.png
+Fotografía de producto minimalista de surtido de verduras (pimiento, cebolla, zanahoria, calabacín), centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- whey.png
+Fotografía de producto minimalista de bote de proteína whey con cazo, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- yogur-soja.png
+Fotografía de producto minimalista de tarrina de yogur de soja natural, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- zanahoria.png
+Fotografía de producto minimalista de zanahorias frescas, una cortada en bastones, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+
+==============================================================
+SUPLEMENTOS  (faltan 5)
+==============================================================
+
+--- creatina.png
+Fotografía de producto minimalista de bote de creatina monohidrato en polvo con cazo, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- whey.png
+Fotografía de producto minimalista de bote de proteína whey con cazo y un batido al lado, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- cafeina.png
+Fotografía de producto minimalista de taza de café solo con granos de café alrededor, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- vitamina-d.png
+Fotografía de producto minimalista de bote de cápsulas de vitamina D con unas perlas fuera, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- omega-3.png
+Fotografía de producto minimalista de bote de omega-3 con cápsulas doradas fuera, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.

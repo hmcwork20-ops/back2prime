@@ -1150,8 +1150,9 @@
     secc(TX.vBiblioteca, '#/ejercicios');
     secc(TX.vSeguros, '#/perfil', 'pf-seguros', ['pf-detras', 'pf-seguros']);
     // apartados de Comida (el plato vive en Detrás del plan)
-    [['n-obj', 0], ['n-rec', 2], ['n-compra', 4], ['n-prep', 5]]
+    [['n-obj', 0], ['n-rec', 2], ['n-compra', 4]]
       .forEach(([id, i]) => secc(TX.chipsNutri[i], '#/nutricion', id));
+    secc(TX.nPrepDom, '#/perfil', 'pf-prep', ['pf-detras', 'pf-prep']);
     secc(TX.chipsNutri[6], '#/nutricion', 'n-rec');   // los suplementos viven en el recetario
     secc(TX.nPlato, '#/perfil', 'pf-plato', ['pf-detras', 'pf-plato']);
     // apartados de Progreso
@@ -1344,6 +1345,26 @@
           el('p', { class: 'mini' }, D.TENDON.nota),
           D.CARRERA ? el('div', { class: 'regla', style: 'margin-top:10px' }, el('b', null, D.CARRERA.titulo),
             el('ul', { style: 'font-size:13px;padding-left:17px;margin:6px 0 0' }, D.CARRERA.reglas.map(r => el('li', null, r)))) : null),
+        foldSub('pf-prep', TX.nPrepDom,
+          (() => {
+            /* los pasos se marcan aqui igual que antes: el toggle es EN EL
+               SITIO, sin repintar la vista (repintar cerraba el desplegable
+               y te devolvia arriba en cada paso). */
+            const mp = el('div');
+            D.MEALPREP.forEach((pp, i) => {
+              const on = !!S.prep[i];
+              mp.append(el('button', { class: 'prep-step' + (on ? ' on' : '') + ' plano', type: 'button', 'aria-pressed': on ? 'true' : 'false',
+                onclick: ev => {
+                  S.prep[i] = !S.prep[i]; save();
+                  const v = !!S.prep[i];
+                  ev.currentTarget.classList.toggle('on', v);
+                  ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
+                } },
+                el('span', { class: 'pmin' }, pp.min), el('span', { class: 'pt' }, pp.paso)));
+            });
+            mp.append(el('p', { class: 'mini', style: 'margin:10px 0 2px' }, D.MEALPREP_NOTA));
+            return mp;
+          })()),
         foldSub('pf-plato', TX.nPlato,
           el('div', { class: 'regla-g' }, D.NUTRI.plato.map(pp => el('div', { class: 'regla' }, el('b', null, pp.t), pp.d)))),
         foldSub('pf-numeros', TX.nNumeros,

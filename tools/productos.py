@@ -6,8 +6,9 @@ escribe los dos manifiestos que la app lee.
 
 Uso:
     python tools/productos.py --prompts
-        Imprime la lista de ficheros que faltan con el prompt de cada uno,
-        listo para copiar y pegar en Gemini.
+        Escribe PROMPTS-IMAGENES.txt en la raiz con el prompt de cada fichero
+        que falte. Lo escribe el mismo, sin redirigir la salida: la consola de
+        Windows deja el fichero vacio o se come los acentos.
 
     python tools/productos.py --import C:/Users/Hernan/Desktop/productos
         Importa <pid>.png|jpg|jpeg|webp de esa carpeta a assets/productos/
@@ -151,20 +152,26 @@ if __name__ == '__main__':
 
     if args and args[0] == '--prompts':
         ya_p, ya_s = existentes(dir_prod), existentes(dir_supl)
-        print('== PRODUCTOS (faltan %d) — guardar como <nombre>.png en Desktop/productos ==' %
-              len([p for p in PRODUCTOS if p not in ya_p]))
-        for pid, que in PRODUCTOS.items():
-            if pid in ya_p:
-                continue
-            print('\n--- %s.png' % pid)
-            print(ESTILO.format(que=que))
-        print('\n== SUPLEMENTOS (faltan %d) — guardar como <nombre>.png en Desktop/suplementos ==' %
-              len([p for p in SUPLEMENTOS if p not in ya_s]))
-        for pid, que in SUPLEMENTOS.items():
-            if pid in ya_s:
-                continue
-            print('\n--- %s.png' % pid)
-            print(ESTILO.format(que=que))
+        faltan_p = [(k, v) for k, v in PRODUCTOS.items() if k not in ya_p]
+        faltan_s = [(k, v) for k, v in SUPLEMENTOS.items() if k not in ya_s]
+        L = ['PROMPTS DE IMAGEN - BACK2PRIME', '=' * 62, '',
+             'Genera cada imagen con su prompt y guardala con EXACTAMENTE el',
+             'nombre indicado (.png, .jpg o .webp: el formato da igual).', '',
+             '  productos    ->  Escritorio, carpeta  productos',
+             '  suplementos  ->  Escritorio, carpeta  suplementos', '',
+             'No hace falta hacerlas todas de una vez: se importan las que haya',
+             'y al volver a lanzar esto solo se listan las que sigan faltando.']
+        grupos = (('PRODUCTOS DE LA COMPRA', faltan_p), ('SUPLEMENTOS', faltan_s))
+        for titulo, faltan in grupos:
+            L += ['', '', '=' * 62, '%s  (faltan %d)' % (titulo, len(faltan)), '=' * 62]
+            for pid, que in faltan:
+                L += ['', '--- %s.png' % pid, ESTILO.format(que=que)]
+        destino = os.path.join(RAIZ, 'PROMPTS-IMAGENES.txt')
+        with io.open(destino, 'w', encoding='utf-8', newline='\r\n') as f:
+            f.write('\n'.join(L) + '\n')
+        print('escrito: ' + destino)
+        print('  productos que faltan:   %d' % len(faltan_p))
+        print('  suplementos que faltan: %d' % len(faltan_s))
         sys.exit(0)
 
     if len(args) == 2 and args[0] == '--import':

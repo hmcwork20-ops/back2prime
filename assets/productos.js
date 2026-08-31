@@ -1,3 +1,2 @@
-/* generado por tools/productos.py — qué productos de la compra tienen imagen
-   en assets/productos/. Vacío = la lista enseña su inicial como ficha. */
-window.B2P_PRODUCTOS = [];
+/* generado por tools/productos.py — qué productos de la compra tienen imagen en assets/productos/ */
+window.B2P_PRODUCTOS = ["aceitunas", "aguacate", "ajo", "alubias", "aove", "arroz", "atun", "avena", "bebida-soja", "brocoli", "calabacin", "calabaza", "caldo", "canela", "cebolla", "champinones", "comino", "edamame", "espinacas", "fruta", "frutos-rojos", "gambas", "garbanzos", "harina-garbanzo", "huevos", "hummus", "leche-coco", "lechuga", "lentejas", "lentejas-rojas", "levadura", "limon", "merluza", "nueces", "oregano", "pan", "pan-sg", "pimenton"];

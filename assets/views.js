@@ -87,6 +87,13 @@
     const d0 = U.fromISO(D.META.inicioISO), d1 = U.fromISO(D.META.finISO);
     const cursor = new Date(d0.getFullYear(), d0.getMonth(), 1);
     const tope = new Date(d1.getFullYear(), d1.getMonth(), 1);
+    /* Un mes por pantalla: visor horizontal con snap. Abre en el mes de hoy
+       (acotado al plan: antes de empezar ensena el primero; acabado, el
+       ultimo) y se navega con el dedo o con las flechas. */
+    const tarjetasMes = [];
+    let mesInicial = 0;
+    const hoyD = U.fromISO(hoy);
+    const refD = hoyD < d0 ? d0 : hoyD > d1 ? d1 : hoyD;
     while (cursor <= tope) {
       const y = cursor.getFullYear(), mo = cursor.getMonth();
       const card = el('div', { class: 'card mes' });
@@ -113,9 +120,21 @@
         }, String(dd)));
       }
       card.append(grid);
-      root.append(card);
+      if (y === refD.getFullYear() && mo === refD.getMonth()) mesInicial = tarjetasMes.length;
+      tarjetasMes.push(card);
       cursor.setMonth(cursor.getMonth() + 1);
     }
+    const visor = el('div', { class: 'cal-visor' }, tarjetasMes);
+    const envuelve = el('div', { class: 'cal-envoltura' }, visor);
+    if (tarjetasMes.length > 1) {
+      const mueve = dir => visor.scrollBy({ left: dir * visor.clientWidth, behavior: 'smooth' });
+      envuelve.append(
+        el('button', { class: 'cal-nav izq plano', type: 'button', 'aria-label': '‹', onclick: () => mueve(-1) }, '‹'),
+        el('button', { class: 'cal-nav der plano', type: 'button', 'aria-label': '›', onclick: () => mueve(1) }, '›'));
+    }
+    root.append(envuelve);
+    // colocar el visor en su mes ANTES del primer pintado visible
+    requestAnimationFrame(() => { visor.scrollLeft = mesInicial * visor.clientWidth; });
 
     // — el pop-up del dia —
     function abreDia(iso) {
@@ -141,20 +160,22 @@
         if (sid === 'libre' || !ses) {
           sh.append(el('div', { class: 'dia-quieto' }, el('b', null, dow === 6 ? TX.domingoPrep : TX.descanso)));
         } else if (ses.tipo === 'fuerza') {
-          const t = el('table', null, el('tr', null,
-            el('th', null, ses.nombre + (ses.dur ? ' \u00b7 ' + ses.dur : '')),
-            el('th', null, TX.seriesLbl), el('th', null, TX.descLbl)));
+          sh.append(el('div', { class: 'mini', style: 'margin:0 0 6px' },
+            el('b', null, ses.nombre + (ses.dur ? ' \u00b7 ' + ses.dur : ''))));
+          const lista = el('div', { class: 'dia-lista' });
           (ses.bloques || []).forEach(b => {
             const e = D.EJERCICIOS[b.e]; if (!e) return;
             const reps = b.rW ? Object.values(b.rW).join(' \u2192 ') : b.r;
-            t.append(el('tr', null,
-              el('td', null, el('button', { class: 'plano celda-btn', type: 'button',
-                onclick: () => relevo(() => U.fichaEjercicio(b.e, {})) },
-                el('b', null, e.nombre), b.n ? el('div', { class: 'mini' }, b.n) : null)),
-              el('td', { class: 'sr' }, b.s + '\u00d7' + reps),
-              el('td', { class: 'sr' }, b.d >= 60 ? Math.floor(b.d / 60) + '\u2032' + (b.d % 60 ? (b.d % 60) + '\u2033' : '') : b.d + '\u2033')));
+            const desc = b.d >= 60 ? Math.floor(b.d / 60) + '\u2032' + (b.d % 60 ? (b.d % 60) + '\u2033' : '') : b.d + '\u2033';
+            lista.append(el('button', { class: 'toca plano', type: 'button',
+              onclick: () => relevo(() => U.fichaEjercicio(b.e, {})) },
+              el('span', { class: 'toca-tx' }, el('b', null, e.nombre),
+                b.n ? el('span', { class: 'mini' }, b.n) : null),
+              el('span', { class: 'toca-num sr' }, b.s + '\u00d7' + reps),
+              el('span', { class: 'toca-num sr' }, desc),
+              el('span', { class: 'toca-chev', 'aria-hidden': 'true' }, '\u203a')));
           });
-          sh.append(el('div', { class: 'tw compact' }, t));
+          sh.append(lista);
         } else {
           sh.append(el('div', { class: 'dia-quieto' },
             el('b', null, ses.nombre + (opc ? ' (' + TX.opcional + ')' : '')),
@@ -176,12 +197,14 @@
           }
           const r = D.RECETAS.find(x => x.id === id); if (!r) return;
           const f = U.foto(r.id);
-          sh.append(el('button', { class: 'meal-row plano', type: 'button', style: 'width:100%;text-align:left',
+          sh.append(el('button', { class: 'toca plano', type: 'button',
             onclick: () => relevo(() => { if (window.UI.sheetReceta) window.UI.sheetReceta(r); }) },
             f ? el('img', { class: 'mf', src: f, alt: '', loading: 'lazy' }) : null,
-            el('span', { class: 'ml' }, par[1]),
-            el('span', { class: 'mn' }, r.nombre),
-            r.macros ? el('span', { class: 'mk' }, r.macros.kcal + ' kcal') : null));
+            el('span', { class: 'toca-tx' },
+              el('span', { class: 'ml' }, par[1]),
+              el('b', null, r.nombre),
+              r.macros ? el('span', { class: 'mini' }, r.macros.kcal + ' kcal \u00b7 P ' + r.macros.p + ' g') : null),
+            el('span', { class: 'toca-chev', 'aria-hidden': 'true' }, '\u203a')));
         });
       });
     }
@@ -254,6 +277,19 @@
     };
 
     if (zonaEj) pintaLista(); else pintaZonas();
+  }
+
+  /* ---- zoom de imagen: para reconocer el producto en el super ----
+     Capa propia y no una hoja: esto es un vistazo, no una vista. Se cierra
+     tocando donde sea o con Escape. */
+  function abreZoom(src, titulo) {
+    const esc = ev => { if (ev.key === 'Escape') cierra(); };
+    const cierra = () => { document.removeEventListener('keydown', esc); capa.remove(); };
+    const capa = el('div', { class: 'zoom-capa', role: 'dialog', 'aria-modal': 'true', 'aria-label': titulo, onclick: cierra },
+      el('img', { class: 'zoom-img', src, alt: titulo }),
+      el('div', { class: 'zoom-cap' }, titulo));
+    document.addEventListener('keydown', esc);
+    document.body.append(capa);
   }
 
   /* ==================== NUTRICIÓN ==================== */
@@ -393,7 +429,8 @@
           const src = imgProd(it.pid);
           return el('button', { class: 'shopitem' + (on ? ' on' : '') + ' plano', type: 'button', 'aria-pressed': on ? 'true' : 'false',
             onclick: () => { U.S.shop[k] = !U.S.shop[k]; U.save(); pinta(); } },
-            src ? el('img', { class: 'pimg', src, alt: '', loading: 'lazy' })
+            src ? el('img', { class: 'pimg', src, alt: '', loading: 'lazy',
+                onclick: ev => { ev.stopPropagation(); abreZoom(src, cap(it.i)); } })
                 : el('span', { class: 'pimg ph', 'aria-hidden': 'true' }, (it.i || '?').charAt(0).toUpperCase()),
             el('span', { class: 'si' }, cap(it.i) + (it.opc ? TX.opcionalParen : '')),
             el('span', { class: 'sq' }, it.q),

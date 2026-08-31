@@ -12,7 +12,7 @@ Uso:
 
     python tools/productos.py --import C:/Users/Hernan/Desktop/productos
         Importa <pid>.png|jpg|jpeg|webp de esa carpeta a assets/productos/
-        (miniaturas de 192×192). Los suplementos van aparte:
+        (384×384: miniatura y zoom salen del mismo fichero). Los suplementos van aparte:
 
     python tools/productos.py --import-supl C:/Users/Hernan/Desktop/suplementos
         Importa <id>.png|jpg|jpeg|webp a assets/supl/ (tarjetas de 480×360).
@@ -175,7 +175,7 @@ if __name__ == '__main__':
         sys.exit(0)
 
     if len(args) == 2 and args[0] == '--import':
-        nuevas = importa(args[1], dir_prod, 192, 192, 78)
+        nuevas = importa(args[1], dir_prod, 384, 384, 80)
         todas = sorted(existentes(dir_prod))
         manifiesto(os.path.join(RAIZ, 'assets', 'productos.js'), 'B2P_PRODUCTOS', todas,
                    'qué productos de la compra tienen imagen en assets/productos/')

@@ -26,7 +26,7 @@ npx @capacitor/assets generate --assetPath resources --iconBackgroundColor '#0B0
 
 ## El identificador
 
-`com.back2prime.app`, en `capacitor.config.json`. Android lo llama
+`app.back2prime`, en `capacitor.config.json`. Android lo llama
 `applicationId` y Apple, Bundle ID. Es la misma idea en las dos tiendas.
 
 **Qué es.** La identidad de la app, no su nombre. El nombre visible
@@ -37,19 +37,23 @@ npx @capacitor/assets generate --assetPath resources --iconBackgroundColor '#0B0
 - **Es para siempre.** Cambiarlo después de publicar no actualiza la app: crea
   una app distinta, con cero instalaciones y cero reseñas, y quien tuviera la
   vieja no recibe nunca la nueva. Es la decisión menos reversible de todo esto.
-- **Es único en el mundo.** Si otro lo registró antes, se acabó. A día de hoy
-  `com.back2prime.app`, `app.back2prime` y `com.back2prime` están los tres
-  libres en Play.
+- **Es único en el mundo.** Si otro lo registró antes, se acabó. Estaba libre
+  al elegirlo, igual que `com.back2prime.app` y `com.back2prime`.
 - **Se ve.** Sale en la URL de la ficha
-  (`play.google.com/store/apps/details?id=com.back2prime.app`), en los ajustes
-  de Android y en los informes de fallos. Por eso no lleva tu nombre.
+  (`play.google.com/store/apps/details?id=app.back2prime`), en los ajustes de
+  Android y en los informes de fallos. Por eso no lleva tu nombre.
+- **No influye en el posicionamiento.** No es un dominio ni una señal de
+  ranking: dentro de las tiendas mandan el título, la descripción, las palabras
+  clave, las reseñas y las instalaciones. El `com.` de la convención habitual no
+  significa tener un `.com`, y por eso aquí sobra.
 - **No hace falta ser dueño del dominio.** Ni Google ni Apple comprueban que
-  `back2prime.app` sea tuyo. La convención de dominio invertido es solo eso,
+  `back2prime.app` sea tuyo. Se eligió pensando en que, si algún día hay
+  dominio, el natural sea ese. La convención de dominio invertido es solo eso,
   una convención para evitar choques. Lo que sí exige controlar el dominio es
   otra cosa distinta: los enlaces profundos (que tocar un enlace de tu web
   abra la app), y eso se configura aparte y más tarde.
 - **En Android es también el paquete Java**: la clase principal vive en
-  `android/app/src/main/java/com/back2prime/app/`.
+  `android/app/src/main/java/app/back2prime/`.
 
 **Para cambiarlo** (solo tiene sentido antes de publicar): editarlo en
 `capacitor.config.json`, borrar `android/` e `ios/`, y volver a lanzar
@@ -156,7 +160,7 @@ los 99 €/año, que es si el proyecto compila en un Mac de verdad.
 verificación de identidad puede tardar un par de días.
 
 **4. Registrar el Bundle ID.** En *Certificates, Identifiers & Profiles →
-Identifiers*, crear uno con `com.back2prime.app`.
+Identifiers*, crear uno con `app.back2prime`.
 
 **5. Sacar los dos ficheros que el runner necesita.** Esto se hace una vez, y
 requiere un Mac prestado un rato (o generar la petición de firma con OpenSSL):

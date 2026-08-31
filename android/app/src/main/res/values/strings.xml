@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">BACK2PRIME</string>
     <string name="title_activity_main">BACK2PRIME</string>
-    <string name="package_name">com.back2prime.app</string>
-    <string name="custom_url_scheme">com.back2prime.app</string>
+    <string name="package_name">app.back2prime</string>
+    <string name="custom_url_scheme">app.back2prime</string>
 </resources>

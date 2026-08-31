@@ -1,4 +1,4 @@
-package com.back2prime.app;
+package app.back2prime;
 
 import com.getcapacitor.BridgeActivity;
 

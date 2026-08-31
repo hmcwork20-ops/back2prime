@@ -1432,6 +1432,29 @@
         r.readAsText(f);
       } });
       row.append(fileIn, el('button', { class: 'btn-ghost', onclick: () => fileIn.click() }, TX.ajImportar));
+
+      /* El plan que este dispositivo tenia antes de que hubiera cuentas: se
+         aparto al entrar (no se adopta solo, podria ser de otra persona) y
+         aqui se puede traer a la cuenta si de verdad es tuyo. */
+      let previo = null;
+      try { previo = localStorage.getItem('b2p_previo'); } catch (e) {}
+      if (previo && TX.nube && TX.nube.previoCta) {
+        sh2.append(el('div', { class: 'alt destaca', style: 'margin-top:12px' },
+          el('b', null, TX.nube.previoT),
+          el('div', { class: 'mini', style: 'margin:4px 0 8px' }, TX.nube.previoTxt),
+          el('button', { class: 'btn-ghost', style: 'width:100%', type: 'button', onclick: () => {
+            try {
+              const j = parseSeguro(previo);
+              if (!j || typeof j !== 'object') throw 0;
+              j.config = j.config || {};
+              j.config.uid = (window.B2P_NUBE && window.B2P_NUBE.sesion()) ? window.B2P_NUBE.sesion().user.id : undefined;
+              S = Object.assign(defState(), j); save();
+              localStorage.removeItem('b2p_previo');
+              toast(TX.nube.previoOk);
+              setTimeout(() => location.reload(), 400);
+            } catch (e) { toast(TX.ajImportErr); }
+          } }, TX.nube.previoCta)));
+      }
       sh2.append(el('details', { class: 'fold', style: 'margin-top:12px' },
         el('summary', null, icono('guardar', 15), ' ' + TX.ajCopia),
         el('div', { class: 'fold-in' }, el('p', { class: 'mini' }, TX.ajCopiaTxt), row)));

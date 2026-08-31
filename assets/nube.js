@@ -107,15 +107,20 @@ window.B2P_NUBE = (function () {
     return 'errRed';
   };
 
+  /* La sesion se fija AQUI, no se espera a onAuthStateChange: ese evento
+     llega despues y quien acaba de entrar leeria sesion() en null, con lo
+     que la marca de dueno del dispositivo se guardaria como undefined. */
   async function registra(correo, clave, nombre) {
-    const { error } = await sb.auth.signUp({ email: correo, password: clave, options: { data: { nombre } } });
+    const { data, error } = await sb.auth.signUp({ email: correo, password: clave, options: { data: { nombre } } });
     if (error) return { err: mapaError(error) };
-    const { data: { session } } = await sb.auth.getSession();
-    return session ? {} : { confirma: true };       // sin sesión: falta confirmar correo
+    if (data && data.session) sesion = data.session;
+    return sesion ? {} : { confirma: true };        // sin sesión: falta confirmar correo
   }
   async function entra(correo, clave) {
-    const { error } = await sb.auth.signInWithPassword({ email: correo, password: clave });
-    return error ? { err: mapaError(error) } : {};
+    const { data, error } = await sb.auth.signInWithPassword({ email: correo, password: clave });
+    if (error) return { err: mapaError(error) };
+    if (data && data.session) sesion = data.session;
+    return {};
   }
   async function olvide(correo) {
     const { error } = await sb.auth.resetPasswordForEmail(correo, { redirectTo: location.origin + location.pathname });

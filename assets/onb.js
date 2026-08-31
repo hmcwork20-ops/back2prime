@@ -82,6 +82,20 @@
         const ses = NB.sesion();
         const meta = (ses && ses.user && ses.user.user_metadata) || {};
         const n = U.saneaNombre(nom.value || meta.nombre || (ses && ses.user.email || '').split('@')[0]);
+        /* Un plan guardado en este dispositivo ANTES de que hubiera cuentas
+           no tiene dueno conocido. Adoptarlo sin preguntar hacia dos cosas
+           malas: a ti te saltaba el cuestionario, y a quien creara una
+           cuenta en un movil ajeno le entregaba el plan, el peso y los
+           registros del anterior. Se aparta, la cuenta nueva empieza
+           limpia, y desde Mi perfil se puede traer si de verdad es tuyo. */
+        if (S.perfil && !(S.config && S.config.uid)) {
+          try { localStorage.setItem('b2p_previo', JSON.stringify(S)); } catch (e) {}
+          const lang = S.config && S.config.lang;
+          delete S.perfil;
+          S.usuario = null; S.dias = {}; S.logros = {}; S.prs = {}; S.prCount = 0;
+          S.flags = {}; S.shop = {}; S.prep = {}; S.ui = {};
+          S.config = { cinturaBase: null, creado: U.hoyISO(), onboarded: false, lang };
+        }
         if (!S.usuario || !S.usuario.nombre) S.usuario = { nombre: n || 'B2P', creado: U.hoyISO() };
         S.config.uid = ses && ses.user.id;          // marca de dueno de la copia local
         U.save();

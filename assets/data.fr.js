@@ -230,10 +230,10 @@ window.B2P = (function () {
 
   /* ---------- MARQUES HISTORIQUES (époque salle, ~2021) ---------- */
   // Pas chargées comme PR : c’est la référence de « où tu en étais » et la cible à reconquérir.
-  const HISTORICO = {
-    'press-banca':      { kg: 95,  reps: 8, series: 4, txt: '95 kg × 8 (4 séries)',  rm: 120 },
-    'sentadilla-barra': { kg: 100, reps: 8, series: 5, txt: '100 kg × 8 (5 séries)', rm: 127 }
-  };
+  /* Sin marcas previas: el plan se genera del cuestionario. La clave se
+     mantiene porque la app la consulta, y vacía deja los logros de marca
+     personal fuera de alcance, que es lo correcto para cualquiera. */
+  const HISTORICO = {};
 
   /* ---------- CHARGES DE DÉPART · PHASE 2 ---------- */
   const ARRANQUE = {
@@ -1197,8 +1197,6 @@ window.B2P = (function () {
     { id: 'pr-1',           icon: '🥇', nombre: 'Premier PR',         desc: 'Première fois que tu bats ta meilleure marque sur un exercice.' },
     { id: 'pr-5',           icon: '🥇', nombre: '5 PR',               desc: 'Cinq records personnels battus.' },
     { id: 'pr-15',          icon: '🏆', nombre: '15 PR',              desc: 'Quinze PR. La mémoire musculaire paie ses dividendes.' },
-    { id: 'marca-banca',    icon: '🔓', nombre: 'Couché reconquis',   desc: 'Tu rebouges tes 95 kg au développé couché. Cinq ans après.' },
-    { id: 'marca-sentadilla', icon: '🔓', nombre: 'Squat reconquis',  desc: 'Tu rebouges tes 100 kg au squat.' },
     { id: 'dominada-libre', icon: '🦍', nombre: 'Traction libre',     desc: 'Première traction sans assistance. De retour au club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Chef du dimanche',   desc: '4 dimanches de meal prep d’affilée.' },
     { id: 'comeback',       icon: '🔁', nombre: 'Le retour',          desc: 'De retour après 4 jours d’arrêt ou plus. Revenir compte plus que tomber.' },

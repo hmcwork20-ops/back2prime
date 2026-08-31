@@ -230,10 +230,10 @@ window.B2P = (function () {
 
   /* ---------- HISTORIC LIFTS (gym era, ~2021) ---------- */
   // Not loaded as PRs: they’re the "where you were" reference and the target to reclaim.
-  const HISTORICO = {
-    'press-banca':      { kg: 95,  reps: 8, series: 4, txt: '95 kg × 8 (4 sets)',  rm: 120 },
-    'sentadilla-barra': { kg: 100, reps: 8, series: 5, txt: '100 kg × 8 (5 sets)', rm: 127 }
-  };
+  /* Sin marcas previas: el plan se genera del cuestionario. La clave se
+     mantiene porque la app la consulta, y vacía deja los logros de marca
+     personal fuera de alcance, que es lo correcto para cualquiera. */
+  const HISTORICO = {};
 
   /* ---------- STARTING LOADS · PHASE 2 ---------- */
   const ARRANQUE = {
@@ -1193,8 +1193,6 @@ window.B2P = (function () {
     { id: 'pr-1',           icon: '🥇', nombre: 'First PR',           desc: 'First time you beat your best mark on an exercise.' },
     { id: 'pr-5',           icon: '🥇', nombre: '5 PRs',              desc: 'Five personal records beaten.' },
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',             desc: 'Fifteen PRs. Muscle memory paying dividends.' },
-    { id: 'marca-banca',    icon: '🔓', nombre: 'Bench reclaimed',    desc: 'Moving your 95 kg on the bench press again. Five years on.' },
-    { id: 'marca-sentadilla', icon: '🔓', nombre: 'Squat reclaimed', desc: 'Moving your 100 kg squat again.' },
     { id: 'dominada-libre', icon: '🦍', nombre: 'Free pull-up',       desc: 'First unassisted pull-up. Welcome back to the club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Sunday chef',        desc: '4 Sunday meal preps in a row.' },
     { id: 'comeback',       icon: '🔁', nombre: 'The comeback',       desc: 'Back after 4 or more days away. Coming back matters more than falling.' },

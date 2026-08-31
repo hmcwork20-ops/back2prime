@@ -230,10 +230,10 @@ window.B2P = (function () {
 
   /* ---------- MASSIMALI STORICI (epoca palestra, ~2021) ---------- */
   // Non si caricano come PR: sono il riferimento di "dov'eri" e il bersaglio da riconquistare.
-  const HISTORICO = {
-    'press-banca':      { kg: 95,  reps: 8, series: 4, txt: '95 kg × 8 (4 serie)',  rm: 120 },
-    'sentadilla-barra': { kg: 100, reps: 8, series: 5, txt: '100 kg × 8 (5 serie)', rm: 127 }
-  };
+  /* Sin marcas previas: el plan se genera del cuestionario. La clave se
+     mantiene porque la app la consulta, y vacía deja los logros de marca
+     personal fuera de alcance, que es lo correcto para cualquiera. */
+  const HISTORICO = {};
 
   /* ---------- CARICHI DI PARTENZA · FASE 2 ---------- */
   const ARRANQUE = {
@@ -1193,8 +1193,6 @@ window.B2P = (function () {
     { id: 'pr-1',           icon: '🥇', nombre: 'Primo PR',           desc: 'Prima volta che superi il tuo miglior massimale in un esercizio.' },
     { id: 'pr-5',           icon: '🥇', nombre: '5 PR',               desc: 'Cinque record personali battuti.' },
     { id: 'pr-15',          icon: '🏆', nombre: '15 PR',              desc: 'Quindici PR. La memoria muscolare che paga i dividendi.' },
-    { id: 'marca-banca',    icon: '🔓', nombre: 'Panca riconquistata', desc: 'Torni a muovere i tuoi 95 kg di panca piana. Cinque anni dopo.' },
-    { id: 'marca-sentadilla', icon: '🔓', nombre: 'Squat riconquistato', desc: 'Torni a muovere i tuoi 100 kg di squat.' },
     { id: 'dominada-libre', icon: '🦍', nombre: 'Trazione libera',    desc: 'Prima trazione senza assistenza. Di nuovo nel club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Chef della domenica', desc: '4 domeniche di fila di meal prep.' },
     { id: 'comeback',       icon: '🔁', nombre: 'Il ritorno',         desc: 'Di ritorno dopo 4 o più giorni di stop. Tornare conta più che cadere.' },

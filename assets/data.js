@@ -230,10 +230,10 @@ window.B2P = (function () {
 
   /* ---------- MARCAS HISTÓRICAS (etapa de gym, ~2021) ---------- */
   // No se cargan como PR: son la referencia de "dónde estabas" y la diana a recuperar.
-  const HISTORICO = {
-    'press-banca':      { kg: 95,  reps: 8, series: 4, txt: '95 kg × 8 (4 series)',  rm: 120 },
-    'sentadilla-barra': { kg: 100, reps: 8, series: 5, txt: '100 kg × 8 (5 series)', rm: 127 }
-  };
+  /* Sin marcas previas: el plan se genera del cuestionario. La clave se
+     mantiene porque la app la consulta, y vacía deja los logros de marca
+     personal fuera de alcance, que es lo correcto para cualquiera. */
+  const HISTORICO = {};
 
   /* ---------- ARRANQUE DE CARGAS · FASE 2 ---------- */
   const ARRANQUE = {
@@ -1193,8 +1193,6 @@ window.B2P = (function () {
     { id: 'pr-1',           icon: '🥇', nombre: 'Primer PR',         desc: 'Primera vez que superas tu mejor marca en un ejercicio.' },
     { id: 'pr-5',           icon: '🥇', nombre: '5 PRs',             desc: 'Cinco marcas personales batidas.' },
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',            desc: 'Quince PRs. La memoria muscular pagando dividendos.' },
-    { id: 'marca-banca',    icon: '🔓', nombre: 'Banca recuperada',  desc: 'Vuelves a mover tus 95 kg en press banca. Cinco años después.' },
-    { id: 'marca-sentadilla', icon: '🔓', nombre: 'Sentadilla recuperada', desc: 'Vuelves a mover tus 100 kg en sentadilla.' },
     { id: 'dominada-libre', icon: '🦍', nombre: 'Dominada libre',    desc: 'Primera dominada sin asistencia. De vuelta al club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Chef de domingo',   desc: '4 domingos seguidos de meal prep.' },
     { id: 'comeback',       icon: '🔁', nombre: 'La vuelta',         desc: 'La vuelta tras 4 o más días sin entrenar. Volver importa más que caer.' },

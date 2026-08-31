@@ -157,7 +157,7 @@ más trabajo dará.
 | Dónde | Qué es personal |
 |---|---|
 | `META.inicioISO` / `finISO` | fechas fijas del bloque de 12 semanas |
-| `META.perfil` | peso de salida 95,1 · altura 183 · objetivo 86-88 kg · cintura meta 91 · grasa estimada · proteína/día 190 |
+| `META.perfil` | peso de salida, altura, objetivo, cintura meta, grasa estimada y proteina diaria del usuario |
 | `HISTORICO` | las dos marcas previas (banca 95×8, sentadilla 100×8) de las que cuelga todo |
 | `ARRANQUE` | cargas de las semanas 3-5, derivadas al 50% de esas marcas |
 | `NUTRI` | kcal y macros por fase, calculados sobre ese cuerpo |

@@ -203,9 +203,6 @@
     'cintura-93': () => cinturaMin() !== null && cinturaMin() < 93,
     'cintura-91': () => cinturaMin() !== null && cinturaMin() < 91,
     'pr-1': () => S.prCount >= 1, 'pr-5': () => S.prCount >= 5, 'pr-15': () => S.prCount >= 15,
-    // con plan generado no hay marcas previas: el logro queda inalcanzable, no roto
-    'marca-banca': () => !!D.HISTORICO['press-banca'] && (S.prs['press-banca'] || {}).kg >= D.HISTORICO['press-banca'].kg,
-    'marca-sentadilla': () => !!D.HISTORICO['sentadilla-barra'] && (S.prs['sentadilla-barra'] || {}).kg >= D.HISTORICO['sentadilla-barra'].kg,
     'dominada-libre': () => !!S.flags.dominadaLibre,
     'mealprep-4': () => { let n = 0, f = hoyISO(); while (dowMon(f) !== 6) f = addDays(f, -1); while (S.dias[f] && S.dias[f].prep) { n++; f = addDays(f, -7); } return n >= 4; },
     'comeback': () => !!S.flags.comeback,

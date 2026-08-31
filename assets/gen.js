@@ -833,7 +833,6 @@ window.B2P_GEN = (function () {
     const out = [];
     let kgHecho = false, cintHecho = false;
     for (const l of base.LOGROS) {
-      if (l.id === 'marca-banca' || l.id === 'marca-sentadilla') continue;   // sin marcas previas no hay nada que recuperar
       // ni insignias imposibles: sin barra de dominadas (o habiéndolas descartado) no hay dominada libre
       if (l.id === 'dominada-libre' && (M.material === 'nada' || (M.gustosNo || []).includes('ej:dominadas'))) continue;
       if (/^kg-/.test(l.id)) { if (!kgHecho) { out.push.apply(out, escalera); kgHecho = true; } continue; }

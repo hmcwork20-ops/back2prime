@@ -230,10 +230,10 @@ window.B2P = (function () {
 
   /* ---------- HISTORISCHE BESTMARKEN (Gym-Ära, ~2021) ---------- */
   // Werden nicht als PR geladen: Sie sind die Referenz, „wo du warst", und das Ziel, das es zurückzuholen gilt.
-  const HISTORICO = {
-    'press-banca':      { kg: 95,  reps: 8, series: 4, txt: '95 kg × 8 (4 Sätze)',  rm: 120 },
-    'sentadilla-barra': { kg: 100, reps: 8, series: 5, txt: '100 kg × 8 (5 Sätze)', rm: 127 }
-  };
+  /* Sin marcas previas: el plan se genera del cuestionario. La clave se
+     mantiene porque la app la consulta, y vacía deja los logros de marca
+     personal fuera de alcance, que es lo correcto para cualquiera. */
+  const HISTORICO = {};
 
   /* ---------- STARTGEWICHTE · PHASE 2 ---------- */
   const ARRANQUE = {
@@ -1193,8 +1193,6 @@ window.B2P = (function () {
     { id: 'pr-1',           icon: '🥇', nombre: 'Erster PR',          desc: 'Zum ersten Mal deine Bestmarke in einer Übung überboten.' },
     { id: 'pr-5',           icon: '🥇', nombre: '5 PRs',              desc: 'Fünf persönliche Bestmarken geknackt.' },
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',             desc: 'Fünfzehn PRs. Das Muskelgedächtnis zahlt Dividende.' },
-    { id: 'marca-banca',    icon: '🔓', nombre: 'Bank zurückgeholt',  desc: 'Du bewegst wieder deine 95 kg beim Bankdrücken. Fünf Jahre danach.' },
-    { id: 'marca-sentadilla', icon: '🔓', nombre: 'Kniebeuge zurückgeholt', desc: 'Du bewegst wieder deine 100 kg in der Kniebeuge.' },
     { id: 'dominada-libre', icon: '🦍', nombre: 'Freier Klimmzug',    desc: 'Erster Klimmzug ohne Hilfe. Zurück im Club.' },
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Sonntagskoch',       desc: '4 Sonntage Meal Prep in Folge.' },
     { id: 'comeback',       icon: '🔁', nombre: 'Das Comeback',       desc: 'Zurück nach 4 oder mehr Tagen Pause. Zurückkommen zählt mehr als Fallen.' },

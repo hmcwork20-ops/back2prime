@@ -1,0 +1,128 @@
+# Compila la app de iOS en un Mac de GitHub. En repos pÃºblicos los runners
+# macOS son gratis, asÃ­ que esto sustituye a tener un Mac para el build.
+#
+# Funciona en dos modos, segÃºn haya secretos configurados o no:
+#
+#   SIN cuenta Apple  â†’ compila sin firmar. No se puede instalar ni publicar,
+#                       pero responde a la Ãºnica pregunta que importa antes de
+#                       pagar los 99 â‚¬/aÃ±o: Â¿compila esto?
+#   CON cuenta Apple  â†’ firma y exporta el .ipa como artefacto descargable.
+#
+# Secretos para el modo firmado (Settings â†’ Secrets and variables â†’ Actions):
+#   IOS_CERTIFICATE_P12        certificado de distribuciÃ³n en base64
+#   IOS_CERTIFICATE_PASSWORD   contraseÃ±a con la que se exportÃ³ el .p12
+#   IOS_PROVISION_PROFILE      perfil de aprovisionamiento en base64
+#   IOS_TEAM_ID                identificador del equipo (10 caracteres)
+#
+# Para pasar un fichero a base64:  base64 -i certificado.p12 | pbcopy
+
+name: iOS
+
+on:
+  workflow_dispatch:          # se lanza a mano desde la pestaÃ±a Actions
+  push:
+    tags: ['v*']              # y en cada etiqueta de versiÃ³n
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Preparar www y sincronizar iOS
+        run: |
+          npm run build
+          npx cap sync ios
+
+      # ---------- modo firmado: solo si hay certificado ----------
+      - name: Importar certificado y perfil
+        if: ${{ secrets.IOS_CERTIFICATE_P12 != '' }}
+        env:
+          CERT: ${{ secrets.IOS_CERTIFICATE_P12 }}
+          CERT_PASS: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          PERFIL: ${{ secrets.IOS_PROVISION_PROFILE }}
+        run: |
+          set -euo pipefail
+          # llavero temporal: vive solo lo que dura el job
+          CLAVE_LLAVERO=$(uuidgen)
+          security create-keychain -p "$CLAVE_LLAVERO" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$CLAVE_LLAVERO" build.keychain
+          security set-keychain-settings -t 3600 -u build.keychain
+
+          echo "$CERT" | base64 --decode > /tmp/cert.p12
+          security import /tmp/cert.p12 -k build.keychain -P "$CERT_PASS" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$CLAVE_LLAVERO" build.keychain
+
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$PERFIL" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/perfil.mobileprovision
+          rm -f /tmp/cert.p12
+
+      - name: Archivar y exportar .ipa
+        if: ${{ secrets.IOS_CERTIFICATE_P12 != '' }}
+        env:
+          TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          cat > /tmp/ExportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>teamID</key><string>${TEAM_ID}</string>
+            <key>uploadSymbols</key><true/>
+            <key>signingStyle</key><string>automatic</string>
+          </dict>
+          </plist>
+          PLIST
+
+          xcodebuild -project ios/App/App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath /tmp/App.xcarchive \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            archive
+
+          xcodebuild -exportArchive \
+            -archivePath /tmp/App.xcarchive \
+            -exportOptionsPlist /tmp/ExportOptions.plist \
+            -exportPath /tmp/salida
+
+      # ---------- modo sin firmar: cuando aÃºn no hay cuenta Apple ----------
+      - name: Compilar sin firmar
+        if: ${{ secrets.IOS_CERTIFICATE_P12 == '' }}
+        run: |
+          set -euo pipefail
+          echo "Sin certificado: se compila sin firmar solo para comprobar que el proyecto es vÃ¡lido."
+          xcodebuild -project ios/App/App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath /tmp/App.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            archive
+
+      - name: Guardar el .ipa
+        if: ${{ secrets.IOS_CERTIFICATE_P12 != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: back2prime-ios
+          path: /tmp/salida/*.ipa
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Limpiar el llavero
+        if: always()
+        run: security delete-keychain build.keychain || true

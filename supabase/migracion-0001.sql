@@ -120,7 +120,25 @@ begin
   delete from auth.users where id = auth.uid();
 end $$;
 
--- ---------- 5. quién puede llamar a qué ----------
+-- ---------- 5. permisos de tabla: el minimo que la app necesita ----------
+-- El proyecto se crea SIN «exponer tablas nuevas automáticamente», así que
+-- los permisos se dan aquí y solo estos. Son la primera puerta; la segunda
+-- (y la que de verdad decide qué filas) es la RLS de arriba.
+--
+--   · anon (sin sesión) no toca NINGUNA tabla. Su única puerta es la función
+--     del enlace compartido, que corre como su dueña (security definer).
+--   · authenticated puede operar sobre `estados`… pero la RLS lo reduce a su
+--     propia fila, y sobre `planes_compartidos` solo puede crear y borrar:
+--     ni leer, porque leer es cosa del token.
+grant usage on schema public to anon, authenticated;
+
+revoke all on public.estados            from anon, authenticated;
+revoke all on public.planes_compartidos from anon, authenticated;
+
+grant select, insert, update, delete on public.estados to authenticated;
+grant insert, delete                  on public.planes_compartidos to authenticated;
+
+-- ---------- 6. quién puede llamar a qué ----------
 revoke execute on all functions in schema public from public, anon, authenticated;
 grant execute on function public.comparte_plan(jsonb)  to authenticated;
 grant execute on function public.descomparte_plan()    to authenticated;

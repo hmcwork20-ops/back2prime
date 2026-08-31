@@ -13,6 +13,14 @@ Elige región de la UE (p. ej. Frankfurt): tus usuarios son europeos y esto es
 lo correcto también de cara a RGPD. Apunta la contraseña de la base de datos
 donde guardes las demás — no hace falta a diario, pero la pedirá alguna vez.
 
+En el apartado *Security* de esa misma pantalla:
+
+| Opción | Cómo | Por qué |
+|---|---|---|
+| Enable Data API | marcada | Es por donde habla `supabase-js` |
+| Automatically expose new tables | **desmarcada** | Una tabla nueva no debe quedar expuesta sola: los permisos los da la migración, uno a uno |
+| Enable automatic RLS | **marcada** | Red de seguridad: si algún día se crea una tabla y se olvida activarle RLS, se activa sola |
+
 **2. Ejecutar la migración.** Panel → SQL Editor → pegar entero el contenido de
 `supabase/migracion-0001.sql` → Run. Crea las dos tablas, las políticas RLS
 (cada uno solo lo suyo), las funciones del plan compartido y las estadísticas

@@ -1111,3 +1111,6 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .ej-card.fuera { opacity: .55 }
 .ej-card .fuera-tag { position: absolute; top: 6px; right: 6px }
 .ej-atras { display: flex; align-items: center; gap: 10px; margin: 2px 0 12px }
+
+/* el mapa dentro de tarjeta: compacto, sin el margen de la ficha */
+.ej-zcard .ej-zmapa svg, .ej-card .ej-mapa svg { margin: 0 auto }

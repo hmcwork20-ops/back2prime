@@ -376,8 +376,14 @@
     }
   }
 
+  let sheetCierre = null;   // la limpieza aplazada de closeSheet, cancelable
   function openSheet(builder) {
     const sh = $('#sheet'), bg = $('#sheetBg');
+    /* Abrir una hoja desde otra (dia del calendario -> ficha, buscador ->
+       receta) cierra y reabre con 230 ms entre medias; la limpieza de los
+       300 ms del cierre llegaba DESPUES y dejaba inerte la hoja nueva: el
+       scroll atravesaba hasta la pagina de abajo. Se cancela aqui. */
+    if (sheetCierre) { clearTimeout(sheetCierre); sheetCierre = null; }
     focoPrevio = document.activeElement;
     sh.style.transition = ''; sh.style.transform = ''; bg.style.opacity = '';
     sh.scrollTop = 0;
@@ -417,7 +423,8 @@
       try { focoPrevio.focus({ preventScroll: true }); } catch (e) { /* nodo ya inservible */ }
     }
     focoPrevio = null;
-    setTimeout(() => {
+    sheetCierre = setTimeout(() => {
+      sheetCierre = null;
       const sh = $('#sheet'), bg = $('#sheetBg');
       bg.hidden = true; bg.style.opacity = '';
       sh.style.transition = ''; sh.style.transform = '';

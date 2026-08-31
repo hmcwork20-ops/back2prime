@@ -222,7 +222,7 @@
         P.forEach(x => Sx.delete(x));
         grid.append(el('button', { class: 'ej-zcard plano', type: 'button',
           onclick: () => { zonaEj = z; pintaLista(); scrollTo(0, 0); } },
-          window.B2P_MAPA ? el('div', { class: 'ej-zmapa', 'aria-hidden': 'true',
+          window.B2P_MAPA ? el('div', { class: 'ej-zmapa mapa', 'aria-hidden': 'true',
             html: window.B2P_MAPA.svg({ p: [...P], s: [...Sx] }, { mini: true }) }) : null,
           el('b', null, zt),
           el('span', { class: 'mini' }, String(ids.length))));
@@ -244,7 +244,7 @@
         const tag = fueraDe(id);
         grid.append(el('button', { class: 'ej-card plano' + (tag ? ' fuera' : ''), type: 'button',
           onclick: () => U.fichaEjercicio(id, {}) },
-          window.B2P_MAPA && e.mm ? el('div', { class: 'ej-mapa', 'aria-hidden': 'true',
+          window.B2P_MAPA && e.mm ? el('div', { class: 'ej-mapa mapa', 'aria-hidden': 'true',
             html: window.B2P_MAPA.svg(e.mm, { mini: true }) }) : null,
           el('b', { class: 'ej-nom' }, e.nombre),
           el('span', { class: 'mini' }, e.musc[0]),

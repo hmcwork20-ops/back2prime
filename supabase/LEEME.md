@@ -37,6 +37,10 @@ ejecutarla dos veces no rompe nada.
   (y en *Redirect URLs*, `https://back2prime.app/**`. Este es el destino
   de los enlaces de confirmar cuenta y de cambiar contraseña: si se queda
   apuntando al dominio viejo, los correos llevan a un 404.)
+- El enlace de recuperar contraseña va a `https://back2prime.app/clave.html`,
+  que es una página propia y no una pantalla de la app: pesa 200 KB en vez
+  de 3 MB y no compite con el router de hash. Lo fija `redirectTo` desde
+  `nube.js`, así que basta con que `Redirect URLs` cubra el dominio con `/**`.
   (imprescindible para que el enlace de «olvidé la contraseña» vuelva a la app).
 - *Rate limits*: revisa la pestaña — Supabase ya trae límites de serie para
   envío de correos, intentos de login y refrescos de token. Los valores por

@@ -123,7 +123,12 @@ window.B2P_NUBE = (function () {
     return {};
   }
   async function olvide(correo) {
-    const { error } = await sb.auth.resetPasswordForEmail(correo, { redirectTo: location.origin + location.pathname });
+    /* a clave.html y no a la raiz: el enlace pedia cargar la app entera
+       (datos, motor y vistas) para un solo campo, y ahi el token competia
+       con el router de hash y con la puerta de entrada. new URL() resuelve
+       relativo al documento y deja fuera el hash, que es lo que queremos. */
+    const destino = new URL('clave.html', location.href).href;
+    const { error } = await sb.auth.resetPasswordForEmail(correo, { redirectTo: destino });
     return error ? { err: mapaError(error) } : {};
   }
   async function nuevaClave(clave) {

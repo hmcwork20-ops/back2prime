@@ -1897,6 +1897,13 @@
     }
     render();
   }
+  /* PASSWORD_RECOVERY llega DESPUES de que la puerta este pintada: Supabase
+     procesa la URL de forma asincrona. Sin este listener el evento se emitia
+     y moria solo, y quien abria el enlace veia el login normal. Hoy el enlace
+     va a clave.html, pero los correos ya enviados siguen apuntando a la raiz:
+     esto es lo que hace que aquellos tambien funcionen. */
+  document.addEventListener('b2p-recupera', () => render());
+
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', arrancar, { once: true });
   else setTimeout(arrancar, 0);
 })();

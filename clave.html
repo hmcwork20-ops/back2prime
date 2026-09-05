@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'">
+<title>Nueva contraseña · BACK2PRIME</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0B0D10">
+<link rel="icon" href="icons/favicon.svg">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:600;font-display:swap;src:url('assets/fonts/BarlowCondensed-600.woff2') format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url('assets/fonts/BarlowCondensed-700.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/PublicSans-400.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:600;font-display:swap;src:url('assets/fonts/PublicSans-600.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:700;font-display:swap;src:url('assets/fonts/PublicSans-700.woff2') format('woff2')}
+:root{
+  --bg:#0B0D10; --surface:#14171B; --surface2:#1B2027;
+  --line:#272E38; --line-soft:#1F252E;
+  --ink:#F2F4F0; --ink2:#A7AFB9; --ink3:#7E8793;
+  --volt:#C8F24E; --volt-ink:#10140A; --ok:#4CC07E; --danger:#F07567;
+  --r:14px; --r-sm:10px;
+  --cuerpo:'Public Sans',system-ui,-apple-system,sans-serif;
+  --disp:'Barlow Condensed',var(--cuerpo);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--cuerpo);
+  font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%;
+  min-height:100svh;display:flex;align-items:center;justify-content:center;
+  padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
+.caja{width:100%;max-width:400px;text-align:center}
+.marca{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:.02em;
+  text-transform:uppercase;margin:0 0 4px}
+.marca em{font-style:normal;color:var(--volt)}
+h1{font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:.01em;
+  text-transform:uppercase;margin:20px 0 6px}
+p{margin:0 0 4px;color:var(--ink2)}
+.sub{font-size:14px;margin-bottom:18px}
+
+.field{text-align:left;margin:18px 0 12px}
+label{display:block;font-family:var(--disp);font-weight:600;font-size:12px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.con-ojo{position:relative;display:flex;align-items:center}
+input{width:100%;font-family:var(--cuerpo);font-size:16px;color:var(--ink);
+  background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:12px 46px 12px 13px}
+input:focus{outline:2px solid var(--volt);outline-offset:1px}
+.ojo{position:absolute;right:4px;background:none;border:0;color:var(--ink3);
+  padding:8px;cursor:pointer;display:flex;line-height:0}
+.ojo:hover{color:var(--ink)}
+.ojo:focus-visible{outline:2px solid var(--volt);outline-offset:1px;border-radius:8px}
+
+.btn{width:100%;font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:.06em;
+  text-transform:uppercase;background:var(--volt);color:var(--volt-ink);border:0;
+  border-radius:var(--r-sm);padding:14px;cursor:pointer;margin-top:4px}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+.btn.fantasma{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.fantasma:hover{color:var(--ink)}
+
+.aviso{font-size:13.5px;color:var(--danger);min-height:19px;margin:8px 0 0}
+.marcaok{width:54px;height:54px;margin:0 auto 4px;border-radius:50%;
+  background:rgba(76,192,126,.14);display:flex;align-items:center;justify-content:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="caja">
+  <div class="marca" aria-hidden="true">BACK<em>2</em>PRIME</div>
+
+  <div id="cargando"><p class="sub" id="txCargando">Comprobando el enlace…</p></div>
+
+  <div id="formulario" hidden>
+    <h1 id="txT">Nueva contraseña</h1>
+    <p class="sub" id="txSub"></p>
+    <div class="field">
+      <label for="clave" id="txLabel">Elige una contraseña nueva</label>
+      <div class="con-ojo">
+        <input id="clave" type="password" autocomplete="new-password" minlength="8" placeholder="········">
+        <button class="ojo" id="ojo" type="button" aria-pressed="false"></button>
+      </div>
+    </div>
+    <button class="btn" id="guarda" type="button">Guardar contraseña</button>
+    <p class="aviso" id="aviso" role="alert"></p>
+  </div>
+
+  <div id="exito" hidden>
+    <div class="marcaok" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#4CC07E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1 id="txOk">Contraseña cambiada</h1>
+    <p class="sub" id="txOkSub"></p>
+    <a class="btn" id="ctaOk" href="./" style="display:block;text-decoration:none;line-height:normal"></a>
+  </div>
+
+  <div id="problema" hidden>
+    <h1 id="txPT"></h1>
+    <p class="sub" id="txPTxt"></p>
+    <a class="btn fantasma" id="ctaP" href="./" style="display:block;text-decoration:none;line-height:normal"></a>
+  </div>
+</main>
+
+<script src="assets/nube-config.js"></script>
+<script src="assets/vendor/supabase.js"></script>
+<script>
+/* ============================================================
+   BACK2PRIME · clave.html — el enlace de «he olvidado la contraseña»
+
+   Página aparte, y no una pantalla de la app, por dos razones:
+
+   1. Peso. El enlace llegaba a la raíz y cargaba la app entera (unos 3 MB
+      entre datos, motor y vistas) para pedir un campo. Aquí solo entra el
+      cliente de Supabase.
+   2. Estado. En la app, el token de recuperación compite con el router de
+      hash y con la puerta de entrada: Supabase emitía PASSWORD_RECOVERY,
+      pero para cuando llegaba, la puerta ya estaba pintada. Aquí no hay
+      router con el que competir.
+
+   Los tres finales posibles están contemplados a propósito: contraseña
+   cambiada, enlace caducado o ya usado (que es lo más común: caducan en
+   una hora y son de un solo uso), y alguien que abre esta página sin
+   venir de ningún correo.
+   ============================================================ */
+(function () {
+  var CFG = window.B2P_NUBE_CFG || {};
+
+  var T = {
+    es: { t:'Nueva contraseña', sub:'Escríbela y ya está: entras con ella.',
+      label:'Elige una contraseña nueva', ver:'Mostrar contraseña', ocultar:'Ocultar contraseña',
+      guardar:'Guardar contraseña', corta:'La contraseña necesita al menos 8 caracteres',
+      errRed:'No se pudo guardar: revisa la conexión.', cargando:'Comprobando el enlace…',
+      ok:'Contraseña cambiada', okSub:'Ya puedes entrar con ella.', cta:'Entrar en BACK2PRIME',
+      cadT:'Este enlace ya no vale',
+      cadTxt:'Los enlaces para cambiar la contraseña caducan al cabo de un rato y solo se pueden usar una vez. Pide otro desde la app.',
+      sinT:'Nada que hacer aquí',
+      sinTxt:'Esta página solo funciona abriendo el enlace que te llega por correo. Si querías cambiar tu contraseña, pídelo desde la app.',
+      ctaP:'Ir a BACK2PRIME' },
+    en: { t:'New password', sub:'Type it and you are done: this is what you sign in with.',
+      label:'Choose a new password', ver:'Show password', ocultar:'Hide password',
+      guardar:'Save password', corta:'The password needs at least 8 characters',
+      errRed:'Could not save: check your connection.', cargando:'Checking the link…',
+      ok:'Password changed', okSub:'You can sign in with it now.', cta:'Go to BACK2PRIME',
+      cadT:'This link no longer works',
+      cadTxt:'Password links expire after a while and can only be used once. Ask for another one from the app.',
+      sinT:'Nothing to do here',
+      sinTxt:'This page only works by opening the link that arrives in your inbox. If you wanted to change your password, ask for it from the app.',
+      ctaP:'Go to BACK2PRIME' },
+    fr: { t:'Nouveau mot de passe', sub:'Écris-le et c’est fait : c’est celui de ta connexion.',
+      label:'Choisis un nouveau mot de passe', ver:'Afficher le mot de passe', ocultar:'Masquer le mot de passe',
+      guardar:'Enregistrer le mot de passe', corta:'Le mot de passe demande au moins 8 caractères',
+      errRed:'Enregistrement impossible : vérifie ta connexion.', cargando:'Vérification du lien…',
+      ok:'Mot de passe changé', okSub:'Tu peux te connecter avec.', cta:'Aller à BACK2PRIME',
+      cadT:'Ce lien ne marche plus',
+      cadTxt:'Les liens de mot de passe expirent au bout d’un moment et ne servent qu’une fois. Demandes-en un autre depuis l’app.',
+      sinT:'Rien à faire ici',
+      sinTxt:'Cette page ne fonctionne qu’en ouvrant le lien reçu par e-mail. Si tu voulais changer ton mot de passe, demande-le depuis l’app.',
+      ctaP:'Aller à BACK2PRIME' },
+    de: { t:'Neues Passwort', sub:'Schreib es auf, fertig: damit meldest du dich an.',
+      label:'Wähle ein neues Passwort', ver:'Passwort anzeigen', ocultar:'Passwort verbergen',
+      guardar:'Passwort speichern', corta:'Das Passwort braucht mindestens 8 Zeichen',
+      errRed:'Konnte nicht gespeichert werden: prüf die Verbindung.', cargando:'Link wird geprüft…',
+      ok:'Passwort geändert', okSub:'Damit kannst du dich jetzt anmelden.', cta:'Zu BACK2PRIME',
+      cadT:'Dieser Link gilt nicht mehr',
+      cadTxt:'Passwort-Links laufen nach einer Weile ab und funktionieren nur einmal. Fordere in der App einen neuen an.',
+      sinT:'Hier gibt es nichts zu tun',
+      sinTxt:'Diese Seite funktioniert nur über den Link, der dir per E-Mail zugeht. Wenn du dein Passwort ändern wolltest, fordere es in der App an.',
+      ctaP:'Zu BACK2PRIME' },
+    it: { t:'Password nuova', sub:'Scrivila e basta: è quella con cui entri.',
+      label:'Scegli una password nuova', ver:'Mostra la password', ocultar:'Nascondi la password',
+      guardar:'Salva password', corta:'La password richiede almeno 8 caratteri',
+      errRed:'Non si è potuto salvare: controlla la connessione.', cargando:'Controllo del link…',
+      ok:'Password cambiata', okSub:'Ora puoi entrare con questa.', cta:'Vai a BACK2PRIME',
+      cadT:'Questo link non vale più',
+      cadTxt:'I link per la password scadono dopo un po’ e si possono usare una volta sola. Chiedine un altro dall’app.',
+      sinT:'Qui non c’è niente da fare',
+      sinTxt:'Questa pagina funziona solo aprendo il link che ti arriva per e-mail. Se volevi cambiare la password, chiedilo dall’app.',
+      ctaP:'Vai a BACK2PRIME' },
+    pt: { t:'Palavra-passe nova', sub:'Escreve-a e pronto: é com esta que entras.',
+      label:'Escolhe uma palavra-passe nova', ver:'Mostrar palavra-passe', ocultar:'Ocultar palavra-passe',
+      guardar:'Guardar palavra-passe', corta:'A palavra-passe precisa de pelo menos 8 caracteres',
+      errRed:'Não foi possível guardar: verifica a ligação.', cargando:'A verificar a ligação…',
+      ok:'Palavra-passe mudada', okSub:'Já podes entrar com ela.', cta:'Ir para a BACK2PRIME',
+      cadT:'Esta ligação já não serve',
+      cadTxt:'As ligações para mudar a palavra-passe expiram ao fim de algum tempo e só podem ser usadas uma vez. Pede outra na app.',
+      sinT:'Nada para fazer aqui',
+      sinTxt:'Esta página só funciona abrindo a ligação que te chega por e-mail. Se querias mudar a palavra-passe, pede-o na app.',
+      ctaP:'Ir para a BACK2PRIME' }
+  };
+
+  function idioma() {
+    var q = (location.search.match(/[?&]lang=([a-z]{2})/) || [])[1];
+    if (q && T[q]) return q;
+    try {
+      var S = JSON.parse(localStorage.getItem('b2p_v1') || '{}');
+      if (S.config && T[S.config.lang]) return S.config.lang;
+    } catch (e) {}
+    var n = (navigator.language || 'es').slice(0, 2).toLowerCase();
+    return T[n] ? n : 'es';
+  }
+  var L = idioma(), tx = T[L];
+  document.documentElement.lang = L;
+  document.title = tx.t + ' · BACK2PRIME';
+
+  var $ = function (id) { return document.getElementById(id); };
+  function muestra(cual) {
+    ['cargando', 'formulario', 'exito', 'problema'].forEach(function (k) { $(k).hidden = (k !== cual); });
+  }
+  function problema(titulo, texto) {
+    $('txPT').textContent = titulo; $('txPTxt').textContent = texto;
+    $('ctaP').textContent = tx.ctaP; muestra('problema');
+  }
+
+  $('txCargando').textContent = tx.cargando;
+  $('txT').textContent = tx.t;
+  $('txSub').textContent = tx.sub;
+  $('txLabel').textContent = tx.label;
+  $('guarda').textContent = tx.guardar;
+  $('txOk').textContent = tx.ok;
+  $('txOkSub').textContent = tx.okSub;
+  $('ctaOk').textContent = tx.cta;
+
+  /* El ojo: mismo gesto que en la puerta de la app. */
+  var OJO = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var OJO_NO = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.1 10.1 0 0 1 12 19c-7 0-11-7-11-7a18.4 18.4 0 0 1 5.1-5.9M9.9 4.2A10.1 10.1 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22"/></svg>';
+  var campo = $('clave'), ojo = $('ojo');
+  ojo.innerHTML = OJO; ojo.setAttribute('aria-label', tx.ver);
+  ojo.addEventListener('click', function () {
+    var visible = campo.type === 'text';
+    campo.type = visible ? 'password' : 'text';
+    ojo.setAttribute('aria-pressed', visible ? 'false' : 'true');
+    ojo.setAttribute('aria-label', visible ? tx.ver : tx.ocultar);
+    ojo.innerHTML = visible ? OJO : OJO_NO;
+    campo.focus();
+  });
+
+  /* La URL se lee ANTES de crear el cliente: Supabase la limpia al procesarla,
+     y sin esta foto no se puede distinguir un enlace caducado de una visita
+     suelta a esta página. Supabase manda el token en el fragmento y los
+     errores a veces en el fragmento y a veces en la query, así que se miran
+     los dos. */
+  var frag = new URLSearchParams((location.hash || '').replace(/^#/, ''));
+  var query = new URLSearchParams(location.search || '');
+  var hayError = frag.get('error') || frag.get('error_code') || query.get('error') || query.get('error_code');
+  var hayToken = frag.get('access_token') || frag.get('type') === 'recovery' || query.get('code');
+
+  if (!CFG.url || !CFG.anon || !window.supabase) { problema(tx.cadT, tx.cadTxt); return; }
+  if (hayError) { problema(tx.cadT, tx.cadTxt); return; }
+  if (!hayToken) { problema(tx.sinT, tx.sinTxt); return; }
+
+  var sb = window.supabase.createClient(CFG.url, CFG.anon, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: true }
+  });
+
+  /* persistSession:false a propósito: esta página cambia una contraseña y se
+     va. No tiene por qué dejar sesión guardada en el dispositivo de nadie,
+     y menos si el correo se abre en un ordenador prestado. */
+
+  var listo = false;
+  function abreFormulario() {
+    if (listo) return;
+    listo = true;
+    muestra('formulario');
+    campo.focus();
+  }
+
+  sb.auth.onAuthStateChange(function (ev) {
+    if (ev === 'PASSWORD_RECOVERY' || ev === 'SIGNED_IN') abreFormulario();
+  });
+
+  sb.auth.getSession().then(function (r) {
+    if (r && r.data && r.data.session) abreFormulario();
+  }).catch(function () {});
+
+  /* Red de seguridad: si en cuatro segundos no hay sesión, el enlace no valía.
+     Sin esto la página se queda en «comprobando» para siempre, que es la peor
+     de las respuestas posibles. */
+  setTimeout(function () {
+    if (!listo) problema(tx.cadT, tx.cadTxt);
+  }, 4000);
+
+  function guarda() {
+    if ((campo.value || '').length < 8) { $('aviso').textContent = tx.corta; campo.focus(); return; }
+    $('aviso').textContent = '';
+    $('guarda').disabled = true;
+    sb.auth.updateUser({ password: campo.value }).then(function (r) {
+      $('guarda').disabled = false;
+      if (r && r.error) {
+        var m = (r.error.message || '').toLowerCase();
+        $('aviso').textContent = m.indexOf('least') >= 0 || m.indexOf('short') >= 0 ? tx.corta : tx.errRed;
+        return;
+      }
+      /* fuera la sesión de recuperación: a la app se entra con la contraseña
+         nueva, que es la prueba de que ha quedado guardada */
+      sb.auth.signOut().catch(function () {});
+      muestra('exito');
+    }).catch(function () {
+      $('guarda').disabled = false;
+      $('aviso').textContent = tx.errRed;
+    });
+  }
+  $('guarda').addEventListener('click', guarda);
+  campo.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') guarda(); });
+})();
+</script>
+</body>
+</html>

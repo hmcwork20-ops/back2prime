@@ -1163,6 +1163,8 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .shopitem .pimg.ph { display: flex; align-items: center; justify-content: center;
   font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink3) }
 .shopitem .sq { min-width: 0; text-align: right }
+/* despensa: una etiqueta pequena en vez de una cantidad que nadie compra */
+.shopitem .sq.despensa { font-family: var(--disp); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink3) }
 .shopitem.on .pimg { opacity: .4; filter: grayscale(1) }
 
 

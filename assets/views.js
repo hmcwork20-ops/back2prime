@@ -469,7 +469,8 @@
                 onclick: ev => { ev.stopPropagation(); abreZoom(src, cap(it.i)); } })
                 : el('span', { class: 'pimg ph', 'aria-hidden': 'true' }, (it.i || '?').charAt(0).toUpperCase()),
             el('span', { class: 'si' }, cap(it.i) + (it.opc ? TX.opcionalParen : '')),
-            el('span', { class: 'sq' }, it.q),
+            /* la despensa no lleva cantidad: se compra cuando se acaba */
+            it.despensa ? el('span', { class: 'sq despensa' }, TX.despensaTag || '') : el('span', { class: 'sq' }, it.q),
             el('span', { class: 'tick', html: TICK }));
         }));
         const hechos = c.items.filter((it, ii) => U.S.shop[kDe(it, ii)]).length;

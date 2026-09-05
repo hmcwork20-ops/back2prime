@@ -28,6 +28,7 @@ const SUITES = [
   ['portugues',   'los seis idiomas generan plan completo'],
   ['inicio',      'cuando empieza el plan: hoy, semana, lunes, dia exacto'],
   ['suplementos', 'la dieta manda, y el id manda sobre la foto'],
+  ['compra',      'una lista para el super: por producto, por seccion, sin repetir'],
 ];
 
 console.log('');

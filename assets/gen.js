@@ -545,14 +545,33 @@ window.B2P_GEN = (function () {
      cantidades de sus ingredientes cuando son sumables («250 g» ×3 = 750 g;
      «al gusto» se deja tal cual, una vez). Agrupado por toma, que es lo único
      que se puede agrupar sin una taxonomía de productos por idioma. */
+  /* Lee la cantidad tal como la escriben las recetas, que no es un numero y
+     una unidad y ya: «1 ud (120 g)», «2 latas (120 g escurrido)», «250 g
+     crudo (~200 g hecho)», «170-180 g», «½ ud», «1 cazo (30 g)», «3».
+     Reglas, en orden:
+       · un rango «170-180 g» se lee por arriba: se compra para que llegue;
+       · «N ud/pieza/diente» al principio manda sobre lo que venga entre
+         parentesis («2 ud (o 100 ml envasadas)» son 2 unidades);
+       · «N latas/rebanadas/cazos» se leen por los gramos del parentesis,
+         que es lo que pesa de verdad;
+       · si no, el primer «N g/ml» que aparezca («250 g crudo (~200 g hecho)»
+         son 250 g: se compra crudo);
+       · un numero a secas son piezas («3» huevos);
+       · lo demas («al gusto», «pizca», «bol») no se suma. */
   function parseQ(q) {
-    const m = /^\s*([\d]+(?:[.,]\d+)?)\s*(kg|g|ml|l|ud)?\s*$/i.exec(q || '');
-    if (!m) return null;
-    let n = parseFloat(m[1].replace(',', '.'));
-    let u = (m[2] || '').toLowerCase();
-    if (u === 'kg') { n *= 1000; u = 'g'; }
-    if (u === 'l') { n *= 1000; u = 'ml'; }
-    return { n, u };
+    const s = String(q || '').replace(/,/g, '.').replace(/½/g, '0.5').replace(/¼/g, '0.25').replace(/¾/g, '0.75').trim();
+    const norm = (n, u) => { u = u.toLowerCase(); if (u === 'kg') { n *= 1000; u = 'g'; } if (u === 'l') { n *= 1000; u = 'ml'; } return { n, u }; };
+    const rango = /^(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*(kg|g|ml|l)\b/i.exec(s);
+    if (rango) return norm(parseFloat(rango[2]), rango[3]);
+    const pieza = /^(\d+(?:\.\d+)?)\s*(ud|uds|pieza|piezas|diente|dientes|lata|latas|cazo|cazos|rebanada|rebanadas)?\s*(\(|$)/i.exec(s);
+    const gramos = /(\d+(?:\.\d+)?)\s*(kg|g|ml|l)\b/i.exec(s);
+    if (pieza && pieza[2]) {
+      if (/lata|rebanada|cazo/i.test(pieza[2]) && gramos) return norm(parseFloat(gramos[1]), gramos[2]);
+      return { n: parseFloat(pieza[1]), u: 'ud' };
+    }
+    if (gramos) return norm(parseFloat(gramos[1]), gramos[2]);
+    if (pieza) return { n: parseFloat(pieza[1]), u: 'ud' };
+    return null;
   }
   function fmtQ(n, u, lang) {
     const loc = lang || 'es';
@@ -561,31 +580,97 @@ window.B2P_GEN = (function () {
     const v = Math.round(n * 10) / 10;
     return v.toLocaleString(loc) + (u ? ' ' + u : '');
   }
-  function compraGen(base, MENU) {
+  /* ---------- la compra de la semana ----------
+     Una lista para ir al super, no un volcado de las recetas. Se agrupa por
+     PRODUCTO (pid) en toda la semana, no por texto ni por comida: el tomate
+     es un tomate salga en rodajas en la cena o rallado en el desayuno, y se
+     compra una vez con la suma de todo. Lo de «en rodajas» es cosa de la
+     receta, y en su ficha se queda.
+
+     Lo que llega en gramos se suma con gramos; lo que llega en piezas, con
+     piezas; y si un producto llega de las dos formas, las piezas pasan a
+     gramos con PESO_UD y se enseña un numero con las piezas al lado, que es
+     lo que un comprador entiende («≈ 900 g · 6 ud»).
+
+     La despensa (sal, especias, aceite...) sale una vez y sin cantidad:
+     nadie compra 43 g de aceite, se compra una botella cuando se acaba.
+
+     Y la toma pre-sueño, que es diaria y antes ni entraba, entra por siete. */
+  const PESO_UD = { tomate: 150, platano: 120, huevos: 60, claras: 35, cebolla: 150, pimiento: 180,
+    limon: 100, zanahoria: 100, fruta: 150, skyr: 150, aguacate: 200, calabacin: 250, patata: 150,
+    pepino: 300, atun: 60 };
+  const DESPENSA = new Set(['sal', 'especias', 'aove', 'canela', 'salsa-soja', 'tamari', 'levadura', 'ajo']);
+  const SECCION_DE = {};
+  [['fresco', ['aguacate', 'ajo', 'brocoli', 'calabacin', 'calabaza', 'cebolla', 'champinones', 'cilantro', 'espinacas',
+      'fruta', 'hummus', 'lechuga', 'limon', 'patata', 'pepino', 'pimiento', 'platano', 'tomate', 'verduras', 'zanahoria']],
+   ['prote', ['pollo', 'ternera', 'merluza', 'salmon', 'atun', 'huevos', 'claras', 'tofu', 'tempeh', 'soja-text']],
+   ['lacteo', ['skyr', 'yogur-soja', 'bebida-soja']],
+   ['despensa', ['arroz', 'quinoa', 'pasta-lentejas', 'lentejas', 'lentejas-rojas', 'garbanzos', 'alubias', 'avena',
+      'harina-garbanzo', 'pan', 'pan-sg', 'nueces', 'pipas', 'sesamo', 'chia', 'aceitunas', 'tomate-triturado', 'caldo',
+      'leche-coco', 'salsa-soja', 'tamari', 'levadura', 'canela', 'especias', 'sal', 'aove']],
+   ['congelado', ['gambas', 'edamame', 'frutos-rojos']],
+   ['supl', ['whey', 'prote-vegetal']]
+  ].forEach(par => par[1].forEach(pid => { SECCION_DE[pid] = par[0]; }));
+  const ORDEN_SEC = ['fresco', 'prote', 'lacteo', 'despensa', 'congelado', 'supl'];
+
+  function compraGen(base, MENU, vetaLacteo) {
     const lang = base.UI.lang;
+    const nombres = base.PRODUCTOS || {};
     const veces = {};
     MENU.forEach(f => ['de', 'co', 'ce'].forEach(sl => { if (f[sl] !== 'LIBRE') veces[f[sl]] = (veces[f[sl]] || 0) + 1; }));
-    const porSlot = { de: {}, co: {}, ce: {} };
+    const bolsa = {};                       // pid -> acumulador
+    const mete = (ing, n) => {
+      const pid = ing.pid; if (!pid) return;
+      const e = bolsa[pid] || (bolsa[pid] = { pid, g: 0, ml: 0, ud: 0, texto: null, primer: ing.i });
+      const q = parseQ(ing.q);
+      if (!q) { if (!e.texto) e.texto = ing.q; return; }
+      if (q.u === 'g') e.g += q.n * n;
+      else if (q.u === 'ml') e.ml += q.n * n;
+      else e.ud += q.n * n;
+    };
     Object.keys(veces).forEach(id => {
-      const r = base.RECETAS.find(x => x.id === id); if (!r || !porSlot[r.slot]) return;
-      (r.ing || []).forEach(ing => {
-        const clave = (ing.i || '').trim().toLowerCase();
-        const q = parseQ(ing.q);
-        const bolsa = porSlot[r.slot];
-        if (!bolsa[clave]) bolsa[clave] = { i: ing.i, pid: ing.pid || null, n: 0, u: null, texto: null, sumable: !!q };
-        const e = bolsa[clave];
-        if (q && e.sumable) { e.n += q.n * veces[id]; e.u = q.u; }
-        else { e.sumable = false; e.texto = ing.q; e.n += veces[id]; }
-      });
+      const r = base.RECETAS.find(x => x.id === id); if (!r) return;
+      (r.ing || []).forEach(ing => mete(ing, veces[id]));
     });
-    const cats = [['de', base.UI.desayuno], ['co', base.UI.comidaLbl], ['ce', base.UI.cena]];
-    return cats.map(par => ({
-      cat: par[1],
-      items: Object.values(porSlot[par[0]]).map(e => ({
-        q: e.sumable ? fmtQ(e.n, e.u, lang) : (e.texto + (e.n > 1 ? ' ×' + e.n : '')),
-        i: e.i, pid: e.pid
-      }))
-    })).filter(c => c.items.length);
+    /* la toma pre-sueño: diaria, luego por siete. Con lacteos vetados, el plan
+       receta yogur de soja y proteina vegetal (suplVegD), y eso es lo que se
+       compra; no hay receta aparte porque no hay nada que cocinar. */
+    const noche = base.RECETAS.find(x => x.id === 'toma-noche');
+    if (noche && !vetaLacteo) (noche.ing || []).forEach(ing => mete(ing, 7));
+    else if (vetaLacteo) { mete({ pid: 'yogur-soja', q: '250 g', i: '' }, 7); mete({ pid: 'prote-vegetal', q: '30 g', i: '' }, 7); }
+
+    /* Las piezas se redondean hacia ARRIBA y a enteros: nadie compra medio
+       limon, y quedarse corto es peor que sobrar una pieza. Los gramos que
+       salen de convertir piezas se redondean a decenas: «322,5 g» de cebolla
+       es una precision que la bascula del super no tiene. */
+    const fmtUd = n => Math.ceil(n - 1e-9).toLocaleString(lang || 'es') + ' ud';
+    const cantidad = e => {
+      if (DESPENSA.has(e.pid)) return '';
+      const peso = PESO_UD[e.pid];
+      if (e.ud > 0 && e.g > 0 && peso) {
+        const total = Math.round((e.g + e.ud * peso) / 10) * 10;
+        return '≈ ' + fmtQ(total, 'g', lang) + ' · ' + fmtUd(total / peso);
+      }
+      const partes = [];
+      if (e.g > 0) partes.push(fmtQ(e.g, 'g', lang));
+      if (e.ml > 0) partes.push(fmtQ(e.ml, 'ml', lang));
+      if (e.ud > 0) partes.push(fmtUd(e.ud));
+      if (partes.length) return partes.join(' + ');
+      return e.texto || '';
+    };
+    const nombre = e => nombres[e.pid] || e.primer || e.pid;
+
+    const porSec = {};
+    Object.values(bolsa).forEach(e => {
+      const sec = SECCION_DE[e.pid] || 'despensa';
+      (porSec[sec] = porSec[sec] || []).push({ pid: e.pid, i: nombre(e), q: cantidad(e), despensa: DESPENSA.has(e.pid) });
+    });
+    const etiquetas = base.UI.secCompra || {};
+    return ORDEN_SEC.filter(sec => porSec[sec] && porSec[sec].length).map(sec => ({
+      sec, cat: etiquetas[sec] || sec,
+      // lo que se compra primero; la despensa, al final de su seccion
+      items: porSec[sec].sort((a, b) => (a.despensa - b.despensa) || a.i.localeCompare(b.i, lang || 'es'))
+    }));
   }
   /* cuánta proteína REAL da el menú medio del día: el hueco hasta el objetivo
      se enseña con su puente, en vez de fingir que las cifras cuadran solas */
@@ -915,7 +1000,7 @@ window.B2P_GEN = (function () {
       TENDON: tendonGen(base, perfil, tieneTrote),
       NUTRI: nutri.NUTRI,
       MENU: menu.MENU,
-      COMPRA: compraGen(base, menu.MENU),
+      COMPRA: compraGen(base, menu.MENU, perfil.dieta === 'vegano' || (perfil.sin || []).includes('lactosa')),
       MEALPREP: mealprepGen(base, menu.MENU),
       MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || base.MEALPREP_NOTA,
       CHECKPOINTS: chks,

@@ -28,6 +28,12 @@
         "value": "cubic-bezier(.2, 1.4, .4, 1)",
         "createdAt": "2026-08-15T12:05:45.606Z",
         "reason": "variante normalizada del mismo pop de celebracion"
+      },
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "createdAt": "2026-09-05T16:16:18.022Z",
+        "reason": "Claude: HTML de correo, no web. Los clientes de correo no cargan fuentes web (Barlow Condensed caeria en una fuente arbitraria por cliente); Arial/Helvetica es la pila segura estandar del medio. La marca se sostiene con color y peso, no con la cara tipografica."
       }
     ]
   }

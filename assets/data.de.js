@@ -873,7 +873,7 @@ window.B2P = (function () {
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { pid: 'huevos', q: '3 Stück', i: 'Eier (M)' },
-        { pid: 'huevos', q: '2 Stück (oder 100 ml flüssig)', i: 'Eiklar' },
+        { pid: 'claras', q: '2 Stück (oder 100 ml flüssig)', i: 'Eiklar' },
         { pid: 'pan', q: '60 g (2 Scheiben)', i: 'Vollkornbrot' },
         { pid: 'tomate', q: '100 g', i: 'geriebene Tomate' },
         { pid: 'aove', q: '5 g', i: 'natives Olivenöl extra' },

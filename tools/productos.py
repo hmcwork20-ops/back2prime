@@ -57,6 +57,7 @@ PRODUCTOS = {
     'garbanzos': 'bote de cristal de garbanzos cocidos',
     'harina-garbanzo': 'bol de harina de garbanzo con cuchara',
     'huevos': 'media docena de huevos en su huevera',
+    'claras': 'bol de claras de huevo liquidas, y un huevo abierto al lado',
     'hummus': 'bol de hummus con un hilo de aceite',
     'leche-coco': 'lata de leche de coco abierta',
     'lechuga': 'lechuga fresca con tomate y cebolla (base de ensalada)',

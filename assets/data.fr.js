@@ -876,7 +876,7 @@ window.B2P = (function () {
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { pid: 'huevos', q: '3 pièces', i: 'œufs M' },
-        { pid: 'huevos', q: '2 pièces (ou 100 ml en bouteille)', i: 'blancs d’œufs' },
+        { pid: 'claras', q: '2 pièces (ou 100 ml en bouteille)', i: 'blancs d’œufs' },
         { pid: 'pan', q: '60 g (2 tranches)', i: 'pain complet' },
         { pid: 'tomate', q: '100 g', i: 'tomate râpée' },
         { pid: 'aove', q: '5 g', i: 'huile d’olive vierge extra' },

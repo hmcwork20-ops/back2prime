@@ -112,6 +112,16 @@ La ficha pide descripción, capturas de teléfono, icono de 512, gráfico
 destacado de 1024×500, una **política de privacidad con URL pública**, el
 cuestionario de contenido y la sección *Data safety*.
 
+La política ya está publicada y es la misma para las dos tiendas:
+
+    https://hmcwork20-ops.github.io/back2prime/privacidad.html
+
+Vive en `privacidad.html`, en la raíz del repo, en los seis idiomas de la
+app y con un `?lang=xx` por si alguna ficha pide la versión de un idioma
+concreto. La escribe el repo, no un generador: si cambia lo que se recoge,
+se cambia ahí y se cambia la fecha. La dirección de contacto está en una
+sola línea del fichero, la constante `CONTACTO`.
+
 Para *Data safety*, con la nube activa la respuesta honesta es: la app
 recoge **correo electrónico** (autenticación) y **datos de salud y forma
 física** (el plan y los registros), asociados a la cuenta, cifrados en

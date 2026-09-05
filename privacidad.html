@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'">
+<title>Política de privacidad · BACK2PRIME</title>
+<meta name="description" content="Qué datos recoge BACK2PRIME, dónde viven, cuánto tiempo y qué puedes hacer con ellos.">
+<meta name="theme-color" content="#0B0D10">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="icons/favicon.svg">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:600;font-display:swap;src:url('assets/fonts/BarlowCondensed-600.woff2') format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url('assets/fonts/BarlowCondensed-700.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/PublicSans-400.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:600;font-display:swap;src:url('assets/fonts/PublicSans-600.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:700;font-display:swap;src:url('assets/fonts/PublicSans-700.woff2') format('woff2')}
+:root{
+  --bg:#0B0D10; --surface:#14171B; --surface2:#1B2027;
+  --line:#272E38; --line-soft:#1F252E;
+  --ink:#F2F4F0; --ink2:#A7AFB9; --ink3:#7E8793;
+  --volt:#C8F24E; --volt-ink:#10140A;
+  --r:14px; --r-sm:10px;
+  --cuerpo:'Public Sans',system-ui,-apple-system,sans-serif;
+  --disp:'Barlow Condensed',var(--cuerpo);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--cuerpo); font-size:15px; line-height:1.6;
+  -webkit-text-size-adjust:100%;
+  padding:0 16px calc(48px + env(safe-area-inset-bottom));
+}
+.wrap{max-width:680px;margin:0 auto}
+
+header{padding:26px 0 4px}
+.marca{font-family:var(--disp);font-weight:700;font-size:23px;letter-spacing:.02em;
+  text-transform:uppercase;text-decoration:none;color:var(--ink);display:inline-block}
+.marca em{font-style:normal;color:var(--volt)}
+
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,8vw,40px);
+  line-height:1.05;letter-spacing:.01em;text-transform:uppercase;margin:22px 0 6px}
+.fecha{color:var(--ink3);font-size:13px;margin:0 0 20px}
+.intro{font-size:16px;color:var(--ink2);margin:0 0 8px}
+
+/* el conmutador de idioma: los mismos seis de la app */
+.idiomas{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 4px}
+.idiomas button{
+  font-family:var(--disp);font-weight:600;font-size:12.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink2);background:var(--surface2);
+  border:1px solid var(--line);border-radius:999px;padding:6px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+.idiomas button:hover{color:var(--ink)}
+.idiomas button[aria-current="true"]{background:var(--volt);border-color:var(--volt);color:var(--volt-ink)}
+.idiomas button:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+
+section{background:var(--surface);border:1px solid var(--line-soft);
+  border-radius:var(--r);padding:16px 17px;margin:14px 0}
+h2{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:.014em;
+  text-transform:uppercase;margin:0 0 9px}
+section p{margin:0 0 10px}
+section p:last-child{margin-bottom:0}
+ul{margin:2px 0 10px;padding-left:19px}
+ul:last-child{margin-bottom:0}
+li{margin:5px 0}
+li b,p b{color:var(--ink);font-weight:600}
+a{color:var(--volt)}
+a:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+
+.volver{display:inline-block;margin:22px 0 0;font-family:var(--disp);font-weight:600;
+  font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);
+  text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:9px 17px}
+.volver:hover{color:var(--ink)}
+footer{color:var(--ink3);font-size:12.5px;margin:26px 0 0}
+@media (prefers-reduced-motion:no-preference){
+  section{animation:sube .3s cubic-bezier(.23,1,.32,1) both}
+  @keyframes sube{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a class="marca" href="./">BACK<em>2</em>PRIME</a></header>
+  <nav class="idiomas" id="idiomas" aria-label="Idioma"></nav>
+  <main id="doc"></main>
+  <a class="volver" id="volver" href="./">&larr; <span>Volver a la app</span></a>
+  <footer id="pie"></footer>
+</div>
+
+<script>
+/* ============================================================
+   Política de privacidad de BACK2PRIME, en los seis idiomas de la app.
+
+   Página suelta a propósito: tiene que poder leerse ANTES de crear la
+   cuenta (que es cuando se da el consentimiento) y sin cargar la app
+   entera. Por eso no depende de data.js ni del motor: solo de sí misma.
+
+   El texto describe lo que el código hace de verdad. Si cambia lo que se
+   recoge, cambia esto y cambia la fecha de ACTUALIZADO. No al revés.
+   ============================================================ */
+
+/* La dirección de contacto vive AQUÍ y en ningún otro sitio: cambiarla es
+   cambiar esta línea. Sale en el apartado de contacto y en el de derechos
+   de cada uno de los seis idiomas. */
+var CONTACTO = 'hmcwork20@gmail.com';
+var ACTUALIZADO = '2026-09-05';
+
+var IDIOMAS = [
+  ['es', 'ES'], ['en', 'GB'], ['fr', 'FR'], ['de', 'DE'], ['it', 'IT'], ['pt', 'PT']
+];
+
+var T = {};
+
+/* ------------------------------ ESPAÑOL ------------------------------ */
+T.es = {
+  titulo: 'Política de privacidad',
+  fecha: 'Última actualización: 5 de septiembre de 2026',
+  volver: 'Volver a la app',
+  pie: 'BACK2PRIME · un plan de fuerza y comida hecho a tu medida.',
+  intro: 'BACK2PRIME genera un plan de entrenamiento y de comida a partir de lo que cuentas de ti. Para eso necesita datos, y algunos son datos de salud. Esta página dice cuáles, dónde viven, cuánto tiempo y qué puedes hacer con ellos. Está escrita para que se entienda, no para cubrirnos las espaldas.',
+  secciones: [
+    { t: 'Quién responde de tus datos',
+      p: ['BACK2PRIME es un proyecto personal, no una empresa. Responde de tus datos la persona que lo mantiene, y puedes escribirle a <a href="mailto:{C}">{C}</a> para cualquier cosa de esta página.'] },
+
+    { t: 'Qué datos se recogen',
+      p: ['Todo esto lo das tú. No se recoge nada a tus espaldas.'],
+      l: ['<b>Para tener cuenta:</b> tu correo y una contraseña. La contraseña la gestiona Supabase, el proveedor de autenticación: viaja cifrada, se guarda como resumen criptográfico y ni la app ni nosotros la vemos nunca.',
+          '<b>Tu nombre:</b> el que escribes al empezar, hasta 24 caracteres. Puede ser un mote perfectamente.',
+          '<b>El cuestionario:</b> sexo, edad, altura, peso, cintura, objetivo, para cuándo lo quieres, cuánto va a durar, si vienes de entrenar o no, días por semana, minutos por sesión, franja del día, material del que dispones, lesiones de rodilla, hombro o lumbar, si tienes el visto bueno de tu médico, tipo de dieta, intolerancias, y qué comidas, deportes y ejercicios te gustan o no.',
+          '<b>Lo que registras cada día:</b> peso, cintura, ejercicios hechos, minutos de cardio, si cerraste la sesión y el trabajo de tendón.',
+          '<b>Lo que la app deduce de lo anterior:</b> logros, récords personales, la lista de la compra marcada y el idioma que usas.',
+          '<b>Si envías un aviso</b> desde la burbuja de reportar: el texto, entre 4 y 2000 caracteres; si es un fallo, una idea u otra cosa; y el contexto técnico para poder reproducirlo, que es la versión, la plataforma, el idioma, la pantalla en la que estabas, el tamaño de pantalla y los primeros 180 caracteres del identificador de tu navegador. No va nada de tu plan, tu peso ni tus registros.',
+          '<b>Si compartes tu plan por enlace:</b> una copia del plan, guardada bajo un código aleatorio. Quien tenga el enlace ve ese plan y nada más: ni tus registros, ni tu peso, ni tu correo.'] },
+
+    { t: 'Los datos de salud, aparte',
+      p: ['El peso, la cintura, las lesiones y el visto bueno médico son datos de salud. El reglamento europeo los protege más que al resto, y con razón.',
+          'La base legal para tratarlos es tu <b>consentimiento explícito</b>: los das tú, en el cuestionario, para que la app pueda calcular tu plan. Se usan solo para eso. Puedes retirar el consentimiento cuando quieras borrando la cuenta, y desaparecen con ella.',
+          'Sin esos datos la app no puede generar un plan. No hay una versión que funcione sin ellos, y decirte lo contrario sería mentir.'] },
+
+    { t: 'Para qué se usan',
+      p: ['Para una sola cosa: generar tu plan y seguir tu progreso.',
+          'No se usan para perfilarte, no se venden, no se ceden a nadie y no se cruzan con ninguna otra fuente. No hay decisiones automatizadas con efectos jurídicos sobre ti: el plan es una propuesta de entrenamiento y de comida, no un diagnóstico ni un consejo médico.'] },
+
+    { t: 'Lo que no se hace',
+      l: ['No hay analítica ni medición del uso individual. No sabemos qué pantallas miras.',
+          'No hay anuncios ni rastreadores de terceros.',
+          'No se recoge tu ubicación, tus contactos, tus fotos ni tu agenda.',
+          'No se piden ni se guardan datos de pago.',
+          'No se vende ni se cede nada a nadie, ni agregado ni anónimo.',
+          'No hay cookies de seguimiento. La sesión se guarda en el almacenamiento local de tu propio dispositivo.'] },
+
+    { t: 'Dónde viven los datos',
+      l: ['<b>En tu dispositivo:</b> todo. La app funciona en local y guarda tu estado en el almacenamiento del navegador. Si no entras, no sale de ahí.',
+          '<b>En Supabase:</b> la copia que sincroniza tus dispositivos y que te deja recuperar el plan si cambias de móvil. El proyecto está alojado en la <b>Unión Europea</b>, así que tus datos no salen del Espacio Económico Europeo.',
+          '<b>En GitHub Pages:</b> solo la web en sí, los ficheros. Como cualquier servidor del mundo, GitHub registra direcciones IP en sus propios registros por seguridad y para servir la página.',
+          '<b>Una cookie técnica:</b> Supabase tiene a Cloudflare por delante, que pone una cookie de gestión de tráfico en su propio dominio. No sirve para seguirte por internet: sirve para distinguir un navegador de un robot.'] },
+
+    { t: 'Cuánto tiempo se guardan',
+      p: ['Mientras tengas la cuenta.',
+          'Cuando la borras desde <b>Mi perfil</b>, se borra tu usuario y con él, en cascada y en el momento: tu estado, tu plan compartido si lo tenías y los avisos que hubieras enviado. No se guarda una copia por si acaso.',
+          'Lo que esté en tu dispositivo lo borras tú, desinstalando la app o limpiando los datos del navegador.'] },
+
+    { t: 'Tus derechos, y cómo usarlos',
+      p: ['El reglamento te da derecho a acceder a tus datos, rectificarlos, borrarlos, llevártelos, oponerte al tratamiento, limitarlo y retirar el consentimiento. Casi todo lo puedes hacer tú, sin pedir permiso y sin esperar:'],
+      l: ['<b>Acceder y llevártelos:</b> en Mi perfil, en Ajustes, hay un botón que te descarga todo tu estado en un fichero JSON. Es todo lo que hay sobre ti, tal cual está guardado.',
+          '<b>Rectificar:</b> rehaciendo el cuestionario desde Mi perfil.',
+          '<b>Borrar y retirar el consentimiento:</b> Mi perfil, borrar cuenta.'],
+      p2: ['Para lo que no puedas hacer solo, escribe a <a href="mailto:{C}">{C}</a>. Se responde en un mes como máximo, que es lo que marca el reglamento.',
+           'Si crees que algo no se ha hecho bien, puedes reclamar ante la Agencia Española de Protección de Datos, en <a href="https://www.aepd.es" rel="noopener">www.aepd.es</a>.'] },
+
+    { t: 'Menores',
+      p: ['BACK2PRIME no es para menores de 16 años, y el cuestionario no acepta edades por debajo.',
+          'Si eres padre, madre o tutor de alguien menor que ha creado una cuenta, escribe a <a href="mailto:{C}">{C}</a> y se borra.'] },
+
+    { t: 'Seguridad',
+      p: ['Todo viaja cifrado por HTTPS. Las contraseñas se guardan como resumen criptográfico, nunca en claro.',
+          'En la base de datos, cada fila está protegida por políticas de acceso que se aplican en el servidor: aunque alguien cambie la dirección del navegador o llame a la API a mano, solo puede ver y tocar lo suyo. La web declara además una política de seguridad de contenidos que impide cargar código de terceros.',
+          'Ningún sistema es infalible y prometer lo contrario sería absurdo, pero eso es lo que hay puesto.'] },
+
+    { t: 'Si esto cambia',
+      p: ['Cambiará la fecha de arriba. Si el cambio afecta a para qué se usan tus datos, se te pedirá el consentimiento otra vez en lugar de darlo por hecho.'] },
+
+    { t: 'Contacto',
+      p: ['<a href="mailto:{C}">{C}</a>'] }
+  ]
+};
+
+/* ------------------------------ ENGLISH ------------------------------ */
+T.en = {
+  titulo: 'Privacy policy',
+  fecha: 'Last updated: 5 September 2026',
+  volver: 'Back to the app',
+  pie: 'BACK2PRIME · strength and food, planned around you.',
+  intro: 'BACK2PRIME builds a training and food plan from what you tell it about yourself. That takes data, and some of it is health data. This page says which data, where it lives, for how long, and what you can do about it. It is written to be understood, not to cover our backs.',
+  secciones: [
+    { t: 'Who is responsible for your data',
+      p: ['BACK2PRIME is a personal project, not a company. The person who maintains it is responsible for your data, and you can write to <a href="mailto:{C}">{C}</a> about anything on this page.'] },
+
+    { t: 'What data is collected',
+      p: ['You give all of it. Nothing is collected behind your back.'],
+      l: ['<b>To have an account:</b> your email and a password. The password is handled by Supabase, the authentication provider: it travels encrypted, is stored as a cryptographic hash, and neither the app nor we ever see it.',
+          '<b>Your name:</b> whatever you type at the start, up to 24 characters. A nickname is perfectly fine.',
+          '<b>The questionnaire:</b> sex, age, height, weight, waist, goal, when you want it by, how long it runs, whether you have been training or not, days per week, minutes per session, time of day, the equipment you have, knee, shoulder or lower-back injuries, whether your doctor has cleared you, diet type, intolerances, and which foods, sports and exercises you like or not.',
+          '<b>What you log each day:</b> weight, waist, exercises done, cardio minutes, whether you closed the session, and tendon work.',
+          '<b>What the app derives from the above:</b> achievements, personal records, the ticked shopping list, and the language you use.',
+          '<b>If you send a report</b> from the feedback bubble: the text, between 4 and 2000 characters; whether it is a bug, an idea or something else; and the technical context needed to reproduce it, which is the version, platform, language, the screen you were on, the screen size, and the first 180 characters of your browser identifier. Nothing from your plan, your weight or your logs goes with it.',
+          '<b>If you share your plan by link:</b> a copy of the plan, stored under a random code. Whoever has the link sees that plan and nothing else: not your logs, not your weight, not your email.'] },
+
+    { t: 'Health data, kept separate',
+      p: ['Weight, waist, injuries and medical clearance are health data. European regulation protects them more than the rest, and rightly so.',
+          'The legal basis for processing them is your <b>explicit consent</b>: you give them, in the questionnaire, so the app can work out your plan. They are used for that and nothing else. You can withdraw consent whenever you want by deleting your account, and they go with it.',
+          'Without that data the app cannot generate a plan. There is no version that works without it, and telling you otherwise would be a lie.'] },
+
+    { t: 'What it is used for',
+      p: ['One thing only: building your plan and tracking your progress.',
+          'It is not used to profile you, it is not sold, it is not shared with anyone, and it is not combined with any other source. There are no automated decisions with legal effects on you: the plan is a training and food proposal, not a diagnosis or medical advice.'] },
+
+    { t: 'What is not done',
+      l: ['There is no analytics and no individual usage tracking. We do not know which screens you look at.',
+          'There are no ads and no third-party trackers.',
+          'Your location, contacts, photos and calendar are not collected.',
+          'No payment details are asked for or stored.',
+          'Nothing is sold or handed to anyone, aggregated or anonymised.',
+          'There are no tracking cookies. The session is kept in your own device local storage.'] },
+
+    { t: 'Where the data lives',
+      l: ['<b>On your device:</b> all of it. The app runs locally and keeps your state in browser storage. If you never sign in, it never leaves.',
+          '<b>On Supabase:</b> the copy that syncs your devices and lets you recover your plan on a new phone. The project is hosted in the <b>European Union</b>, so your data does not leave the European Economic Area.',
+          '<b>On GitHub Pages:</b> only the site itself, the files. Like any server anywhere, GitHub records IP addresses in its own logs for security and to serve the page.',
+          '<b>One technical cookie:</b> Supabase sits behind Cloudflare, which sets a traffic-management cookie on its own domain. It is not there to follow you around the internet: it is there to tell a browser from a bot.'] },
+
+    { t: 'How long it is kept',
+      p: ['As long as you have an account.',
+          'When you delete it from <b>My profile</b>, your user is deleted and with it, cascading and immediately: your state, your shared plan if you had one, and any reports you sent. No copy is kept just in case.',
+          'Whatever is on your device is yours to delete, by uninstalling the app or clearing browser data.'] },
+
+    { t: 'Your rights, and how to use them',
+      p: ['The regulation gives you the right to access your data, correct it, delete it, take it with you, object to processing, restrict it, and withdraw consent. You can do almost all of it yourself, without asking and without waiting:'],
+      l: ['<b>Access and take it with you:</b> in My profile, under Settings, a button downloads your whole state as a JSON file. That is everything there is about you, exactly as stored.',
+          '<b>Correct it:</b> by redoing the questionnaire from My profile.',
+          '<b>Delete and withdraw consent:</b> My profile, delete account.'],
+      p2: ['For anything you cannot do yourself, write to <a href="mailto:{C}">{C}</a>. You get an answer within one month at the latest, which is what the regulation sets.',
+           'If you think something has been handled badly, you can complain to your national data protection authority. In Spain that is the Agencia Española de Protección de Datos, at <a href="https://www.aepd.es" rel="noopener">www.aepd.es</a>.'] },
+
+    { t: 'Minors',
+      p: ['BACK2PRIME is not for anyone under 16, and the questionnaire does not accept lower ages.',
+          'If you are the parent or guardian of a minor who has created an account, write to <a href="mailto:{C}">{C}</a> and it will be deleted.'] },
+
+    { t: 'Security',
+      p: ['Everything travels encrypted over HTTPS. Passwords are stored as cryptographic hashes, never in the clear.',
+          'In the database, every row is protected by access policies enforced on the server: even if someone changes the address in the browser or calls the API by hand, they can only see and touch their own. The site also declares a content security policy that blocks loading third-party code.',
+          'No system is infallible and promising otherwise would be absurd, but that is what is in place.'] },
+
+    { t: 'If this changes',
+      p: ['The date at the top changes. If the change affects what your data is used for, you will be asked for consent again instead of it being assumed.'] },
+
+    { t: 'Contact',
+      p: ['<a href="mailto:{C}">{C}</a>'] }
+  ]
+};
+
+/* ------------------------------ FRANÇAIS ------------------------------ */
+T.fr = {
+  titulo: 'Politique de confidentialité',
+  fecha: 'Dernière mise à jour : 5 septembre 2026',
+  volver: "Retour à l'app",
+  pie: 'BACK2PRIME · force et alimentation, un plan à ta mesure.',
+  intro: "BACK2PRIME construit un plan d'entraînement et d'alimentation à partir de ce que tu racontes sur toi. Pour ça il faut des données, et certaines sont des données de santé. Cette page dit lesquelles, où elles vivent, combien de temps et ce que tu peux en faire. Elle est écrite pour être comprise, pas pour nous couvrir.",
+  secciones: [
+    { t: 'Qui répond de tes données',
+      p: ["BACK2PRIME est un projet personnel, pas une entreprise. La personne qui le maintient répond de tes données, et tu peux lui écrire à <a href=\"mailto:{C}\">{C}</a> pour tout ce qui concerne cette page."] },
+
+    { t: 'Quelles données sont collectées',
+      p: ['Tu donnes tout toi-même. Rien n’est collecté dans ton dos.'],
+      l: ["<b>Pour avoir un compte :</b> ton e-mail et un mot de passe. Le mot de passe est géré par Supabase, le fournisseur d'authentification : il voyage chiffré, il est stocké sous forme d'empreinte cryptographique, et ni l'app ni nous ne le voyons jamais.",
+          "<b>Ton prénom :</b> celui que tu écris au début, jusqu'à 24 caractères. Un surnom convient parfaitement.",
+          "<b>Le questionnaire :</b> sexe, âge, taille, poids, tour de taille, objectif, pour quand, durée, si tu viens de t'entraîner ou non, jours par semaine, minutes par séance, moment de la journée, matériel dont tu disposes, blessures au genou, à l'épaule ou aux lombaires, si ton médecin t'a donné le feu vert, type d'alimentation, intolérances, et quels plats, sports et exercices tu aimes ou non.",
+          '<b>Ce que tu notes chaque jour :</b> poids, tour de taille, exercices faits, minutes de cardio, si tu as clôturé la séance et le travail de tendon.',
+          "<b>Ce que l'app en déduit :</b> succès, records personnels, la liste de courses cochée et la langue que tu utilises.",
+          "<b>Si tu envoies un signalement</b> depuis la bulle : le texte, entre 4 et 2000 caractères ; s'il s'agit d'un bug, d'une idée ou d'autre chose ; et le contexte technique pour pouvoir le reproduire, c'est-à-dire la version, la plateforme, la langue, l'écran où tu étais, la taille d'écran et les 180 premiers caractères de l'identifiant de ton navigateur. Rien de ton plan, de ton poids ni de tes registres ne part avec.",
+          "<b>Si tu partages ton plan par lien :</b> une copie du plan, rangée sous un code aléatoire. Qui a le lien voit ce plan et rien d'autre : ni tes registres, ni ton poids, ni ton e-mail."] },
+
+    { t: 'Les données de santé, à part',
+      p: ['Le poids, le tour de taille, les blessures et le feu vert médical sont des données de santé. Le règlement européen les protège plus que les autres, et il a raison.',
+          "La base légale pour les traiter est ton <b>consentement explicite</b> : tu les donnes, dans le questionnaire, pour que l'app puisse calculer ton plan. Elles servent à ça et à rien d'autre. Tu peux retirer ton consentement quand tu veux en supprimant ton compte, et elles partent avec.",
+          "Sans ces données l'app ne peut pas générer de plan. Il n'existe pas de version qui marche sans, et te dire le contraire serait un mensonge."] },
+
+    { t: 'À quoi elles servent',
+      p: ['À une seule chose : construire ton plan et suivre tes progrès.',
+          "Elles ne servent pas à te profiler, elles ne sont pas vendues, elles ne sont cédées à personne et elles ne sont croisées avec aucune autre source. Il n'y a pas de décision automatisée produisant des effets juridiques à ton égard : le plan est une proposition d'entraînement et d'alimentation, pas un diagnostic ni un conseil médical."] },
+
+    { t: "Ce qui n'est pas fait",
+      l: ["Pas d'analytique ni de mesure d'usage individuel. On ne sait pas quels écrans tu regardes.",
+          "Pas de publicité ni de traqueurs tiers.",
+          'Ni ta position, ni tes contacts, ni tes photos, ni ton agenda ne sont collectés.',
+          "Aucune donnée de paiement n'est demandée ni conservée.",
+          "Rien n'est vendu ni cédé à personne, ni agrégé ni anonymisé.",
+          "Pas de cookies de suivi. La session est gardée dans le stockage local de ton propre appareil."] },
+
+    { t: 'Où vivent les données',
+      l: ["<b>Sur ton appareil :</b> tout. L'app fonctionne en local et garde ton état dans le stockage du navigateur. Si tu ne te connectes pas, rien n'en sort.",
+          "<b>Sur Supabase :</b> la copie qui synchronise tes appareils et te permet de récupérer ton plan en changeant de téléphone. Le projet est hébergé dans l'<b>Union européenne</b>, donc tes données ne sortent pas de l'Espace économique européen.",
+          "<b>Sur GitHub Pages :</b> uniquement le site lui-même, les fichiers. Comme n'importe quel serveur, GitHub enregistre des adresses IP dans ses propres journaux, pour la sécurité et pour servir la page.",
+          "<b>Un cookie technique :</b> Supabase est derrière Cloudflare, qui pose un cookie de gestion de trafic sur son propre domaine. Il n'est pas là pour te suivre sur internet : il est là pour distinguer un navigateur d'un robot."] },
+
+    { t: 'Combien de temps',
+      p: ['Tant que tu as un compte.',
+          "Quand tu le supprimes depuis <b>Mon profil</b>, ton utilisateur est supprimé et avec lui, en cascade et sur le champ : ton état, ton plan partagé si tu en avais un, et les signalements que tu avais envoyés. Aucune copie n'est gardée au cas où.",
+          "Ce qui est sur ton appareil, c'est toi qui l'effaces, en désinstallant l'app ou en nettoyant les données du navigateur."] },
+
+    { t: 'Tes droits, et comment les exercer',
+      p: ["Le règlement te donne le droit d'accéder à tes données, de les rectifier, de les effacer, de les emporter, de t'opposer au traitement, de le limiter et de retirer ton consentement. Presque tout, tu peux le faire toi-même, sans demander et sans attendre :"],
+      l: ["<b>Accéder et emporter :</b> dans Mon profil, sous Réglages, un bouton télécharge tout ton état dans un fichier JSON. C'est tout ce qui existe sur toi, tel quel.",
+          '<b>Rectifier :</b> en refaisant le questionnaire depuis Mon profil.',
+          '<b>Effacer et retirer le consentement :</b> Mon profil, supprimer le compte.'],
+      p2: ["Pour ce que tu ne peux pas faire seul, écris à <a href=\"mailto:{C}\">{C}</a>. La réponse arrive en un mois au plus tard, c'est ce que fixe le règlement.",
+           "Si tu estimes que quelque chose a été mal fait, tu peux saisir ton autorité nationale de protection des données. En France, la CNIL, sur <a href=\"https://www.cnil.fr\" rel=\"noopener\">www.cnil.fr</a>."] },
+
+    { t: 'Mineurs',
+      p: ["BACK2PRIME n'est pas pour les moins de 16 ans, et le questionnaire n'accepte pas d'âge inférieur.",
+          "Si tu es parent ou tuteur d'un mineur qui a créé un compte, écris à <a href=\"mailto:{C}\">{C}</a> et il sera supprimé."] },
+
+    { t: 'Sécurité',
+      p: ['Tout voyage chiffré en HTTPS. Les mots de passe sont stockés sous forme d’empreinte cryptographique, jamais en clair.',
+          "Dans la base de données, chaque ligne est protégée par des politiques d'accès appliquées côté serveur : même si quelqu'un change l'adresse dans le navigateur ou appelle l'API à la main, il ne peut voir et toucher que ce qui est à lui. Le site déclare en plus une politique de sécurité du contenu qui empêche de charger du code tiers.",
+          "Aucun système n'est infaillible et promettre le contraire serait absurde, mais voilà ce qui est en place."] },
+
+    { t: 'Si cela change',
+      p: ["La date en haut change. Si le changement touche à ce à quoi servent tes données, ton consentement sera redemandé au lieu d'être supposé."] },
+
+    { t: 'Contact',
+      p: ['<a href="mailto:{C}">{C}</a>'] }
+  ]
+};
+
+/* ------------------------------ DEUTSCH ------------------------------ */
+T.de = {
+  titulo: 'Datenschutzerklärung',
+  fecha: 'Zuletzt aktualisiert: 5. September 2026',
+  volver: 'Zurück zur App',
+  pie: 'BACK2PRIME · Kraft und Essen, ein Plan nach deinem Maß.',
+  intro: 'BACK2PRIME baut aus dem, was du über dich erzählst, einen Trainings- und Essensplan. Dafür braucht es Daten, und manche davon sind Gesundheitsdaten. Diese Seite sagt welche, wo sie liegen, wie lange und was du damit machen kannst. Sie ist zum Verstehen geschrieben, nicht zur Absicherung.',
+  secciones: [
+    { t: 'Wer für deine Daten verantwortlich ist',
+      p: ['BACK2PRIME ist ein persönliches Projekt, kein Unternehmen. Verantwortlich ist die Person, die es pflegt, und du kannst ihr zu allem auf dieser Seite an <a href="mailto:{C}">{C}</a> schreiben.'] },
+
+    { t: 'Welche Daten erhoben werden',
+      p: ['Alles davon gibst du selbst. Hinter deinem Rücken wird nichts erhoben.'],
+      l: ['<b>Für ein Konto:</b> deine E-Mail und ein Passwort. Das Passwort verwaltet Supabase, der Authentifizierungsanbieter: es reist verschlüsselt, wird als kryptografischer Hash gespeichert, und weder die App noch wir sehen es je.',
+          '<b>Dein Name:</b> der, den du am Anfang eingibst, bis 24 Zeichen. Ein Spitzname geht völlig in Ordnung.',
+          '<b>Der Fragebogen:</b> Geschlecht, Alter, Größe, Gewicht, Taille, Ziel, bis wann, wie lange der Plan läuft, ob du zuletzt trainiert hast oder nicht, Tage pro Woche, Minuten pro Einheit, Tageszeit, verfügbare Ausrüstung, Verletzungen an Knie, Schulter oder Lende, ob dein Arzt grünes Licht gegeben hat, Ernährungsform, Unverträglichkeiten, und welche Speisen, Sportarten und Übungen du magst oder nicht.',
+          '<b>Was du täglich einträgst:</b> Gewicht, Taille, erledigte Übungen, Cardio-Minuten, ob du die Einheit abgeschlossen hast, und die Sehnenarbeit.',
+          '<b>Was die App daraus ableitet:</b> Erfolge, persönliche Rekorde, die abgehakte Einkaufsliste und die Sprache, die du benutzt.',
+          '<b>Wenn du eine Meldung schickst</b> über die Melde-Blase: der Text, zwischen 4 und 2000 Zeichen; ob es ein Fehler, eine Idee oder etwas anderes ist; und der technische Kontext zum Nachvollziehen, also Version, Plattform, Sprache, der Bildschirm, auf dem du warst, die Bildschirmgröße und die ersten 180 Zeichen der Kennung deines Browsers. Nichts aus deinem Plan, deinem Gewicht oder deinen Einträgen geht mit.',
+          '<b>Wenn du deinen Plan per Link teilst:</b> eine Kopie des Plans, abgelegt unter einem zufälligen Code. Wer den Link hat, sieht diesen Plan und sonst nichts: nicht deine Einträge, nicht dein Gewicht, nicht deine E-Mail.'] },
+
+    { t: 'Gesundheitsdaten, gesondert',
+      p: ['Gewicht, Taille, Verletzungen und die ärztliche Freigabe sind Gesundheitsdaten. Die europäische Verordnung schützt sie stärker als den Rest, und das zu Recht.',
+          'Rechtsgrundlage für ihre Verarbeitung ist deine <b>ausdrückliche Einwilligung</b>: du gibst sie im Fragebogen, damit die App deinen Plan berechnen kann. Sie werden nur dafür genutzt. Du kannst die Einwilligung jederzeit widerrufen, indem du dein Konto löschst, und sie verschwinden mit ihm.',
+          'Ohne diese Daten kann die App keinen Plan erzeugen. Es gibt keine Version, die ohne sie funktioniert, und dir etwas anderes zu sagen wäre gelogen.'] },
+
+    { t: 'Wofür sie genutzt werden',
+      p: ['Für genau eine Sache: deinen Plan bauen und deinen Fortschritt verfolgen.',
+          'Sie werden nicht zum Profiling genutzt, nicht verkauft, an niemanden weitergegeben und mit keiner anderen Quelle zusammengeführt. Es gibt keine automatisierten Entscheidungen mit rechtlicher Wirkung für dich: der Plan ist ein Trainings- und Ernährungsvorschlag, keine Diagnose und keine ärztliche Beratung.'] },
+
+    { t: 'Was nicht passiert',
+      l: ['Keine Analytik, keine Messung einzelner Nutzung. Wir wissen nicht, welche Bildschirme du ansiehst.',
+          'Keine Werbung, keine Tracker von Dritten.',
+          'Weder Standort noch Kontakte, Fotos oder Kalender werden erhoben.',
+          'Es werden keine Zahlungsdaten verlangt oder gespeichert.',
+          'Nichts wird verkauft oder weitergegeben, weder aggregiert noch anonymisiert.',
+          'Keine Tracking-Cookies. Die Sitzung liegt im lokalen Speicher deines eigenen Geräts.'] },
+
+    { t: 'Wo die Daten liegen',
+      l: ['<b>Auf deinem Gerät:</b> alles. Die App läuft lokal und hält deinen Stand im Browser-Speicher. Wenn du dich nie anmeldest, verlässt er ihn nie.',
+          '<b>Bei Supabase:</b> die Kopie, die deine Geräte abgleicht und dir den Plan auf einem neuen Handy zurückgibt. Das Projekt liegt in der <b>Europäischen Union</b>, deine Daten verlassen den Europäischen Wirtschaftsraum also nicht.',
+          '<b>Auf GitHub Pages:</b> nur die Website selbst, die Dateien. Wie jeder Server der Welt protokolliert GitHub IP-Adressen in eigenen Logs, zur Sicherheit und um die Seite auszuliefern.',
+          '<b>Ein technisches Cookie:</b> vor Supabase steht Cloudflare und setzt ein Cookie zur Verkehrssteuerung auf der eigenen Domain. Es ist nicht da, um dir durchs Internet zu folgen, sondern um einen Browser von einem Bot zu unterscheiden.'] },
+
+    { t: 'Wie lange',
+      p: ['Solange du ein Konto hast.',
+          'Wenn du es unter <b>Mein Profil</b> löschst, wird dein Nutzer gelöscht und mit ihm, kaskadierend und sofort: dein Stand, dein geteilter Plan falls vorhanden, und die Meldungen, die du geschickt hast. Es wird keine Kopie für alle Fälle aufbewahrt.',
+          'Was auf deinem Gerät liegt, löschst du selbst, durch Deinstallieren der App oder Leeren der Browserdaten.'] },
+
+    { t: 'Deine Rechte, und wie du sie nutzt',
+      p: ['Die Verordnung gibt dir das Recht auf Auskunft, Berichtigung, Löschung, Datenübertragbarkeit, Widerspruch, Einschränkung der Verarbeitung und Widerruf der Einwilligung. Fast alles kannst du selbst tun, ohne zu fragen und ohne zu warten:'],
+      l: ['<b>Auskunft und Mitnahme:</b> in Mein Profil, unter Einstellungen, lädt ein Knopf deinen kompletten Stand als JSON-Datei herunter. Das ist alles, was es über dich gibt, genau so wie es gespeichert ist.',
+          '<b>Berichtigung:</b> indem du den Fragebogen aus Mein Profil neu machst.',
+          '<b>Löschung und Widerruf:</b> Mein Profil, Konto löschen.'],
+      p2: ['Für alles, was du nicht selbst kannst, schreib an <a href="mailto:{C}">{C}</a>. Die Antwort kommt spätestens in einem Monat, so sieht es die Verordnung vor.',
+           'Wenn du meinst, etwas sei falsch gelaufen, kannst du dich bei deiner nationalen Datenschutzbehörde beschweren. In Deutschland ist das die zuständige Landesbehörde oder der Bundesbeauftragte, unter <a href="https://www.bfdi.bund.de" rel="noopener">www.bfdi.bund.de</a>.'] },
+
+    { t: 'Minderjährige',
+      p: ['BACK2PRIME ist nicht für Menschen unter 16, und der Fragebogen nimmt kein geringeres Alter an.',
+          'Wenn du Elternteil oder Vormund einer minderjährigen Person bist, die ein Konto angelegt hat, schreib an <a href="mailto:{C}">{C}</a> und es wird gelöscht.'] },
+
+    { t: 'Sicherheit',
+      p: ['Alles reist verschlüsselt über HTTPS. Passwörter liegen als kryptografischer Hash, nie im Klartext.',
+          'In der Datenbank ist jede Zeile durch Zugriffsregeln geschützt, die auf dem Server greifen: selbst wenn jemand die Adresse im Browser ändert oder die API von Hand aufruft, sieht und ändert er nur das Eigene. Die Website erklärt außerdem eine Content-Security-Policy, die das Laden fremden Codes verhindert.',
+          'Kein System ist unfehlbar, und das Gegenteil zu versprechen wäre absurd, aber das ist, was eingebaut ist.'] },
+
+    { t: 'Wenn sich das ändert',
+      p: ['Dann ändert sich das Datum oben. Betrifft die Änderung, wofür deine Daten genutzt werden, wirst du erneut um Einwilligung gebeten, statt dass sie vorausgesetzt wird.'] },
+
+    { t: 'Kontakt',
+      p: ['<a href="mailto:{C}">{C}</a>'] }
+  ]
+};
+
+/* ------------------------------ ITALIANO ------------------------------ */
+T.it = {
+  titulo: 'Informativa sulla privacy',
+  fecha: 'Ultimo aggiornamento: 5 settembre 2026',
+  volver: "Torna all'app",
+  pie: 'BACK2PRIME · forza e cibo, un piano su misura per te.',
+  intro: "BACK2PRIME costruisce un piano di allenamento e di alimentazione a partire da quello che racconti di te. Per farlo servono dati, e alcuni sono dati sulla salute. Questa pagina dice quali, dove stanno, per quanto tempo e cosa puoi farci. È scritta per farsi capire, non per pararci le spalle.",
+  secciones: [
+    { t: 'Chi risponde dei tuoi dati',
+      p: ['BACK2PRIME è un progetto personale, non un’azienda. Risponde dei tuoi dati la persona che lo mantiene, e puoi scriverle a <a href="mailto:{C}">{C}</a> per qualsiasi cosa riguardi questa pagina.'] },
+
+    { t: 'Quali dati si raccolgono',
+      p: ['Li dai tutti tu. Niente viene raccolto alle tue spalle.'],
+      l: ["<b>Per avere un account:</b> la tua e-mail e una password. La password la gestisce Supabase, il fornitore di autenticazione: viaggia cifrata, viene salvata come impronta crittografica, e né l'app né noi la vediamo mai.",
+          '<b>Il tuo nome:</b> quello che scrivi all’inizio, fino a 24 caratteri. Un soprannome va benissimo.',
+          "<b>Il questionario:</b> sesso, età, altezza, peso, girovita, obiettivo, per quando lo vuoi, quanto dura, se vieni da un periodo di allenamento o no, giorni a settimana, minuti a sessione, fascia della giornata, attrezzatura che hai, infortuni a ginocchio, spalla o zona lombare, se hai il via libera del medico, tipo di dieta, intolleranze, e quali piatti, sport ed esercizi ti piacciono o no.",
+          '<b>Quello che registri ogni giorno:</b> peso, girovita, esercizi fatti, minuti di cardio, se hai chiuso la sessione e il lavoro sui tendini.',
+          "<b>Quello che l'app ricava da tutto questo:</b> traguardi, record personali, la lista della spesa spuntata e la lingua che usi.",
+          "<b>Se mandi una segnalazione</b> dalla bolla: il testo, tra 4 e 2000 caratteri; se è un errore, un’idea o altro; e il contesto tecnico per poterla riprodurre, cioè versione, piattaforma, lingua, la schermata in cui eri, la dimensione dello schermo e i primi 180 caratteri dell'identificativo del tuo browser. Non parte nulla del tuo piano, del tuo peso o dei tuoi registri.",
+          "<b>Se condividi il piano con un link:</b> una copia del piano, salvata sotto un codice casuale. Chi ha il link vede quel piano e nient'altro: né i tuoi registri, né il tuo peso, né la tua e-mail."] },
+
+    { t: 'I dati sulla salute, a parte',
+      p: ['Peso, girovita, infortuni e via libera medico sono dati sulla salute. Il regolamento europeo li protegge più degli altri, e fa bene.',
+          "La base giuridica per trattarli è il tuo <b>consenso esplicito</b>: li dai tu, nel questionario, perché l'app possa calcolare il tuo piano. Servono solo a quello. Puoi ritirare il consenso quando vuoi cancellando l'account, e spariscono con lui.",
+          "Senza quei dati l'app non può generare un piano. Non esiste una versione che funzioni senza, e dirti il contrario sarebbe una bugia."] },
+
+    { t: 'A cosa servono',
+      p: ['A una cosa sola: costruire il tuo piano e seguire i tuoi progressi.',
+          'Non servono a profilarti, non si vendono, non si cedono a nessuno e non si incrociano con nessun’altra fonte. Non ci sono decisioni automatizzate con effetti giuridici su di te: il piano è una proposta di allenamento e di alimentazione, non una diagnosi né un consiglio medico.'] },
+
+    { t: 'Quello che non si fa',
+      l: ['Nessuna analitica e nessuna misurazione di uso individuale. Non sappiamo quali schermate guardi.',
+          'Nessuna pubblicità e nessun tracciatore di terzi.',
+          'Non si raccolgono posizione, contatti, foto né calendario.',
+          'Non si chiedono né si conservano dati di pagamento.',
+          'Non si vende né si cede niente a nessuno, né aggregato né anonimo.',
+          'Nessun cookie di tracciamento. La sessione resta nella memoria locale del tuo dispositivo.'] },
+
+    { t: 'Dove stanno i dati',
+      l: ["<b>Sul tuo dispositivo:</b> tutto. L'app funziona in locale e tiene il tuo stato nella memoria del browser. Se non accedi, da lì non esce.",
+          '<b>Su Supabase:</b> la copia che sincronizza i tuoi dispositivi e ti fa ritrovare il piano cambiando telefono. Il progetto è ospitato nell’<b>Unione Europea</b>, quindi i tuoi dati non escono dallo Spazio Economico Europeo.',
+          '<b>Su GitHub Pages:</b> solo il sito in sé, i file. Come qualsiasi server al mondo, GitHub registra indirizzi IP nei propri log, per sicurezza e per servire la pagina.',
+          '<b>Un cookie tecnico:</b> davanti a Supabase c’è Cloudflare, che mette un cookie di gestione del traffico sul proprio dominio. Non serve a seguirti in giro per internet: serve a distinguere un browser da un robot.'] },
+
+    { t: 'Per quanto tempo',
+      p: ['Finché hai un account.',
+          'Quando lo cancelli da <b>Il mio profilo</b>, il tuo utente viene cancellato e con lui, a cascata e subito: il tuo stato, il piano condiviso se ce l’avevi, e le segnalazioni che avevi mandato. Non si tiene una copia per sicurezza.',
+          "Quello che sta sul tuo dispositivo lo cancelli tu, disinstallando l'app o pulendo i dati del browser."] },
+
+    { t: 'I tuoi diritti, e come usarli',
+      p: ['Il regolamento ti dà diritto ad accedere ai tuoi dati, correggerli, cancellarli, portarteli via, opporti al trattamento, limitarlo e ritirare il consenso. Quasi tutto puoi farlo da solo, senza chiedere e senza aspettare:'],
+      l: ['<b>Accedere e portarteli via:</b> ne Il mio profilo, in Impostazioni, un pulsante ti scarica tutto il tuo stato in un file JSON. È tutto quello che esiste su di te, così com’è salvato.',
+          '<b>Correggerli:</b> rifacendo il questionario da Il mio profilo.',
+          '<b>Cancellarli e ritirare il consenso:</b> Il mio profilo, elimina account.'],
+      p2: ['Per quello che non puoi fare da solo, scrivi a <a href="mailto:{C}">{C}</a>. La risposta arriva entro un mese al massimo, che è quanto fissa il regolamento.',
+           'Se pensi che qualcosa sia stato fatto male, puoi rivolgerti alla tua autorità nazionale. In Italia è il Garante per la protezione dei dati personali, su <a href="https://www.garanteprivacy.it" rel="noopener">www.garanteprivacy.it</a>.'] },
+
+    { t: 'Minori',
+      p: ['BACK2PRIME non è per chi ha meno di 16 anni, e il questionario non accetta età inferiori.',
+          'Se sei genitore o tutore di un minore che ha creato un account, scrivi a <a href="mailto:{C}">{C}</a> e viene cancellato.'] },
+
+    { t: 'Sicurezza',
+      p: ['Tutto viaggia cifrato su HTTPS. Le password sono salvate come impronta crittografica, mai in chiaro.',
+          "Nel database ogni riga è protetta da politiche di accesso applicate sul server: anche se qualcuno cambia l'indirizzo nel browser o chiama l'API a mano, può vedere e toccare solo il proprio. Il sito dichiara inoltre una politica di sicurezza dei contenuti che impedisce di caricare codice di terzi.",
+          'Nessun sistema è infallibile e promettere il contrario sarebbe assurdo, ma questo è quello che c’è.'] },
+
+    { t: 'Se questo cambia',
+      p: ['Cambia la data qui sopra. Se il cambiamento riguarda a cosa servono i tuoi dati, il consenso ti verrà chiesto di nuovo invece di darlo per scontato.'] },
+
+    { t: 'Contatto',
+      p: ['<a href="mailto:{C}">{C}</a>'] }
+  ]
+};
+
+/* ------------------------------ PORTUGUÊS ------------------------------ */
+T.pt = {
+  titulo: 'Política de privacidade',
+  fecha: 'Última atualização: 5 de setembro de 2026',
+  volver: 'Voltar à app',
+  pie: 'BACK2PRIME · força e comida, um plano à tua medida.',
+  intro: 'A BACK2PRIME constrói um plano de treino e de comida a partir do que contas sobre ti. Para isso são precisos dados, e alguns são dados de saúde. Esta página diz quais, onde vivem, durante quanto tempo e o que podes fazer com eles. Está escrita para se perceber, não para nos proteger.',
+  secciones: [
+    { t: 'Quem responde pelos teus dados',
+      p: ['A BACK2PRIME é um projeto pessoal, não uma empresa. Responde pelos teus dados a pessoa que a mantém, e podes escrever-lhe para <a href="mailto:{C}">{C}</a> sobre qualquer coisa desta página.'] },
+
+    { t: 'Que dados se recolhem',
+      p: ['Dás tudo isto tu. Nada é recolhido nas tuas costas.'],
+      l: ['<b>Para teres conta:</b> o teu e-mail e uma palavra-passe. A palavra-passe é gerida pela Supabase, o fornecedor de autenticação: viaja cifrada, é guardada como resumo criptográfico, e nem a app nem nós a vemos alguma vez.',
+          '<b>O teu nome:</b> o que escreves ao começar, até 24 caracteres. Uma alcunha serve perfeitamente.',
+          '<b>O questionário:</b> sexo, idade, altura, peso, cintura, objetivo, para quando o queres, quanto tempo dura, se vens de treinar ou não, dias por semana, minutos por sessão, altura do dia, material de que dispões, lesões no joelho, ombro ou lombar, se tens aval do teu médico, tipo de dieta, intolerâncias, e que comidas, desportos e exercícios gostas ou não.',
+          '<b>O que registas cada dia:</b> peso, cintura, exercícios feitos, minutos de cardio, se fechaste a sessão e o trabalho de tendão.',
+          '<b>O que a app deduz do anterior:</b> conquistas, recordes pessoais, a lista de compras marcada e o idioma que usas.',
+          '<b>Se enviares um reporte</b> pela bolha: o texto, entre 4 e 2000 caracteres; se é uma falha, uma ideia ou outra coisa; e o contexto técnico para se poder reproduzir, que é a versão, a plataforma, o idioma, o ecrã em que estavas, o tamanho do ecrã e os primeiros 180 caracteres do identificador do teu navegador. Não vai nada do teu plano, do teu peso nem dos teus registos.',
+          '<b>Se partilhares o plano por link:</b> uma cópia do plano, guardada sob um código aleatório. Quem tiver o link vê esse plano e mais nada: nem os teus registos, nem o teu peso, nem o teu e-mail.'] },
+
+    { t: 'Os dados de saúde, à parte',
+      p: ['O peso, a cintura, as lesões e o aval médico são dados de saúde. O regulamento europeu protege-os mais do que aos restantes, e com razão.',
+          'A base legal para os tratar é o teu <b>consentimento explícito</b>: dá-los tu, no questionário, para que a app possa calcular o teu plano. Servem só para isso. Podes retirar o consentimento quando quiseres apagando a conta, e desaparecem com ela.',
+          'Sem esses dados a app não consegue gerar um plano. Não há uma versão que funcione sem eles, e dizer-te o contrário seria mentira.'] },
+
+    { t: 'Para que servem',
+      p: ['Para uma coisa só: construir o teu plano e seguir o teu progresso.',
+          'Não servem para te traçar um perfil, não são vendidos, não são cedidos a ninguém e não são cruzados com nenhuma outra fonte. Não há decisões automatizadas com efeitos jurídicos sobre ti: o plano é uma proposta de treino e de comida, não um diagnóstico nem um conselho médico.'] },
+
+    { t: 'O que não se faz',
+      l: ['Não há analítica nem medição de uso individual. Não sabemos que ecrãs vês.',
+          'Não há anúncios nem rastreadores de terceiros.',
+          'Não se recolhe a tua localização, os teus contactos, as tuas fotos nem a tua agenda.',
+          'Não se pedem nem se guardam dados de pagamento.',
+          'Não se vende nem se cede nada a ninguém, nem agregado nem anónimo.',
+          'Não há cookies de seguimento. A sessão fica no armazenamento local do teu próprio dispositivo.'] },
+
+    { t: 'Onde vivem os dados',
+      l: ['<b>No teu dispositivo:</b> tudo. A app funciona em local e guarda o teu estado no armazenamento do navegador. Se não entrares, dali não sai.',
+          '<b>Na Supabase:</b> a cópia que sincroniza os teus dispositivos e que te devolve o plano se mudares de telemóvel. O projeto está alojado na <b>União Europeia</b>, por isso os teus dados não saem do Espaço Económico Europeu.',
+          '<b>No GitHub Pages:</b> só o site em si, os ficheiros. Como qualquer servidor do mundo, o GitHub regista endereços IP nos seus próprios registos, por segurança e para servir a página.',
+          '<b>Um cookie técnico:</b> à frente da Supabase está a Cloudflare, que põe um cookie de gestão de tráfego no seu próprio domínio. Não serve para te seguir pela internet: serve para distinguir um navegador de um robô.'] },
+
+    { t: 'Durante quanto tempo',
+      p: ['Enquanto tiveres conta.',
+          'Quando a apagas em <b>O meu perfil</b>, o teu utilizador é apagado e com ele, em cascata e no momento: o teu estado, o teu plano partilhado se o tinhas, e os reportes que tivesses enviado. Não fica uma cópia por precaução.',
+          'O que estiver no teu dispositivo apagas tu, desinstalando a app ou limpando os dados do navegador.'] },
+
+    { t: 'Os teus direitos, e como usá-los',
+      p: ['O regulamento dá-te direito a aceder aos teus dados, corrigi-los, apagá-los, levá-los contigo, opores-te ao tratamento, limitá-lo e retirar o consentimento. Quase tudo podes fazer sozinho, sem pedir e sem esperar:'],
+      l: ['<b>Aceder e levar contigo:</b> em O meu perfil, nas Definições, há um botão que descarrega todo o teu estado num ficheiro JSON. É tudo o que existe sobre ti, tal como está guardado.',
+          '<b>Corrigir:</b> refazendo o questionário a partir de O meu perfil.',
+          '<b>Apagar e retirar o consentimento:</b> O meu perfil, apagar conta.'],
+      p2: ['Para o que não possas fazer sozinho, escreve para <a href="mailto:{C}">{C}</a>. A resposta chega no prazo máximo de um mês, que é o que o regulamento marca.',
+           'Se achares que alguma coisa foi mal feita, podes reclamar junto da tua autoridade nacional. Em Portugal é a Comissão Nacional de Proteção de Dados, em <a href="https://www.cnpd.pt" rel="noopener">www.cnpd.pt</a>.'] },
+
+    { t: 'Menores',
+      p: ['A BACK2PRIME não é para menores de 16 anos, e o questionário não aceita idades abaixo disso.',
+          'Se és pai, mãe ou tutor de alguém menor que criou uma conta, escreve para <a href="mailto:{C}">{C}</a> e é apagada.'] },
+
+    { t: 'Segurança',
+      p: ['Tudo viaja cifrado por HTTPS. As palavras-passe são guardadas como resumo criptográfico, nunca em claro.',
+          'Na base de dados, cada linha está protegida por políticas de acesso aplicadas no servidor: mesmo que alguém mude o endereço no navegador ou chame a API à mão, só consegue ver e tocar no que é seu. O site declara ainda uma política de segurança de conteúdos que impede carregar código de terceiros.',
+          'Nenhum sistema é infalível e prometer o contrário seria absurdo, mas é isto que está posto.'] },
+
+    { t: 'Se isto mudar',
+      p: ['Muda a data lá em cima. Se a mudança afetar para que servem os teus dados, o consentimento será pedido outra vez em vez de se dar como assente.'] },
+
+    { t: 'Contacto',
+      p: ['<a href="mailto:{C}">{C}</a>'] }
+  ]
+};
+
+/* ============================ pintado ============================ */
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+/* El texto lleva enlaces a propósito (correo, autoridad de control), así que
+   no se escapa entero: se escapan los TÍTULOS, que son texto plano, y el
+   cuerpo se escribe tal cual desde este mismo fichero. No entra nada de
+   fuera: ni del usuario, ni de la red, ni de la URL. */
+function pinta(lang) {
+  var t = T[lang] || T.es;
+  document.documentElement.lang = lang;
+  document.title = t.titulo + ' · BACK2PRIME';
+
+  var h = '<h1>' + esc(t.titulo) + '</h1>';
+  h += '<p class="fecha">' + esc(t.fecha) + '</p>';
+  h += '<p class="intro">' + esc(t.intro) + '</p>';
+
+  for (var i = 0; i < t.secciones.length; i++) {
+    var s = t.secciones[i], j;
+    h += '<section><h2>' + esc(s.t) + '</h2>';
+    if (s.p) for (j = 0; j < s.p.length; j++) h += '<p>' + s.p[j] + '</p>';
+    if (s.l) { h += '<ul>'; for (j = 0; j < s.l.length; j++) h += '<li>' + s.l[j] + '</li>'; h += '</ul>'; }
+    if (s.p2) for (j = 0; j < s.p2.length; j++) h += '<p>' + s.p2[j] + '</p>';
+    h += '</section>';
+  }
+  document.getElementById('doc').innerHTML = h.split('{C}').join(CONTACTO);
+  document.querySelector('#volver span').textContent = t.volver;
+  document.getElementById('pie').textContent = t.pie;
+
+  var bs = document.querySelectorAll('#idiomas button');
+  for (var k = 0; k < bs.length; k++)
+    bs[k].setAttribute('aria-current', bs[k].dataset.lang === lang ? 'true' : 'false');
+
+  try { history.replaceState(null, '', '?lang=' + lang); } catch (e) {}
+}
+
+/* Qué idioma: el de la URL manda (para poder enlazar a uno concreto), luego
+   el que la persona eligió en la app, luego el del navegador, y si nada
+   encaja, español. */
+function idiomaInicial() {
+  var q = (location.search.match(/[?&]lang=([a-z]{2})/) || [])[1];
+  if (q && T[q]) return q;
+  try {
+    var S = JSON.parse(localStorage.getItem('b2p_v1') || '{}');
+    if (S.config && T[S.config.lang]) return S.config.lang;
+  } catch (e) {}
+  var nav = (navigator.language || 'es').slice(0, 2).toLowerCase();
+  return T[nav] ? nav : 'es';
+}
+
+(function () {
+  var nav = document.getElementById('idiomas');
+  for (var i = 0; i < IDIOMAS.length; i++) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.lang = IDIOMAS[i][0];
+    b.textContent = IDIOMAS[i][1];
+    b.addEventListener('click', function () { pinta(this.dataset.lang); });
+    nav.appendChild(b);
+  }
+  pinta(idiomaInicial());
+})();
+</script>
+</body>
+</html>

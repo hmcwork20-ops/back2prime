@@ -1460,6 +1460,8 @@
 
     /* ---- ⚙️ Ajustes: plegado — solo el título hasta que lo pides ---- */
     const aj = el('div', { class: 'fold-in' });
+    aj.append(el('p', { class: 'mini', style: 'margin-top:12px' },
+      el('a', { href: 'privacidad.html', class: 'priv-a' }, TX.pPrivacidad)));
     sh.append(el('details', { class: 'fold', id: 'pf-ajustes' }, el('summary', null, icono('engranaje', 15), ' ' + TX.ajustes), aj));
     const sh2 = aj;
     sh2.append(el('div', { class: 'mini', style: 'margin:2px 0 6px' }, icono('globo', 13), ' ' + TX.ajIdioma));

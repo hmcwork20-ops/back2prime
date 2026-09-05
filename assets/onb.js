@@ -134,7 +134,10 @@
         el('div', { class: 'field' }, el('label', null, NU.correoL), cor),
         campoClave(cla, NU.claveL),
         bPrin, bCambia, bOlvide,
-        el('p', { class: 'mini', style: 'text-align:center' }, NU.local));
+        el('p', { class: 'mini', style: 'text-align:center' }, NU.local),
+        /* la politica, antes de crear la cuenta: aqui es donde se consiente */
+        el('p', { class: 'mini', style: 'text-align:center;margin-top:6px' },
+          el('a', { href: 'privacidad.html', class: 'priv-a' }, TX.pPrivacidad)));
       pinta();
 
       // idioma tambien en la puerta con cuenta
@@ -173,7 +176,9 @@
     inp.addEventListener('keydown', ev => { if (ev.key === 'Enter') crea(); });
     caja.append(el('div', { class: 'field' }, el('label', { for: 'alta-nombre' }, A.nombreL), inp));
     caja.append(el('button', { class: 'btn-b2p', style: 'width:100%', type: 'button', onclick: crea }, A.cta));
-    caja.append(el('p', { class: 'mini', style: 'text-align:center' }, A.local));
+    caja.append(el('p', { class: 'mini', style: 'text-align:center' }, A.local),
+      el('p', { class: 'mini', style: 'text-align:center;margin-top:6px' },
+          el('a', { href: 'privacidad.html', class: 'priv-a' }, TX.pPrivacidad)));
 
     // idioma: la única decisión que se toma ANTES de escribir nada
     const fila = el('div', { class: 'alta-langs', role: 'group', 'aria-label': A.idioma });

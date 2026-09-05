@@ -1235,3 +1235,8 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .ing-tx { min-width: 0; display: flex; flex-direction: column; gap: 1px; font-size: 14px }
 .ing-tx .mini { margin: 0 }
 .ing-q { min-width: 0; text-align: right; font-size: 13px; color: var(--ink2); white-space: nowrap }
+
+/* enlace a la politica: discreto en la puerta, visible cuando se busca */
+.priv-a{color:var(--ink2);text-decoration:underline;text-underline-offset:2px}
+.priv-a:hover{color:var(--ink)}
+.priv-a:focus-visible{outline:2px solid var(--volt);outline-offset:2px;border-radius:3px}

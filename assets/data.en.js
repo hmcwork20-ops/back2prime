@@ -1360,7 +1360,7 @@ window.B2P = (function () {
     nNumeros: 'Where the numbers come from', nPlato: 'How to build each meal',
     nRecetario: 'Recipe book', nToca: 'tap to cook', nMenu: 'Weekly menu',
     nCompra: 'The week’s shop', nPrepDom: 'Sunday meal prep', nSupl: 'Supplements',
-    nReiniciar: 'reset', nProteLbl: 'Protein', nGrasaLbl: 'Fat', nCarbosLbl: 'Carbs', kcalLbl: 'kcal',
+    nReiniciar: 'reset', nProteLbl: 'Protein', nGrasaLbl: 'Fat', nCarbosLbl: 'Carbs', kcalLbl: 'kcal', nMenuLbl: 'menu',
     nDietBreakTitulo: 'This week: DIET BREAK', nDietBreakTxt: '~{k} kcal: +2 carb portions a day. Same protein. Same training.',
     nTomaNota: '+ every night: pre-sleep serving (skyr + whey). ',
     nIngredientes: 'Ingredients (1 serving)', nPasos: 'Steps', opcionalParen: ' (optional)',

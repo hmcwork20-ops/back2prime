@@ -474,6 +474,10 @@ tr.now td{background:color-mix(in srgb,var(--volt) 7%,transparent)}
    partían en dos líneas y descuadraban la fila. */
 .stat .sv{font-family:var(--mono);font-weight:700;font-size:clamp(15px,4.3vw,19px);margin-top:1px;white-space:nowrap}
 .stat .sd{font-size:11px;color:var(--ink2)}
+/* el desfase del menu: pie de la fila de cifras, no una cifra mas.
+   Mismo peso que las etiquetas de arriba para que se lea despues. */
+.obj-cifras{margin:6px 0 0}
+.dmenu{font-size:11.5px;color:var(--ink3);margin:7px 2px 0;letter-spacing:.01em}
 .stat .sv .up{color:var(--f1)} .stat .sv .down{color:var(--f4)}
 .chart-card{padding-bottom:6px}
 .chart-card svg{display:block;width:100%;height:auto}

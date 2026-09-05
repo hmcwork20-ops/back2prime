@@ -302,6 +302,34 @@
   }
 
   /* ==================== NUTRICIÓN ==================== */
+  /* ---- el desfase del menu: una linea, bajo las cifras que desmiente ----
+     El menu se arma con recetas de tamano fijo, asi que casi nunca cuadra al
+     digito con el objetivo. Antes eso eran dos parrafos bajo la tarjeta y
+     convertian la portada de Comida en una lectura; ahora es una linea con
+     los dos huecos y su signo. Que hacer con ellos se explica en Mi perfil >
+     Detras del plan: aqui va el tamano del hueco, alli el remedio.
+
+     Va bajo la FILA y no dentro de cada celda porque dentro no cabe: con
+     cuatro columnas en un movil de 375 px la celda da 45 px de contenido y
+     «menu -200» pide 49 incluso a 10 px. Se recortaba sin avisar, y en
+     aleman o con cuatro digitos, mas.
+
+     De la proteina solo se avisa del defecto: pasarse no es un problema que
+     arreglar, y decirlo seria ruido. */
+  function lineaMenu(fn) {
+    if (!D.__gen) return null;
+    const partes = [];
+    if (D.__kcalMenu && fn.kcal) {
+      const d = D.__kcalMenu - fn.kcal;
+      if (Math.abs(d) >= 100) partes.push((d < 0 ? '-' : '+') + Math.abs(d) + ' ' + TX.kcalLbl);
+    }
+    if (D.__protMenu && fn.p && fn.p - D.__protMenu >= 16)
+      partes.push('-' + (fn.p - D.__protMenu) + ' g ' + TX.nProteLbl);
+    return partes.length
+      ? el('div', { class: 'dmenu' }, (TX.nMenuLbl || 'menu') + ' ' + partes.join(' · '))
+      : null;
+  }
+
   let grupoRec = null;         // el grupo abierto del recetario (de/co/ce/supl)
   function renderNutricion(root) {
     const w = U.semanaDe(U.hoyISO());
@@ -317,11 +345,15 @@
 
     root.append(el('div', { id: 'n-obj', class: 'card fase-card pn' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.nObjetivo), el('div', { class: 'sub' }, fn.f + (w >= 1 && w <= SEMANAS ? ' · ' + tpl(TX.nSemana, { w }) : '')))),
-      el('div', { class: 'statrow', style: 'grid-template-columns:repeat(4,1fr);margin:6px 0 2px' },
-        el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.kcalLbl), el('div', { class: 'sv num' }, fn.kcal.toLocaleString(TX.lang || 'es'))),
-        el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nProteLbl), el('div', { class: 'sv num' }, fn.p + ' g')),
-        el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nGrasaLbl), el('div', { class: 'sv num' }, fn.g + ' g')),
-        el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nCarbosLbl), el('div', { class: 'sv num' }, fn.c + ' g'))),
+      /* fila y desfase van juntos en un hijo: el gap de la tarjeta separa
+         bloques, y el pie de las cifras no es un bloque, es su pie */
+      el('div', { class: 'obj-cifras' },
+        el('div', { class: 'statrow', style: 'grid-template-columns:repeat(4,1fr);margin:0' },
+          el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.kcalLbl), el('div', { class: 'sv num' }, fn.kcal.toLocaleString(TX.lang || 'es'))),
+          el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nProteLbl), el('div', { class: 'sv num' }, fn.p + ' g')),
+          el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nGrasaLbl), el('div', { class: 'sv num' }, fn.g + ' g')),
+          el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nCarbosLbl), el('div', { class: 'sv num' }, fn.c + ' g'))),
+        lineaMenu(fn)),
       ((D.HITOS_SEMANA[w] || {}).tipo === 'dietbreak' || (!D.__gen && w === 7))
         ? el('div', { class: 'banner', style: 'margin:8px 0 2px' }, el('div', null, el('b', null, TX.nDietBreakTitulo),
             el('div', null, tpl(TX.nDietBreakTxt, { k: (D.__mantenimiento || 2800).toLocaleString(TX.lang || 'es') })))) : null,

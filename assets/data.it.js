@@ -1360,7 +1360,7 @@ window.B2P = (function () {
     nNumeros: 'Da dove escono i numeri', nPlato: 'Come montare ogni pasto',
     nRecetario: 'Ricettario', nToca: 'tocca per cucinare', nMenu: 'Menù settimanale',
     nCompra: 'La spesa della settimana', nPrepDom: 'Meal prep della domenica', nSupl: 'Integratori',
-    nReiniciar: 'ricomincia', nProteLbl: 'Prote', nGrasaLbl: 'Grassi', nCarbosLbl: 'Carbo', kcalLbl: 'kcal',
+    nReiniciar: 'ricomincia', nProteLbl: 'Prote', nGrasaLbl: 'Grassi', nCarbosLbl: 'Carbo', kcalLbl: 'kcal', nMenuLbl: 'menù',
     nDietBreakTitulo: 'Questa settimana: DIET BREAK', nDietBreakTxt: '~{k} kcal: +2 porzioni di carboidrati al giorno. Proteine invariate. Allenamento invariato.',
     nTomaNota: '+ ogni sera: spuntino pre-nanna (skyr + whey). ',
     nIngredientes: 'Ingredienti (1 porzione)', nPasos: 'Passaggi', opcionalParen: ' (opzionale)',

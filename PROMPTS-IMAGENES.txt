@@ -12,11 +12,8 @@ y al volver a lanzar esto solo se listan las que sigan faltando.
 
 
 ==============================================================
-PRODUCTOS DE LA COMPRA  (faltan 1)
+PRODUCTOS DE LA COMPRA  (faltan 0)
 ==============================================================
-
---- chia.png
-Fotografía de producto minimalista de cuenco pequeño de semillas de chía, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
 
 
 ==============================================================

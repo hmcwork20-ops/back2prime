@@ -97,6 +97,8 @@ PRODUCTOS = {
 SUPLEMENTOS = {
     'creatina': 'bote de creatina monohidrato en polvo con cazo',
     'whey': 'bote de proteína whey con cazo y un batido al lado',
+    # la alternativa vegana del anterior: a un vegano el plan le receta esta
+    'prote-vegetal': 'bote de proteína vegetal de guisante en polvo con cazo',
     'cafeina': 'taza de café solo con granos de café alrededor',
     'vitamina-d': 'bote de cápsulas de vitamina D con unas perlas fuera',
     'omega-3': 'bote de omega-3 con cápsulas doradas fuera',

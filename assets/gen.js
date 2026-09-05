@@ -437,7 +437,11 @@ window.B2P_GEN = (function () {
       else if (p.dieta === 'vegetariano' && G.platoVegetariano) N.plato[0].d = G.platoVegetariano;
     }
     if (N.suplementos && N.suplementos.length > 1 && (p.dieta === 'vegano' || (p.sin || []).includes('lactosa')) && G.suplVegT) {
-      N.suplementos[1] = Object.assign({}, N.suplementos[1], { t: G.suplVegT, d: G.suplVegD });
+      /* el id cambia TAMBIEN, no solo el texto: la foto de la ficha se busca
+         por id (assets/supl/<id>.webp), asi que heredando el de whey el texto
+         diria «proteina de guisante» junto a un bote de suero de leche */
+      N.suplementos[1] = Object.assign({}, N.suplementos[1],
+        { id: 'prote-vegetal', t: G.suplVegT, d: G.suplVegD });
     }
     if (N.calorias && N.calorias.length >= 3) {
       N.calorias[0].v = '~' + fmt(bmr) + ' kcal';

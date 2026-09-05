@@ -95,7 +95,7 @@ Fotografía de producto minimalista de zanahorias frescas, una cortada en baston
 
 
 ==============================================================
-SUPLEMENTOS  (faltan 5)
+SUPLEMENTOS  (faltan 6)
 ==============================================================
 
 --- creatina.png
@@ -103,6 +103,9 @@ Fotografía de producto minimalista de bote de creatina monohidrato en polvo con
 
 --- whey.png
 Fotografía de producto minimalista de bote de proteína whey con cazo y un batido al lado, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
+
+--- prote-vegetal.png
+Fotografía de producto minimalista de bote de proteína vegetal de guisante en polvo con cazo, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.
 
 --- cafeina.png
 Fotografía de producto minimalista de taza de café solo con granos de café alrededor, centrado, sobre fondo gris oscuro casi negro (#14171C), luz suave de estudio desde arriba, realista, sin texto ni marcas ni etiquetas legibles, sin manos, encuadre cuadrado, el producto ocupa el 70% del encuadre.

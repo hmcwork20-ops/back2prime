@@ -22,11 +22,12 @@ const RAIZ = path.resolve(AQUI, '..', '..');
 /* El orden va de lo general a lo concreto: si el motor esta roto de raiz,
    material falla primero y el resto es ruido. */
 const SUITES = [
-  ['material',  'bandas y banco, evento con fecha, desfase del menu'],
-  ['menores',   'variedad del menu, duracion anunciada, cardio'],
-  ['patrones',  'los 13 patrones en casa y a peso corporal, escalera de dificultad'],
-  ['portugues', 'los seis idiomas generan plan completo'],
-  ['inicio',    'cuando empieza el plan: hoy, semana, lunes, dia exacto'],
+  ['material',    'bandas y banco, evento con fecha, desfase del menu'],
+  ['menores',     'variedad del menu, duracion anunciada, cardio'],
+  ['patrones',    'los 13 patrones en casa y a peso corporal, escalera de dificultad'],
+  ['portugues',   'los seis idiomas generan plan completo'],
+  ['inicio',      'cuando empieza el plan: hoy, semana, lunes, dia exacto'],
+  ['suplementos', 'la dieta manda, y el id manda sobre la foto'],
 ];
 
 console.log('');
@@ -43,7 +44,7 @@ for (const [nombre, que] of SUITES) {
   const bien = r.status === 0;
   if (!bien) fallos++;
 
-  console.log((bien ? '  OK   ' : '  FALLA') + '  ' + nombre.padEnd(10) + '  ' + que + '  (' + ms + ' ms)');
+  console.log((bien ? '  OK   ' : '  FALLA') + '  ' + nombre.padEnd(12) + '  ' + que + '  (' + ms + ' ms)');
   /* En verde se resume; en rojo se enseña TODO, que es cuando hace falta. */
   if (!bien && salida) console.log(salida.split('\n').map(l => '         ' + l).join('\n'));
 }

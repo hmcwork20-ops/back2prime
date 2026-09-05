@@ -1214,3 +1214,20 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .toca-num { flex: 0 0 auto; color: var(--ink2); font-size: 12.5px }
 .toca-chev { flex: 0 0 auto; color: var(--ink3); font-size: 21px; line-height: 1; transform: translateY(-1px) }
 .toca .mf { width: 46px; height: 46px; border-radius: 11px; object-fit: cover; flex: 0 0 auto }
+
+
+/* ============ COMIDA: los ingredientes de la receta, con foto ============
+   Misma geometria que .shopitem (46 px, radio 11): la compra y la receta
+   hablan de los mismos productos, asi que se parecen. */
+.ing-lista { display: flex; flex-direction: column; margin: 2px 0 4px }
+.ing-fila { display: grid; grid-template-columns: 46px 1fr auto; align-items: center;
+  gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line-soft) }
+.ing-fila:last-child { border-bottom: 0 }
+.ing-fila .ing-img { width: 46px; height: 46px; border-radius: 11px;
+  object-fit: cover; background: var(--surface2) }
+.ing-fila img.ing-img { cursor: zoom-in }
+.ing-fila .ing-img.ph { display: flex; align-items: center; justify-content: center;
+  font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink3) }
+.ing-tx { min-width: 0; display: flex; flex-direction: column; gap: 1px; font-size: 14px }
+.ing-tx .mini { margin: 0 }
+.ing-q { min-width: 0; text-align: right; font-size: 13px; color: var(--ink2); white-space: nowrap }

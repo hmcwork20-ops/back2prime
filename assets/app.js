@@ -1418,13 +1418,40 @@
             return mp;
           })()),
         foldSub('pf-plato', TX.nPlato,
-          el('div', { class: 'regla-g' }, D.NUTRI.plato.map(pp => el('div', { class: 'regla' }, el('b', null, pp.t), pp.d)))),
+          el('div', { class: 'regla-g' }, D.NUTRI.plato.map(pp => el('div', { class: 'regla' }, el('b', null, pp.t), pp.d))),
+          /* la toma nocturna y la comida libre: metodo de mesa, no portada */
+          el('p', { class: 'mini', style: 'margin-top:10px' },
+            ((D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa')) && TX.gen)
+              ? TX.gen.tomaNocheAlt : TX.nTomaNota) + D.NUTRI.comidaLibre)),
         foldSub('pf-numeros', TX.nNumeros,
           el('div', { class: 'tw' }, el('table', null, D.NUTRI.calorias.map(c => el('tr', null, el('td', null, c.c, el('div', { class: 'mini' }, c.n)), el('td', { class: 'sr' }, c.v))))),
           el('div', { class: 'tw' }, el('table', null,
             el('tr', null, el('th', null, TX.fase), el('th', null, TX.kcalLbl), el('th', null, 'P'), el('th', null, 'G'), el('th', null, 'C')),
             D.NUTRI.fases.map((f, i) => el('tr', i === fiN ? { class: 'now' } : null, el('td', null, f.f), el('td', { class: 'sr' }, f.kcal.toLocaleString(TX.lang || 'es')), el('td', { class: 'sr' }, f.p), el('td', { class: 'sr' }, f.g), el('td', { class: 'sr' }, f.c))))),
-          el('p', { style: 'font-size:13px' }, D.NUTRI.escalado)),
+          el('p', { style: 'font-size:13px' }, D.NUTRI.escalado),
+          /* Los desfases del menu, donde de verdad se consultan: se arma con
+             recetas de tamano fijo y casi nunca cuadra al digito. Callarlo
+             seria peor; tenerlo en la portada de Comida, tambien. */
+          (() => {
+            const av = [];
+            if (D.__gen && D.__protMenu && TX.gen && TX.gen.protHueco
+              && D.META.perfil.proteinaDia - D.__protMenu > 15)
+              av.push(tpl(TX.gen.protHueco, { m: D.__protMenu, p: D.META.perfil.proteinaDia }));
+            if (D.__gen && D.__kcalMenu && TX.gen && TX.gen.kcalHueco) {
+              const obj = (D.NUTRI.fases[fiN] || {}).kcal || 0;
+              const dif = D.__kcalMenu - obj;
+              if (obj && Math.abs(dif) >= 100) {
+                const q = dif < 0 ? tpl(TX.gen.kcalSube, { d: Math.abs(dif) }) : tpl(TX.gen.kcalBaja, { d: dif });
+                av.push(tpl(TX.gen.kcalHueco, {
+                  m: D.__kcalMenu.toLocaleString(TX.lang || 'es'),
+                  k: obj.toLocaleString(TX.lang || 'es'), q }));
+              }
+            }
+            return av.length
+              ? el('div', { class: 'regla-g', style: 'margin-top:10px' },
+                  av.map(a => el('div', { class: 'regla' }, a)))
+              : null;
+          })()),
         foldSub('pf-ciencia', TX.vCiencia,
           el('p', { class: 'mini' }, D.CIENCIA.intro),
           D.CIENCIA.temas.map(t => el('div', { class: 'regla', style: 'margin:8px 0' },

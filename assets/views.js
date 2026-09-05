@@ -286,6 +286,8 @@
     if (zonaEj) pintaLista(); else pintaZonas();
   }
 
+  const cap = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+
   /* ---- zoom de imagen: para reconocer el producto en el super ----
      Capa propia y no una hoja: esto es un vistazo, no una vista. Se cierra
      tocando donde sea o con Escape. */
@@ -327,28 +329,13 @@
 
     // «De dónde salen los números» vive ahora en Mi Perfil → Detrás del plan
 
-    /* Los avisos del menu (desfases de kcal y proteina, platos sin encaje)
-       siguen aqui aunque el menu como tabla viva ahora en el calendario de
-       Plan: hablan de TU semana de comida, no de una vista. */
+    /* Aqui solo queda lo que es una ALERTA: platos del menu que no encajan
+       con la dieta declarada. Los desfases de kcal y proteina, y la nota de
+       la toma nocturna, se leen en Mi perfil > Detras del plan: son metodo,
+       y aqui convertian la cabecera en un muro de texto. */
     if (D.__menuAvisos && TX.gen && TX.gen.menuAviso)
       root.append(el('div', { class: 'banner warn', style: 'margin:8px 0' },
         el('div', null, U.tpl(TX.gen.menuAviso, { n: D.__menuAvisos }))));
-    if (D.__gen && D.__protMenu && TX.gen && TX.gen.protHueco
-      && D.META.perfil.proteinaDia - D.__protMenu > 15)
-      root.append(el('p', { class: 'mini', style: 'padding:0 2px' },
-        U.tpl(TX.gen.protHueco, { m: D.__protMenu, p: D.META.perfil.proteinaDia })));
-    if (D.__gen && D.__kcalMenu && TX.gen && TX.gen.kcalHueco) {
-      const obj = (D.NUTRI.fases[fi] || {}).kcal || 0;
-      const dif = D.__kcalMenu - obj;
-      if (obj && Math.abs(dif) >= 100) {
-        const q = dif < 0 ? U.tpl(TX.gen.kcalSube, { d: Math.abs(dif) }) : U.tpl(TX.gen.kcalBaja, { d: dif });
-        root.append(el('p', { class: 'mini', style: 'padding:0 2px' },
-          U.tpl(TX.gen.kcalHueco, { m: D.__kcalMenu.toLocaleString(TX.lang || 'es'), k: obj.toLocaleString(TX.lang || 'es'), q })));
-      }
-    }
-    const notaNoche = (D.__gen && (D.META.dieta === 'vegano' || (D.META.sin || []).includes('lactosa')) && TX.gen)
-      ? TX.gen.tomaNocheAlt : TX.nTomaNota;
-    root.append(el('p', { class: 'mini', style: 'padding:0 2px' }, notaNoche + D.NUTRI.comidaLibre));
 
     /* ---- recetario por comidas: grupos primero, dentro los platos ----
        Como Ejercicios: cuatro tarjetas (Desayuno, Comida, Cena y Suplementos)
@@ -421,7 +408,6 @@
         U.S.shop = {}; U.save();
         window.dispatchEvent(new HashChangeEvent('hashchange'));
       } }, TX.nReiniciar)));
-    const cap = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
     const imgProd = pid => (pid && (window.B2P_PRODUCTOS || []).includes(pid)) ? 'assets/productos/' + pid + '.webp' + IMGV2 : null;
     const TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
     D.COMPRA.forEach((c, ci) => {
@@ -466,10 +452,24 @@
           el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nProteLbl), el('div', { class: 'sv num' }, r.macros.p)),
           el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nGrasaLbl), el('div', { class: 'sv num' }, r.macros.g)),
           el('div', { class: 'stat' }, el('div', { class: 'sl' }, TX.nCarbosLbl), el('div', { class: 'sv num' }, r.macros.c))));
+      /* Cada ingrediente con su foto: reconocer el producto es media receta
+         la primera vez que la haces. Tocarla amplia, como en la compra. Si
+         aun no hay foto, una inicial ocupa el hueco y la fila no baila. */
       sh.append(el('h4', null, TX.nIngredientes));
-      const t = el('table');
-      r.ing.forEach(i => t.append(el('tr', null, el('td', { class: 'sr', style: 'white-space:nowrap' }, i.q), el('td', null, i.i, i.n ? el('div', { class: 'mini' }, i.n) : null))));
-      sh.append(el('div', { class: 'tw' }, t));
+      const IMGV3 = '?v=' + (window.B2P_IMG_V || 1);
+      const lista = el('div', { class: 'ing-lista' });
+      r.ing.forEach(ig => {
+        const src = (ig.pid && (window.B2P_PRODUCTOS || []).includes(ig.pid))
+          ? 'assets/productos/' + ig.pid + '.webp' + IMGV3 : null;
+        lista.append(el('div', { class: 'ing-fila' },
+          src
+            ? el('img', { class: 'ing-img', src, alt: '', loading: 'lazy', decoding: 'async',
+                width: '46', height: '46', onclick: () => abreZoom(src, cap(ig.i)) })
+            : el('span', { class: 'ing-img ph', 'aria-hidden': 'true' }, cap((ig.i || '?').charAt(0))),
+          el('span', { class: 'ing-tx' }, cap(ig.i), ig.n ? el('span', { class: 'mini' }, ig.n) : null),
+          el('span', { class: 'ing-q' }, ig.q)));
+      });
+      sh.append(lista);
       sh.append(el('h4', null, TX.nPasos));
       sh.append(el('ol', { style: 'padding-left:20px;font-size:14px' }, r.pasos.map(p => el('li', { style: 'margin:6px 0' }, p))));
       if (r.tips) sh.append(el('div', { class: 'alt', style: 'margin-top:12px' }, r.tips));

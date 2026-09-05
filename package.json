@@ -5,6 +5,7 @@
   "description": "BACK2PRIME — plan de fuerza, nutricion y progreso, generado a medida",
   "scripts": {
     "build": "node tools/build-www.mjs",
+    "test": "node tools/pruebas/todas.mjs",
     "sync": "npm run build && cap sync",
     "android": "npm run sync && cap open android",
     "ios": "npm run sync && cap open ios",

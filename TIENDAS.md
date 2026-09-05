@@ -114,7 +114,7 @@ cuestionario de contenido y la sección *Data safety*.
 
 La política ya está publicada y es la misma para las dos tiendas:
 
-    https://hmcwork20-ops.github.io/back2prime/privacidad.html
+    https://back2prime.app/privacidad.html
 
 Vive en `privacidad.html`, en la raíz del repo, en los seis idiomas de la
 app y con un `?lang=xx` por si alguna ficha pide la versión de un idioma

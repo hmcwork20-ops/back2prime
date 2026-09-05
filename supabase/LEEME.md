@@ -33,7 +33,10 @@ ejecutarla dos veces no rompe nada.
 - *Confirm email*: decide. Activado = más fricción pero sin cuentas con
   correos ajenos; desactivado = entrar a la primera. Para arrancar,
   desactivado es razonable; actívalo cuando haya tráfico real.
-- *URL Configuration → Site URL*: `https://hmcwork20-ops.github.io/back2prime/`
+- *URL Configuration → Site URL*: `https://back2prime.app/`
+  (y en *Redirect URLs*, `https://back2prime.app/**`. Este es el destino
+  de los enlaces de confirmar cuenta y de cambiar contraseña: si se queda
+  apuntando al dominio viejo, los correos llevan a un 404.)
   (imprescindible para que el enlace de «olvidé la contraseña» vuelva a la app).
 - *Rate limits*: revisa la pestaña — Supabase ya trae límites de serie para
   envío de correos, intentos de login y refrescos de token. Los valores por

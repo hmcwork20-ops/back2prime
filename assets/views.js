@@ -126,16 +126,17 @@
     }
     const visor = el('div', { class: 'cal-visor' }, tarjetasMes);
     const envuelve = el('div', { class: 'cal-envoltura' }, visor);
+    /* El paso es la distancia REAL entre dos tarjetas, no el ancho del visor:
+       entre ellas hay hueco, y pidiendo i*clientWidth el destino caia entre
+       dos anclajes. Con scroll-snap-type mandatory el navegador cancela la
+       animacion suave hacia una posicion que no es anclaje, asi que las
+       flechas no movian nada en absoluto. Medirlo del DOM lo deja atado
+       aunque cambie el gap del CSS. Vive FUERA del if: la colocacion inicial
+       del visor, mas abajo, tambien lo usa (y con un solo mes vale igual). */
+    const pasoMes = () => (tarjetasMes.length > 1
+      ? tarjetasMes[1].offsetLeft - tarjetasMes[0].offsetLeft
+      : visor.clientWidth) || 1;
     if (tarjetasMes.length > 1) {
-      /* El paso es la distancia REAL entre dos tarjetas, no el ancho del visor:
-         entre ellas hay hueco, y pidiendo i*clientWidth el destino caia entre
-         dos anclajes. Con scroll-snap-type mandatory el navegador cancela la
-         animacion suave hacia una posicion que no es anclaje, asi que las
-         flechas no movian nada en absoluto. Medirlo del DOM lo deja atado
-         aunque cambie el gap del CSS. */
-      const pasoMes = () => (tarjetasMes.length > 1
-        ? tarjetasMes[1].offsetLeft - tarjetasMes[0].offsetLeft
-        : visor.clientWidth) || 1;
       /* salto y no desliz: medido en el navegador, scrollTo suave no anima en
          este visor ni apagando el snap ni pidiendo un anclaje exacto, y las
          flechas se quedaban clavadas. Con salto funcionan siempre. El desliz

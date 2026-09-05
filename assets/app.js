@@ -655,7 +655,7 @@
     const franjaNota = (D.__gen && D.META.franja && sl && sl.ses && (sl.ses.tipo === 'fuerza' || sl.ses.tipo === 'cardio') && TX.gen)
       ? TX.gen[{ manana: 'franjaM', mediodia: 'franjaMd', tarde: 'franjaT' }[D.META.franja]] : null;
 
-    const card = el('div', { class: 'card' });
+    const card = el('div', { class: 'card', id: 'hoy-comida' });   // asidero del tour
     card.append(el('div', { class: 'card-title' }, el('div', null,
       el('h2', null, TX.comidaHoy),
       el('div', { class: 'sub' }, tpl(TX.comidaHoySub, { kcal: fn.kcal.toLocaleString(TX.lang || 'es'), p: fn.p })))));
@@ -1460,6 +1460,11 @@
 
     /* ---- ⚙️ Ajustes: plegado — solo el título hasta que lo pides ---- */
     const aj = el('div', { class: 'fold-in' });
+    /* el tour se puede repetir: la primera vez pasa deprisa y con la cabeza
+       en otra cosa, y la app ha cambiado bastante desde que muchos lo vieron */
+    if (TX.tour && TX.tour.otraVez && window.B2P_ONB && window.B2P_ONB.repite)
+      aj.append(el('button', { class: 'btn-b2p fantasma', type: 'button', style: 'width:100%;margin-top:12px',
+        onclick: () => window.B2P_ONB.repite() }, TX.tour.otraVez));
     aj.append(el('p', { class: 'mini', style: 'margin-top:12px' },
       el('a', { href: 'privacidad.html', class: 'priv-a' }, TX.pPrivacidad)));
     sh.append(el('details', { class: 'fold', id: 'pf-ajustes' }, el('summary', null, icono('engranaje', 15), ' ' + TX.ajustes), aj));

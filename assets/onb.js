@@ -281,8 +281,15 @@
   }
 
   /* ---------------- TOUR: el paseo de bienvenida ----------------
-     Foco recortado (spotlight) + burbuja. Cinco paradas, siempre saltable,
-     y solo la primera vez: S.ui.tour se borra al terminar o al saltar. */
+     Foco recortado (spotlight) + burbuja, trece paradas que RECORREN la app:
+     el tour navega a cada seccion y senala lo que hay en ella. El anterior
+     tenia cinco paradas y nunca salia de HOY: senalaba las pestanas desde
+     lejos, y con Ejercicios, el calendario, el recetario por grupos, la
+     compra con foto y las dos burbujas, eso ya no contaba la app que hay.
+
+     Siempre saltable. La primera vez arranca solo (S.ui.tour se borra al
+     acabar o al saltar); despues se puede repetir desde Ajustes, y esa
+     repeticion no toca S.ui.tour. */
   let tourVivo = false;
   function tick(r) {
     const S = U.S;
@@ -290,66 +297,168 @@
     tourVivo = true;
     setTimeout(() => tour(() => { tourVivo = false; delete U.S.ui.tour; U.save(); }), 500);
   }
+  function repite() {
+    if (tourVivo) return;
+    tourVivo = true;
+    if (location.hash !== '#/hoy') location.hash = '#/hoy';
+    setTimeout(() => tour(() => { tourVivo = false; }), 450);
+  }
+
+  /* Ruta y objetivo de cada parada. `alt` es el objetivo de reserva, y
+     `antes` marca la parada que cambia de texto si el plan aun no ha
+     empezado (la sesion de hoy no existe todavia: existe la cuenta atras). */
+  const RUTAS = ['hoy', 'plan', 'ejercicios', 'nutricion', 'progreso', 'logros'];
+  const PARADAS = [
+    { r: 'hoy',        sel: '#view .card.fase-card', alt: '#view .card', antes: true },
+    { r: 'hoy',        sel: '#hoy-comida' },
+    { r: 'hoy',        sel: '#view .habits' },
+    { r: 'plan',       sel: '#view .cal-envoltura' },
+    { r: 'plan',       sel: '#view .fases-leyenda' },
+    { r: 'ejercicios', sel: '#view .ej-zonas' },
+    { r: 'nutricion',  sel: '#n-obj' },
+    { r: 'nutricion',  sel: '#n-rec + div', alt: '#n-rec' },           // los grupos, no su titular
+    { r: 'nutricion',  sel: '#n-compra + details', alt: '#n-compra' },  // el primer grupo de la compra
+    { r: 'progreso',   sel: '#view .bp-card', alt: '#view .card' },
+    { r: 'logros',     sel: '#view .vitrina' },
+    { r: 'hoy',        sel: '.fab-rep', alt: '.fab' },
+    { r: 'hoy',        sel: '#btnAjustes' }
+  ];
 
   function tour(fin) {
     const T = TX.tour;
-    if (!T || document.querySelector('.tour')) { fin(); return; }
-    const targets = () => [
-      document.querySelector('#view .card') || document.querySelector('#view'),
-      document.querySelector('.tabbar'),
-      document.querySelector('.tab[data-r="plan"]'),
-      document.querySelector('.tab[data-r="nutricion"]'),
-      document.querySelector('.tab[data-r="progreso"]')
-    ];
+    if (!T || !T.pasos || document.querySelector('.tour')) { fin(); return; }
     const capa = el('div', { class: 'tour' });
     const spot = el('div', { class: 'tour-spot' });
     const bub = el('div', { class: 'card tour-bub', role: 'dialog', 'aria-modal': 'true', tabindex: '-1' });
     capa.append(spot, bub);
     document.body.append(capa);
-    let i = 0;
+    let i = 0, vivo = true, objetivo = null;
     const esc = ev => { if (ev.key === 'Escape') cierra(); };
     addEventListener('keydown', esc);
-    function cierra() { removeEventListener('keydown', esc); capa.remove(); fin(); }
-    function pinta() {
-      const t = targets()[i], p = T.pasos[i];
-      if (!t || !p) { cierra(); return; }
+    const recoloca = () => { if (objetivo) coloca(objetivo); };
+    addEventListener('resize', recoloca);
+    function cierra() {
+      vivo = false;
+      removeEventListener('keydown', esc);
+      removeEventListener('resize', recoloca);
+      capa.remove();
+      // el paseo acaba donde empieza el dia
+      if (location.hash !== '#/hoy') location.hash = '#/hoy';
+      fin();
+    }
+
+    /* Espera a que el objetivo exista: al cambiar de ruta, render() pinta la
+       vista en el siguiente tick y las fuentes pueden mover cosas despues.
+       Un sondeo corto vale mas que un retardo fijo: en un movil lento el
+       retardo fijo se queda corto, y en uno rapido sobra. */
+    /* Un objetivo sin altura util (la tarjeta de Progreso vacia mide 12 px
+       sin registros) no se ilumina: se prueba el siguiente candidato. */
+    const conCuerpo = sel => sel ? [...document.querySelectorAll(sel)].find(x => x.offsetHeight >= 40) || null : null;
+    function busca(sel, alt, plazo) {
+      return new Promise(res => {
+        const t0 = Date.now();
+        (function mira() {
+          if (!vivo) return res(null);
+          const t = conCuerpo(sel) || conCuerpo(alt);
+          if (t) return res(t);
+          if (Date.now() - t0 > plazo) return res(null);
+          setTimeout(mira, 60);
+        })();
+      });
+    }
+
+    let paradaViva = null;                 // la parada en curso, para re-resolver su objetivo
+    function coloca(t) {
+      if (!bub.isConnected) return;
+      /* La vista puede repintarse despues de encontrar el objetivo (Progreso
+         dibuja sus graficas al cargar): un elemento desconectado mide cero y
+         el foco se iba a la esquina con 12 px. Se vuelve a resolver del DOM. */
+      if (!t.isConnected && paradaViva) {
+        const otro = conCuerpo(paradaViva.sel) || conCuerpo(paradaViva.alt);
+        if (!otro) return;
+        t = objetivo = otro;
+      }
+      const rt = t.getBoundingClientRect(), m = 6;
+      const bh = bub.offsetHeight || 180;
+      /* Un objetivo mas alto de lo que cabe sobre la burbuja se recorta: se
+         ilumina su parte de arriba (titulo y primeras filas, que es lo que se
+         ensena) y la burbuja va debajo sin tapar nada. Antes, con la compra
+         de 1900 px, la burbuja acababa encima del foco. */
+      let alto = rt.height;
+      const cabeAbajo = innerHeight - rt.bottom - 16 >= bh;
+      const cabeArriba = rt.top - 16 >= bh;
+      if (!cabeAbajo && !cabeArriba && rt.top >= 0)
+        alto = Math.max(120, Math.min(rt.height, innerHeight - rt.top - bh - 28));
+      spot.style.width = (rt.width + m * 2) + 'px';
+      spot.style.height = (alto + m * 2) + 'px';
+      spot.style.transform = 'translate(' + (rt.left - m) + 'px,' + (rt.top - m) + 'px)';
+      const fondo = rt.top + alto;
+      let top;
+      if (innerHeight - fondo - 16 >= bh) top = fondo + 16;
+      else if (cabeArriba) top = rt.top - 16 - bh;
+      else top = innerHeight - bh - 12;          // no cabe a ningun lado: pegada abajo, encima del recorte
+      top = Math.max(8, Math.min(top, innerHeight - bh - 8));
+      bub.style.top = top + 'px';
+    }
+
+    async function ve(k) {
+      if (!vivo) return;
+      if (k >= PARADAS.length) { cierra(); return; }
+      const P = PARADAS[k];
+      /* con navegacion se espera a que render() pinte la seccion (hasta 1,6 s
+         en un movil lento); sin ella la vista ya esta y lo que falta no va a
+         aparecer: se decide en 300 ms, que es lo que tarda en saltarse la
+         parada del registro diario cuando el plan aun no ha empezado */
+      const navega = location.hash !== '#/' + P.r;
+      if (navega) location.hash = '#/' + P.r;
+      const t = await busca(P.sel, P.alt, navega ? 1600 : 300);
+      if (!vivo) return;
+      if (!t) { ve(k + 1); return; }              // no existe en este estado: siguiente
+      i = k; objetivo = t; paradaViva = P;
+      /* El objetivo a la vista ANTES de medir: en Comida la compra esta muy
+         abajo, y un foco fuera de pantalla es un tour que parece colgado.
+         Solo se desplaza lo que no esta ya en pantalla: las burbujas y el
+         boton de perfil son fijos, y desplazarlos descolocaba la pagina.
+         Lo mas alto que media pantalla va alineado arriba, no al centro:
+         centrado se cortaba por los dos lados y el titulo quedaba fuera. */
+      const r0 = t.getBoundingClientRect();
+      const bh0 = bub.offsetHeight || 220;
+      const fijo = getComputedStyle(t).position === 'fixed' || !!t.closest('.tabbar, header');
+      const fuera = r0.top < 0 || r0.bottom > innerHeight;
+      const noCabe = (innerHeight - r0.bottom - 16 < bh0) && (r0.top - 16 < bh0);
+      if (!fijo && (fuera || noCabe)) {
+        /* Arriba, bajo la cabecera fija, cuando es alto o cuando la burbuja no
+           cabe a ningun lado: asi queda hueco debajo para la burbuja y el titulo
+           del objetivo no se esconde tras la cabecera. Al centro solo cuando es
+           bajo y cabe. 'instant' y no 'auto': html lleva scroll-behavior:smooth,
+           'auto' lo hereda, y el suave no llega a moverse en algun navegador. */
+        const arriba = noCabe || r0.height > innerHeight * 0.55;
+        t.scrollIntoView({ block: arriba ? 'start' : 'center', behavior: 'instant' });
+        if (arriba) {
+          const hdr = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hdr-h')) || 59;
+          window.scrollBy({ top: -(hdr + 10), behavior: 'instant' });
+        }
+      }
+      // texto: la primera parada cambia si el plan aun no ha empezado
+      const usaAntes = P.antes && T.antes && !conCuerpo(P.sel) && conCuerpo(P.alt);
+      const par = usaAntes ? T.antes : T.pasos[k];
+      const ult = k === PARADAS.length - 1;
       bub.innerHTML = '';
-      bub.append(el('div', { class: 'mini tour-n' }, (i + 1) + '/' + T.pasos.length),
-        el('h3', null, p[0]),
-        el('p', { style: 'margin:6px 0 0' }, p[1]),
+      bub.append(
+        el('div', { class: 'tour-cab' },
+          el('span', { class: 'tour-sec' }, (TX.tabs || [])[RUTAS.indexOf(P.r)] || ''),
+          el('span', { class: 'mini tour-n' }, (k + 1) + '/' + PARADAS.length)),
+        el('h3', null, par[0]),
+        el('p', { style: 'margin:6px 0 0' }, par[1]),
         el('div', { class: 'tour-pie' },
           el('button', { class: 'plano qaux', type: 'button', onclick: cierra }, T.salta),
-          el('button', { class: 'btn-b2p', type: 'button', onclick: () => { i++; if (i >= T.pasos.length) cierra(); else pinta(); } },
-            i === T.pasos.length - 1 ? T.listo : T.sigue)));
-      /* La burbuja va al lado del objetivo con hueco REAL y se clampa al
-         viewport SIEMPRE: en móviles bajos, «debajo de la tarjeta» podía caer
-         fuera de pantalla y el tour parecía colgado (spotlight sin botones).
-         Se recoloca además cuando cargan las fuentes web: el reflow movía el
-         objetivo después de habernos medido. */
-      const coloca = () => {
-        if (!bub.isConnected) return;
-        const rt = t.getBoundingClientRect(), m = 6;
-        spot.style.width = (rt.width + m * 2) + 'px';
-        spot.style.height = (rt.height + m * 2) + 'px';
-        spot.style.transform = 'translate(' + (rt.left - m) + 'px,' + (rt.top - m) + 'px)';
-        const bh = bub.offsetHeight || 180;
-        const huecoAbajo = innerHeight - rt.bottom - 16;
-        const huecoArriba = rt.top - 16;
-        let top;
-        if (huecoAbajo >= bh) top = rt.bottom + 16;
-        else if (huecoArriba >= bh) top = rt.top - 16 - bh;
-        else top = innerHeight - bh - 12;          // no cabe a ningún lado: pegada abajo, encima del recorte
-        top = Math.max(8, Math.min(top, innerHeight - bh - 8));
-        bub.style.bottom = '';
-        bub.style.top = top + 'px';
-      };
-      coloca();
-      requestAnimationFrame(coloca);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(coloca, 60));
-      addEventListener('resize', coloca, { once: true });
+          el('button', { class: 'btn-b2p', type: 'button', onclick: () => ve(k + 1) }, ult ? T.listo : T.sigue)));
+      requestAnimationFrame(() => { coloca(t); requestAnimationFrame(() => coloca(objetivo)); });
+      setTimeout(() => { if (paradaViva === P) coloca(objetivo); }, 420);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(() => { if (paradaViva === P) coloca(objetivo); }, 60));
       bub.focus({ preventScroll: true });
     }
-    pinta();
+    ve(0);
     if (!menosMovimiento()) capa.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'linear' });
   }
 
@@ -389,5 +498,5 @@
   window.B2P_REG('comp', renderComp);
   window.B2P_REG('reveal', renderReveal);
   window.B2P_REG('gate', renderGate);
-  window.B2P_ONB = { tick };
+  window.B2P_ONB = { tick, repite };
 })();

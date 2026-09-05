@@ -1058,6 +1058,9 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .tour-bub{position:fixed;left:14px;right:14px;max-width:430px;margin:0 auto;z-index:71}
 .tour-bub h3{margin:0;font-size:19px}
 .tour-n{letter-spacing:.06em}
+/* cabecera de cada parada: en que seccion estas, y cuantas quedan */
+.tour-cab{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px}
+.tour-sec{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--volt)}
 .tour-pie{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
 @media(prefers-reduced-motion:reduce){
   .tour-spot{transition:none}
@@ -1255,3 +1258,7 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .cal-d.cal-pick.sel { background: var(--volt); color: var(--volt-ink); font-weight: 700 }
 .cal-d.cal-pick.sel.hoyd { outline-color: var(--ink) }
 .cal-d.cal-pick[disabled] { cursor: default }
+
+/* boton secundario con la forma del principal: para acciones que no son la del dia */
+.btn-b2p.fantasma{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn-b2p.fantasma:hover{color:var(--ink)}

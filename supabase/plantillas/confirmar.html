@@ -1,0 +1,99 @@
+<!-- ============================================================
+     BACK2PRIME &middot; plantilla de &laquo;Confirm signup&raquo; para Supabase
+     Se pega en Authentication > Email Templates > Confirm signup.
+
+     Escrita con las reglas del correo, no las de la web: tablas en vez
+     de flex, estilos en linea en vez de hoja, y ni una variable CSS.
+     Gmail, Outlook y compania descartan casi todo lo demas.
+
+     El logo va con alt de reserva a proposito: la mayoria de clientes
+     bloquean las imagenes hasta que la persona pulsa &laquo;mostrar&raquo;, asi que
+     si no carga, el alt cae en su sitio y el correo se sigue leyendo.
+     Por eso el nombre tambien va escrito debajo como texto: eso no hay
+     cliente que lo bloquee.
+
+     Bilingue a proposito. La app habla seis idiomas pero Supabase manda
+     una sola plantilla; el ingles es el segundo idioma mas probable de
+     un usuario frances, aleman, italiano o portugues. La solucion fina
+     (un correo por idioma) necesita el Send Email Hook de Supabase, y
+     es trabajo aparte.
+     ============================================================ -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#0B0D10;margin:0;padding:28px 12px;">
+  <tr>
+    <td align="center">
+
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:480px;">
+
+        <!-- marca -->
+        <tr>
+          <td align="center" style="padding:0 0 22px;">
+            <img src="https://back2prime.app/icons/icon-192.png" width="56" height="56" alt="BACK2PRIME"
+                 style="display:block;border:0;border-radius:14px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#F2F4F0;">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:19px;font-weight:bold;letter-spacing:1.5px;color:#F2F4F0;padding-top:12px;">
+              BACK<span style="color:#C8F24E;">2</span>PRIME
+            </div>
+          </td>
+        </tr>
+
+        <!-- tarjeta -->
+        <tr>
+          <td style="background-color:#14171B;border:1px solid #1F252E;border-radius:14px;padding:28px 24px;">
+
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:#F2F4F0;padding-bottom:10px;">
+              Confirma tu correo
+            </div>
+
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.55;color:#A7AFB9;padding-bottom:24px;">
+              Ya casi est&aacute;. Pulsa el bot&oacute;n y tu cuenta queda lista para montar tu plan.
+            </div>
+
+            <!-- boton a prueba de clientes: el color va en la celda, no en el enlace -->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+              <tr>
+                <td bgcolor="#C8F24E" style="border-radius:10px;">
+                  <a href="{{ .ConfirmationURL }}"
+                     style="display:inline-block;padding:15px 30px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;letter-spacing:1px;color:#10140A;text-decoration:none;border-radius:10px;">
+                    CONFIRMAR CORREO
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;color:#7E8793;text-align:center;padding-top:18px;">
+              Confirm your email &mdash; tap the button above.
+            </div>
+
+          </td>
+        </tr>
+
+        <!-- enlace de reserva: hay clientes que rompen los botones -->
+        <tr>
+          <td style="padding:20px 4px 0;">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.5;color:#7E8793;">
+              Si el bot&oacute;n no funciona, copia este enlace en tu navegador:
+            </div>
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.5;word-break:break-all;padding-top:6px;">
+              <a href="{{ .ConfirmationURL }}" style="color:#C8F24E;text-decoration:underline;">{{ .ConfirmationURL }}</a>
+            </div>
+          </td>
+        </tr>
+
+        <!-- pie -->
+        <tr>
+          <td style="padding:22px 4px 0;">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.55;color:#7E8793;">
+              Si no has creado ninguna cuenta en BACK2PRIME, ignora este correo: no pasar&aacute; nada.
+            </div>
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.55;color:#7E8793;padding-top:10px;">
+              <a href="https://back2prime.app" style="color:#7E8793;text-decoration:underline;">back2prime.app</a>
+              &nbsp;&middot;&nbsp;
+              <a href="https://back2prime.app/privacidad.html" style="color:#7E8793;text-decoration:underline;">Pol&iacute;tica de privacidad</a>
+            </div>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>

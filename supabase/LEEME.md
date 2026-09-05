@@ -44,6 +44,30 @@ ejecutarla dos veces no rompe nada.
 - El de confirmar el correo va a `https://back2prime.app/confirmado.html`, por
   lo mismo: en la raíz la persona aterrizaba en la puerta de entrada sin que
   nada le dijera que había confirmado. Lo fija `emailRedirectTo` en el alta.
+
+### Las plantillas de los correos
+
+Viven en `supabase/plantillas/` y se pegan en *Authentication → Email Templates*:
+
+- `confirmar.html` → **Confirm signup**
+- `clave.html` → **Reset Password**
+
+Están versionadas aquí a propósito: pegadas solo en el panel, el día que
+alguien las toca no queda rastro de cómo eran. Si cambias una en Supabase,
+cámbiala también aquí.
+
+Van en **ASCII puro con entidades HTML** (`&aacute;`, `&ntilde;`…). No es
+manía: la codificación de un correo la declara la cabecera del mensaje, y por
+ahí pasan Supabase, Resend y la pasarela de quien lo recibe. Cualquiera puede
+re-codificar y dejarte los acentos rotos. Con entidades da igual.
+
+Maquetadas con tablas y estilos en línea porque los clientes de correo
+descartan casi todo lo demás. El logo lleva `alt` de reserva: la mayoría
+bloquea imágenes hasta que la persona pulsa «mostrar», y el nombre va además
+escrito como texto debajo, que eso no hay cliente que lo bloquee.
+
+Son bilingües (español con una línea en inglés). Supabase manda una sola
+plantilla para todos; un correo por idioma necesitaría el *Send Email Hook*.
   (imprescindible para que el enlace de «olvidé la contraseña» vuelva a la app).
 - *Rate limits*: revisa la pestaña — Supabase ya trae límites de serie para
   envío de correos, intentos de login y refrescos de token. Los valores por

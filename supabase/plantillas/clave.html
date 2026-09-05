@@ -1,0 +1,94 @@
+<!-- ============================================================
+     BACK2PRIME &middot; plantilla de &laquo;Reset Password&raquo; para Supabase
+     Se pega en Authentication > Email Templates > Reset Password.
+
+     Misma estructura que confirmar.html (ver alli el porque de las
+     tablas, los estilos en linea y el alt de reserva del logo).
+
+     Cambia el tono: aqui la persona puede NO haber pedido nada, asi que
+     el pie no es una formalidad. Dice explicitamente que si no lo pidio
+     su contrasena sigue intacta, que es la informacion que de verdad
+     necesita quien recibe esto sin esperarlo.
+
+     Se menciona que el enlace caduca y que es de un solo uso porque es
+     cierto, y porque clave.html tiene una pantalla entera dedicada a ese
+     caso: mejor avisar antes que explicarlo despues.
+     ============================================================ -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#0B0D10;margin:0;padding:28px 12px;">
+  <tr>
+    <td align="center">
+
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:480px;">
+
+        <!-- marca -->
+        <tr>
+          <td align="center" style="padding:0 0 22px;">
+            <img src="https://back2prime.app/icons/icon-192.png" width="56" height="56" alt="BACK2PRIME"
+                 style="display:block;border:0;border-radius:14px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#F2F4F0;">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:19px;font-weight:bold;letter-spacing:1.5px;color:#F2F4F0;padding-top:12px;">
+              BACK<span style="color:#C8F24E;">2</span>PRIME
+            </div>
+          </td>
+        </tr>
+
+        <!-- tarjeta -->
+        <tr>
+          <td style="background-color:#14171B;border:1px solid #1F252E;border-radius:14px;padding:28px 24px;">
+
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:#F2F4F0;padding-bottom:10px;">
+              Cambia tu contrase&ntilde;a
+            </div>
+
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.55;color:#A7AFB9;padding-bottom:24px;">
+              Pulsa el bot&oacute;n y elige una nueva. El enlace caduca al cabo de un rato y solo se puede usar una vez.
+            </div>
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+              <tr>
+                <td bgcolor="#C8F24E" style="border-radius:10px;">
+                  <a href="{{ .ConfirmationURL }}"
+                     style="display:inline-block;padding:15px 30px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;letter-spacing:1px;color:#10140A;text-decoration:none;border-radius:10px;">
+                    ELEGIR CONTRASE&Ntilde;A NUEVA
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;color:#7E8793;text-align:center;padding-top:18px;">
+              Reset your password &mdash; tap the button above.
+            </div>
+
+          </td>
+        </tr>
+
+        <!-- enlace de reserva -->
+        <tr>
+          <td style="padding:20px 4px 0;">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.5;color:#7E8793;">
+              Si el bot&oacute;n no funciona, copia este enlace en tu navegador:
+            </div>
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.5;word-break:break-all;padding-top:6px;">
+              <a href="{{ .ConfirmationURL }}" style="color:#C8F24E;text-decoration:underline;">{{ .ConfirmationURL }}</a>
+            </div>
+          </td>
+        </tr>
+
+        <!-- pie: aqui es donde de verdad importa -->
+        <tr>
+          <td style="padding:22px 4px 0;">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.55;color:#7E8793;">
+              Si no has pedido cambiar la contrase&ntilde;a, ignora este correo: la tuya sigue como estaba y nadie ha entrado en tu cuenta.
+            </div>
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:1.55;color:#7E8793;padding-top:10px;">
+              <a href="https://back2prime.app" style="color:#7E8793;text-decoration:underline;">back2prime.app</a>
+              &nbsp;&middot;&nbsp;
+              <a href="https://back2prime.app/privacidad.html" style="color:#7E8793;text-decoration:underline;">Pol&iacute;tica de privacidad</a>
+            </div>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>

@@ -1295,7 +1295,7 @@ window.B2P = (function () {
       gateHoyT: 'Pausiert, mit Grund', gateHoyTxt: 'Der Fragebogen ist halb fertig: das Okay deines Arztes fehlt. Mit ihm entsteht dein Plan sofort.', gateVolver: 'Fragebogen fortsetzen',
       resCta: 'Meinen Plan erzeugen', resGen: 'Dein Plan wird erzeugt…',
       titulo: 'Dein Plan, nach Maß', atras: 'Zurück', sigue: 'Weiter',
-      sexoT: 'Dein Körper', sexoP: 'Dient nur der Kalorienberechnung.', sexoH: 'Mann', sexoM: 'Frau', sexoX: 'Sage ich nicht',
+      inicioT: 'Wann willst du anfangen?', inicioP: 'Der Plan wird ab diesem Tag gebaut.', inicioHoy: 'Heute', inicioSemana: 'Diese Woche', inicioLunes: 'Nächsten Montag', inicioExacto: 'Ein bestimmter Tag', inicioSemT: 'Welcher Tag diese Woche?', inicioDiaT: 'An welchem Tag willst du anfangen?', sexoT: 'Dein Körper', sexoP: 'Dient nur der Kalorienberechnung.', sexoH: 'Mann', sexoM: 'Frau', sexoX: 'Sage ich nicht',
       medidasT: 'Deine Werte', edadL: 'Alter', alturaL: 'Größe (cm)', pesoL: 'Gewicht (kg)', cinturaL: 'Taille (cm) · optional',
       objT: 'Was willst du?', objPerder: 'Fett verlieren', objRecomp: 'Rekomposition: weniger Fett, mehr Muskeln', objGanar: 'Muskeln aufbauen', objMantener: 'Halten',
       evT: 'Wofür?', evBoda: 'Eine Hochzeit', evOpo: 'Eine Prüfung', evVerano: 'Sommerfigur', evSiempre: 'Für immer',

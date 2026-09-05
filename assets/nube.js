@@ -111,7 +111,12 @@ window.B2P_NUBE = (function () {
      llega despues y quien acaba de entrar leeria sesion() en null, con lo
      que la marca de dueno del dispositivo se guardaria como undefined. */
   async function registra(correo, clave, nombre) {
-    const { data, error } = await sb.auth.signUp({ email: correo, password: clave, options: { data: { nombre } } });
+    /* el correo de confirmacion vuelve a confirmado.html y no a la raiz:
+       alli la persona aterrizaba en la puerta de entrada sin que nada le
+       dijera que habia confirmado */
+    const vuelta = new URL('confirmado.html', location.href).href;
+    const { data, error } = await sb.auth.signUp({ email: correo, password: clave,
+      options: { data: { nombre }, emailRedirectTo: vuelta } });
     if (error) return { err: mapaError(error) };
     if (data && data.session) sesion = data.session;
     return sesion ? {} : { confirma: true };        // sin sesión: falta confirmar correo

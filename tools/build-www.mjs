@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WWW = path.join(RAIZ, 'www');
 
-const COPIAR = ['index.html', 'privacidad.html', 'clave.html', 'manifest.webmanifest', 'assets', 'icons'];
+const COPIAR = ['index.html', 'privacidad.html', 'clave.html', 'confirmado.html', 'manifest.webmanifest', 'assets', 'icons'];
 
 async function pesa(dir) {
   let total = 0, n = 0;

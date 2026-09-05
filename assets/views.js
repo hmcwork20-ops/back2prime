@@ -127,13 +127,23 @@
     const visor = el('div', { class: 'cal-visor' }, tarjetasMes);
     const envuelve = el('div', { class: 'cal-envoltura' }, visor);
     if (tarjetasMes.length > 1) {
-      /* por indice y con scrollTo: scrollBy suave se lleva mal con el snap
-         obligatorio (el gesto puede quedarse en el mes de partida) */
+      /* El paso es la distancia REAL entre dos tarjetas, no el ancho del visor:
+         entre ellas hay hueco, y pidiendo i*clientWidth el destino caia entre
+         dos anclajes. Con scroll-snap-type mandatory el navegador cancela la
+         animacion suave hacia una posicion que no es anclaje, asi que las
+         flechas no movian nada en absoluto. Medirlo del DOM lo deja atado
+         aunque cambie el gap del CSS. */
+      const pasoMes = () => (tarjetasMes.length > 1
+        ? tarjetasMes[1].offsetLeft - tarjetasMes[0].offsetLeft
+        : visor.clientWidth) || 1;
+      /* salto y no desliz: medido en el navegador, scrollTo suave no anima en
+         este visor ni apagando el snap ni pidiendo un anclaje exacto, y las
+         flechas se quedaban clavadas. Con salto funcionan siempre. El desliz
+         suave sigue estando donde de verdad se usa, que es el dedo. */
       const mueve = dir => {
-        const w = visor.clientWidth || 1;
+        const w = pasoMes();
         const i = Math.max(0, Math.min(tarjetasMes.length - 1, Math.round(visor.scrollLeft / w) + dir));
-        const suave = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-        visor.scrollTo({ left: i * w, behavior: suave });
+        visor.scrollTo({ left: i * w, behavior: 'auto' });
       };
       envuelve.append(
         el('button', { class: 'cal-nav izq plano', type: 'button', 'aria-label': '‹', onclick: () => mueve(-1) }, '‹'),
@@ -141,7 +151,7 @@
     }
     root.append(envuelve);
     // colocar el visor en su mes ANTES del primer pintado visible
-    requestAnimationFrame(() => { visor.scrollLeft = mesInicial * visor.clientWidth; });
+    requestAnimationFrame(() => { visor.scrollLeft = mesInicial * pasoMes(); });
 
     // — el pop-up del dia —
     function abreDia(iso) {
@@ -1006,7 +1016,7 @@
        relleno con tus respuestas (mazo incluido) — cambiar un dato son dos
        toques, no 16 pantallas. */
     if (S.perfil && !Object.keys(d).length) {
-      ['sexo', 'edad', 'alturaCm', 'pesoKg', 'cinturaCm', 'objetivo', 'evento', 'duracionSem', 'historial',
+      ['sexo', 'edad', 'alturaCm', 'pesoKg', 'cinturaCm', 'objetivo', 'evento', 'inicio', 'inicioFecha', 'duracionSem', 'historial',
         'diasSemana', 'minSesion', 'franja', 'material', 'lesiones', 'medico', 'dieta', 'sin'].forEach(k => {
         if (S.perfil[k] !== undefined) d[k] = Array.isArray(S.perfil[k]) ? S.perfil[k].slice() : S.perfil[k];
       });
@@ -1032,6 +1042,13 @@
       { id: 'evento', t: C.evT, tipo: 'uno', ops: [['boda', C.evBoda], ['oposicion', C.evOpo], ['verano', C.evVerano], ['siempre', C.evSiempre]] },
       // la fecha solo se pregunta si el evento la tiene: «para siempre» no la tiene
       { id: 'eventoFecha', t: C.evFechaT, p: C.evFechaP, tipo: 'fecha', si: d => d.evento && d.evento !== 'siempre' },
+      { id: 'inicio', t: C.inicioT, p: C.inicioP, tipo: 'uno', ops: [
+        ['hoy', C.inicioHoy], ['semana', C.inicioSemana], ['lunes', C.inicioLunes], ['exacto', C.inicioExacto]] },
+      /* el calendario solo aparece si la respuesta lo pide: «hoy» y «el lunes
+         que viene» son fechas que la app ya sabe calcular sola */
+      { id: 'inicioFecha', tipo: 'calFecha',
+        t: null,   // el titulo depende del modo; se resuelve al pintar
+        si: d => d.inicio === 'semana' || d.inicio === 'exacto' },
       { id: 'duracionSem', t: C.durT, tipo: 'uno', ops: [[12, C.dur3], [24, C.dur6], [48, C.dur12], [0, C.durAlways]] },
       { id: 'historial', t: C.histT, p: C.histP, tipo: 'uno', ops: [['nunca', C.histNunca], ['retomador', C.histRetoma], ['activo', C.histActivo]] },
       { id: 'diasSemana', t: C.diasL, tipo: 'uno', fila: true, ops: [[2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']] },
@@ -1077,7 +1094,9 @@
       if (paso.tipo === 'mazo') { montaMazo(root, avanza, borr.paso > 0 ? atras : null); return; }
       if (paso.tipo === 'resumen') { pintaResumen(root); return; }
 
-      root.append(el('div', { class: 'cuest-t' }, paso.t));
+      /* condicional como el subtitulo: el paso del calendario decide su
+         titulo al pintar (cambia con el modo) y aqui dejaba un hueco vacio */
+      if (paso.t) root.append(el('div', { class: 'cuest-t' }, paso.t));
       if (paso.p) root.append(el('div', { class: 'cuest-p' }, paso.p));
 
       if (paso.tipo === 'uno') {
@@ -1125,6 +1144,90 @@
         root.append(el('div', { class: 'cuest-pie' },
           el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
           el('button', { class: 'btn-b2p', type: 'button', onclick: avanza }, C.sigue)));
+        return;
+      }
+
+      if (paso.tipo === 'calFecha') {
+        /* Dos calendarios con el mismo cuerpo: cambia el rango, no la pieza.
+           «Esta semana» pinta lunes-domingo de la semana en curso; «un dia
+           concreto» pinta doce meses en un visor horizontal, igual que el
+           calendario de Plan, para que el gesto sea el mismo en toda la app.
+           En los dos, lo ya pasado sale apagado y no responde: un plan no
+           puede empezar ayer, y desactivarlo explica el porque mejor que un
+           mensaje de error despues de tocarlo. */
+        const soloSemana = d.inicio === 'semana';
+        root.append(el('div', { class: 'cuest-t' }, soloSemana ? C.inicioSemT : C.inicioDiaT));
+
+        const hoyD = new Date(); hoyD.setHours(12, 0, 0, 0);
+        const isoDe = x => x.getFullYear() + '-' + U.pad(x.getMonth() + 1) + '-' + U.pad(x.getDate());
+        const hoyI = isoDe(hoyD);
+        const elige = iso => { d[paso.id] = iso; guarda(); setTimeout(avanza, 180); };
+
+        // una celda de dia: la misma en los dos modos
+        const celda = (dd, iso) => {
+          const pasado = iso < hoyI;
+          const b = el('button', {
+            class: 'cal-d cal-pick' + (pasado ? ' off' : '') + (iso === hoyI ? ' hoyd' : '')
+              + (d[paso.id] === iso ? ' sel' : ''),
+            type: 'button', 'aria-label': U.fmtFecha(iso),
+            'aria-disabled': pasado ? 'true' : 'false'
+          }, String(dd));
+          if (pasado) b.disabled = true; else b.addEventListener('click', () => elige(iso));
+          return b;
+        };
+        const cabecera = g => (TX.diasIni || []).forEach(dn => g.append(el('span', { class: 'cal-dn mini' }, dn)));
+
+        if (soloSemana) {
+          const lun = new Date(hoyD);
+          lun.setDate(lun.getDate() - ((lun.getDay() + 6) % 7));      // lunes de esta semana
+          const g = el('div', { class: 'cal-grid' });
+          cabecera(g);
+          for (let k = 0; k < 7; k++) {
+            const x = new Date(lun); x.setDate(x.getDate() + k);
+            g.append(celda(x.getDate(), isoDe(x)));
+          }
+          const card = el('div', { class: 'card mes' });
+          card.append(el('div', { class: 'mes-t' }, (TX.meses[hoyD.getMonth()] || '').toUpperCase() + ' ' + hoyD.getFullYear()), g);
+          root.append(card);
+        } else {
+          const MESES = 12;                 // un ano de margen: mas es fantasia
+          const tarjetas = [];
+          const cur = new Date(hoyD.getFullYear(), hoyD.getMonth(), 1);
+          for (let m = 0; m < MESES; m++) {
+            const y = cur.getFullYear(), mo = cur.getMonth();
+            const card = el('div', { class: 'card mes' });
+            card.append(el('div', { class: 'mes-t' }, (TX.meses[mo] || '').toUpperCase() + ' ' + y));
+            const g = el('div', { class: 'cal-grid' });
+            cabecera(g);
+            const hueco = (new Date(y, mo, 1).getDay() + 6) % 7;      // lunes = 0
+            for (let k = 0; k < hueco; k++) g.append(el('span'));
+            const nD = new Date(y, mo + 1, 0).getDate();
+            for (let dd = 1; dd <= nD; dd++) g.append(celda(dd, y + '-' + U.pad(mo + 1) + '-' + U.pad(dd)));
+            card.append(g);
+            tarjetas.push(card);
+            cur.setMonth(cur.getMonth() + 1);
+          }
+          const visor = el('div', { class: 'cal-visor' }, tarjetas);
+          const env = el('div', { class: 'cal-envoltura' }, visor);
+          /* el paso es la distancia real entre tarjetas (incluye el hueco), no
+             el ancho del visor: ver el comentario largo en el calendario de Plan */
+          const pasoMes = () => (tarjetas.length > 1
+            ? tarjetas[1].offsetLeft - tarjetas[0].offsetLeft
+            : visor.clientWidth) || 1;
+          /* salto, por lo mismo que en Plan: el suave no anima en este visor */
+          const mueve = dir => {
+            const w = pasoMes();
+            const i = Math.max(0, Math.min(tarjetas.length - 1, Math.round(visor.scrollLeft / w) + dir));
+            visor.scrollTo({ left: i * w, behavior: 'auto' });
+          };
+          env.append(
+            el('button', { class: 'cal-nav izq plano', type: 'button', 'aria-label': '\u2039', onclick: () => mueve(-1) }, '\u2039'),
+            el('button', { class: 'cal-nav der plano', type: 'button', 'aria-label': '\u203a', onclick: () => mueve(1) }, '\u203a'));
+          root.append(env);
+        }
+
+        root.append(el('div', { class: 'cuest-pie' },
+          el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras)));
         return;
       }
 
@@ -1217,7 +1320,7 @@
          o los evitas — el resumen es un contrato y se lee sin adivinar */
       const filas = [];
       if (d.edad) filas.push([null, d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg' + (d.sexo !== undefined ? ' · ' + dame('sexo', d.sexo) : ''), 'medidas']);
-      [['objetivo', C.resLObj], ['evento', C.resLEv], ['eventoFecha', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
+      [['objetivo', C.resLObj], ['evento', C.resLEv], ['eventoFecha', C.resLEv], ['inicio', C.inicioT], ['duracionSem', C.resLDur], ['historial', C.resLHist],
        ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
         if (d[par[0]] !== undefined) filas.push([par[1], dame(par[0], d[par[0]]), par[0]]);
       });

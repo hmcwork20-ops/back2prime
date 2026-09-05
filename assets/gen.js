@@ -47,6 +47,23 @@ window.B2P_GEN = (function () {
     return d;
   }
   const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  /* Cuando arranca el plan. Antes era SIEMPRE el lunes siguiente: una decision
+     de la app, no de quien entrena, que obligaba a esperar hasta seis dias
+     mirando un plan que aun no habia empezado. Ahora lo dice el cuestionario y
+     el lunes queda de reserva, que es lo que respondia todo el mundo antes.
+
+     Una fecha ya pasada se ignora a proposito: al regenerar un plan meses
+     despues, la del cuestionario original arrancaria en el pasado, y las
+     semanas se contarian desde un dia que ya no existe. */
+  function fechaInicio(p) {
+    const hoy = new Date(); hoy.setHours(12, 0, 0, 0);
+    if (p && p.inicio === 'hoy') return hoy;
+    if (p && (p.inicio === 'semana' || p.inicio === 'exacto') && p.inicioFecha) {
+      const f = new Date(p.inicioFecha + 'T12:00:00');
+      if (!isNaN(f) && f >= hoy) return f;
+    }
+    return proximoLunes();
+  }
   function addD(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
   function corta(d, meses) { return d.getDate() + ' ' + meses[d.getMonth()]; }
 
@@ -303,7 +320,7 @@ window.B2P_GEN = (function () {
   }
   function semanasHastaEvento(p) {
     if (!p.eventoFecha) return 0;
-    const ini = proximoLunes();
+    const ini = fechaInicio(p);
     const f = new Date(p.eventoFecha + 'T12:00:00');
     if (isNaN(f)) return 0;
     const w = Math.round((f - ini) / (7 * 864e5));
@@ -623,7 +640,7 @@ window.B2P_GEN = (function () {
 
   function metaGen(base, p, prot) {
     const M = JSON.parse(JSON.stringify(base.META));
-    const ini = proximoLunes();
+    const ini = fechaInicio(p);
     const ST = semanasDe(p);
     M.inicioISO = iso(ini);
     M.finISO = iso(addD(ini, ST * 7 - 1));

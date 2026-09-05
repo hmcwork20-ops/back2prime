@@ -1299,7 +1299,7 @@ window.B2P = (function () {
       gateHoyT: 'En pause, pour une raison', gateHoyTxt: 'Le questionnaire est resté à mi-chemin : il manque le feu vert de ton médecin. Avec lui, ton plan se génère à l’instant.', gateVolver: 'Reprendre le questionnaire',
       resCta: 'Générer mon plan', resGen: 'Génération de ton plan…',
       titulo: 'Ton plan, sur mesure', atras: 'Retour', sigue: 'Continuer',
-      sexoT: 'Ton corps', sexoP: 'Sert uniquement à calculer tes calories.', sexoH: 'Homme', sexoM: 'Femme', sexoX: 'Je préfère ne pas dire',
+      inicioT: 'Quand veux-tu commencer ?', inicioP: 'Le plan se construit à partir de ce jour.', inicioHoy: 'Aujourd’hui', inicioSemana: 'Cette semaine', inicioLunes: 'Lundi prochain', inicioExacto: 'Un jour précis', inicioSemT: 'Quel jour de cette semaine ?', inicioDiaT: 'Quel jour veux-tu commencer ?', sexoT: 'Ton corps', sexoP: 'Sert uniquement à calculer tes calories.', sexoH: 'Homme', sexoM: 'Femme', sexoX: 'Je préfère ne pas dire',
       medidasT: 'Tes mesures', edadL: 'Âge', alturaL: 'Taille (cm)', pesoL: 'Poids (kg)', cinturaL: 'Tour de taille (cm) · optionnel',
       objT: 'Tu cherches quoi ?', objPerder: 'Perdre du gras', objRecomp: 'Recomposition : moins de gras, plus de muscle', objGanar: 'Prendre du muscle', objMantener: 'Me maintenir',
       evT: 'Pour quoi ?', evBoda: 'Un mariage', evOpo: 'Un concours', evVerano: 'Opération été', evSiempre: 'Pour toujours',

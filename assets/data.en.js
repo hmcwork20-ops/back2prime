@@ -1295,7 +1295,7 @@ window.B2P = (function () {
       gateHoyT: 'Paused, for a reason', gateHoyTxt: 'The questionnaire is half done: your doctor’s OK is missing. With it, your plan generates instantly.', gateVolver: 'Resume the questionnaire',
       resCta: 'Generate my plan', resGen: 'Generating your plan…',
       titulo: 'Your plan, made to measure', atras: 'Back', sigue: 'Continue',
-      sexoT: 'Your body', sexoP: 'Used only to calculate your calories.', sexoH: 'Man', sexoM: 'Woman', sexoX: 'Prefer not to say',
+      inicioT: 'When do you want to start?', inicioP: 'The plan is built from that day.', inicioHoy: 'Today', inicioSemana: 'This week', inicioLunes: 'Next Monday', inicioExacto: 'A specific day', inicioSemT: 'Which day this week?', inicioDiaT: 'Which day do you want to start?', sexoT: 'Your body', sexoP: 'Used only to calculate your calories.', sexoH: 'Man', sexoM: 'Woman', sexoX: 'Prefer not to say',
       medidasT: 'Your numbers', edadL: 'Age', alturaL: 'Height (cm)', pesoL: 'Weight (kg)', cinturaL: 'Waist (cm) · optional',
       objT: 'What are you after?', objPerder: 'Lose fat', objRecomp: 'Recomp: less fat, more muscle', objGanar: 'Build muscle', objMantener: 'Maintain',
       evT: 'What for?', evBoda: 'A wedding', evOpo: 'An exam', evVerano: 'Summer body', evSiempre: 'For good',

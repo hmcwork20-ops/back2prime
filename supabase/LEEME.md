@@ -41,6 +41,9 @@ ejecutarla dos veces no rompe nada.
   que es una página propia y no una pantalla de la app: pesa 200 KB en vez
   de 3 MB y no compite con el router de hash. Lo fija `redirectTo` desde
   `nube.js`, así que basta con que `Redirect URLs` cubra el dominio con `/**`.
+- El de confirmar el correo va a `https://back2prime.app/confirmado.html`, por
+  lo mismo: en la raíz la persona aterrizaba en la puerta de entrada sin que
+  nada le dijera que había confirmado. Lo fija `emailRedirectTo` en el alta.
   (imprescindible para que el enlace de «olvidé la contraseña» vuelva a la app).
 - *Rate limits*: revisa la pestaña — Supabase ya trae límites de serie para
   envío de correos, intentos de login y refrescos de token. Los valores por

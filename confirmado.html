@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'">
+<title>Correo confirmado · BACK2PRIME</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0B0D10">
+<link rel="icon" href="icons/favicon.svg">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url('assets/fonts/BarlowCondensed-700.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/PublicSans-400.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:600;font-display:swap;src:url('assets/fonts/PublicSans-600.woff2') format('woff2')}
+:root{
+  --bg:#0B0D10; --surface2:#1B2027; --line:#272E38;
+  --ink:#F2F4F0; --ink2:#A7AFB9;
+  --volt:#C8F24E; --volt-ink:#10140A; --ok:#4CC07E;
+  --r-sm:10px;
+  --cuerpo:'Public Sans',system-ui,-apple-system,sans-serif;
+  --disp:'Barlow Condensed',var(--cuerpo);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--cuerpo);
+  font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%;
+  min-height:100svh;display:flex;align-items:center;justify-content:center;
+  padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
+.caja{width:100%;max-width:380px;text-align:center}
+.marca{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:.02em;
+  text-transform:uppercase;margin:0 0 18px}
+.marca em{font-style:normal;color:var(--volt)}
+.sello{width:60px;height:60px;margin:0 auto 10px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center}
+.sello.si{background:rgba(76,192,126,.14)}
+h1{font-family:var(--disp);font-weight:700;font-size:27px;letter-spacing:.01em;
+  text-transform:uppercase;margin:0 0 8px}
+p{margin:0 0 20px;color:var(--ink2);font-size:14.5px}
+.btn{display:block;width:100%;font-family:var(--disp);font-weight:700;font-size:15px;
+  letter-spacing:.06em;text-transform:uppercase;background:var(--volt);color:var(--volt-ink);
+  border:0;border-radius:var(--r-sm);padding:15px;text-decoration:none;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+.btn.fantasma{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.fantasma:hover{color:var(--ink)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:no-preference){
+  .caja{animation:sube .32s cubic-bezier(.23,1,.32,1) both}
+  @keyframes sube{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<main class="caja">
+  <div class="marca" aria-hidden="true">BACK<em>2</em>PRIME</div>
+
+  <div id="ok" hidden>
+    <div class="sello si" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#4CC07E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1 id="okT"></h1>
+    <p id="okP"></p>
+    <a class="btn" id="okCta" href="./"></a>
+  </div>
+
+  <div id="mal" hidden>
+    <h1 id="malT"></h1>
+    <p id="malP"></p>
+    <a class="btn fantasma" id="malCta" href="./"></a>
+  </div>
+</main>
+
+<script src="assets/nube-config.js"></script>
+<script src="assets/vendor/supabase.js"></script>
+<script>
+/* ============================================================
+   BACK2PRIME · confirmado.html — el enlace de confirmar el correo
+
+   Antes este enlace caia en la raiz y soltaba a la persona en la puerta de
+   entrada sin decirle nada: habias confirmado, pero la app no te lo
+   confirmaba a ti. Aqui se dice, y se entra con un boton.
+
+   A diferencia de clave.html, esta pagina SI deja la sesion guardada
+   (persistSession) y a proposito: Supabase manda una sesion valida en el
+   enlace, y guardarla es lo que hace que el boton lleve dentro y no a
+   escribir la contrasena otra vez. Es lo mismo que hacia la app cuando el
+   enlace apuntaba a la raiz, no un permiso nuevo.
+
+   El enlace tambien puede llegar caducado o ya usado, y entonces decir
+   «confirmado» seria mentira. Ese caso tiene su propia pantalla.
+   ============================================================ */
+(function () {
+  var CFG = window.B2P_NUBE_CFG || {};
+
+  var T = {
+    es: { t:'Correo confirmado', p:'Tu cuenta ya está lista. Entra y monta tu plan.', cta:'Ir a BACK2PRIME',
+      malT:'Este enlace ya no vale',
+      malP:'Los enlaces de confirmación caducan y solo se pueden usar una vez. Si tu cuenta ya estaba confirmada, entra normal; si no, pide otro correo desde la app.',
+      malCta:'Ir a BACK2PRIME' },
+    en: { t:'Email confirmed', p:'Your account is ready. Go in and build your plan.', cta:'Go to BACK2PRIME',
+      malT:'This link no longer works',
+      malP:'Confirmation links expire and can only be used once. If your account was already confirmed, just sign in; if not, ask for another email from the app.',
+      malCta:'Go to BACK2PRIME' },
+    fr: { t:'E-mail confirmé', p:'Ton compte est prêt. Entre et construis ton plan.', cta:'Aller à BACK2PRIME',
+      malT:'Ce lien ne marche plus',
+      malP:'Les liens de confirmation expirent et ne servent qu’une fois. Si ton compte était déjà confirmé, connecte-toi normalement ; sinon, demande un autre e-mail depuis l’app.',
+      malCta:'Aller à BACK2PRIME' },
+    de: { t:'E-Mail bestätigt', p:'Dein Konto ist bereit. Geh rein und bau deinen Plan.', cta:'Zu BACK2PRIME',
+      malT:'Dieser Link gilt nicht mehr',
+      malP:'Bestätigungslinks laufen ab und funktionieren nur einmal. War dein Konto schon bestätigt, melde dich einfach an; wenn nicht, fordere in der App eine neue E-Mail an.',
+      malCta:'Zu BACK2PRIME' },
+    it: { t:'E-mail confermata', p:'Il tuo account è pronto. Entra e costruisci il tuo piano.', cta:'Vai a BACK2PRIME',
+      malT:'Questo link non vale più',
+      malP:'I link di conferma scadono e si possono usare una volta sola. Se il tuo account era già confermato, entra normalmente; se no, chiedi un’altra e-mail dall’app.',
+      malCta:'Vai a BACK2PRIME' },
+    pt: { t:'E-mail confirmado', p:'A tua conta está pronta. Entra e monta o teu plano.', cta:'Ir para a BACK2PRIME',
+      malT:'Esta ligação já não serve',
+      malP:'As ligações de confirmação expiram e só podem ser usadas uma vez. Se a tua conta já estava confirmada, entra normalmente; se não, pede outro e-mail na app.',
+      malCta:'Ir para a BACK2PRIME' }
+  };
+
+  function idioma() {
+    var q = (location.search.match(/[?&]lang=([a-z]{2})/) || [])[1];
+    if (q && T[q]) return q;
+    try {
+      var S = JSON.parse(localStorage.getItem('b2p_v1') || '{}');
+      if (S.config && T[S.config.lang]) return S.config.lang;
+    } catch (e) {}
+    var n = (navigator.language || 'es').slice(0, 2).toLowerCase();
+    return T[n] ? n : 'es';
+  }
+  var L = idioma(), tx = T[L];
+  document.documentElement.lang = L;
+  document.title = tx.t + ' · BACK2PRIME';
+
+  var $ = function (id) { return document.getElementById(id); };
+  $('okT').textContent = tx.t; $('okP').textContent = tx.p; $('okCta').textContent = tx.cta;
+  $('malT').textContent = tx.malT; $('malP').textContent = tx.malP; $('malCta').textContent = tx.malCta;
+
+  /* La URL se lee antes de crear el cliente: Supabase la limpia al procesarla. */
+  var frag = new URLSearchParams((location.hash || '').replace(/^#/, ''));
+  var query = new URLSearchParams(location.search || '');
+  var hayError = frag.get('error') || frag.get('error_code') || query.get('error') || query.get('error_code');
+  var hayToken = frag.get('access_token') || query.get('code');
+
+  function pinta(bien) { $('ok').hidden = !bien; $('mal').hidden = bien; }
+
+  if (hayError) { pinta(false); return; }
+
+  /* Sin cliente de Supabase no se puede canjear nada, pero el enlace ya paso
+     por el servidor: si trae token, la confirmacion esta hecha igualmente. */
+  if (!CFG.url || !CFG.anon || !window.supabase) { pinta(!!hayToken); return; }
+
+  var sb = window.supabase.createClient(CFG.url, CFG.anon, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  });
+
+  var resuelto = false;
+  function decide(bien) { if (resuelto) return; resuelto = true; pinta(bien); }
+
+  sb.auth.getSession().then(function (r) {
+    decide(!!(r && r.data && r.data.session) || !!hayToken);
+  }).catch(function () { decide(!!hayToken); });
+
+  /* Red de seguridad: sin respuesta en tres segundos se decide con lo que
+     traia la URL. Quedarse en blanco seria la peor respuesta de las tres. */
+  setTimeout(function () { decide(!!hayToken); }, 3000);
+})();
+</script>
+</body>
+</html>

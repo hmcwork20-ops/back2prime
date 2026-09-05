@@ -1077,7 +1077,12 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .fase-punto.f3 { background: var(--f3) } .fase-punto.f4 { background: var(--f4) }
 
 .mes { padding: 12px 12px 14px; margin-bottom: 12px }
-.mes-t { font-family: var(--disp); font-weight: 700; letter-spacing: .1em; font-size: 12px; color: var(--ink2); margin-bottom: 8px }
+/* centrado y con aire a los lados: las flechas del visor viven a top:6px
+   y a 8px de cada borde, o sea justo encima de este titulo. Alineado a la
+   izquierda, la flecha de retroceder se comia el nombre del mes. */
+.mes-t { font-family: var(--disp); font-weight: 700; letter-spacing: .1em; font-size: 12px;
+  color: var(--ink2); margin-bottom: 8px; text-align: center; padding: 0 34px;
+  min-height: 22px; display: flex; align-items: center; justify-content: center }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px }
 .cal-dn { text-align: center; color: var(--ink3); padding-bottom: 2px }
 .cal-d {
@@ -1240,3 +1245,13 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .priv-a{color:var(--ink2);text-decoration:underline;text-underline-offset:2px}
 .priv-a:hover{color:var(--ink)}
 .priv-a:focus-visible{outline:2px solid var(--volt);outline-offset:2px;border-radius:3px}
+
+/* ====== calendario del cuestionario: elegir el dia de arranque ======
+   Reutiliza .cal-grid y .cal-d del calendario de Plan a proposito: es el
+   mismo gesto y conviene que se vea igual. Solo cambia el estado elegido,
+   que alli no existe porque alli se abre un dia, no se escoge. */
+.cal-d.cal-pick { background: var(--surface2); color: var(--ink) }
+.cal-d.cal-pick:not(.off):hover { background: var(--line) }
+.cal-d.cal-pick.sel { background: var(--volt); color: var(--volt-ink); font-weight: 700 }
+.cal-d.cal-pick.sel.hoyd { outline-color: var(--ink) }
+.cal-d.cal-pick[disabled] { cursor: default }

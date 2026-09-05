@@ -1296,7 +1296,7 @@ window.B2P = (function () {
       gateHoyT: 'Em pausa, com motivo', gateHoyTxt: 'O questionário ficou a meio: falta a luz verde do teu médico. Com ela, o teu plano é gerado na hora.', gateVolver: 'Retomar o questionário',
       resCta: 'Gerar o meu plano', resGen: 'A gerar o teu plano…',
       titulo: 'O teu plano, à medida', atras: 'Atrás', sigue: 'Continuar',
-      sexoT: 'O teu corpo', sexoP: 'Usa-se só para calcular as tuas calorias.', sexoH: 'Homem', sexoM: 'Mulher', sexoX: 'Prefiro não dizer',
+      inicioT: 'Quando queres começar?', inicioP: 'O plano monta-se a partir desse dia.', inicioHoy: 'Hoje', inicioSemana: 'Esta semana', inicioLunes: 'Na próxima segunda', inicioExacto: 'Um dia concreto', inicioSemT: 'Que dia desta semana?', inicioDiaT: 'Que dia queres começar?', sexoT: 'O teu corpo', sexoP: 'Usa-se só para calcular as tuas calorias.', sexoH: 'Homem', sexoM: 'Mulher', sexoX: 'Prefiro não dizer',
       medidasT: 'As tuas medidas', edadL: 'Idade', alturaL: 'Altura (cm)', pesoL: 'Peso (kg)', cinturaL: 'Cintura (cm) · opcional',
       objT: 'O que procuras?', objPerder: 'Perder gordura', objRecomp: 'Recompor: menos gordura, mais músculo', objGanar: 'Ganhar músculo', objMantener: 'Manter-me',
       evT: 'Para quê?', evBoda: 'Um casamento', evOpo: 'Um concurso público', evVerano: 'Operação verão', evSiempre: 'Para sempre',

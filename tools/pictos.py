@@ -11,7 +11,7 @@ Uso:
 Salida: assets/pictos/<clave>.webp (256×256, ~8-15 KB) + assets/pictos.js
 La app usa la imagen si existe en el manifiesto; si no, cae al SVG.
 """
-import io, os, sys
+import io, json, os, sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SALIDA = os.path.join(RAIZ, 'assets', 'pictos')
@@ -40,6 +40,31 @@ PATRONES = {
     'gem':  'performing a standing calf raise on the edge of a step: heels lifted high, body vertical',
     'ais':  'a single dumbbell shown on its own, side view, as an icon',
     'fondos': 'performing parallel-bar dips: body upright between two parallel bars, elbows bent at 90 degrees lowering the torso, the bars drawn in lime-green',
+    # --- peso corporal y banda: el patron dibujaba la barra que esta gente NO tiene ---
+    'flexiones': 'performing a push-up on the floor: body in one straight line from head to heels, palms flat '
+                 'under the shoulders, elbows bent lowering the chest, side view, NO equipment of any kind',
+    'sentadilla-pc': 'performing a bodyweight squat at parallel depth, both arms extended forward at shoulder '
+                     'height for balance, side view, NO equipment of any kind',
+    'puente': 'performing a glute bridge: lying face up on the floor, knees bent, feet flat, hips lifted so the '
+              'body is a straight line from knees to shoulders, side view, NO equipment of any kind',
+    'zancada-pc': 'performing a bodyweight forward lunge: front knee bent 90 degrees, back knee close to the '
+                  'floor, torso upright with hands on the hips, side view, NO equipment of any kind',
+    'banda': 'performing a seated row with an elastic resistance band: torso upright, both arms pulling the band '
+             'back toward the ribs, the band drawn as a bright lime-green stretched line',
+}
+
+# QUE MATERIAL DIBUJA cada pictograma, en la misma escala que el plan
+# (nada / casa / gym). La app no le pone a un ejercicio un dibujo con mas
+# material del que ese ejercicio pide: en la fila de la sesion el dibujo dice
+# «esto es lo que haces», y una barra que no tienes es una promesa falsa (lo
+# reporto un usuario que veia un press de banca encima de sus flexiones; con
+# bandas pasaba igual, el remo se dibuja con barra).
+NIVEL = {
+    'eh': 'gym', 'ev': 'gym', 'th': 'gym', 'tv': 'gym', 'rod': 'gym', 'bis': 'gym',
+    'ext': 'gym', 'fondos': 'gym',          # polea, barra olimpica, barras paralelas
+    'zan': 'casa', 'curl': 'casa', 'ais': 'casa', 'banda': 'casa',   # mancuernas y bandas
+    'core': 'nada', 'flex': 'nada', 'gem': 'nada',                   # suelo y escalon
+    'flexiones': 'nada', 'sentadilla-pc': 'nada', 'puente': 'nada', 'zancada-pc': 'nada',
 }
 
 
@@ -88,6 +113,7 @@ def escribe_manifiesto():
     with io.open(MANIFIESTO, 'w', encoding='utf-8', newline='\n') as f:
         f.write('/* generado por tools/pictos.py — qué patrones tienen pictograma en assets/pictos/ */\n')
         f.write('window.B2P_PICTOS = ' + str(ids).replace("u'", "'") + ';\n')
+        f.write('window.B2P_PICTOS_NIV = ' + json.dumps({k: v for k, v in NIVEL.items() if k in ids}, sort_keys=True) + ' ; '.strip() + '\n')
     return ids
 
 

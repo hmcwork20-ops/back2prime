@@ -236,21 +236,21 @@ window.B2P = (function () {
   // alt: equivalent alternatives (commercial gym) · mol: if it hurts, switch to
   const EJERCICIOS = {
     /* — Home / P1 — */
-    'sentadilla-pc': { pat: 'rod',
+    'sentadilla-pc': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Bodyweight Squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Nothing',
       cues: ['Feet shoulder-width, toes slightly out', 'Lower for 3″ as if sitting back, up in 1″', 'Knees track the toes, heels nailed to the floor', 'Chest up through the whole range'],
       err: ['Heels lifting off (don’t go as deep)', 'Knees collapsing inwards', 'Bouncing down instead of controlling it'],
       alt: [{ n: 'Squat to a box/sofa', por: 'if controlling depth is hard' }, { n: 'Squat with a 2″ pause at the bottom', por: 'if 12 reps feel too easy' }],
       mol: 'If the knee complains: reduce depth to where it doesn’t hurt and lower even slower.'
     },
-    'flexiones': { pat: 'eh',
+    'flexiones': { pat: 'eh', pic: 'flexiones',
       nombre: 'Push-ups', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps, shoulders'], equipo: 'Nothing',
       cues: ['Hands slightly wider than shoulders', 'Elbows at 45° from the body, neither tucked nor flared', 'Body like a plank: glutes and abs braced', 'Chest (almost) touches the floor every rep'],
       err: ['Hips sagging or piking up', 'Half range', 'Neck poking towards the floor'],
       alt: [{ n: 'Push-ups with hands on a sofa/table', por: 'if clean floor reps aren’t there yet' }, { n: 'Feet-elevated push-ups', por: 'if you clear 12 with ease' }],
       mol: 'If the wrist complains: closed fists or push-up handles. If the shoulder complains: narrow the width a touch.'
     },
-    'puente-gluteo': { pat: 'bis',
+    'puente-gluteo': { pat: 'bis', pic: 'puente',
       nombre: 'Glute Bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glutes', 'hamstrings'], equipo: 'Nothing',
       cues: ['Lying down, heels close to your glutes', 'Drive through the heels and lift the hips', '2″ pause at the top squeezing the glutes hard', 'Ribs down: don’t arch the lower back'],
       err: ['Pushing through the toes', 'Arching the lower back to get higher', 'Up and down with no pause'],
@@ -278,35 +278,35 @@ window.B2P = (function () {
       alt: [{ n: 'Single-leg', por: 'once 20 reps are easy' }],
       mol: 'If the Achilles complains: reduce the bottom range and slow the lowering further.'
     },
-    'zancada-alterna': { pat: 'zan',
+    'zancada-alterna': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Alternating Lunge', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Nothing',
       cues: ['Big step forward', 'Torso upright, hands on hips or out front', 'Back knee brushes the floor', 'Drive through the front heel to come back'],
       err: ['Short step (front knee collapses)', 'Torso tipping forward', 'Front knee drifting inwards'],
       alt: [{ n: 'Static lunge (no alternating)', por: 'if balance keeps failing' }, { n: 'Reverse lunge', por: 'kinder on the knee' }],
       mol: 'If the knee complains: switch to reverse lunges, same scheme.'
     },
-    'banda-remo': { pat: 'th',
+    'banda-remo': { pat: 'th', pic: 'banda',
       nombre: 'Seated band row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'biceps, scapulae'], equipo: 'Band',
       cues: ['Band anchored at chest height (handle, post or under your feet)', 'Pull with your elbows, tight to the body', 'Squeeze the shoulder blades and hold half a second', 'Release slowly: the way back is half the exercise'],
       err: ['Leaning back to pull harder', 'Letting the band snap back'],
       alt: [{ n: 'Towel row in a doorway', por: 'if you have no anchor' }, { n: 'Loaded backpack row', por: 'one arm, leaning on a table' }],
       mol: 'If the shoulder complains: lower the anchor and keep the pull closer to your side.'
     },
-    'banda-jalon': { pat: 'tv',
+    'banda-jalon': { pat: 'tv', pic: 'banda',
       nombre: 'Band pulldown', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'Band',
       cues: ['Band anchored high (door frame or top hinge)', 'Kneeling or seated, chest tall', 'Drive the elbows to your pockets, not backwards', 'Chest meets the hands'],
       err: ['Arching the lower back for more range', 'Pulling with the arms only'],
       alt: [{ n: 'Band-assisted pull-ups', por: 'if you have a bar' }, { n: 'Towel row in a doorway', por: 'without a high anchor' }],
       mol: 'If the shoulder complains: narrow the grip and stop higher.'
     },
-    'banda-rotacion': { pat: 'ais',
+    'banda-rotacion': { pat: 'ais', pic: 'banda',
       nombre: 'Band external rotation', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Rotator cuff', 'scapulae'], equipo: 'Band',
       cues: ['Elbow pinned to your side at a fixed 90° (a rolled towel helps)', 'Rotate the forearm outwards, slowly', 'The shoulder does not shrug: keep the collarbone down', '2-3″ back, never losing tension'],
       err: ['Letting the elbow drift away from the body', 'Using a stiff band: control rules here, not load'],
       alt: [{ n: 'Side-lying light dumbbell', por: 'same job, no band' }, { n: 'Band face pull', por: 'more scapula' }],
       mol: 'If it pinches: halve the range and drop the resistance.'
     },
-    'banda-abduccion': { pat: 'ais',
+    'banda-abduccion': { pat: 'ais', pic: 'banda',
       nombre: 'Band hip abduction', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Glute medius', 'knee stability'], equipo: 'Band',
       cues: ['Band just above the knees', 'Standing or side-lying: open the knee without rolling the hip', 'The torso stays still, only the leg moves', 'Hold a second at the top'],
       err: ['Rotating the pelvis to open further', 'Going fast: the glute medius trains slow'],
@@ -378,7 +378,7 @@ window.B2P = (function () {
       mol: 'If your wrist complains: hold both straps instead of the handle, which keeps the wrist neutral.'
     },
 
-    'flexion-declinada': { pat: 'eh',
+    'flexion-declinada': { pat: 'eh', pic: 'flexiones',
       nombre: 'Decline push-ups', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Upper chest', 'shoulder, triceps'], equipo: 'Nothing (chair or sofa)',
       cues: ['Feet on the chair, hands slightly wider than your shoulders', 'The higher the feet, the more of you is on your hands', 'Body in a plank: glutes and abs squeezed', 'Chest almost to the floor on every rep'],
       err: ['Piking the hips to make it easier', 'Cutting the range in half once the feet go up', 'Neck reaching for the floor'],
@@ -399,7 +399,7 @@ window.B2P = (function () {
       alt: [{ n: 'Knees bent, feet on the floor', por: 'the easy version' }, { n: 'Feet up on a chair', por: 'the progression: more horizontal, more weight' }],
       mol: 'This is the pull that actually loads without a bar: if you have a solid table, pick it over the towel pulldown.'
     },
-    'pistol-asistida': { pat: 'rod',
+    'pistol-asistida': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Assisted single-leg squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glute'], equipo: 'Nothing (chair)',
       cues: ['Stand facing away from a chair, one foot down, the other straight out in front', 'Down over 3″ until your glute brushes the chair, then up without sitting', 'Knee tracking over the foot, never caving inward', 'Arms out front work as a counterweight'],
       err: ['Dropping onto the chair and bouncing', 'Knee caving in (that is where you pay)', 'Heel lifting: go shallower until the ankle allows it'],
@@ -414,14 +414,14 @@ window.B2P = (function () {
       mol: 'With nothing at home this is the curl stand-in: it is not measured in kilos, it is measured in how long you hold the way down.'
     },
 
-    'zancada-bulgara-pc': { pat: 'zan',
+    'zancada-bulgara-pc': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Bodyweight Bulgarian split squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glute'], equipo: 'Nothing (chair)',
       cues: ['Top of the back foot on the chair, front foot a long stride away', 'Go straight down, back knee towards the floor', 'The weight lives in the front heel', 'Down over 3″, up without bouncing'],
       err: ['Front foot too close in (the knee travels forward and pays)', 'Leaning forward to reach the bottom', 'Bouncing the back knee off the floor'],
       alt: [{ n: 'Alternating lunges in place', por: 'the starting version' }, { n: 'With a loaded backpack', por: 'the progression once 12 feel easy' }],
       mol: 'If the knee complains: move the front foot a hand-span further out and go shallower. It is one of the best leg movements with no kit, but it asks for balance: hold a wall the first few times.'
     },
-    'puente-1p': { pat: 'bis',
+    'puente-1p': { pat: 'bis', pic: 'puente',
       nombre: 'Single-leg glute bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glute max', 'hamstrings'], equipo: 'Nothing',
       cues: ['On your back, one foot planted, the other leg straight out', 'Drive up through the heel until hip and thigh line up', 'Squeeze the glute 2″ at the top without arching your back', 'Down over 3″ without fully resting'],
       err: ['Rising by arching the back instead of squeezing the glute', 'Letting the hip drop to one side', 'Planting the foot so far out that the hamstring takes over'],
@@ -731,14 +731,14 @@ window.B2P = (function () {
       alt: [{ n: 'Knees bent, feet close in', por: 'if you cannot get 8 clean reps' }, { n: 'Feet up on a second chair', por: 'once 15 feel easy' }],
       mol: 'If the front of the shoulder complains: shorten the range to 60°, or swap in diamond push-ups, which leave the joint alone.'
     },
-    'flexion-diamante': { pat: 'ext', pic: 'eh',
+    'flexion-diamante': { pat: 'ext', pic: 'flexiones',
       nombre: 'Diamond push-ups', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'inner chest'], equipo: 'Nothing',
       cues: ['Index fingers and thumbs forming a diamond under your sternum', 'Elbows tight to your body through the whole rep', 'Body in a plank: glutes and abs squeezed', 'Chest to your hands, then lock out fully at the top'],
       err: ['Letting the elbows flare (it turns into a normal push-up)', 'Putting your hands under your face instead of your sternum', 'Hips sagging'],
       alt: [{ n: 'Hands on the sofa or a table', por: 'if floor reps are not clean yet' }, { n: 'Feet elevated', por: 'once you pass 12 easy reps' }],
       mol: 'If your wrist complains: go up on fists or drop to your knees. If the elbow does, move to 15 reps and slow the tempo down.'
     },
-    'ext-triceps-banda': { pat: 'ext',
+    'ext-triceps-banda': { pat: 'ext', pic: 'banda',
       nombre: 'Band triceps pushdown', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (all three heads)'], equipo: 'Band',
       cues: ['Anchor the band high (door or handle) and take a step back', 'Elbows pinned to your sides and still: only the forearm moves', 'Extend to a soft lockout and hold 1″ at the bottom', 'Come back up over 2-3″, resisting the band'],
       err: ['Letting the elbows drift forward or up', 'Pushing with the shoulder by leaning your torso in', 'Letting go on the way up and letting the band run the show'],

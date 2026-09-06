@@ -1,5 +1,5 @@
 /* ============================================================
-   BACK2PRIME · lanza las cinco suites de humo y devuelve un solo veredicto.
+   BACK2PRIME · lanza las suites de humo y devuelve un solo veredicto.
 
    Existe para que probar sea un comando y no cinco: una suite que hay que
    acordarse de ejecutar es una suite que no se ejecuta. Con `npm test` no
@@ -29,6 +29,7 @@ const SUITES = [
   ['inicio',      'cuando empieza el plan: hoy, semana, lunes, dia exacto'],
   ['suplementos', 'la dieta manda, y el id manda sobre la foto'],
   ['compra',      'una lista para el super: por producto, por seccion, sin repetir'],
+  ['pictos',      'el dibujo de la fila no pide material que el ejercicio no usa'],
 ];
 
 console.log('');

@@ -236,21 +236,21 @@ window.B2P = (function () {
   // alt: alternative equivalenti (palestra commerciale) · mol: se dà fastidio, passa a
   const EJERCICIOS = {
     /* — Casa / F1 — */
-    'sentadilla-pc': { pat: 'rod',
+    'sentadilla-pc': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Squat a corpo libero', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Niente',
       cues: ['Piedi alla larghezza delle spalle, punte leggermente in fuori', 'Scendi in 3″ come per sederti all\'indietro, sali in 1″', 'Le ginocchia seguono la punta del piede, talloni inchiodati a terra', 'Petto alto per tutto il movimento'],
       err: ['Talloni che si staccano (scendi meno in profondità)', 'Ginocchia che collassano verso l\'interno', 'Scendere rimbalzando invece di controllare'],
       alt: [{ n: 'Squat al box/divano', por: 'se fai fatica a controllare la profondità' }, { n: 'Squat con pausa di 2″ in basso', por: 'se 12 reps ti stanno strette' }],
       mol: 'Se il ginocchio dà fastidio: riduci la profondità fino a dove non fa male e scendi ancora più lento.'
     },
-    'flexiones': { pat: 'eh',
+    'flexiones': { pat: 'eh', pic: 'flexiones',
       nombre: 'Flessioni', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pettorali', 'tricipiti, spalle'], equipo: 'Niente',
       cues: ['Mani poco più larghe delle spalle', 'Gomiti a 45° dal corpo, né incollati né a croce', 'Corpo in asse: glutei e addome contratti', 'Il petto tocca (quasi) terra a ogni rep'],
       err: ['Bacino che crolla o a punta', 'Mezzo movimento', 'Collo proiettato verso il pavimento'],
       alt: [{ n: 'Flessioni con le mani su divano/tavolo', por: 'se da terra non escono pulite' }, { n: 'Flessioni coi piedi rialzati', por: 'se ne superi 12 con facilità' }],
       mol: 'Se il polso dà fastidio: pugni chiusi o maniglie per flessioni. Se dà fastidio la spalla: stringi un po\' la larghezza.'
     },
-    'puente-gluteo': { pat: 'bis',
+    'puente-gluteo': { pat: 'bis', pic: 'puente',
       nombre: 'Ponte glutei', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glutei', 'femorali'], equipo: 'Niente',
       cues: ['Sdraiato, talloni vicini ai glutei', 'Spingi coi talloni e alza il bacino', 'Pausa di 2″ in alto strizzando forte i glutei', 'Costole giù: non inarcare la lombare'],
       err: ['Spingere con la punta del piede', 'Inarcare la lombare per salire di più', 'Salire e scendere senza pausa'],
@@ -278,35 +278,35 @@ window.B2P = (function () {
       alt: [{ n: 'A una gamba', por: 'quando 20 reps diventano facili' }],
       mol: 'Se l\'Achille dà fastidio: riduci il range in basso e allunga il tempo di discesa.'
     },
-    'zancada-alterna': { pat: 'zan',
+    'zancada-alterna': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Affondi alternati', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipiti', 'glutei'], equipo: 'Niente',
       cues: ['Passo ampio in avanti', 'Busto verticale, mani sui fianchi o davanti', 'Il ginocchio dietro sfiora il pavimento', 'Spingi col tallone davanti per tornare'],
       err: ['Passo corto (il ginocchio davanti collassa)', 'Busto inclinato in avanti', 'Ginocchio davanti che cede verso l\'interno'],
       alt: [{ n: 'Affondo statico (senza alternare)', por: 'se l\'equilibrio non tiene' }, { n: 'Affondo indietro', por: 'più gentile col ginocchio' }],
       mol: 'Se il ginocchio dà fastidio: passa all\'affondo indietro, stesso schema.'
     },
-    'banda-remo': { pat: 'th',
+    'banda-remo': { pat: 'th', pic: 'banda',
       nombre: 'Rematore seduto con elastico', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsali', 'bicipiti, scapole'], equipo: 'Elastico',
       cues: ['Elastico ancorato all’altezza del petto (maniglia, palo o sotto i piedi)', 'Tira con i gomiti, stretti al corpo', 'Stringi le scapole e tieni mezzo secondo', 'Rilascia piano: il ritorno è metà esercizio'],
       err: ['Portare il busto indietro per tirare di più', 'Lasciare tornare l’elastico di colpo'],
       alt: [{ n: 'Rematore con asciugamano alla porta', por: 'senza ancoraggio' }, { n: 'Rematore con zaino carico', por: 'a un braccio, appoggiato al tavolo' }],
       mol: 'Se la spalla si lamenta: abbassa l’ancoraggio e tira più vicino al fianco.'
     },
-    'banda-jalon': { pat: 'tv',
+    'banda-jalon': { pat: 'tv', pic: 'banda',
       nombre: 'Lat machine con elastico', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsali', 'bicipiti'], equipo: 'Elastico',
       cues: ['Elastico ancorato in alto (stipite o cerniera alta)', 'In ginocchio o seduto, petto alto', 'Porta i gomiti verso le tasche, non indietro', 'Il petto va incontro alle mani'],
       err: ['Inarcare la lombare per guadagnare corsa', 'Tirare solo con le braccia'],
       alt: [{ n: 'Trazioni assistite con elastico', por: 'se hai una sbarra' }, { n: 'Rematore con asciugamano', por: 'senza ancoraggio alto' }],
       mol: 'Se la spalla si lamenta: presa più stretta e fermati più in alto.'
     },
-    'banda-rotacion': { pat: 'ais',
+    'banda-rotacion': { pat: 'ais', pic: 'banda',
       nombre: 'Rotazione esterna con elastico', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Cuffia dei rotatori', 'scapole'], equipo: 'Elastico',
       cues: ['Gomito al fianco, 90° fissi (un asciugamano arrotolato aiuta)', 'Ruota l’avambraccio verso fuori, lento', 'La spalla non si alza: tieni giù la clavicola', '2-3″ di ritorno, senza perdere tensione'],
       err: ['Lasciare che il gomito si allontani dal corpo', 'Usare un elastico duro: qui comanda il controllo, non il carico'],
       alt: [{ n: 'Manubrio leggero da sdraiato di lato', por: 'stesso lavoro, senza elastico' }, { n: 'Face pull con elastico', por: 'più scapola' }],
       mol: 'Se punge: dimezza la corsa e abbassa la resistenza.'
     },
-    'banda-abduccion': { pat: 'ais',
+    'banda-abduccion': { pat: 'ais', pic: 'banda',
       nombre: 'Abduzione d’anca con elastico', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Gluteo medio', 'stabilità del ginocchio'], equipo: 'Elastico',
       cues: ['Elastico appena sopra le ginocchia', 'In piedi o sdraiato di lato: apri il ginocchio senza ruotare l’anca', 'Il busto resta fermo, si muove solo la gamba', 'Tieni un secondo in alto'],
       err: ['Ruotare il bacino per aprire di più', 'Andare veloce: il gluteo medio si allena lento'],
@@ -378,7 +378,7 @@ window.B2P = (function () {
       mol: 'Se protesta il polso: prendi le due bretelle invece della maniglia, così il polso resta neutro.'
     },
 
-    'flexion-declinada': { pat: 'eh',
+    'flexion-declinada': { pat: 'eh', pic: 'flexiones',
       nombre: 'Piegamenti declinati', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Petto alto', 'spalla, tricipite'], equipo: 'Niente (sedia o divano)',
       cues: ['Piedi sulla sedia, mani poco più larghe delle spalle', 'Più alti i piedi, più peso ti carichi addosso', 'Corpo in plank: glutei e addome stretti', 'Petto quasi a terra a ogni ripetizione'],
       err: ['Alzare il bacino per alleggerire', 'Dimezzare l’escursione appena alzi i piedi', 'Collo proteso verso il pavimento'],
@@ -399,7 +399,7 @@ window.B2P = (function () {
       alt: [{ n: 'Ginocchia piegate, piedi a terra', por: 'la versione facile' }, { n: 'Con i piedi su una sedia', por: 'la progressione: più orizzontale, più peso' }],
       mol: 'Questa è la tirata che carica davvero senza sbarra: se hai un tavolo solido, preferiscila alla lat machine con asciugamano.'
     },
-    'pistol-asistida': { pat: 'rod',
+    'pistol-asistida': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Squat su una gamba assistito', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipite', 'gluteo'], equipo: 'Niente (sedia)',
       cues: ['In piedi di spalle a una sedia, un piede a terra e l’altro teso davanti', 'Scendi in 3″ fino a sfiorare la sedia col gluteo e risali senza sederti', 'Ginocchio in linea con il piede, mai verso l’interno', 'Braccia avanti come contrappeso'],
       err: ['Lasciarsi cadere sulla sedia e rimbalzare', 'Ginocchio che cade dentro (è lì che si paga)', 'Tallone che si alza: scendi meno finché la caviglia non lo permette'],
@@ -414,14 +414,14 @@ window.B2P = (function () {
       mol: 'Senza niente in casa è il ricambio del curl: non si misura in chili, si misura in quanto reggi la discesa.'
     },
 
-    'zancada-bulgara-pc': { pat: 'zan',
+    'zancada-bulgara-pc': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Affondo bulgaro a corpo libero', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadricipite', 'gluteo'], equipo: 'Niente (sedia)',
       cues: ['Collo del piede dietro sulla sedia, quello davanti a un passo lungo', 'Scendi dritto, ginocchio dietro verso il pavimento', 'Il peso vive nel tallone davanti', 'Scendi in 3″ e sali senza rimbalzare'],
       err: ['Piede davanti troppo vicino (il ginocchio va avanti e paga)', 'Sbilanciarti in avanti per arrivare', 'Rimbalzare in basso con il ginocchio dietro'],
       alt: [{ n: 'Affondi alternati sul posto', por: 'la versione di partenza' }, { n: 'Con uno zaino carico', por: 'la progressione quando 12 diventano facili' }],
       mol: 'Se il ginocchio protesta: allontana di una spanna il piede davanti e scendi meno. È tra le migliori per le gambe senza attrezzi, ma chiede equilibrio: reggiti al muro le prime volte.'
     },
-    'puente-1p': { pat: 'bis',
+    'puente-1p': { pat: 'bis', pic: 'puente',
       nombre: 'Ponte per glutei su una gamba', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Grande gluteo', 'ischiocrurali'], equipo: 'Niente',
       cues: ['Sdraiato, un piede a terra e l’altra gamba tesa in avanti', 'Sali spingendo con il tallone fino ad allineare anca e coscia', 'Stringi il gluteo 2″ in alto, senza inarcare la lombare', 'Scendi in 3″ senza appoggiare del tutto'],
       err: ['Salire inarcando la schiena invece di stringere il gluteo', 'Anca che cede da un lato', 'Appoggiare il piede così lontano che lavora l’ischiocrurale'],
@@ -731,14 +731,14 @@ window.B2P = (function () {
       alt: [{ n: 'Ginocchia piegate, piedi vicini', por: 'se non escono 8 ripetizioni pulite' }, { n: 'Piedi su una seconda sedia', por: 'quando 15 diventano facili' }],
       mol: 'Se la parte anteriore della spalla protesta: accorcia l’escursione a 60°, oppure passa ai piegamenti a diamante, che lasciano stare l’articolazione.'
     },
-    'flexion-diamante': { pat: 'ext', pic: 'eh',
+    'flexion-diamante': { pat: 'ext', pic: 'flexiones',
       nombre: 'Piegamenti a diamante', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricipite', 'petto interno'], equipo: 'Niente',
       cues: ['Indici e pollici a formare un rombo sotto lo sterno', 'Gomiti attaccati al corpo per tutta la ripetizione', 'Corpo in plank: glutei e addome stretti', 'Petto alle mani, e in alto estendi del tutto'],
       err: ['Aprire i gomiti (torna a essere un piegamento normale)', 'Mettere le mani sotto il viso invece che sotto lo sterno', 'Bacino che cede'],
       alt: [{ n: 'Mani sul divano o su un tavolo', por: 'se a terra non escono pulite' }, { n: 'Piedi rialzati', por: 'se superi 12 facili' }],
       mol: 'Se protesta il polso: appoggia sui pugni o scendi sulle ginocchia. Se protesta il gomito, sali a 15 ripetizioni e rallenta il tempo.'
     },
-    'ext-triceps-banda': { pat: 'ext',
+    'ext-triceps-banda': { pat: 'ext', pic: 'banda',
       nombre: 'Estensione tricipiti con elastico', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricipite (tutti e tre i capi)'], equipo: 'Elastico',
       cues: ['Fissa l’elastico in alto (porta o maniglia) e fai un passo indietro', 'Gomiti attaccati ai fianchi e fermi: si muove solo l’avambraccio', 'Estendi fino al blocco morbido e tieni 1″ in basso', 'Torna in 2-3″ resistendo all’elastico'],
       err: ['Lasciare che i gomiti scappino avanti o in alto', 'Spingere con la spalla inclinando il busto', 'Mollare il ritorno e lasciare comandare l’elastico'],
@@ -850,7 +850,7 @@ window.B2P = (function () {
       tips: 'Se ti alleni al mattino, montala la sera prima: l’avena ammollata ci guadagna. Giorno corto di proteine: +1 misurino di whey nello skyr (+110 kcal, +23 g).'
     },
     {
-      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Frittata con pane e pomodoro', tipo: 'Colazione B', tiempo: '10′', cocina: 'Padella',
+      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelette con pane e pomodoro', tipo: 'Colazione B', tiempo: '10′', cocina: 'Padella',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { pid: 'huevos', q: '3 pz', i: 'uova M' },

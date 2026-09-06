@@ -4,7 +4,7 @@
 npm test
 ```
 
-Cinco suites que ejercitan el motor de verdad: generan planes completos y
+Suites que ejercitan el motor de verdad: generan planes completos y
 comprueban el resultado. No son tests unitarios, son humo: no miran funciones
 sueltas, miran que el plan que sale sea el que debe salir.
 

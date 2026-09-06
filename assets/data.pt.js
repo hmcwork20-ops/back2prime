@@ -236,21 +236,21 @@ window.B2P = (function () {
   // alt: alternativas equivalentes (ginásio comercial) · mol: se incomodar, muda para
   const EJERCICIOS = {
     /* — Casa / F1 — */
-    'sentadilla-pc': { pat: 'rod',
+    'sentadilla-pc': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Agachamento com peso do corpo', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadríceps', 'glúteo'], equipo: 'Nada',
       cues: ['Pés à largura dos ombros, pontas ligeiramente para fora', 'Desce em 3″ como se te sentasses para trás, sobe em 1″', 'Joelhos seguem a ponta do pé, calcanhares cravados no chão', 'Peito alto durante todo o percurso'],
       err: ['Calcanhares que se levantam (desce menos fundo)', 'Joelhos que colapsam para dentro', 'Descer a saltar em vez de controlar'],
       alt: [{ n: 'Agachamento até uma caixa/sofá', por: 'se te custa controlar a profundidade' }, { n: 'Agachamento com pausa de 2″ em baixo', por: 'se 12 reps te souberem a pouco' }],
       mol: 'Se o joelho incomodar: reduz a profundidade até onde não doa e desce ainda mais devagar.'
     },
-    'flexiones': { pat: 'eh',
+    'flexiones': { pat: 'eh', pic: 'flexiones',
       nombre: 'Flexões', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Peitoral', 'tríceps, ombro'], equipo: 'Nada',
       cues: ['Mãos um pouco mais largas do que os ombros', 'Cotovelos a 45° do corpo, nem colados nem em cruz', 'Corpo em prancha: glúteo e abdómen apertados', 'O peito toca (quase) o chão em cada rep'],
       err: ['Anca caída ou em bico', 'Meio percurso', 'Pescoço adiantado para o chão'],
       alt: [{ n: 'Flexões com mãos no sofá/mesa', por: 'se não saem limpas do chão' }, { n: 'Flexões com pés elevados', por: 'se passas de 12 com facilidade' }],
       mol: 'Se o punho incomodar: punhos fechados ou pegas de flexão. Se o ombro incomodar: aperta um pouco a largura.'
     },
-    'puente-gluteo': { pat: 'bis',
+    'puente-gluteo': { pat: 'bis', pic: 'puente',
       nombre: 'Ponte de glúteo', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glúteo', 'isquiotibiais'], equipo: 'Nada',
       cues: ['Deitado, calcanhares perto do glúteo', 'Empurra com os calcanhares e sobe a anca', 'Pausa de 2″ em cima a apertar o glúteo com força', 'Costelas para baixo: não arqueies a lombar'],
       err: ['Empurrar com a ponta do pé', 'Arquear a lombar para subir mais', 'Subir e descer sem pausa'],
@@ -278,35 +278,35 @@ window.B2P = (function () {
       alt: [{ n: 'A uma perna', por: 'quando 20 reps forem fáceis' }],
       mol: 'Se o Aquiles incomodar: reduz a amplitude em baixo e aumenta o tempo de descida.'
     },
-    'zancada-alterna': { pat: 'zan',
+    'zancada-alterna': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Afundo alternado', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadríceps', 'glúteo'], equipo: 'Nada',
       cues: ['Passo amplo para a frente', 'Tronco vertical, mãos na anca ou à frente', 'O joelho de trás roça o chão', 'Empurra com o calcanhar da frente para voltar'],
       err: ['Passo curto (colapsa o joelho da frente)', 'Tronco inclinado para a frente', 'Joelho da frente que vai para dentro'],
       alt: [{ n: 'Afundo estático (sem alternar)', por: 'se o equilíbrio falha' }, { n: 'Afundo para trás', por: 'mais simpático para o joelho' }],
       mol: 'Se o joelho incomodar: muda para afundo para trás, mesmo esquema.'
     },
-    'banda-remo': { pat: 'th',
+    'banda-remo': { pat: 'th', pic: 'banda',
       nombre: 'Remada sentada com elástico', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps, omoplatas'], equipo: 'Elástico',
       cues: ['Elástico ancorado à altura do peito (maçaneta, poste ou sob os pés)', 'Puxa com os cotovelos colados ao corpo', 'Junta as omoplatas no fim e aguenta meio segundo', 'Solta devagar: a volta é metade do exercício'],
       err: ['Levar o tronco atrás para puxar mais', 'Soltar o elástico de repente'],
       alt: [{ n: 'Remada com toalha na porta', por: 'se não tens onde ancorar' }, { n: 'Remada com mochila carregada', por: 'a uma mão, apoiado na mesa' }],
       mol: 'Se o ombro incomodar: baixa a ancoragem e puxa mais colado ao lado.'
     },
-    'banda-jalon': { pat: 'tv',
+    'banda-jalon': { pat: 'tv', pic: 'banda',
       nombre: 'Puxada com elástico', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Elástico',
       cues: ['Elástico ancorado em cima (aro da porta ou dobradiça alta)', 'De joelhos ou sentado, peito alto', 'Desce os cotovelos para os bolsos, não para trás', 'O peito vai ao encontro das mãos'],
       err: ['Arquear a lombar para ganhar percurso', 'Puxar só com os braços'],
       alt: [{ n: 'Elevações assistidas com elástico', por: 'se tens barra' }, { n: 'Remada com toalha na porta', por: 'sem ancoragem alta' }],
       mol: 'Se o ombro incomodar: pega mais fechada e não desças tanto.'
     },
-    'banda-rotacion': { pat: 'ais',
+    'banda-rotacion': { pat: 'ais', pic: 'banda',
       nombre: 'Rotação externa com elástico', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Coifa dos rotadores', 'omoplatas'], equipo: 'Elástico',
       cues: ['Cotovelo colado ao lado, 90° fixo (uma toalha enrolada ajuda)', 'Roda o antebraço para fora, devagar', 'O ombro não encolhe: mantém a clavícula em baixo', '2-3″ de volta, sem largar a tensão'],
       err: ['Afastar o cotovelo do corpo', 'Usar elástico duro: aqui manda o controlo, não a carga'],
       alt: [{ n: 'Com haltere leve deitado de lado', por: 'mesma função, sem elástico' }, { n: 'Face pull com elástico', por: 'mais omoplata' }],
       mol: 'Se picar: reduz o percurso a metade e baixa a resistência.'
     },
-    'banda-abduccion': { pat: 'ais',
+    'banda-abduccion': { pat: 'ais', pic: 'banda',
       nombre: 'Abdução de anca com elástico', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Glúteo médio', 'estabilidade do joelho'], equipo: 'Elástico',
       cues: ['Elástico acima dos joelhos', 'De pé ou deitado de lado: abre o joelho sem rodar a anca', 'O tronco não se mexe, só a perna', 'Aguenta um segundo em cima'],
       err: ['Rodar a bacia para abrir mais', 'Ir depressa: o glúteo médio treina-se devagar'],
@@ -378,7 +378,7 @@ window.B2P = (function () {
       mol: 'Se o punho incomodar: agarra pelas duas alças em vez da pega, que deixa o punho neutro.'
     },
 
-    'flexion-declinada': { pat: 'eh',
+    'flexion-declinada': { pat: 'eh', pic: 'flexiones',
       nombre: 'Flexões declinadas', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Peitoral superior', 'ombro, tricípite'], equipo: 'Nada (cadeira ou sofá)',
       cues: ['Pés na cadeira, mãos um pouco mais largas do que os ombros', 'Quanto mais altos os pés, mais peso levas em cima', 'Corpo em prancha: glúteo e abdómen apertados', 'Peito quase ao chão em cada repetição'],
       err: ['Levantar a anca em pico para aliviar', 'Cortar o percurso a meio assim que sobes os pés', 'Pescoço esticado à procura do chão'],
@@ -399,7 +399,7 @@ window.B2P = (function () {
       alt: [{ n: 'Com os joelhos dobrados e os pés no chão', por: 'a versão fácil' }, { n: 'Com os pés numa cadeira', por: 'a progressão: mais horizontal, mais peso' }],
       mol: 'Esta é a puxada que carrega a sério sem barra: se tens uma mesa firme, dá-lhe preferência sobre a puxada com toalha.'
     },
-    'pistol-asistida': { pat: 'rod',
+    'pistol-asistida': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Agachamento a uma perna assistido', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadríceps', 'glúteo'], equipo: 'Nada (cadeira)',
       cues: ['De pé, de costas para uma cadeira, um pé no chão e o outro esticado à frente', 'Desce em 3″ até roçar a cadeira com o glúteo e sobe sem te sentares', 'Joelho alinhado com o pé, nunca a cair para dentro', 'Braços à frente fazem de contrapeso'],
       err: ['Deixares-te cair na cadeira e ressaltar', 'Joelho para dentro (é aí que se paga)', 'Calcanhar que levanta: desce menos até o tornozelo permitir'],
@@ -414,14 +414,14 @@ window.B2P = (function () {
       mol: 'Sem nada em casa é o substituto do curl: não se mede em quilos, mede-se em quanto aguentas a descida.'
     },
 
-    'zancada-bulgara-pc': { pat: 'zan',
+    'zancada-bulgara-pc': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Afundo búlgaro ao peso do corpo', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadríceps', 'glúteo'], equipo: 'Nada (cadeira)',
       cues: ['Peito do pé de trás na cadeira, o da frente a uma passada larga', 'Desce a direito, joelho de trás na direção do chão', 'O peso vive no calcanhar da frente', 'Desce em 3″ e sobe sem ressaltar'],
       err: ['Pôr o pé da frente demasiado perto (o joelho vai à frente e paga)', 'Inclinares-te para a frente para chegar', 'Ressaltar em baixo com o joelho de trás'],
       alt: [{ n: 'Afundo alternado no sítio', por: 'a versão de partida' }, { n: 'Com uma mochila carregada', por: 'a progressão quando 12 saírem fáceis' }],
       mol: 'Se o joelho incomodar: afasta um palmo o pé da frente e desce menos. É das que mais perna dão sem material, mas pede equilíbrio: agarra-te a uma parede das primeiras vezes.'
     },
-    'puente-1p': { pat: 'bis',
+    'puente-1p': { pat: 'bis', pic: 'puente',
       nombre: 'Ponte de glúteo a uma perna', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Grande glúteo', 'isquiotibiais'], equipo: 'Nada',
       cues: ['Deitado, um pé apoiado e a outra perna esticada à frente', 'Sobe a empurrar com o calcanhar até alinhar anca e coxa', 'Aperta o glúteo 2″ em cima, sem arquear a lombar', 'Desce em 3″ sem apoiar por completo'],
       err: ['Subir a arquear as costas em vez de apertar o glúteo', 'Anca que cai para um lado', 'Apoiar o pé tão longe que passa a trabalhar o isquiotibial'],
@@ -731,14 +731,14 @@ window.B2P = (function () {
       alt: [{ n: 'Com os joelhos dobrados e os pés perto', por: 'se não saírem 8 limpas' }, { n: 'Com os pés noutra cadeira', por: 'quando 15 já forem fáceis' }],
       mol: 'Se o ombro incomodar à frente: encurta o percurso para 60°, ou troca por flexões diamante, que deixam a articulação em paz.'
     },
-    'flexion-diamante': { pat: 'ext', pic: 'eh',
+    'flexion-diamante': { pat: 'ext', pic: 'flexiones',
       nombre: 'Flexões diamante', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricípite', 'peitoral interno'], equipo: 'Nada',
       cues: ['Indicadores e polegares a formar um losango debaixo do esterno', 'Cotovelos colados ao corpo durante todo o percurso', 'Corpo em prancha: glúteo e abdómen apertados', 'Peito às mãos, e em cima estende por completo'],
       err: ['Abrir os cotovelos (passa a ser uma flexão normal)', 'Pôr as mãos à altura da cara em vez do esterno', 'Anca a ceder'],
       alt: [{ n: 'Com as mãos no sofá ou numa mesa', por: 'se do chão não saírem limpas' }, { n: 'Com os pés elevados', por: 'se passares de 12 fáceis' }],
       mol: 'Se o punho incomodar: apoia nos punhos ou desce aos joelhos. Se for o cotovelo, sobe para 15 repetições e abranda o ritmo.'
     },
-    'ext-triceps-banda': { pat: 'ext',
+    'ext-triceps-banda': { pat: 'ext', pic: 'banda',
       nombre: 'Extensão de tricípite com banda', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricípite (as três cabeças)'], equipo: 'Elástico',
       cues: ['Prende a banda em cima (porta ou puxador) e dá um passo atrás', 'Cotovelos colados às costelas e quietos: só o antebraço se mexe', 'Estende até ao bloqueio suave e aguenta 1″ em baixo', 'Volta em 2-3″ a resistir ao elástico'],
       err: ['Deixar os cotovelos viajar para a frente ou para cima', 'Empurrar com o ombro, inclinando o tronco', 'Largar a volta e deixar o elástico mandar'],

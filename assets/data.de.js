@@ -236,21 +236,21 @@ window.B2P = (function () {
   // alt: gleichwertige Alternativen (Kommerz-Gym) · mol: wenn es zwickt, wechsle zu
   const EJERCICIOS = {
     /* — Zuhause / P1 — */
-    'sentadilla-pc': { pat: 'rod',
+    'sentadilla-pc': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Kniebeuge (Körpergewicht)', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts',
       cues: ['Füße schulterbreit, Fußspitzen leicht nach außen', 'Geh in 3″ runter, als würdest du dich nach hinten setzen, in 1″ hoch', 'Knie folgen der Fußspitze, Fersen fest im Boden', 'Brust hoch über den gesamten Weg'],
       err: ['Fersen, die abheben (geh weniger tief)', 'Knie, die nach innen kollabieren', 'Federnd absinken statt zu kontrollieren'],
       alt: [{ n: 'Kniebeuge auf Kiste/Sofa', por: 'wenn dir die Tiefenkontrolle schwerfällt' }, { n: 'Kniebeuge mit 2″ Pause unten', por: 'wenn dir 12 Wdh zu leicht werden' }],
       mol: 'Wenn das Knie zwickt: Tiefe reduzieren, bis nichts wehtut, und noch langsamer runter.'
     },
-    'flexiones': { pat: 'eh',
+    'flexiones': { pat: 'eh', pic: 'flexiones',
       nombre: 'Liegestütze', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Brust', 'Trizeps, Schulter'], equipo: 'Nichts',
       cues: ['Hände etwas breiter als die Schultern', 'Ellbogen im 45°-Winkel zum Körper, weder angepresst noch im Kreuz', 'Körper wie ein Brett: Gesäß und Bauch fest', 'Brust berührt (fast) den Boden bei jeder Wdh'],
       err: ['Hängende oder zeltförmige Hüfte', 'Halber Bewegungsradius', 'Nacken, der zum Boden vorschiebt'],
       alt: [{ n: 'Liegestütze mit Händen auf Sofa/Tisch', por: 'wenn sie am Boden nicht sauber klappen' }, { n: 'Liegestütze mit erhöhten Füßen', por: 'wenn du locker über 12 kommst' }],
       mol: 'Wenn das Handgelenk zwickt: auf Fäusten oder mit Liegestützgriffen. Wenn die Schulter zwickt: Hände etwas enger.'
     },
-    'puente-gluteo': { pat: 'bis',
+    'puente-gluteo': { pat: 'bis', pic: 'puente',
       nombre: 'Glute Bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Gesäß', 'Beinbizeps'], equipo: 'Nichts',
       cues: ['Auf dem Rücken, Fersen nah am Gesäß', 'Drück über die Fersen und heb die Hüfte', '2″ Pause oben, Gesäß kräftig anspannen', 'Rippen unten: kein Hohlkreuz'],
       err: ['Über die Fußspitzen drücken', 'Ins Hohlkreuz gehen, um höher zu kommen', 'Hoch und runter ohne Pause'],
@@ -278,35 +278,35 @@ window.B2P = (function () {
       alt: [{ n: 'Einbeinig', por: 'sobald 20 Wdh leicht sind' }],
       mol: 'Wenn die Achillessehne zwickt: unten weniger Radius und langsamer absenken.'
     },
-    'zancada-alterna': { pat: 'zan',
+    'zancada-alterna': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Ausfallschritte im Wechsel', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts',
       cues: ['Großer Schritt nach vorn', 'Oberkörper aufrecht, Hände an der Hüfte oder vorn', 'Das hintere Knie streift den Boden', 'Drück über die vordere Ferse zurück'],
       err: ['Kurzer Schritt (das vordere Knie kollabiert)', 'Oberkörper kippt nach vorn', 'Vorderes Knie wandert nach innen'],
       alt: [{ n: 'Statischer Ausfallschritt (ohne Wechsel)', por: 'wenn die Balance versagt' }, { n: 'Ausfallschritt nach hinten', por: 'knieschonender' }],
       mol: 'Wenn das Knie zwickt: Wechsle zu Ausfallschritten nach hinten, gleiches Schema.'
     },
-    'banda-remo': { pat: 'th',
+    'banda-remo': { pat: 'th', pic: 'banda',
       nombre: 'Sitzendes Rudern mit Band', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Latissimus', 'Bizeps, Schulterblätter'], equipo: 'Band',
       cues: ['Band auf Brusthöhe verankert (Griff, Pfosten oder unter den Füßen)', 'Zieh mit den Ellbogen, eng am Körper', 'Schulterblätter zusammen und eine halbe Sekunde halten', 'Langsam nachlassen: der Rückweg ist die halbe Übung'],
       err: ['Den Oberkörper zurücklehnen, um mehr zu ziehen', 'Das Band zurückschnellen lassen'],
       alt: [{ n: 'Handtuch-Rudern im Türrahmen', por: 'ohne Verankerung' }, { n: 'Rudern mit beladenem Rucksack', por: 'einarmig, am Tisch abgestützt' }],
       mol: 'Wenn die Schulter meckert: Verankerung tiefer und enger am Körper ziehen.'
     },
-    'banda-jalon': { pat: 'tv',
+    'banda-jalon': { pat: 'tv', pic: 'banda',
       nombre: 'Latzug mit Band', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Latissimus', 'Bizeps'], equipo: 'Band',
       cues: ['Band oben verankert (Türrahmen oder obere Angel)', 'Kniend oder sitzend, Brust hoch', 'Ellbogen Richtung Hosentaschen, nicht nach hinten', 'Die Brust kommt den Händen entgegen'],
       err: ['Den unteren Rücken überstrecken für mehr Weg', 'Nur mit den Armen ziehen'],
       alt: [{ n: 'Bandunterstützte Klimmzüge', por: 'wenn du eine Stange hast' }, { n: 'Handtuch-Rudern', por: 'ohne hohe Verankerung' }],
       mol: 'Wenn die Schulter meckert: enger greifen und früher stoppen.'
     },
-    'banda-rotacion': { pat: 'ais',
+    'banda-rotacion': { pat: 'ais', pic: 'banda',
       nombre: 'Außenrotation mit Band', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Rotatorenmanschette', 'Schulterblätter'], equipo: 'Band',
       cues: ['Ellbogen am Körper, feste 90° (ein gerolltes Handtuch hilft)', 'Unterarm langsam nach außen drehen', 'Die Schulter zieht nicht hoch: Schlüsselbein unten lassen', '2-3″ zurück, ohne Spannung zu verlieren'],
       err: ['Den Ellbogen vom Körper wegwandern lassen', 'Ein hartes Band nehmen: hier regiert Kontrolle, nicht Last'],
       alt: [{ n: 'Seitlage mit leichter Kurzhantel', por: 'gleiche Arbeit, ohne Band' }, { n: 'Face Pull mit Band', por: 'mehr Schulterblatt' }],
       mol: 'Wenn es sticht: Weg halbieren und Widerstand senken.'
     },
-    'banda-abduccion': { pat: 'ais',
+    'banda-abduccion': { pat: 'ais', pic: 'banda',
       nombre: 'Hüftabduktion mit Band', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Gluteus medius', 'Kniestabilität'], equipo: 'Band',
       cues: ['Band knapp über den Knien', 'Stehend oder in Seitlage: Knie öffnen, ohne die Hüfte zu drehen', 'Der Rumpf bleibt still, nur das Bein bewegt sich', 'Oben eine Sekunde halten'],
       err: ['Das Becken drehen, um weiter zu öffnen', 'Schnell machen: der Gluteus medius trainiert langsam'],
@@ -378,7 +378,7 @@ window.B2P = (function () {
       mol: 'Wenn das Handgelenk meckert: beide Träger statt des Griffs fassen, das hält das Handgelenk neutral.'
     },
 
-    'flexion-declinada': { pat: 'eh',
+    'flexion-declinada': { pat: 'eh', pic: 'flexiones',
       nombre: 'Liegestütze mit erhöhten Füßen', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Obere Brust', 'Schulter, Trizeps'], equipo: 'Nichts (Stuhl oder Sofa)',
       cues: ['Füße auf den Stuhl, Hände etwas weiter als schulterbreit', 'Je höher die Füße, desto mehr Gewicht liegt auf den Händen', 'Körper wie ein Brett: Po und Bauch fest', 'Brust bei jeder Wiederholung fast zum Boden'],
       err: ['Die Hüfte hochschieben, um es leichter zu machen', 'Den Weg halbieren, sobald die Füße höher stehen', 'Den Hals zum Boden strecken'],
@@ -399,7 +399,7 @@ window.B2P = (function () {
       alt: [{ n: 'Knie gebeugt, Füße am Boden', por: 'die leichte Version' }, { n: 'Füße auf einem Stuhl', por: 'die Steigerung: waagerechter, schwerer' }],
       mol: 'Das ist der Zug, der ohne Stange wirklich lädt: wenn du einen stabilen Tisch hast, nimm ihn statt des Handtuch-Latzugs.'
     },
-    'pistol-asistida': { pat: 'rod',
+    'pistol-asistida': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Einbeinige Kniebeuge mit Hilfe', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts (Stuhl)',
       cues: ['Mit dem Rücken zum Stuhl stehen, ein Fuß am Boden, das andere Bein nach vorn gestreckt', 'In 3″ runter, bis der Po den Stuhl streift, dann hoch ohne dich zu setzen', 'Knie über dem Fuß, nie nach innen', 'Arme nach vorn als Gegengewicht'],
       err: ['Sich auf den Stuhl fallen lassen und abfedern', 'Knie fällt nach innen (da zahlst du)', 'Ferse hebt ab: geh weniger tief, bis das Sprunggelenk mitmacht'],
@@ -414,14 +414,14 @@ window.B2P = (function () {
       mol: 'Ohne alles zu Hause ist das der Ersatz-Curl: er misst sich nicht in Kilo, sondern darin, wie lange du das Absenken hältst.'
     },
 
-    'zancada-bulgara-pc': { pat: 'zan',
+    'zancada-bulgara-pc': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Bulgarische Kniebeuge ohne Gewicht', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadrizeps', 'Gesäß'], equipo: 'Nichts (Stuhl)',
       cues: ['Spann des hinteren Fußes auf den Stuhl, vorderer Fuß einen langen Schritt entfernt', 'Gerade nach unten, hinteres Knie Richtung Boden', 'Das Gewicht liegt in der vorderen Ferse', 'In 3″ runter und ohne Federn hoch'],
       err: ['Vorderen Fuß zu nah setzen (das Knie wandert nach vorn und zahlt)', 'Sich nach vorn lehnen, um unten anzukommen', 'Unten mit dem hinteren Knie abfedern'],
       alt: [{ n: 'Ausfallschritte im Wechsel auf der Stelle', por: 'die Einstiegsversion' }, { n: 'Mit beladenem Rucksack', por: 'die Steigerung, wenn 12 leicht fallen' }],
       mol: 'Wenn das Knie meckert: vorderen Fuß eine Handbreit weiter nach vorn und weniger tief. Eine der besten Beinübungen ohne Material, aber sie verlangt Gleichgewicht: halt dich die ersten Male an der Wand fest.'
     },
-    'puente-1p': { pat: 'bis',
+    'puente-1p': { pat: 'bis', pic: 'puente',
       nombre: 'Einbeinige Glute Bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Großer Gesäßmuskel', 'Beinbeuger'], equipo: 'Nichts',
       cues: ['Auf dem Rücken, ein Fuß aufgestellt, das andere Bein gestreckt nach vorn', 'Über die Ferse hochdrücken, bis Hüfte und Oberschenkel eine Linie bilden', 'Oben 2″ das Gesäß anspannen, ohne ins Hohlkreuz zu gehen', 'In 3″ ablassen, ohne ganz abzulegen'],
       err: ['Über das Hohlkreuz hochkommen statt über das Gesäß', 'Die Hüfte zur Seite kippen lassen', 'Den Fuß so weit weg stellen, dass der Beinbeuger übernimmt'],
@@ -731,14 +731,14 @@ window.B2P = (function () {
       alt: [{ n: 'Knie gebeugt, Füße nah am Körper', por: 'wenn keine 8 sauberen Wiederholungen kommen' }, { n: 'Füße auf einem zweiten Stuhl', por: 'wenn 15 leicht fallen' }],
       mol: 'Wenn die Schulter vorne meckert: Bewegungsumfang auf 60° kürzen oder auf Diamant-Liegestütze wechseln, die das Gelenk in Ruhe lassen.'
     },
-    'flexion-diamante': { pat: 'ext', pic: 'eh',
+    'flexion-diamante': { pat: 'ext', pic: 'flexiones',
       nombre: 'Diamant-Liegestütze', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Trizeps', 'innere Brust'], equipo: 'Nichts',
       cues: ['Zeigefinger und Daumen bilden eine Raute unter dem Brustbein', 'Ellbogen die ganze Wiederholung über eng am Körper', 'Körper wie ein Brett: Po und Bauch fest', 'Brust zu den Händen, oben ganz durchstrecken'],
       err: ['Die Ellbogen ausstellen (dann ist es ein normaler Liegestütz)', 'Die Hände unter das Gesicht setzen statt unter das Brustbein', 'Durchhängende Hüfte'],
       alt: [{ n: 'Hände auf Sofa oder Tisch', por: 'wenn es am Boden noch nicht sauber läuft' }, { n: 'Füße erhöht', por: 'wenn du über 12 leichte schaffst' }],
       mol: 'Wenn das Handgelenk meckert: auf Fäusten stützen oder auf die Knie gehen. Meckert der Ellbogen, geh auf 15 Wiederholungen und mach das Tempo langsamer.'
     },
-    'ext-triceps-banda': { pat: 'ext',
+    'ext-triceps-banda': { pat: 'ext', pic: 'banda',
       nombre: 'Trizepsdrücken am Band', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Trizeps (alle drei Köpfe)'], equipo: 'Band',
       cues: ['Band hoch befestigen (Tür oder Griff) und einen Schritt zurücktreten', 'Ellbogen an den Rippen und still: nur der Unterarm bewegt sich', 'Bis zur weichen Streckung ausstrecken und unten 1″ halten', 'In 2-3″ zurück, gegen das Band arbeiten'],
       err: ['Die Ellbogen nach vorne oder oben wandern lassen', 'Mit der Schulter drücken, indem du dich vorlehnst', 'Den Rückweg loslassen und das Band bestimmen lassen'],

@@ -237,21 +237,21 @@ window.B2P = (function () {
   // alt : alternatives équivalentes (salle commerciale) · mol : si ça gêne, passe à
   const EJERCICIOS = {
     /* — Maison / P1 — */
-    'sentadilla-pc': { pat: 'rod',
+    'sentadilla-pc': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Squat au poids du corps', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien',
       cues: ['Pieds largeur d’épaules, pointes légèrement ouvertes', 'Descends en 3″ comme pour t’asseoir en arrière, remonte en 1″', 'Les genoux suivent la pointe des pieds, talons vissés au sol', 'Poitrine haute sur tout le trajet'],
       err: ['Talons qui décollent (descends moins bas)', 'Genoux qui rentrent vers l’intérieur', 'Descendre en rebondissant au lieu de contrôler'],
       alt: [{ n: 'Squat sur box/canapé', por: 'si tu as du mal à contrôler la profondeur' }, { n: 'Squat avec pause 2″ en bas', por: 'si 12 reps deviennent trop faciles' }],
       mol: 'Si le genou gêne : réduis la profondeur jusqu’à la zone sans douleur et descends encore plus lentement.'
     },
-    'flexiones': { pat: 'eh',
+    'flexiones': { pat: 'eh', pic: 'flexiones',
       nombre: 'Pompes', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps, épaules'], equipo: 'Rien',
       cues: ['Mains un peu plus larges que les épaules', 'Coudes à 45° du corps, ni collés ni en croix', 'Corps en planche : fessier et abdos serrés', 'La poitrine touche (presque) le sol à chaque rep'],
       err: ['Hanches qui tombent ou en pic', 'Demi-amplitude', 'Cou qui plonge vers le sol'],
       alt: [{ n: 'Pompes mains sur canapé/table', por: 'si elles ne sortent pas propres au sol' }, { n: 'Pompes pieds surélevés', por: 'si tu en passes 12 facilement' }],
       mol: 'Si le poignet gêne : poings fermés ou poignées de pompes. Si l’épaule gêne : resserre un peu l’écartement.'
     },
-    'puente-gluteo': { pat: 'bis',
+    'puente-gluteo': { pat: 'bis', pic: 'puente',
       nombre: 'Pont fessier', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Fessier', 'ischios'], equipo: 'Rien',
       cues: ['Allongé, talons proches du fessier', 'Pousse dans les talons et monte le bassin', 'Pause 2″ en haut en serrant fort le fessier', 'Côtes basses : ne cambre pas les lombaires'],
       err: ['Pousser avec la pointe des pieds', 'Cambrer les lombaires pour monter plus haut', 'Monter et descendre sans pause'],
@@ -279,35 +279,35 @@ window.B2P = (function () {
       alt: [{ n: 'À une jambe', por: 'quand 20 reps deviennent faciles' }],
       mol: 'Si l’Achille gêne : réduis l’amplitude en bas et rallonge le temps de descente.'
     },
-    'zancada-alterna': { pat: 'zan',
+    'zancada-alterna': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Fentes alternées', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien',
       cues: ['Grand pas vers l’avant', 'Buste vertical, mains sur les hanches ou devant', 'Le genou arrière frôle le sol', 'Pousse dans le talon avant pour revenir'],
       err: ['Pas trop court (le genou avant s’écrase)', 'Buste penché vers l’avant', 'Genou avant qui part vers l’intérieur'],
       alt: [{ n: 'Fente statique (sans alterner)', por: 'si l’équilibre lâche' }, { n: 'Fente arrière', por: 'plus douce pour le genou' }],
       mol: 'Si le genou gêne : passe à la fente arrière, même schéma.'
     },
-    'banda-remo': { pat: 'th',
+    'banda-remo': { pat: 'th', pic: 'banda',
       nombre: 'Rowing assis à la bande', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps, omoplates'], equipo: 'Bande',
       cues: ['Bande ancrée à hauteur de poitrine (poignée, poteau ou sous les pieds)', 'Tire avec les coudes, collés au corps', 'Serre les omoplates et tiens une demi-seconde', 'Relâche lentement : le retour, c’est la moitié de l’exercice'],
       err: ['Basculer le buste en arrière pour tirer plus', 'Lâcher la bande d’un coup'],
       alt: [{ n: 'Rowing à la serviette dans l’embrasure', por: 'sans point d’ancrage' }, { n: 'Rowing avec sac à dos chargé', por: 'à un bras, appuyé sur la table' }],
       mol: 'Si l’épaule se plaint : baisse l’ancrage et tire plus près du flanc.'
     },
-    'banda-jalon': { pat: 'tv',
+    'banda-jalon': { pat: 'tv', pic: 'banda',
       nombre: 'Tirage vertical à la bande', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps'], equipo: 'Bande',
       cues: ['Bande ancrée en haut (chambranle ou charnière haute)', 'À genoux ou assis, poitrine haute', 'Descends les coudes vers les poches, pas vers l’arrière', 'La poitrine va à la rencontre des mains'],
       err: ['Cambrer le bas du dos pour gagner de l’amplitude', 'Tirer seulement avec les bras'],
       alt: [{ n: 'Tractions assistées à la bande', por: 'si tu as une barre' }, { n: 'Rowing à la serviette', por: 'sans ancrage haut' }],
       mol: 'Si l’épaule se plaint : prise plus serrée, arrête plus haut.'
     },
-    'banda-rotacion': { pat: 'ais',
+    'banda-rotacion': { pat: 'ais', pic: 'banda',
       nombre: 'Rotation externe à la bande', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Coiffe des rotateurs', 'omoplates'], equipo: 'Bande',
       cues: ['Coude collé au flanc, 90° fixe (une serviette roulée aide)', 'Tourne l’avant-bras vers l’extérieur, lentement', 'L’épaule ne monte pas : garde la clavicule basse', '2-3″ au retour, sans perdre la tension'],
       err: ['Laisser le coude s’écarter du corps', 'Prendre une bande dure : ici c’est le contrôle qui commande'],
       alt: [{ n: 'Haltère léger allongé sur le côté', por: 'même travail, sans bande' }, { n: 'Face pull à la bande', por: 'plus d’omoplate' }],
       mol: 'Si ça pince : réduis l’amplitude de moitié et baisse la résistance.'
     },
-    'banda-abduccion': { pat: 'ais',
+    'banda-abduccion': { pat: 'ais', pic: 'banda',
       nombre: 'Abduction de hanche à la bande', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Moyen fessier', 'stabilité du genou'], equipo: 'Bande',
       cues: ['Bande juste au-dessus des genoux', 'Debout ou allongé sur le côté : ouvre le genou sans rouler la hanche', 'Le buste ne bouge pas, seule la jambe', 'Tiens une seconde en haut'],
       err: ['Faire pivoter le bassin pour ouvrir plus', 'Aller vite : le moyen fessier se travaille lentement'],
@@ -379,7 +379,7 @@ window.B2P = (function () {
       mol: 'Si le poignet proteste : attrape les deux bretelles plutôt que la poignée, ça garde le poignet neutre.'
     },
 
-    'flexion-declinada': { pat: 'eh',
+    'flexion-declinada': { pat: 'eh', pic: 'flexiones',
       nombre: 'Pompes déclinées', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Haut des pectoraux', 'épaule, triceps'], equipo: 'Rien (chaise ou canapé)',
       cues: ['Pieds sur la chaise, mains un peu plus larges que les épaules', 'Plus les pieds sont hauts, plus tu portes de poids', 'Corps en planche : fessiers et abdos serrés', 'Poitrine presque au sol à chaque répétition'],
       err: ['Casser les hanches pour se soulager', 'Réduire l’amplitude de moitié dès que les pieds montent', 'Cou tendu vers le sol'],
@@ -400,7 +400,7 @@ window.B2P = (function () {
       alt: [{ n: 'Genoux pliés, pieds au sol', por: 'la version facile' }, { n: 'Pieds sur une chaise', por: 'la progression : plus horizontal, plus lourd' }],
       mol: 'C’est le tirage qui charge vraiment sans barre : si tu as une table solide, préfère-le au tirage à la serviette.'
     },
-    'pistol-asistida': { pat: 'rod',
+    'pistol-asistida': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Squat sur une jambe assisté', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien (chaise)',
       cues: ['Debout dos à une chaise, un pied au sol, l’autre tendu devant', 'Descends en 3″ jusqu’à effleurer la chaise, puis remonte sans t’asseoir', 'Genou aligné avec le pied, jamais vers l’intérieur', 'Bras devant en contrepoids'],
       err: ['Se laisser tomber sur la chaise et rebondir', 'Genou qui rentre (c’est là que ça se paie)', 'Talon qui décolle : descends moins jusqu’à ce que la cheville suive'],
@@ -415,14 +415,14 @@ window.B2P = (function () {
       mol: 'Sans rien à la maison, c’est le remplaçant du curl : il ne se mesure pas en kilos, il se mesure à la durée de la descente.'
     },
 
-    'zancada-bulgara-pc': { pat: 'zan',
+    'zancada-bulgara-pc': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Fente bulgare au poids du corps', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Rien (chaise)',
       cues: ['Dessus du pied arrière sur la chaise, pied avant à une grande enjambée', 'Descends droit, genou arrière vers le sol', 'Le poids vit dans le talon avant', 'Descends en 3″ et remonte sans rebondir'],
       err: ['Pied avant trop près (le genou part devant et paie)', 'Se pencher en avant pour y arriver', 'Rebondir en bas avec le genou arrière'],
       alt: [{ n: 'Fentes alternées sur place', por: 'la version de départ' }, { n: 'Avec un sac à dos chargé', por: 'la progression quand 12 deviennent faciles' }],
       mol: 'Si le genou proteste : éloigne le pied avant d’un empan et descends moins. C’est l’un des meilleurs mouvements de jambes sans matériel, mais il demande de l’équilibre : tiens-toi au mur les premières fois.'
     },
-    'puente-1p': { pat: 'bis',
+    'puente-1p': { pat: 'bis', pic: 'puente',
       nombre: 'Pont fessier sur une jambe', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Grand fessier', 'ischio-jambiers'], equipo: 'Rien',
       cues: ['Allongé, un pied au sol et l’autre jambe tendue devant', 'Monte en poussant par le talon jusqu’à aligner hanche et cuisse', 'Serre le fessier 2″ en haut, sans cambrer', 'Descends en 3″ sans reposer complètement'],
       err: ['Monter en cambrant le dos au lieu de serrer le fessier', 'Hanche qui tombe d’un côté', 'Poser le pied si loin que l’ischio prend le relais'],
@@ -733,14 +733,14 @@ window.B2P = (function () {
       alt: [{ n: 'Genoux pliés, pieds rapprochés', por: 'si tu ne sors pas 8 répétitions propres' }, { n: 'Pieds sur une deuxième chaise', por: 'quand 15 deviennent faciles' }],
       mol: 'Si l’avant de l’épaule proteste : réduis l’amplitude à 60°, ou passe aux pompes diamant, qui laissent l’articulation tranquille.'
     },
-    'flexion-diamante': { pat: 'ext', pic: 'eh',
+    'flexion-diamante': { pat: 'ext', pic: 'flexiones',
       nombre: 'Pompes diamant', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'pectoral interne'], equipo: 'Rien',
       cues: ['Index et pouces formant un losange sous le sternum', 'Coudes collés au corps pendant tout le mouvement', 'Corps en planche : fessiers et abdos serrés', 'Poitrine aux mains, puis extension complète en haut'],
       err: ['Ouvrir les coudes (ça redevient une pompe classique)', 'Poser les mains sous le visage au lieu du sternum', 'Bassin qui s’affaisse'],
       alt: [{ n: 'Mains sur le canapé ou une table', por: 'si au sol elles ne sortent pas propres' }, { n: 'Pieds surélevés', por: 'si tu dépasses 12 faciles' }],
       mol: 'Si le poignet proteste : appuie sur les poings ou passe à genoux. Si c’est le coude, monte à 15 répétitions et ralentis le tempo.'
     },
-    'ext-triceps-banda': { pat: 'ext',
+    'ext-triceps-banda': { pat: 'ext', pic: 'banda',
       nombre: 'Extension triceps à l’élastique', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (les trois chefs)'], equipo: 'Élastique',
       cues: ['Fixe l’élastique en hauteur (porte ou poignée) et recule d’un pas', 'Coudes collés aux côtes et immobiles : seul l’avant-bras bouge', 'Étends jusqu’au verrouillage souple et tiens 1″ en bas', 'Reviens en 2-3″ en résistant à l’élastique'],
       err: ['Laisser les coudes partir vers l’avant ou vers le haut', 'Pousser avec l’épaule en penchant le buste', 'Lâcher le retour et laisser l’élastique commander'],

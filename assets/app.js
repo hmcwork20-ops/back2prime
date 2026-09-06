@@ -37,12 +37,14 @@
   // opciones del cuestionario y «Tus respuestas» con pictograma: se reconocen antes de leer
   const ICO_OP = { objetivo: { perder: 'flame', recomp: 'diana', ganar: 'mancuerna', mantener: 'escudo' },
     material: { nada: 'actividad', casa: 'banda', gym: 'barra' } };
-  // el pictograma del patrón, en miniatura, para las filas de la sesión
-  const pictoMini = e => {
-    if (!e) return null;
-    const pic = (e.pic && window.B2P_PICTOS && window.B2P_PICTOS.includes(e.pic)) ? e.pic : e.pat;
-    if (window.B2P_PICTOS && window.B2P_PICTOS.includes(pic)) return el('img', { class: 'pat-mini', src: 'assets/pictos/' + pic + '.webp?v=' + (window.B2P_IMG_V || 1), alt: '', loading: 'lazy', decoding: 'async', width: '30', height: '30' });
-    return (window.B2P_MAPA && window.B2P_MAPA.svgPat) ? el('span', { class: 'pat-mini pat-svg', 'aria-hidden': 'true', html: window.B2P_MAPA.svgPat(e.pat) }) : null;
+  /* El pictograma del ejercicio, en miniatura, para las filas de la sesión.
+     Quién decide cuál (y cuándo ninguno) vive en gen.js: es una regla del plan,
+     no una del DOM, y así se puede probar sin navegador. */
+  const pictoMini = id => {
+    const G2 = window.B2P_GEN;
+    const pic = (G2 && G2.pictoDeFila) ? G2.pictoDeFila(D, id, window.B2P_PICTOS, window.B2P_PICTOS_NIV) : null;
+    if (!pic) return null;
+    return el('img', { class: 'pat-mini', src: 'assets/pictos/' + pic + '.webp?v=' + (window.B2P_IMG_V || 1), alt: '', loading: 'lazy', decoding: 'async', width: '30', height: '30' });
   };
   const pad = n => String(n).padStart(2, '0');
   const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
@@ -740,19 +742,27 @@
         ['compra', TX.prepCompra],
         ['bascula', TX.prepBascula]
       ];
+      /* Lo hecho SALE de la lista: la tarjeta enseña lo que queda por hacer, no
+         un inventario de casillas. Los hechos no se pierden — se pliegan debajo
+         con su cuenta, que es como se desmarca el que se marcó sin querer. */
       const c = el('div', { class: 'card' });
-      prep.forEach(([k, txt]) => {
-        const on = !!(S.flags.prep && S.flags.prep[k]);
-        c.append(el('button', { class: 'habit wide' + (on ? ' on' : '') + ' plano', type: 'button', style: 'margin:5px 0',
-          'aria-pressed': on ? 'true' : 'false', onclick: ev => {
-            S.flags.prep = S.flags.prep || {}; S.flags.prep[k] = !S.flags.prep[k]; save();
-            const v = !!S.flags.prep[k];
-            ev.currentTarget.classList.toggle('on', v);
-            ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
-            ev.currentTarget.querySelector('.hicon').textContent = v ? '✓' : '○';
-          } }, el('div', { class: 'hicon' }, on ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt)),
-          k === 'cintura' && window.B2P_FIG ? el('span', { class: 'fig-cint', style: 'margin-left:auto', html: window.B2P_FIG.cintura(40) }) : null));
-      });
+      const pintaPrep = () => {
+        const hecho = ([k]) => !!(S.flags.prep && S.flags.prep[k]);
+        const fila = ([k, txt]) => el('button', { class: 'habit wide' + (hecho([k]) ? ' on' : '') + ' plano', type: 'button', style: 'margin:5px 0',
+          'aria-pressed': hecho([k]) ? 'true' : 'false', onclick: () => {
+            S.flags.prep = S.flags.prep || {}; S.flags.prep[k] = !S.flags.prep[k]; save(); pintaPrep();
+          } }, el('div', { class: 'hicon' }, hecho([k]) ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt)),
+          k === 'cintura' && window.B2P_FIG ? el('span', { class: 'fig-cint', style: 'margin-left:auto', html: window.B2P_FIG.cintura(40) }) : null);
+        const hechos = prep.filter(hecho);
+        /* «✓ 3/4» en vez de una frase: se lee igual en los seis idiomas y no
+           inventa un plural que en varios de ellos chirría con el 1. */
+        const hijos = prep.filter(p => !hecho(p)).map(fila);
+        if (hechos.length) hijos.push(el('details', { class: 'fold prep-hechos' },
+          el('summary', null, '✓ ' + hechos.length + '/' + prep.length),
+          el('div', { class: 'fold-in' }, ...hechos.map(fila))));
+        c.replaceChildren(...hijos);
+      };
+      pintaPrep();
       root.append(c);
       // el camino por delante: los 4 discos
       const strip = el('div', { class: 'card', style: 'display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center' });
@@ -912,7 +922,7 @@
           }, html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' });
 
           const row = el('div', { class: 'exrow' },
-            pictoMini(e),
+            pictoMini(b.e),
             el('div', { class: 'exmain' },
               // El botón es SOLO el nombre, no todo el bloque: dentro de .exmain
               // viven el cronómetro y los chips de reps, y un <button> no puede

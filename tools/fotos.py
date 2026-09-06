@@ -36,7 +36,7 @@ ESTILO = ("Overhead food photograph, top-down at a slight angle, a single servin
 
 PLATOS = {
     'bol-skyr': 'a bowl of thick white skyr yogurt topped with berries, a few oat flakes and a drizzle of honey',
-    'tortilla-pan': 'a golden Spanish omelette wedge next to a slice of toasted bread rubbed with tomato',
+    'tortilla-pan': 'a plain French-style folded omelette made only with beaten eggs, no potato and no filling, next to a slice of toasted bread rubbed with fresh tomato',
     'pollo-asado': 'roast chicken breast slices with oven-roasted potato wedges, red pepper and onion, paprika dusted',
     'lentejas-pollo': 'a rustic bowl of stewed lentils with diced chicken, carrot and a bay leaf',
     'salteado-ternera': 'a wok stir-fry of lean beef strips with broccoli, peppers and carrot over white rice',

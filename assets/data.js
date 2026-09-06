@@ -235,21 +235,21 @@ window.B2P = (function () {
   // alt: alternativas equivalentes (gym comercial) · mol: si molesta, cambia a
   const EJERCICIOS = {
     /* — Casa / F1 — */
-    'sentadilla-pc': { pat: 'rod',
+    'sentadilla-pc': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Sentadilla peso corporal', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
       cues: ['Pies al ancho de hombros, puntas ligeramente hacia fuera', 'Baja en 3″ como si te sentaras atrás, sube en 1″', 'Rodillas siguen la punta del pie, talones clavados al suelo', 'Pecho alto durante todo el recorrido'],
       err: ['Talones que se despegan (baja menos profundo)', 'Rodillas que colapsan hacia dentro', 'Bajar rebotando en vez de controlar'],
       alt: [{ n: 'Sentadilla a un cajón/sofá', por: 'si te cuesta controlar la profundidad' }, { n: 'Sentadilla con pausa 2″ abajo', por: 'si 12 reps se te quedan cortas' }],
       mol: 'Si molesta la rodilla: reduce profundidad hasta donde no duela y baja aún más lento.'
     },
-    'flexiones': { pat: 'eh',
+    'flexiones': { pat: 'eh', pic: 'flexiones',
       nombre: 'Flexiones', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral', 'tríceps, hombro'], equipo: 'Nada',
       cues: ['Manos algo más anchas que los hombros', 'Codos a 45° del cuerpo, no pegados ni en cruz', 'Cuerpo en tabla: glúteo y abdomen apretados', 'Pecho toca (casi) el suelo en cada rep'],
       err: ['Cadera caída o en pico', 'Medio recorrido', 'Cuello adelantado hacia el suelo'],
       alt: [{ n: 'Flexiones con manos en sofá/mesa', por: 'si no salen limpias del suelo' }, { n: 'Flexiones con pies elevados', por: 'si superas 12 fáciles' }],
       mol: 'Si molesta la muñeca: puños cerrados o agarres de flexión. Si molesta el hombro: estrecha un poco el ancho.'
     },
-    'puente-gluteo': { pat: 'bis',
+    'puente-gluteo': { pat: 'bis', pic: 'puente',
       nombre: 'Puente de glúteo', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glúteo', 'femoral'], equipo: 'Nada',
       cues: ['Tumbado, talones cerca del glúteo', 'Empuja con los talones y sube la cadera', 'Pausa 2″ arriba apretando el glúteo fuerte', 'Costillas abajo: no arquees la lumbar'],
       err: ['Empujar con la punta del pie', 'Arquear la lumbar para subir más', 'Subir y bajar sin pausa'],
@@ -277,35 +277,35 @@ window.B2P = (function () {
       alt: [{ n: 'A una pierna', por: 'cuando 20 reps sean fáciles' }],
       mol: 'Si molesta el Aquiles: reduce el rango abajo y sube el tiempo de bajada.'
     },
-    'zancada-alterna': { pat: 'zan',
+    'zancada-alterna': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Zancada alterna', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada',
       cues: ['Paso amplio hacia delante', 'Tronco vertical, manos a la cadera o al frente', 'La rodilla trasera roza el suelo', 'Empuja con el talón delantero para volver'],
       err: ['Paso corto (colapsa la rodilla delantera)', 'Tronco inclinado hacia delante', 'Rodilla delantera que se va hacia dentro'],
       alt: [{ n: 'Zancada estática (sin alternar)', por: 'si el equilibrio falla' }, { n: 'Zancada atrás', por: 'más amable con la rodilla' }],
       mol: 'Si molesta la rodilla: cambia a zancada atrás, mismo esquema.'
     },
-    'banda-remo': { pat: 'th',
+    'banda-remo': { pat: 'th', pic: 'banda',
       nombre: 'Remo sentado con banda', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps, escápulas'], equipo: 'Banda',
       cues: ['Banda anclada a la altura del pecho (pomo, poste o bajo los pies)', 'Tira con los codos pegados al cuerpo', 'Junta las escápulas al final y aguanta medio segundo', 'Suelta despacio: la vuelta es la mitad del ejercicio'],
       err: ['Echar el tronco atrás para tirar más', 'Soltar la banda de golpe'],
       alt: [{ n: 'Remo con toalla en puerta', por: 'si no tienes anclaje' }, { n: 'Remo con mochila cargada', por: 'a una mano, apoyado en la mesa' }],
       mol: 'Si molesta el hombro: baja el anclaje y tira más pegado al costado.'
     },
-    'banda-jalon': { pat: 'tv',
+    'banda-jalon': { pat: 'tv', pic: 'banda',
       nombre: 'Jalón con banda', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Banda',
       cues: ['Banda anclada arriba (marco de puerta o bisagra alta)', 'De rodillas o sentado, pecho alto', 'Baja los codos hacia los bolsillos, no hacia atrás', 'El pecho va al encuentro de las manos'],
       err: ['Arquear la lumbar para ganar recorrido', 'Tirar solo con los brazos'],
       alt: [{ n: 'Dominadas asistidas con banda', por: 'si tienes barra' }, { n: 'Remo con toalla en puerta', por: 'sin anclaje alto' }],
       mol: 'Si molesta el hombro: agarra más estrecho y no bajes tanto.'
     },
-    'banda-rotacion': { pat: 'ais',
+    'banda-rotacion': { pat: 'ais', pic: 'banda',
       nombre: 'Rotación externa con banda', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Manguito rotador', 'escápulas'], equipo: 'Banda',
       cues: ['Codo pegado al costado, 90° fijo (una toalla enrollada ayuda)', 'Gira el antebrazo hacia fuera, lento', 'El hombro no se encoge: baja la clavícula', '2-3″ de vuelta, sin soltar la tensión'],
       err: ['Separar el codo del cuerpo', 'Usar banda dura: aquí manda el control, no la carga'],
       alt: [{ n: 'Con mancuerna ligera tumbado de lado', por: 'misma función, sin banda' }, { n: 'Face pull con banda', por: 'más escápula' }],
       mol: 'Si pincha: reduce el recorrido a la mitad y baja la resistencia.'
     },
-    'banda-abduccion': { pat: 'ais',
+    'banda-abduccion': { pat: 'ais', pic: 'banda',
       nombre: 'Abducción de cadera con banda', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Glúteo medio', 'estabilidad de rodilla'], equipo: 'Banda',
       cues: ['Banda por encima de las rodillas', 'De pie o tumbado de lado: abre la rodilla sin girar la cadera', 'El tronco no se mueve, solo la pierna', 'Aguanta un segundo arriba'],
       err: ['Rotar la pelvis para abrir más', 'Ir rápido: el glúteo medio se entrena lento'],
@@ -377,7 +377,7 @@ window.B2P = (function () {
       mol: 'Si molesta la muñeca: agarra por las dos correas en vez de por el asa, que deja la muñeca neutra.'
     },
 
-    'flexion-declinada': { pat: 'eh',
+    'flexion-declinada': { pat: 'eh', pic: 'flexiones',
       nombre: 'Flexiones declinadas', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoral superior', 'hombro, tríceps'], equipo: 'Nada (silla o sofá)',
       cues: ['Pies en la silla, manos algo más anchas que los hombros', 'Cuanto más altos los pies, más peso llevas encima', 'Cuerpo en tabla: glúteo y abdomen apretados', 'Pecho casi al suelo en cada repetición'],
       err: ['Cadera en pico para aliviar', 'Bajar solo medio recorrido al subir la altura', 'Cuello adelantado buscando el suelo'],
@@ -398,7 +398,7 @@ window.B2P = (function () {
       alt: [{ n: 'Con las rodillas dobladas y los pies en el suelo', por: 'la versión fácil' }, { n: 'Con los pies en una silla', por: 'la progresión: más horizontal, más peso' }],
       mol: 'Este es el tirón que de verdad carga sin barra: si tienes una mesa firme, prefiérelo al jalón con toalla.'
     },
-    'pistol-asistida': { pat: 'rod',
+    'pistol-asistida': { pat: 'rod', pic: 'sentadilla-pc',
       nombre: 'Sentadilla a una pierna asistida', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada (silla)',
       cues: ['De pie frente a una silla, un pie en el suelo y el otro estirado delante', 'Baja en 3″ hasta rozar la silla con el glúteo y sube sin sentarte', 'Rodilla alineada con el pie, sin caer hacia dentro', 'Brazos al frente hacen de contrapeso'],
       err: ['Dejarte caer en la silla y rebotar', 'Rodilla hacia dentro (ahí es donde se paga)', 'Talón que se levanta: baja menos hasta que el tobillo dé'],
@@ -413,14 +413,14 @@ window.B2P = (function () {
       mol: 'Sin nada en casa es el recambio del curl: no se mide en kilos, se mide en cuánto aguantas la bajada.'
     },
 
-    'zancada-bulgara-pc': { pat: 'zan',
+    'zancada-bulgara-pc': { pat: 'zan', pic: 'zancada-pc',
       nombre: 'Zancada búlgara al peso corporal', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Cuádriceps', 'glúteo'], equipo: 'Nada (silla)',
       cues: ['Empeine del pie de atrás sobre la silla, el de delante a un paso largo', 'Baja recto, la rodilla de atrás hacia el suelo', 'El peso vive en el talón de delante', 'Baja en 3″ y sube sin rebotar'],
       err: ['Poner el pie de delante demasiado cerca (la rodilla se adelanta y paga)', 'Inclinarte hacia delante para llegar', 'Rebotar abajo con la rodilla de atrás'],
       alt: [{ n: 'Zancada alterna en el sitio', por: 'la versión de partida' }, { n: 'Con una mochila cargada', por: 'la progresión cuando 12 salen fáciles' }],
       mol: 'Si la rodilla molesta: aleja un palmo el pie de delante y baja menos. Es de las que más pierna dan sin material, pero pide equilibrio: agárrate a una pared las primeras veces.'
     },
-    'puente-1p': { pat: 'bis',
+    'puente-1p': { pat: 'bis', pic: 'puente',
       nombre: 'Puente de glúteo a una pierna', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glúteo mayor', 'isquiotibiales'], equipo: 'Nada',
       cues: ['Tumbado, un pie apoyado y la otra pierna estirada al frente', 'Sube empujando con el talón hasta alinear cadera y muslo', 'Aprieta el glúteo 2″ arriba, sin arquear la lumbar', 'Baja en 3″ sin apoyar del todo'],
       err: ['Subir arqueando la espalda en vez de apretando el glúteo', 'Cadera que se descuelga hacia un lado', 'Apoyar el pie tan lejos que trabaje el isquio y no el glúteo'],
@@ -730,14 +730,14 @@ window.B2P = (function () {
       alt: [{ n: 'Con las rodillas dobladas y los pies cerca', por: 'si no salen 8 limpios' }, { n: 'Con los pies en otra silla', por: 'cuando pasas de 15 fáciles' }],
       mol: 'Si molesta el hombro por delante: acorta el recorrido a 60° o cámbialo por flexiones diamante, que no comprometen la articulación.'
     },
-    'flexion-diamante': { pat: 'ext', pic: 'eh',
+    'flexion-diamante': { pat: 'ext', pic: 'flexiones',
       nombre: 'Flexiones diamante', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tríceps', 'pectoral interno'], equipo: 'Nada',
       cues: ['Índices y pulgares formando un rombo bajo el esternón', 'Codos pegados al cuerpo durante todo el recorrido', 'Cuerpo en tabla: glúteo y abdomen apretados', 'Pecho a las manos, y arriba extiende del todo'],
       err: ['Abrir los codos (se convierte en una flexión normal)', 'Poner las manos a la altura de la cara en vez del esternón', 'Cadera caída'],
       alt: [{ n: 'Con las manos en el sofá o una mesa', por: 'si del suelo no salen limpias' }, { n: 'Con los pies elevados', por: 'si superas 12 fáciles' }],
       mol: 'Si molesta la muñeca: apoya en puños o baja a rodillas. Si molesta el codo, sube a 15 repeticiones y baja el ritmo.'
     },
-    'ext-triceps-banda': { pat: 'ext',
+    'ext-triceps-banda': { pat: 'ext', pic: 'banda',
       nombre: 'Extensión de tríceps con banda', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tríceps (las tres cabezas)'], equipo: 'Banda',
       cues: ['Ancla la banda en alto (puerta o pomo) y da un paso atrás', 'Codos pegados al costado y quietos: solo se mueve el antebrazo', 'Extiende hasta el bloqueo suave y aguanta 1″ abajo', 'Vuelve en 2-3″ resistiendo la goma'],
       err: ['Que los codos viajen hacia delante o hacia arriba', 'Empujar con el hombro inclinando el tronco', 'Soltar la vuelta y dejar que la banda mande'],
@@ -849,7 +849,7 @@ window.B2P = (function () {
       tips: 'Si entrenas de mañana, móntalo la noche antes: la avena remojada gana. Día corto de proteína: +1 cazo de whey en el skyr (+110 kcal, +23 g).'
     },
     {
-      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Tortilla con pan y tomate', tipo: 'Desayuno B', tiempo: '10′', cocina: 'Sartén',
+      id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Tortilla francesa con pan y tomate', tipo: 'Desayuno B', tiempo: '10′', cocina: 'Sartén',
       macros: { kcal: 470, p: 34, g: 22, c: 32 },
       ing: [
         { pid: 'huevos', q: '3 ud', i: 'huevos M' },

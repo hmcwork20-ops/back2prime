@@ -141,6 +141,26 @@ window.B2P_GEN = (function () {
     // nada: solo cuerpo, toalla, escalón, mochila
     return /^nada|toalla|escalón|escalon|mochila/.test(t);
   }
+  /* El pictograma que representa AL EJERCICIO, no a su patrón. En la fila de la
+     sesión el dibujo promete «esto es lo que haces», y el del patrón dibuja el
+     material típico de ese patrón: encima de unas flexiones salía un press de
+     banca con su barra, y encima de un remo con banda, una barra olímpica.
+     La regla: el dibujo no puede enseñar MÁS material del que el ejercicio
+     pide. Si el único disponible se pasa, ninguno — un hueco no engaña.
+     Devuelve la clave del pictograma, o null. */
+  function pictoDeFila(base, id, pictos, nivelPicto) {
+    const e = (base.EJERCICIOS || {})[id];
+    if (!e) return null;
+    const lista = pictos || [];
+    const clave = (e.pic && lista.indexOf(e.pic) >= 0) ? e.pic
+      : (lista.indexOf(e.pat) >= 0 ? e.pat : null);
+    if (!clave) return null;
+    const dibuja = EQ_NIVEL[(nivelPicto || {})[clave]];
+    if (dibuja === undefined) return clave;                 // pictograma sin nivel declarado: se respeta
+    const pide = equipoValeId(base, id, 'nada') ? 0 : equipoValeId(base, id, 'casa') ? 1 : 2;
+    return dibuja > pide ? null : clave;
+  }
+
   /* La sustitución respeta el PATRÓN de movimiento (una bisagra se cambia por
      otra bisagra, no por una sentadilla más), no repite ejercicio dentro de la
      sesión, y tus «me gusta» del mazo van primero en la cola de candidatos. */
@@ -1022,7 +1042,7 @@ window.B2P_GEN = (function () {
 
   // recetaVale se exporta para que el mazo y el recetario filtren en vivo
   // el mazo del cuestionario filtra sus cartas con los mismos criterios que el motor
-  return { generarPlan, recetaVale, equipoVale, equipoValeId, tocaLesion };
+  return { generarPlan, recetaVale, equipoVale, equipoValeId, tocaLesion, pictoDeFila };
 })();
 
 /* Si hay perfil guardado, el plan del arranque ES el generado: se sustituye

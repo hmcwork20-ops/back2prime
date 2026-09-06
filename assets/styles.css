@@ -1361,3 +1361,8 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .senales .s-parar .ico{color:var(--f4)}.senales .s-normal .ico{color:var(--f1)}.senales .s-fisio .ico{color:var(--f2)}
 /* número en la insignia (10 · 25 · 50 sesiones) */
 .b2-badge .bnum{font-family:var(--disp);font-weight:700;font-size:22px;line-height:1;color:var(--volt);letter-spacing:-.01em}
+
+/* los deberes ya hechos, plegados: la lista de arriba solo enseña lo que queda */
+.prep-hechos{margin:5px 0 0;background:transparent;border-style:dashed}
+.prep-hechos>summary{font-family:var(--mono);font-size:13px;color:var(--ink3);min-height:40px}
+.prep-hechos .fold-in{padding:0 8px 6px}

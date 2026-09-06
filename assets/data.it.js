@@ -313,14 +313,14 @@ window.B2P = (function () {
       alt: [{ n: 'Ponte glutei con elastico', por: 'più gluteo massimo' }, { n: 'Passo laterale con elastico (monster walk)', por: 'in piedi, più funzionale' }],
       mol: 'Se il ginocchio si lamenta: metti l’elastico più in basso, sulle tibie.'
     },
-    'remo-toalla': { pat: 'th',
+    'remo-toalla': { pat: 'th', pic: 'remo-toalla',
       nombre: 'Rematore con asciugamano alla porta', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsali', 'bicipiti, scapole'], equipo: 'Asciugamano + porta (o zaino)',
       cues: ['Asciugamano sulla maniglia/stipite, corpo inclinato indietro', 'Tira col gomito, non con la mano', 'Scapole indietro e in basso a fine corsa', 'Più ti inclini, più è duro'],
       err: ['Tirare con le braccia senza muovere le scapole', 'Strattonare con lo slancio del bacino'],
       alt: [{ n: 'Rematore con zaino carico', por: 'a un braccio, appoggiato al tavolo' }, { n: 'Rematore inverso sotto un tavolo robusto', por: 'versione più dura' }],
       mol: 'Se il gomito dà fastidio: impugna più largo e riduci l\'inclinazione.'
     },
-    'rdl-1p': { pat: 'bis',
+    'rdl-1p': { pat: 'bis', pic: 'rdl-1p',
       nombre: 'Stacco rumeno a una gamba', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Femorali', 'glutei, equilibrio'], equipo: 'Niente (zaino opzionale)',
       cues: ['Anche indietro, schiena dritta come un tavolo', 'La gamba libera sale dietro da contrappeso', 'Scendi finché senti l\'allungamento del femorale', 'Dai priorità all\'equilibrio, non alla profondità'],
       err: ['Arrotondare la schiena per arrivare più in basso', 'Ruotare il bacino (tieni entrambe le anche rivolte al pavimento)'],
@@ -342,21 +342,21 @@ window.B2P = (function () {
       mol: 'È l\'esercizio più sicuro del piano; se qualcosa dà fastidio, controlla che la lombare non si stacchi.'
     },
 
-    'pike-flexiones': { pat: 'ev',
+    'pike-flexiones': { pat: 'ev', pic: 'pike-flexiones',
       nombre: 'Piegamenti a pica', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoide anteriore', 'tricipite'], equipo: 'Niente',
       cues: ['V rovesciata: mani e piedi vicini, anca bene in alto', 'La testa scende tra le mani, non davanti', 'Gomiti a 45° dal corpo, mai aperti', 'In alto estendi del tutto, senza alzare le spalle'],
       err: ['Abbassare l’anca e trasformarlo in un piegamento normale', 'Portare la testa davanti alle mani (lì paga la spalla)', 'Mezza escursione per contarne di più'],
       alt: [{ n: 'Con i piedi su una sedia', por: 'quando 12 diventano facili' }, { n: 'Con le mani su un gradino', por: 'se ancora non scendi pulito' }],
       mol: 'Se la spalla protesta: abbassa un po’ l’anca finché l’angolo non è comodo. La spinta verticale è ciò che chiede più mobilità di tutto il piano.'
     },
-    'jalon-toalla': { pat: 'tv',
+    'jalon-toalla': { pat: 'tv', pic: 'jalon-toalla',
       nombre: 'Lat machine con asciugamano', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Gran dorsale', 'bicipite'], equipo: 'Asciugamano',
       cues: ['Asciugamano teso sopra la testa: un braccio tira giù e l’altro resiste', 'Il gomito che tira va al fianco, non in avanti', 'Abbassa la scapola e tieni 1″', 'Torna su in 3″ frenando con l’altro braccio'],
       err: ['Tirare con il bicipite invece che con la schiena', 'Alzare la spalla invece di abbassare la scapola', 'Non resistere con il braccio in alto: senza tensione non c’è stimolo'],
       alt: [{ n: 'Rematore inverso sotto un tavolo solido', por: 'molto più misurabile: se hai un tavolo, meglio quello' }, { n: 'Trazioni', por: 'appena hai una sbarra' }],
       mol: 'Senza sbarra la tirata verticale è la più difficile da sostituire davvero: se puoi, dai la precedenza al rematore sotto il tavolo, che carica peso vero.'
     },
-    'abduccion-lado': { pat: 'ais',
+    'abduccion-lado': { pat: 'ais', pic: 'abduccion-lado',
       nombre: 'Abduzione dell’anca su un fianco', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Piccolo e medio gluteo'], equipo: 'Niente',
       cues: ['Sdraiato su un fianco, corpo in linea e anca perpendicolare al pavimento', 'Alza la gamba di sopra con il tallone leggermente arretrato', 'Sali in 1″, tieni 1″, scendi in 3″', 'La punta del piede guarda avanti, non il soffitto'],
       err: ['Ruotare l’anca all’indietro (così lavora il flessore, non il gluteo)', 'Alzare la gamba più di quanto l’anca permetta', 'Andare veloce: qui comanda il tempo sotto tensione'],
@@ -370,7 +370,7 @@ window.B2P = (function () {
       alt: [{ n: 'Sollevamento gambe alla sbarra', por: 'quando avrai una sbarra' }, { n: 'Dead bug', por: 'se la lombare si stacca senza controllo' }],
       mol: 'Se la lombare protesta: mani sotto il sacro e dimezza l’escursione finché non arriva il controllo.'
     },
-    'curl-mochila': { pat: 'curl',
+    'curl-mochila': { pat: 'curl', pic: 'curl-mochila',
       nombre: 'Curl con zaino', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicipite', 'avambraccio'], equipo: 'Zaino',
       cues: ['Prendi lo zaino dalla maniglia in alto o dalle due bretelle', 'Gomiti attaccati al corpo e fermi', 'Sali senza dondolare, scendi in 3″', 'Progredisci mettendoci libri o bottiglie d’acqua'],
       err: ['Dondolare il busto per salire', 'Portare i gomiti avanti in alto', 'Caricarlo tanto che la presa ceda prima del bicipite'],
@@ -385,14 +385,14 @@ window.B2P = (function () {
       alt: [{ n: 'Piegamenti normali', por: 'se qui non escono 8 puliti' }, { n: 'Con i piedi più alti', por: 'la progressione: ogni spanna pesa di più' }],
       mol: 'È il gradino successivo ai piegamenti: superate le 15 pulite, alza i piedi invece di contare fino a venti.'
     },
-    'pino-pared': { pat: 'ev',
+    'pino-pared': { pat: 'ev', pic: 'pino-pared',
       nombre: 'Piegamento in verticale al muro', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoidi', 'tricipite'], equipo: 'Niente (muro)',
       cues: ['Di spalle al muro, sali con i piedi camminando fino a essere quasi verticale', 'Mani poco più larghe delle spalle, dita aperte che afferrano il pavimento', 'Scendi solo quanto controlli: all’inizio due dita', 'Corpo stretto: senza inarcare la lombare'],
       err: ['Scendere fino in fondo il primo giorno: si parte con escursione corta', 'Lasciar cadere la testa senza controllo', 'Inarcare la schiena per compensare'],
       alt: [{ n: 'Piegamenti a pica', por: 'la versione di partenza, molto più gentile' }, { n: 'Con i piedi su una sedia invece che al muro', por: 'il passaggio intermedio' }],
       mol: 'È la variante avanzata della spinta verticale: solo se i piegamenti a pica escono a 15 puliti e la spalla non dice nulla. Con fastidio di spalla, non è il momento.'
     },
-    'remo-mesa': { pat: 'th',
+    'remo-mesa': { pat: 'th', pic: 'remo-mesa',
       nombre: 'Rematore inverso sotto il tavolo', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Gran dorsale', 'alta schiena, bicipite'], equipo: 'Niente (tavolo solido)',
       cues: ['Sdraiati sotto un tavolo solido e afferralo per il bordo', 'Corpo in plank dai talloni alle spalle', 'Tira portando il petto al tavolo, gomiti al fianco', 'Stringi le scapole 1″ in alto e scendi in 3″'],
       err: ['Portare avanti il bacino prima del petto', 'Tirare solo con le braccia senza stringere le scapole', 'Usare un tavolo che si solleva: controllalo prima'],
@@ -406,7 +406,7 @@ window.B2P = (function () {
       alt: [{ n: 'Squat a corpo libero su due gambe', por: 'la versione di partenza' }, { n: 'Una sedia più bassa', por: 'la progressione, fino al pistol completo' }],
       mol: 'Se il ginocchio protesta: alza la sedia e frena la discesa. È una progressione di squat, non un salto nel vuoto: 8 ripetizioni pulite a due gambe prima di provarci su una.'
     },
-    'curl-toalla': { pat: 'curl',
+    'curl-toalla': { pat: 'curl', pic: 'curl-toalla',
       nombre: 'Curl con asciugamano auto-resistito', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicipite', 'avambraccio'], equipo: 'Asciugamano',
       cues: ['Un piede blocca un capo dell’asciugamano, la mano sale dall’altro', 'Il braccio libero può tirare in basso per aggiungere resistenza', 'Gomito attaccato al corpo e fermo', 'Sali in 2″, scendi in 3″ senza mollare la tensione'],
       err: ['Perdere la tensione in alto o in basso', 'Dondolare il busto', 'Mettere tanta resistenza che il movimento si blocca a metà'],
@@ -450,21 +450,21 @@ window.B2P = (function () {
       mol: 'Se la spalla protesta: sali sulla mano a braccio teso, o falla in ginocchio. È la metà laterale del plank: il core non regge solo di fronte.'
     },
 
-    'elev-y-suelo': { pat: 'ais',
+    'elev-y-suelo': { pat: 'ais', pic: 'elev-y-suelo',
       nombre: 'Alzata a Y da prono', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Spalla (cuffia)', 'trapezio inferiore'], equipo: 'Niente',
       cues: ['A pancia in giù, braccia tese a formare una Y con i pollici al soffitto', 'Alza le braccia senza alzare le spalle: il collo resta lungo', 'Tieni 2″ in alto e scendi in 3″', 'La fronte non si stacca: il movimento è di scapola, non di collo'],
       err: ['Alzare le spalle verso le orecchie', 'Sollevare la testa per aiutarsi', 'Andare veloce: qui non c’è peso, lo stimolo è il controllo'],
       alt: [{ n: 'Rotazione esterna con elastico', por: 'quando avrai un elastico' }, { n: 'Con una bottiglietta per mano', por: 'la progressione: pesa poco e si sente' }],
       mol: 'La spalla del protocollo tendine, senza attrezzi: la cuffia guadagna col controllo, non col peso. Se la spalla dà fastidio, questo di solito va bene.'
     },
-    'curl-nordico': { pat: 'ais',
+    'curl-nordico': { pat: 'ais', pic: 'curl-nordico',
       nombre: 'Nordic curl assistito', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischiocrurali'], equipo: 'Niente (qualcosa che blocchi le caviglie)',
       cues: ['In ginocchio su qualcosa di morbido, caviglie bloccate sotto un mobile solido', 'Scendi molto lentamente tenendo anca e spalle in linea', 'Tieni fin dove riesci e ammortizza con le mani', 'Risali spingendo con le braccia: la salita non conta'],
       err: ['Piegare l’anca per farlo più facile (l’ischiocrurale smette di lavorare)', 'Lasciarsi cadere senza frenare', 'Partire dall’escursione completa: si guadagna centimetro dopo centimetro'],
       alt: [{ n: 'Ponte per glutei su una gamba', por: 'se il nordic è ancora troppo' }, { n: 'Leg curl alla macchina', por: 'in palestra' }],
       mol: 'Il lavoro di ischiocrurali più potente senza attrezzi e quello che lascia più dolori: parti da 3 e sali di una alla volta. Se il ginocchio dà fastidio, asciugamano piegato sotto.'
     },
-    'encogimiento-mochila': { pat: 'ais',
+    'encogimiento-mochila': { pat: 'ais', pic: 'encogimiento-mochila',
       nombre: 'Scrollate con zaino', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapezio superiore'], equipo: 'Zaino',
       cues: ['Zaino appeso alle due mani o stretto al petto', 'Alza le spalle dritte verso le orecchie, senza ruotarle', 'Stringi 2″ in alto e scendi controllando', 'Collo rilassato: non spingere il mento in avanti'],
       err: ['Ruotare le spalle indietro (non aggiunge nulla e carica il collo)', 'Usare lo slancio delle gambe', 'Mezza escursione'],
@@ -515,7 +515,7 @@ window.B2P = (function () {
       alt: [{ n: 'Shoulder press alla macchina', por: 'equivalente diretto' }],
       mol: 'Se la spalla dà fastidio: presa neutra e scendi solo fino a 90° di gomito.'
     },
-    'elev-laterales': { pat: 'ev',
+    'elev-laterales': { pat: 'ev', pic: 'elev-laterales',
       nombre: 'Alzate laterali', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoide laterale'], equipo: 'Manubri',
       cues: ['Peso leggero, gomiti un po\' flessi', 'Sali fino all\'orizzontale, come versando due caraffe', 'Niente slancio: se dondoli, il peso è troppo', 'Scendi in 2″'],
       err: ['Salire col trapezio alzando le spalle', 'Superare l\'orizzontale', 'Dondolio del bacino'],
@@ -724,7 +724,7 @@ window.B2P = (function () {
       mol: 'Nessun problema tipico se fletti dalle costole.'
     },
 
-    'fondos-silla': { pat: 'ext', pic: 'fondos',
+    'fondos-silla': { pat: 'ext', pic: 'fondos-silla',
       nombre: 'Dips sulla sedia', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricipite', 'petto basso, spalla'], equipo: 'Niente (sedia o divano)',
       cues: ['Mani sul bordo della sedia, dita in fuori, spalle lontane dalle orecchie', 'Scendi fino a 90° di gomito, nemmeno un grado di più: sotto paga la spalla', 'Gomiti indietro, che sfiorano il corpo, mai aperti', 'La schiena sale e scende incollata al bordo della sedia'],
       err: ['Scendere fino in fondo cercando l’allungamento (è così che nasce il dolore di spalla)', 'Allontanare i piedi al punto che il peso finisce sulle gambe', 'Alzare le spalle verso le orecchie'],
@@ -745,7 +745,7 @@ window.B2P = (function () {
       alt: [{ n: 'Sopra la testa con l’elastico sotto i piedi', por: 'colpisce di più il capo lungo' }, { n: 'Kickback con manubrio', por: 'se non hai dove fissarlo' }],
       mol: 'È l’esercizio più gentile con il gomito di tutto il piano: quando gli altri danno fastidio, di solito è il rifugio. Aumenta le ripetizioni prima della durezza dell’elastico.'
     },
-    'press-frances-mc': { pat: 'ext',
+    'press-frances-mc': { pat: 'ext', pic: 'press-frances-mc',
       nombre: 'French press con manubri', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricipite (capo lungo)'], equipo: 'Manubri',
       cues: ['Sdraiato a terra, manubri in alto, palmi che si guardano', 'Scendi verso le orecchie piegando solo il gomito, in 2-3″', 'Gomiti puntati al soffitto e fermi', 'Estendi senza bloccare di colpo'],
       err: ['Lasciare che i gomiti si aprano', 'Trasformarlo in una spinta muovendo la spalla', 'Scendere così in fretta che il pavimento fermi il manubrio'],

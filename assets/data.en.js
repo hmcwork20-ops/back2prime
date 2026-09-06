@@ -313,14 +313,14 @@ window.B2P = (function () {
       alt: [{ n: 'Banded glute bridge', por: 'more glute max' }, { n: 'Banded lateral walk (monster walk)', por: 'standing, more functional' }],
       mol: 'If the knee complains: place the band lower, around the shins.'
     },
-    'remo-toalla': { pat: 'th',
+    'remo-toalla': { pat: 'th', pic: 'remo-toalla',
       nombre: 'Towel Door Row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'biceps, shoulder blades'], equipo: 'Towel + door (or backpack)',
       cues: ['Towel round the handle/frame, body leaning back', 'Pull with the elbow, not the hand', 'Shoulder blades back and down at the end of the pull', 'The further you lean, the harder it gets'],
       err: ['Pulling with the arms without moving the shoulder blades', 'Jerking with hip drive'],
       alt: [{ n: 'Loaded backpack row', por: 'one arm, braced on the table' }, { n: 'Inverted row under a sturdy table', por: 'the harder version' }],
       mol: 'If the elbow complains: grip wider and lean back less.'
     },
-    'rdl-1p': { pat: 'bis',
+    'rdl-1p': { pat: 'bis', pic: 'rdl-1p',
       nombre: 'Single-leg Romanian Deadlift', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Hamstrings', 'glutes, balance'], equipo: 'Nothing (optional backpack)',
       cues: ['Hips back, back flat as a table', 'Free leg rises behind you as a counterweight', 'Lower until you feel the hamstring stretch', 'Prioritise balance over depth'],
       err: ['Rounding the back to get lower', 'Rotating the hips (keep both hips facing the floor)'],
@@ -342,21 +342,21 @@ window.B2P = (function () {
       mol: 'It’s the safest exercise in the plan; if anything complains, check the lower back isn’t lifting.'
     },
 
-    'pike-flexiones': { pat: 'ev',
+    'pike-flexiones': { pat: 'ev', pic: 'pike-flexiones',
       nombre: 'Pike push-ups', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Front deltoid', 'triceps'], equipo: 'Nothing',
       cues: ['Upside-down V: hands and feet close in, hips high', 'Your head goes down between your hands, not in front of them', 'Elbows at 45° to your body, never flared', 'Lock out fully at the top without shrugging'],
       err: ['Dropping the hips and turning it into a normal push-up', 'Taking your head in front of your hands (that is where the shoulder pays)', 'Half reps so you can count more of them'],
       alt: [{ n: 'Feet up on a chair', por: 'once 12 feel easy' }, { n: 'Hands on a step', por: 'if you cannot come down clean yet' }],
       mol: 'If the shoulder complains: lower the hips a little until the angle feels fine. Vertical pressing asks for more mobility than anything else in the plan.'
     },
-    'jalon-toalla': { pat: 'tv',
+    'jalon-toalla': { pat: 'tv', pic: 'jalon-toalla',
       nombre: 'Towel lat pulldown', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'Towel',
       cues: ['Towel tight overhead: one arm pulls down while the other resists', 'The pulling elbow travels to your side, not forward', 'Drive the shoulder blade down and hold 1″', 'Come back up over 3″, braking with the other arm'],
       err: ['Pulling with the biceps instead of the back', 'Shrugging instead of depressing the shoulder blade', 'Not resisting with the top arm: no tension, no stimulus'],
       alt: [{ n: 'Inverted row under a solid table', por: 'far more measurable: if you have a table, do that instead' }, { n: 'Pull-ups', por: 'as soon as you have a bar' }],
       mol: 'With no bar, vertical pulling is the hardest thing to replace honestly: if you can, favour the table row, which actually loads real weight.'
     },
-    'abduccion-lado': { pat: 'ais',
+    'abduccion-lado': { pat: 'ais', pic: 'abduccion-lado',
       nombre: 'Side-lying hip abduction', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Gluteus medius'], equipo: 'Nothing',
       cues: ['On your side, body in a line, hips stacked square to the floor', 'Lift the top leg with the heel slightly behind you', 'Up in 1″, hold 1″, down in 3″', 'Toes pointing forward, not at the ceiling'],
       err: ['Rolling the hip back (then the hip flexor works, not the glute)', 'Lifting the leg higher than the hip allows', 'Rushing: time under tension is the whole point here'],
@@ -370,7 +370,7 @@ window.B2P = (function () {
       alt: [{ n: 'Hanging leg raise', por: 'once you have a bar' }, { n: 'Dead bug', por: 'if your lower back lifts without control' }],
       mol: 'If your lower back complains: hands under the sacrum and cut the range in half until the control shows up.'
     },
-    'curl-mochila': { pat: 'curl',
+    'curl-mochila': { pat: 'curl', pic: 'curl-mochila',
       nombre: 'Backpack curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'forearm'], equipo: 'Backpack',
       cues: ['Grab the backpack by the top handle or by both straps', 'Elbows tight to your body and fixed', 'Up without swinging, down over 3″', 'You progress by adding books or water bottles'],
       err: ['Swinging your torso to get it up', 'Letting the elbows drift forward at the top', 'Loading it so heavy that your grip fails before the biceps'],
@@ -385,14 +385,14 @@ window.B2P = (function () {
       alt: [{ n: 'Regular push-ups', por: 'if you cannot get 8 clean ones here' }, { n: 'Feet higher', por: 'the progression: every extra hand-span weighs more' }],
       mol: 'This is the next step up from push-ups: once you pass 15 clean reps, raise your feet instead of counting to twenty.'
     },
-    'pino-pared': { pat: 'ev',
+    'pino-pared': { pat: 'ev', pic: 'pino-pared',
       nombre: 'Wall handstand push-up', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoids', 'triceps'], equipo: 'Nothing (wall)',
       cues: ['Back to the wall, walk your feet up until you are nearly vertical', 'Hands slightly wider than your shoulders, fingers spread and gripping the floor', 'Only go down as far as you control: two finger-widths at first', 'Whole body tight: no arching the lower back'],
       err: ['Going all the way down on day one: you start with a short range', 'Letting your head drop without control', 'Arching your back to compensate'],
       alt: [{ n: 'Pike push-ups', por: 'the starting version, far kinder' }, { n: 'Feet on a chair instead of the wall', por: 'the step in between' }],
       mol: 'This is the advanced vertical press: only if pike push-ups come out at 15 clean and the shoulder says nothing. With shoulder pain, not today.'
     },
-    'remo-mesa': { pat: 'th',
+    'remo-mesa': { pat: 'th', pic: 'remo-mesa',
       nombre: 'Under-table inverted row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'upper back, biceps'], equipo: 'Nothing (solid table)',
       cues: ['Lie under a solid table and grab it by the edge', 'Body in a plank from heels to shoulders', 'Pull your chest to the table, elbows by your sides', 'Squeeze the shoulder blades 1″ at the top, down over 3″'],
       err: ['Leading with the hips instead of the chest', 'Pulling with the arms alone without squeezing the blades', 'Using a table that lifts: check it first'],
@@ -406,7 +406,7 @@ window.B2P = (function () {
       alt: [{ n: 'Two-legged bodyweight squat', por: 'the starting version' }, { n: 'A lower chair', por: 'the progression, all the way to a full pistol' }],
       mol: 'If the knee complains: raise the chair and slow the descent. This is a squat progression, not a leap: 8 clean two-legged reps before you try one leg.'
     },
-    'curl-toalla': { pat: 'curl',
+    'curl-toalla': { pat: 'curl', pic: 'curl-toalla',
       nombre: 'Self-resisted towel curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'forearm'], equipo: 'Towel',
       cues: ['One foot pins one end of the towel, your hand curls up the other', 'The free arm can pull down to add resistance', 'Elbow tight to your body and fixed', 'Up over 2″, down over 3″ without letting go of the tension'],
       err: ['Losing the tension at the top or the bottom', 'Swinging the torso', 'Adding so much resistance that the movement stalls halfway'],
@@ -450,21 +450,21 @@ window.B2P = (function () {
       mol: 'If the shoulder complains: come up onto your hand with a straight arm, or do it from the knees. It is the sideways half of the plank: the core does not only hold from the front.'
     },
 
-    'elev-y-suelo': { pat: 'ais',
+    'elev-y-suelo': { pat: 'ais', pic: 'elev-y-suelo',
       nombre: 'Prone Y raise', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Shoulder (rotator cuff)', 'lower traps'], equipo: 'Nothing',
       cues: ['Face down, arms out in a Y with thumbs to the ceiling', 'Lift the arms without shrugging: keep the neck long', 'Hold 2″ at the top, down over 3″', 'Forehead stays down: the movement is scapular, not neck'],
       err: ['Shrugging towards your ears', 'Lifting your head to help', 'Rushing: there is no weight here, the stimulus is control'],
       alt: [{ n: 'Band external rotation', por: 'once you have a band' }, { n: 'A small bottle in each hand', por: 'the progression: it weighs little and you feel it' }],
       mol: 'The tendon protocol shoulder exercise, no kit: the cuff gains from control, not weight. If your shoulder complains, this one usually feels fine.'
     },
-    'curl-nordico': { pat: 'ais',
+    'curl-nordico': { pat: 'ais', pic: 'curl-nordico',
       nombre: 'Assisted nordic curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Hamstrings'], equipo: 'Nothing (something to hook your ankles)',
       cues: ['Kneel on something soft, ankles hooked under solid furniture', 'Lower very slowly keeping hips and shoulders in line', 'Hold as far as you can and catch yourself with your hands', 'Push back up with your arms: the way up does not count'],
       err: ['Bending at the hip to make it easier (the hamstring stops working)', 'Dropping without braking', 'Starting at full range: you earn it centimetre by centimetre'],
       alt: [{ n: 'Single-leg glute bridge', por: 'if the nordic is still too much' }, { n: 'Machine leg curl', por: 'in a gym' }],
       mol: 'The strongest hamstring work with no kit and the one that leaves the most soreness: start with 3 and add one at a time. If your knee complains, a folded towel underneath.'
     },
-    'encogimiento-mochila': { pat: 'ais',
+    'encogimiento-mochila': { pat: 'ais', pic: 'encogimiento-mochila',
       nombre: 'Backpack shrugs', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Upper traps'], equipo: 'Backpack',
       cues: ['Backpack hanging from both hands or hugged to your chest', 'Lift the shoulders straight towards your ears, no rolling', 'Squeeze 2″ at the top and lower under control', 'Neck relaxed: do not push your chin forward'],
       err: ['Rolling the shoulders back (adds nothing and loads the neck)', 'Using leg drive', 'Half range'],
@@ -515,7 +515,7 @@ window.B2P = (function () {
       alt: [{ n: 'Shoulder press machine', por: 'direct equivalent' }],
       mol: 'If the shoulder complains: neutral grip and lower only to 90° of elbow.'
     },
-    'elev-laterales': { pat: 'ev',
+    'elev-laterales': { pat: 'ev', pic: 'elev-laterales',
       nombre: 'Lateral Raises', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Side delts'], equipo: 'Dumbbells',
       cues: ['Light weight, elbows slightly bent', 'Raise to horizontal, like pouring two jugs', 'No momentum: if you’re swinging, the weight’s too much', 'Lower in 2″'],
       err: ['Shrugging up with the traps', 'Going past horizontal', 'Hip swing'],
@@ -724,7 +724,7 @@ window.B2P = (function () {
       mol: 'No typical issues if you flex from the ribs.'
     },
 
-    'fondos-silla': { pat: 'ext', pic: 'fondos',
+    'fondos-silla': { pat: 'ext', pic: 'fondos-silla',
       nombre: 'Chair dips', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'lower chest, shoulder'], equipo: 'Nothing (chair or sofa)',
       cues: ['Hands on the chair edge, fingers pointing out, shoulders away from your ears', 'Go down to 90° at the elbow and no further: below that your shoulder pays for it', 'Elbows back, brushing your body, never flared', 'Your back slides up and down against the chair edge'],
       err: ['Dropping all the way down chasing a stretch (that is how shoulder pain starts)', 'Placing your feet so far out that the weight shifts to your legs', 'Shrugging your shoulders towards your ears'],
@@ -745,7 +745,7 @@ window.B2P = (function () {
       alt: [{ n: 'Overhead with the band under your feet', por: 'hits the long head harder' }, { n: 'Dumbbell kickback', por: 'if you have nowhere to anchor' }],
       mol: 'This is the kindest exercise on the elbow in the plan: when others hurt, this is usually the refuge. Add reps before you add band tension.'
     },
-    'press-frances-mc': { pat: 'ext',
+    'press-frances-mc': { pat: 'ext', pic: 'press-frances-mc',
       nombre: 'Dumbbell skull crushers', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (long head)'], equipo: 'Dumbbells',
       cues: ['Lying on the floor, dumbbells up, palms facing each other', 'Lower towards your ears bending only the elbow, over 2-3″', 'Elbows pointing at the ceiling and still', 'Extend without snapping into lockout'],
       err: ['Letting the elbows flare out', 'Turning it into a press by moving the shoulder', 'Dropping so fast that the floor stops the dumbbell'],

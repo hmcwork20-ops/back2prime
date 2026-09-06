@@ -38,16 +38,22 @@ A(mienten.length === 0, 'ningun ejercicio recibe un pictograma con mas material 
   + mienten.map(id => id + '→' + picto(id)).join(', ') + ')');
 
 // --- 3. y el que tiene dibujo propio, lo usa ---
-/* Los 14 que se dibujaron a proposito. Si un dia se anade el pictograma que
-   les falta a los demas, esta lista crece; lo que no puede es encoger sin
-   querer, que es como se colo el press de banca. */
+/* Los 29 que se dibujaron a proposito: todo ejercicio de suelo, de banda, de
+   toalla o de mochila tiene el suyo. La lista puede crecer; lo que no puede es
+   encoger sin querer, que es como se colo el press de banca. */
 const PROPIO = {
   'flexiones': 'flexiones', 'flexion-declinada': 'flexiones', 'flexion-diamante': 'flexiones',
   'sentadilla-pc': 'sentadilla-pc', 'pistol-asistida': 'sentadilla-pc',
   'puente-gluteo': 'puente', 'puente-1p': 'puente',
   'zancada-alterna': 'zancada-pc', 'zancada-bulgara-pc': 'zancada-pc',
   'banda-remo': 'banda', 'banda-jalon': 'banda', 'banda-rotacion': 'banda',
-  'banda-abduccion': 'banda', 'ext-triceps-banda': 'banda'
+  'banda-abduccion': 'banda', 'ext-triceps-banda': 'banda',
+  /* y los 15 que heredaban una barra o una polea: su clave es su propio id */
+  'remo-toalla': 'remo-toalla', 'remo-mesa': 'remo-mesa', 'jalon-toalla': 'jalon-toalla',
+  'pike-flexiones': 'pike-flexiones', 'pino-pared': 'pino-pared', 'elev-laterales': 'elev-laterales',
+  'fondos-silla': 'fondos-silla', 'press-frances-mc': 'press-frances-mc', 'rdl-1p': 'rdl-1p',
+  'curl-mochila': 'curl-mochila', 'curl-toalla': 'curl-toalla', 'abduccion-lado': 'abduccion-lado',
+  'elev-y-suelo': 'elev-y-suelo', 'curl-nordico': 'curl-nordico', 'encogimiento-mochila': 'encogimiento-mochila'
 };
 for (const [id, pic] of Object.entries(PROPIO)) {
   A(B.EJERCICIOS[id], 'existe el ejercicio ' + id);

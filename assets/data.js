@@ -312,14 +312,14 @@ window.B2P = (function () {
       alt: [{ n: 'Puente de glúteo con banda', por: 'más glúteo mayor' }, { n: 'Paso lateral con banda (monster walk)', por: 'de pie, más funcional' }],
       mol: 'Si molesta la rodilla: coloca la banda por debajo, en las espinillas.'
     },
-    'remo-toalla': { pat: 'th',
+    'remo-toalla': { pat: 'th', pic: 'remo-toalla',
       nombre: 'Remo con toalla en puerta', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps, escápulas'], equipo: 'Toalla + puerta (o mochila)',
       cues: ['Toalla en el pomo/marco, cuerpo inclinado atrás', 'Tira con el codo, no con la mano', 'Escápulas atrás y abajo al final del recorrido', 'Cuanto más te inclines, más duro'],
       err: ['Tirar con los brazos sin mover las escápulas', 'Dar tirones con impulso de cadera'],
       alt: [{ n: 'Remo con mochila cargada', por: 'a una mano, apoyado en la mesa' }, { n: 'Remo invertido bajo una mesa robusta', por: 'versión más dura' }],
       mol: 'Si molesta el codo: agarra más ancho y baja la inclinación.'
     },
-    'rdl-1p': { pat: 'bis',
+    'rdl-1p': { pat: 'bis', pic: 'rdl-1p',
       nombre: 'Peso muerto rumano a 1 pierna', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Femoral', 'glúteo, equilibrio'], equipo: 'Nada (mochila opcional)',
       cues: ['Cadera atrás, espalda recta como una mesa', 'La pierna libre sube atrás como contrapeso', 'Baja hasta notar el estiramiento del femoral', 'Prioriza equilibrio sobre profundidad'],
       err: ['Redondear la espalda para llegar más abajo', 'Girar la cadera (mantén las dos caderas mirando al suelo)'],
@@ -341,21 +341,21 @@ window.B2P = (function () {
       mol: 'Es el ejercicio más seguro del plan; si algo molesta, revisa que la lumbar no se despegue.'
     },
 
-    'pike-flexiones': { pat: 'ev',
+    'pike-flexiones': { pat: 'ev', pic: 'pike-flexiones',
       nombre: 'Flexiones en pica', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoides anterior', 'tríceps'], equipo: 'Nada',
       cues: ['V invertida: manos y pies cerca, cadera bien arriba', 'La cabeza baja entre las manos, no por delante', 'Codos a 45° del cuerpo, nunca en cruz', 'Arriba extiende del todo, sin encoger los hombros'],
       err: ['Bajar la cadera y convertirlo en una flexión normal', 'Llevar la cabeza por delante de las manos (ahí paga el hombro)', 'Medio recorrido para poder hacer más repeticiones'],
       alt: [{ n: 'Con los pies en una silla', por: 'cuando 12 salen fáciles' }, { n: 'Con las manos en un escalón', por: 'si todavía no bajas limpio' }],
       mol: 'Si molesta el hombro: baja un poco la cadera hasta que el ángulo sea cómodo. El empuje vertical es el que más movilidad pide de todo el plan.'
     },
-    'jalon-toalla': { pat: 'tv',
+    'jalon-toalla': { pat: 'tv', pic: 'jalon-toalla',
       nombre: 'Jalón con toalla', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps'], equipo: 'Toalla',
       cues: ['Toalla tensa sobre la cabeza: un brazo tira hacia abajo y el otro resiste', 'El codo que tira va al costado, no hacia delante', 'Aprieta la escápula hacia abajo y aguanta 1″', 'Vuelve arriba en 3″ frenando con el brazo contrario'],
       err: ['Tirar con el bíceps en vez de con la espalda', 'Encoger el hombro en vez de bajar la escápula', 'No resistir con el brazo de arriba: sin tensión no hay estímulo'],
       alt: [{ n: 'Remo invertido bajo una mesa firme', por: 'mucho más medible: si tienes mesa, mejor esto' }, { n: 'Dominadas', por: 'en cuanto tengas una barra' }],
       mol: 'Sin barra, el tirón vertical es lo más difícil de sustituir de verdad: si puedes, prioriza el remo bajo mesa, que sí carga peso real.'
     },
-    'abduccion-lado': { pat: 'ais',
+    'abduccion-lado': { pat: 'ais', pic: 'abduccion-lado',
       nombre: 'Abducción tumbado de lado', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Glúteo medio'], equipo: 'Nada',
       cues: ['Tumbado de lado, cuerpo en línea y cadera perpendicular al suelo', 'Sube la pierna de arriba con el talón ligeramente atrasado', 'Sube en 1″, aguanta 1″ y baja en 3″', 'La punta del pie mira al frente, no al techo'],
       err: ['Rodar la cadera hacia atrás (entonces trabaja el flexor, no el glúteo)', 'Subir la pierna más alto de lo que la cadera permite', 'Ir rápido: aquí manda el tiempo bajo tensión'],
@@ -369,7 +369,7 @@ window.B2P = (function () {
       alt: [{ n: 'Elevación de piernas suspendido', por: 'cuando tengas barra' }, { n: 'Dead bug', por: 'si la lumbar se despega sin control' }],
       mol: 'Si molesta la lumbar: manos bajo el sacro y recorta el recorrido a la mitad hasta que el control llegue.'
     },
-    'curl-mochila': { pat: 'curl',
+    'curl-mochila': { pat: 'curl', pic: 'curl-mochila',
       nombre: 'Curl con mochila', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bíceps', 'antebrazo'], equipo: 'Mochila',
       cues: ['Agarra la mochila por el asa de arriba o por las dos correas', 'Codos pegados al cuerpo y fijos', 'Sube sin balancearte y baja en 3″', 'Progresas metiendo libros o botellas de agua'],
       err: ['Balancear el tronco para subir', 'Adelantar los codos en la parte alta', 'Cargar tanto la mochila que falle el agarre antes que el bíceps'],
@@ -384,14 +384,14 @@ window.B2P = (function () {
       alt: [{ n: 'Flexiones normales', por: 'si aquí no salen 8 limpias' }, { n: 'Con los pies más altos', por: 'la progresión: cada palmo pesa más' }],
       mol: 'Es el escalón siguiente a las flexiones: cuando pases de 15 limpias, sube los pies en vez de contar hasta veinte.'
     },
-    'pino-pared': { pat: 'ev',
+    'pino-pared': { pat: 'ev', pic: 'pino-pared',
       nombre: 'Flexión en pino contra pared', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoides', 'tríceps'], equipo: 'Nada (pared)',
       cues: ['De espaldas a la pared, sube los pies caminando hasta quedar casi vertical', 'Manos algo más anchas que los hombros, dedos abiertos agarrando el suelo', 'Baja solo lo que controles: al principio, dos dedos', 'Cuerpo apretado: sin arquear la lumbar'],
       err: ['Subir del todo el primer día: se empieza con el recorrido corto', 'Dejar caer la cabeza sin control', 'Arquear la espalda para compensar'],
       alt: [{ n: 'Flexiones en pica', por: 'la versión de partida, mucho más amable' }, { n: 'Con los pies en una silla en vez de la pared', por: 'paso intermedio' }],
       mol: 'Es la variante avanzada del empuje vertical: solo si las flexiones en pica te salen a 15 limpias y el hombro no dice nada. Con molestia de hombro, no toca.'
     },
-    'remo-mesa': { pat: 'th',
+    'remo-mesa': { pat: 'th', pic: 'remo-mesa',
       nombre: 'Remo invertido bajo la mesa', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'espalda alta, bíceps'], equipo: 'Nada (mesa firme)',
       cues: ['Túmbate bajo una mesa sólida y agárrala por el borde', 'Cuerpo en tabla desde talones a hombros', 'Tira llevando el pecho a la mesa, codos al costado', 'Aprieta las escápulas 1″ arriba y baja en 3″'],
       err: ['Sacar la cadera antes que el pecho', 'Tirar solo con los brazos sin juntar escápulas', 'Usar una mesa que se levante: compruébala antes'],
@@ -405,7 +405,7 @@ window.B2P = (function () {
       alt: [{ n: 'Con las dos piernas, sentadilla al peso corporal', por: 'la versión de partida' }, { n: 'Con una silla más baja', por: 'la progresión, hasta llegar a la pistol completa' }],
       mol: 'Si la rodilla molesta: sube la altura de la silla y frena la bajada. Es progresión de sentadilla, no un salto al vacío: 8 limpias con las dos piernas antes de intentarla a una.'
     },
-    'curl-toalla': { pat: 'curl',
+    'curl-toalla': { pat: 'curl', pic: 'curl-toalla',
       nombre: 'Curl con toalla auto-resistido', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bíceps', 'antebrazo'], equipo: 'Toalla',
       cues: ['Un pie pisa un extremo de la toalla, la mano sube por el otro', 'El brazo libre puede tirar hacia abajo para poner más resistencia', 'Codo pegado al cuerpo y fijo', 'Sube en 2″, baja en 3″ sin soltar tensión'],
       err: ['Soltar la tensión arriba o abajo', 'Balancear el tronco', 'Poner tanta resistencia que el movimiento se corte a la mitad'],
@@ -449,21 +449,21 @@ window.B2P = (function () {
       mol: 'Si el hombro molesta: apoya en la mano con el brazo estirado, o hazla de rodillas. Es el complemento lateral de la plancha: el core no solo aguanta de frente.'
     },
 
-    'elev-y-suelo': { pat: 'ais',
+    'elev-y-suelo': { pat: 'ais', pic: 'elev-y-suelo',
       nombre: 'Elevación en Y tumbado', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Hombro (manguito)', 'trapecio inferior'], equipo: 'Nada',
       cues: ['Boca abajo, brazos estirados formando una Y con pulgares al techo', 'Sube los brazos sin encoger los hombros: el cuello queda largo', 'Aguanta 2″ arriba y baja en 3″', 'La frente no se despega: el movimiento es de escápula, no de cuello'],
       err: ['Encoger los hombros hacia las orejas', 'Levantar la cabeza para ayudar', 'Ir rápido: aquí no hay peso, el estímulo es el control'],
       alt: [{ n: 'Rotación externa con banda', por: 'cuando tengas banda' }, { n: 'Con una botella pequeña en cada mano', por: 'la progresión: pesa poco y se nota' }],
       mol: 'El hombro del protocolo tendón, sin material: el manguito gana con control, no con peso. Si el hombro molesta, este suele sentar bien.'
     },
-    'curl-nordico': { pat: 'ais',
+    'curl-nordico': { pat: 'ais', pic: 'curl-nordico',
       nombre: 'Curl nórdico asistido', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Isquiotibiales'], equipo: 'Nada (algo que sujete los tobillos)',
       cues: ['De rodillas sobre algo blando, tobillos sujetos bajo un mueble firme', 'Baja muy despacio manteniendo cadera y hombros en línea', 'Aguanta hasta donde puedas y amortigua con las manos', 'Vuelve empujándote con los brazos: la subida no cuenta'],
       err: ['Doblar la cadera para hacerlo más fácil (deja de trabajar el isquio)', 'Dejarte caer sin frenar', 'Empezar por el recorrido completo: se gana centímetro a centímetro'],
       alt: [{ n: 'Puente de glúteo a una pierna', por: 'si el nórdico todavía queda grande' }, { n: 'Curl femoral en máquina', por: 'en gimnasio' }],
       mol: 'El isquio más potente sin material y el que más agujetas deja: empieza con 3 y sube de una en una. Si la rodilla molesta, toalla doblada debajo.'
     },
-    'encogimiento-mochila': { pat: 'ais',
+    'encogimiento-mochila': { pat: 'ais', pic: 'encogimiento-mochila',
       nombre: 'Encogimientos con mochila', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapecio superior'], equipo: 'Mochila',
       cues: ['Mochila colgada de las dos manos o abrazada al pecho', 'Sube los hombros rectos hacia las orejas, sin rotarlos', 'Aprieta 2″ arriba y baja controlando', 'Cuello relajado: no empujes la barbilla adelante'],
       err: ['Rotar los hombros hacia atrás (no aporta y carga el cuello)', 'Usar impulso de piernas', 'Medio recorrido'],
@@ -514,7 +514,7 @@ window.B2P = (function () {
       alt: [{ n: 'Máquina de press de hombro', por: 'equivalente directo' }],
       mol: 'Si molesta el hombro: agarre neutro y baja solo hasta 90° de codo.'
     },
-    'elev-laterales': { pat: 'ev',
+    'elev-laterales': { pat: 'ev', pic: 'elev-laterales',
       nombre: 'Elevaciones laterales', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoides lateral'], equipo: 'Mancuernas',
       cues: ['Peso ligero, codos algo flexionados', 'Sube hasta la horizontal, como sirviendo dos jarras', 'Sin impulso: si balanceas, sobra peso', 'Baja en 2″'],
       err: ['Subir con trapecio encogiendo hombros', 'Pasar de la horizontal', 'Balanceo de cadera'],
@@ -723,7 +723,7 @@ window.B2P = (function () {
       mol: 'Sin incidencias típicas si flexionas desde las costillas.'
     },
 
-    'fondos-silla': { pat: 'ext', pic: 'fondos',
+    'fondos-silla': { pat: 'ext', pic: 'fondos-silla',
       nombre: 'Fondos en silla', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tríceps', 'pecho bajo, hombro'], equipo: 'Nada (silla o sofá)',
       cues: ['Manos en el borde de la silla, dedos hacia fuera y hombros lejos de las orejas', 'Baja hasta 90° de codo, ni un grado más: por debajo el hombro paga la factura', 'Codos hacia atrás, rozando el cuerpo, nunca abiertos', 'La espalda sube y baja pegada al canto de la silla'],
       err: ['Bajar hasta el fondo buscando estiramiento (así nace el dolor de hombro)', 'Alejar tanto los pies que el peso se vaya a las piernas', 'Encoger los hombros hacia las orejas'],
@@ -744,7 +744,7 @@ window.B2P = (function () {
       alt: [{ n: 'Sobre la cabeza con la banda pisada', por: 'trabaja más la cabeza larga' }, { n: 'Patada de tríceps con mancuerna', por: 'si no tienes dónde anclar' }],
       mol: 'Es el ejercicio más amable con el codo del plan: si otros molestan, este suele ser el refugio. Sube repeticiones antes que dureza de banda.'
     },
-    'press-frances-mc': { pat: 'ext',
+    'press-frances-mc': { pat: 'ext', pic: 'press-frances-mc',
       nombre: 'Press francés con mancuernas', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tríceps (cabeza larga)'], equipo: 'Mancuernas',
       cues: ['Tumbado en el suelo, mancuernas arriba con las palmas enfrentadas', 'Baja hacia las orejas doblando solo el codo, en 2-3″', 'Codos apuntando al techo y quietos', 'Extiende sin bloquear de golpe'],
       err: ['Que los codos se abran hacia fuera', 'Convertirlo en press moviendo el hombro', 'Bajar tan rápido que el suelo frene la mancuerna'],

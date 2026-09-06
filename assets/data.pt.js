@@ -313,14 +313,14 @@ window.B2P = (function () {
       alt: [{ n: 'Ponte de glúteo com elástico', por: 'mais glúteo máximo' }, { n: 'Passo lateral com elástico (monster walk)', por: 'de pé, mais funcional' }],
       mol: 'Se o joelho incomodar: coloca o elástico por baixo, nas canelas.'
     },
-    'remo-toalla': { pat: 'th',
+    'remo-toalla': { pat: 'th', pic: 'remo-toalla',
       nombre: 'Remada com toalha na porta', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsal', 'bíceps, omoplatas'], equipo: 'Toalha + porta (ou mochila)',
       cues: ['Toalha na maçaneta/aro, corpo inclinado para trás', 'Puxa com o cotovelo, não com a mão', 'Omoplatas atrás e para baixo no fim do percurso', 'Quanto mais te inclinares, mais duro'],
       err: ['Puxar com os braços sem mover as omoplatas', 'Dar puxões com impulso de anca'],
       alt: [{ n: 'Remada com mochila carregada', por: 'a uma mão, apoiado na mesa' }, { n: 'Remada invertida sob uma mesa robusta', por: 'versão mais dura' }],
       mol: 'Se o cotovelo incomodar: pega mais larga e menos inclinação.'
     },
-    'rdl-1p': { pat: 'bis',
+    'rdl-1p': { pat: 'bis', pic: 'rdl-1p',
       nombre: 'Peso morto romeno a 1 perna', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Isquiotibiais', 'glúteo, equilíbrio'], equipo: 'Nada (mochila opcional)',
       cues: ['Anca para trás, costas direitas como uma mesa', 'A perna livre sobe atrás como contrapeso', 'Desce até sentires o alongamento do isquiotibial', 'Prioriza equilíbrio sobre profundidade'],
       err: ['Arredondar as costas para chegar mais abaixo', 'Rodar a anca (mantém as duas ancas viradas para o chão)'],
@@ -342,21 +342,21 @@ window.B2P = (function () {
       mol: 'É o exercício mais seguro do plano; se algo incomodar, confirma que a lombar não se descola.'
     },
 
-    'pike-flexiones': { pat: 'ev',
+    'pike-flexiones': { pat: 'ev', pic: 'pike-flexiones',
       nombre: 'Flexões em pica', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoide anterior', 'tricípite'], equipo: 'Nada',
       cues: ['V invertido: mãos e pés perto, anca bem no alto', 'A cabeça desce entre as mãos, não à frente', 'Cotovelos a 45° do corpo, nunca abertos', 'Em cima estende por completo, sem encolher os ombros'],
       err: ['Baixar a anca e transformá-lo numa flexão normal', 'Levar a cabeça à frente das mãos (é aí que o ombro paga)', 'Meio percurso para poder contar mais repetições'],
       alt: [{ n: 'Com os pés numa cadeira', por: 'quando 12 já saírem fáceis' }, { n: 'Com as mãos num degrau', por: 'se ainda não desces limpo' }],
       mol: 'Se o ombro incomodar: baixa um pouco a anca até o ângulo ficar confortável. O empurrão vertical é o que mais mobilidade pede em todo o plano.'
     },
-    'jalon-toalla': { pat: 'tv',
+    'jalon-toalla': { pat: 'tv', pic: 'jalon-toalla',
       nombre: 'Puxada com toalha', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Grande dorsal', 'bicípite'], equipo: 'Toalha',
       cues: ['Toalha esticada acima da cabeça: um braço puxa para baixo e o outro resiste', 'O cotovelo que puxa vai ao lado do corpo, não à frente', 'Baixa a omoplata e aguenta 1″', 'Volta a subir em 3″ a travar com o braço contrário'],
       err: ['Puxar com o bicípite em vez das costas', 'Encolher o ombro em vez de baixar a omoplata', 'Não resistir com o braço de cima: sem tensão não há estímulo'],
       alt: [{ n: 'Remada invertida debaixo de uma mesa firme', por: 'muito mais mensurável: se tens mesa, faz antes isso' }, { n: 'Elevações', por: 'assim que tiveres uma barra' }],
       mol: 'Sem barra, a puxada vertical é a mais difícil de substituir a sério: se puderes, dá prioridade à remada debaixo da mesa, que carrega peso a sério.'
     },
-    'abduccion-lado': { pat: 'ais',
+    'abduccion-lado': { pat: 'ais', pic: 'abduccion-lado',
       nombre: 'Abdução de anca deitado de lado', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Glúteo médio'], equipo: 'Nada',
       cues: ['Deitado de lado, corpo alinhado e anca perpendicular ao chão', 'Sobe a perna de cima com o calcanhar ligeiramente atrasado', 'Sobe em 1″, aguenta 1″ e desce em 3″', 'A ponta do pé olha em frente, não para o teto'],
       err: ['Rodar a anca para trás (assim trabalha o flexor, não o glúteo)', 'Subir a perna mais alto do que a anca permite', 'Ir depressa: aqui manda o tempo sob tensão'],
@@ -370,7 +370,7 @@ window.B2P = (function () {
       alt: [{ n: 'Elevação de pernas suspenso', por: 'quando tiveres barra' }, { n: 'Dead bug', por: 'se a lombar descolar sem controlo' }],
       mol: 'Se a lombar incomodar: mãos debaixo do sacro e corta o percurso a metade até o controlo aparecer.'
     },
-    'curl-mochila': { pat: 'curl',
+    'curl-mochila': { pat: 'curl', pic: 'curl-mochila',
       nombre: 'Curl com mochila', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicípite', 'antebraço'], equipo: 'Mochila',
       cues: ['Agarra a mochila pela pega de cima ou pelas duas alças', 'Cotovelos colados ao corpo e fixos', 'Sobe sem baloiçar e desce em 3″', 'Progrides metendo livros ou garrafas de água'],
       err: ['Baloiçar o tronco para subir', 'Adiantar os cotovelos na parte alta', 'Carregar tanto a mochila que a preensão falhe antes do bicípite'],
@@ -385,14 +385,14 @@ window.B2P = (function () {
       alt: [{ n: 'Flexões normais', por: 'se aqui não saírem 8 limpas' }, { n: 'Com os pés mais altos', por: 'a progressão: cada palmo pesa mais' }],
       mol: 'É o degrau a seguir às flexões: passadas 15 limpas, sobe os pés em vez de contar até vinte.'
     },
-    'pino-pared': { pat: 'ev',
+    'pino-pared': { pat: 'ev', pic: 'pino-pared',
       nombre: 'Flexão em pino contra a parede', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoides', 'tricípite'], equipo: 'Nada (parede)',
       cues: ['De costas para a parede, sobe os pés a caminhar até ficares quase vertical', 'Mãos um pouco mais largas do que os ombros, dedos abertos a agarrar o chão', 'Desce SÓ o que controlares: ao início, dois dedos', 'Corpo apertado: sem arquear a lombar'],
       err: ['Descer até ao fundo no primeiro dia: começa-se com percurso curto', 'Deixar cair a cabeça sem controlo', 'Arquear as costas para compensar'],
       alt: [{ n: 'Flexões em pica', por: 'a versão de partida, muito mais simpática' }, { n: 'Com os pés numa cadeira em vez da parede', por: 'o passo intermédio' }],
       mol: 'É a variante avançada do empurrão vertical: só se as flexões em pica te saírem a 15 limpas e o ombro não disser nada. Com incómodo no ombro, não é agora.'
     },
-    'remo-mesa': { pat: 'th',
+    'remo-mesa': { pat: 'th', pic: 'remo-mesa',
       nombre: 'Remada invertida debaixo da mesa', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Grande dorsal', 'costas altas, bicípite'], equipo: 'Nada (mesa firme)',
       cues: ['Deita-te debaixo de uma mesa sólida e agarra-a pela borda', 'Corpo em prancha dos calcanhares aos ombros', 'Puxa levando o peito à mesa, cotovelos ao lado do corpo', 'Aperta as omoplatas 1″ em cima e desce em 3″'],
       err: ['Levar a anca à frente do peito', 'Puxar só com os braços sem juntar as omoplatas', 'Usar uma mesa que se levante: confirma antes'],
@@ -406,7 +406,7 @@ window.B2P = (function () {
       alt: [{ n: 'Agachamento ao peso do corpo com as duas pernas', por: 'a versão de partida' }, { n: 'Uma cadeira mais baixa', por: 'a progressão, até ao pistol completo' }],
       mol: 'Se o joelho incomodar: sobe a altura da cadeira e trava a descida. É progressão de agachamento, não um salto no escuro: 8 limpas com as duas pernas antes de tentares a uma.'
     },
-    'curl-toalla': { pat: 'curl',
+    'curl-toalla': { pat: 'curl', pic: 'curl-toalla',
       nombre: 'Curl com toalha auto-resistido', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bicípite', 'antebraço'], equipo: 'Toalha',
       cues: ['Um pé pisa uma ponta da toalha, a mão sobe pela outra', 'O braço livre pode puxar para baixo para pôr mais resistência', 'Cotovelo colado ao corpo e fixo', 'Sobe em 2″, desce em 3″ sem largar a tensão'],
       err: ['Largar a tensão em cima ou em baixo', 'Baloiçar o tronco', 'Pôr tanta resistência que o movimento trave a meio'],
@@ -450,21 +450,21 @@ window.B2P = (function () {
       mol: 'Se o ombro incomodar: apoia na mão com o braço esticado, ou fá-la de joelhos. É a metade lateral da prancha: o core não aguenta só de frente.'
     },
 
-    'elev-y-suelo': { pat: 'ais',
+    'elev-y-suelo': { pat: 'ais', pic: 'elev-y-suelo',
       nombre: 'Elevação em Y de barriga para baixo', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Ombro (coifa)', 'trapézio inferior'], equipo: 'Nada',
       cues: ['De barriga para baixo, braços esticados a formar um Y com os polegares para o teto', 'Sobe os braços sem encolher os ombros: o pescoço fica comprido', 'Aguenta 2″ em cima e desce em 3″', 'A testa não descola: o movimento é de omoplata, não de pescoço'],
       err: ['Encolher os ombros na direção das orelhas', 'Levantar a cabeça para ajudar', 'Ir depressa: aqui não há peso, o estímulo é o controlo'],
       alt: [{ n: 'Rotação externa com banda', por: 'quando tiveres banda' }, { n: 'Com uma garrafa pequena em cada mão', por: 'a progressão: pesa pouco e nota-se' }],
       mol: 'O ombro do protocolo do tendão, sem material: a coifa ganha com controlo, não com peso. Se o ombro incomodar, este costuma assentar bem.'
     },
-    'curl-nordico': { pat: 'ais',
+    'curl-nordico': { pat: 'ais', pic: 'curl-nordico',
       nombre: 'Curl nórdico assistido', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Isquiotibiais'], equipo: 'Nada (algo que segure os tornozelos)',
       cues: ['De joelhos sobre algo macio, tornozelos presos debaixo de um móvel firme', 'Desce muito devagar mantendo anca e ombros em linha', 'Aguenta até onde conseguires e amortece com as mãos', 'Volta a empurrar-te com os braços: a subida não conta'],
       err: ['Dobrar a anca para facilitar (o isquiotibial deixa de trabalhar)', 'Deixares-te cair sem travar', 'Começar pelo percurso completo: ganha-se centímetro a centímetro'],
       alt: [{ n: 'Ponte de glúteo a uma perna', por: 'se o nórdico ainda ficar grande' }, { n: 'Curl femoral na máquina', por: 'no ginásio' }],
       mol: 'O isquio mais potente sem material e o que mais dores deixa: começa com 3 e sobe uma de cada vez. Se o joelho incomodar, toalha dobrada por baixo.'
     },
-    'encogimiento-mochila': { pat: 'ais',
+    'encogimiento-mochila': { pat: 'ais', pic: 'encogimiento-mochila',
       nombre: 'Encolhimentos com mochila', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapézio superior'], equipo: 'Mochila',
       cues: ['Mochila pendurada nas duas mãos ou abraçada ao peito', 'Sobe os ombros A direito na direção das orelhas, sem os rodar', 'Aperta 2″ em cima e desce a controlar', 'Pescoço relaxado: não empurres o queixo para a frente'],
       err: ['Rodar os ombros para trás (não acrescenta nada e carrega o pescoço)', 'Usar impulso das pernas', 'Meio percurso'],
@@ -515,7 +515,7 @@ window.B2P = (function () {
       alt: [{ n: 'Máquina de press de ombro', por: 'equivalente direto' }],
       mol: 'Se o ombro incomodar: pega neutra e desce só até 90° de cotovelo.'
     },
-    'elev-laterales': { pat: 'ev',
+    'elev-laterales': { pat: 'ev', pic: 'elev-laterales',
       nombre: 'Elevações laterais', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoide lateral'], equipo: 'Halteres',
       cues: ['Peso leve, cotovelos ligeiramente fletidos', 'Sobe até à horizontal, como quem serve dois jarros', 'Sem impulso: se balanças, sobra peso', 'Desce em 2″'],
       err: ['Subir com o trapézio encolhendo os ombros', 'Passar da horizontal', 'Balanço de anca'],
@@ -724,7 +724,7 @@ window.B2P = (function () {
       mol: 'Sem incidentes típicos se fletires a partir das costelas.'
     },
 
-    'fondos-silla': { pat: 'ext', pic: 'fondos',
+    'fondos-silla': { pat: 'ext', pic: 'fondos-silla',
       nombre: 'Dips na cadeira', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Tricípite', 'peito baixo, ombro'], equipo: 'Nada (cadeira ou sofá)',
       cues: ['Mãos na borda da cadeira, dedos para fora, ombros longe das orelhas', 'Desce até 90° de cotovelo, nem um grau mais: abaixo disso quem paga é o ombro', 'Cotovelos para trás, a roçar o corpo, nunca abertos', 'As costas sobem e descem coladas ao canto da cadeira'],
       err: ['Descer até ao fundo à procura de alongamento (é assim que nasce a dor de ombro)', 'Afastar tanto os pés que o peso vai parar às pernas', 'Encolher os ombros na direção das orelhas'],
@@ -745,7 +745,7 @@ window.B2P = (function () {
       alt: [{ n: 'Acima da cabeça com a banda pisada', por: 'trabalha mais a cabeça longa' }, { n: 'Kickback com haltere', por: 'se não tiveres onde prender' }],
       mol: 'É o exercício mais simpático com o cotovelo de todo o plano: quando os outros incomodam, costuma ser o refúgio. Sobe repetições antes de subir a dureza da banda.'
     },
-    'press-frances-mc': { pat: 'ext',
+    'press-frances-mc': { pat: 'ext', pic: 'press-frances-mc',
       nombre: 'French press com halteres', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Tricípite (cabeça longa)'], equipo: 'Halteres',
       cues: ['Deitado no chão, halteres em cima, palmas viradas uma para a outra', 'Desce na direção das orelhas dobrando só o cotovelo, em 2-3″', 'Cotovelos a apontar ao teto e quietos', 'Estende sem bloquear de repente'],
       err: ['Deixar os cotovelos abrirem para fora', 'Transformá-lo num press mexendo o ombro', 'Descer tão depressa que o chão trave o haltere'],

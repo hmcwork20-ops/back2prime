@@ -313,14 +313,14 @@ window.B2P = (function () {
       alt: [{ n: 'Glute Bridge mit Band', por: 'mehr Gluteus maximus' }, { n: 'Seitschritt mit Band (Monster Walk)', por: 'stehend, funktioneller' }],
       mol: 'Wenn das Knie meckert: Band tiefer legen, um die Schienbeine.'
     },
-    'remo-toalla': { pat: 'th',
+    'remo-toalla': { pat: 'th', pic: 'remo-toalla',
       nombre: 'Handtuchrudern an der Tür', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lat', 'Bizeps, Schulterblätter'], equipo: 'Handtuch + Tür (oder Rucksack)',
       cues: ['Handtuch um Klinke/Rahmen, Körper nach hinten gelehnt', 'Zieh mit dem Ellbogen, nicht mit der Hand', 'Schulterblätter am Ende nach hinten-unten', 'Je schräger du dich lehnst, desto härter'],
       err: ['Nur mit den Armen ziehen, ohne die Schulterblätter zu bewegen', 'Mit Hüftschwung reißen'],
       alt: [{ n: 'Rudern mit beladenem Rucksack', por: 'einarmig, auf dem Tisch abgestützt' }, { n: 'Inverted Rows unter einem stabilen Tisch', por: 'härtere Version' }],
       mol: 'Wenn der Ellbogen zwickt: breiter greifen und weniger Schräglage.'
     },
-    'rdl-1p': { pat: 'bis',
+    'rdl-1p': { pat: 'bis', pic: 'rdl-1p',
       nombre: 'Einbeiniges Rumänisches Kreuzheben', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Beinbizeps', 'Gesäß, Balance'], equipo: 'Nichts (Rucksack optional)',
       cues: ['Hüfte nach hinten, Rücken gerade wie ein Tisch', 'Das freie Bein steigt hinten als Gegengewicht', 'Runter, bis du die Dehnung im Beinbizeps spürst', 'Balance geht vor Tiefe'],
       err: ['Rücken runden, um tiefer zu kommen', 'Hüfte aufdrehen (beide Hüftknochen zeigen zum Boden)'],
@@ -342,21 +342,21 @@ window.B2P = (function () {
       mol: 'Die sicherste Übung im Plan; wenn etwas zwickt, prüf, ob der untere Rücken abhebt.'
     },
 
-    'pike-flexiones': { pat: 'ev',
+    'pike-flexiones': { pat: 'ev', pic: 'pike-flexiones',
       nombre: 'Pike-Liegestütze', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Vordere Schulter', 'Trizeps'], equipo: 'Nichts',
       cues: ['Umgedrehtes V: Hände und Füße nah beieinander, Hüfte weit oben', 'Der Kopf geht zwischen die Hände, nicht davor', 'Ellbogen 45° zum Körper, nie ausgestellt', 'Oben ganz durchstrecken, ohne die Schultern hochzuziehen'],
       err: ['Die Hüfte absenken und daraus einen normalen Liegestütz machen', 'Den Kopf vor die Hände bringen (da zahlt die Schulter)', 'Halbe Wiederholungen, um mehr zählen zu können'],
       alt: [{ n: 'Füße auf einem Stuhl', por: 'wenn 12 leicht fallen' }, { n: 'Hände auf einer Stufe', por: 'wenn es noch nicht sauber runtergeht' }],
       mol: 'Wenn die Schulter meckert: Hüfte etwas absenken, bis der Winkel angenehm ist. Vertikales Drücken verlangt die meiste Beweglichkeit im ganzen Plan.'
     },
-    'jalon-toalla': { pat: 'tv',
+    'jalon-toalla': { pat: 'tv', pic: 'jalon-toalla',
       nombre: 'Handtuch-Latzug', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Latissimus', 'Bizeps'], equipo: 'Handtuch',
       cues: ['Handtuch straff über dem Kopf: ein Arm zieht nach unten, der andere hält dagegen', 'Der ziehende Ellbogen geht zur Seite, nicht nach vorne', 'Schulterblatt nach unten ziehen und 1″ halten', 'In 3″ zurück nach oben, mit dem Gegenarm bremsen'],
       err: ['Mit dem Bizeps ziehen statt mit dem Rücken', 'Die Schulter hochziehen, statt das Schulterblatt zu senken', 'Mit dem oberen Arm nicht gegenhalten: ohne Spannung kein Reiz'],
       alt: [{ n: 'Umgekehrtes Rudern unter einem stabilen Tisch', por: 'viel messbarer: wenn du einen Tisch hast, mach lieber das' }, { n: 'Klimmzüge', por: 'sobald du eine Stange hast' }],
       mol: 'Ohne Stange ist vertikales Ziehen am schwersten ehrlich zu ersetzen: wenn möglich, nimm das Rudern unter dem Tisch, das lädt wirklich Gewicht auf.'
     },
-    'abduccion-lado': { pat: 'ais',
+    'abduccion-lado': { pat: 'ais', pic: 'abduccion-lado',
       nombre: 'Seitliches Beinheben in Seitlage', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Gluteus medius'], equipo: 'Nichts',
       cues: ['In Seitlage, Körper in einer Linie, Hüfte senkrecht zum Boden', 'Oberes Bein heben, Ferse leicht nach hinten', 'In 1″ hoch, 1″ halten, in 3″ runter', 'Fußspitze zeigt nach vorne, nicht zur Decke'],
       err: ['Die Hüfte nach hinten rollen (dann arbeitet der Hüftbeuger, nicht der Po)', 'Das Bein höher heben, als die Hüfte zulässt', 'Zu schnell machen: hier zählt die Zeit unter Spannung'],
@@ -370,7 +370,7 @@ window.B2P = (function () {
       alt: [{ n: 'Hängendes Beinheben', por: 'sobald du eine Stange hast' }, { n: 'Dead Bug', por: 'wenn sich der untere Rücken unkontrolliert abhebt' }],
       mol: 'Wenn der untere Rücken meckert: Hände unters Kreuzbein und den Weg halbieren, bis die Kontrolle da ist.'
     },
-    'curl-mochila': { pat: 'curl',
+    'curl-mochila': { pat: 'curl', pic: 'curl-mochila',
       nombre: 'Rucksack-Curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bizeps', 'Unterarm'], equipo: 'Rucksack',
       cues: ['Den Rucksack am oberen Griff oder an beiden Trägern fassen', 'Ellbogen eng am Körper und fixiert', 'Hoch ohne Schwung, runter in 3″', 'Du steigerst dich mit Büchern oder Wasserflaschen'],
       err: ['Mit dem Oberkörper schwingen', 'Die Ellbogen oben nach vorne schieben', 'So schwer packen, dass der Griff vor dem Bizeps aufgibt'],
@@ -385,14 +385,14 @@ window.B2P = (function () {
       alt: [{ n: 'Normale Liegestütze', por: 'wenn hier keine 8 sauberen kommen' }, { n: 'Füße höher', por: 'die Steigerung: jede Handbreit wiegt mehr' }],
       mol: 'Das ist die nächste Stufe nach den Liegestützen: ab 15 sauberen Wiederholungen die Füße höher legen, statt bis zwanzig zu zählen.'
     },
-    'pino-pared': { pat: 'ev',
+    'pino-pared': { pat: 'ev', pic: 'pino-pared',
       nombre: 'Handstand-Liegestütz an der Wand', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltamuskel', 'Trizeps'], equipo: 'Nichts (Wand)',
       cues: ['Mit dem Rücken zur Wand die Füße hochlaufen, bis du fast senkrecht stehst', 'Hände etwas weiter als schulterbreit, Finger gespreizt und im Boden verankert', 'Nur so weit runter, wie du es kontrollierst: anfangs zwei Fingerbreit', 'Ganzer Körper fest: kein Hohlkreuz'],
       err: ['Am ersten Tag ganz runtergehen: man startet mit kurzem Weg', 'Den Kopf unkontrolliert fallen lassen', 'Den Rücken zum Ausgleich überstrecken'],
       alt: [{ n: 'Pike-Liegestütze', por: 'die Einstiegsversion, deutlich freundlicher' }, { n: 'Füße auf einem Stuhl statt an der Wand', por: 'die Zwischenstufe' }],
       mol: 'Das ist die fortgeschrittene Variante des vertikalen Drückens: nur wenn Pike-Liegestütze sauber 15-mal kommen und die Schulter nichts sagt. Bei Schulterbeschwerden nicht.'
     },
-    'remo-mesa': { pat: 'th',
+    'remo-mesa': { pat: 'th', pic: 'remo-mesa',
       nombre: 'Umgekehrtes Rudern unter dem Tisch', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Latissimus', 'oberer Rücken, Bizeps'], equipo: 'Nichts (stabiler Tisch)',
       cues: ['Leg dich unter einen stabilen Tisch und greif die Kante', 'Körper wie ein Brett von den Fersen bis zu den Schultern', 'Zieh die Brust zum Tisch, Ellbogen am Körper', 'Schulterblätter oben 1″ zusammendrücken, in 3″ ablassen'],
       err: ['Mit der Hüfte zuerst statt mit der Brust', 'Nur mit den Armen ziehen, ohne die Schulterblätter zu schließen', 'Einen Tisch nehmen, der hochkippt: vorher prüfen'],
@@ -406,7 +406,7 @@ window.B2P = (function () {
       alt: [{ n: 'Beidbeinige Kniebeuge ohne Gewicht', por: 'die Einstiegsversion' }, { n: 'Ein niedrigerer Stuhl', por: 'die Steigerung, bis zur vollen Pistol' }],
       mol: 'Wenn das Knie meckert: Stuhl höher stellen und langsamer absenken. Das ist eine Kniebeugen-Steigerung, kein Sprung ins Leere: 8 saubere beidbeinige Wiederholungen, bevor du es einbeinig probierst.'
     },
-    'curl-toalla': { pat: 'curl',
+    'curl-toalla': { pat: 'curl', pic: 'curl-toalla',
       nombre: 'Selbstwiderstands-Curl mit Handtuch', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Bizeps', 'Unterarm'], equipo: 'Handtuch',
       cues: ['Ein Fuß fixiert ein Ende des Handtuchs, die Hand curlt am anderen hoch', 'Der freie Arm kann nach unten ziehen und Widerstand geben', 'Ellbogen eng am Körper und fixiert', 'In 2″ hoch, in 3″ runter, ohne die Spannung loszulassen'],
       err: ['Oben oder unten die Spannung verlieren', 'Mit dem Oberkörper schwingen', 'So viel Widerstand geben, dass die Bewegung auf halbem Weg stehen bleibt'],
@@ -450,21 +450,21 @@ window.B2P = (function () {
       mol: 'Wenn die Schulter meckert: auf die Hand mit gestrecktem Arm wechseln oder aus dem Knien. Das ist die seitliche Hälfte der Planke: der Rumpf hält nicht nur von vorn.'
     },
 
-    'elev-y-suelo': { pat: 'ais',
+    'elev-y-suelo': { pat: 'ais', pic: 'elev-y-suelo',
       nombre: 'Y-Heben in Bauchlage', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Schulter (Rotatorenmanschette)', 'unterer Trapez'], equipo: 'Nichts',
       cues: ['Bauchlage, Arme in einem Y ausgestreckt, Daumen zur Decke', 'Arme heben ohne die Schultern hochzuziehen: der Nacken bleibt lang', 'Oben 2″ halten, in 3″ ablassen', 'Die Stirn bleibt unten: die Bewegung kommt aus dem Schulterblatt, nicht aus dem Nacken'],
       err: ['Die Schultern zu den Ohren ziehen', 'Den Kopf heben, um zu helfen', 'Zu schnell machen: hier gibt es kein Gewicht, der Reiz ist die Kontrolle'],
       alt: [{ n: 'Außenrotation am Band', por: 'sobald du ein Band hast' }, { n: 'Eine kleine Flasche in jeder Hand', por: 'die Steigerung: wiegt wenig und man merkt es' }],
       mol: 'Die Schulterübung aus dem Sehnenprotokoll, ohne Material: die Manschette gewinnt durch Kontrolle, nicht durch Gewicht. Wenn die Schulter zwickt, tut diese meist gut.'
     },
-    'curl-nordico': { pat: 'ais',
+    'curl-nordico': { pat: 'ais', pic: 'curl-nordico',
       nombre: 'Assistierter Nordic Curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Beinbeuger'], equipo: 'Nichts (etwas, das die Knöchel hält)',
       cues: ['Auf etwas Weichem knien, Knöchel unter einem stabilen Möbel fixiert', 'Sehr langsam absenken, Hüfte und Schultern in einer Linie', 'So weit halten, wie du kannst, und mit den Händen abfangen', 'Mit den Armen zurückdrücken: der Weg nach oben zählt nicht'],
       err: ['In der Hüfte einknicken, um es leichter zu machen (der Beinbeuger steigt aus)', 'Sich ungebremst fallen lassen', 'Mit dem vollen Weg anfangen: den verdient man sich Zentimeter für Zentimeter'],
       alt: [{ n: 'Einbeinige Glute Bridge', por: 'wenn der Nordic noch zu viel ist' }, { n: 'Beinbeuger an der Maschine', por: 'im Studio' }],
       mol: 'Die stärkste Beinbeuger-Arbeit ohne Material und die mit dem meisten Muskelkater: starte mit 3 und steigere um je eine. Wenn das Knie meckert, gefaltetes Handtuch darunter.'
     },
-    'encogimiento-mochila': { pat: 'ais',
+    'encogimiento-mochila': { pat: 'ais', pic: 'encogimiento-mochila',
       nombre: 'Shrugs mit Rucksack', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Oberer Trapez'], equipo: 'Rucksack',
       cues: ['Rucksack in beiden Händen hängend oder vor der Brust', 'Die Schultern gerade zu den Ohren ziehen, ohne zu kreisen', 'Oben 2″ anspannen und kontrolliert ablassen', 'Nacken locker: das Kinn nicht nach vorn schieben'],
       err: ['Die Schultern nach hinten kreisen (bringt nichts und belastet den Nacken)', 'Mit den Beinen Schwung holen', 'Halber Weg'],
@@ -515,7 +515,7 @@ window.B2P = (function () {
       alt: [{ n: 'Schulterpresse (Maschine)', por: 'direktes Pendant' }],
       mol: 'Wenn die Schulter zwickt: neutraler Griff und nur bis 90° Ellbogen absenken.'
     },
-    'elev-laterales': { pat: 'ev',
+    'elev-laterales': { pat: 'ev', pic: 'elev-laterales',
       nombre: 'Seitheben', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Seitliche Schulter'], equipo: 'Kurzhanteln',
       cues: ['Leichtes Gewicht, Ellbogen leicht gebeugt', 'Bis zur Horizontalen, als würdest du zwei Krüge ausschenken', 'Ohne Schwung: Wenn du pendelst, ist Gewicht übrig', 'In 2″ runter'],
       err: ['Mit dem Trapez hochziehen und die Schultern anheben', 'Über die Horizontale hinaus', 'Hüftpendeln'],
@@ -724,7 +724,7 @@ window.B2P = (function () {
       mol: 'Keine typischen Beschwerden, wenn du aus den Rippen beugst.'
     },
 
-    'fondos-silla': { pat: 'ext', pic: 'fondos',
+    'fondos-silla': { pat: 'ext', pic: 'fondos-silla',
       nombre: 'Dips am Stuhl', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Trizeps', 'untere Brust, Schulter'], equipo: 'Nichts (Stuhl oder Sofa)',
       cues: ['Hände auf die Stuhlkante, Finger nach außen, Schultern weg von den Ohren', 'Nur bis 90° im Ellbogen herunter, kein Grad tiefer: darunter zahlt die Schulter', 'Ellbogen nach hinten, am Körper entlang, nie ausgestellt', 'Der Rücken gleitet dicht an der Stuhlkante auf und ab'],
       err: ['Ganz tief gehen, um zu dehnen (so entstehen Schulterschmerzen)', 'Die Füße so weit weg setzen, dass das Gewicht in die Beine wandert', 'Die Schultern zu den Ohren ziehen'],
@@ -745,7 +745,7 @@ window.B2P = (function () {
       alt: [{ n: 'Über Kopf, Band unter den Füßen', por: 'trifft den langen Kopf stärker' }, { n: 'Kickback mit Kurzhantel', por: 'wenn du nichts zum Befestigen hast' }],
       mol: 'Das ist die ellbogenfreundlichste Übung im Plan: wenn andere zwicken, ist das meist die Zuflucht. Erhöhe die Wiederholungen, bevor du ein härteres Band nimmst.'
     },
-    'press-frances-mc': { pat: 'ext',
+    'press-frances-mc': { pat: 'ext', pic: 'press-frances-mc',
       nombre: 'Stirndrücken mit Kurzhanteln', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Trizeps (langer Kopf)'], equipo: 'Kurzhanteln',
       cues: ['Am Boden liegend, Hanteln oben, Handflächen zueinander', 'In 2-3″ Richtung Ohren senken, nur der Ellbogen beugt', 'Ellbogen zeigen zur Decke und bleiben still', 'Strecken, ohne ruckartig einzurasten'],
       err: ['Die Ellbogen nach außen ausstellen', 'Daraus ein Drücken machen, indem die Schulter mitgeht', 'So schnell absenken, dass der Boden die Hantel stoppt'],

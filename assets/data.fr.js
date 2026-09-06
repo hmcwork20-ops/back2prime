@@ -314,14 +314,14 @@ window.B2P = (function () {
       alt: [{ n: 'Pont fessier avec bande', por: 'plus de grand fessier' }, { n: 'Pas latéral à la bande (monster walk)', por: 'debout, plus fonctionnel' }],
       mol: 'Si le genou se plaint : place la bande plus bas, sur les tibias.'
     },
-    'remo-toalla': { pat: 'th',
+    'remo-toalla': { pat: 'th', pic: 'remo-toalla',
       nombre: 'Rowing serviette sur porte', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps, omoplates'], equipo: 'Serviette + porte (ou sac à dos)',
       cues: ['Serviette sur la poignée/le cadre, corps incliné en arrière', 'Tire avec le coude, pas avec la main', 'Omoplates en arrière et en bas en fin de trajet', 'Plus tu t’inclines, plus c’est dur'],
       err: ['Tirer avec les bras sans bouger les omoplates', 'Donner des à-coups avec les hanches'],
       alt: [{ n: 'Rowing avec sac à dos chargé', por: 'à une main, appuyé sur la table' }, { n: 'Rowing inversé sous une table solide', por: 'version plus dure' }],
       mol: 'Si le coude gêne : prends plus large et réduis l’inclinaison.'
     },
-    'rdl-1p': { pat: 'bis',
+    'rdl-1p': { pat: 'bis', pic: 'rdl-1p',
       nombre: 'Soulevé de terre roumain à 1 jambe', mm: { p: ['isquios'], s: ['gluteo'] }, zona: 'pierna', musc: ['Ischios', 'fessier, équilibre'], equipo: 'Rien (sac à dos optionnel)',
       cues: ['Hanches en arrière, dos droit comme une table', 'La jambe libre monte derrière en contrepoids', 'Descends jusqu’à sentir l’étirement des ischios', 'Priorité à l’équilibre sur la profondeur'],
       err: ['Arrondir le dos pour descendre plus bas', 'Ouvrir la hanche (garde les deux hanches face au sol)'],
@@ -343,21 +343,21 @@ window.B2P = (function () {
       mol: 'C’est l’exercice le plus sûr du plan ; si quelque chose gêne, vérifie que les lombaires ne décollent pas.'
     },
 
-    'pike-flexiones': { pat: 'ev',
+    'pike-flexiones': { pat: 'ev', pic: 'pike-flexiones',
       nombre: 'Pompes piquées', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoïde antérieur', 'triceps'], equipo: 'Rien',
       cues: ['V inversé : mains et pieds rapprochés, hanches bien hautes', 'La tête descend entre les mains, pas devant', 'Coudes à 45° du corps, jamais écartés', 'En haut, extension complète sans remonter les épaules'],
       err: ['Baisser les hanches et en faire une pompe classique', 'Amener la tête devant les mains (c’est là que l’épaule paie)', 'Demi-amplitude pour en compter davantage'],
       alt: [{ n: 'Pieds sur une chaise', por: 'quand 12 deviennent faciles' }, { n: 'Mains sur une marche', por: 'si tu ne descends pas encore proprement' }],
       mol: 'Si l’épaule proteste : baisse un peu les hanches jusqu’à ce que l’angle soit confortable. La poussée verticale est ce qui demande le plus de mobilité dans tout le plan.'
     },
-    'jalon-toalla': { pat: 'tv',
+    'jalon-toalla': { pat: 'tv', pic: 'jalon-toalla',
       nombre: 'Tirage vertical à la serviette', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Grand dorsal', 'biceps'], equipo: 'Serviette',
       cues: ['Serviette tendue au-dessus de la tête : un bras tire vers le bas, l’autre résiste', 'Le coude qui tire va vers le flanc, pas vers l’avant', 'Abaisse l’omoplate et tiens 1″', 'Remonte en 3″ en freinant avec l’autre bras'],
       err: ['Tirer avec le biceps au lieu du dos', 'Hausser l’épaule au lieu d’abaisser l’omoplate', 'Ne pas résister avec le bras du haut : sans tension, pas de stimulus'],
       alt: [{ n: 'Rowing inversé sous une table solide', por: 'bien plus mesurable : si tu as une table, fais plutôt ça' }, { n: 'Tractions', por: 'dès que tu as une barre' }],
       mol: 'Sans barre, le tirage vertical est le plus difficile à remplacer honnêtement : si tu peux, privilégie le rowing sous la table, qui charge vraiment.'
     },
-    'abduccion-lado': { pat: 'ais',
+    'abduccion-lado': { pat: 'ais', pic: 'abduccion-lado',
       nombre: 'Abduction de hanche sur le côté', mm: { p: ['gluteo'], s: [] }, zona: 'pierna', musc: ['Moyen fessier'], equipo: 'Rien',
       cues: ['Allongé sur le côté, corps aligné, hanches perpendiculaires au sol', 'Monte la jambe du dessus, talon légèrement en arrière', 'Monte en 1″, tiens 1″, descends en 3″', 'La pointe du pied regarde devant, pas le plafond'],
       err: ['Rouler la hanche vers l’arrière (alors c’est le fléchisseur qui travaille, pas le fessier)', 'Monter la jambe plus haut que la hanche ne le permet', 'Aller vite : ici c’est le temps sous tension qui compte'],
@@ -371,7 +371,7 @@ window.B2P = (function () {
       alt: [{ n: 'Relevé de jambes suspendu', por: 'quand tu auras une barre' }, { n: 'Dead bug', por: 'si le bas du dos décolle sans contrôle' }],
       mol: 'Si le bas du dos proteste : mains sous le sacrum et réduis l’amplitude de moitié le temps que le contrôle arrive.'
     },
-    'curl-mochila': { pat: 'curl',
+    'curl-mochila': { pat: 'curl', pic: 'curl-mochila',
       nombre: 'Curl avec sac à dos', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'avant-bras'], equipo: 'Sac à dos',
       cues: ['Attrape le sac par la poignée du haut ou par les deux bretelles', 'Coudes collés au corps et fixes', 'Monte sans balancer, descends en 3″', 'Tu progresses en ajoutant des livres ou des bouteilles d’eau'],
       err: ['Balancer le buste pour monter', 'Avancer les coudes en haut', 'Charger le sac au point que la prise lâche avant le biceps'],
@@ -386,14 +386,14 @@ window.B2P = (function () {
       alt: [{ n: 'Pompes classiques', por: 'si tu ne sors pas 8 propres ici' }, { n: 'Pieds plus hauts', por: 'la progression : chaque empan pèse davantage' }],
       mol: 'C’est la marche suivante après les pompes : passé 15 répétitions propres, monte les pieds au lieu de compter jusqu’à vingt.'
     },
-    'pino-pared': { pat: 'ev',
+    'pino-pared': { pat: 'ev', pic: 'pino-pared',
       nombre: 'Pompe en équilibre contre le mur', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoïdes', 'triceps'], equipo: 'Rien (mur)',
       cues: ['Dos au mur, remonte les pieds en marchant jusqu’à être presque vertical', 'Mains un peu plus larges que les épaules, doigts écartés qui agrippent le sol', 'Descends seulement ce que tu contrôles : deux doigts au début', 'Corps gainé : sans cambrer le bas du dos'],
       err: ['Descendre à fond dès le premier jour : on commence avec une amplitude courte', 'Laisser tomber la tête sans contrôle', 'Cambrer le dos pour compenser'],
       alt: [{ n: 'Pompes piquées', por: 'la version de départ, bien plus douce' }, { n: 'Pieds sur une chaise plutôt qu’au mur', por: 'l’étape intermédiaire' }],
       mol: 'C’est la variante avancée de la poussée verticale : seulement si les pompes piquées sortent à 15 propres et que l’épaule ne dit rien. Avec une gêne d’épaule, ce n’est pas le moment.'
     },
-    'remo-mesa': { pat: 'th',
+    'remo-mesa': { pat: 'th', pic: 'remo-mesa',
       nombre: 'Rowing inversé sous la table', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Grand dorsal', 'haut du dos, biceps'], equipo: 'Rien (table solide)',
       cues: ['Allonge-toi sous une table solide et attrape-la par le bord', 'Corps en planche des talons aux épaules', 'Tire en amenant la poitrine à la table, coudes au corps', 'Serre les omoplates 1″ en haut et descends en 3″'],
       err: ['Sortir les hanches avant la poitrine', 'Tirer avec les bras seuls sans serrer les omoplates', 'Utiliser une table qui se soulève : vérifie-la avant'],
@@ -407,7 +407,7 @@ window.B2P = (function () {
       alt: [{ n: 'Squat au poids du corps sur deux jambes', por: 'la version de départ' }, { n: 'Une chaise plus basse', por: 'la progression, jusqu’au pistol complet' }],
       mol: 'Si le genou proteste : remonte la hauteur de la chaise et freine la descente. C’est une progression de squat, pas un saut dans le vide : 8 répétitions propres à deux jambes avant d’essayer sur une.'
     },
-    'curl-toalla': { pat: 'curl',
+    'curl-toalla': { pat: 'curl', pic: 'curl-toalla',
       nombre: 'Curl auto-résisté à la serviette', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'avant-bras'], equipo: 'Serviette',
       cues: ['Un pied bloque un bout de la serviette, la main remonte l’autre', 'Le bras libre peut tirer vers le bas pour ajouter de la résistance', 'Coude collé au corps et fixe', 'Monte en 2″, descends en 3″ sans lâcher la tension'],
       err: ['Relâcher la tension en haut ou en bas', 'Balancer le buste', 'Mettre tant de résistance que le mouvement se bloque à mi-chemin'],
@@ -451,21 +451,21 @@ window.B2P = (function () {
       mol: 'Si l’épaule proteste : monte sur la main bras tendu, ou fais-la à genoux. C’est la moitié latérale de la planche : le gainage ne tient pas que de face.'
     },
 
-    'elev-y-suelo': { pat: 'ais',
+    'elev-y-suelo': { pat: 'ais', pic: 'elev-y-suelo',
       nombre: 'Élévation en Y au sol', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Épaule (coiffe)', 'trapèze inférieur'], equipo: 'Rien',
       cues: ['À plat ventre, bras tendus en Y, pouces vers le plafond', 'Monte les bras sans hausser les épaules : la nuque reste longue', 'Tiens 2″ en haut et descends en 3″', 'Le front ne décolle pas : le mouvement vient de l’omoplate, pas du cou'],
       err: ['Hausser les épaules vers les oreilles', 'Lever la tête pour s’aider', 'Aller vite : il n’y a pas de poids ici, le stimulus c’est le contrôle'],
       alt: [{ n: 'Rotation externe à l’élastique', por: 'quand tu auras un élastique' }, { n: 'Une petite bouteille dans chaque main', por: 'la progression : ça pèse peu et ça se sent' }],
       mol: 'L’épaule du protocole tendon, sans matériel : la coiffe gagne avec du contrôle, pas avec du poids. Si l’épaule gêne, celui-ci passe bien en général.'
     },
-    'curl-nordico': { pat: 'ais',
+    'curl-nordico': { pat: 'ais', pic: 'curl-nordico',
       nombre: 'Leg curl nordique assisté', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischio-jambiers'], equipo: 'Rien (de quoi bloquer les chevilles)',
       cues: ['À genoux sur quelque chose de doux, chevilles bloquées sous un meuble solide', 'Descends très lentement en gardant hanches et épaules alignées', 'Tiens aussi loin que possible et amortis avec les mains', 'Remonte en poussant avec les bras : la montée ne compte pas'],
       err: ['Casser la hanche pour se faciliter la tâche (l’ischio arrête de travailler)', 'Se laisser tomber sans freiner', 'Commencer par l’amplitude complète : ça se gagne centimètre par centimètre'],
       alt: [{ n: 'Pont fessier sur une jambe', por: 'si le nordique est encore trop dur' }, { n: 'Leg curl à la machine', por: 'en salle' }],
       mol: 'Le travail d’ischios le plus puissant sans matériel, et celui qui laisse le plus de courbatures : commence à 3 et monte une par une. Si le genou gêne, serviette pliée dessous.'
     },
-    'encogimiento-mochila': { pat: 'ais',
+    'encogimiento-mochila': { pat: 'ais', pic: 'encogimiento-mochila',
       nombre: 'Shrugs avec sac à dos', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapèze supérieur'], equipo: 'Sac à dos',
       cues: ['Sac suspendu aux deux mains ou serré contre la poitrine', 'Monte les épaules droit vers les oreilles, sans les rouler', 'Serre 2″ en haut et descends en contrôlant', 'Nuque détendue : ne pousse pas le menton en avant'],
       err: ['Rouler les épaules en arrière (ça n’apporte rien et charge le cou)', 'Prendre de l’élan avec les jambes', 'Demi-amplitude'],
@@ -516,7 +516,7 @@ window.B2P = (function () {
       alt: [{ n: 'Machine à développé épaules', por: 'équivalent direct' }],
       mol: 'Si l’épaule gêne : prise neutre et descends seulement jusqu’à 90° de coude.'
     },
-    'elev-laterales': { pat: 'ev',
+    'elev-laterales': { pat: 'ev', pic: 'elev-laterales',
       nombre: 'Élévations latérales', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoïde latéral'], equipo: 'Haltères',
       cues: ['Poids léger, coudes un peu fléchis', 'Monte jusqu’à l’horizontale, comme pour servir deux carafes', 'Sans élan : si tu balances, il y a trop de poids', 'Descends en 2″'],
       err: ['Monter avec le trapèze en haussant les épaules', 'Dépasser l’horizontale', 'Balancement des hanches'],
@@ -726,7 +726,7 @@ window.B2P = (function () {
       mol: 'Pas d’incident typique si tu fléchis depuis les côtes.'
     },
 
-    'fondos-silla': { pat: 'ext', pic: 'fondos',
+    'fondos-silla': { pat: 'ext', pic: 'fondos-silla',
       nombre: 'Dips sur chaise', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'bas des pectoraux, épaule'], equipo: 'Rien (chaise ou canapé)',
       cues: ['Mains au bord de la chaise, doigts vers l’extérieur, épaules loin des oreilles', 'Descends jusqu’à 90° au coude, pas un degré de plus : en dessous, c’est l’épaule qui paie', 'Coudes vers l’arrière, frôlant le corps, jamais écartés', 'Le dos monte et descend collé au bord de la chaise'],
       err: ['Descendre à fond en cherchant l’étirement (c’est là que naît la douleur d’épaule)', 'Éloigner les pieds au point que le poids parte dans les jambes', 'Remonter les épaules vers les oreilles'],
@@ -747,7 +747,7 @@ window.B2P = (function () {
       alt: [{ n: 'Au-dessus de la tête, élastique sous les pieds', por: 'travaille davantage le chef long' }, { n: 'Kickback avec haltère', por: 'si tu n’as nulle part où fixer' }],
       mol: 'C’est l’exercice le plus tendre avec le coude de tout le plan : quand les autres gênent, c’est souvent le refuge. Monte les répétitions avant la dureté de l’élastique.'
     },
-    'press-frances-mc': { pat: 'ext',
+    'press-frances-mc': { pat: 'ext', pic: 'press-frances-mc',
       nombre: 'Barre au front avec haltères', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (chef long)'], equipo: 'Haltères',
       cues: ['Allongé au sol, haltères en haut, paumes face à face', 'Descends vers les oreilles en pliant seulement le coude, en 2-3″', 'Coudes pointés vers le plafond et immobiles', 'Étends sans verrouiller d’un coup'],
       err: ['Laisser les coudes s’ouvrir', 'En faire un développé en bougeant l’épaule', 'Descendre si vite que le sol arrête l’haltère'],

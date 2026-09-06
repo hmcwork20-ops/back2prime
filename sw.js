@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v108';
+const V = 'b2p-v109';
 const CORE = [
   './',
   './index.html',

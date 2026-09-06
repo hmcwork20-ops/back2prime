@@ -87,24 +87,29 @@ PATRONES = {
     'curl-mochila': 'biceps curl holding a BACKPACK by its top handle with both hands, elbows pinned to the sides, '
                     'forearms curling the backpack up to chest height, side view. The backpack drawn as a simple '
                     'lime-green bag. NO dumbbell',
-    'curl-toalla': 'self-resisted towel biceps curl seen from THREE QUARTERS in a split stance: the front foot pinning '
-                   'one end of a towel to the floor with the leg clearly forward, the opposite hand curling the other '
-                   'end up to chest height, elbow at the side. The towel drawn as a bright lime-green strip. NO '
-                   'dumbbell. WIDE open pose that FILLS the square frame, never a narrow profile',
+    'curl-toalla': 'self-resisted towel biceps curl, three-quarter view in a split stance. EXACTLY ONE towel and no more: '
+                   'one single lime-green strip running from under the front foot, which pins it to the floor, up to the '
+                   'hand of the same side, whose elbow stays at the ribs and is bent so the hand is at chest height. The '
+                   'OTHER arm hangs relaxed and empty along the body, holding nothing. NO second towel, NO crossing '
+                   'diagonals, NO dumbbell. Open pose that fills the square frame',
     'abduccion-lado': 'side-lying hip abduction: lying on one side on the floor, body in one straight line, the top '
                       'leg raised up toward the ceiling with the toes pointing forward, side view, NO equipment of '
                       'any kind',
-    'elev-y-suelo': 'prone Y raise seen from DIRECTLY ABOVE: the whole body lying face down and straight, legs together '
-                    'and visible, head down, both arms extended overhead and lifted, forming a clear wide letter Y with '
-                    'the body as its stem. Simple readable anatomy, NO equipment of any kind',
+    'elev-y-suelo': 'prone Y raise seen from the SIDE, lying face down ON THE FLOOR: the whole body is horizontal and '
+                    'flat on the ground, chest and hips touching it, with the ground drawn as a plain horizontal line under '
+                    'the body. Both arms reach forward beyond the head and are CLEARLY LIFTED off the ground, raised at '
+                    'about 30 degrees, thumbs up. The person is unmistakably lying down, NEVER standing. NO equipment of '
+                    'any kind',
     'curl-nordico': 'assisted nordic hamstring curl: kneeling upright with the ankles held down under a fixed edge, '
                     'the body lowering forward from the knees with hips and shoulders in one straight line, hands '
                     'reaching for the floor to catch, side view. The anchor over the ankles drawn as a simple '
                     'lime-green fixed edge',
-    'encogimiento-mochila': 'shoulder shrug at the TOP of the movement, seen from the FRONT with the feet apart: the '
-                            'shoulders pulled UP HIGH toward the ears so the neck looks short and the trapezius is '
-                            'bunched, arms hanging straight holding a BACKPACK in front of the hips. The backpack drawn '
-                            'as a simple lime-green bag. NO barbell. Pose that FILLS the square frame',
+    'encogimiento-mochila': 'shoulder shrug at the very TOP of the movement, front view, feet apart. The shoulders are '
+                            'raised SO HIGH that they almost touch the earlobes and NO NECK IS VISIBLE AT ALL: the head '
+                            'looks sunk between two high bunched shoulders, an exaggerated pictogram shrug. Both arms '
+                            'hang straight and relaxed, holding by its top handle a BACKPACK with two visible shoulder '
+                            'straps in front of the hips. The backpack drawn as a simple lime-green bag, clearly a backpack '
+                            'and not a kettlebell or a round weight. NO barbell',
 }
 
 # QUE MATERIAL DIBUJA cada pictograma, en la misma escala que el plan

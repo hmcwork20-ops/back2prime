@@ -83,14 +83,13 @@ for (const L of ['en', 'fr', 'de', 'it', 'pt']) {
    mas y que, por eso, esa fila se quede sin dibujo. */
 const descartados = ids.filter(id => picto(id) === null && NIV[N[B.EJERCICIOS[id].pat]] > pide(id));
 A(descartados.length > 0, 'placebo: la regla descarta al menos un pictograma enganoso');
-A(descartados.includes('flexiones'), 'placebo: las flexiones ya no reciben el press de banca');
-/* Y la logica de ANTES, escrita aqui para que conste que de verdad mentia: sin
-   la regla, unas flexiones (nivel suelo) heredaban «eh», que es un press de
-   banca con barra y banco. Si algun dia esta asercion falla, es que el
-   pictograma del patron dejo de pedir material y la regla sobra. */
-const antes = id => { const e = B.EJERCICIOS[id]; return (e.pic && P.includes(e.pic)) ? e.pic : e.pat; };
-A(NIV[N[antes('flexiones')]] > pide('flexiones'),
-  'placebo: la logica anterior le ponia a las flexiones un dibujo con material (' + antes('flexiones') + ')');
+/* La trampa original, para que conste: el patron de las flexiones es «eh», que
+   se dibuja con barra y banco. Hoy no las alcanza porque tienen dibujo propio,
+   pero el patron sigue pidiendo material: si alguien les quita el `pic`, la
+   regla es lo unico que las separa otra vez del press de banca. */
+const pat = B.EJERCICIOS['flexiones'].pat;
+A(NIV[N[pat]] > pide('flexiones'), 'placebo: el patron de las flexiones sigue dibujando material (' + pat + ')');
+A(picto('press-banca') === pat, 'placebo: y ese mismo dibujo SI se pinta para quien tiene el material (press-banca → ' + picto('press-banca') + ')');
 
 console.log('  ' + ids.length + ' ejercicios · ' + P.length + ' pictogramas · '
   + ids.filter(id => picto(id)).length + ' filas con dibujo · ' + descartados.length + ' descartados por enganosos');

@@ -49,8 +49,10 @@ PATRONES = {
               'body is a straight line from knees to shoulders, side view, NO equipment of any kind',
     'zancada-pc': 'performing a bodyweight forward lunge: front knee bent 90 degrees, back knee close to the '
                   'floor, torso upright with hands on the hips, side view, NO equipment of any kind',
-    'banda': 'performing a seated row with an elastic resistance band: torso upright, both arms pulling the band '
-             'back toward the ribs, the band drawn as a bright lime-green stretched line',
+    'banda': 'performing a resistance-band row while sitting directly ON THE FLOOR with the legs extended '
+             'forward: torso upright, the band looped around the feet, both arms pulling the band back '
+             'toward the ribs, elbows close to the body. The band drawn as a bright lime-green stretched '
+             'line. NO bench, NO chair, NO furniture of any kind: the person sits on the floor',
 }
 
 # QUE MATERIAL DIBUJA cada pictograma, en la misma escala que el plan

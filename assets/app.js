@@ -109,14 +109,9 @@
       .map(f => Object.assign({ fecha: f }, S.dias[f].ej[ejId]));
   }
   const GRANDES = { 'sentadilla-barra': 5, 'rdl-barra': 5 };
-  // Arranque derivado de las marcas históricas: solo la primera vez del ejercicio.
-  const ARR0 = {};
-  ((D.ARRANQUE || {}).tabla || []).forEach(r => { ARR0[r.ej] = parseFloat(r.s3.replace(',', '.')); });
   function sugerencia(ejId, d) {
     const u = ultimoLog(ejId, d);
-    if (!u || !u.kg) {
-      return ARR0[ejId] ? { kg: ARR0[ejId], txt: tpl(TX.sugEmpieza, { v: kg1(ARR0[ejId]) }), inicio: true } : null;
-    }
+    if (!u || !u.kg) return null;
     if (u.falta) return { kg: u.kg, txt: tpl(TX.sugRepite, { v: kg1(u.kg) }), rep: true };
     const inc = GRANDES[ejId] || 2.5;
     return { kg: u.kg + inc, txt: '▲ ' + kg1(u.kg) + ' → ' + kg1(u.kg + inc), rep: false };
@@ -588,28 +583,11 @@
         if (ico) sh.append(el('div', { class: 'pat-fila' }, ico,
           el('span', { class: 'pat-txt' }, TX.patrones[e.pat])));
       }
-      const hist = D.HISTORICO[ejId];
-      if (hist) {
-        // Sin registro previo, `falta` valía la marca ENTERA y el mensaje decía
-        // «te faltan 100,0 kg»: falso —no estás 100 kg por debajo, es que aún no
-        // has anotado nada— y desmoralizante el primer día.
-        const pr = S.prs[ejId];
-        const falta = pr ? hist.kg - pr.kg : null;
-        sh.append(el('div', { class: 'alt destaca', style: 'margin-top:10px' },
-          el('b', null, tpl(TX.fMarca, { t: hist.txt })),
-          el('div', { class: 'mini', style: 'margin-top:2px' },
-            falta === null ? TX.fSinRegistro
-              : falta > 0 ? tpl(TX.fFaltan, { v: kg1(falta) })
-              : TX.fRecuperada)));
-      }
       const h = historial(ejId, 5);
       if (h.length) {
         const pr = S.prs[ejId];
         sh.append(el('h4', null, TX.fHistorial + (pr ? ' · ' + tpl(TX.fMejor, { v: kg1(pr.kg) }) : '')));
         sh.append(el('div', { class: 'mini', html: h.map(x => fmtCorta(x.fecha) + ': <b class="num">' + kg1(x.kg) + '</b> kg' + (x.falta ? ' (' + TX.repsAMediasTag + ')' : '')).join(' · ') }));
-      } else if (ARR0[ejId]) {
-        sh.append(el('h4', null, TX.fArranque));
-        sh.append(el('div', { class: 'mini' }, tpl(TX.fArranqueTxt, { v: kg1(ARR0[ejId]) }) + ' ' + ((((D.ARRANQUE || {}).tabla || []).find(r => r.ej === ejId) || {}).n || '')));
       }
       // el video de tecnica abre la seccion: se mira antes de leer
       const ytIco = '<svg viewBox="0 0 29 20" aria-hidden="true" focusable="false">'

@@ -50,8 +50,6 @@ es.RECETAS.forEach((r, i) => { eq(r.id, tr.RECETAS[i].id, 'RECETAS[' + i + '].id
 eq(es.CAL, tr.CAL, 'CAL');
 es.FASES.forEach((f, i) => { eq(f.id, tr.FASES[i].id, 'FASES.id'); eq(f.disco, tr.FASES[i].disco, 'FASES.disco'); eq(f.semanas, tr.FASES[i].semanas, 'FASES.semanas'); });
 eq(es.CHECKPOINTS.map(c => [c.sem, c.fecha, c.rango]), tr.CHECKPOINTS.map(c => [c.sem, c.fecha, c.rango]), 'CHECKPOINTS');
-eq(Object.keys(es.HISTORICO), Object.keys(tr.HISTORICO), 'HISTORICO claves');
-eq(es.ARRANQUE.tabla.map(x => x.ej), tr.ARRANQUE.tabla.map(x => x.ej), 'ARRANQUE ids');
 eq(es.LOGROS.map(l => l.id), tr.LOGROS.map(l => l.id), 'LOGROS ids');
 eq(es.FOTOS, tr.FOTOS, 'FOTOS');
 eq(es.META.inicioISO, tr.META.inicioISO, 'META.inicioISO');

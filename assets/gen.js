@@ -409,7 +409,7 @@ window.B2P_GEN = (function () {
       }
     }
     for (let w = 9; w < ST; w += 9) {
-      H[w] = { t: G.hitoDescargaT, d: (p.material !== 'gym' && G.descargaSinBarra) || G.hitoDescargaD, tipo: 'descarga' };
+      H[w] = { t: G.hitoDescargaT, d: G.hitoDescargaD, tipo: 'descarga' };
     }
     return H;
   }
@@ -903,7 +903,7 @@ window.B2P_GEN = (function () {
     const f = fin[2] + ' ' + meses[fin[1] - 1];
     const txt = p.objetivo === 'perder' ? G.cierrePerder : p.objetivo === 'recomp' ? G.cierreRecomp
       : p.objetivo === 'ganar' ? G.cierreGanar : G.cierreManten;
-    if (!txt) return base.CIERRE;
+    if (!txt) return '';
     return plantilla(txt, { f }) + (M.abierto && G.cierreRenueva ? ' ' + G.cierreRenueva : '');
   }
   function carreraGen(base, p) {
@@ -1002,7 +1002,7 @@ window.B2P_GEN = (function () {
       MENU: menu.MENU,
       COMPRA: compraGen(base, menu.MENU, perfil.dieta === 'vegano' || (perfil.sin || []).includes('lactosa')),
       MEALPREP: mealprepGen(base, menu.MENU),
-      MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || base.MEALPREP_NOTA,
+      MEALPREP_NOTA: (base.UI.gen && base.UI.gen.prepNota) || '',
       CHECKPOINTS: chks,
       FOTOS: fotosGen(meta.META, meta.ini),
       REGLAS: reglasGen(base, nutri.prot, perfil),
@@ -1016,8 +1016,6 @@ window.B2P_GEN = (function () {
       __protMenu: protMenuMedia(base, menu.MENU, perfil.dieta === 'vegano' || (perfil.sin || []).includes('lactosa')),
       __kcalMenu: kcalMenuMedia(base, menu.MENU, perfil.dieta === 'vegano' || (perfil.sin || []).includes('lactosa')),
       __decisiones: decisionesGen(perfil, nutri, meta, menu, stats),
-      HISTORICO: {},          // las marcas del plan original eran de una persona
-      ARRANQUE: null,         // su tabla de cargas también; la vista lo guarda
       __gen: true
     });
   }

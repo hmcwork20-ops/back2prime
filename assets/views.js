@@ -872,20 +872,13 @@
       const t = sv('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle', 'font-size': 12, fill: EJE() }); t.textContent = TX.pVacioCargas; svg.append(t);
       return svg;
     }
-    const marca = D.HISTORICO[ejId];
     const pts = hist.map((h, i) => ({ x: i, y: h.kg, f: h.fecha, falta: h.falta }));
     const ys = pts.map(p => p.y);
     const yMin = Math.max(0, Math.floor(Math.min(...ys) - 5));
-    const yMax = Math.ceil(Math.max(...ys, marca ? marca.kg : 0) + 5);
+    const yMax = Math.ceil(Math.max(...ys) + 5);
     const sx = x => L + (pts.length === 1 ? .5 : x / (pts.length - 1)) * (W - L - R);
     const sy = y => T + (yMax - y) / (yMax - yMin || 1) * (H - T - B);
     for (let y = Math.ceil(yMin / 10) * 10; y <= yMax; y += 10) { svg.append(sv('line', { x1: L, x2: W - R, y1: sy(y), y2: sy(y), stroke: 'rgba(255,255,255,.05)' })); const t = sv('text', { x: L - 6, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: EJE() }); t.textContent = y; svg.append(t); }
-    // diana: la marca de su etapa anterior
-    if (marca) {
-      svg.append(sv('line', { x1: L, x2: W - R, y1: sy(marca.kg), y2: sy(marca.kg), stroke: 'rgba(242,244,240,.34)', 'stroke-dasharray': '6 4', 'stroke-width': 1.5 }));
-      const mt = sv('text', { x: W - R, y: sy(marca.kg) - 6, 'text-anchor': 'end', 'font-size': 10, fill: EJE2() });
-      mt.textContent = tpl(TX.pTuMarca, { v: marca.kg }); svg.append(mt);
-    }
     svg.append(sv('polyline', { points: pts.map(p => sx(p.x) + ',' + sy(p.y)).join(' '), fill: 'none', stroke: col, 'stroke-width': 2, 'stroke-linejoin': 'round' }));
     const maxY = Math.max(...ys);
     pts.forEach(p => {

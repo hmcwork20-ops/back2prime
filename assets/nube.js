@@ -156,7 +156,7 @@ window.B2P_NUBE = (function () {
   async function reporta(tipo, texto, ctx) {
     if (!sesion) return { err: 'errRed' };
     const t = String(texto || '').trim().slice(0, 2000);
-    if (t.length < 4) return { err: 'repCorto' };
+    if (t.length < 4) return { err: 'corto' };
     const { error } = await sb.from('reportes')
       .insert({ user_id: sesion.user.id, tipo, texto: t, ctx: ctx || null });
     if (!error) return {};

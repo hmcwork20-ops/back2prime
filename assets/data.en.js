@@ -56,12 +56,7 @@ window.B2P = (function () {
   ];
 
   /* ---------- SPECIAL WEEKS (evidence: managed deload + diet break + transition) ---------- */
-  const HITOS_SEMANA = {
-    5:  { t: 'Health screen', d: 'Before Phase 3 (vigorous work after 5 years off): get your blood pressure checked at a pharmacy and a basic blood panel (lipids, glucose/HbA1c). 15 minutes that buy peace of mind.' },
-    7:  { t: 'DIET BREAK', d: 'All week you eat at maintenance (~2,800 kcal: +2 carb portions a day, protein unchanged). Training doesn’t change. It’s not a reward or a relapse: it restores NEAT and leptin, and breaks the psychological all-or-nothing cycle. Come Monday, back to the deficit as if nothing happened.' },
-    9:  { t: 'DELOAD (not optional)', d: 'Same routine with HALF the sets per exercise and the same weight on the bar. It’s not a stop: stopping completely costs strength. It’s tissue maintenance + a holiday for tendons and joints before the final block.' },
-    10: { t: 'Stepping up a day', d: 'First week of the new block: do ONE set less on everything. Adding a training day is the plan’s highest tendon-risk point; you walk in, you don’t jump in.' }
-  };
+  const HITOS_SEMANA = {};
 
   /* ---------- SESSIONS ---------- */
   // blocks: e = exercise id · s = sets · r = reps (rW = by week) · d = rest sec · n = short note
@@ -233,22 +228,8 @@ window.B2P = (function () {
   /* Sin marcas previas: el plan se genera del cuestionario. La clave se
      mantiene porque la app la consulta, y vacía deja los logros de marca
      personal fuera de alcance, que es lo correcto para cualquiera. */
-  const HISTORICO = {};
 
   /* ---------- STARTING LOADS · PHASE 2 ---------- */
-  const ARRANQUE = {
-    titulo: 'What weight to start with at the gym (week 3)',
-    derivacion: 'They come from your real lifts — bench 95×8 and squat 100×8 (1RM ≈ 120 and ≈ 127 kg) — at 50%: the standard restart for a returning lifter. Not because the muscle can’t do more, but because the tendon hasn’t been loaded in 5 years. From there, the app runs the double progression.',
-    tabla: [
-      { ej: 'press-banca',      s3: '45 kg', s4: '47.5 kg', s5: '50 kg', n: '50% of your 95. Bar + 2×12.5' },
-      { ej: 'sentadilla-barra', s3: '50 kg', s4: '55 kg',   s5: '60 kg', n: '50% of your 100. Bar + 2×15' },
-      { ej: 'rdl-barra',        s3: '45 kg', s4: '50 kg',   s5: '55 kg', n: '≈45% of your old squat' },
-      { ej: 'remo-barra',       s3: '40 kg', s4: '42.5 kg', s5: '45 kg', n: '≈45% of your old bench' }
-    ],
-    resto: 'The rest have no previous mark: on the first set pick a weight you can move with 3 reps in reserve, log it, and the app takes over from there.',
-    aviso: 'These weights will feel ridiculous. That’s the point: comeback tendinitis brews in weeks 3-5, when the nervous system allows what the tendons can’t yet take.',
-    desequilibrio: 'Your own numbers say it: squat 100 vs bench 95 is a ratio of 1.05 (balanced sits around 1.4-1.5). Your lower body was lagging — and that’s the double good news: it’s where you have the most headroom and what moves recomposition most. Don’t skip leg days.'
-  };
 
   /* ---------- EXERCISE CARDS ---------- */
   // musc: [primary, secondary] · cues: technique · err: typical mistakes ·
@@ -1129,18 +1110,7 @@ window.B2P = (function () {
   ];
 
   /* ---------- SUNDAY MEAL PREP (~90′) ---------- */
-  const MEALPREP = [
-    { min: '0′',  paso: 'Oven to 200°. Season 1.2 kg of chicken breasts and rub them with paprika + garlic powder.' },
-    { min: '5′',  paso: 'Into the oven: tray 1 (breasts, 25-30′) and tray 2 (1.5 kg of potato wedges + 2 peppers + 2 onions + 20 g EVOO, 40-45′).' },
-    { min: '10′', paso: 'Pot on medium heat: sofrito of onion, pepper and carrot with 10 g of EVOO.' },
-    { min: '15′', paso: 'Saucepan 1: 400 g of rice on to cook (12-15′). Saucepan 2: 6 eggs (10′) + 2 medium potatoes (leave those 20′): eggs and potato for the tuna salad.' },
-    { min: '20′', paso: 'Into the pot: 2 tins of drained lentils + 400 ml of stock + paprika and cumin. Low heat, 20′.' },
-    { min: '30′', paso: 'Breasts out. Slice 250 g into strips for the lentils (added once off the heat). Drain the rice and spread it on a tray to cool fast.' },
-    { min: '45′', paso: 'Potatoes out of the oven. Turn, taste, salt if needed.' },
-    { min: '60′', paso: 'Portion up: 5 lunch containers (2 chicken+potatoes, 2-3 lentils, rice in its own container for the stir-fry/salmon) + hard-boiled eggs and boiled potato into the fridge.' },
-    { min: '75′', paso: 'Label and store: fridge until Wednesday, freezer for Thursday-Friday’s (move it down to the fridge the night before). Kitchen tidied while something plays in the background.' }
-  ];
-  const MEALPREP_NOTA = 'The dinner fish is cooked fresh in 10 minutes: it isn’t prepped on Sunday. Chicken and rice keep 4 days refrigerated.';
+  const MEALPREP = [];
 
   /* ---------- WEEKLY MENU ---------- */
   const MENU = [
@@ -1154,16 +1124,7 @@ window.B2P = (function () {
   ];
 
   /* ---------- TRACKING ---------- */
-  const CHECKPOINTS = [
-    { sem: 4,  fecha: '2026-09-13', rango: [92.5, 93.5], si: 'Review olive oil and the free meal; +1,000 steps/day. Remember: creatine hides ~1 kg.' },
-    { sem: 8,  fecha: '2026-10-11', rango: [90.0, 91.3], si: '−100 kcal of carbohydrate on rest days only (week 7 was a diet break: the average may come in high and that’s normal)' },
-    { sem: 12, fecha: '2026-11-08', rango: [86.0, 88.0], si: 'Wrap-up, photos, measurements and the next block. In actual fat: ~−8 kg.' }
-  ];
-  const AJUSTES = [
-    { id: 'rapido', cond: 'You lose more than 1.0 kg/week two weeks running (discounting the creatine effect)', accion: 'Add 150 kcal of carbohydrate. Faster is not better: at that rate the deficit eats into your muscle regain.' },
-    { id: 'lento', cond: 'You lose less than 0.45 kg/week two weeks running (not counting the diet-break week)', accion: 'First verify steps and olive oil; if those are clean, add +1,500 steps BEFORE cutting kcal (protects the training).' },
-    { id: 'rendimiento', cond: 'Gym performance drops two sessions in a row', accion: 'Look at sleep before the diet.' }
-  ];
+  const CHECKPOINTS = [];
   const FOTOS = ['2026-08-17', '2026-09-13', '2026-10-11', '2026-11-08'];
 
   /* ---------- ACHIEVEMENTS ---------- */
@@ -1183,14 +1144,8 @@ window.B2P = (function () {
     { id: 'disco-15',       icon: 'disc15', nombre: 'The 15 plate',   desc: 'Phase 2 complete. You’re back inside the gym.', disco: true },
     { id: 'disco-20',       icon: 'disc20', nombre: 'The 20 plate',   desc: 'Phase 3 complete. Real load is yours again.', disco: true },
     { id: 'disco-25',       icon: 'disc25', nombre: 'The 25 plate',   desc: 'Phase 4 complete. Full collection.', disco: true },
-    { id: 'kg-2',           icon: '📉', nombre: '−2 kg',              desc: 'Weekly average 2 kg below the start.' },
-    { id: 'kg-4',           icon: '📉', nombre: '−4 kg',              desc: '4 kg down on the weekly average.' },
-    { id: 'kg-6',           icon: '📉', nombre: '−6 kg',              desc: '6 kg down. Halfway along the long road.' },
-    { id: 'kg-8',           icon: '📉', nombre: '−8 kg',              desc: '8 kg down on the weekly average.' },
-    { id: 'kg-10',          icon: '🏔️', nombre: '−10 kg',             desc: 'Double digits. Few people ever get here.' },
-    { id: 'cintura-95',     icon: '📏', nombre: 'Waist −95',          desc: 'Waist below 95 cm.' },
-    { id: 'cintura-93',     icon: '📏', nombre: 'Waist −93',          desc: 'Waist below 93 cm.' },
-    { id: 'cintura-91',     icon: '👑', nombre: 'Master metric',      desc: 'Waist below 91 cm: less than half your height.' },
+    { id: 'kg-2', icon: '', nombre: '', desc: '' },
+    { id: 'cintura-95', icon: '', nombre: '', desc: '' },
     { id: 'pr-1',           icon: '🥇', nombre: 'First PR',           desc: 'First time you beat your best mark on an exercise.' },
     { id: 'pr-5',           icon: '🥇', nombre: '5 PRs',              desc: 'Five personal records beaten.' },
     { id: 'pr-15',          icon: '🏆', nombre: '15 PRs',             desc: 'Fifteen PRs. Muscle memory paying dividends.' },
@@ -1198,9 +1153,9 @@ window.B2P = (function () {
     { id: 'mealprep-4',     icon: '🍱', nombre: 'Sunday chef',        desc: '4 Sunday meal preps in a row.' },
     { id: 'comeback',       icon: '🔁', nombre: 'The comeback',       desc: 'Back after 4 or more days away. Coming back matters more than falling.' },
     { id: 'fotos-4',        icon: '📸', nombre: 'The sequence',       desc: 'All 4 progress photos taken.' },
-    { id: 'checkpoint-s4',  icon: '✅', nombre: 'Checkpoint W4',      desc: 'Weight inside or better than the corridor in week 4.' },
-    { id: 'checkpoint-s8',  icon: '✅', nombre: 'Checkpoint W8',      desc: 'Weight inside or better than the corridor in week 8.' },
-    { id: 'plan-completo',  icon: '🏁', nombre: 'BACK2PRIME',         desc: '12-week plan finished. 85 kg was the consequence, not the goal.' }
+    { id: 'checkpoint-s4',  icon: '✅', nombre: 'Checkpoint W4',      desc: '' },
+    { id: 'checkpoint-s8',  icon: '✅', nombre: 'Checkpoint W8',      desc: '' },
+    { id: 'plan-completo',  icon: '🏁', nombre: 'BACK2PRIME',         desc: '' }
   ];
 
   /* ---------- THE SCIENCE BEHIND THE PLAN (evidence review · Aug 2026) ---------- */
@@ -1220,7 +1175,6 @@ window.B2P = (function () {
     ]
   };
 
-  const CIERRE = 'The plan’s real goal isn’t 8 November: it’s reaching December training 4 days a week out of habit, with no on/off cycle. The weight is the consequence, not the goal.';
 
   const AVISO_LEGAL = 'Your plan is generated from your answers using standard formulas (Mifflin-St Jeor and classic activity factors), with a ±10% margin that the adjustment rules correct with your real data. None of this replaces medical advice: for any condition, persistent pain or doubt, see a healthcare professional.';
 
@@ -1265,8 +1219,8 @@ window.B2P = (function () {
     versionNueva: 'New version · tap to update',
     quizAfinara: 'This will fine-tune your plan.', quizTitulo: 'Your likes', quizPista: 'Swipe: right = like, left = pass',
     quizSi: 'Like', quizNo: 'Pass', quizDeshacer: 'Undo', quizSaltar: 'Skip',
-    quizListo: 'Done', quizResumen: 'You like {a} of {b}. This will tune your plan.',
-    gen: { kcalHueco: 'This menu adds up to ~{m} kcal a day and your target is {k}: {q}. Recipes come in fixed sizes; adjust the rice, pasta or bread of your main meal.', kcalSube: 'you are ~{d} short', kcalBaja: 'you are ~{d} over', chkDentro: 'inside', chkBajo: 'below', chkAlto: 'above', lChkD2: 'Weight inside the corridor in week {s}.', tHombroT: 'Shoulder · cuff and serratus', tHombroD: 'Band external rotation 2×15 per side and lying Y-raise 2×12, slow. Before any pressing and on odd days. The cuff does not grow with weight: it grows with control.', tHombroW: 'At home with a band, or the lightest dumbbell you own.', descargaSinBarra: 'Same routine with half the sets and the same load. Not a stop: it is tissue maintenance and a holiday for tendons and joints.', r2SinBarra: 'First add reps within the range, then add load (the smallest jump you have: one dumbbell up, a stiffer band or a harder variation). Only if form was clean on EVERY set. The app suggests it for you.', protHueco: 'The menu provides ~{m} g of protein a day; up to your {p} g, the bridge is the extra servings (a shake or one more portion).', finRecapT: 'Your block, in numbers', subCorporal: 'Bodyweight version: hit the top of the rep range cleanly, then move up a variant.', subRepe: 'Second round: with no kit there are not thirty variations, and repeating the pattern with clean form still builds.', f2nCasa: 'Loading up', f2oCasa: 'Relearn the basics with dumbbells and bands and build a loading base. Work at 65-70% of what you feel you could, with 3 reps in reserve ALWAYS.', f2nNada: 'Bodyweight progression', f2oNada: 'Master the progressions with your own body and build a base. Leverage rises before reps: harder variant only with clean technique.', gemNota: 'The slow calf raise is the tendon’s insurance: don’t skip it.', tendonSinTrote: 'Strength returns in weeks; the tendon needs months (its collagen renews ~10× slower and has no muscle memory). This block is the plan’s insurance: it starts week 1 and runs the whole block.', introNunca: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organizing idea: starting from zero you progress fast, the first months bring the biggest strength gains of your life, but connective tissue lags behind muscle. That is why loads climb slowly even when you could do more.', introActivo: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organizing idea: if you already train you do not need more punishment, you need better dosing. The right volume, logged progression and counted rest separate maintaining from improving.', cNuncaT: 'Starting from zero', cNuncaD: 'The first year brings the biggest strength gains of a lifetime: almost any well-executed dose works, which is why extreme programs are unnecessary. Technique comes first: today’s clean reps are the safe kilos of three months from now.', cNuncaR: 'novice gains: ACSM reviews and dose-response meta-analyses', cActivoT: 'Adding without breaking', cActivoD: 'The risk for someone already training is stacking new volume on old. Jumps above ~1.3× your recent average load spike injuries: add one variable at a time (days, volume or intensity), never all three.', cActivoR: 'IOC training load consensus (ACWR)', cSupT: 'A surplus that builds', cSupD: 'Building muscle needs only a small surplus (~250-350 kcal): above that, the extra shifts toward fat. The scale should climb slowly; if it climbs fast it is not muscle, because protein synthesis has a weekly ceiling.', cSupR: 'Garthe 2013 · Slater 2019 (surplus and composition)', r1Nunca: 'Every phase has its effort cap. Starting from zero, strength rises faster than your tissues’ resilience: always leave 2-3 reps in reserve and the gains arrive anyway, toll-free.', r1Activo: 'Every phase has its effort cap. You come in training, but this volume is new: respect the RPE caps for the first two weeks, then climb. Braking in time is what lets you progress all {s} weeks.', r8Nunca: 'The enemy at the start is not hardness, it is irregularity. The chaotic week has a floor: 2 strength + 1 cardio. That keeps everything running.', r8Activo: 'People who train also have impossible weeks. The floor: 2 strength + 1 cardio. With that nothing is lost; the rest is recoverable.', f1nNunca: 'Foundations', f1oNunca: 'Build the habit and learn the movement patterns without punishing joints. Being left wanting more is intentional.', f2nNunca: 'Technique', f2oNunca: 'Learn the basics with light load: every clean rep now is safe kilos later. Work far from failure ALWAYS.', f3oNunca: 'Real volume and intensity, with technique now grooved. End every set able to do 2 more honest reps.', f1nActivo: 'Base', f1oActivo: 'Two weeks of adaptation to the plan: known dose, logging running, technique tuned before raising anything.', f2nActivo: 'Construction', f2oActivo: 'Progressive volume on top of your base: work at 70-75% of what you feel you could, with 2-3 reps in reserve.', f3oActivo: 'Real volume and intensity to force the change. End every set able to do 2 more reps, and make them real.', cierrePerder: 'The real goal of the plan is not {f}: it is getting there training out of habit, no on/off cycle. The weight coming down is the consequence, not the goal.', cierreRecomp: 'The real goal of the plan is not {f}: it is getting there with the habit built and clothes fitting differently. Recomposition is slow by design: consistency is the goal.', cierreGanar: 'The real goal of the plan is not {f}: it is getting there stronger on the bar with the habit built. Muscle is built in months: the next block starts where this one ends.', cierreManten: 'The real goal of the plan is not {f}: it is training stopping being a plan and becoming a custom. Maintaining is winning.', cierreRenueva: 'To renew the block: Settings, Create / redo my plan. Two taps and you continue.', platoVegetariano: '3 eggs + 2 whites, or 250 g of skyr or quark + whey, or 200 g of firm tofu, or 150 g of tempeh, or 250 g of cooked legumes + 1 egg. Visual reference: a palm and a half.', platoVegano: '200-250 g of firm tofu, or 150-180 g of tempeh, or 250 g of cooked legumes + a scoop of plant protein, or 80 g (dry) of textured soy. Visual reference: a palm and a half.', suplVegT: 'Plant protein', suplVegD: '1 scoop of pea or soy protein in the pre-sleep serving (and another wherever a day runs short on protein).', numRecomp: 'Gentle deficit ~300-450 kcal/day: recomposition asks for patience, not aggression.', numSup: 'Surplus ~250-350 kcal/day: more is not more muscle, it is more fat (Garthe 2013).', numMan: 'Your estimated maintenance: the weekly average judges and adjusts.', ritmoSubeT: 'Expected gain rate', ritmoManT: 'Expected rate', ritmoSubeN: '≈0.25% of body weight/week: what muscle can actually be built. Weekly average, not day to day.', ritmoManN: 'The weekly average should stay within ±0.3 kg of your start.', wjN1: 'Walk-jog I', wjN2: 'Walk-jog II', wjN3: 'Walk-jog III', lChkN: 'Checkpoint W{s}', lChkD: 'Weight inside or better than the corridor in week {s}.', alRapidoBaja: 'Add 150 kcal of carbs. At this pace the deficit is eating muscle too.', alLentoBaja: 'Check portions and steps for a couple of days before cutting anything; if it stays flat, drop 100 kcal of carbs on rest days only.', alRapidoSube: 'You are gaining faster than muscle can be built: cut 150 kcal of carbs so the extra is not fat.', alLentoSube: 'The surplus is not showing on the scale: add 150 kcal of carbs on training days.', alMantenT: 'You are drifting off maintenance', alMantenD: 'Two weeks of drift in a row: adjust 100-150 kcal in the opposite direction and leave training alone.', circProg: 'Add 1-2 reps per week wherever your form stays clean: that is the progression.', durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Upper · Lower', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (wk 1-{a})', nf2: 'F3 (wk {b}-{c})', nf3: 'F4 (wk {d}-{e})', dietBreakNota: 'Week {w}: DIET BREAK at ~{k}', hitoCribadoT: 'Health screen', hitoCribadoD: 'Before the loading phase, if you have been inactive for years: blood pressure at a pharmacy and a basic panel (lipids, glucose). 15 minutes that buy peace of mind.', hitoDietT: 'DIET BREAK', hitoDietD: 'All week you eat at maintenance (~{k} kcal: +2 servings of carbs a day, protein unchanged). Training stays the same. It restores NEAT and leptin and breaks the on/off cycle. Next Monday, deficit again.', hitoDescargaT: 'DELOAD (not optional)', hitoDescargaD: 'Same routine with half the sets and the same weight on the bar. Not a stop: it is tissue maintenance and a holiday for tendons and joints.', tomaNocheAlt: '+ every night: pre-sleep serving with your plant protein (soy or pea), ~40 g in a shake. ', franjaM: 'You train in the morning: eat breakfast after training, not before.', franjaMd: 'You train at midday: your main meal lands right after training.', franjaT: 'You train in the evening: something light before; dinner is your post-workout meal.', cardioLibreT: 'Cardio: {d}', cardioLibreD: '{m}′ at a comfortable, steady pace. Your sport counts the same as jogging: consistency rules.', chk1: 'Off the corridor: check portions and steps before touching anything. Early weeks also move water.', chk2: 'Two weeks off track: adjust 150 kcal of carbs in the right direction. Protein stays.', chk3: 'Closing: photos, measurements and the next block, decided with data.', lKgN: '−{v} kg', lKgD: 'Weekly average {v} kg below your start.', lKgUpN: '+{v} kg', lKgUpD: 'Weekly average {v} kg above your start. Muscle, brick by brick.', lCintN: 'Waist −{v}', lCintD: 'Waist below {v} cm.', lReinaN: 'Queen metric', lReinaD: 'Waist below half your height: {v} cm.', lFinDesc: '{s}-week plan finished. The goal was the habit; the rest is consequence.', marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet: swap them for anything in the recipe book, already filtered for you.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
+    quizListo: 'Done',
+    gen: { kcalHueco: 'This menu adds up to ~{m} kcal a day and your target is {k}: {q}. Recipes come in fixed sizes; adjust the rice, pasta or bread of your main meal.', kcalSube: 'you are ~{d} short', kcalBaja: 'you are ~{d} over', chkDentro: 'inside', chkBajo: 'below', chkAlto: 'above', lChkD2: 'Weight inside the corridor in week {s}.', tHombroT: 'Shoulder · cuff and serratus', tHombroD: 'Band external rotation 2×15 per side and lying Y-raise 2×12, slow. Before any pressing and on odd days. The cuff does not grow with weight: it grows with control.', tHombroW: 'At home with a band, or the lightest dumbbell you own.', r2SinBarra: 'First add reps within the range, then add load (the smallest jump you have: one dumbbell up, a stiffer band or a harder variation). Only if form was clean on EVERY set. The app suggests it for you.', protHueco: 'The menu provides ~{m} g of protein a day; up to your {p} g, the bridge is the extra servings (a shake or one more portion).', finRecapT: 'Your block, in numbers', subCorporal: 'Bodyweight version: hit the top of the rep range cleanly, then move up a variant.', subRepe: 'Second round: with no kit there are not thirty variations, and repeating the pattern with clean form still builds.', f2nCasa: 'Loading up', f2oCasa: 'Relearn the basics with dumbbells and bands and build a loading base. Work at 65-70% of what you feel you could, with 3 reps in reserve ALWAYS.', f2nNada: 'Bodyweight progression', f2oNada: 'Master the progressions with your own body and build a base. Leverage rises before reps: harder variant only with clean technique.', gemNota: 'The slow calf raise is the tendon’s insurance: don’t skip it.', tendonSinTrote: 'Strength returns in weeks; the tendon needs months (its collagen renews ~10× slower and has no muscle memory). This block is the plan’s insurance: it starts week 1 and runs the whole block.', introNunca: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organizing idea: starting from zero you progress fast, the first months bring the biggest strength gains of your life, but connective tissue lags behind muscle. That is why loads climb slowly even when you could do more.', introActivo: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organizing idea: if you already train you do not need more punishment, you need better dosing. The right volume, logged progression and counted rest separate maintaining from improving.', cNuncaT: 'Starting from zero', cNuncaD: 'The first year brings the biggest strength gains of a lifetime: almost any well-executed dose works, which is why extreme programs are unnecessary. Technique comes first: today’s clean reps are the safe kilos of three months from now.', cNuncaR: 'novice gains: ACSM reviews and dose-response meta-analyses', cActivoT: 'Adding without breaking', cActivoD: 'The risk for someone already training is stacking new volume on old. Jumps above ~1.3× your recent average load spike injuries: add one variable at a time (days, volume or intensity), never all three.', cActivoR: 'IOC training load consensus (ACWR)', cSupT: 'A surplus that builds', cSupD: 'Building muscle needs only a small surplus (~250-350 kcal): above that, the extra shifts toward fat. The scale should climb slowly; if it climbs fast it is not muscle, because protein synthesis has a weekly ceiling.', cSupR: 'Garthe 2013 · Slater 2019 (surplus and composition)', r1Nunca: 'Every phase has its effort cap. Starting from zero, strength rises faster than your tissues’ resilience: always leave 2-3 reps in reserve and the gains arrive anyway, toll-free.', r1Activo: 'Every phase has its effort cap. You come in training, but this volume is new: respect the RPE caps for the first two weeks, then climb. Braking in time is what lets you progress all {s} weeks.', r8Nunca: 'The enemy at the start is not hardness, it is irregularity. The chaotic week has a floor: 2 strength + 1 cardio. That keeps everything running.', r8Activo: 'People who train also have impossible weeks. The floor: 2 strength + 1 cardio. With that nothing is lost; the rest is recoverable.', f1nNunca: 'Foundations', f1oNunca: 'Build the habit and learn the movement patterns without punishing joints. Being left wanting more is intentional.', f2nNunca: 'Technique', f2oNunca: 'Learn the basics with light load: every clean rep now is safe kilos later. Work far from failure ALWAYS.', f3oNunca: 'Real volume and intensity, with technique now grooved. End every set able to do 2 more honest reps.', f1nActivo: 'Base', f1oActivo: 'Two weeks of adaptation to the plan: known dose, logging running, technique tuned before raising anything.', f2nActivo: 'Construction', f2oActivo: 'Progressive volume on top of your base: work at 70-75% of what you feel you could, with 2-3 reps in reserve.', f3oActivo: 'Real volume and intensity to force the change. End every set able to do 2 more reps, and make them real.', cierrePerder: 'The real goal of the plan is not {f}: it is getting there training out of habit, no on/off cycle. The weight coming down is the consequence, not the goal.', cierreRecomp: 'The real goal of the plan is not {f}: it is getting there with the habit built and clothes fitting differently. Recomposition is slow by design: consistency is the goal.', cierreGanar: 'The real goal of the plan is not {f}: it is getting there stronger on the bar with the habit built. Muscle is built in months: the next block starts where this one ends.', cierreManten: 'The real goal of the plan is not {f}: it is training stopping being a plan and becoming a custom. Maintaining is winning.', cierreRenueva: 'To renew the block: Settings, Create / redo my plan. Two taps and you continue.', platoVegetariano: '3 eggs + 2 whites, or 250 g of skyr or quark + whey, or 200 g of firm tofu, or 150 g of tempeh, or 250 g of cooked legumes + 1 egg. Visual reference: a palm and a half.', platoVegano: '200-250 g of firm tofu, or 150-180 g of tempeh, or 250 g of cooked legumes + a scoop of plant protein, or 80 g (dry) of textured soy. Visual reference: a palm and a half.', suplVegT: 'Plant protein', suplVegD: '1 scoop of pea or soy protein in the pre-sleep serving (and another wherever a day runs short on protein).', numRecomp: 'Gentle deficit ~300-450 kcal/day: recomposition asks for patience, not aggression.', numSup: 'Surplus ~250-350 kcal/day: more is not more muscle, it is more fat (Garthe 2013).', numMan: 'Your estimated maintenance: the weekly average judges and adjusts.', ritmoSubeT: 'Expected gain rate', ritmoManT: 'Expected rate', ritmoSubeN: '≈0.25% of body weight/week: what muscle can actually be built. Weekly average, not day to day.', ritmoManN: 'The weekly average should stay within ±0.3 kg of your start.', wjN1: 'Walk-jog I', wjN2: 'Walk-jog II', wjN3: 'Walk-jog III', lChkN: 'Checkpoint W{s}', lChkD: 'Weight inside or better than the corridor in week {s}.', alRapidoBaja: 'Add 150 kcal of carbs. At this pace the deficit is eating muscle too.', alLentoBaja: 'Check portions and steps for a couple of days before cutting anything; if it stays flat, drop 100 kcal of carbs on rest days only.', alRapidoSube: 'You are gaining faster than muscle can be built: cut 150 kcal of carbs so the extra is not fat.', alLentoSube: 'The surplus is not showing on the scale: add 150 kcal of carbs on training days.', alMantenT: 'You are drifting off maintenance', alMantenD: 'Two weeks of drift in a row: adjust 100-150 kcal in the opposite direction and leave training alone.', circProg: 'Add 1-2 reps per week wherever your form stays clean: that is the progression.', durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Upper · Lower', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (wk 1-{a})', nf2: 'F3 (wk {b}-{c})', nf3: 'F4 (wk {d}-{e})', dietBreakNota: 'Week {w}: DIET BREAK at ~{k}', hitoCribadoT: 'Health screen', hitoCribadoD: 'Before the loading phase, if you have been inactive for years: blood pressure at a pharmacy and a basic panel (lipids, glucose). 15 minutes that buy peace of mind.', hitoDietT: 'DIET BREAK', hitoDietD: 'All week you eat at maintenance (~{k} kcal: +2 servings of carbs a day, protein unchanged). Training stays the same. It restores NEAT and leptin and breaks the on/off cycle. Next Monday, deficit again.', hitoDescargaT: 'DELOAD (not optional)', hitoDescargaD: 'Same routine with half the sets and the same weight on the bar. Not a stop: it is tissue maintenance and a holiday for tendons and joints.', tomaNocheAlt: '+ every night: pre-sleep serving with your plant protein (soy or pea), ~40 g in a shake. ', franjaM: 'You train in the morning: eat breakfast after training, not before.', franjaMd: 'You train at midday: your main meal lands right after training.', franjaT: 'You train in the evening: something light before; dinner is your post-workout meal.', cardioLibreT: 'Cardio: {d}', cardioLibreD: '{m}′ at a comfortable, steady pace. Your sport counts the same as jogging: consistency rules.', chk1: 'Off the corridor: check portions and steps before touching anything. Early weeks also move water.', chk2: 'Two weeks off track: adjust 150 kcal of carbs in the right direction. Protein stays.', chk3: 'Closing: photos, measurements and the next block, decided with data.', lKgN: '−{v} kg', lKgD: 'Weekly average {v} kg below your start.', lKgUpN: '+{v} kg', lKgUpD: 'Weekly average {v} kg above your start. Muscle, brick by brick.', lCintN: 'Waist −{v}', lCintD: 'Waist below {v} cm.', lReinaN: 'Queen metric', lReinaD: 'Waist below half your height: {v} cm.', lFinDesc: '{s}-week plan finished. The goal was the habit; the rest is consequence.', marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet: swap them for anything in the recipe book, already filtered for you.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
     pBarraT: 'The plan on the bar', pBarraSub: '{a} of {b} plates loaded',
     patrones: { eh: 'Horizontal push', ev: 'Vertical push', th: 'Horizontal pull', tv: 'Vertical pull', rod: 'Knee-dominant', bis: 'Hip hinge', zan: 'Lunge', core: 'Stable core', flex: 'Trunk flexion', curl: 'Elbow flexion', ext: 'Elbow extension', gem: 'Calf raise', ais: 'Isolation' },
     quizCatEj: 'Exercise', quizCatDep: 'Sport', quizCatCom: 'Food',
@@ -1319,7 +1273,7 @@ window.B2P = (function () {
       sinT: 'Avoiding anything?', sinGluten: 'Gluten', sinLactosa: 'Lactose', sinFrutos: 'Nuts', sinNada: 'Nothing',
       resT: 'Your profile is ready', resP: 'Your plan will be generated from this: training, meals and progression.',
       resGustos: '{a} likes · {b} passes', resProfesional: 'Before generating a plan, see a health professional: one of your answers calls for it.',
-      resGuardar: 'Save profile', resGuardado: 'Profile saved', resProx: 'Plan generation arrives in the next phase.',
+      resGuardar: 'Save profile', resGuardado: 'Profile saved',
       valNum: 'Check {c}: between {a} and {b}.'
     },
     gPeso: 'Body weight chart', gCintura: 'Waist chart',
@@ -1327,7 +1281,6 @@ window.B2P = (function () {
     gRango: '{n} entries, from {a} to {b} {u}', gUnico: '1 entry, {a} {u}',
     gSemanas: '{n} of {t} weeks with data',
     gSinDatos: 'no data yet',
-    fSinRegistro: 'You haven’t logged any weight here yet. Once you do, you’ll see the gap.',
     valFuera: 'Enter a value between {a} and {b} {u}.', descargaDosis: 'deload',
     hechosDe: 'Done {a} of {b} · {c} makes it count as a session',
     cerrarSinSesion: 'Close without a session', diaCerradoSinRacha: '✓ Day closed',
@@ -1342,34 +1295,25 @@ window.B2P = (function () {
     secCompra: { fresco: 'Fresh produce', prote: 'Protein', lacteo: 'Dairy and drinks', despensa: 'Pantry', congelado: 'Frozen', supl: 'Supplements' }, despensaTag: 'pantry',
     comidaLibreMn: 'FREE MEAL', comidaLibreTitulo: 'Free meal', comidaLibreTag: 'one meal, not a day', tuya: 'yours',
     dietBreakChip: 'Diet break: +2 carb portions today. Protein unchanged.',
-    extraChip: 'P{f} extra: a piece of fruit + 40 g of bread with lunch.',
-    sugEmpieza: '◆ start at {v}', sugRepite: '↻ repeat {v}',
-    faltaTitle: 'Tap if you did NOT complete all the reps',
+    extraChip: 'P{f} extra: a piece of fruit + 40 g of bread with lunch.', sugRepite: '↻ repeat {v}',
     repsAMediasToast: 'Marked: reps missed (you’ll repeat the weight)', repsLimpiasToast: 'All reps clean',
     repsAMediasTag: 'reps short', repsLimpias: 'all reps clean', repsCortas: 'reps cut short',
     prToast: 'PR on {e}: {v} kg', ya: 'NOW!',
-    fHistorial: 'Your history', fMejor: 'best {v} kg', fHoy: 'today',
+    fHistorial: 'Your history', fMejor: 'best {v} kg',
     fComo: 'How to do it', fErrores: 'Mistakes that will steal your progress', fAlt: 'Equivalent alternatives',
-    fArranque: 'Suggested start', fArranqueTxt: '{v} kg in week 3.',
-    fMarca: 'Your mark back then: {t}',
-    fFaltan: '{v} kg to reclaim it. There’s an award waiting.',
-    fRecuperada: 'Reclaimed. That weight is yours again.',
     fVideo: 'Watch technique video',
     fDomiBtn: 'Today I got my first UNASSISTED pull-up!', fDomiOk: 'Logged', fDomiYa: 'Free pull-up already logged',
-    segPlan: ['Phases', 'Rules', 'Exercises', 'Science'],
     vReglas8: 'The 8 rules', vReglasSub: 'when in doubt, the rule wins',
-    vCalendario: 'Calendar', vFasesDetalle: 'The 4 phases, in detail',
+    vCalendario: 'Calendar',
     vSeguros: 'The plan’s insurance', libDescartado: 'passed', libSinMaterial: 'no gear', libFuera: 'not in your plan', vBiblioteca: 'Exercise library', vTocaCualquiera: 'tap any of them',
     vCiencia: 'The science behind the plan',
     senalesTitulo: 'Signs to stop', objetivoReal: 'The real goal', recuerda: 'Remember',
-    fase: 'Phase', sem: 'Wk', fechasLbl: 'Dates', especial: 'Special', fuerzaLbl: 'Strength',
-    seriesLbl: 'Sets', descLbl: 'Rest', ejercicioLbl: 'Exercise', diaLbl: 'Day',
-    cardioFase: 'Cardio for this phase',
+    fase: 'Phase', sem: 'Wk', fuerzaLbl: 'Strength',
     zonas: { empuje: 'Push', tiron: 'Pull', pierna: 'Legs and hips', core: 'Core' },
     chipsNutri: ['Goal', 'The plate', 'Recipes', 'Menu', 'Shopping', 'Meal prep', 'Supplements'],
     nObjetivo: 'Your goal right now', nSemana: 'week {w}',
     nNumeros: 'Where the numbers come from', nPlato: 'How to build each meal',
-    nRecetario: 'Recipe book', nToca: 'tap to cook', nMenu: 'Weekly menu',
+    nRecetario: 'Recipe book', nToca: 'tap to cook',
     nCompra: 'The week’s shop', nPrepDom: 'Sunday meal prep', nSupl: 'Supplements',
     nReiniciar: 'reset', nProteLbl: 'Protein', nGrasaLbl: 'Fat', nCarbosLbl: 'Carbs', kcalLbl: 'kcal', nMenuLbl: 'menu',
     nDietBreakTitulo: 'This week: DIET BREAK', nDietBreakTxt: '~{k} kcal: +2 carb portions a day. Same protein. Same training.',
@@ -1385,8 +1329,7 @@ window.B2P = (function () {
     pAdhTitulo: 'Adherence', pAdhSub: 'strength sessions completed per week',
     pChk: 'Checkpoints', pEsperado: 'Expected', pReal: 'Actual', pSiDesvias: 'If you drift',
     pTabla: 'table', pGrafica: 'chart', pFecha: 'Date',
-    pLifts: { 'press-banca': 'Bench', 'sentadilla-barra': 'Squat', 'rdl-barra': 'RDL' },
-    pTuMarca: 'your mark · {v} kg', pMeta91: 'goal {m}', pAguaCreatina: 'water (first weeks)', pLineaBase: 'Baseline',
+    pLifts: { 'press-banca': 'Bench', 'sentadilla-barra': 'Squat', 'rdl-barra': 'RDL' }, pMeta91: 'goal {m}', pAguaCreatina: 'water (first weeks)', pLineaBase: 'Baseline',
     pMediaSemana: 'W{w} average',
     pVacioPeso: 'Your Monday, Wednesday and Friday weigh-ins will show up here',
     pVacioCintura: 'Every Monday, fasted: tape at the navel, no squeezing',
@@ -1397,30 +1340,21 @@ window.B2P = (function () {
     pFrenaTrote: 'Ease off the jogging', pFrenaTxt: 'This week you’re at {r}× your recent average of running minutes. Above 1.3× the injury risk spikes: cut back or walk.',
     lDiscos: 'The plate collection', lDiscosSub: 'one per phase completed',
     lLogros: 'Awards', lFuerzas: 'Strength', lPRs: 'PRs', lPerdido: 'Lost', lMejorRacha: 'Best streak', lLogrosN: 'Awards', lFotos: 'Photos',
-    perfilCinturaAdd: '+ Add waist', perfilCinturaNota: 'It becomes your baseline and unlocks the waist goal and badges. The rest of the plan does not change.', cerrarSesion: 'Log out', cerrarSesionNota: 'Back to the front door. Your plan and logs stay saved on this device.', rehacerSub: 'What do you want to redo?', rehacerTodo: 'Full questionnaire', rehacerTodoSub: 'Data and likes, top to bottom.', rehacerDatos: 'Just my data', rehacerDatosSub: 'Age, goal, days, equipment… The deck stays.', rehacerGustos: 'Just my likes', rehacerGustosSub: 'The card deck, from scratch.', perfilDetrasT: 'Behind the plan', buscarT: 'Search the app', buscarPH: 'Exercise, dish, section…', buscarNada: 'Nothing by that name. Try another word.', chipFases: 'Phases in detail', perfilT: 'My profile', perfilDatosT: 'Your answers', perfilPlanT: 'Your plan, in short', ajustes: 'Settings', ajustesSub: 'BACK2PRIME · your data lives ONLY on this device',
-    ajLineaBase: 'Baseline', ajCinturaIni: 'Starting waist (cm)', ajGuardar: 'Save baseline', ajGuardado: 'Saved',
+    perfilCinturaAdd: '+ Add waist', perfilCinturaNota: 'It becomes your baseline and unlocks the waist goal and badges. The rest of the plan does not change.', cerrarSesion: 'Log out', cerrarSesionNota: 'Back to the front door. Your plan and logs stay saved on this device.', rehacerSub: 'What do you want to redo?', rehacerTodo: 'Full questionnaire', rehacerTodoSub: 'Data and likes, top to bottom.', rehacerDatos: 'Just my data', rehacerDatosSub: 'Age, goal, days, equipment… The deck stays.', rehacerGustos: 'Just my likes', rehacerGustosSub: 'The card deck, from scratch.', perfilDetrasT: 'Behind the plan', buscarT: 'Search the app', buscarPH: 'Exercise, dish, section…', buscarNada: 'Nothing by that name. Try another word.', perfilT: 'My profile', perfilDatosT: 'Your answers', perfilPlanT: 'Your plan, in short', ajustes: 'Settings', ajustesSub: 'BACK2PRIME · your data lives ONLY on this device', ajGuardar: 'Save baseline', ajGuardado: 'Saved',
     ajCopia: 'Backup',
     ajCopiaTxt: 'Your data never leaves the phone. Make a backup now and then (or before switching devices) and keep it wherever you like.',
     ajExportar: 'Export', ajImportar: 'Import', ajImportOk: 'Backup restored', ajImportErr: 'That file doesn’t look like a BACK2PRIME backup',
     ajIdioma: 'Language', ajIdiomaNota: 'The app reloads on change. Your data is untouched.',
-    ajRehacer: 'Create / redo my plan', ajRehacerNota: 'Takes you to the questionnaire. Regenerating never touches your daily logs.', ajPeligro: 'Danger zone', ajBorrar: 'Delete profile and all data', ajBorrarConfirma: 'Sure? Tap again to delete EVERYTHING',
-    obTitulo: 'Welcome to BACK2PRIME', obSub: '12 weeks · 17 Aug → 8 Nov · from 95 to your best self',
-    obTexto: 'Your training log, your plan and your nutrition in one place. Tick off what you do each day: the app suggests your weights, watches your pace and drops awards. Everything stays on your phone.',
-    obConsejo: 'Tip: add it to your home screen (Share → Add to Home Screen) to use it like a real app.',
-    obCintura: 'Starting waist — your master metric', obPlaceholder: 'cm (optional, you can do it later)', obEmpezamos: 'Let’s go',
+    ajRehacer: 'Create / redo my plan', ajRehacerNota: 'Takes you to the questionnaire. Regenerating never touches your daily logs.', ajBorrar: 'Delete profile and all data', ajBorrarConfirma: 'Sure? Tap again to delete EVERYTHING',
     celebraOk: 'Keep going',
     navAria: 'Main navigation',
     pPrivacidad: 'Privacy policy',
-    rep: { t: 'Report', sub: 'Something broken, or an idea to make this better? Tell me here.', bug: 'Something broke', idea: 'An idea', otro: 'Something else', txtL: 'Tell me', ph: 'What happened? If you can, say which screen you were on and what you expected.', enviar: 'Send', gracias: 'Got it. Thanks for writing it down.', corto: 'Write a bit more so it can be understood.', repRitmo: 'Wait a minute before sending another one.', repCorto: 'Write a bit more so it can be understood.', errRed: 'Could not send: check your connection.', adjunta: 'Version, platform, language, screen and size are attached so it can be reproduced. Nothing from your plan, your weight or your logs.' },
+    rep: { t: 'Report', sub: 'Something broken, or an idea to make this better? Tell me here.', bug: 'Something broke', idea: 'An idea', otro: 'Something else', txtL: 'Tell me', ph: 'What happened? If you can, say which screen you were on and what you expected.', enviar: 'Send', gracias: 'Got it. Thanks for writing it down.', corto: 'Write a bit more so it can be understood.', repRitmo: 'Wait a minute before sending another one.', errRed: 'Could not send: check your connection.', adjunta: 'Version, platform, language, screen and size are attached so it can be reproduced. Nothing from your plan, your weight or your logs.' },
     nube: { correoL: 'Email', claveL: 'Password (8 minimum)', verClave: 'Show password', ocultarClave: 'Hide password', previoT: 'Earlier plan on this device', previoTxt: 'This device had a plan saved from before accounts existed. It is not brought over on its own, because it could belong to someone else. If it is yours, bring it: it will replace what you have now.', previoCta: 'Bring that plan', previoOk: 'Plan recovered', entrar: 'Sign in', crear: 'Create account', aCrear: 'First time? Create your account', aEntrar: 'Already have an account? Sign in', olvide: 'I forgot my password', enviadoReset: 'Email sent: open the link to change it', nuevaClaveT: 'Choose a new password', guardarClave: 'Save password', cambiada: 'Password changed: you can sign in now', confirmaCorreo: 'Check your inbox and confirm the account, then sign in here', yaExiste: 'That email already has an account: sign in with your password', errCred: 'Wrong email or password', errCorreo: 'Enter a valid email', errClaveCorta: 'The password needs at least 8 characters', errRitmo: 'Too many attempts in a row: wait a moment', errRed: 'No connection to the server: try again', local: 'Your account keeps your plan and follows you on any device. Only you can see it.', ajustesSub: 'BACK2PRIME · your plan lives in your account and only you can see it', cerrarSesionNota: 'Back to the front door. Your plan stays in your account: sign in again and pick up where you left off.' },
     comp: { t: 'Share my plan', nota: 'Create a public read-only link with your plan: no weight, no logs.', copiado: 'Link copied', quitar: 'Stop sharing', quitado: 'Link disabled', vT: '{n}\'s plan', vSub: 'Generated with BACK2PRIME', vCta: 'Build yours', noExiste: 'That link does not exist or its owner disabled it', sem: '{s} weeks', dias: '{d} days/week' },
     nuevoDia: 'New day: {f}'
   };
 
-  UI.checkSalidaTitulo = 'Exit check ({f})';
-  UI.checkSalidaTxt = 'You complete both circuits at week 2 reps with no joint pain → Phase 2. If anything complains, repeat a week: your tendons will thank you.';
-  UI.planEmpiezaTitulo = 'The plan starts on {f}';
-  UI.planEmpiezaTxt = 'Phase 1 · Reactivation at home. Here’s everything you need to arrive with your homework done.';
 
     const QUIZ_DEP = [{ id: 'running', n: 'Running' }, { id: 'natacion', n: 'Swimming' }, { id: 'ciclismo', n: 'Cycling' }, { id: 'padel', n: 'Padel' }, { id: 'futbol', n: 'Football' }, { id: 'baloncesto', n: 'Basketball' }, { id: 'volley', n: 'Volleyball' }, { id: 'yoga', n: 'Yoga' }, { id: 'calistenia', n: 'Calisthenics' }, { id: 'boxeo', n: 'Boxing' }];
   /* ---------- PRODUCTOS: el nombre con el que se COMPRA cada pid ----------
@@ -1492,5 +1426,5 @@ window.B2P = (function () {
     'yogur-soja': 'Soy yogurt',
     zanahoria: 'Carrot',
   };
-  return { META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, HISTORICO, ARRANQUE, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MEALPREP_NOTA, MENU, CHECKPOINTS, AJUSTES, FOTOS, LOGROS, CIENCIA, CIERRE, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
+  return {META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MENU, CHECKPOINTS, FOTOS, LOGROS, CIENCIA, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
 })();

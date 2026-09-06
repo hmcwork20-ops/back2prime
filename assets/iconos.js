@@ -48,5 +48,10 @@ window.B2P_ICO = {
   barra: '<path d="M3 5h18M7 5v4M17 5v4M12 5v7"/><circle cx="12" cy="14" r="2"/><path d="M12 16v3"/>',
   diamante: '<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21 8 9l4-6M12 21l4-12-4-6"/>',
   plato: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',
-  pulgar: '<path d="M7 10v12"/><path d="M15 5.9 14 10h5.2a2 2 0 0 1 1.9 2.6l-2 6.8a2 2 0 0 1-1.9 1.4H7V10l4-7a2.4 2.4 0 0 1 4 1.9z"/>'
+  pulgar: '<path d="M7 10v12"/><path d="M15 5.9 14 10h5.2a2 2 0 0 1 1.9 2.6l-2 6.8a2 2 0 0 1-1.9 1.4H7V10l4-7a2.4 2.4 0 0 1 4 1.9z"/>',
+  // figuras.js y el cuestionario: banda elástica, cruz de error, pasos, dominada
+  banda: '<rect x="3" y="8" width="18" height="8" rx="4"/><path d="M9 12h6"/>',
+  cruz: '<path d="M7 7l10 10M17 7L7 17"/>',
+  pasos: '<path d="M8 9.5c-2.6 0-4 2.4-3.7 5.6.3 3 1.6 6.4 4 6.4 2.2 0 3.3-2.2 3.3-5.2 0-3.3-1.2-6.8-3.6-6.8z"/><circle cx="6" cy="5.5" r="1.3"/><circle cx="9.5" cy="4" r="1.3"/><circle cx="13" cy="5" r="1.1"/><circle cx="16" cy="7" r="1"/>',
+  dominada: '<path d="M3 4h18M6 4v3M18 4v3"/><circle cx="12" cy="9.5" r="2"/><path d="M8 4v2.5l3 4.5M16 4v2.5l-3 4.5M12 11.5v5.5l-2.5 4M12 17l2.5 4"/>',
 };

@@ -71,6 +71,10 @@
 
     // — la leyenda de fases: color, semanas, RPE; el objetivo se despliega —
     const ley = el('div', { class: 'fases-leyenda' });
+    if (window.B2P_FIG && D.CAL) {
+      const wHoy = U.semanaDe(hoy);
+      ley.append(el('div', { class: 'tira-s-wrap', html: window.B2P_FIG.semanas({ n: SEMANAS, faseDe: w => (D.CAL[w - 1] || {}).fase, hitos: D.HITOS_SEMANA || {}, checkpoints: (D.CHECKPOINTS || []).map(c => c.sem), actual: wHoy }) }));
+    }
     D.FASES.forEach(f => {
       const sem = f.semanas || [];
       ley.append(el('details', { class: 'fase-banda' },
@@ -233,7 +237,7 @@
      mapa muscular encendido con TODO lo que se trabaja dentro; al tocar una,
      sus ejercicios, cada uno con su propio mapa. Lo descartado o sin tu
      material sigue consultable, pero avisa de que no esta en tu plan. */
-  let zonaEj = null;
+  let zonaEj = null, patEj = null;
   function renderEjercicios(root) {
     const ZONAS = [['empuje', TX.zonas.empuje], ['tiron', TX.zonas.tiron],
       ['pierna', TX.zonas.pierna], ['core', TX.zonas.core]];
@@ -262,7 +266,7 @@
           (mm.p || []).forEach(x => P.add(x)); (mm.s || []).forEach(x => Sx.add(x)); });
         P.forEach(x => Sx.delete(x));
         grid.append(el('button', { class: 'ej-zcard plano', type: 'button',
-          onclick: () => { zonaEj = z; pintaLista(); scrollTo(0, 0); } },
+          onclick: () => { zonaEj = z; patEj = null; pintaLista(); scrollTo(0, 0); } },
           window.B2P_MAPA ? el('div', { class: 'ej-zmapa mapa', 'aria-hidden': 'true',
             html: window.B2P_MAPA.svg({ p: [...P], s: [...Sx] }, { mini: true }) }) : null,
           el('b', null, zt),
@@ -274,11 +278,25 @@
     const pintaLista = () => {
       const z = zonaEj;
       const zt = (ZONAS.find(par => par[0] === z) || [])[1] || '';
-      const ids = porZona(z);
+      const idsZ = porZona(z);
+      const pats = [...new Set(idsZ.map(id => D.EJERCICIOS[id].pat))];
+      const ids = patEj && pats.includes(patEj) ? idsZ.filter(id => D.EJERCICIOS[id].pat === patEj) : idsZ;
       cont.replaceChildren(el('div', { class: 'ej-atras' },
         el('button', { class: 'plano qaux', type: 'button',
           onclick: () => { zonaEj = null; pintaZonas(); } }, '\u2039 ' + TX.vBiblioteca),
         el('b', null, zt), el('span', { class: 'mini' }, String(ids.length))));
+      if (pats.length > 1) {
+        const chips = el('div', { class: 'pat-chips' });
+        pats.forEach(p => {
+          const pic = window.B2P_PICTOS && window.B2P_PICTOS.includes(p);
+          chips.append(el('button', { class: 'pat-chip' + (patEj === p ? ' on' : ''), type: 'button', 'aria-pressed': patEj === p ? 'true' : 'false',
+            onclick: () => { patEj = patEj === p ? null : p; pintaLista(); } },
+            pic ? el('img', { src: 'assets/pictos/' + p + '.webp?v=' + (window.B2P_IMG_V || 1), alt: '', width: '34', height: '34', loading: 'lazy', decoding: 'async' })
+              : el('span', { class: 'pat-ico', 'aria-hidden': 'true', html: (window.B2P_MAPA && window.B2P_MAPA.svgPat) ? window.B2P_MAPA.svgPat(p) : '' }),
+            el('span', null, (TX.patrones || {})[p] || p)));
+        });
+        cont.append(chips);
+      }
       const grid = el('div', { class: 'ej-lista' });
       ids.forEach(id => {
         const e = D.EJERCICIOS[id];
@@ -368,6 +386,7 @@
       ((D.HITOS_SEMANA[w] || {}).tipo === 'dietbreak' || (!D.__gen && w === 7))
         ? el('div', { class: 'banner', style: 'margin:8px 0 2px' }, el('div', null, el('b', null, TX.nDietBreakTitulo),
             el('div', null, tpl(TX.nDietBreakTxt, { k: (D.__mantenimiento || 2800).toLocaleString(TX.lang || 'es') })))) : null,
+      window.B2P_FIG ? el('div', { html: window.B2P_FIG.tomas({ desayuno: TX.desayuno, comida: TX.comidaLbl, cena: TX.cena, presueno: TX.presueno }, D.__qMin ? '\u2265' + D.__qMin + ' g' : '') }) : null,
       el('p', { class: 'mini', style: 'margin-top:8px' }, D.NUTRI.tomas)));
 
     // «De dónde salen los números» vive ahora en Mi Perfil → Detrás del plan
@@ -635,7 +654,7 @@
     // ---- gráfica de peso ----
     const cardP = el('div', { id: 'p-peso', class: 'card chart-card' });
     const headP = el('div', { class: 'card-title' },
-      el('div', null, el('h2', null, TX.pPesoTitulo), el('div', { class: 'sub' }, TX.pPesoSub)),
+      el('div', null, el('h2', null, TX.pPesoTitulo), el('div', { class: 'sub leyenda', html: window.B2P_FIG ? window.B2P_FIG.leyendaPeso(TX.pLeyenda) : '' })),
       el('button', { class: 'tbl-toggle', onclick: ev => { const t = cardP.querySelector('.ptable'); t.hidden = !t.hidden; ev.target.textContent = t.hidden ? TX.pTabla : TX.pGrafica; } }, TX.pTabla));
     cardP.append(headP, chartPeso());
     const pt = el('div', { class: 'ptable', hidden: '' });
@@ -648,7 +667,8 @@
 
     // ---- cintura ----
     root.append(el('div', { id: 'p-cint', class: 'card chart-card' },
-      el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.pCinturaTitulo), el('div', { class: 'sub' }, tpl(TX.pCinturaTituloSub, { m: metaCint })))),
+      el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.pCinturaTitulo), el('div', { class: 'sub' }, tpl(TX.pCinturaTituloSub, { m: metaCint }))),
+        window.B2P_FIG ? el('span', { class: 'fig-cint', style: 'margin-left:auto', html: window.B2P_FIG.cintura(40) }) : null),
       chartCintura()));
 
     // ---- cargas ----
@@ -1111,7 +1131,7 @@
               }
               // el toque ES la respuesta: se marca y avanza solo
               setTimeout(avanza, 170);
-            } }, txt));
+            } }, (U.ICO_OP && U.ICO_OP[paso.id] && U.ICO_OP[paso.id][val]) ? U.icono(U.ICO_OP[paso.id][val], 20) : null, txt));
         });
         root.append(caja);
       }
@@ -1119,7 +1139,18 @@
       if (paso.tipo === 'multi') {
         const arr = d[paso.id] = Array.isArray(d[paso.id]) ? d[paso.id] : [];
         const caja = el('div', { class: 'cuest-ops' });
-        paso.ops.forEach(op => {
+        if (paso.id === 'lesiones' && window.B2P_FIG && window.B2P_MAPA) {
+          const lbl = {}; paso.ops.forEach(op => { lbl[op[0]] = op[1]; });
+          const mapa = el('div', { html: window.B2P_FIG.mapaLesiones(arr, lbl) });
+          mapa.querySelectorAll('.les-pt').forEach(btn => btn.addEventListener('click', () => {
+            const val = btn.dataset.les, i = arr.indexOf(val);
+            if (i >= 0) arr.splice(i, 1); else arr.push(val);
+            guarda();
+            btn.classList.toggle('on', arr.includes(val));
+            btn.setAttribute('aria-pressed', arr.includes(val) ? 'true' : 'false');
+          }));
+          caja.append(mapa);
+        } else paso.ops.forEach(op => {
           const val = op[0], txt = op[1];
           caja.append(el('button', { class: 'copt plano' + (arr.includes(val) ? ' on' : ''), type: 'button',
             'aria-pressed': arr.includes(val) ? 'true' : 'false',
@@ -1257,7 +1288,9 @@
           const inp = el('input', { type: 'text', inputmode: 'decimal', id: 'cuest-' + id,
             value: d[id] !== undefined ? String(d[id]).replace('.', ',') : '' });
           entradas[id] = inp;
-          caja.append(el('div', { class: 'cnum' }, el('label', { for: 'cuest-' + id }, lbl), inp));
+          const conFig = id === 'cinturaCm' && window.B2P_FIG;
+          caja.append(el('div', { class: 'cnum' + (conFig ? ' con-fig' : '') }, el('label', { for: 'cuest-' + id }, lbl), inp,
+            conFig ? el('span', { class: 'fig-cint', html: window.B2P_FIG.cintura(44) }) : null));
         });
         root.append(caja);
         root.append(el('div', { class: 'cuest-pie' },
@@ -1471,15 +1504,14 @@
       fila.hidden = false;
       const cartas = [];
       resto.slice(0, 3).forEach((it, i) => {
-        const c = el('div', { class: 'qcard' + (i === 1 ? ' detras' : i === 2 ? ' detras2' : '') },
+        const c = el('div', { class: 'qcard' + (i === 1 ? ' detras' : i === 2 ? ' detras2' : '') + (historia.length === 0 && i === 0 ? ' nudge' : '') },
           el('span', { class: 'qsi' }, TX.quizSi), el('span', { class: 'qno' }, TX.quizNo),
           el('div', { class: 'qcat qcat-' + it.cls }, it.cat),
           it.img ? el('img', { class: 'qimg', src: it.img, alt: '', decoding: 'async' })
             : it.emoji ? el('div', { class: 'qemoji', 'aria-hidden': 'true' }, it.emoji)
             : it.mm && window.B2P_MAPA ? el('div', { class: 'mapa mapa-carta', html: window.B2P_MAPA.svg(it.mm, { mini: true }) }) : null,
           el('div', { class: 'qn' }, it.t),
-          it.sub ? el('div', { class: 'qz' }, it.sub) : null,
-          historia.length === 0 && i === 0 ? el('div', { class: 'mini', style: 'margin-top:6px' }, TX.quizPista) : null);
+          it.sub ? el('div', { class: 'qz' }, it.sub) : null);
         zona.prepend(c);
         cartas.push([c, i]);
         if (i === 0) engancha(c);

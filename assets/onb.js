@@ -225,11 +225,18 @@
     caja.append(el('p', { class: 'rev-sub' }, R.sub));
 
     const lista = el('div', { class: 'card rev-lista' });
-    const fila = (icono, t, sub) => lista.append(el('div', { class: 'rev-row' },
+    const fila = (icono, t, sub, extra) => lista.append(el('div', { class: 'rev-row' },
       el('span', { class: 'rev-ico', 'aria-hidden': 'true' }, icono),
-      el('div', { class: 'rev-txt' }, el('div', { class: 'rev-rt' }, t), sub ? el('div', { class: 'mini' }, sub) : null)));
+      el('div', { class: 'rev-txt' }, el('div', { class: 'rev-rt' }, t), sub ? el('div', { class: 'mini' }, sub) : null, extra || null)));
+    // la semana en siete puntos: qué días son de fuerza, cosa que el texto no decía
+    const tira7 = () => {
+      const F = window.B2P_FIG, wk = D.CAL && D.CAL[0];
+      if (!F || !wk) return null;
+      const tipos = wk.dias.map(x => { const sid = typeof x === 'object' ? x.s : x; return sid && sid !== 'libre' ? ((D.SESIONES[sid] || {}).tipo || 'libre') : 'libre'; });
+      return el('div', { html: F.semana(tipos, TX.diasIni) });
+    };
     dec.forEach(x => {
-      if (x.k === 'split') fila(U.icono('mancuerna', 20), tpl(R.splitT, { d: x.d }), x.tipo === 'fb' ? R.splitFb : x.tipo === 'tp' ? R.splitTp : R.splitPpl);
+      if (x.k === 'split') fila(U.icono('mancuerna', 20), tpl(R.splitT, { d: x.d }), x.tipo === 'fb' ? R.splitFb : x.tipo === 'tp' ? R.splitTp : R.splitPpl, tira7());
       else if (x.k === 'kcal') fila(U.icono('flame', 20), tpl(R.kcalT, { k: fmtN(x.v) }),
         // redondeo a 25: «superávit de 260» era ruido de redondeos encadenados
         x.delta < -100 ? tpl(R.kDef, { v: fmtN(Math.round(-x.delta / 25) * 25) })

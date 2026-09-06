@@ -29,8 +29,21 @@
   const icono = (n, s) => el('span', { class: 'ico', 'aria-hidden': 'true',
     html: '<svg viewBox="0 0 24 24" width="' + (s || 18) + '" height="' + (s || 18) + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + ((window.B2P_ICO || {})[n] || '') + '</svg>' });
   // las insignias siguen declarando su emoji en los datos; aquí se traduce a icono
-  const ICO_LOGRO = { '⚡': 'rayo', '🔟': 'diana', '🎯': 'diana', '🏛️': 'medalla', '💎': 'diamante', '🛡️': 'escudo', '🔥': 'flame', '🌋': 'flame', '👟': 'actividad', '📉': 'baja', '📈': 'sube', '🏔️': 'montana', '📏': 'cinta', '👑': 'corona', '🥇': 'medalla', '🏆': 'trofeo', '🔓': 'abierto', '🦍': 'barra', '🍱': 'caja', '🔁': 'repetir', '📸': 'camara', '✅': 'hecho', '🏁': 'bandera' };
-  const icoLogro = (l, s) => icono(ICO_LOGRO[l.icon] || 'medalla', s || 30);
+  const ICO_LOGRO = { '⚡': 'rayo', '🔟': 'diana', '🎯': 'diana', '🏛️': 'medalla', '💎': 'diamante', '🛡️': 'escudo', '🔥': 'flame', '🌋': 'flame', '👟': 'pasos', '📉': 'baja', '📈': 'sube', '🏔️': 'montana', '📏': 'cinta', '👑': 'corona', '🥇': 'medalla', '🏆': 'trofeo', '🔓': 'abierto', '🦍': 'dominada', '🍱': 'caja', '🔁': 'repetir', '📸': 'camara', '✅': 'hecho', '🏁': 'bandera' };
+  const icoLogro = (l, s) => {
+    const m = /^sesiones-(\d+)$/.exec(l.id || '');   // 10 · 25 · 50: el número ES la insignia
+    return m ? el('span', { class: 'bnum' }, m[1]) : icono(ICO_LOGRO[l.icon] || 'medalla', s || 30);
+  };
+  // opciones del cuestionario y «Tus respuestas» con pictograma: se reconocen antes de leer
+  const ICO_OP = { objetivo: { perder: 'flame', recomp: 'diana', ganar: 'mancuerna', mantener: 'escudo' },
+    material: { nada: 'actividad', casa: 'banda', gym: 'barra' } };
+  // el pictograma del patrón, en miniatura, para las filas de la sesión
+  const pictoMini = e => {
+    if (!e) return null;
+    const pic = (e.pic && window.B2P_PICTOS && window.B2P_PICTOS.includes(e.pic)) ? e.pic : e.pat;
+    if (window.B2P_PICTOS && window.B2P_PICTOS.includes(pic)) return el('img', { class: 'pat-mini', src: 'assets/pictos/' + pic + '.webp?v=' + (window.B2P_IMG_V || 1), alt: '', loading: 'lazy', decoding: 'async', width: '30', height: '30' });
+    return (window.B2P_MAPA && window.B2P_MAPA.svgPat) ? el('span', { class: 'pat-mini pat-svg', 'aria-hidden': 'true', html: window.B2P_MAPA.svgPat(e.pat) }) : null;
+  };
   const pad = n => String(n).padStart(2, '0');
   const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   const fromISO = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
@@ -598,9 +611,9 @@
         target: '_blank', rel: 'noopener', class: 'yt-link'
       }, el('span', { class: 'yt-ico', html: ytIco }), TX.fVideo));
       sh.append(el('h4', null, TX.fComo));
-      sh.append(el('ul', null, e.cues.map(c => el('li', null, c))));
+      sh.append(el('ul', { class: 'lista-ok' }, e.cues.map(c => el('li', null, c))));
       sh.append(el('h4', null, TX.fErrores));
-      sh.append(el('ul', null, e.err.map(c => el('li', null, c))));
+      sh.append(el('ul', { class: 'lista-mal' }, e.err.map(c => el('li', null, c))));
       if (e.alt && e.alt.length) {
         sh.append(el('h4', null, TX.fAlt));
         e.alt.forEach(a => sh.append(el('div', { class: 'alt' }, el('b', null, a.n), ' — ' + a.por)));
@@ -737,7 +750,8 @@
             ev.currentTarget.classList.toggle('on', v);
             ev.currentTarget.setAttribute('aria-pressed', v ? 'true' : 'false');
             ev.currentTarget.querySelector('.hicon').textContent = v ? '✓' : '○';
-          } }, el('div', { class: 'hicon' }, on ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt))));
+          } }, el('div', { class: 'hicon' }, on ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, txt)),
+          k === 'cintura' && window.B2P_FIG ? el('span', { class: 'fig-cint', style: 'margin-left:auto', html: window.B2P_FIG.cintura(40) }) : null));
       });
       root.append(c);
       // el camino por delante: los 4 discos
@@ -898,6 +912,7 @@
           }, html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' });
 
           const row = el('div', { class: 'exrow' },
+            pictoMini(e),
             el('div', { class: 'exmain' },
               // El botón es SOLO el nombre, no todo el bloque: dentro de .exmain
               // viven el cronómetro y los chips de reps, y un <button> no puede
@@ -1018,7 +1033,7 @@
           ev.target.closest('.habit').classList.add('on'); evaluaLogros();
         } });
         hb.append(el('div', { class: 'habit wide' + (dd.cintura ? ' on' : '') },
-          el('div', { class: 'hicon' }, icono('cinta', 20)),
+          el('div', { class: 'hicon fig', html: window.B2P_FIG ? window.B2P_FIG.cintura(26) : '' }),
           el('div', null, el('div', { class: 'ht' }, TX.hCintura), el('div', { class: 'hs' }, TX.hCinturaSub)),
           cIn, el('span', { class: 'u mini' }, 'cm')));
       }
@@ -1325,7 +1340,7 @@
       [['objetivo', C.resLObj], ['evento', C.resLEv], ['duracionSem', C.resLDur], ['historial', C.resLHist],
        ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
         const v = M[par[0]] && M[par[0]][P[par[0]]];
-        if (v) filas.push([par[1], v]);
+        if (v) filas.push([par[1], v, false, ICO_OP[par[0]] && ICO_OP[par[0]][P[par[0]]]]);
       });
       if (P.diasSemana) filas.push([null, P.diasSemana + '×' + (P.minSesion || '—') + '′']);
       if ((P.lesiones || []).length) filas.push([C.resLLes, P.lesiones.map(x => M.les[x] || x).join(' · ')]);
@@ -1333,7 +1348,7 @@
       const tarj = el('div', { class: 'card', style: 'gap:8px' });
       tarj.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.perfilDatosT || C.titulo))));
       filas.forEach(f => tarj.append(el('div', { class: 'cres' },
-        f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[1],
+        f[0] ? el('span', { class: 'cres-l' }, f[0]) : null, f[3] ? icono(f[3], 16) : null, f[1],
         f[2] && TX.perfilCinturaAdd ? el('button', { class: 'addchip plano', type: 'button',
           onclick: hojaCintura }, TX.perfilCinturaAdd) : null)));
       tarj.append(el('button', { class: 'btn-b2p', style: 'width:100%;margin-top:8px', type: 'button',
@@ -1344,6 +1359,12 @@
 
     // tu plan, en corto
     if (D.__gen && TX.perfilPlanT) {
+      const tiraSemana = () => {
+        const wk = D.CAL && D.CAL[0];
+        if (!wk || !window.B2P_FIG) return null;
+        const tipos = wk.dias.map(x => { const sid = typeof x === 'object' ? x.s : x; return sid && sid !== 'libre' ? ((D.SESIONES[sid] || {}).tipo || 'libre') : 'libre'; });
+        return el('div', { html: window.B2P_FIG.semana(tipos, TX.diasIni) });
+      };
       const st = (l, v) => el('div', { class: 'stat' }, el('div', { class: 'sl' }, l), el('div', { class: 'sv num' }, v));
       sh.append(el('div', { class: 'card' },
         el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.perfilPlanT),
@@ -1351,7 +1372,8 @@
         el('div', { class: 'statrow' },
           st(TX.sem, String(SEMANAS)),
           st(TX.kcalLbl, String((D.NUTRI.fases[0] || {}).kcal || '—')),
-          st(TX.nProteLbl, D.META.perfil.proteinaDia + ' g'))));
+          st(TX.nProteLbl, D.META.perfil.proteinaDia + ' g')),
+        tiraSemana()));
     }
 
     /* ---- 🧠 Detrás del plan: reglas, números y ciencia — la sala de
@@ -1367,7 +1389,9 @@
         foldSub('pf-reglas', TX.vReglas8,
           el('div', { class: 'mini', style: 'margin-bottom:6px' }, TX.vReglasSub),
           el('div', { class: 'regla-g' }, D.REGLAS.map(r => el('div', { class: 'regla' }, el('b', null, r.n + ' · ' + r.t), r.d))),
-          el('div', { class: 'banner hot', style: 'margin-top:12px' }, el('div', null, el('b', null, TX.senalesTitulo), el('div', null, D.SENALES))),
+          el('div', { class: 'banner hot', style: 'margin-top:12px' }, el('div', null, el('b', null, TX.senalesTitulo), Array.isArray(D.SENALES)
+            ? el('div', { class: 'senales' }, ...[['s-parar', 'rayo'], ['s-normal', 'hecho'], ['s-fisio', 'cruz']].map((p, i) => el('div', { class: p[0] }, icono(p[1], 16), el('span', null, D.SENALES[i] || ''))))
+            : el('div', null, D.SENALES))),
           el('div', { class: 'banner ok' }, el('div', null, el('b', null, TX.objetivoReal), el('div', null, D.CIERRE)))),
         foldSub('pf-seguros', TX.vSeguros,
           el('div', { class: 'regla destaca', style: 'margin-bottom:8px' }, el('b', null, D.TENDON.titulo), el('div', { style: 'margin-top:3px' }, D.TENDON.intro)),
@@ -1396,6 +1420,7 @@
             return mp;
           })()),
         foldSub('pf-plato', TX.nPlato,
+          (window.B2P_FIG && TX.platoLbl) ? el('div', { class: 'plato-fig', html: window.B2P_FIG.plato(TX.platoLbl) }) : null,
           el('div', { class: 'regla-g' }, D.NUTRI.plato.map(pp => el('div', { class: 'regla' }, el('b', null, pp.t), pp.d))),
           /* la toma nocturna y la comida libre: metodo de mesa, no portada */
           el('p', { class: 'mini', style: 'margin-top:10px' },
@@ -1405,7 +1430,7 @@
           el('div', { class: 'tw' }, el('table', null, D.NUTRI.calorias.map(c => el('tr', null, el('td', null, c.c, el('div', { class: 'mini' }, c.n)), el('td', { class: 'sr' }, c.v))))),
           el('div', { class: 'tw' }, el('table', null,
             el('tr', null, el('th', null, TX.fase), el('th', null, TX.kcalLbl), el('th', null, 'P'), el('th', null, 'G'), el('th', null, 'C')),
-            D.NUTRI.fases.map((f, i) => el('tr', i === fiN ? { class: 'now' } : null, el('td', null, f.f), el('td', { class: 'sr' }, f.kcal.toLocaleString(TX.lang || 'es')), el('td', { class: 'sr' }, f.p), el('td', { class: 'sr' }, f.g), el('td', { class: 'sr' }, f.c))))),
+            D.NUTRI.fases.map((f, i) => el('tr', i === fiN ? { class: 'now' } : null, el('td', null, f.f, TX.nExtra && TX.nExtra[i] ? el('div', { class: 'mini' }, TX.nExtra[i]) : null), el('td', { class: 'sr' }, f.kcal.toLocaleString(TX.lang || 'es')), el('td', { class: 'sr' }, f.p), el('td', { class: 'sr' }, f.g), el('td', { class: 'sr' }, f.c))))),
           el('p', { style: 'font-size:13px' }, D.NUTRI.escalado),
           /* Los desfases del menu, donde de verdad se consultan: se arma con
              recetas de tamano fijo y casi nunca cuadra al digito. Callarlo
@@ -1801,7 +1826,7 @@
   /* foto de un plato, si existe en el manifiesto (assets/fotos.js). Las fotos
      no van al precache: entran con carga perezosa y el SW las guarda al verlas. */
   const foto = id => (window.B2P_FOTOS && window.B2P_FOTOS.includes(id)) ? 'assets/fotos/' + id + '.webp' : null;
-  window.UI = { $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl, foto, IDIOMAS, icono, icoLogro, saneaNombre,
+  window.UI = { ICO_OP, $, $$, el, iso, fromISO, addDays, dowMon, fmtFecha, fmtCorta, kg1, pad, TX, tpl, foto, IDIOMAS, icono, icoLogro, saneaNombre,
     hoyISO, semanaDe, slotDe, fechasSemana, dia, save, get S() { return S; },
     mediaSemana, mediasSemanales, pesosSemana, sesionesFuerzaSemana, cardioHechoSemana,
     racha, mejorRacha, cumplido, totalFuerza, openSheet, closeSheet, fichaEjercicio, toast, discoSVG,

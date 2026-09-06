@@ -76,9 +76,11 @@ PATRONES = {
     'fondos-silla': 'bench dip on a chair: back to the chair, both hands on the front edge of the seat behind the '
                     'body, legs extended forward on the floor, elbows bent to 90 degrees lowering the hips. The '
                     'chair drawn as a simple lime-green seat on one leg. NO parallel bars',
-    'press-frances-mc': 'floor lying dumbbell triceps extension: lying face up ON THE FLOOR, upper arms vertical, '
-                        'elbows fixed and pointing at the ceiling, forearms lowering two dumbbells toward the ears. '
-                        'The dumbbells drawn in lime-green. NO cable, NO bench',
+    'press-frances-mc': 'floor lying dumbbell triceps extension caught MID-REP with the ELBOW CLEARLY BENT: lying face '
+                        'up ON THE FLOOR, the upper arms vertical and still with the elbows pointing straight at '
+                        'the ceiling, the forearms folded back about 90 degrees so the two dumbbells rest beside '
+                        'the ears. It must NOT look like a straight-arm chest press. The dumbbells drawn in '
+                        'lime-green. NO cable, NO bench, NO barbell',
     'rdl-1p': 'single-leg Romanian deadlift: standing on one leg, torso hinged forward flat like a table top, the '
               'free leg extended straight back in line with the torso, arms hanging down toward the floor, side '
               'view, NO equipment of any kind',

@@ -151,14 +151,43 @@ def transparenta(im, tol=55):
     return out
 
 
+MARGEN = 0.06          # aire alrededor del dibujo, en fraccion del lado
+
+
+def reencuadra(im):
+    """Recorta a lo pintado (alfa > 0) y lo centra en el cuadro sin deformar."""
+    from PIL import Image
+    caja = im.split()[-1].getbbox()
+    if not caja:
+        return im
+    dib = im.crop(caja)
+    hueco = int(round(LADO * (1 - 2 * MARGEN)))
+    escala = min(hueco / float(dib.width), hueco / float(dib.height))
+    nueva = (max(1, int(round(dib.width * escala))), max(1, int(round(dib.height * escala))))
+    dib = dib.resize(nueva, Image.LANCZOS)
+    lienzo = Image.new('RGBA', (LADO, LADO), (0, 0, 0, 0))
+    lienzo.paste(dib, ((LADO - nueva[0]) // 2, (LADO - nueva[1]) // 2))
+    return lienzo
+
+
 def comprime(img_bytes, destino):
     from PIL import Image
-    im = Image.open(io.BytesIO(img_bytes)).convert('RGB')
-    w, h = im.size
-    lado = min(w, h)
-    im = im.crop(((w - lado) // 2, (h - lado) // 2, (w - lado) // 2 + lado, (h - lado) // 2 + lado))
-    im = im.resize((LADO, LADO), Image.LANCZOS)
-    transparenta(im).save(destino, 'WEBP', quality=85, method=6)
+    im = Image.open(io.BytesIO(img_bytes))
+    if im.mode in ('RGBA', 'LA') or 'transparency' in im.info:
+        # ya recortado (un .webp del propio proyecto): solo se reencuadra
+        rgba = im.convert('RGBA')
+        lado = max(rgba.size)
+        cuadro = Image.new('RGBA', (lado, lado), (0, 0, 0, 0))
+        cuadro.paste(rgba, ((lado - rgba.width) // 2, (lado - rgba.height) // 2))
+        rgba = cuadro.resize((LADO, LADO), Image.LANCZOS)
+    else:
+        im = im.convert('RGB')
+        w, h = im.size
+        lado = min(w, h)
+        im = im.crop(((w - lado) // 2, (h - lado) // 2, (w - lado) // 2 + lado, (h - lado) // 2 + lado))
+        im = im.resize((LADO, LADO), Image.LANCZOS)
+        rgba = transparenta(im)
+    reencuadra(rgba).save(destino, 'WEBP', quality=85, method=6)
     return os.path.getsize(destino)
 
 

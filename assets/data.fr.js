@@ -26,16 +26,16 @@ window.B2P = (function () {
   const FASES = [
     { id: 1, nombre: 'Réactivation', sub: 'À la maison', semanas: [1, 2], disco: 10, rpe: '6–7',
       fechas: '17 – 30 août',
-      objetivo: 'Reconstruire l’habitude et réveiller les schémas moteurs sans matraquer les articulations. Tu resteras sur ta faim : c’est voulu.' },
+      objetivo: 'Retrouver l’habitude et les schémas moteurs sans matraquer les articulations. Tu resteras sur ta faim : c’est voulu.' },
     { id: 2, nombre: 'Entrée en salle', sub: 'Full Body ×3', semanas: [3, 4, 5], disco: 15, rpe: '6–7',
       fechas: '31 août – 20 sept',
-      objetivo: 'Réapprendre les mouvements de base à la barre et reconstruire une base de charge. Ta mémoire musculaire autorise des poids que ton tissu conjonctif ne tolère pas encore : travaille à 65-70% de ce que tu sens possible, avec TOUJOURS 3 répétitions en réserve.' },
+      objetivo: 'Mouvements de base à la barre et base de charge. Ta mémoire musculaire autorise des poids que le tissu conjonctif ne tolère pas encore : 65-70% de ce que tu pourrais, 3 vraies répétitions en réserve.' },
     { id: 3, nombre: 'Charge', sub: 'Haut / Bas ×4', semanas: [6, 7, 8, 9], disco: 20, rpe: '7–8',
       fechas: '21 sept – 18 oct',
-      objetivo: 'Volume et intensité réels pour forcer la recomposition : c’est ici que la mémoire musculaire paie vraiment. Termine chaque série en pouvant faire 2 répétitions de plus, et des vraies : celui qui revient a tendance à surestimer sa proximité de l’échec.' },
+      objetivo: 'Volume et intensité réels ; c’est ici que la mémoire musculaire paie. Termine chaque série avec 2 vraies répétitions en réserve : celui qui revient se croit plus près de l’échec qu’il ne l’est.' },
     { id: 4, nombre: 'Pic', sub: 'Push / Pull / Legs ×5', semanas: [10, 11, 12], disco: 25, rpe: '8',
       fechas: '19 oct – 8 nov',
-      objetivo: 'Stimulus maximal pour boucler la recomposition. {d} jours, mais des séances de {min} minutes, pas de 2 heures. RPE 8 : 1-2 répétitions en réserve sur les dernières séries.' }
+      objetivo: 'Stimulus maximal pour boucler. {d} jours de {min} minutes, pas de 2 heures. RPE 8 : 1-2 vraies répétitions en réserve sur les dernières séries.' }
   ];
 
   /* ---------- CALENDRIER : 12 semaines × 7 jours (Lun..Dim) ----------
@@ -170,14 +170,14 @@ window.B2P = (function () {
       { e: 'curl-polea',       s: 3, r: '15', d: 60 }
     ]},
     /* — Cardio — */
-    'cam40':  { nombre: 'Marche 40′', tipo: 'cardio', icono: 'walk', detalle: 'Rythme de conversation inconfortable : tu peux parler, mais pas chanter. Ça compte pour les pas du jour.' },
+    'cam40':  { nombre: 'Marche 40′', tipo: 'cardio', icono: 'walk', detalle: 'Tu peux parler, pas chanter. Ça compte pour les pas du jour.' },
     'cam60':  { nombre: 'Marche 60′', tipo: 'cardio', icono: 'walk', detalle: 'Rythme vif et soutenu. Idéal dehors : ça cumule lumière, pas et récupération active.' },
-    'wj3': { nombre: 'Marche-course S3', tipo: 'cardio', icono: 'run', detalle: '7 tours : 2′ de course légère + 2′ de marche (28′). Avant : 2×20 tibialis raises + 10 élévations de mollets. Course vraiment légère : si tu ne peux pas parler, tu vas trop vite.' },
+    'wj3': { nombre: 'Marche-course S3', tipo: 'cardio', icono: 'run', detalle: '7 tours : 2′ de course légère + 2′ de marche (28′). Avant : 2×20 tibialis raises et 10 élévations de mollets. Si tu ne peux pas parler, tu vas trop vite.' },
     'wj4': { nombre: 'Marche-course S4', tipo: 'cardio', icono: 'run', detalle: '6 tours : 3′ de course + 2′ de marche (30′). Avant : 2×20 tibialis raises. Cadence haute et foulées courtes : moins d’impact par foulée.' },
     'wj5': { nombre: 'Marche-course S5', tipo: 'cardio', icono: 'run', detalle: '5 tours : 5′ de course + 1′ de marche (30′), ou 20′ de footing léger en continu si le corps répond bien. Avant : 2×20 tibialis raises.' },
-    'trote25': { nombre: 'Footing 25-30′', tipo: 'cardio', icono: 'run', detalle: 'Continu et conversationnel. Préfère l’asphalte lisse ou la terre compacte aux trottoirs irréguliers. Si une gêne au tibia ou au genou empire en courant : coupe et marche.' },
+    'trote25': { nombre: 'Footing 25-30′', tipo: 'cardio', icono: 'run', detalle: 'Continu, à rythme de conversation. Préfère l’asphalte lisse ou la terre aux trottoirs. Gêne au tibia ou au genou qui empire : coupe et marche.' },
     'trote30': { nombre: 'Footing 30-35′', tipo: 'cardio', icono: 'run', detalle: 'Continu. Un jour peut être un peu plus enlevé (les derniers 10′ à allure moyenne), l’autre toujours facile.' },
-    'libre': { nombre: 'Repos', tipo: 'libre', icono: 'rest', detalle: 'Vraie journée off. Les pas quotidiens comptent toujours. Dimanche : le meal prep (~90′) règle la semaine.' }
+    'libre': { nombre: 'Repos', tipo: 'libre', icono: 'rest', detalle: 'Vraie journée off ; les pas comptent toujours. Dimanche : meal prep (~90′) et la semaine est réglée.' }
   };
 
   /* ---------- ÉCHAUFFEMENT (toujours, 6′) ---------- */
@@ -197,29 +197,29 @@ window.B2P = (function () {
   /* ---------- PROTOCOLE TENDON (l’assurance du plan) ---------- */
   const TENDON = {
     titulo: 'Protocole tendon · 6-8′ · 2-3×/semaine',
-    intro: 'La force revient en quelques semaines ; le tendon demande des mois (son collagène se renouvelle ~10 fois plus lentement et n’a pas de mémoire musculaire). Ce bloc est l’assurance du plan : il démarre en semaine 1, et la course de la semaine 3 n’arrive qu’avec deux semaines de tendon déjà rodées.',
+    intro: 'La force revient en semaines ; le tendon demande des mois : son collagène se renouvelle ~10 fois plus lentement et n’a pas de mémoire. Ce bloc est l’assurance du plan : il démarre en semaine 1, et la course de la semaine 3 n’arrive qu’avec deux semaines de tendon rodées.',
     bloques: [
       { id: 'tendon-rodilla', nombre: 'Rotulien · isométrique', donde: 'Après chaque séance jambes (en P1, après les circuits)',
-        detalle: 'Squat isométrique au mur (P2+ : squat espagnol avec sangle rigide derrière les genoux) : 5 × 45″ à ~70% d’effort, 1′ de repos. Cuisse proche de la parallèle, sans douleur aiguë. En plus d’adapter, l’effet antalgique est immédiat (Rio 2015).' },
+        detalle: 'Squat isométrique au mur (dès P2, squat espagnol avec sangle rigide derrière les genoux) : 5 × 45″ à ~70% d’effort, 1′ de repos. Cuisse proche de la parallèle, sans douleur aiguë. En plus, ça coupe la douleur sur le moment.' },
       { id: 'tendon-aquiles', nombre: 'Achille · HSR mollets', donde: 'Déjà intégré aux séances (élévations/mollets)',
-        detalle: 'La règle qui change tout : mollets LOURDS et LENTS, 3″ de descente, 3″ de montée, 6-8 reps, sans rebond. En P1 avec un sac à dos chargé sur une jambe ; en salle avec une vraie charge. Le rebond exploite le réflexe du tendon et lui vole exactement le stimulus dont il a besoin.' },
+        detalle: 'Mollets lourds et lents : 3″ de descente, 3″ de montée, 6-8 reps, sans rebond. En P1 avec un sac à dos sur une jambe ; en salle avec une vraie charge. Le rebond exploite le réflexe du tendon et lui vole le stimulus dont il a besoin.' },
       { id: 'tendon-tibial', nombre: 'Tibial antérieur', donde: 'Avant chaque footing',
         detalle: 'Tibialis raises adossé au mur : 2-3 × 15-20. C’est le vaccin contre la périostite à ton poids actuel.' },
       { id: 'tendon-codo', nombre: 'Coude/poignet · isométrique', donde: 'Après les séances haut du corps (P2+), 2×/sem',
-        detalle: 'Avec un haltère léger, poignet immobile à mi-flexion : 3 × 45″ (paume vers le haut puis vers le bas). Le volume de développé + rowing + tirage déclenche des épicondylites chez ceux qui reprennent ; ça les prévient gratuitement.' }
+        detalle: 'Haltère léger, poignet immobile à mi-flexion : 3 × 45″, paume vers le haut puis vers le bas. Autant de développé, rowing et tirage déclenche des épicondylites ; ça les prévient.' }
     ],
-    nota: 'N’ajoute PAS de pliométrie/sauts « pour préparer la course » : l’évidence dit que c’est un mauvais stimulus tendineux et un impact élevé. Ta préparation à l’impact, c’est ce bloc.'
+    nota: 'N’ajoute pas de sauts « pour préparer la course » : mauvais stimulus pour le tendon et impact élevé. Ta préparation à l’impact, c’est ce bloc.'
   };
 
   /* ---------- RÈGLES DE COURSE (évidence IMC ~28) ---------- */
   const CARRERA = {
     titulo: 'Courir sans te casser ({p} kg aux commandes)',
     reglas: [
-      'Cadence 170-180 pas/min, foulée courte : réduit l’impact tibial d’~11% et le taux de charge d’~15%. Compte tes pas sur 30″ (85-90) ou utilise le métronome de la montre.',
-      'Volume gouverné par les sensations et la progression du plan : ne dépasse jamais ~1,3× ta moyenne des 4 dernières semaines (l’app te prévient).',
-      'La semaine 3 démarre avec ~2,5 km de course au total : sous le plafond de 3 km/sem que l’évidence fixe pour débuter en surpoids.',
-      'Surface et chaussures CONSTANTES : ne change pas les deux en même temps. Préfère l’asphalte lisse ou la terre compacte aux trottoirs.',
-      'Gêne au tibia ou au genou qui EMPIRE en courant : coupe et marche. Celle qui disparaît à l’échauffement, surveille-la ; celle qui grandit, c’est elle qui commande.'
+      'Cadence 170-180 pas/min et foulée courte : ~11% d’impact tibial et ~15% de taux de charge en moins. Compte 85-90 pas en 30″ ou utilise le métronome de la montre.',
+      'Jamais plus de ~1,3× ta moyenne des 4 dernières semaines. L’app te prévient.',
+      'Semaine 3 : ~2,5 km au total, sous le plafond de 3 km/sem pour débuter en surpoids.',
+      'Même surface et mêmes chaussures : ne change pas les deux en même temps. Préfère l’asphalte lisse ou la terre aux trottoirs.',
+      'Gêne au tibia ou au genou qui empire en courant : coupe et marche. Celle qui part à l’échauffement, surveille-la.'
     ]
   };
 
@@ -284,11 +284,11 @@ window.B2P = (function () {
       cues: ['Grand pas vers l’avant', 'Buste vertical, mains sur les hanches ou devant', 'Le genou arrière frôle le sol', 'Pousse dans le talon avant pour revenir'],
       err: ['Pas trop court (le genou avant s’écrase)', 'Buste penché vers l’avant', 'Genou avant qui part vers l’intérieur'],
       alt: [{ n: 'Fente statique (sans alterner)', por: 'si l’équilibre lâche' }, { n: 'Fente arrière', por: 'plus douce pour le genou' }],
-      mol: 'Si le genou gêne : passe à la fente ARRIÈRE, même schéma.'
+      mol: 'Si le genou gêne : passe à la fente arrière, même schéma.'
     },
     'banda-remo': { pat: 'th',
       nombre: 'Rowing assis à la bande', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps, omoplates'], equipo: 'Bande',
-      cues: ['Bande ancrée à hauteur de poitrine (poignée, poteau ou sous les pieds)', 'Tire avec les COUDES, collés au corps', 'Serre les omoplates et tiens une demi-seconde', 'Relâche lentement : le retour, c’est la moitié de l’exercice'],
+      cues: ['Bande ancrée à hauteur de poitrine (poignée, poteau ou sous les pieds)', 'Tire avec les coudes, collés au corps', 'Serre les omoplates et tiens une demi-seconde', 'Relâche lentement : le retour, c’est la moitié de l’exercice'],
       err: ['Basculer le buste en arrière pour tirer plus', 'Lâcher la bande d’un coup'],
       alt: [{ n: 'Rowing à la serviette dans l’embrasure', por: 'sans point d’ancrage' }, { n: 'Rowing avec sac à dos chargé', por: 'à un bras, appuyé sur la table' }],
       mol: 'Si l’épaule se plaint : baisse l’ancrage et tire plus près du flanc.'
@@ -316,7 +316,7 @@ window.B2P = (function () {
     },
     'remo-toalla': { pat: 'th',
       nombre: 'Rowing serviette sur porte', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps, omoplates'], equipo: 'Serviette + porte (ou sac à dos)',
-      cues: ['Serviette sur la poignée/le cadre, corps incliné en arrière', 'Tire avec le COUDE, pas avec la main', 'Omoplates en arrière et en bas en fin de trajet', 'Plus tu t’inclines, plus c’est dur'],
+      cues: ['Serviette sur la poignée/le cadre, corps incliné en arrière', 'Tire avec le coude, pas avec la main', 'Omoplates en arrière et en bas en fin de trajet', 'Plus tu t’inclines, plus c’est dur'],
       err: ['Tirer avec les bras sans bouger les omoplates', 'Donner des à-coups avec les hanches'],
       alt: [{ n: 'Rowing avec sac à dos chargé', por: 'à une main, appuyé sur la table' }, { n: 'Rowing inversé sous une table solide', por: 'version plus dure' }],
       mol: 'Si le coude gêne : prends plus large et réduis l’inclinaison.'
@@ -337,7 +337,7 @@ window.B2P = (function () {
     },
     'dead-bug': { pat: 'core',
       nombre: 'Dead bug', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core antérieur profond'], equipo: 'Rien',
-      cues: ['Allongé, lombaires PLAQUÉES au sol en permanence', 'Bras et jambe opposés descendent lentement en même temps', 'Expire en étendant : les côtes restent basses'],
+      cues: ['Allongé, lombaires plaquées au sol en permanence', 'Bras et jambe opposés descendent lentement en même temps', 'Expire en étendant : les côtes restent basses'],
       err: ['Les lombaires se cambrent quand la jambe s’étend (raccourcis le trajet)', 'Aller vite'],
       alt: [{ n: 'Jambes seules (bras immobiles)', por: 'si tu perds les lombaires au sol' }],
       mol: 'C’est l’exercice le plus sûr du plan ; si quelque chose gêne, vérifie que les lombaires ne décollent pas.'
@@ -345,14 +345,14 @@ window.B2P = (function () {
 
     'pike-flexiones': { pat: 'ev',
       nombre: 'Pompes piquées', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoïde antérieur', 'triceps'], equipo: 'Rien',
-      cues: ['V inversé : mains et pieds rapprochés, hanches bien hautes', 'La tête descend ENTRE les mains, pas devant', 'Coudes à 45° du corps, jamais écartés', 'En haut, extension complète sans remonter les épaules'],
+      cues: ['V inversé : mains et pieds rapprochés, hanches bien hautes', 'La tête descend entre les mains, pas devant', 'Coudes à 45° du corps, jamais écartés', 'En haut, extension complète sans remonter les épaules'],
       err: ['Baisser les hanches et en faire une pompe classique', 'Amener la tête devant les mains (c’est là que l’épaule paie)', 'Demi-amplitude pour en compter davantage'],
       alt: [{ n: 'Pieds sur une chaise', por: 'quand 12 deviennent faciles' }, { n: 'Mains sur une marche', por: 'si tu ne descends pas encore proprement' }],
       mol: 'Si l’épaule proteste : baisse un peu les hanches jusqu’à ce que l’angle soit confortable. La poussée verticale est ce qui demande le plus de mobilité dans tout le plan.'
     },
     'jalon-toalla': { pat: 'tv',
       nombre: 'Tirage vertical à la serviette', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Grand dorsal', 'biceps'], equipo: 'Serviette',
-      cues: ['Serviette tendue au-dessus de la tête : un bras tire vers le bas, l’autre RÉSISTE', 'Le coude qui tire va vers le flanc, pas vers l’avant', 'Abaisse l’omoplate et tiens 1″', 'Remonte en 3″ en freinant avec l’autre bras'],
+      cues: ['Serviette tendue au-dessus de la tête : un bras tire vers le bas, l’autre résiste', 'Le coude qui tire va vers le flanc, pas vers l’avant', 'Abaisse l’omoplate et tiens 1″', 'Remonte en 3″ en freinant avec l’autre bras'],
       err: ['Tirer avec le biceps au lieu du dos', 'Hausser l’épaule au lieu d’abaisser l’omoplate', 'Ne pas résister avec le bras du haut : sans tension, pas de stimulus'],
       alt: [{ n: 'Rowing inversé sous une table solide', por: 'bien plus mesurable : si tu as une table, fais plutôt ça' }, { n: 'Tractions', por: 'dès que tu as une barre' }],
       mol: 'Sans barre, le tirage vertical est le plus difficile à remplacer honnêtement : si tu peux, privilégie le rowing sous la table, qui charge vraiment.'
@@ -366,14 +366,14 @@ window.B2P = (function () {
     },
     'crunch-inverso': { pat: 'flex',
       nombre: 'Crunch inversé', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Bas des abdominaux'], equipo: 'Rien',
-      cues: ['Sur le dos, mains le long du corps ou sous le sacrum', 'Amène les genoux à la poitrine en ENROULANT le bassin, pas en pliant seulement la hanche', 'Le bas du dos décolle d’un doigt : c’est toute l’amplitude', 'Descends en 3″ sans laisser tomber les jambes'],
+      cues: ['Sur le dos, mains le long du corps ou sous le sacrum', 'Amène les genoux à la poitrine en enroulant le bassin, pas en pliant seulement la hanche', 'Le bas du dos décolle d’un doigt : c’est toute l’amplitude', 'Descends en 3″ sans laisser tomber les jambes'],
       err: ['Prendre de l’élan avec les jambes', 'Cambrer le bas du dos à la descente', 'Chercher de l’amplitude en levant toute la hanche'],
       alt: [{ n: 'Relevé de jambes suspendu', por: 'quand tu auras une barre' }, { n: 'Dead bug', por: 'si le bas du dos décolle sans contrôle' }],
       mol: 'Si le bas du dos proteste : mains sous le sacrum et réduis l’amplitude de moitié le temps que le contrôle arrive.'
     },
     'curl-mochila': { pat: 'curl',
       nombre: 'Curl avec sac à dos', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'avant-bras'], equipo: 'Sac à dos',
-      cues: ['Attrape le sac par la poignée du haut ou par les deux bretelles', 'Coudes collés au corps et FIXES', 'Monte sans balancer, descends en 3″', 'Tu progresses en ajoutant des livres ou des bouteilles d’eau'],
+      cues: ['Attrape le sac par la poignée du haut ou par les deux bretelles', 'Coudes collés au corps et fixes', 'Monte sans balancer, descends en 3″', 'Tu progresses en ajoutant des livres ou des bouteilles d’eau'],
       err: ['Balancer le buste pour monter', 'Avancer les coudes en haut', 'Charger le sac au point que la prise lâche avant le biceps'],
       alt: [{ n: 'Curl auto-résisté à la serviette', por: 'sans sac : un bras monte, l’autre freine' }, { n: 'Curl avec haltères', por: 'quand tu auras du matériel' }],
       mol: 'Si le poignet proteste : attrape les deux bretelles plutôt que la poignée, ça garde le poignet neutre.'
@@ -388,14 +388,14 @@ window.B2P = (function () {
     },
     'pino-pared': { pat: 'ev',
       nombre: 'Pompe en équilibre contre le mur', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Deltoïdes', 'triceps'], equipo: 'Rien (mur)',
-      cues: ['Dos au mur, remonte les pieds en marchant jusqu’à être presque vertical', 'Mains un peu plus larges que les épaules, doigts écartés qui agrippent le sol', 'Descends SEULEMENT ce que tu contrôles : deux doigts au début', 'Corps gainé : sans cambrer le bas du dos'],
+      cues: ['Dos au mur, remonte les pieds en marchant jusqu’à être presque vertical', 'Mains un peu plus larges que les épaules, doigts écartés qui agrippent le sol', 'Descends seulement ce que tu contrôles : deux doigts au début', 'Corps gainé : sans cambrer le bas du dos'],
       err: ['Descendre à fond dès le premier jour : on commence avec une amplitude courte', 'Laisser tomber la tête sans contrôle', 'Cambrer le dos pour compenser'],
       alt: [{ n: 'Pompes piquées', por: 'la version de départ, bien plus douce' }, { n: 'Pieds sur une chaise plutôt qu’au mur', por: 'l’étape intermédiaire' }],
       mol: 'C’est la variante avancée de la poussée verticale : seulement si les pompes piquées sortent à 15 propres et que l’épaule ne dit rien. Avec une gêne d’épaule, ce n’est pas le moment.'
     },
     'remo-mesa': { pat: 'th',
       nombre: 'Rowing inversé sous la table', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Grand dorsal', 'haut du dos, biceps'], equipo: 'Rien (table solide)',
-      cues: ['Allonge-toi sous une table solide et attrape-la par le bord', 'Corps en planche des talons aux épaules', 'Tire en amenant la POITRINE à la table, coudes au corps', 'Serre les omoplates 1″ en haut et descends en 3″'],
+      cues: ['Allonge-toi sous une table solide et attrape-la par le bord', 'Corps en planche des talons aux épaules', 'Tire en amenant la poitrine à la table, coudes au corps', 'Serre les omoplates 1″ en haut et descends en 3″'],
       err: ['Sortir les hanches avant la poitrine', 'Tirer avec les bras seuls sans serrer les omoplates', 'Utiliser une table qui se soulève : vérifie-la avant'],
       alt: [{ n: 'Genoux pliés, pieds au sol', por: 'la version facile' }, { n: 'Pieds sur une chaise', por: 'la progression : plus horizontal, plus lourd' }],
       mol: 'C’est le tirage qui charge vraiment sans barre : si tu as une table solide, préfère-le au tirage à la serviette.'
@@ -424,14 +424,14 @@ window.B2P = (function () {
     },
     'puente-1p': { pat: 'bis',
       nombre: 'Pont fessier sur une jambe', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Grand fessier', 'ischio-jambiers'], equipo: 'Rien',
-      cues: ['Allongé, un pied au sol et l’autre jambe tendue devant', 'Monte en poussant par le TALON jusqu’à aligner hanche et cuisse', 'Serre le fessier 2″ en haut, sans cambrer', 'Descends en 3″ sans reposer complètement'],
+      cues: ['Allongé, un pied au sol et l’autre jambe tendue devant', 'Monte en poussant par le talon jusqu’à aligner hanche et cuisse', 'Serre le fessier 2″ en haut, sans cambrer', 'Descends en 3″ sans reposer complètement'],
       err: ['Monter en cambrant le dos au lieu de serrer le fessier', 'Hanche qui tombe d’un côté', 'Poser le pied si loin que l’ischio prend le relais'],
       alt: [{ n: 'Pont sur deux pieds', por: 'la version de départ' }, { n: 'Épaules sur le canapé', por: 'plus d’amplitude, plus de fessier' }],
       mol: 'Si le bas du dos s’en mêle : rapproche le talon du fessier et monte moins haut. La hanche ne doit pas tourner : si elle tombe d’un côté, reviens à deux jambes.'
     },
     'elev-piernas-suelo': { pat: 'flex',
       nombre: 'Relevé de jambes allongé', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Bas des abdominaux'], equipo: 'Rien',
-      cues: ['Sur le dos, mains sous le sacrum et bas du dos COLLÉ au sol', 'Monte les jambes tendues à la verticale', 'Descends en 3″ et arrête-toi là où le bas du dos commence à décoller', 'Ce point est ton amplitude : il descendra chaque semaine'],
+      cues: ['Sur le dos, mains sous le sacrum et bas du dos collé au sol', 'Monte les jambes tendues à la verticale', 'Descends en 3″ et arrête-toi là où le bas du dos commence à décoller', 'Ce point est ton amplitude : il descendra chaque semaine'],
       err: ['Laisser le bas du dos se cambrer à la descente (l’erreur qui blesse)', 'Prendre de l’élan avec les jambes', 'Descendre plus bas que ce que les abdos tiennent'],
       alt: [{ n: 'Crunch inversé', por: 'la version de départ' }, { n: 'Relevé de jambes suspendu', por: 'quand tu auras une barre' }],
       mol: 'C’est la progression du crunch inversé : si le bas du dos décolle, plie un peu les genoux et raccourcis l’amplitude jusqu’à ce que ça tienne.'
@@ -445,7 +445,7 @@ window.B2P = (function () {
     },
     'plancha-lateral': { pat: 'core',
       nombre: 'Planche latérale', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Obliques', 'moyen fessier'], equipo: 'Rien',
-      cues: ['Coude sous l’épaule, corps aligné de la cheville à la tête', 'Monte la hanche et TIENS-LA : le sol ne la touche pas', 'Épaule loin de l’oreille', 'Tiens le temps prévu de chaque côté'],
+      cues: ['Coude sous l’épaule, corps aligné de la cheville à la tête', 'Monte la hanche et tiens-LA : le sol ne la touche pas', 'Épaule loin de l’oreille', 'Tiens le temps prévu de chaque côté'],
       err: ['Hanche qui s’affaisse (l’oblique arrête de travailler)', 'Rouler la poitrine vers le sol', 'Bloquer la respiration'],
       alt: [{ n: 'Sur les genoux', por: 'la version de départ' }, { n: 'Jambe du dessus levée', por: 'la progression, qui demande en plus du moyen fessier' }],
       mol: 'Si l’épaule proteste : monte sur la main bras tendu, ou fais-la à genoux. C’est la moitié latérale de la planche : le gainage ne tient pas que de face.'
@@ -453,21 +453,21 @@ window.B2P = (function () {
 
     'elev-y-suelo': { pat: 'ais',
       nombre: 'Élévation en Y au sol', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Épaule (coiffe)', 'trapèze inférieur'], equipo: 'Rien',
-      cues: ['À plat ventre, bras tendus en Y, pouces vers le plafond', 'Monte les bras SANS hausser les épaules : la nuque reste longue', 'Tiens 2″ en haut et descends en 3″', 'Le front ne décolle pas : le mouvement vient de l’omoplate, pas du cou'],
+      cues: ['À plat ventre, bras tendus en Y, pouces vers le plafond', 'Monte les bras sans hausser les épaules : la nuque reste longue', 'Tiens 2″ en haut et descends en 3″', 'Le front ne décolle pas : le mouvement vient de l’omoplate, pas du cou'],
       err: ['Hausser les épaules vers les oreilles', 'Lever la tête pour s’aider', 'Aller vite : il n’y a pas de poids ici, le stimulus c’est le contrôle'],
       alt: [{ n: 'Rotation externe à l’élastique', por: 'quand tu auras un élastique' }, { n: 'Une petite bouteille dans chaque main', por: 'la progression : ça pèse peu et ça se sent' }],
-      mol: 'C’est l’exercice d’épaule du protocole tendon, sans matériel : la coiffe ne gagne pas avec du poids, elle gagne avec du contrôle. Si l’épaule gêne, c’est l’un des rares qui passe bien.'
+      mol: 'L’épaule du protocole tendon, sans matériel : la coiffe gagne avec du contrôle, pas avec du poids. Si l’épaule gêne, celui-ci passe bien en général.'
     },
     'curl-nordico': { pat: 'ais',
       nombre: 'Leg curl nordique assisté', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischio-jambiers'], equipo: 'Rien (de quoi bloquer les chevilles)',
-      cues: ['À genoux sur quelque chose de doux, chevilles bloquées sous un meuble solide', 'Descends TRÈS lentement en gardant hanches et épaules alignées', 'Tiens aussi loin que possible et amortis avec les mains', 'Remonte en poussant avec les bras : la montée ne compte pas'],
+      cues: ['À genoux sur quelque chose de doux, chevilles bloquées sous un meuble solide', 'Descends très lentement en gardant hanches et épaules alignées', 'Tiens aussi loin que possible et amortis avec les mains', 'Remonte en poussant avec les bras : la montée ne compte pas'],
       err: ['Casser la hanche pour se faciliter la tâche (l’ischio arrête de travailler)', 'Se laisser tomber sans freiner', 'Commencer par l’amplitude complète : ça se gagne centimètre par centimètre'],
       alt: [{ n: 'Pont fessier sur une jambe', por: 'si le nordique est encore trop dur' }, { n: 'Leg curl à la machine', por: 'en salle' }],
-      mol: 'C’est le meilleur travail d’ischios sans matériel, et aussi celui qui laisse le plus de courbatures : commence à 3 répétitions et monte une par une. Si le genou gêne, plie une serviette dessous.'
+      mol: 'Le travail d’ischios le plus puissant sans matériel, et celui qui laisse le plus de courbatures : commence à 3 et monte une par une. Si le genou gêne, serviette pliée dessous.'
     },
     'encogimiento-mochila': { pat: 'ais',
       nombre: 'Shrugs avec sac à dos', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Trapèze supérieur'], equipo: 'Sac à dos',
-      cues: ['Sac suspendu aux deux mains ou serré contre la poitrine', 'Monte les épaules DROIT vers les oreilles, sans les rouler', 'Serre 2″ en haut et descends en contrôlant', 'Nuque détendue : ne pousse pas le menton en avant'],
+      cues: ['Sac suspendu aux deux mains ou serré contre la poitrine', 'Monte les épaules droit vers les oreilles, sans les rouler', 'Serre 2″ en haut et descends en contrôlant', 'Nuque détendue : ne pousse pas le menton en avant'],
       err: ['Rouler les épaules en arrière (ça n’apporte rien et charge le cou)', 'Prendre de l’élan avec les jambes', 'Demi-amplitude'],
       alt: [{ n: 'Shrugs avec haltères', por: 'quand tu auras du matériel' }, { n: 'Un sac plus chargé', por: 'la progression : ici tu peux peser ce que tu mets' }],
       mol: 'Si tu le sens dans le cou : baisse la charge et monte moins. Le trapèze supérieur travaille déjà beaucoup au quotidien ; deux séries bien faites suffisent.'
@@ -476,7 +476,7 @@ window.B2P = (function () {
     /* — Salle : poussée — */
     'press-banca': { pat: 'eh',
       nombre: 'Développé couché', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Pectoraux', 'triceps, deltoïde antérieur'], equipo: 'Barre + banc',
-      cues: ['Omoplates rétractées et VISSÉES au banc, pieds ancrés au sol', 'Prise : avant-bras vertical quand la barre touche la poitrine', 'La barre descend au milieu de la poitrine, coudes ~45°', 'Touche la poitrine avec contrôle et pousse en ligne légèrement diagonale'],
+      cues: ['Omoplates rétractées et vissées au banc, pieds ancrés au sol', 'Prise : avant-bras vertical quand la barre touche la poitrine', 'La barre descend au milieu de la poitrine, coudes ~45°', 'Touche la poitrine avec contrôle et pousse en ligne légèrement diagonale'],
       err: ['Épaules qui haussent en poussant (tu perds la rétraction)', 'Faire rebondir la barre sur la poitrine', 'Fesses décollées du banc', 'Poignets cassés en arrière'],
       alt: [{ n: 'Développé à la machine (chest press)', por: 'jours sans envie de monter un banc ou salle bondée' }, { n: 'Développé couché haltères', por: 'plus d’amplitude et moins d’épaule' }],
       mol: 'Si l’épaule gêne : essaie une prise un peu plus serrée et des coudes plus rentrés ; si ça persiste, haltères en prise neutre.'
@@ -504,7 +504,7 @@ window.B2P = (function () {
     },
     'press-militar': { pat: 'ev',
       nombre: 'Développé militaire', mm: { p: ['hombro'], s: ['triceps', 'abdomen'] }, zona: 'empuje', musc: ['Épaules', 'triceps, core'], equipo: 'Barre (debout ou assis)',
-      cues: ['Debout : fessier et abdos SERRÉS avant de pousser', 'La barre part du menton et monte collée au visage', 'La tête « passe par la fenêtre » à la fin', 'Assis avec dossier : sans cambrer les lombaires'],
+      cues: ['Debout : fessier et abdos serrés avant de pousser', 'La barre part du menton et monte collée au visage', 'La tête « passe par la fenêtre » à la fin', 'Assis avec dossier : sans cambrer les lombaires'],
       err: ['Cambrer les lombaires pour le transformer en développé incliné', 'Pousser la barre vers l’avant (elle heurte le menton)', 'Amplitude incomplète en haut'],
       alt: [{ n: 'Développé militaire haltères assis', por: 'déjà programmé en P2 ; plus doux pour l’épaule' }, { n: 'Développé épaules à la machine', por: 'dernière séance de la semaine avec de la fatigue' }],
       mol: 'Si l’épaule gêne : haltères en prise neutre et monte seulement jusqu’où il n’y a pas de pincement.'
@@ -518,7 +518,7 @@ window.B2P = (function () {
     },
     'elev-laterales': { pat: 'ev',
       nombre: 'Élévations latérales', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Deltoïde latéral'], equipo: 'Haltères',
-      cues: ['Poids LÉGER, coudes un peu fléchis', 'Monte jusqu’à l’horizontale, comme pour servir deux carafes', 'Sans élan : si tu balances, il y a trop de poids', 'Descends en 2″'],
+      cues: ['Poids léger, coudes un peu fléchis', 'Monte jusqu’à l’horizontale, comme pour servir deux carafes', 'Sans élan : si tu balances, il y a trop de poids', 'Descends en 2″'],
       err: ['Monter avec le trapèze en haussant les épaules', 'Dépasser l’horizontale', 'Balancement des hanches'],
       alt: [{ n: 'Latérales à la poulie basse', por: 'tension continue ; programmées dans le Push B' }, { n: 'Machine à élévations latérales', por: 'pour finir sans penser à la technique' }],
       mol: 'Si l’épaule gêne : pouce légèrement vers le haut et monte 10° en avant du plan latéral.'
@@ -539,7 +539,7 @@ window.B2P = (function () {
     },
     'ext-triceps-polea': { pat: 'ext',
       nombre: 'Extension triceps à la poulie', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps'], equipo: 'Poulie haute + corde ou barre',
-      cues: ['Coudes collés au corps, FIXES', 'Seul l’avant-bras bouge', 'Étends à fond et serre 1″'],
+      cues: ['Coudes collés au corps, fixes', 'Seul l’avant-bras bouge', 'Étends à fond et serre 1″'],
       err: ['Coudes qui avancent en descendant (tu mets de l’épaule)', 'Balancement du buste'],
       alt: [{ n: 'À la corde en écartant en bas', por: 'un peu plus de chef long' }, { n: 'Kickback triceps avec haltère', por: 'sans poulie libre' }],
       mol: 'Si le coude gêne : baisse le poids et monte les reps à 15-20 ; le coude déteste l’ego.'
@@ -562,14 +562,14 @@ window.B2P = (function () {
     /* — Salle : tirage — */
     'remo-barra': { pat: 'th',
       nombre: 'Rowing barre', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Dorsaux', 'milieu du dos, biceps'], equipo: 'Barre',
-      cues: ['Buste à ~45°, genoux semi-fléchis', 'Tire la barre vers le bas de l’abdomen', 'Omoplates en arrière et en bas à la fin', 'Dos NEUTRE non négociable'],
+      cues: ['Buste à ~45°, genoux semi-fléchis', 'Tire la barre vers le bas de l’abdomen', 'Omoplates en arrière et en bas à la fin', 'Dos neutre non négociable'],
       err: ['Donner des à-coups avec les lombaires (tu te balances)', 'Buste qui se redresse rep après rep', 'Tirer vers la poitrine avec les coudes ouverts'],
       alt: [{ n: 'Rowing T-bar', por: 'variante plus stable' }, { n: 'Rowing machine avec appui poitrine', por: 'si les lombaires sont chargées du jour jambes' }],
       mol: 'Si les lombaires protestent : machine avec appui poitrine ou rowing à la poulie, sans hésiter.'
     },
     'remo-polea': { pat: 'th',
       nombre: 'Rowing assis à la poulie', mm: { p: ['espalda-alta'], s: ['biceps', 'dorsal'] }, zona: 'tiron', musc: ['Milieu du dos', 'dorsaux, biceps'], equipo: 'Poulie basse + triangle',
-      cues: ['Poitrine haute et FIXE : le buste ne voyage pas', 'Tire le triangle vers le nombril', 'Pause 1″ en serrant les omoplates'],
+      cues: ['Poitrine haute et fixe : le buste ne voyage pas', 'Tire le triangle vers le nombril', 'Pause 1″ en serrant les omoplates'],
       err: ['Balancer le buste pour bouger plus lourd', 'Épaules haussées'],
       alt: [{ n: 'Rowing machine', por: 'équivalent direct' }],
       mol: 'Si les lombaires gênent : appuie la poitrine sur une machine à rowing avec support.'
@@ -583,7 +583,7 @@ window.B2P = (function () {
     },
     'jalon-pecho': { pat: 'tv',
       nombre: 'Tirage vertical', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps'], equipo: 'Poulie haute',
-      cues: ['Prise un peu plus large que les épaules', 'Poitrine haute, légère inclinaison arrière FIXE', 'Tire les COUDES vers les poches', 'Barre à la clavicule, 1″ de pause'],
+      cues: ['Prise un peu plus large que les épaules', 'Poitrine haute, légère inclinaison arrière fixe', 'Tire les coudes vers les poches', 'Barre à la clavicule, 1″ de pause'],
       err: ['Se balancer pour donner l’à-coup', 'Tirer avec les bras sans abaisser les omoplates', 'Barre derrière la nuque (non)'],
       alt: [{ n: 'Tractions assistées', por: 'l’objectif de la P3 est de migrer vers elles' }, { n: 'Tirage prise serrée', por: 'programmé dans le Pull B' }],
       mol: 'Si l’épaule gêne : prise neutre (triangle large) et baisse le poids.'
@@ -597,7 +597,7 @@ window.B2P = (function () {
     },
     'dominadas': { pat: 'tv',
       nombre: 'Tractions (assistées → libres → lestées)', mm: { p: ['dorsal'], s: ['biceps', 'abdomen'] }, zona: 'tiron', musc: ['Dorsaux', 'biceps, core'], equipo: 'Barre + machine assistée ou élastiques',
-      cues: ['Commence en abaissant les omoplates (épaules loin des oreilles)', 'Tire les coudes vers le bas, menton au-dessus de la barre', 'Descends en CONTRÔLANT jusqu’aux bras presque tendus', 'Réduis l’assistance semaine après semaine : elles sortiront plus tôt que tu ne crois'],
+      cues: ['Commence en abaissant les omoplates (épaules loin des oreilles)', 'Tire les coudes vers le bas, menton au-dessus de la barre', 'Descends en contrôlant jusqu’aux bras presque tendus', 'Réduis l’assistance semaine après semaine : elles sortiront plus tôt que tu ne crois'],
       err: ['Gigoter et se donner de l’élan', 'Demi-traction (ni en haut ni en bas)', 'Se suspendre sur les épaules en bas sans tension scapulaire'],
       alt: [{ n: 'Tirage vertical pronation lourd', por: 's’il n’y a pas de machine assistée ce jour-là' }, { n: 'Tractions négatives (saut + descente 5″)', por: 'grand bâtisseur de la première traction' }],
       mol: 'Si le coude gêne : prise neutre. Si l’épaule gêne : ne reste pas suspendu passif en bas.',
@@ -612,7 +612,7 @@ window.B2P = (function () {
     },
     'face-pull': { pat: 'tv',
       nombre: 'Face pull', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Deltoïde postérieur', 'rotateurs, trapèze moyen'], equipo: 'Poulie haute + corde',
-      cues: ['Poulie à hauteur du visage', 'Tire la corde VERS LE FRONT en écartant les extrémités', 'À la fin, tourne les épaules vers l’extérieur (les biceps pointent au plafond)', 'Léger et parfait : c’est de la santé d’épaule, pas de l’ego'],
+      cues: ['Poulie à hauteur du visage', 'Tire la corde vers le front en écartant les extrémités', 'À la fin, tourne les épaules vers l’extérieur (les biceps pointent au plafond)', 'Léger et parfait : c’est de la santé d’épaule, pas de l’ego'],
       err: ['Le transformer en rowing haut avec du poids', 'Sans rotation externe finale'],
       alt: [{ n: 'Écartés inversés à la machine (reverse pec-deck)', por: 'deltoïde postérieur sans corde' }, { n: 'Rotation externe avec élastique', por: 'à la maison ou en extra' }],
       mol: 'C’est l’exercice qui répare les épaules ; si ça gêne, baisse le poids et vérifie que tu tires vers le front, pas vers le cou.'
@@ -629,28 +629,28 @@ window.B2P = (function () {
     /* — Salle : jambes/hanches — */
     'sentadilla-barra': { pat: 'rod',
       nombre: 'Squat barre', mm: { p: ['cuadriceps'], s: ['abdomen', 'gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier, core'], equipo: 'Barre + rack',
-      cues: ['Barre sur le trapèze, pas sur les cervicales', 'Core pressurisé AVANT de descendre (prends l’air dans la poitrine et le ventre)', 'Descends au parallèle, genoux vers l’extérieur', 'Pousse le sol, poitrine haute en remontant'],
+      cues: ['Barre sur le trapèze, pas sur les cervicales', 'Core pressurisé avant de descendre (prends l’air dans la poitrine et le ventre)', 'Descends au parallèle, genoux vers l’extérieur', 'Pousse le sol, poitrine haute en remontant'],
       err: ['Talons qui décollent (la faute aux chevilles : surélève les talons avec des disques s’il le faut)', 'Genoux qui rentrent vers l’intérieur en remontant', 'Good morning : les hanches montent avant la poitrine'],
       alt: [{ n: 'Squat à la Smith machine', por: 'jours de fatigue ou rack occupé' }, { n: 'Hack squat / presse', por: 'stimulus quadriceps sans charge axiale' }, { n: 'Goblet squat avec haltère', por: 'en échauffement ou si la technique se perd' }],
-      mol: 'Si le genou gêne : ralentis la descente (3″) et reste 5 cm au-dessus du point douloureux. Si les lombaires gênent : revois la pressurisation et baisse le poids de 20% pendant une semaine.'
+      mol: 'Genou : descends en 3″ et reste 5 cm au-dessus du point douloureux. Lombaires : revois la pressurisation et baisse le poids de 20% une semaine.'
     },
     'prensa': { pat: 'rod',
       nombre: 'Presse à cuisses', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Machine à presse',
-      cues: ['Pieds à mi-hauteur du plateau, largeur d’épaules', 'Descends jusqu’à 90° SANS décoller les lombaires du dossier', 'Pousse avec toute la plante, ne verrouille pas les genoux d’un coup'],
+      cues: ['Pieds à mi-hauteur du plateau, largeur d’épaules', 'Descends jusqu’à 90° sans décoller les lombaires du dossier', 'Pousse avec toute la plante, ne verrouille pas les genoux d’un coup'],
       err: ['Descendre au point que le bassin bascule (butt wink à la presse = lombaires)', 'Mains qui poussent sur les genoux'],
       alt: [{ n: 'Hack squat', por: 'encore plus de quadriceps' }, { n: 'Presse à une jambe', por: 's’il y a un déséquilibre' }],
       mol: 'Si le genou gêne : pieds un peu plus hauts sur le plateau (plus de fessier, moins de genou).'
     },
     'rdl-barra': { pat: 'bis',
       nombre: 'Soulevé de terre roumain', mm: { p: ['isquios'], s: ['gluteo', 'lumbar'] }, zona: 'pierna', musc: ['Ischios', 'fessier, lombaires en isométrique'], equipo: 'Barre',
-      cues: ['Hanches en ARRIÈRE, genoux semi-fléchis fixes', 'Barre collée aux jambes sur tout le trajet', 'Dos neutre : poitrine fière', 'Descends jusqu’à sentir l’étirement fort des ischios et remonte en serrant le fessier'],
+      cues: ['Hanches en arrière, genoux semi-fléchis fixes', 'Barre collée aux jambes sur tout le trajet', 'Dos neutre : poitrine fière', 'Descends jusqu’à sentir l’étirement fort des ischios et remonte en serrant le fessier'],
       err: ['Arrondir le dos pour descendre plus bas', 'Plier les genoux et le transformer en demi-squat', 'Barre qui s’éloigne du corps'],
       alt: [{ n: 'RDL haltères', por: 'prise plus confortable les premières semaines' }, { n: 'Hyperextensions 45° lestées', por: 'ischios-fessiers sans contrainte de prise' }],
-      mol: 'L’étirement des ischios est le signe que tu le fais BIEN. Si les lombaires gênent (pas les ischios) : baisse de 20% et filme une série de profil.'
+      mol: 'L’étirement des ischios est le signe que tu le fais bien. Si les lombaires gênent (pas les ischios) : baisse de 20% et filme une série de profil.'
     },
     'hip-thrust': { pat: 'bis',
       nombre: 'Hip thrust', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Fessier', 'ischios'], equipo: 'Barre + banc (+ protection)',
-      cues: ['Haut du dos en appui sur le banc, barre sur les hanches avec protection', 'Menton rentré, regard vers l’avant-bas', 'Monte jusqu’à l’horizontale EXACTE, pause 1″ en serrant', 'Genoux à 90° en haut, talons sous les genoux'],
+      cues: ['Haut du dos en appui sur le banc, barre sur les hanches avec protection', 'Menton rentré, regard vers l’avant-bas', 'Monte jusqu’à l’horizontale exacte, pause 1″ en serrant', 'Genoux à 90° en haut, talons sous les genoux'],
       err: ['Cambrer les lombaires en haut (hyperextension)', 'Pousser avec la pointe des pieds', 'Rebondir en bas sans pause'],
       alt: [{ n: 'Machine à hip thrust', por: 'si la salle en a une, installation bien plus rapide' }, { n: 'Pont avec barre au sol', por: 'sans banc libre' }],
       mol: 'Si les lombaires gênent : c’est presque toujours l’hyperextension en haut ; arrête-toi à l’horizontale.'
@@ -664,7 +664,7 @@ window.B2P = (function () {
     },
     'zancada-bulgara': { pat: 'zan',
       nombre: 'Fentes bulgares', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quadriceps', 'fessier'], equipo: 'Banc + haltères',
-      cues: ['Pied arrière sur le banc, l’avant à un grand pas', 'Descends VERTICAL : le genou arrière cherche le sol', 'Buste légèrement penché = plus de fessier ; vertical = plus de quadriceps', 'Commence UNIQUEMENT au poids du corps, sérieusement'],
+      cues: ['Pied arrière sur le banc, l’avant à un grand pas', 'Descends vertical : le genou arrière cherche le sol', 'Buste légèrement penché = plus de fessier ; vertical = plus de quadriceps', 'Commence uniquement au poids du corps, sérieusement'],
       err: ['Pied avant trop proche (le genou trinque)', 'Rebondir en bas', 'Perdre l’équilibre en regardant le plafond'],
       alt: [{ n: 'Fente statique haltères', por: 'si l’équilibre n’est pas encore là' }, { n: 'Presse à une jambe', por: 'unilatéral sans équilibre' }],
       mol: 'Si le genou avant gêne : allonge le pas et penche le buste un peu en avant.'
@@ -674,11 +674,11 @@ window.B2P = (function () {
       cues: ['Genou aligné avec l’axe de la machine', 'Étends à fond avec pause 1″ en haut', 'Descends en 2-3″'],
       err: ['Donner des coups de pied avec élan', 'Fesses qui décollent du siège'],
       alt: [{ n: 'Sissy squat assisté', por: 'sans machine' }],
-      mol: 'Si la rotule gêne : coupe le dernier tiers EN HAUT, pas en bas, et tempo plus lent. C’est aussi ton exercice de rééducation si un jour le genou proteste après le footing.'
+      mol: 'Si la rotule gêne : coupe le dernier tiers EN haut, pas en bas, et tempo plus lent. C’est aussi ton exercice de rééducation si un jour le genou proteste après le footing.'
     },
     'curl-femoral-tumbado': { pat: 'ais',
       nombre: 'Leg curl allongé', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Ischios (isolés)'], equipo: 'Machine',
-      cues: ['Hanches PLAQUÉES au banc en permanence', 'Monte en 1″, descends en 2-3″', 'Pointe du pied neutre'],
+      cues: ['Hanches plaquées au banc en permanence', 'Monte en 1″, descends en 2-3″', 'Pointe du pied neutre'],
       err: ['Lever les hanches pour aider', 'Demi-répétition'],
       alt: [{ n: 'Leg curl assis', por: 'en fait un peu meilleur pour les ischios ; utilise-le s’il est libre' }, { n: 'Curl nordique assisté', por: 'version avancée, pour plus tard' }],
       mol: 'Si crampe : étire les ischios entre les séries, c’est normal les premières semaines.'
@@ -692,35 +692,35 @@ window.B2P = (function () {
     },
     'gemelo-pie': { pat: 'gem',
       nombre: 'Mollets debout', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Mollet (gastrocnémien)'], equipo: 'Machine ou Smith machine + marche',
-      cues: ['Pause 1″ EN HAUT et 1″ EN BAS : sans rebond', 'Étirement complet en bas', 'Monte vertical, sans plier les genoux'],
+      cues: ['Pause 1″ EN haut et 1″ EN bas : sans rebond', 'Étirement complet en bas', 'Monte vertical, sans plier les genoux'],
       err: ['Rebondir en exploitant le réflexe du tendon (ça vole le stimulus au tissu qu’on veut justement préparer)', 'Demi-amplitude'],
       alt: [{ n: 'À la presse', por: 'sans machine dédiée' }],
       mol: 'Si l’Achille gêne : uniquement des isométriques en haut 3×30″ cette semaine-là.'
     },
     'gemelo-sentado': { pat: 'gem',
       nombre: 'Mollets assis', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Soléaire'], equipo: 'Machine',
-      cues: ['Genou à 90° : ici travaille le soléaire, la clé pour COURIR', 'Même règle : pause en haut et en bas, sans rebonds'],
+      cues: ['Genou à 90° : ici travaille le soléaire, la clé pour courir', 'Même règle : pause en haut et en bas, sans rebonds'],
       err: ['Aller vite en rebondissant', 'Mettre l’appui sur le bout des orteils (mieux sur leur base)'],
       alt: [{ n: 'Assis avec haltères sur les genoux + marche', por: 'sans machine' }],
       mol: 'Comme debout : gêne à l’Achille = uniquement des isométriques pendant une semaine.'
     },
     'elev-piernas': { pat: 'flex',
       nombre: 'Relevés de jambes suspendu', mm: { p: ['abdomen'], s: ['antebrazo'] }, zona: 'core', musc: ['Bas des abdos', 'fléchisseurs, grip'], equipo: 'Barre de tractions',
-      cues: ['Suspension active (épaules loin des oreilles)', 'Monte les genoux à la poitrine SANS balancement', 'Redescends contrôlé jusqu’en bas'],
+      cues: ['Suspension active (épaules loin des oreilles)', 'Monte les genoux à la poitrine sans balancement', 'Redescends contrôlé jusqu’en bas'],
       err: ['Se balancer', 'Tirer uniquement des fléchisseurs de hanche avec les lombaires cambrées'],
       alt: [{ n: 'Aux barres parallèles (appui sur les coudes)', por: 'si le grip lâche avant les abdos' }, { n: 'Relevés allongé', por: 'version de départ' }],
       mol: 'Si l’épaule gêne en suspension : passe directement aux barres parallèles.'
     },
     'rueda-abdominal': { pat: 'flex',
       nombre: 'Roulette abdominale', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core antérieur complet'], equipo: 'Ab wheel',
-      cues: ['À genoux, bassin en rétroversion AVANT de partir', 'Roule jusqu’où tu contrôles les lombaires', 'Reviens en tirant avec les abdos, pas avec les bras'],
+      cues: ['À genoux, bassin en rétroversion avant de partir', 'Roule jusqu’où tu contrôles les lombaires', 'Reviens en tirant avec les abdos, pas avec les bras'],
       err: ['Cambrer les lombaires en s’étendant (l’erreur qui blesse)', 'Aller plus loin que ce que le core tient'],
       alt: [{ n: 'Crunch à la poulie', por: 'si la roulette est trop grosse aujourd’hui' }, { n: 'Planche lestée', por: 'isométrique équivalent' }],
       mol: 'Si les lombaires gênent : coupe le trajet de moitié et gagne de l’amplitude semaine après semaine.'
     },
     'crunch-polea': { pat: 'flex',
       nombre: 'Crunch à la poulie', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Grand droit'], equipo: 'Poulie haute + corde',
-      cues: ['À genoux, corde de chaque côté de la tête', 'Fléchis DEPUIS LES CÔTES, pas depuis les hanches', 'Coudes vers les genoux, expire en descendant'],
+      cues: ['À genoux, corde de chaque côté de la tête', 'Fléchis depuis les côtes, pas depuis les hanches', 'Coudes vers les genoux, expire en descendant'],
       err: ['Tirer avec les bras', 'S’asseoir en arrière en ne bougeant que les hanches'],
       alt: [{ n: 'Crunch à la machine', por: 'équivalent' }, { n: 'Roulette abdominale', por: 'quand tu veux monter d’un niveau' }],
       mol: 'Pas d’incident typique si tu fléchis depuis les côtes.'
@@ -728,7 +728,7 @@ window.B2P = (function () {
 
     'fondos-silla': { pat: 'ext', pic: 'fondos',
       nombre: 'Dips sur chaise', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'bas des pectoraux, épaule'], equipo: 'Rien (chaise ou canapé)',
-      cues: ['Mains au bord de la chaise, doigts vers l’extérieur, épaules LOIN des oreilles', 'Descends jusqu’à 90° au coude, pas un degré de plus : en dessous, c’est l’épaule qui paie', 'Coudes vers l’arrière, frôlant le corps, jamais écartés', 'Le dos monte et descend collé au bord de la chaise'],
+      cues: ['Mains au bord de la chaise, doigts vers l’extérieur, épaules loin des oreilles', 'Descends jusqu’à 90° au coude, pas un degré de plus : en dessous, c’est l’épaule qui paie', 'Coudes vers l’arrière, frôlant le corps, jamais écartés', 'Le dos monte et descend collé au bord de la chaise'],
       err: ['Descendre à fond en cherchant l’étirement (c’est là que naît la douleur d’épaule)', 'Éloigner les pieds au point que le poids parte dans les jambes', 'Remonter les épaules vers les oreilles'],
       alt: [{ n: 'Genoux pliés, pieds rapprochés', por: 'si tu ne sors pas 8 répétitions propres' }, { n: 'Pieds sur une deuxième chaise', por: 'quand 15 deviennent faciles' }],
       mol: 'Si l’avant de l’épaule proteste : réduis l’amplitude à 60°, ou passe aux pompes diamant, qui laissent l’articulation tranquille.'
@@ -742,7 +742,7 @@ window.B2P = (function () {
     },
     'ext-triceps-banda': { pat: 'ext',
       nombre: 'Extension triceps à l’élastique', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (les trois chefs)'], equipo: 'Élastique',
-      cues: ['Fixe l’élastique en hauteur (porte ou poignée) et recule d’un pas', 'Coudes collés aux côtes et IMMOBILES : seul l’avant-bras bouge', 'Étends jusqu’au verrouillage souple et tiens 1″ en bas', 'Reviens en 2-3″ en résistant à l’élastique'],
+      cues: ['Fixe l’élastique en hauteur (porte ou poignée) et recule d’un pas', 'Coudes collés aux côtes et immobiles : seul l’avant-bras bouge', 'Étends jusqu’au verrouillage souple et tiens 1″ en bas', 'Reviens en 2-3″ en résistant à l’élastique'],
       err: ['Laisser les coudes partir vers l’avant ou vers le haut', 'Pousser avec l’épaule en penchant le buste', 'Lâcher le retour et laisser l’élastique commander'],
       alt: [{ n: 'Au-dessus de la tête, élastique sous les pieds', por: 'travaille davantage le chef long' }, { n: 'Kickback avec haltère', por: 'si tu n’as nulle part où fixer' }],
       mol: 'C’est l’exercice le plus tendre avec le coude de tout le plan : quand les autres gênent, c’est souvent le refuge. Monte les répétitions avant la dureté de l’élastique.'
@@ -757,14 +757,14 @@ window.B2P = (function () {
     /* — Bras — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'Curl barre EZ', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'Barre EZ',
-      cues: ['Coudes collés au corps, FIXES', 'Monte sans balancement, descends en 2-3″', 'Poignets neutres grâce à la EZ'],
+      cues: ['Coudes collés au corps, fixes', 'Monte sans balancement, descends en 2-3″', 'Poignets neutres grâce à la EZ'],
       err: ['Balancer le corps pour monter plus lourd', 'Coudes qui voyagent vers l’avant en haut'],
       alt: [{ n: 'Curl haltères alterné', por: 'avec rotation (supination), très complet' }, { n: 'Curl à la poulie basse', por: 'tension continue' }],
       mol: 'Si le poignet ou le coude gêne : haltères avec rotation ou prise marteau.'
     },
     'curl-inclinado': { pat: 'curl',
       nombre: 'Curl incliné haltères', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps (chef long)'], equipo: 'Haltères + banc 45-60°',
-      cues: ['Banc à 45-60°, bras PENDANTS à la verticale', 'L’étirement en bas est le stimulus : ne le coupe pas', 'Coudes immobiles, monte sans hausser les épaules'],
+      cues: ['Banc à 45-60°, bras pendants à la verticale', 'L’étirement en bas est le stimulus : ne le coupe pas', 'Coudes immobiles, monte sans hausser les épaules'],
       err: ['Avancer les coudes', 'Demi-répétition en bas'],
       alt: [{ n: 'Curl bayésien à la poulie', por: 'même étirement, debout' }],
       mol: 'Si l’épaule tire en bas : remonte le dossier d’un cran.'
@@ -774,7 +774,7 @@ window.B2P = (function () {
       cues: ['Prise neutre (marteau), coudes fixes', 'Tu peux le faire alterné ou simultané', 'Contrôle la descente'],
       err: ['Balancement', 'Le transformer en rowing en montant les coudes'],
       alt: [{ n: 'Curl marteau à la corde à la poulie', por: 'variante' }],
-      mol: 'C’est le curl le plus doux pour les coudes et les poignets : c’est souvent le REFUGE quand les autres gênent.'
+      mol: 'C’est le curl le plus doux pour les coudes et les poignets : c’est souvent le refuge quand les autres gênent.'
     },
     'curl-polea': { pat: 'curl',
       nombre: 'Curl à la poulie basse', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'Poulie basse + barre',
@@ -787,33 +787,33 @@ window.B2P = (function () {
 
   /* ---------- LES 8 RÈGLES ---------- */
   const REGLAS = [
-    { n: 1, t: 'RPE contrôlé', d: 'Chaque phase a son plafond d’effort. Ton système nerveux se souvient d’avoir été athlète ; tes tendons ont passé des années sans charge. Freine avant qu’ils ne freinent.' },
-    { n: 2, t: 'Double progression', d: 'D’abord monte les répétitions dans la fourchette, ensuite monte le poids (+2,5 kg ; +5 kg au squat et au soulevé de terre roumain). Seulement si la technique était propre sur TOUTES les séries. L’app te le suggère toute seule.' },
-    { n: 3, t: 'Balance = moyenne hebdo', d: 'Pèse-toi lundi-mercredi-vendredi à jeun et ne regarde que la moyenne. Un jour isolé ne veut rien dire (eau, sel, créatine).' },
-    { n: 4, t: 'Protéines : {p} g en 4 prises', d: 'Petit-déj, déjeuner, dîner et une prise avant de dormir. Aucune prise sous {q} g. C’est la variable qui décide si ton changement de poids est du gras ou du muscle.' },
+    { n: 1, t: 'RPE contrôlé', d: 'Chaque phase a son plafond. Ton système nerveux se souvient ; tes tendons ont passé des années sans charge. Freine avant qu’ils ne freinent.' },
+    { n: 2, t: 'Double progression', d: 'D’abord les répétitions dans la fourchette, ensuite le poids : +2,5 kg (+5 kg au squat et au soulevé de terre roumain), seulement avec une technique propre sur toutes les séries. L’app te le suggère.' },
+    { n: 3, t: 'Balance = moyenne hebdo', d: 'Lundi, mercredi et vendredi à jeun, et ne regarde que la moyenne. Un jour isolé ne veut rien dire : eau, sel, créatine.' },
+    { n: 4, t: 'Protéines : {p} g en 4 prises', d: 'Petit-déj, déjeuner, dîner et pré-sommeil, aucune prise sous {q} g. Ça décide si ce qui change est du gras ou du muscle.' },
     { n: 5, t: '8 000–10 000 pas par jour', d: 'Tous les jours, entraînement ou pas. Ça brûle plus sur la semaine que les séances elles-mêmes.' },
-    { n: 6, t: 'Sommeil 7–8 h : non négociable', d: 'Ce n’est pas un objectif, c’est une règle : dormir 5,5 h en déficit transforme la perte en −55% de gras et +60% de muscle (Nedeltcheva 2010). Caféine forte uniquement avant 13-14 h.' },
-    { n: 7, t: 'Un jour raté ne se rattrape pas', d: 'Ne double pas les séances et ne coupe pas les repas le lendemain. Tu suis le calendrier là où il en est.' },
-    { n: 8, t: 'Le minimum non négociable', d: 'Le schéma qui tue, c’est 3 mois à fond / 3 à zéro. La semaine chaotique a un plancher : 2 forces + 1 cardio. Ça maintient tout.' }
+    { n: 6, t: 'Sommeil 7–8 h : non négociable', d: 'Avec 5,5 h de sommeil en déficit, tu perds 55% de gras en moins et 60% de muscle en plus. Caféine uniquement avant 13-14 h.' },
+    { n: 7, t: 'Un jour raté ne se rattrape pas', d: 'Ni double séance ni repas coupé le lendemain : suis le calendrier.' },
+    { n: 8, t: 'Le minimum non négociable', d: 'Ce qui tue, c’est 3 mois à fond et 3 à zéro. La semaine chaotique a un plancher : 2 forces + 1 cardio.' }
   ];
 
-  const SENALES = 'Signaux pour arrêter un exercice ce jour-là : douleur aiguë au genou, à l’épaule ou aux lombaires pendant le mouvement ; gêne qui empire série après série au lieu de disparaître à l’échauffement. Courbatures diffuses 24-48 h après = normal. Douleur articulaire localisée qui persiste plus de 5 jours = kiné avant de continuer à charger.';
+  const SENALES = 'Arrête l’exercice pour la journée : douleur aiguë au genou, à l’épaule ou aux lombaires pendant le mouvement ; gêne qui empire série après série au lieu de partir à l’échauffement. Normal : courbatures diffuses à 24-48 h. Kiné avant de continuer : douleur articulaire localisée plus de 5 jours.';
 
   /* ---------- NUTRITION ---------- */
   const NUTRI = {
     calorias: [
-      { c: 'Métabolisme de base (Mifflin-St Jeor)', v: '~1 950 kcal', n: '95,1 kg · 183 cm · 30 ans' },
-      { c: 'Dépense totale estimée (plan en route)', v: '2 850–3 000 kcal', n: 'Entraînements + 8-10k pas' },
-      { c: 'Apport cible', v: '2 250–2 400 kcal', n: 'Déficit ~550–700 kcal/jour (au-delà, ça freine la reprise de muscle : Murphy & Koehler 2022)' },
-      { c: 'Rythme de perte attendu', v: '0,6–0,75 kg/sem', n: '≈0,7% du poids/sem, le point optimal pour garder du maigre (Garthe 2011). Moyenne hebdo, pas au jour le jour' }
+      { c: 'Métabolisme de base', v: '~1 950 kcal', n: '95,1 kg · 183 cm · 30 ans' },
+      { c: 'Dépense totale estimée', v: '2 850–3 000 kcal', n: 'Entraînements + 8-10k pas' },
+      { c: 'Apport cible', v: '2 250–2 400 kcal', n: 'Déficit ~550–700 kcal/jour : au-delà, ça freine la reprise de muscle.' },
+      { c: 'Rythme de perte attendu', v: '0,6–0,75 kg/sem', n: '≈0,7% du poids/sem, l’optimum pour garder du muscle. Moyenne hebdo.' }
     ],
     fases: [
       { f: 'P1–P2 (sem 1-5)', kcal: 2250, p: 190, g: 70, c: 205 },
       { f: 'P3 (sem 6-9)',    kcal: 2350, p: 190, g: 70, c: 230, nota: 'Semaine 7 : DIET BREAK à ~2 800' },
       { f: 'P4 (sem 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
-    escalado: 'Les protéines ne bougent jamais : {p} g par jour pour toi. Quand le volume monte, seuls les glucides montent. En pratique : en F3 ajoute un fruit + 40 g de pain au déjeuner les jours d’entraînement ; en F4, pareil tous les jours.',
-    tomas: 'QUATRE prises de protéines par jour, aucune sous {q} g : petit-déjeuner, déjeuner, dîner et une prise pré-sommeil. C’est le total quotidien qui commande, mais la répartition en 4 maximise la synthèse protéique et coupe la faim nocturne.',
+    escalado: 'Les protéines ({p} g) ne bougent pas : quand l’entraînement monte, seuls les glucides montent. En F3, +1 fruit et 40 g de pain au déjeuner les jours d’entraînement ; en F4, tous les jours.',
+    tomas: 'Quatre prises de protéines par jour, aucune sous {q} g : petit-déjeuner, déjeuner, dîner et pré-sommeil. C’est le total qui commande, mais le répartir en 4 maximise la synthèse et coupe la faim nocturne.',
     plato: [
       { t: 'Protéines (chaque repas)', d: '200-250 g de poulet/dinde/poisson blanc en cru, ou 170-180 g de saumon/bœuf, ou 3 œufs + 2 blancs, ou 250 g de skyr + whey. Référence visuelle : une paume et demie.' },
       { t: 'Glucides', d: '60-75 g en cru de riz/pâtes, ou 250-300 g de pommes de terre, ou 60 g de pain complet, ou 50 g de flocons d’avoine. Référence : un poing.' },
@@ -821,15 +821,15 @@ window.B2P = (function () {
       { t: 'Graisses', d: '10 g d’huile d’olive vierge extra par repas principal (une cuillère à soupe) et on arrête de compter. C’est là que les calories filent sans que tu t’en rendes compte.' }
     ],
     suplementos: [
-      { id: 'creatina', t: 'Créatine monohydrate', d: '5 g par jour, à n’importe quelle heure, sans phase de charge, dès maintenant. ATTENTION : elle retient 1-2 kg d’eau les premières semaines. Ce n’est pas du gras : fie-toi au tour de taille et à la moyenne hebdo, pas au chiffre isolé (l’app le marque sur le graphique).' },
+      { id: 'creatina', t: 'Créatine monohydrate', d: '5 g par jour, à n’importe quelle heure, sans charge, dès maintenant. Elle retient 1-2 kg d’eau les premières semaines : ce n’est pas du gras. Fie-toi au tour de taille et à la moyenne hebdo ; le graphique le marque.' },
       { id: 'whey', t: 'Whey', d: '1 dose dans la prise pré-sommeil avec le skyr (et une autre là où il faut, les jours courts en protéines).' },
-      { id: 'cafeina', t: 'Caféine', d: 'Coupure à 13-14 h : 200 mg perturbent le sommeil jusqu’à 13 h après ; un café, ~9 h (Gardiner 2023). Entraînement le matin : café 30-45′ avant, parfait. Le soir : sans caféine — ton pré-workout, c’est le goûter (fruit + skyr 60-90′ avant).' },
-      { id: 'vitamina-d', t: 'Vitamine D', d: 'Vitamine D seulement si l’analyse sort sous 30 ng/mL (probable avec une vie d’intérieur).' },
-      { id: 'omega-3', t: 'Oméga-3', d: 'Oméga-3 ~2 g EPA+DHA/jour : bénéfice modeste mais réel sur la force et l’angle anti-inflammatoire/tendon.' },
-      { id: 'no', t: 'NE dépense PAS dans', d: 'Brûleurs de graisse, BCAA/EAA (redondants avec tes protéines quotidiennes), « testo boosters ». Rien de tout ça ne fait bouger l’aiguille.' }
+      { id: 'cafeina', t: 'Caféine', d: 'Pas de caféine après 13-14 h : 200 mg perturbent le sommeil jusqu’à 13 h après ; un café, ~9 h. Entraînement le matin : café 30-45′ avant. Le soir : sans caféine ; le pré-workout, c’est le goûter (fruit + skyr, 60-90′ avant).' },
+      { id: 'vitamina-d', t: 'Vitamine D', d: 'Seulement si l’analyse sort sous 30 ng/mL, probable avec une vie d’intérieur.' },
+      { id: 'omega-3', t: 'Oméga-3', d: '~2 g d’EPA+DHA par jour : bénéfice modeste mais réel sur la force et le tendon.' },
+      { id: 'no', t: 'Ne dépense pas dans', d: 'Brûleurs de graisse, BCAA/EAA (tes protéines les couvrent déjà) et « testo boosters ». Ça ne fait pas bouger l’aiguille.' }
     ],
-    hidratacion: 'Eau : 2,5–3 L/jour. Alcool : il compte en calories et bloque la récupération — dans le repas libre, hors du reste de la semaine.',
-    comidaLibre: 'UN repas libre par semaine (samedi par défaut), pas une journée. Tu commandes ou manges ce qui te fait envie en quantité normale, sans compenser ni avant ni après. Ça sert à ce que le plan tienne {s} semaines et une vie sociale. Si un plan tombe un autre jour, il se déplace — mais il en reste un seul.'
+    hidratacion: 'Eau : 2,5–3 L/jour. Alcool : seulement au repas libre ; il compte en calories et freine la récupération.',
+    comidaLibre: 'Un repas libre par semaine, pas une journée (samedi par défaut). Mange ce qui te fait envie en quantité normale, sans compenser ni avant ni après. C’est ce qui fait tenir le plan {s} semaines et une vie sociale. Il peut se déplacer ; il en reste un seul.'
   };
 
 
@@ -850,7 +850,7 @@ window.B2P = (function () {
         'Le skyr dans le bol et l’avoine par-dessus (telle quelle si tu aimes la texture, ou trempée 5′ dans un doigt de lait ou d’eau).',
         'Banane en rondelles, noix concassées à la main et cannelle par-dessus.'
       ],
-      tips: 'Si tu t’entraînes le matin : monte-le la veille au soir (l’avoine trempée y gagne). Jour court en protéines : +1 dose de whey mélangée au skyr (+110 kcal, +23 g P).'
+      tips: 'Si tu t’entraînes le matin, monte-le la veille au soir : l’avoine trempée y gagne. Jour court en protéines : +1 dose de whey dans le skyr (+110 kcal, +23 g).'
     },
     {
       id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelette, pain et tomate', tipo: 'Petit-déj B', tiempo: '10′', cocina: 'Poêle',
@@ -919,7 +919,7 @@ window.B2P = (function () {
         { pid: 'aove', q: '8 g', i: 'huile d’olive vierge extra' }
       ],
       pasos: [
-        'Wok ou poêle TRÈS chaude avec l’huile : saisis le bœuf 1-2′ et réserve-le (si tu le laisses, il bout et durcit).',
+        'Wok ou poêle très chaude avec l’huile : saisis le bœuf 1-2′ et réserve-le ; si tu le laisses, il bout et durcit.',
         'Même poêle : les légumes en lanières 5-6′, qu’ils restent al dente.',
         'Remets le bœuf, la sauce soja, 1′ de remuage et le tout sur le riz.'
       ],
@@ -972,7 +972,7 @@ window.B2P = (function () {
       ],
       pasos: [
         'Fais dorer l’ail émincé dans l’huile ; les crevettes 2′ (décongelées et séchées avant).',
-        'Baisse le feu, ajoute les œufs battus et remue SANS T’ARRÊTER jusqu’à texture crémeuse. Retire avant que ça prenne complètement.',
+        'Baisse le feu, ajoute les œufs battus et remue sans T’arrêter jusqu’à texture crémeuse. Retire avant que ça prenne complètement.',
         'Pain toasté et salade à côté.'
       ],
       tips: 'La brouillade finit de cuire hors du feu. Crevettes surgelées : décongèle-les dans un bol d’eau froide en 10′.'
@@ -989,7 +989,7 @@ window.B2P = (function () {
         'Mélange la dose de whey au skyr jusqu’à texture de mousse. Cannelle par-dessus.',
         '30-60′ avant de te coucher. C’est tout.'
       ],
-      tips: 'Cette prise complète les protéines du jour et tue la faim nocturne, le moment où meurent les régimes. La caséine laitière à digestion lente travaille pendant ton sommeil.'
+      tips: 'Complète les protéines du jour et coupe la faim nocturne, là où meurent les régimes. La caséine se digère lentement : elle travaille pendant ton sommeil.'
     },
     {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Salade complète au thon', tipo: 'Dîner · 10′', tiempo: '10′', cocina: 'Sans feu (avec le batch)',
@@ -1164,23 +1164,23 @@ window.B2P = (function () {
 
   /* ---------- LA SCIENCE DU PLAN (revue d’évidence · août 2026) ---------- */
   const CIENCIA = {
-    intro: 'Plan passé au crible de l’évidence (méta-analyses et essais 2010-2025, août 2026). L’idée qui ordonne tout : celui qui revient n’est pas un débutant — le muscle et le système nerveux reviennent vite, mais le tendon n’a pas de mémoire. Le muscle peut courir ; c’est le tendon qui donne le tempo.',
+    intro: 'Plan passé au crible de l’évidence (méta-analyses et essais 2010-2025). L’idée qui ordonne tout : celui qui revient n’est pas un débutant. Muscle et système nerveux reviennent vite ; le tendon n’a pas de mémoire et donne le tempo.',
     temas: [
-      { t: 'Mémoire musculaire', d: 'La reprise est réelle et rapide : la force en ~8 semaines, le volume en ~12. Le mécanisme (myonoyaux vs épigénétique) fait débat, mais pas l’effet. C’est pour ça que la double progression peut aller plus vite que chez un débutant — et pour la même raison, on ne compresse PAS le calendrier : celui qui ne court pas, c’est le tendon.', ref: 'Rahmati 2022 (méta-analyse, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
-      { t: 'Tendon : le facteur limitant', d: 'Le collagène tendineux se renouvelle ~10× plus lentement que le muscle. Ce qui l’adapte vraiment : des charges lourdes avec contractions lentes de ~3″ (HSR) et des isométriques à 70% (5×45″), qui en plus coupent la douleur sur le moment. La pliométrie est un mauvais stimulus tendineux : pas de sauts pour « préparer » la course.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
+      { t: 'Mémoire musculaire', d: 'La reprise est réelle et rapide : la force en ~8 semaines, le volume en ~12. Le mécanisme fait débat ; pas l’effet. C’est pour ça que la double progression peut aller plus vite que chez un débutant, et pour la même raison on ne compresse pas le calendrier : le tendon ne court pas.', ref: 'Rahmati 2022 (méta-analyse, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
+      { t: 'Tendon : le facteur limitant', d: 'Le collagène du tendon se renouvelle ~10× plus lentement que le muscle. Ce qui l’adapte : des charges lourdes avec contractions lentes de ~3″ (HSR) et des isométriques à 70% (5×45″), qui en plus coupent la douleur sur le moment. Les sauts sont un mauvais stimulus : pas de pliométrie pour « préparer » la course.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
       { t: 'Courir avec du surpoids', d: 'En surpoids, démarrer au-delà de 3 km/sem de course fait exploser les blessures (~31-48% de plus). Monter la cadence à 170-180 réduit l’impact tibial d’~11%. La progression sûre n’est pas la « règle des 10% » : c’est ne pas dépasser ~1,3× ta moyenne des 4 dernières semaines.', ref: 'Bertelsen 2018 (ECR chez des novices en surpoids) · revue de cadence 2025 · consensus CIO sur la charge' },
       { t: 'Déficit optimal', d: 'Un déficit au-delà de ~500-600 kcal annule le gain de muscle même en t’entraînant en force. Le rythme optimal pour garder du maigre est ~0,7% du poids/semaine. Voilà pourquoi le plan perd à 0,6-0,75 kg/sem et pas à 0,9.', ref: 'Murphy & Koehler 2022 (méta-analyse, 59 études) · Garthe 2011' },
       { t: 'Protéines', d: 'En déficit, les pratiquants entraînés ont besoin de 2,3-3,1 g/kg de masse maigre. {p} g te place confortablement dans la fourchette, et la répartition en 4 prises de ≥40 g maximise la synthèse protéique et contrôle la faim.', ref: 'Helms 2014 (revue systématique) · Schoenfeld & Aragon (répartition par prise)' },
-      { t: 'Diet break', d: 'Alterner déficit et pauses à maintenance a atténué la chute métabolique et amélioré la perte de gras dans l’étude MATADOR. Sur {s} semaines, sa valeur principale est ailleurs : il t’apprend qu’une semaine d’arrêt AVEC un plan n’est pas une rechute.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
-      { t: 'Le volume juste', d: 'Plus de séries = plus de muscle mais avec des rendements décroissants, et en déficit l’excès n’ajoute que fatigue et risque. Cible : ~10 séries/muscle/sem en P2 et 12-18 en P3-P4. Et le minimum non négociable (2 force + 1 cardio) est étayé : avec ça, on CONSERVE vraiment du muscle.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (dose minimale)' },
-      { t: 'La décharge bien faite', d: 'Tout arrêter une semaine coûte de la force ; ce qui marche, c’est couper le volume de moitié en gardant le poids sur la barre. D’où la semaine 9 en décharge OBLIGATOIRE de ce type.', ref: 'Coleman 2024 (PeerJ, ECR de décharge)' },
-      { t: 'Sommeil', d: 'Dormir 5,5 h en déficit (vs 8,5) a réduit le gras perdu de 55% et multiplié la perte de muscle. C’est, après les protéines et le déficit, ton plus grand levier. D’où la coupure de caféine à 13-14 h : 200 mg perturbent le sommeil jusqu’à 13 h après.', ref: 'Nedeltcheva 2010 (Ann Intern Med) · Gardiner 2023 (Sleep Med Rev)' },
-      { t: 'La santé d’abord', d: 'Après des années sans activité vigoureuse, avant le travail dur de F3-F4 : tension artérielle et bilan basique (lipides, glucose/HbA1c). Avec des symptômes de quelque type que ce soit, médecin avant de continuer.', ref: 'ACSM Preparticipation Health Screening' }
+      { t: 'Diet break', d: 'Alterner déficit et pauses à maintenance a atténué la chute métabolique et amélioré la perte de gras (étude MATADOR). Sur {s} semaines, sa valeur est ailleurs : il t’apprend qu’une semaine d’arrêt avec un plan n’est pas une rechute.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
+      { t: 'Le volume juste', d: 'Plus de séries, plus de muscle, avec des rendements décroissants ; en déficit, l’excès n’ajoute que fatigue et risque. Cible : ~10 séries/muscle/sem en P2, 12-18 en P3-P4. Le minimum (2 forces + 1 cardio) conserve vraiment du muscle.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (dose minimale)' },
+      { t: 'La décharge bien faite', d: 'Tout arrêter une semaine coûte de la force ; ce qui marche, c’est la moitié du volume avec le même poids. D’où une décharge obligatoire, et de ce type.', ref: 'Coleman 2024 (PeerJ, ECR de décharge)' },
+      { t: 'Sommeil', d: 'Dormir 5,5 h en déficit (contre 8,5) a réduit le gras perdu de 55% et multiplié la perte de muscle. Après les protéines et le déficit, c’est ton plus grand levier. D’où la coupure de caféine à 13-14 h.', ref: 'Nedeltcheva 2010 (Ann Intern Med) · Gardiner 2023 (Sleep Med Rev)' },
+      { t: 'La santé d’abord', d: 'Après des années à l’arrêt, avant le travail dur de F3-F4 : tension artérielle et bilan basique (lipides, glucose/HbA1c). Au moindre symptôme, médecin avant de continuer.', ref: 'ACSM Preparticipation Health Screening' }
     ]
   };
 
 
-  const AVISO_LEGAL = 'Ton plan est généré à partir de tes réponses avec des formules standard (Mifflin-St Jeor et facteurs d’activité classiques), avec une marge de ±10% que les règles d’ajustement corrigent avec tes données réelles. Rien de tout cela ne remplace un avis médical : pour toute pathologie, douleur persistante ou doute, consulte un professionnel de santé.';
+  const AVISO_LEGAL = 'Le plan sort de tes réponses avec des formules standard (Mifflin-St Jeor et facteurs d’activité) et une marge de ±10% que les règles d’ajustement corrigent avec tes données. Ça ne remplace pas un avis médical : en cas de pathologie, douleur persistante ou doute, consulte un professionnel de santé.';
 
   /* ---------- TEXTES D’INTERFACE (traduisibles comme le reste) ----------
      Gabarits avec {x} : app.js les remplit avec tpl(). Au changement de langue,
@@ -1193,17 +1193,17 @@ window.B2P = (function () {
     calComidas: 'Les repas du jour',
     meses: ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'],
     hoyTag: 'AUJOURD’HUI',
-    semanaLinea: 'Semaine {w} sur {t} · Phase {f} · {n} · RPE max {r}',
+    semanaLinea: 'Semaine {w}/{t} · Phase {f} · {n} · RPE max {r}',
     empiezaEnDias: 'Départ dans {n} jours', empiezaEn1: 'Départ dans 1 jour', empiezaLunes: 'Départ lundi',
-    preplanSub: '{f} · Phase 1 à la maison. En attendant, prépare ta ligne de base :',
-    prepCintura: 'Mesure ton tour de taille à jeun (à hauteur du nombril)',
-    prepFotos: 'Photos jour 0 : face et profil, la même lumière que tu utiliseras toujours',
+    preplanSub: '{f} · Phase 1 à la maison. En attendant, la ligne de base :',
+    prepCintura: 'Tour de taille à jeun, au nombril',
+    prepFotos: 'Photos jour 0 : face et profil, toujours la même lumière',
     prepCompra: 'Courses de la semaine 1 (liste dans Nutrition)',
-    prepBascula: 'Décide où et quand tu te pèses : lundi-mercredi-vendredi à jeun',
-    practicaMenu: 'Tu peux pratiquer le menu dès maintenant : le {f}, c’est du sérieux.',
+    prepBascula: 'Balance : lundi, mercredi et vendredi à jeun, toujours pareil',
+    practicaMenu: 'Le menu compte dès aujourd’hui ; le {f}, c’est du sérieux.',
     descanso: 'Repos', domingoPrep: 'Dimanche : repos + meal prep', planCompletado: 'Plan terminé',
     calentamiento: 'Échauffement · 6′',
-    sesionSub: '{d} · repos sur chaque ligne (touche pour chronométrer)',
+    sesionSub: '{d} · touche un repos pour le chronométrer',
     tendonNombre: 'Protocole tendon',
     cardioHecho: '✓ Cardio fait', cardioMarcar: 'Marquer le cardio fait', minutosReales: 'Minutes réelles :',
     cadenciaSub: 'Cadence 170-180 · foulée courte', recuperacionSub: 'Récupération active', opcional: 'optionnel',
@@ -1211,8 +1211,8 @@ window.B2P = (function () {
     diaADia: 'Le quotidien',
     hPasos: '8-10k pas', hPasosSub: 'Tous les jours',
     hProte: 'Protéines 4/4', hProteSub: '4 prises ≥{q} g',
-    hPeso: 'Poids à jeun', hPesoSub: 'Moyenne hebdo, pas le jour isolé',
-    hCintura: 'Tour de taille (lundi)', hCinturaSub: 'La métrique reine · au nombril, sans serrer',
+    hPeso: 'Poids à jeun', hPesoSub: 'Seule la moyenne hebdo compte',
+    hCintura: 'Tour de taille (lundi)', hCinturaSub: 'La métrique reine · au nombril',
     hPrep: 'Meal prep', hPrepSub: '~90′ et la semaine est réglée',
     hFoto: 'Photos de progression', hFotoSub: 'Face et profil, même lumière',
     pesoGuardado: 'Poids enregistré : {v} kg', cinturaGuardada: 'Tour de taille : {v} cm',
@@ -1224,59 +1224,59 @@ window.B2P = (function () {
     quizAfinara: 'Ça affinera ton plan.', quizTitulo: 'Tes goûts', quizPista: 'Glisse : à droite j’aime, à gauche non',
     quizSi: 'J’aime', quizNo: 'Pas pour moi', quizDeshacer: 'Annuler', quizSaltar: 'Passer',
     quizListo: 'Terminé',
-    gen: { kcalHueco: 'Ce menu totalise ~{m} kcal par jour et ton objectif est {k} : {q}. Les recettes ont une taille fixe ; ajuste le riz, les pâtes ou le pain du repas principal.', kcalSube: 'il te manque ~{d}', kcalBaja: 'tu dépasses de ~{d}', chkDentro: 'dans le couloir', chkBajo: 'en dessous', chkAlto: 'au-dessus', lChkD2: 'Poids dans le couloir à la semaine {s}.', tHombroT: 'Épaule · coiffe et dentelé', tHombroD: 'Rotation externe à la bande 2×15 par côté et élévation en Y allongé 2×12, lentes. Avant toute poussée et les jours creux. La coiffe ne gagne pas avec du poids : elle gagne avec du contrôle.', tHombroW: 'À la maison avec une bande, ou l’haltère le plus léger que tu aies.', r2SinBarra: 'D’abord monte les répétitions dans la fourchette, ensuite la charge (le plus petit saut dont tu disposes : un haltère de plus, une bande plus dure ou une variante plus difficile). Seulement si la technique était propre sur TOUTES les séries. L’app te le suggère.', protHueco: 'Le menu fournit ~{m} g de protéines par jour ; jusqu’à tes {p} g, le pont ce sont les prises extra (un shake ou une portion de plus).', finRecapT: 'Ton bloc, en chiffres', subCorporal: 'Version au poids du corps : atteins proprement le haut de la fourchette, puis passe à la variante supérieure.', subRepe: 'Deuxième tour : sans matériel il n’y a pas trente variantes, et répéter le mouvement proprement construit quand même.', f2nCasa: 'Mise en charge', f2oCasa: 'Réapprendre les basiques avec haltères et bandes et construire une base de charge. Travaille à 65-70% de ce que tu sens possible, avec 3 répétitions en réserve TOUJOURS.', f2nNada: 'Progression au poids du corps', f2oNada: 'Maîtriser les progressions avec ton propre corps et construire une base. Le levier monte avant les répétitions : variante plus dure seulement avec une technique propre.', gemNota: 'Le mollet lent est l’assurance du tendon : ne le saute pas.', tendonSinTrote: 'La force revient en semaines ; le tendon demande des mois (son collagène se renouvelle ~10× plus lentement et n’a pas de mémoire musculaire). Ce bloc est l’assurance du plan : il commence en semaine 1 et accompagne tout le bloc.', introNunca: 'Plan vérifié contre l’évidence (méta-analyses et essais 2010-2025). L’idée qui ordonne tout : en partant de zéro on progresse vite, les premiers mois apportent les plus grands gains de force de ta vie, mais le tissu conjonctif traîne derrière le muscle. Voilà pourquoi les charges montent lentement même quand tu pourrais plus.', introActivo: 'Plan vérifié contre l’évidence (méta-analyses et essais 2010-2025). L’idée qui ordonne tout : qui s’entraîne déjà n’a pas besoin de plus de punition mais d’une meilleure dose. Le volume juste, la progression notée et le repos compté séparent se maintenir de progresser.', cNuncaT: 'Partir de zéro', cNuncaD: 'La première année apporte les plus grands gains de force d’une vie : presque toute dose bien faite fonctionne, d’où l’inutilité des programmes extrêmes. La technique d’abord : les répétitions propres d’aujourd’hui sont les kilos sûrs de dans trois mois.', cNuncaR: 'gains de débutant : revues ACSM et méta-analyses dose-réponse', cActivoT: 'Ajouter sans se casser', cActivoD: 'Le risque de qui s’entraîne déjà est d’empiler du volume neuf sur l’ancien. Les sauts au-dessus de ~1,3× ta charge moyenne récente font exploser les blessures : ajoute une variable à la fois (jours, volume ou intensité), jamais les trois.', cActivoR: 'consensus CIO sur la charge d’entraînement (ACWR)', cSupT: 'Un surplus qui construit', cSupD: 'Construire du muscle demande un petit surplus (~250-350 kcal) : au-dessus, l’extra part vers le gras. La balance doit monter lentement ; si elle monte vite ce n’est pas du muscle, la synthèse protéique a un plafond hebdomadaire.', cSupR: 'Garthe 2013 · Slater 2019 (surplus et composition)', r1Nunca: 'Chaque phase a son plafond d’effort. En partant de zéro, la force monte plus vite que la résistance de tes tissus : laisse toujours 2-3 répétitions en réserve et les gains arrivent quand même, sans péage.', r1Activo: 'Chaque phase a son plafond d’effort. Tu arrives en t’entraînant, mais ce volume est nouveau : respecte les plafonds de RPE les deux premières semaines, monte ensuite. Freiner à temps, c’est ce qui te laisse progresser les {s} semaines.', r8Nunca: 'L’ennemi du début n’est pas la dureté, c’est l’irrégularité. La semaine chaotique a un plancher : 2 forces + 1 cardio. Ça maintient tout en marche.', r8Activo: 'Qui s’entraîne a aussi des semaines impossibles. Le plancher : 2 forces + 1 cardio. Avec ça rien ne se perd ; le reste se récupère.', f1nNunca: 'Fondations', f1oNunca: 'Construire l’habitude et apprendre les patrons de mouvement sans punir les articulations. Rester sur sa faim est intentionnel.', f2nNunca: 'Technique', f2oNunca: 'Apprendre les basiques avec charge légère : chaque répétition propre maintenant, ce sont des kilos sûrs après. Travaille loin de l’échec TOUJOURS.', f3oNunca: 'Volume et intensité pour de vrai, la technique désormais rodée. Termine chaque série capable de faire 2 répétitions de plus, des vraies.', f1nActivo: 'Base', f1oActivo: 'Deux semaines d’adaptation au plan : dose connue, registre en route et technique affûtée avant de monter quoi que ce soit.', f2nActivo: 'Construction', f2oActivo: 'Volume progressif sur ta base : travaille à 70-75% de ce que tu sens possible, avec 2-3 répétitions en réserve.', f3oActivo: 'Volume et intensité réels pour forcer le changement. Termine chaque série capable de faire 2 répétitions de plus, des vraies.', cierrePerder: 'Le vrai but du plan n’est pas le {f} : c’est d’y arriver en t’entraînant par habitude, sans cycle on/off. Le poids qui descend est la conséquence, pas le but.', cierreRecomp: 'Le vrai but du plan n’est pas le {f} : c’est d’y arriver avec l’habitude installée et les vêtements qui tombent autrement. La recomposition est lente par design : la constance est le but.', cierreGanar: 'Le vrai but du plan n’est pas le {f} : c’est d’y arriver plus fort sous la barre, l’habitude installée. Le muscle se construit en mois : le bloc suivant commence où celui-ci finit.', cierreManten: 'Le vrai but du plan n’est pas le {f} : c’est que s’entraîner cesse d’être un plan pour devenir une coutume. Maintenir, c’est gagner.', cierreRenueva: 'Pour renouveler le bloc : Réglages, Créer / refaire mon plan. Deux touches et tu continues.', platoVegetariano: '3 œufs + 2 blancs, ou 250 g de skyr ou fromage blanc + whey, ou 200 g de tofu ferme, ou 150 g de tempeh, ou 250 g de légumineuses cuites + 1 œuf. Référence visuelle : une paume et demie.', platoVegano: '200-250 g de tofu ferme, ou 150-180 g de tempeh, ou 250 g de légumineuses cuites + une dose de protéine végétale, ou 80 g (sec) de soja texturé. Référence visuelle : une paume et demie.', suplVegT: 'Protéine végétale', suplVegD: '1 dose de protéine de pois ou de soja dans la prise pré-sommeil (et une autre là où la journée manque de protéines).', numRecomp: 'Déficit doux ~300-450 kcal/jour : recomposer demande de la patience, pas de l’agressivité.', numSup: 'Surplus ~250-350 kcal/jour : plus, ce n’est pas plus de muscle, c’est plus de gras (Garthe 2013).', numMan: 'Ta maintenance estimée : la moyenne hebdo juge et ajuste.', ritmoSubeT: 'Rythme de prise attendu', ritmoManT: 'Rythme attendu', ritmoSubeN: '≈0,25% du poids/sem : ce que le muscle peut réellement construire. Moyenne hebdo, pas au jour le jour.', ritmoManN: 'La moyenne hebdo doit rester à ±0,3 kg de ton départ.', wjN1: 'Marche-course I', wjN2: 'Marche-course II', wjN3: 'Marche-course III', lChkN: 'Checkpoint S{s}', lChkD: 'Poids dans le couloir (ou mieux) à la semaine {s}.', alRapidoBaja: 'Ajoute 150 kcal de glucides. À ce rythme, le déficit mange aussi du muscle.', alLentoBaja: 'Vérifie portions et pas pendant deux jours avant de couper quoi que ce soit ; si ça reste plat, retire 100 kcal de glucides les jours de repos seulement.', alRapidoSube: 'Tu montes plus vite que le muscle ne se construit : retire 150 kcal de glucides pour que le surplus ne soit pas du gras.', alLentoSube: 'Le surplus ne se voit pas sur la balance : ajoute 150 kcal de glucides les jours d’entraînement.', alMantenT: 'Tu dérives de la maintenance', alMantenD: 'Deux semaines de dérive d’affilée : ajuste 100-150 kcal dans la direction opposée et ne touche pas à l’entraînement.', circProg: 'Ajoute 1-2 répétitions par semaine là où ta technique reste propre : c’est ça, la progression.', durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Haut · Bas', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (sem 1-{a})', nf2: 'F3 (sem {b}-{c})', nf3: 'F4 (sem {d}-{e})', dietBreakNota: 'Semaine {w} : DIET BREAK à ~{k}', hitoCribadoT: 'Bilan santé', hitoCribadoD: 'Avant la phase de charge, si tu es resté des années sans activité vigoureuse : tension en pharmacie et bilan basique (lipides, glucose). 15 minutes qui achètent la tranquillité.', hitoDietT: 'DIET BREAK', hitoDietD: 'Toute la semaine tu manges à la maintenance (~{k} kcal : +2 portions de glucides par jour, protéines inchangées). L’entraînement ne change pas. Ça restaure NEAT et leptine et casse le cycle on/off. Le lundi suivant, déficit à nouveau.', hitoDescargaT: 'DÉCHARGE (non optionnelle)', hitoDescargaD: 'Même routine avec la moitié des séries et le même poids sur la barre. Pas un arrêt : entretien du tissu et vacances pour tendons et articulations.', tomaNocheAlt: '+ chaque soir : prise pré-sommeil avec ta protéine végétale (soja ou pois), ~40 g en shake. ', franjaM: 'Tu t’entraînes le matin : petit-déj après la séance, pas avant.', franjaMd: 'Tu t’entraînes à midi : le repas principal tombe juste après la séance.', franjaT: 'Tu t’entraînes le soir : léger avant ; le dîner fait de repas post-entraînement.', cardioLibreT: 'Cardio : {d}', cardioLibreD: '{m}′ à un rythme confortable et régulier. Ton sport compte autant que le footing : la régularité commande.', chk1: 'Hors du couloir : vérifie portions et pas avant de toucher à quoi que ce soit. Les premières semaines, l’eau bouge aussi.', chk2: 'Deux semaines hors piste : ajuste 150 kcal de glucides dans la bonne direction. Les protéines ne bougent pas.', chk3: 'Clôture : photos, mesures et le bloc suivant, décidé avec des données.', lKgN: '−{v} kg', lKgD: 'Moyenne hebdo {v} kg sous ton départ.', lKgUpN: '+{v} kg', lKgUpD: 'Moyenne hebdo {v} kg au-dessus du départ. Du muscle, brique par brique.', lCintN: 'Taille −{v}', lCintD: 'Tour de taille sous {v} cm.', lReinaN: 'Métrique reine', lReinaD: 'Taille sous la moitié de ta stature : {v} cm.', lFinDesc: 'Plan de {s} semaines terminé. Le but était l’habitude ; le reste est conséquence.', marca: 'Plan généré pour toi', cuida: 'ménage : {a}', datos: '{p} kg · {a} cm · {e} ans', menuAviso: '{n} plats du menu ne collent pas à ton régime : remplace-les par n’importe lequel du livre de recettes, déjà filtré pour toi.', prepNota: 'Seules les recettes marquées « batch » se préparent le dimanche ; le reste se cuisine à la minute. Les quantités de courses comptent déjà les répétitions de la semaine.' },
+    gen: { kcalHueco: 'Ajuste le riz, les pâtes ou le pain du repas principal pour couvrir la différence.', kcalSube: 'il te manque ~{d}', kcalBaja: 'tu dépasses de ~{d}', chkDentro: 'dans le couloir', chkBajo: 'en dessous', chkAlto: 'au-dessus', lChkD2: 'Poids dans le couloir à la semaine {s}.', tHombroT: 'Épaule · coiffe et dentelé', tHombroD: 'Rotation externe à la bande 2×15 par côté et élévation en Y allongé 2×12, lentes, avant toute poussée et les jours creux. La coiffe gagne avec du contrôle, pas avec du poids.', tHombroW: 'À la maison avec une bande, ou l’haltère le plus léger que tu aies.', r2SinBarra: 'D’abord les répétitions dans la fourchette, ensuite la charge : le plus petit saut dont tu disposes (un haltère de plus, une bande plus dure, une variante plus difficile), seulement avec une technique propre sur toutes les séries. L’app te le suggère.', protHueco: 'Jusqu’à tes {p} g de protéines, le pont c’est une prise extra : un shake ou une portion de plus.', finRecapT: 'Ton bloc, en chiffres', subCorporal: 'Version au poids du corps : atteins proprement le haut de la fourchette, puis passe à la variante supérieure.', subRepe: 'Deuxième tour : sans matériel il n’y a pas trente variantes, et répéter le mouvement proprement construit quand même.', f2nCasa: 'Mise en charge', f2oCasa: 'Basiques avec haltères et bandes, et base de charge : 65-70% de ce que tu pourrais, 3 vraies répétitions en réserve.', f2nNada: 'Progression au poids du corps', f2oNada: 'Progressions au poids du corps et base. D’abord le levier, puis les répétitions : variante plus dure seulement avec une technique propre.', gemNota: 'Le mollet lent est l’assurance du tendon : ne le saute pas.', tendonSinTrote: 'La force revient en semaines ; le tendon demande des mois : son collagène se renouvelle ~10× plus lentement et n’a pas de mémoire. Ce bloc est l’assurance du plan, de la semaine 1 à la dernière.', introNunca: 'Plan vérifié contre l’évidence (méta-analyses et essais 2010-2025). L’idée qui ordonne tout : en partant de zéro on progresse vite (les premiers mois apportent les plus grands gains de force de ta vie), mais le tissu conjonctif traîne derrière le muscle. Voilà pourquoi les charges montent lentement même si tu pourrais plus.', introActivo: 'Plan vérifié contre l’évidence (méta-analyses et essais 2010-2025). L’idée qui ordonne tout : qui s’entraîne déjà n’a pas besoin de plus de punition, mais d’une meilleure dose. Volume juste, progression notée et repos compté séparent se maintenir de progresser.', cNuncaT: 'Partir de zéro', cNuncaD: 'La première année apporte les plus grands gains de force d’une vie : presque toute dose bien faite fonctionne, d’où l’inutilité des programmes extrêmes. La technique d’abord : les répétitions propres d’aujourd’hui sont les kilos sûrs de dans trois mois.', cNuncaR: 'gains de débutant : revues ACSM et méta-analyses dose-réponse', cActivoT: 'Ajouter sans se casser', cActivoD: 'Le risque de qui s’entraîne déjà est d’empiler du volume neuf sur l’ancien. Les sauts au-dessus de ~1,3× ta charge moyenne récente font exploser les blessures : ajoute une variable à la fois (jours, volume ou intensité), jamais les trois.', cActivoR: 'consensus CIO sur la charge d’entraînement (ACWR)', cSupT: 'Un surplus qui construit', cSupD: 'Construire du muscle demande un petit surplus (~250-350 kcal) : au-dessus, l’extra part vers le gras. La balance doit monter lentement ; si elle monte vite ce n’est pas du muscle, la synthèse protéique a un plafond hebdomadaire.', cSupR: 'Garthe 2013 · Slater 2019 (surplus et composition)', r1Nunca: 'Chaque phase a son plafond. En partant de zéro, la force monte plus vite que la résistance de tes tissus : laisse 2-3 vraies répétitions en réserve et les gains arrivent quand même.', r1Activo: 'Chaque phase a son plafond. Ce volume est nouveau même si tu t’entraînes : respecte le RPE les deux premières semaines, monte ensuite. Freiner à temps, c’est ce qui te laisse progresser {s} semaines d’affilée.', r8Nunca: 'Au début, l’ennemi n’est pas la dureté, c’est l’irrégularité. Plancher de la semaine chaotique : 2 forces + 1 cardio.', r8Activo: 'Qui s’entraîne a aussi des semaines impossibles. Plancher : 2 forces + 1 cardio. Rien ne se perd ; le reste se récupère.', f1nNunca: 'Fondations', f1oNunca: 'Habitude et patrons de mouvement, sans punir les articulations. Rester sur ta faim est intentionnel.', f2nNunca: 'Technique', f2oNunca: 'Basiques avec charge légère : chaque répétition propre maintenant, ce sont des kilos sûrs après. Toujours loin de l’échec.', f3oNunca: 'Volume et intensité pour de vrai, la technique rodée. Termine chaque série avec 2 vraies répétitions en réserve.', f1nActivo: 'Base', f1oActivo: 'Deux semaines d’adaptation : dose connue, registre en route, technique affûtée. Ensuite, on monte.', f2nActivo: 'Construction', f2oActivo: 'Volume progressif sur ta base : 70-75% de ce que tu pourrais, 2-3 vraies répétitions en réserve.', f3oActivo: 'Volume et intensité réels pour forcer le changement. Termine chaque série avec 2 vraies répétitions en réserve.', cierrePerder: 'Le but n’est pas le {f} : c’est d’y arriver en t’entraînant par habitude, sans cycle on/off. Le poids qui descend est la conséquence.', cierreRecomp: 'Le but n’est pas le {f} : c’est d’y arriver avec l’habitude installée et les vêtements qui tombent autrement. Recomposer est lent par design ; la constance est le but.', cierreGanar: 'Le but n’est pas le {f} : c’est d’y arriver plus fort, l’habitude installée. Le muscle se construit en mois : le bloc suivant commence où celui-ci finit.', cierreManten: 'Le but n’est pas le {f} : c’est que s’entraîner cesse d’être un plan pour devenir une habitude. Maintenir, c’est gagner.', cierreRenueva: 'Pour renouveler le bloc : Réglages › Créer / refaire mon plan.', platoVegetariano: '3 œufs + 2 blancs, ou 250 g de skyr ou fromage blanc + whey, ou 200 g de tofu ferme, ou 150 g de tempeh, ou 250 g de légumineuses cuites + 1 œuf. Référence visuelle : une paume et demie.', platoVegano: '200-250 g de tofu ferme, ou 150-180 g de tempeh, ou 250 g de légumineuses cuites + une dose de protéine végétale, ou 80 g (sec) de soja texturé. Référence visuelle : une paume et demie.', suplVegT: 'Protéine végétale', suplVegD: '1 dose de protéine de pois ou de soja dans la prise pré-sommeil, et une autre les jours courts en protéines.', numRecomp: 'Déficit doux, ~300-450 kcal/jour : recomposer demande de la patience.', numSup: 'Surplus ~250-350 kcal/jour : plus, ce n’est pas plus de muscle, c’est du gras.', numMan: 'Ta maintenance estimée : la moyenne hebdo juge et ajuste.', ritmoSubeT: 'Rythme de prise attendu', ritmoManT: 'Rythme attendu', ritmoSubeN: '≈0,25% du poids/sem : ce que le muscle peut construire. Moyenne hebdo.', ritmoManN: 'La moyenne hebdo doit rester à ±0,3 kg de ton départ.', wjN1: 'Marche-course I', wjN2: 'Marche-course II', wjN3: 'Marche-course III', lChkN: 'Checkpoint S{s}', lChkD: 'Poids dans le couloir (ou mieux) à la semaine {s}.', alRapidoBaja: 'Ajoute 150 kcal de glucides. À ce rythme, le déficit mange aussi du muscle.', alLentoBaja: 'Vérifie portions et pas pendant deux jours. Si ça reste plat, retire 100 kcal de glucides les jours de repos seulement.', alRapidoSube: 'Tu montes plus vite que le muscle ne se construit : retire 150 kcal de glucides, sinon le surplus sera du gras.', alLentoSube: 'Le surplus ne se voit pas sur la balance : ajoute 150 kcal de glucides les jours d’entraînement.', alMantenT: 'Tu dérives de la maintenance', alMantenD: 'Deux semaines de dérive d’affilée : ajuste 100-150 kcal dans la direction opposée et ne touche pas à l’entraînement.', circProg: 'Ajoute 1-2 répétitions par semaine là où ta technique reste propre : c’est ça, la progression.', durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Haut · Bas', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (sem 1-{a})', nf2: 'F3 (sem {b}-{c})', nf3: 'F4 (sem {d}-{e})', dietBreakNota: 'Semaine {w} : diet break à ~{k} kcal', hitoCribadoT: 'Bilan santé', hitoCribadoD: 'Avant de charger pour de vrai, si tu es resté des années à l’arrêt : tension en pharmacie et bilan basique (lipides, glucose). 15 minutes.', hitoDietT: 'Diet break', hitoDietD: 'Semaine à la maintenance, ~{k} kcal : +2 portions de glucides par jour. Protéines et entraînement inchangés. Le lundi suivant, déficit à nouveau.', hitoDescargaT: 'Décharge · obligatoire', hitoDescargaD: 'Même routine, moitié des séries, même charge. Pas un arrêt : tendons et articulations se reposent sans perdre de tissu.', tomaNocheAlt: '+ chaque soir : prise pré-sommeil avec protéine végétale, ~40 g en shake. ', franjaM: 'Séance le matin : petit-déj après, pas avant.', franjaMd: 'Séance à midi : le repas principal tombe juste après.', franjaT: 'Séance le soir : léger avant ; le dîner est le post-entraînement.', cardioLibreT: 'Cardio : {d}', cardioLibreD: '{m}′ à un rythme confortable et régulier. Ton sport compte autant que le footing.', chk1: 'Hors du couloir : vérifie portions et pas avant de toucher à quoi que ce soit. Au début, l’eau bouge aussi.', chk2: 'Deux semaines hors piste : ajuste 150 kcal de glucides dans la bonne direction. Les protéines ne bougent pas.', chk3: 'Clôture : photos, mesures et le bloc suivant, décidé avec des données.', lKgN: '−{v} kg', lKgD: 'Moyenne hebdo {v} kg sous ton départ.', lKgUpN: '+{v} kg', lKgUpD: 'Moyenne hebdo {v} kg au-dessus du départ. Du muscle, brique par brique.', lCintN: 'Taille −{v}', lCintD: 'Tour de taille sous {v} cm.', lReinaN: 'Métrique reine', lReinaD: 'Taille sous la moitié de ta stature : {v} cm.', lFinDesc: 'Plan de {s} semaines terminé. Le but était l’habitude ; le reste est conséquence.', marca: 'Plan généré pour toi', cuida: 'ménage : {a}', datos: '{p} kg · {a} cm · {e} ans', menuAviso: '{n} plats ne collent pas à ton régime : remplace-les par un autre du livre de recettes, déjà filtré.', prepNota: 'Seul ce qui est marqué « batch » se cuisine le dimanche ; le reste, à la minute. Les courses comptent déjà les répétitions de la semaine.' },
     pBarraT: 'La barre du plan', pBarraSub: '{a} disques chargés sur {b}',
     patrones: { eh: 'Poussée horizontale', ev: 'Poussée verticale', th: 'Tirage horizontal', tv: 'Tirage vertical', rod: 'Dominante genou', bis: 'Charnière de hanche', zan: 'Fente', core: 'Gainage', flex: 'Flexion du tronc', curl: 'Flexion de coude', ext: 'Extension de coude', gem: 'Mollet', ais: 'Isolation' },
     quizCatEj: 'Exercice', quizCatDep: 'Sport', quizCatCom: 'Plat',
-    alta: { t: 'Crée ton profil', sub: 'Force, assiette et progrès. Un plan fait pour toi, en deux minutes.', nombreL: 'Ton prénom', ph: 'Comment on t’appelle ?', cta: 'Commencer', local: 'Tes données vivent uniquement sur cet appareil. Sans compte, sans cloud.', valNombre: 'Écris un prénom de 2 à 24 caractères.', idioma: 'Langue' },
-    rev: { evFecha: 'se termine le {b}, juste avant', evSinFecha: 'sans date : c’est l’horizon choisi qui commande', minT: '{v} minutes par séance', minSub: 'séances taillées à l’essentiel : les mouvements de base restent', evT: 'Objectif : {e}', evSub: 'la date commande : régularité avant perfection', durOpen: 'Sans date : blocs de {s} semaines, renouvelables', t: '{n}, ton plan est prêt', tAnon: 'Ton plan est prêt', sub: 'Décidé à partir de tes réponses. Ce n’est pas un modèle.',
+    alta: { t: 'Crée ton profil', sub: 'Force, assiette et progrès. Ton plan, en deux minutes.', nombreL: 'Ton prénom', ph: 'Comment on t’appelle ?', cta: 'Commencer', local: 'Tes données vivent uniquement sur cet appareil.', valNombre: 'Écris un prénom de 2 à 24 caractères.', idioma: 'Langue' },
+    rev: { evFecha: 'se termine le {b}, juste avant', evSinFecha: 'sans date : c’est l’horizon choisi qui commande', minT: '{v} minutes par séance', minSub: 'séances courtes : les mouvements de base restent', evT: 'Objectif : {e}', evSub: 'la date commande : régularité avant perfection', durOpen: 'Sans date : blocs de {s} semaines, renouvelables', t: '{n}, ton plan est prêt', tAnon: 'Ton plan est prêt', sub: 'Fait avec tes réponses, pas un modèle.',
       splitT: 'Force {d} jours par semaine', splitFb: 'corps entier : ce qui rend le plus avec peu de jours', splitTp: 'haut / bas, en paires', splitPpl: 'pousser / tirer / jambes',
-      kcalT: '{k} kcal par jour', kDef: 'un déficit de {v} kcal : perdre du gras sans sacrifier le muscle', kSup: 'un surplus de {v} kcal pour construire du muscle', kMan: 'à ta maintenance, protéines aux commandes',
+      kcalT: '{k} kcal par jour', kDef: 'un déficit de {v} kcal, sans sacrifier le muscle', kSup: 'un surplus de {v} kcal pour construire du muscle', kMan: 'à ta maintenance, protéines aux commandes',
       protT: '{p} g de protéines par jour', protSub: '{v} g par kilo de poids',
       durT: '{s} semaines devant toi', durSub: 'du {a} au {b}',
       subsT: '{n} exercices remplacés', subsSub: 'selon ton matériel ou tes refus',
       cuidaT: 'Attention renforcée : {a}', cuidaSub: 'les exercices concernés portent un avertissement',
-      menuT: 'Menu ajusté à ta table', menuSub: 'régime et intolérances appliqués à toute la semaine', menuAv: '{n} plats ne collent toujours pas : signalé dans Nutrition',
+      menuT: 'Menu ajusté à ta table', menuSub: 'régime et intolérances appliqués à toute la semaine', menuAv: '{n} plats ne collent pas : signalé dans Nutrition',
       gustosT: '{a} j’aime · {b} refus', gustosSub: 'ce que tu as refusé reste hors de ton plan',
       cta: 'Voir ma semaine 1', micro: 'Refais le questionnaire quand tu veux : tout se recalcule.' },
     tour: { salta: 'Passer', sigue: 'Suivant', listo: 'À l’entraînement', otraVez: 'Revoir la visite de bienvenue',
-      antes: ['Ton plan est lancé', 'Il commence le jour que tu as choisi. D’ici là, AUJOURD’HUI te montre les étapes préalables, et le menu est prêt pour que tu fasses tes courses.'],
+      antes: ['Ton plan est lancé', 'Jusqu’au jour que tu as choisi, Aujourd’hui te montre les étapes préalables. Le menu est déjà prêt : fais tes courses.'],
       pasos: [
-      ['Voici AUJOURD’HUI', 'Ta journée, déjà montée : la séance du jour avec ses exercices, séries et repos. Touche un exercice pour voir la technique et le muscle travaillé.'],
-      ['Les repas du jour', 'Petit-déjeuner, déjeuner, dîner et la prise du soir, choisis pour ton objectif. Touche un plat et la recette entière s’ouvre.'],
-      ['Ton journal quotidien', 'Poids, tour de taille et ce que tu as accompli. Un toucher par habitude, et tu clôtures la journée avec le bouton en bas. L’app tient le compte.'],
-      ['Le plan entier', 'Un calendrier avec chaque phase dans sa couleur. Touche n’importe quel jour pour voir sa séance et ses repas. Glisse ou utilise les flèches pour changer de mois.'],
-      ['Les quatre phases', 'De la réactivation au pic. Chaque bande indique ses semaines et son intensité ; déplie-la pour voir ce qu’elle vise.'],
-      ['Ta bibliothèque d’exercices', 'Tous les mouvements par zone, avec le muscle en couleur, la technique et quoi utiliser s’il te manque du matériel.'],
-      ['Ton objectif à table', 'Calories et macros de la phase en cours, et si le menu est en dessous ou au-dessus, de combien. Le pourquoi est dans Mon profil.'],
-      ['Recettes', 'Petits-déjeuners, déjeuners, dîners et compléments, filtrés pour toi. Chaque recette avec photo, ingrédients en photo et pas à pas.'],
-      ['Les courses de la semaine', 'Tout ce qu’il te faut, groupé par repas et avec la photo du produit pour le repérer en magasin. Coche ce que tu as déjà.'],
+      ['Voici AUJOURD’HUI', 'Ta séance du jour : exercices, séries et repos. Touche-en un pour voir technique et muscle.'],
+      ['Les repas du jour', 'Petit-déjeuner, déjeuner, dîner et prise du soir, pour ton objectif. Touche un plat : recette entière.'],
+      ['Ton journal quotidien', 'Poids, tour de taille et habitudes : un toucher chacun. Clôture la journée avec le bouton en bas.'],
+      ['Le plan entier', 'Chaque phase dans sa couleur. Touche un jour : sa séance et ses repas. Glisse pour changer de mois.'],
+      ['Les quatre phases', 'Chaque bande indique ses semaines et son intensité. Déplie-la : ce qu’elle vise.'],
+      ['Ta bibliothèque d’exercices', 'Tous les mouvements par zone : muscle en couleur, technique et quoi utiliser s’il manque du matériel.'],
+      ['Ton objectif à table', 'Calories et macros de la phase, et de combien le menu est en dessous ou au-dessus. Le pourquoi, dans Mon profil.'],
+      ['Recettes', 'Petits-déjeuners, déjeuners, dîners et compléments filtrés pour toi, avec photo, ingrédients et pas à pas.'],
+      ['Les courses de la semaine', 'Toute la semaine par rayon, avec la photo de chaque produit. Coche ce que tu as déjà.'],
       ['Progrès honnêtes', 'Poids, taille, charges et régularité, en graphiques. Trop vite ? L’app te freine.'],
-      ['Tes badges', 'Ils se gagnent par la régularité, pas par l’intensité. Chacun explique ce que tu as fait pour l’obtenir.'],
-      ['Deux bulles', 'La loupe trouve n’importe quel exercice, plat ou réglage. La bulle de dialogue sert à me signaler bugs ou idées : je les lis tous.'],
-      ['Mon profil', 'Tes réponses, refaire le plan, le partager par lien, exporter tes données, la confidentialité et supprimer le compte. Tout ce qui est à toi, là.'] ] },
+      ['Tes badges', 'Ils se gagnent par la régularité, pas par l’intensité. Chacun dit comment l’obtenir.'],
+      ['Deux bulles', 'La loupe cherche exercices, plats et réglages. La bulle sert à me signaler bugs ou idées.'],
+      ['Mon profil', 'Tes réponses, refaire le plan, le partager, exporter tes données, confidentialité et supprimer le compte.'] ] },
     cuest: {
-      evFechaT: 'C’est quel jour ?', evFechaP: 'Avec la date, le plan se termine juste avant. Sans elle, c’est l’horizon choisi qui commande.', evFechaSaltar: 'Je ne sais pas encore', evFechaMal: 'Choisis une date entre 2 et 12 mois à partir d’aujourd’hui.', 
+      evFechaT: 'C’est quel jour ?', evFechaP: 'Le plan se termine juste avant. Sans date, c’est l’horizon qui commande.', evFechaSaltar: 'Je ne sais pas encore', evFechaMal: 'Choisis une date entre 2 et 12 mois à partir d’aujourd’hui.', 
       resLObj: 'Objectif', resLEv: 'Pour', resLDur: 'Horizon', resLHist: 'Tu viens de', resLMat: 'Matériel', resLDieta: 'Table', resLFranja: 'Créneau', resLLes: 'Attention', resLSin: 'Tu évites', 
-      gateT: 'Ta santé décide', gateTxt: 'Tu as indiqué une condition médicale qui limite l’exercice. Avant de générer quoi que ce soit, montre à ton médecin ce que tu veux faire (force {d} jours par semaine) et demande son feu vert.',
-      gateGuardado: 'Tes réponses sont gardées pour ton retour.', gateOk: 'J’ai le feu vert', gateSalir: 'Sortir pour l’instant',
-      gateHoyT: 'En pause, pour une raison', gateHoyTxt: 'Le questionnaire est resté à mi-chemin : il manque le feu vert de ton médecin. Avec lui, ton plan se génère à l’instant.', gateVolver: 'Reprendre le questionnaire',
+      gateT: 'Ta santé décide', gateTxt: 'Tu as indiqué une condition médicale qui limite l’exercice. Avant de générer le plan, demande à ton médecin son feu vert pour de la force {d} jours par semaine.',
+      gateGuardado: 'Tes réponses sont gardées.', gateOk: 'J’ai le feu vert', gateSalir: 'Sortir pour l’instant',
+      gateHoyT: 'En pause, pour une raison', gateHoyTxt: 'Il manque le feu vert de ton médecin. Avec lui, le plan se génère à l’instant.', gateVolver: 'Reprendre le questionnaire',
       resCta: 'Générer mon plan', resGen: 'Génération de ton plan…',
       titulo: 'Ton plan, sur mesure', atras: 'Retour', sigue: 'Continuer',
-      inicioT: 'Quand veux-tu commencer ?', inicioP: 'Le plan se construit à partir de ce jour.', inicioHoy: 'Aujourd’hui', inicioSemana: 'Cette semaine', inicioLunes: 'Lundi prochain', inicioExacto: 'Un jour précis', inicioSemT: 'Quel jour de cette semaine ?', inicioDiaT: 'Quel jour veux-tu commencer ?', sexoT: 'Ton corps', sexoP: 'Sert uniquement à calculer tes calories.', sexoH: 'Homme', sexoM: 'Femme', sexoX: 'Je préfère ne pas dire',
+      inicioT: 'Quand veux-tu commencer ?', inicioP: 'Le plan se construit à partir de ce jour.', inicioHoy: 'Aujourd’hui', inicioSemana: 'Cette semaine', inicioLunes: 'Lundi prochain', inicioExacto: 'Un jour précis', inicioSemT: 'Quel jour de cette semaine ?', inicioDiaT: 'Quel jour veux-tu commencer ?', sexoT: 'Ton corps', sexoP: 'Uniquement pour calculer tes calories.', sexoH: 'Homme', sexoM: 'Femme', sexoX: 'Je préfère ne pas dire',
       medidasT: 'Tes mesures', edadL: 'Âge', alturaL: 'Taille (cm)', pesoL: 'Poids (kg)', cinturaL: 'Tour de taille (cm) · optionnel',
       objT: 'Tu cherches quoi ?', objPerder: 'Perdre du gras', objRecomp: 'Recomposition : moins de gras, plus de muscle', objGanar: 'Prendre du muscle', objMantener: 'Me maintenir',
       evT: 'Pour quoi ?', evBoda: 'Un mariage', evOpo: 'Un concours', evVerano: 'Opération été', evSiempre: 'Pour toujours',
       durT: 'Tu te donnes combien de temps ?', dur3: '3 mois', dur6: '6 mois', dur12: '12 mois', durAlways: 'Sans date : une habitude',
-      histT: 'Tu viens d’où ?', histP: 'Le retour se programme autrement : le tendon donne le rythme.', histNunca: 'Jamais entraîné', histRetoma: 'De retour après des années d’arrêt', histActivo: 'Je m’entraîne',
+      histT: 'Tu viens d’où ?', histP: 'Ça change le démarrage du plan.', histNunca: 'Jamais entraîné', histRetoma: 'De retour après des années d’arrêt', histActivo: 'Je m’entraîne',
       diasL: 'Jours par semaine', minL: 'Minutes par séance', franjaT: 'Tu préfères quand ?', franjaM: 'Matin', franjaMd: 'Midi', franjaT2: 'Soir',
       matT: 'Avec quel matériel ?', matNada: 'Sans matériel', matCasa: 'Maison : haltères et élastiques', matGym: 'Salle complète',
       lesT: 'Douleurs ou blessures ?', lesRodilla: 'Genou', lesHombro: 'Épaule', lesLumbar: 'Lombaires', lesNo: 'Aucune',
       medT: 'Une condition médicale qui limite l’exercice ?', si: 'Oui', no: 'Non',
       dietaT: 'Ta table', dietaNormal: 'Je mange de tout', dietaVegetariano: 'Végétarien', dietaVegano: 'Végane',
       sinT: 'Tu évites quelque chose ?', sinGluten: 'Gluten', sinLactosa: 'Lactose', sinFrutos: 'Fruits à coque', sinNada: 'Rien',
-      resT: 'Ton profil est prêt', resP: 'Ton plan sera généré à partir de ça : entraînement, repas et progression.',
-      resGustos: '{a} j’aime · {b} passés', resProfesional: 'Avant de générer un plan, consulte un professionnel de santé : une de tes réponses le demande.',
+      resT: 'Ton profil est prêt', resP: 'Ton plan se génère à partir de ça.',
+      resGustos: '{a} j’aime · {b} passés', resProfesional: 'Une de tes réponses demande de consulter d’abord un professionnel de santé.',
       resGuardar: 'Enregistrer le profil', resGuardado: 'Profil enregistré',
       valNum: 'Vérifie {c} : entre {a} et {b}.'
     },
@@ -1293,20 +1293,20 @@ window.B2P = (function () {
     reabrirDia: 'Rouvrir la journée', diaReabierto: 'Journée rouverte', mejorLbl: 'Record',
     cerrarDia: 'Clore la journée', diaCerradoBtn: '✓ Journée close · série {n}',
     diaCerradoToast: '✓ Journée close. Série : {n}', diaCerradoSolo: 'Journée close.',
-    sigueEditando: 'Tu peux continuer à éditer : tout s’enregistre tout seul.',
+    sigueEditando: 'Ça s’enregistre tout seul ; tu peux continuer à éditer.',
     comidaHoy: 'Les repas du jour', comidaHoySub: '{kcal} kcal · {p} g de protéines en 4 prises',
     desayuno: 'Petit-déj', comidaLbl: 'Déjeuner', cena: 'Dîner', presueno: 'Pré-sommeil',
     secCompra: { fresco: 'Frais', prote: 'Protéines', lacteo: 'Laitages et boissons', despensa: 'Épicerie', congelado: 'Surgelés', supl: 'Compléments' }, despensaTag: 'épicerie',
     comidaLibreMn: 'REPAS LIBRE', comidaLibreTitulo: 'Repas libre', comidaLibreTag: 'un repas, pas une journée', tuya: 'à toi',
     dietBreakChip: 'Diet break : +2 portions de glucides aujourd’hui. Protéines inchangées.',
-    extraChip: 'Extra P{f} : un fruit + 40 g de pain au déjeuner.', sugRepite: '↻ répète {v}',
+    extraChip: 'Extra P{f} : +1 fruit et 40 g de pain au déjeuner.', sugRepite: '↻ répète {v}',
     repsAMediasToast: 'Noté : il manquait des reps (tu répéteras le poids)', repsLimpiasToast: 'Toutes les reps propres',
     repsAMediasTag: 'reps incomplètes', repsLimpias: 'reps propres', repsCortas: 'reps manquées',
     prToast: 'PR sur {e} : {v} kg', ya: 'C’EST PARTI !',
     fHistorial: 'Ton historique', fMejor: 'record {v} kg',
-    fComo: 'Comment l’exécuter', fErrores: 'Les erreurs qui te voleront du progrès', fAlt: 'Alternatives équivalentes',
+    fComo: 'Comment l’exécuter', fErrores: 'Erreurs classiques', fAlt: 'Alternatives',
     fVideo: 'Voir la technique en vidéo',
-    fDomiBtn: 'Aujourd’hui, ma première traction SANS assistance est sortie !', fDomiOk: 'Enregistrée', fDomiYa: 'Traction libre déjà enregistrée',
+    fDomiBtn: 'Aujourd’hui, j’ai réussi ma première traction sans aide', fDomiOk: 'Enregistrée', fDomiYa: 'Traction libre déjà enregistrée',
     vReglas8: 'Les 8 règles', vReglasSub: 'en cas de doute, la règle gagne',
     vCalendario: 'Calendrier',
     vSeguros: 'Les assurances du plan', libDescartado: 'écarté', libSinMaterial: 'sans matériel', libFuera: 'hors de ton plan', vBiblioteca: 'Bibliothèque d’exercices', vTocaCualquiera: 'touche n’importe lequel',
@@ -1320,7 +1320,7 @@ window.B2P = (function () {
     nRecetario: 'Livre de recettes', nToca: 'touche pour cuisiner',
     nCompra: 'Les courses de la semaine', nPrepDom: 'Meal prep du dimanche', nSupl: 'Suppléments',
     nReiniciar: 'réinitialiser', nProteLbl: 'Prot', nGrasaLbl: 'Lipides', nCarbosLbl: 'Glucides', kcalLbl: 'kcal', nMenuLbl: 'menu',
-    nDietBreakTitulo: 'Cette semaine : DIET BREAK', nDietBreakTxt: '~{k} kcal : +2 portions de glucides par jour. Protéines inchangées. Entraînement inchangé.',
+    nDietBreakTitulo: 'Cette semaine : diet break', nDietBreakTxt: '~{k} kcal : +2 portions de glucides par jour. Protéines inchangées. Entraînement inchangé.',
     nTomaNota: '+ chaque soir : prise pré-sommeil (skyr + whey). ',
     nIngredientes: 'Ingrédients (1 portion)', nPasos: 'Étapes', opcionalParen: ' (optionnel)',
     chipsProg: ['Résumé', 'Poids', 'Taille', 'Charges', 'Semaines', 'Checkpoints'],
@@ -1329,33 +1329,33 @@ window.B2P = (function () {
     pFuerzas: '{a}/{b} force', pDeFuerza: 'de force', pDiasCumplidos: 'jours tenus',
     pPesoTitulo: 'Poids', pPesoSub: 'points : pesées · ligne : moyenne hebdo · bande : couloir attendu',
     pCinturaTitulo: 'Tour de taille', pCinturaTituloSub: 'la métrique reine · objectif <{m} cm',
-    pCargas: 'Charges', pCargasSub: 'poids de l’exercice, séance après séance',
-    pAdhTitulo: 'Assiduité', pAdhSub: 'séances de force bouclées par semaine',
+    pCargas: 'Charges', pCargasSub: 'kg par séance',
+    pAdhTitulo: 'Assiduité', pAdhSub: 'forces bouclées par semaine',
     pChk: 'Checkpoints', pEsperado: 'Attendu', pReal: 'Réel', pSiDesvias: 'Si tu dévies',
     pTabla: 'tableau', pGrafica: 'graphique', pFecha: 'Date',
     pLifts: { 'press-banca': 'Couché', 'sentadilla-barra': 'Squat', 'rdl-barra': 'Roumain' }, pMeta91: 'objectif {m}', pAguaCreatina: 'eau (premières semaines)', pLineaBase: 'Ligne de base',
     pMediaSemana: 'Moyenne S{w}',
-    pVacioPeso: 'Les pesées du lundi, mercredi et vendredi apparaîtront ici',
-    pVacioCintura: 'Chaque lundi à jeun : le mètre au nombril, sans serrer',
-    pVacioCargas: 'Dès que tu enregistres des kg sur cet exercice, tu verras ici l’escalade',
+    pVacioPeso: 'Ici, tes pesées du lundi, mercredi et vendredi.',
+    pVacioCintura: 'Chaque lundi à jeun, le mètre au nombril',
+    pVacioCargas: 'Enregistre des kg sur cet exercice et tu verras ici l’escalade.',
     pVacioAdh: 'Semaine après semaine, ta constance se verra ici',
     pCheckpointSemana: 'Semaine de checkpoint', pEsperadoRango: 'Attendu : {a}–{b} kg', pLlevas: ' · tu en es à {v}', pSinPesajes: ' · pas encore de pesée cette semaine',
-    pRapido: 'Tu vas trop vite', pLento: 'Rythme sous l’attendu',
-    pFrenaTrote: 'Lève le pied sur la course', pFrenaTxt: 'Cette semaine tu es à {r}× ta moyenne récente de minutes de course. Au-delà de 1,3×, le risque de blessure explose : réduis ou marche.',
+    pRapido: 'Tu vas trop vite', pLento: 'Plus lent que prévu',
+    pFrenaTrote: 'Lève le pied sur la course', pFrenaTxt: 'Cette semaine tu cours {r}× ta moyenne récente. Au-delà de 1,3×, le risque de blessure explose : réduis ou marche.',
     lDiscos: 'La collection de disques', lDiscosSub: 'un par phase bouclée',
     lLogros: 'Succès', lFuerzas: 'Force', lPRs: 'PR', lPerdido: 'Perdu', lMejorRacha: 'Meilleure série', lLogrosN: 'Succès', lFotos: 'Photos',
-    perfilCinturaAdd: '+ Ajouter le tour de taille', perfilCinturaNota: 'Il devient ta ligne de base et active l’objectif et les succès de tour de taille. Le reste du plan ne change pas.', cerrarSesion: 'Se déconnecter', cerrarSesionNota: 'Retour à la porte d’entrée. Ton plan et tes registres restent sur cet appareil.', rehacerSub: 'Que veux-tu refaire ?', rehacerTodo: 'Questionnaire complet', rehacerTodoSub: 'Données et goûts, de haut en bas.', rehacerDatos: 'Seulement mes données', rehacerDatosSub: 'Âge, objectif, jours, matériel… Le paquet ne bouge pas.', rehacerGustos: 'Seulement mes goûts', rehacerGustosSub: 'Le paquet de cartes, depuis zéro.', perfilDetrasT: 'Derrière le plan', buscarT: 'Chercher dans l’app', buscarPH: 'Exercice, plat, section…', buscarNada: 'Rien à ce nom. Essaie un autre mot.', perfilT: 'Mon profil', perfilDatosT: 'Tes réponses', perfilPlanT: 'Ton plan, en bref', ajustes: 'Réglages', ajustesSub: 'BACK2PRIME · tes données vivent UNIQUEMENT sur cet appareil', ajGuardar: 'Enregistrer la ligne de base', ajGuardado: 'Enregistré',
+    perfilCinturaAdd: '+ Ajouter le tour de taille', perfilCinturaNota: 'Il devient ta ligne de base et active l’objectif et les succès de tour de taille. Le plan ne change pas.', cerrarSesion: 'Se déconnecter', cerrarSesionNota: 'Ton plan et tes registres restent sur cet appareil.', rehacerSub: 'Que veux-tu refaire ?', rehacerTodo: 'Questionnaire complet', rehacerTodoSub: 'Données et goûts, de haut en bas.', rehacerDatos: 'Seulement mes données', rehacerDatosSub: 'Âge, objectif, jours, matériel… Le paquet ne bouge pas.', rehacerGustos: 'Seulement mes goûts', rehacerGustosSub: 'Le paquet de cartes, depuis zéro.', perfilDetrasT: 'Derrière le plan', buscarT: 'Chercher dans l’app', buscarPH: 'Exercice, plat, section…', buscarNada: 'Rien à ce nom. Essaie un autre mot.', perfilT: 'Mon profil', perfilDatosT: 'Tes réponses', perfilPlanT: 'Ton plan, en bref', ajustes: 'Réglages', ajustesSub: 'Tes données vivent uniquement sur cet appareil.', ajGuardar: 'Enregistrer la ligne de base', ajGuardado: 'Enregistré',
     ajCopia: 'Sauvegarde',
-    ajCopiaTxt: 'Les données ne quittent pas le téléphone. Fais une sauvegarde de temps en temps (ou avant de changer d’appareil) et range-la où tu veux.',
+    ajCopiaTxt: 'Les données ne quittent pas le téléphone. Fais une sauvegarde de temps en temps, ou avant de changer d’appareil.',
     ajExportar: 'Exporter', ajImportar: 'Importer', ajImportOk: 'Sauvegarde restaurée', ajImportErr: 'Ce fichier ne ressemble pas à une sauvegarde BACK2PRIME',
     ajIdioma: 'Langue', ajIdiomaNota: 'L’app se recharge au changement. Tes données restent intactes.',
-    ajRehacer: 'Créer / refaire mon plan', ajRehacerNota: 'Direction le questionnaire. Régénérer ne touche jamais tes registres quotidiens.', ajBorrar: 'Supprimer le profil et toutes les données', ajBorrarConfirma: 'Sûr ? Touche encore une fois pour TOUT effacer',
+    ajRehacer: 'Créer / refaire mon plan', ajRehacerNota: 'Retour au questionnaire. Tes registres quotidiens ne bougent pas.', ajBorrar: 'Supprimer le profil et toutes les données', ajBorrarConfirma: 'Sûr ? Touche encore une fois pour tout effacer',
     celebraOk: 'On continue',
     navAria: 'Navigation principale',
     pPrivacidad: 'Politique de confidentialité',
-    rep: { t: 'Signaler', sub: 'Quelque chose cloche, ou une idée pour améliorer ça ? Dis-le ici.', bug: 'Ça ne marche pas', idea: 'Une idée', otro: 'Autre chose', txtL: 'Raconte', ph: 'Que s’est-il passé ? Si tu peux, dis sur quel écran tu étais et ce que tu attendais.', enviar: 'Envoyer', gracias: 'Bien reçu. Merci de l’avoir écrit.', corto: 'Écris-en un peu plus pour que ce soit compréhensible.', repRitmo: 'Attends une minute avant d’en envoyer un autre.', errRed: 'Envoi impossible : vérifie ta connexion.', adjunta: 'Version, plateforme, langue, écran et taille sont joints pour pouvoir reproduire. Rien de ton plan, de ton poids ni de tes registres.' },
-    nube: { correoL: 'E-mail', claveL: 'Mot de passe (8 minimum)', verClave: 'Afficher le mot de passe', ocultarClave: 'Masquer le mot de passe', previoT: 'Plan précédent sur cet appareil', previoTxt: 'Cet appareil gardait un plan d’avant l’existence des comptes. Il n’est pas repris tout seul, car il pourrait être à quelqu’un d’autre. S’il est à toi, récupère-le : il remplacera ce que tu as maintenant.', previoCta: 'Récupérer ce plan', previoOk: 'Plan récupéré', entrar: 'Se connecter', crear: 'Créer un compte', aCrear: 'Première fois ? Crée ton compte', aEntrar: 'Déjà un compte ? Connecte-toi', olvide: 'Mot de passe oublié', enviadoReset: 'E-mail envoyé : ouvre le lien pour le changer', nuevaClaveT: 'Choisis un nouveau mot de passe', guardarClave: 'Enregistrer le mot de passe', cambiada: 'Mot de passe changé : tu peux te connecter', confirmaCorreo: 'Vérifie ta boîte mail et confirme le compte, puis connecte-toi ici', yaExiste: 'Cet e-mail a déjà un compte : connecte-toi avec ton mot de passe', errCred: 'E-mail ou mot de passe incorrects', errCorreo: 'Écris un e-mail valide', errClaveCorta: 'Le mot de passe demande au moins 8 caractères', errRitmo: 'Trop de tentatives d’affilée : attends un instant', errRed: 'Pas de connexion au serveur : réessaie', local: 'Ton compte garde ton plan et te suit sur tous tes appareils. Toi seul peux le voir.', ajustesSub: 'BACK2PRIME · ton plan vit dans ton compte et toi seul peux le voir', cerrarSesionNota: 'Retour à la porte d’entrée. Ton plan reste dans ton compte : reconnecte-toi et reprends où tu en étais.' },
-    comp: { t: 'Partager mon plan', nota: 'Crée un lien public en lecture seule avec ton plan : sans ton poids ni tes registres.', copiado: 'Lien copié', quitar: 'Ne plus partager', quitado: 'Lien désactivé', vT: 'Le plan de {n}', vSub: 'Généré avec BACK2PRIME', vCta: 'Fais le tien', noExiste: 'Ce lien n’existe pas ou son propriétaire l’a désactivé', sem: '{s} semaines', dias: '{d} jours/semaine' },
+    rep: { t: 'Signaler', sub: 'Quelque chose cloche, ou une idée ? Dis-le-moi.', bug: 'Ça ne marche pas', idea: 'Une idée', otro: 'Autre chose', txtL: 'Raconte', ph: 'Que s’est-il passé ? Dis sur quel écran et ce que tu attendais.', enviar: 'Envoyer', gracias: 'Bien reçu, merci.', corto: 'Écris-en un peu plus pour que ce soit compréhensible.', repRitmo: 'Attends une minute avant d’en envoyer un autre.', errRed: 'Envoi impossible : vérifie ta connexion.', adjunta: 'Version, plateforme, langue et écran sont joints. Rien de ton plan ni de tes registres.' },
+    nube: { correoL: 'E-mail', claveL: 'Mot de passe (8 minimum)', verClave: 'Afficher le mot de passe', ocultarClave: 'Masquer le mot de passe', previoT: 'Plan précédent sur cet appareil', previoTxt: 'Cet appareil garde un plan d’avant les comptes. Il n’est pas repris tout seul, au cas où il ne serait pas à toi. S’il l’est, récupère-le : il remplacera l’actuel.', previoCta: 'Récupérer ce plan', previoOk: 'Plan récupéré', entrar: 'Se connecter', crear: 'Créer un compte', aCrear: 'Première fois ? Crée ton compte', aEntrar: 'Déjà un compte ? Connecte-toi', olvide: 'Mot de passe oublié', enviadoReset: 'E-mail envoyé : ouvre le lien pour le changer', nuevaClaveT: 'Choisis un nouveau mot de passe', guardarClave: 'Enregistrer le mot de passe', cambiada: 'Mot de passe changé : tu peux te connecter', confirmaCorreo: 'Confirme le compte depuis ta boîte mail, puis connecte-toi ici', yaExiste: 'Cet e-mail a déjà un compte : connecte-toi avec ton mot de passe', errCred: 'E-mail ou mot de passe incorrects', errCorreo: 'Écris un e-mail valide', errClaveCorta: 'Minimum 8 caractères', errRitmo: 'Trop de tentatives d’affilée : attends un instant', errRed: 'Pas de connexion au serveur : réessaie', local: 'Ton plan suit ton compte sur tous tes appareils. Toi seul le vois.', ajustesSub: 'Ton plan vit dans ton compte. Toi seul le vois.', cerrarSesionNota: 'Ton plan reste dans ton compte. Reconnecte-toi et tu reprends où tu en étais.' },
+    comp: { t: 'Partager mon plan', nota: 'Lien public en lecture seule vers ton plan. Sans ton poids ni tes registres.', copiado: 'Lien copié', quitar: 'Ne plus partager', quitado: 'Lien désactivé', vT: 'Le plan de {n}', vSub: 'Généré avec BACK2PRIME', vCta: 'Fais le tien', noExiste: 'Ce lien n’existe pas ou son propriétaire l’a désactivé', sem: '{s} semaines', dias: '{d} jours/semaine' },
     nuevoDia: 'Nouveau jour : {f}'
   };
 

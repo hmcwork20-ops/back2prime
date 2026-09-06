@@ -26,16 +26,16 @@ window.B2P = (function () {
   const FASES = [
     { id: 1, nombre: 'Reactivation', sub: 'At home', semanas: [1, 2], disco: 10, rpe: '6–7',
       fechas: '17 – 30 Aug',
-      objetivo: 'Rebuild the habit and wake up movement patterns without punishing your joints. You’ll be left wanting more: that’s intentional.' },
+      objetivo: 'Rebuild the habit and the patterns without punishing your joints. You’ll be left wanting more: that’s intentional.' },
     { id: 2, nombre: 'Back in the gym', sub: 'Full Body ×3', semanas: [3, 4, 5], disco: 15, rpe: '6–7',
       fechas: '31 Aug – 20 Sep',
-      objetivo: 'Relearn the barbell basics and build a base of load. Your muscle memory allows weights your connective tissue can’t yet take: work at 65-70% of what you feel you could do, with 3 reps in reserve ALWAYS.' },
+      objetivo: 'Barbell basics and a base of load. Your muscle memory allows weights your connective tissue can’t yet take: 65-70% of what you could do, 3 honest reps in reserve.' },
     { id: 3, nombre: 'Loading', sub: 'Upper / Lower ×4', semanas: [6, 7, 8, 9], disco: 20, rpe: '7–8',
       fechas: '21 Sep – 18 Oct',
-      objetivo: 'Real volume and intensity to force the recomposition: this is where muscle memory truly pays. End every set able to do 2 more reps, and make them real: returning lifters tend to overestimate how close they are to failure.' },
+      objetivo: 'Real volume and intensity; this is where muscle memory pays. End every set with 2 honest reps in reserve: returning lifters think they are closer to failure than they are.' },
     { id: 4, nombre: 'Peak', sub: 'Push / Pull / Legs ×5', semanas: [10, 11, 12], disco: 25, rpe: '8',
       fechas: '19 Oct – 8 Nov',
-      objetivo: 'Maximum stimulus to close out the recomposition. {d} days, but {min} minute sessions, not 2-hour ones. RPE 8: 1-2 reps in reserve on the final sets.' }
+      objetivo: 'Maximum stimulus to close out. {d} days of {min} minutes, not 2 hours. RPE 8: 1-2 honest reps in reserve on the final sets.' }
   ];
 
   /* ---------- CALENDAR: 12 weeks × 7 days (Mon..Sun) ----------
@@ -170,14 +170,14 @@ window.B2P = (function () {
       { e: 'curl-polea',       s: 3, r: '15', d: 60 }
     ]},
     /* — Cardio — */
-    'cam40':  { nombre: 'Walk 40′', tipo: 'cardio', icono: 'walk', detalle: 'Awkward-conversation pace: you can talk, but not sing. Counts towards the day’s steps.' },
+    'cam40':  { nombre: 'Walk 40′', tipo: 'cardio', icono: 'walk', detalle: 'You can talk, not sing. Counts towards the day’s steps.' },
     'cam60':  { nombre: 'Walk 60′', tipo: 'cardio', icono: 'walk', detalle: 'Brisk, sustained pace. Ideal outdoors: adds light, steps and active recovery.' },
-    'wj3': { nombre: 'Walk-jog W3', tipo: 'cardio', icono: 'run', detalle: '7 rounds: 2′ easy jog + 2′ walking (28′). Before: 2×20 tibialis raises + 10 calf raises. Genuinely easy jogging: if you can’t hold a chat, you’re going too fast.' },
+    'wj3': { nombre: 'Walk-jog W3', tipo: 'cardio', icono: 'run', detalle: '7 rounds: 2′ easy jog + 2′ walking (28′). Before: 2×20 tibialis raises and 10 calf raises. If you can’t hold a chat, you’re going too fast.' },
     'wj4': { nombre: 'Walk-jog W4', tipo: 'cardio', icono: 'run', detalle: '6 rounds: 3′ jog + 2′ walking (30′). Before: 2×20 tibialis raises. High cadence, short steps: less impact per stride.' },
     'wj5': { nombre: 'Walk-jog W5', tipo: 'cardio', icono: 'run', detalle: '5 rounds: 5′ jog + 1′ walking (30′), or 20′ of continuous easy jogging if the body feels good. Before: 2×20 tibialis raises.' },
-    'trote25': { nombre: 'Jog 25-30′', tipo: 'cardio', icono: 'run', detalle: 'Continuous and conversational. Smooth tarmac or firm dirt beats uneven pavements. If shin or knee discomfort appears and worsens as you run: stop and walk.' },
+    'trote25': { nombre: 'Jog 25-30′', tipo: 'cardio', icono: 'run', detalle: 'Continuous, at conversation pace. Smooth tarmac or dirt beats pavements. Shin or knee discomfort that worsens: stop and walk.' },
     'trote30': { nombre: 'Jog 30-35′', tipo: 'cardio', icono: 'run', detalle: 'Continuous. One day can be a touch livelier (last 10′ at a moderate pace), the other always easy.' },
-    'libre': { nombre: 'Rest', tipo: 'libre', icono: 'rest', detalle: 'A proper day off. Daily steps still count. Sunday: meal prep (~90′) leaves the week sorted.' }
+    'libre': { nombre: 'Rest', tipo: 'libre', icono: 'rest', detalle: 'A proper day off; steps still count. Sunday: meal prep (~90′) and the week is sorted.' }
   };
 
   /* ---------- WARM-UP (always, 6′) ---------- */
@@ -197,29 +197,29 @@ window.B2P = (function () {
   /* ---------- TENDON PROTOCOL (the plan’s insurance policy) ---------- */
   const TENDON = {
     titulo: 'Tendon protocol · 6-8′ · 2-3×/week',
-    intro: 'Strength comes back in weeks; tendon needs months (its collagen renews ~10 times slower and has no muscle memory). This block is the plan’s insurance: it starts in week 1, and week 3’s jogging only happens with two weeks of tendon work already banked.',
+    intro: 'Strength comes back in weeks; tendon needs months: its collagen renews ~10 times slower and has no memory. This block is the plan’s insurance: it starts in week 1, and week 3’s jogging only happens with two weeks of tendon work banked.',
     bloques: [
       { id: 'tendon-rodilla', nombre: 'Patellar · isometric', donde: 'After every leg session (in P1, after the circuits)',
-        detalle: 'Isometric wall squat (P2+: Spanish squat with a rigid strap behind the knees): 5 × 45″ at ~70% effort, 1′ rest. Thigh near parallel, no sharp pain. Beyond adapting the tendon, it has an immediate pain-relieving effect (Rio 2015).' },
+        detalle: 'Isometric wall squat (from P2, Spanish squat with a rigid strap behind the knees): 5 × 45″ at ~70% effort, 1′ rest. Thigh near parallel, no sharp pain. It also relieves pain on the spot.' },
       { id: 'tendon-aquiles', nombre: 'Achilles · calf HSR', donde: 'Already built into the sessions (calf raises)',
-        detalle: 'The rule that changes everything: calf work HEAVY and SLOW, 3″ down, 3″ up, 6-8 reps, no bouncing. In P1 with a loaded backpack on one leg; at the gym with real load. Bouncing uses the tendon’s reflex and robs it of exactly the stimulus it needs.' },
+        detalle: 'Calf work heavy and slow: 3″ down, 3″ up, 6-8 reps, no bouncing. In P1 with a backpack on one leg; at the gym with real load. Bouncing uses the tendon’s reflex and robs it of the stimulus it needs.' },
       { id: 'tendon-tibial', nombre: 'Tibialis anterior', donde: 'Before every jog',
         detalle: 'Wall-supported tibialis raises: 2-3 × 15-20. It’s the vaccine against shin splints at your current weight.' },
       { id: 'tendon-codo', nombre: 'Elbow/wrist · isometric', donde: 'After upper-body sessions (P2+), 2×/week',
-        detalle: 'With a light dumbbell, wrist held still at mid-flexion: 3 × 45″ (palm up and palm down). The press + row + pulldown volume triggers epicondylitis in returning lifters; this prevents it for free.' }
+        detalle: 'Light dumbbell, wrist held still at mid-flexion: 3 × 45″, palm up and palm down. That much press, row and pulldown triggers epicondylitis; this prevents it.' }
     ],
-    nota: 'Do NOT add plyometrics/jumps "to prepare for jogging": the evidence says it’s a poor tendon stimulus with high impact. Your impact preparation is this block.'
+    nota: 'Don’t add jumps “to prepare for jogging”: a poor tendon stimulus with high impact. Your impact preparation is this block.'
   };
 
   /* ---------- RUNNING RULES (evidence: BMI ~28) ---------- */
   const CARRERA = {
     titulo: 'How to run without breaking ({p} kg in charge)',
     reglas: [
-      'Cadence 170-180 steps/min, short stride: cuts tibial impact ~11% and loading rate ~15%. Count steps for 30″ (85-90) or use your watch’s metronome.',
-      'Volume governed by feel and the plan’s progression: never go above ~1.3× your average of the last 4 weeks (the app warns you).',
-      'Week 3 starts with ~2.5 km of total jogging: under the 3 km/week ceiling the evidence sets for starting out overweight.',
-      'Surface and shoes CONSTANT: don’t change both at once. Smooth tarmac or firm dirt beats pavements.',
-      'Shin or knee discomfort that WORSENS as you run: stop and walk. If it fades as you warm up, watch it; if it grows, it rules.'
+      'Cadence 170-180 steps/min, short stride: ~11% less tibial impact, ~15% less loading rate. Count 85-90 steps in 30″ or use your watch’s metronome.',
+      'Never above ~1.3× your average of the last 4 weeks. The app warns you.',
+      'Week 3: ~2.5 km in total, under the 3 km/week ceiling for starting out overweight.',
+      'Same surface and same shoes: don’t change both at once. Smooth tarmac or dirt beats pavements.',
+      'Shin or knee discomfort that worsens as you run: stop and walk. If it fades as you warm up, watch it.'
     ]
   };
 
@@ -283,11 +283,11 @@ window.B2P = (function () {
       cues: ['Big step forward', 'Torso upright, hands on hips or out front', 'Back knee brushes the floor', 'Drive through the front heel to come back'],
       err: ['Short step (front knee collapses)', 'Torso tipping forward', 'Front knee drifting inwards'],
       alt: [{ n: 'Static lunge (no alternating)', por: 'if balance keeps failing' }, { n: 'Reverse lunge', por: 'kinder on the knee' }],
-      mol: 'If the knee complains: switch to REVERSE lunges, same scheme.'
+      mol: 'If the knee complains: switch to reverse lunges, same scheme.'
     },
     'banda-remo': { pat: 'th',
       nombre: 'Seated band row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'biceps, scapulae'], equipo: 'Band',
-      cues: ['Band anchored at chest height (handle, post or under your feet)', 'Pull with your ELBOWS, tight to the body', 'Squeeze the shoulder blades and hold half a second', 'Release slowly: the way back is half the exercise'],
+      cues: ['Band anchored at chest height (handle, post or under your feet)', 'Pull with your elbows, tight to the body', 'Squeeze the shoulder blades and hold half a second', 'Release slowly: the way back is half the exercise'],
       err: ['Leaning back to pull harder', 'Letting the band snap back'],
       alt: [{ n: 'Towel row in a doorway', por: 'if you have no anchor' }, { n: 'Loaded backpack row', por: 'one arm, leaning on a table' }],
       mol: 'If the shoulder complains: lower the anchor and keep the pull closer to your side.'
@@ -315,7 +315,7 @@ window.B2P = (function () {
     },
     'remo-toalla': { pat: 'th',
       nombre: 'Towel Door Row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'biceps, shoulder blades'], equipo: 'Towel + door (or backpack)',
-      cues: ['Towel round the handle/frame, body leaning back', 'Pull with the ELBOW, not the hand', 'Shoulder blades back and down at the end of the pull', 'The further you lean, the harder it gets'],
+      cues: ['Towel round the handle/frame, body leaning back', 'Pull with the elbow, not the hand', 'Shoulder blades back and down at the end of the pull', 'The further you lean, the harder it gets'],
       err: ['Pulling with the arms without moving the shoulder blades', 'Jerking with hip drive'],
       alt: [{ n: 'Loaded backpack row', por: 'one arm, braced on the table' }, { n: 'Inverted row under a sturdy table', por: 'the harder version' }],
       mol: 'If the elbow complains: grip wider and lean back less.'
@@ -336,7 +336,7 @@ window.B2P = (function () {
     },
     'dead-bug': { pat: 'core',
       nombre: 'Dead Bug', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Deep anterior core'], equipo: 'Nothing',
-      cues: ['Lying down, lower back GLUED to the floor at all times', 'Opposite arm and leg lower slowly together', 'Exhale as you extend: ribs stay down'],
+      cues: ['Lying down, lower back glued to the floor at all times', 'Opposite arm and leg lower slowly together', 'Exhale as you extend: ribs stay down'],
       err: ['Lower back arching as the leg extends (shorten the range)', 'Rushing it'],
       alt: [{ n: 'Legs only (arms still)', por: 'if you lose the lower back off the floor' }],
       mol: 'It’s the safest exercise in the plan; if anything complains, check the lower back isn’t lifting.'
@@ -344,14 +344,14 @@ window.B2P = (function () {
 
     'pike-flexiones': { pat: 'ev',
       nombre: 'Pike push-ups', mm: { p: ['hombro'], s: ['triceps'] }, zona: 'empuje', musc: ['Front deltoid', 'triceps'], equipo: 'Nothing',
-      cues: ['Upside-down V: hands and feet close in, hips high', 'Your head goes down BETWEEN your hands, not in front of them', 'Elbows at 45° to your body, never flared', 'Lock out fully at the top without shrugging'],
+      cues: ['Upside-down V: hands and feet close in, hips high', 'Your head goes down between your hands, not in front of them', 'Elbows at 45° to your body, never flared', 'Lock out fully at the top without shrugging'],
       err: ['Dropping the hips and turning it into a normal push-up', 'Taking your head in front of your hands (that is where the shoulder pays)', 'Half reps so you can count more of them'],
       alt: [{ n: 'Feet up on a chair', por: 'once 12 feel easy' }, { n: 'Hands on a step', por: 'if you cannot come down clean yet' }],
       mol: 'If the shoulder complains: lower the hips a little until the angle feels fine. Vertical pressing asks for more mobility than anything else in the plan.'
     },
     'jalon-toalla': { pat: 'tv',
       nombre: 'Towel lat pulldown', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'Towel',
-      cues: ['Towel tight overhead: one arm pulls down while the other RESISTS', 'The pulling elbow travels to your side, not forward', 'Drive the shoulder blade down and hold 1″', 'Come back up over 3″, braking with the other arm'],
+      cues: ['Towel tight overhead: one arm pulls down while the other resists', 'The pulling elbow travels to your side, not forward', 'Drive the shoulder blade down and hold 1″', 'Come back up over 3″, braking with the other arm'],
       err: ['Pulling with the biceps instead of the back', 'Shrugging instead of depressing the shoulder blade', 'Not resisting with the top arm: no tension, no stimulus'],
       alt: [{ n: 'Inverted row under a solid table', por: 'far more measurable: if you have a table, do that instead' }, { n: 'Pull-ups', por: 'as soon as you have a bar' }],
       mol: 'With no bar, vertical pulling is the hardest thing to replace honestly: if you can, favour the table row, which actually loads real weight.'
@@ -365,14 +365,14 @@ window.B2P = (function () {
     },
     'crunch-inverso': { pat: 'flex',
       nombre: 'Reverse crunch', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Lower abs'], equipo: 'Nothing',
-      cues: ['On your back, hands by your sides or under your sacrum', 'Bring the knees to your chest by CURLING the pelvis, not just folding the hip', 'Your lower back lifts a finger off the floor: that is the whole range', 'Come down over 3″ without dropping the legs'],
+      cues: ['On your back, hands by your sides or under your sacrum', 'Bring the knees to your chest by curling the pelvis, not just folding the hip', 'Your lower back lifts a finger off the floor: that is the whole range', 'Come down over 3″ without dropping the legs'],
       err: ['Swinging the legs for momentum', 'Arching the lower back on the way down', 'Chasing range by lifting the whole hip'],
       alt: [{ n: 'Hanging leg raise', por: 'once you have a bar' }, { n: 'Dead bug', por: 'if your lower back lifts without control' }],
       mol: 'If your lower back complains: hands under the sacrum and cut the range in half until the control shows up.'
     },
     'curl-mochila': { pat: 'curl',
       nombre: 'Backpack curl', mm: { p: ['biceps'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Biceps', 'forearm'], equipo: 'Backpack',
-      cues: ['Grab the backpack by the top handle or by both straps', 'Elbows tight to your body and FIXED', 'Up without swinging, down over 3″', 'You progress by adding books or water bottles'],
+      cues: ['Grab the backpack by the top handle or by both straps', 'Elbows tight to your body and fixed', 'Up without swinging, down over 3″', 'You progress by adding books or water bottles'],
       err: ['Swinging your torso to get it up', 'Letting the elbows drift forward at the top', 'Loading it so heavy that your grip fails before the biceps'],
       alt: [{ n: 'Self-resisted towel curl', por: 'no backpack: one arm lifts, the other brakes' }, { n: 'Dumbbell curl', por: 'once you have kit' }],
       mol: 'If your wrist complains: hold both straps instead of the handle, which keeps the wrist neutral.'
@@ -394,7 +394,7 @@ window.B2P = (function () {
     },
     'remo-mesa': { pat: 'th',
       nombre: 'Under-table inverted row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'upper back, biceps'], equipo: 'Nothing (solid table)',
-      cues: ['Lie under a solid table and grab it by the edge', 'Body in a plank from heels to shoulders', 'Pull your CHEST to the table, elbows by your sides', 'Squeeze the shoulder blades 1″ at the top, down over 3″'],
+      cues: ['Lie under a solid table and grab it by the edge', 'Body in a plank from heels to shoulders', 'Pull your chest to the table, elbows by your sides', 'Squeeze the shoulder blades 1″ at the top, down over 3″'],
       err: ['Leading with the hips instead of the chest', 'Pulling with the arms alone without squeezing the blades', 'Using a table that lifts: check it first'],
       alt: [{ n: 'Knees bent, feet on the floor', por: 'the easy version' }, { n: 'Feet up on a chair', por: 'the progression: more horizontal, more weight' }],
       mol: 'This is the pull that actually loads without a bar: if you have a solid table, pick it over the towel pulldown.'
@@ -423,14 +423,14 @@ window.B2P = (function () {
     },
     'puente-1p': { pat: 'bis',
       nombre: 'Single-leg glute bridge', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glute max', 'hamstrings'], equipo: 'Nothing',
-      cues: ['On your back, one foot planted, the other leg straight out', 'Drive up through the HEEL until hip and thigh line up', 'Squeeze the glute 2″ at the top without arching your back', 'Down over 3″ without fully resting'],
+      cues: ['On your back, one foot planted, the other leg straight out', 'Drive up through the heel until hip and thigh line up', 'Squeeze the glute 2″ at the top without arching your back', 'Down over 3″ without fully resting'],
       err: ['Rising by arching the back instead of squeezing the glute', 'Letting the hip drop to one side', 'Planting the foot so far out that the hamstring takes over'],
       alt: [{ n: 'Two-foot bridge', por: 'the starting version' }, { n: 'Shoulders on the sofa', por: 'more range, more glute' }],
       mol: 'If your lower back joins in: bring the heel closer to your glute and go less high. The hip must not rotate: if it drops to one side, go back to two legs.'
     },
     'elev-piernas-suelo': { pat: 'flex',
       nombre: 'Lying leg raise', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Lower abs'], equipo: 'Nothing',
-      cues: ['On your back, hands under the sacrum, lower back PINNED to the floor', 'Raise straight legs to vertical', 'Down over 3″, stopping where your lower back starts to lift', 'That point is your range: it will drop week by week'],
+      cues: ['On your back, hands under the sacrum, lower back pinned to the floor', 'Raise straight legs to vertical', 'Down over 3″, stopping where your lower back starts to lift', 'That point is your range: it will drop week by week'],
       err: ['Letting the lower back arch on the way down (the injury error)', 'Swinging the legs for momentum', 'Going lower than your abs can hold'],
       alt: [{ n: 'Reverse crunch', por: 'the starting version' }, { n: 'Hanging leg raise', por: 'once you have a bar' }],
       mol: 'This is the reverse crunch progression: if your lower back lifts, bend the knees slightly and shorten the range until it holds.'
@@ -444,7 +444,7 @@ window.B2P = (function () {
     },
     'plancha-lateral': { pat: 'core',
       nombre: 'Side plank', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Obliques', 'gluteus medius'], equipo: 'Nothing',
-      cues: ['Elbow under the shoulder, body in a line from ankle to head', 'Lift the hip and HOLD it: the floor does not touch it', 'Shoulder away from your ear', 'Hold the set time on each side'],
+      cues: ['Elbow under the shoulder, body in a line from ankle to head', 'Lift the hip and hold it: the floor does not touch it', 'Shoulder away from your ear', 'Hold the set time on each side'],
       err: ['Hip sagging (the oblique stops working)', 'Rolling your chest towards the floor', 'Holding your breath'],
       alt: [{ n: 'On your knees', por: 'the starting version' }, { n: 'Top leg raised', por: 'the progression, which also asks for gluteus medius' }],
       mol: 'If the shoulder complains: come up onto your hand with a straight arm, or do it from the knees. It is the sideways half of the plank: the core does not only hold from the front.'
@@ -452,21 +452,21 @@ window.B2P = (function () {
 
     'elev-y-suelo': { pat: 'ais',
       nombre: 'Prone Y raise', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'empuje', musc: ['Shoulder (rotator cuff)', 'lower traps'], equipo: 'Nothing',
-      cues: ['Face down, arms out in a Y with thumbs to the ceiling', 'Lift the arms WITHOUT shrugging: keep the neck long', 'Hold 2″ at the top, down over 3″', 'Forehead stays down: the movement is scapular, not neck'],
+      cues: ['Face down, arms out in a Y with thumbs to the ceiling', 'Lift the arms without shrugging: keep the neck long', 'Hold 2″ at the top, down over 3″', 'Forehead stays down: the movement is scapular, not neck'],
       err: ['Shrugging towards your ears', 'Lifting your head to help', 'Rushing: there is no weight here, the stimulus is control'],
       alt: [{ n: 'Band external rotation', por: 'once you have a band' }, { n: 'A small bottle in each hand', por: 'the progression: it weighs little and you feel it' }],
-      mol: 'This is the tendon protocol shoulder exercise with no kit: the cuff does not gain from weight, it gains from control. If your shoulder complains, this is one of the few that usually feels fine.'
+      mol: 'The tendon protocol shoulder exercise, no kit: the cuff gains from control, not weight. If your shoulder complains, this one usually feels fine.'
     },
     'curl-nordico': { pat: 'ais',
       nombre: 'Assisted nordic curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Hamstrings'], equipo: 'Nothing (something to hook your ankles)',
-      cues: ['Kneel on something soft, ankles hooked under solid furniture', 'Lower VERY slowly keeping hips and shoulders in line', 'Hold as far as you can and catch yourself with your hands', 'Push back up with your arms: the way up does not count'],
+      cues: ['Kneel on something soft, ankles hooked under solid furniture', 'Lower very slowly keeping hips and shoulders in line', 'Hold as far as you can and catch yourself with your hands', 'Push back up with your arms: the way up does not count'],
       err: ['Bending at the hip to make it easier (the hamstring stops working)', 'Dropping without braking', 'Starting at full range: you earn it centimetre by centimetre'],
       alt: [{ n: 'Single-leg glute bridge', por: 'if the nordic is still too much' }, { n: 'Machine leg curl', por: 'in a gym' }],
-      mol: 'This is the strongest hamstring work with no kit, and also the one that leaves the most soreness: start with 3 reps and add one at a time. If your knee complains, fold a towel underneath.'
+      mol: 'The strongest hamstring work with no kit and the one that leaves the most soreness: start with 3 and add one at a time. If your knee complains, a folded towel underneath.'
     },
     'encogimiento-mochila': { pat: 'ais',
       nombre: 'Backpack shrugs', mm: { p: ['espalda-alta'], s: ['antebrazo'] }, zona: 'tiron', musc: ['Upper traps'], equipo: 'Backpack',
-      cues: ['Backpack hanging from both hands or hugged to your chest', 'Lift the shoulders STRAIGHT towards your ears, no rolling', 'Squeeze 2″ at the top and lower under control', 'Neck relaxed: do not push your chin forward'],
+      cues: ['Backpack hanging from both hands or hugged to your chest', 'Lift the shoulders straight towards your ears, no rolling', 'Squeeze 2″ at the top and lower under control', 'Neck relaxed: do not push your chin forward'],
       err: ['Rolling the shoulders back (adds nothing and loads the neck)', 'Using leg drive', 'Half range'],
       alt: [{ n: 'Dumbbell shrugs', por: 'once you have kit' }, { n: 'A heavier backpack', por: 'the progression: here you can weigh what goes in' }],
       mol: 'If you feel it in your neck: drop the load and lift less. The upper traps already work plenty in daily life; two good sets are enough.'
@@ -475,7 +475,7 @@ window.B2P = (function () {
     /* — Gym: push — */
     'press-banca': { pat: 'eh',
       nombre: 'Bench Press', mm: { p: ['pecho'], s: ['hombro', 'triceps'] }, zona: 'empuje', musc: ['Chest', 'triceps, front delts'], equipo: 'Barbell + bench',
-      cues: ['Shoulder blades retracted and PINNED to the bench, feet planted', 'Grip: vertical forearm when the bar touches the chest', 'Bar to mid-chest, elbows ~45°', 'Touch the chest under control and press along a slightly diagonal line'],
+      cues: ['Shoulder blades retracted and pinned to the bench, feet planted', 'Grip: vertical forearm when the bar touches the chest', 'Bar to mid-chest, elbows ~45°', 'Touch the chest under control and press along a slightly diagonal line'],
       err: ['Shoulders shrugging as you press (you lose the retraction)', 'Bouncing the bar off the chest', 'Backside off the bench', 'Wrists bent backwards'],
       alt: [{ n: 'Machine chest press', por: 'days you can’t face setting up a bench, or a packed gym' }, { n: 'Flat dumbbell press', por: 'more range and less shoulder' }],
       mol: 'If the shoulder complains: try a slightly narrower grip with elbows more tucked; if it persists, dumbbells with a neutral turn.'
@@ -503,7 +503,7 @@ window.B2P = (function () {
     },
     'press-militar': { pat: 'ev',
       nombre: 'Overhead Press', mm: { p: ['hombro'], s: ['triceps', 'abdomen'] }, zona: 'empuje', musc: ['Shoulders', 'triceps, core'], equipo: 'Barbell (standing or seated)',
-      cues: ['Standing: glutes and abs BRACED before you press', 'The bar starts at the chin and travels close to the face', 'Head "through the window" at the top', 'Seated with back support: no lower-back arch'],
+      cues: ['Standing: glutes and abs braced before you press', 'The bar starts at the chin and travels close to the face', 'Head "through the window" at the top', 'Seated with back support: no lower-back arch'],
       err: ['Arching the lower back into an incline press', 'Pressing the bar forwards (it hits the chin)', 'Incomplete range at the top'],
       alt: [{ n: 'Seated dumbbell shoulder press', por: 'already programmed in P2; kinder on the shoulder' }, { n: 'Shoulder press machine', por: 'last session of the week, fatigue high' }],
       mol: 'If the shoulder complains: dumbbells with a neutral grip, pressing only as high as stays pinch-free.'
@@ -517,7 +517,7 @@ window.B2P = (function () {
     },
     'elev-laterales': { pat: 'ev',
       nombre: 'Lateral Raises', mm: { p: ['hombro'], s: [] }, zona: 'empuje', musc: ['Side delts'], equipo: 'Dumbbells',
-      cues: ['LIGHT weight, elbows slightly bent', 'Raise to horizontal, like pouring two jugs', 'No momentum: if you’re swinging, the weight’s too much', 'Lower in 2″'],
+      cues: ['Light weight, elbows slightly bent', 'Raise to horizontal, like pouring two jugs', 'No momentum: if you’re swinging, the weight’s too much', 'Lower in 2″'],
       err: ['Shrugging up with the traps', 'Going past horizontal', 'Hip swing'],
       alt: [{ n: 'Low-cable lateral raises', por: 'constant tension; programmed in Push B' }, { n: 'Lateral raise machine', por: 'to finish without thinking about technique' }],
       mol: 'If the shoulder complains: thumb slightly up and raise 10° in front of the lateral plane.'
@@ -538,7 +538,7 @@ window.B2P = (function () {
     },
     'ext-triceps-polea': { pat: 'ext',
       nombre: 'Triceps Pushdown', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps'], equipo: 'High pulley + rope or bar',
-      cues: ['Elbows tucked to your sides, FIXED', 'Only the forearm moves', 'Extend fully and squeeze for 1″'],
+      cues: ['Elbows tucked to your sides, fixed', 'Only the forearm moves', 'Extend fully and squeeze for 1″'],
       err: ['Elbows drifting forward on the way down (shoulder takes over)', 'Torso swinging'],
       alt: [{ n: 'With a rope, spreading it at the bottom', por: 'a bit more long head' }, { n: 'Dumbbell triceps kickback', por: 'when no cable is free' }],
       mol: 'If the elbow complains: drop the weight and raise the reps to 15-20; elbows hate ego.'
@@ -561,14 +561,14 @@ window.B2P = (function () {
     /* — Gym: pull — */
     'remo-barra': { pat: 'th',
       nombre: 'Barbell Row', mm: { p: ['dorsal'], s: ['biceps', 'espalda-alta'] }, zona: 'tiron', musc: ['Lats', 'mid-back, biceps'], equipo: 'Barbell',
-      cues: ['Torso at ~45°, knees soft', 'Pull the bar to your lower abdomen', 'Shoulder blades back and down at the end', 'NEUTRAL spine, non-negotiable'],
+      cues: ['Torso at ~45°, knees soft', 'Pull the bar to your lower abdomen', 'Shoulder blades back and down at the end', 'Neutral spine, non-negotiable'],
       err: ['Jerking with the lower back (rocking)', 'Torso rising rep after rep', 'Pulling to the chest with flared elbows'],
       alt: [{ n: 'T-bar row', por: 'a more stable variant' }, { n: 'Chest-supported machine row', por: 'if the lower back is fried from leg day' }],
       mol: 'If the lower back protests: chest-supported machine or cable row, no second thoughts.'
     },
     'remo-polea': { pat: 'th',
       nombre: 'Seated Cable Row', mm: { p: ['espalda-alta'], s: ['biceps', 'dorsal'] }, zona: 'tiron', musc: ['Mid-back', 'lats, biceps'], equipo: 'Low pulley + V-handle',
-      cues: ['Chest tall and FIXED: the torso doesn’t travel', 'Pull the handle to your navel', '1″ pause squeezing the shoulder blades'],
+      cues: ['Chest tall and fixed: the torso doesn’t travel', 'Pull the handle to your navel', '1″ pause squeezing the shoulder blades'],
       err: ['Rocking the torso to move more weight', 'Shrugged shoulders'],
       alt: [{ n: 'Machine row', por: 'direct equivalent' }],
       mol: 'If the lower back complains: rest your chest on a supported row machine.'
@@ -582,7 +582,7 @@ window.B2P = (function () {
     },
     'jalon-pecho': { pat: 'tv',
       nombre: 'Lat Pulldown', mm: { p: ['dorsal'], s: ['biceps'] }, zona: 'tiron', musc: ['Lats', 'biceps'], equipo: 'High pulley',
-      cues: ['Grip slightly wider than shoulders', 'Chest up, slight lean back held FIXED', 'Pull the ELBOWS down towards your pockets', 'Bar to the collarbone, 1″ pause'],
+      cues: ['Grip slightly wider than shoulders', 'Chest up, slight lean back held fixed', 'Pull the elbows down towards your pockets', 'Bar to the collarbone, 1″ pause'],
       err: ['Rocking to yank the weight down', 'Pulling with the arms without depressing the shoulder blades', 'Behind-the-neck pulldowns (no)'],
       alt: [{ n: 'Assisted pull-ups', por: 'the P3 goal is migrating to them' }, { n: 'Close-grip pulldown', por: 'programmed in Pull B' }],
       mol: 'If the shoulder complains: neutral grip (wide V-handle) and drop the weight.'
@@ -596,7 +596,7 @@ window.B2P = (function () {
     },
     'dominadas': { pat: 'tv',
       nombre: 'Pull-ups (assisted → free → weighted)', mm: { p: ['dorsal'], s: ['biceps', 'abdomen'] }, zona: 'tiron', musc: ['Lats', 'biceps, core'], equipo: 'Bar + assisted machine or bands',
-      cues: ['Start by depressing the shoulder blades (shoulders away from ears)', 'Drive the elbows down, chin over the bar', 'Lower under CONTROL until the arms are almost straight', 'Reduce assistance week by week: they’ll come sooner than you think'],
+      cues: ['Start by depressing the shoulder blades (shoulders away from ears)', 'Drive the elbows down, chin over the bar', 'Lower under control until the arms are almost straight', 'Reduce assistance week by week: they’ll come sooner than you think'],
       err: ['Kicking and swinging up', 'Half pull-ups (neither top nor bottom)', 'Hanging off the shoulders at the bottom with no scapular tension'],
       alt: [{ n: 'Heavy overhand lat pulldown', por: 'if the assisted machine is taken that day' }, { n: 'Negative pull-ups (jump up + 5″ lower)', por: 'a great builder of the first pull-up' }],
       mol: 'If the elbow complains: neutral grip. If the shoulder complains: don’t hang passively at the bottom.',
@@ -611,7 +611,7 @@ window.B2P = (function () {
     },
     'face-pull': { pat: 'tv',
       nombre: 'Face Pull', mm: { p: ['hombro'], s: ['espalda-alta'] }, zona: 'tiron', musc: ['Rear delts', 'rotators, mid traps'], equipo: 'High pulley + rope',
-      cues: ['Pulley at face height', 'Pull the rope TOWARDS YOUR FOREHEAD, spreading the ends apart', 'At the end, rotate the shoulders outwards (biceps point at the ceiling)', 'Light and perfect: this is shoulder health, not ego'],
+      cues: ['Pulley at face height', 'Pull the rope towards your forehead, spreading the ends apart', 'At the end, rotate the shoulders outwards (biceps point at the ceiling)', 'Light and perfect: this is shoulder health, not ego'],
       err: ['Turning it into a heavy upright row', 'No final external rotation'],
       alt: [{ n: 'Reverse pec-deck', por: 'rear delts without a rope' }, { n: 'External rotation with a band', por: 'at home or as an extra' }],
       mol: 'This is the exercise that fixes shoulders; if it complains, drop the weight and check you’re pulling to the forehead, not the neck.'
@@ -627,28 +627,28 @@ window.B2P = (function () {
     /* — Gym: legs/hips — */
     'sentadilla-barra': { pat: 'rod',
       nombre: 'Barbell Squat', mm: { p: ['cuadriceps'], s: ['abdomen', 'gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes, core'], equipo: 'Barbell + rack',
-      cues: ['Bar on the traps, not on the neck', 'Core pressurised BEFORE you descend (breathe into chest and belly)', 'Squat to parallel, knees out', 'Push the floor away, chest up as you rise'],
+      cues: ['Bar on the traps, not on the neck', 'Core pressurised before you descend (breathe into chest and belly)', 'Squat to parallel, knees out', 'Push the floor away, chest up as you rise'],
       err: ['Heels lifting (ankle mobility: raise the heels on plates if needed)', 'Knees caving in on the way up', 'Good-morning squat: hips rising before the chest'],
       alt: [{ n: 'Smith machine squat', por: 'fatigued days or a taken rack' }, { n: 'Hack squat / leg press', por: 'quad stimulus without axial load' }, { n: 'Goblet squat with a dumbbell', por: 'as a warm-up or if technique slips' }],
-      mol: 'If the knee complains: slow the descent (3″) and stay 5 cm above the sore point. If the lower back complains: check your bracing and drop the weight 20% for a week.'
+      mol: 'Knee: descend in 3″ and stay 5 cm above the sore point. Lower back: check your bracing and drop the weight 20% for a week.'
     },
     'prensa': { pat: 'rod',
       nombre: 'Leg Press', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Leg press machine',
-      cues: ['Feet mid-platform, shoulder width', 'Lower to 90° WITHOUT the lower back peeling off the pad', 'Push through the whole foot, don’t snap the knees into lockout'],
+      cues: ['Feet mid-platform, shoulder width', 'Lower to 90° without the lower back peeling off the pad', 'Push through the whole foot, don’t snap the knees into lockout'],
       err: ['Going so deep the pelvis rotates (butt wink on the press = lower back)', 'Hands pushing on the knees'],
       alt: [{ n: 'Hack squat', por: 'even more quads' }, { n: 'Single-leg press', por: 'if one side lags' }],
       mol: 'If the knee complains: feet slightly higher on the platform (more glute, less knee).'
     },
     'rdl-barra': { pat: 'bis',
       nombre: 'Romanian Deadlift', mm: { p: ['isquios'], s: ['gluteo', 'lumbar'] }, zona: 'pierna', musc: ['Hamstrings', 'glutes, isometric lower back'], equipo: 'Barbell',
-      cues: ['Hips BACK, knees soft and fixed', 'Bar glued to the legs the whole way', 'Neutral spine: proud chest', 'Lower until the hamstring stretch bites hard, then stand up squeezing the glutes'],
+      cues: ['Hips back, knees soft and fixed', 'Bar glued to the legs the whole way', 'Neutral spine: proud chest', 'Lower until the hamstring stretch bites hard, then stand up squeezing the glutes'],
       err: ['Rounding the back to get lower', 'Bending the knees into a half squat', 'Bar drifting away from the body'],
       alt: [{ n: 'Dumbbell RDL', por: 'a comfier grip for the first weeks' }, { n: 'Weighted 45° back extensions', por: 'hamstring-glute without the grip demand' }],
-      mol: 'The hamstring stretch is the sign you’re doing it RIGHT. If the lower back (not the hamstring) complains: drop 20% and film a set from the side.'
+      mol: 'The hamstring stretch is the sign you’re doing it right. If the lower back (not the hamstring) complains: drop 20% and film a set from the side.'
     },
     'hip-thrust': { pat: 'bis',
       nombre: 'Hip Thrust', mm: { p: ['gluteo'], s: ['isquios'] }, zona: 'pierna', musc: ['Glutes', 'hamstrings'], equipo: 'Barbell + bench (+ pad)',
-      cues: ['Upper back resting on the bench, bar over the hips with a pad', 'Chin tucked, eyes forward and down', 'Rise to EXACTLY horizontal, 1″ pause squeezing', 'Knees at 90° at the top, heels under the knees'],
+      cues: ['Upper back resting on the bench, bar over the hips with a pad', 'Chin tucked, eyes forward and down', 'Rise to exactly horizontal, 1″ pause squeezing', 'Knees at 90° at the top, heels under the knees'],
       err: ['Arching the lower back at the top (hyperextension)', 'Pushing through the toes', 'Bouncing at the bottom with no pause'],
       alt: [{ n: 'Hip thrust machine', por: 'if your gym has one, far quicker to set up' }, { n: 'Barbell glute bridge on the floor', por: 'when no bench is free' }],
       mol: 'If the lower back complains: it’s almost always hyperextension at the top; stop at horizontal.'
@@ -662,7 +662,7 @@ window.B2P = (function () {
     },
     'zancada-bulgara': { pat: 'zan',
       nombre: 'Bulgarian Split Squat', mm: { p: ['cuadriceps'], s: ['gluteo'] }, zona: 'pierna', musc: ['Quads', 'glutes'], equipo: 'Bench + dumbbells',
-      cues: ['Rear foot on the bench, front foot a long step out', 'Descend VERTICALLY: the back knee seeks the floor', 'Torso slightly forward = more glute; upright = more quad', 'Start with bodyweight ONLY, seriously'],
+      cues: ['Rear foot on the bench, front foot a long step out', 'Descend vertically: the back knee seeks the floor', 'Torso slightly forward = more glute; upright = more quad', 'Start with bodyweight only, seriously'],
       err: ['Front foot too close (the knee suffers)', 'Bouncing at the bottom', 'Losing balance by staring at the ceiling'],
       alt: [{ n: 'Static dumbbell lunge', por: 'if the balance isn’t there yet' }, { n: 'Single-leg press', por: 'unilateral without the balance demand' }],
       mol: 'If the front knee complains: lengthen the step and shift the torso a touch forward.'
@@ -672,11 +672,11 @@ window.B2P = (function () {
       cues: ['Knee aligned with the machine’s axis', 'Extend fully with a 1″ pause at the top', 'Lower in 2-3″'],
       err: ['Kicking with momentum', 'Backside lifting off the seat'],
       alt: [{ n: 'Assisted sissy squat', por: 'no machine needed' }],
-      mol: 'If the kneecap complains: trim the last third at the TOP, not the bottom, and slow the tempo. It’s also your rehab exercise if the knee ever protests after a jog.'
+      mol: 'If the kneecap complains: trim the last third at the top, not the bottom, and slow the tempo. It’s also your rehab exercise if the knee ever protests after a jog.'
     },
     'curl-femoral-tumbado': { pat: 'ais',
       nombre: 'Lying Leg Curl', mm: { p: ['isquios'], s: [] }, zona: 'pierna', musc: ['Hamstrings (isolated)'], equipo: 'Machine',
-      cues: ['Hips GLUED to the pad the whole time', 'Up in 1″, down in 2-3″', 'Toes neutral'],
+      cues: ['Hips glued to the pad the whole time', 'Up in 1″, down in 2-3″', 'Toes neutral'],
       err: ['Lifting the hips to help', 'Half reps'],
       alt: [{ n: 'Seated leg curl', por: 'actually slightly better for the hamstrings; use it if free' }, { n: 'Assisted Nordic curl', por: 'advanced version, further down the road' }],
       mol: 'If it cramps: stretch the hamstring between sets, normal in the first weeks.'
@@ -690,14 +690,14 @@ window.B2P = (function () {
     },
     'gemelo-pie': { pat: 'gem',
       nombre: 'Standing Calf Raise', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Calf (gastrocnemius)'], equipo: 'Machine or Smith machine + step',
-      cues: ['1″ pause at the TOP and 1″ at the BOTTOM: no bouncing', 'Full stretch at the bottom', 'Rise vertically, without bending the knees'],
+      cues: ['1″ pause at the top and 1″ at the bottom: no bouncing', 'Full stretch at the bottom', 'Rise vertically, without bending the knees'],
       err: ['Bouncing off the tendon’s reflex (robs the very tissue we’re preparing of its stimulus)', 'Mid range'],
       alt: [{ n: 'On the leg press', por: 'no dedicated machine' }],
       mol: 'If the Achilles complains: top-position isometrics only, 3×30″, that week.'
     },
     'gemelo-sentado': { pat: 'gem',
       nombre: 'Seated Calf Raise', mm: { p: ['gemelos'], s: [] }, zona: 'pierna', musc: ['Soleus'], equipo: 'Machine',
-      cues: ['Knee at 90°: this hits the soleus, key for JOGGING', 'Same rule: pause at the top and bottom, no bouncing'],
+      cues: ['Knee at 90°: this hits the soleus, key for jogging', 'Same rule: pause at the top and bottom, no bouncing'],
       err: ['Rushing into bounces', 'Resting on the very tips of the toes (better on the ball of the foot)'],
       alt: [{ n: 'Seated with dumbbells on the knees + a step', por: 'no machine' }],
       mol: 'Same as the standing one: Achilles discomfort = isometrics only for a week.'
@@ -711,14 +711,14 @@ window.B2P = (function () {
     },
     'rueda-abdominal': { pat: 'flex',
       nombre: 'Ab Wheel Rollout', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Full anterior core'], equipo: 'Ab wheel',
-      cues: ['Kneeling, pelvis tucked BEFORE rolling out', 'Roll only as far as you can control the lower back', 'Come back pulling with the abs, not the arms'],
+      cues: ['Kneeling, pelvis tucked before rolling out', 'Roll only as far as you can control the lower back', 'Come back pulling with the abs, not the arms'],
       err: ['Arching the lower back at full stretch (the mistake that injures)', 'Going further than the core can hold'],
       alt: [{ n: 'Cable crunch', por: 'if the wheel is too big an ask today' }, { n: 'Weighted plank', por: 'the isometric equivalent' }],
       mol: 'If the lower back complains: halve the range and win it back week by week.'
     },
     'crunch-polea': { pat: 'flex',
       nombre: 'Cable Crunch', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Rectus abdominis'], equipo: 'High pulley + rope',
-      cues: ['Kneeling, rope held beside your head', 'Flex FROM THE RIBS, not from the hips', 'Elbows towards the knees, exhale on the way down'],
+      cues: ['Kneeling, rope held beside your head', 'Flex from the ribs, not from the hips', 'Elbows towards the knees, exhale on the way down'],
       err: ['Pulling with the arms', 'Sitting back, moving only at the hips'],
       alt: [{ n: 'Machine crunch', por: 'equivalent' }, { n: 'Ab wheel', por: 'when you want to level up' }],
       mol: 'No typical issues if you flex from the ribs.'
@@ -726,7 +726,7 @@ window.B2P = (function () {
 
     'fondos-silla': { pat: 'ext', pic: 'fondos',
       nombre: 'Chair dips', mm: { p: ['triceps'], s: ['pecho', 'hombro'] }, zona: 'empuje', musc: ['Triceps', 'lower chest, shoulder'], equipo: 'Nothing (chair or sofa)',
-      cues: ['Hands on the chair edge, fingers pointing out, shoulders AWAY from your ears', 'Go down to 90° at the elbow and no further: below that your shoulder pays for it', 'Elbows back, brushing your body, never flared', 'Your back slides up and down against the chair edge'],
+      cues: ['Hands on the chair edge, fingers pointing out, shoulders away from your ears', 'Go down to 90° at the elbow and no further: below that your shoulder pays for it', 'Elbows back, brushing your body, never flared', 'Your back slides up and down against the chair edge'],
       err: ['Dropping all the way down chasing a stretch (that is how shoulder pain starts)', 'Placing your feet so far out that the weight shifts to your legs', 'Shrugging your shoulders towards your ears'],
       alt: [{ n: 'Knees bent, feet close in', por: 'if you cannot get 8 clean reps' }, { n: 'Feet up on a second chair', por: 'once 15 feel easy' }],
       mol: 'If the front of the shoulder complains: shorten the range to 60°, or swap in diamond push-ups, which leave the joint alone.'
@@ -740,7 +740,7 @@ window.B2P = (function () {
     },
     'ext-triceps-banda': { pat: 'ext',
       nombre: 'Band triceps pushdown', mm: { p: ['triceps'], s: [] }, zona: 'empuje', musc: ['Triceps (all three heads)'], equipo: 'Band',
-      cues: ['Anchor the band high (door or handle) and take a step back', 'Elbows pinned to your sides and STILL: only the forearm moves', 'Extend to a soft lockout and hold 1″ at the bottom', 'Come back up over 2-3″, resisting the band'],
+      cues: ['Anchor the band high (door or handle) and take a step back', 'Elbows pinned to your sides and still: only the forearm moves', 'Extend to a soft lockout and hold 1″ at the bottom', 'Come back up over 2-3″, resisting the band'],
       err: ['Letting the elbows drift forward or up', 'Pushing with the shoulder by leaning your torso in', 'Letting go on the way up and letting the band run the show'],
       alt: [{ n: 'Overhead with the band under your feet', por: 'hits the long head harder' }, { n: 'Dumbbell kickback', por: 'if you have nowhere to anchor' }],
       mol: 'This is the kindest exercise on the elbow in the plan: when others hurt, this is usually the refuge. Add reps before you add band tension.'
@@ -755,14 +755,14 @@ window.B2P = (function () {
     /* — Arms — */
     'curl-barra-z': { pat: 'curl',
       nombre: 'EZ Bar Curl', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'EZ bar',
-      cues: ['Elbows tucked to your sides, FIXED', 'Curl without swinging, lower in 2-3″', 'Wrists neutral thanks to the EZ shape'],
+      cues: ['Elbows tucked to your sides, fixed', 'Curl without swinging, lower in 2-3″', 'Wrists neutral thanks to the EZ shape'],
       err: ['Rocking the body to lift more weight', 'Elbows travelling forward at the top'],
       alt: [{ n: 'Alternating dumbbell curl', por: 'with rotation (supination), very complete' }, { n: 'Low cable curl', por: 'constant tension' }],
       mol: 'If the wrist or elbow complains: dumbbells with rotation, or a hammer grip.'
     },
     'curl-inclinado': { pat: 'curl',
       nombre: 'Incline Dumbbell Curl', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps (long head)'], equipo: 'Dumbbells + 45-60° bench',
-      cues: ['Bench at 45-60°, arms HANGING vertical', 'The stretch at the bottom is the stimulus: don’t cut it short', 'Elbows still, curl without shrugging'],
+      cues: ['Bench at 45-60°, arms hanging vertical', 'The stretch at the bottom is the stimulus: don’t cut it short', 'Elbows still, curl without shrugging'],
       err: ['Bringing the elbows forward', 'Half reps at the bottom'],
       alt: [{ n: 'Bayesian cable curl', por: 'same stretch, standing' }],
       mol: 'If the shoulder pulls at the bottom: raise the backrest one notch.'
@@ -772,7 +772,7 @@ window.B2P = (function () {
       cues: ['Neutral (hammer) grip, elbows fixed', 'Alternating or both at once', 'Control the lowering'],
       err: ['Swinging', 'Turning it into a row by lifting the elbows'],
       alt: [{ n: 'Rope hammer curl on the cable', por: 'a variant' }],
-      mol: 'The kindest curl on elbows and wrists: usually the REFUGE when others complain.'
+      mol: 'The kindest curl on elbows and wrists: usually the refuge when others complain.'
     },
     'curl-polea': { pat: 'curl',
       nombre: 'Low Cable Curl', mm: { p: ['biceps'], s: [] }, zona: 'tiron', musc: ['Biceps'], equipo: 'Low pulley + bar',
@@ -785,33 +785,33 @@ window.B2P = (function () {
 
   /* ---------- THE 8 RULES ---------- */
   const REGLAS = [
-    { n: 1, t: 'Controlled RPE', d: 'Every phase has its effort cap. Your nervous system remembers being an athlete; your tendons have gone years without loading. Brake before they do.' },
-    { n: 2, t: 'Double progression', d: 'First add reps within the range, then add weight (+2.5 kg; +5 kg on squat and Romanian deadlift). Only if technique was clean on EVERY set. The app suggests it for you.' },
-    { n: 3, t: 'Scale = weekly average', d: 'Weigh in Monday-Wednesday-Friday, fasted, and look only at the average. A single day means nothing (water, salt, creatine).' },
-    { n: 4, t: 'Protein: {p} g in 4 servings', d: 'Breakfast, lunch, dinner and one serving before bed. No serving below {q} g. It is the variable that decides whether your weight change is fat or muscle.' },
+    { n: 1, t: 'Controlled RPE', d: 'Every phase has its cap. Your nervous system remembers; your tendons have gone years without loading. Brake before they do.' },
+    { n: 2, t: 'Double progression', d: 'First reps within the range, then weight: +2.5 kg (+5 on squat and Romanian deadlift), only with clean technique on every set. The app suggests it.' },
+    { n: 3, t: 'Scale = weekly average', d: 'Monday, Wednesday and Friday fasted, and look only at the average. A single day says nothing: water, salt, creatine.' },
+    { n: 4, t: 'Protein: {p} g in 4 servings', d: 'Breakfast, lunch, dinner and pre-sleep, none below {q} g. It decides whether what changes is fat or muscle.' },
     { n: 5, t: '8,000–10,000 daily steps', d: 'Every day, training or not. They burn more per week than the sessions themselves.' },
-    { n: 6, t: 'Sleep 7–8 h: non-negotiable', d: 'It’s not a goal, it’s a rule: sleeping 5.5 h in a deficit turns your loss into −55% fat and +60% muscle (Nedeltcheva 2010). Strong caffeine only before 1-2 pm.' },
-    { n: 7, t: 'A missed day is not made up', d: 'Don’t double up sessions or cut food the next day. Pick up the calendar wherever it stands.' },
-    { n: 8, t: 'The non-negotiable minimum', d: 'The killer pattern is 3 months all-in / 3 at zero. The chaotic week has a floor: 2 strength + 1 cardio. That keeps everything.' }
+    { n: 6, t: 'Sleep 7–8 h: non-negotiable', d: 'On 5.5 h of sleep in a deficit you lose 55% less fat and 60% more muscle. Caffeine only before 1-2 pm.' },
+    { n: 7, t: 'A missed day is not made up', d: 'Don’t double up sessions or cut food the next day: follow the calendar.' },
+    { n: 8, t: 'The non-negotiable minimum', d: 'The killer is 3 months all-in and 3 at zero. The chaotic week has a floor: 2 strength + 1 cardio.' }
   ];
 
-  const SENALES = 'Signs to stop an exercise for the day: sharp pain in the knee, shoulder or lower back during the movement; discomfort that worsens set by set instead of fading as you warm up. Diffuse soreness 24-48 h later = normal. Localised joint pain that persists beyond 5 days = physio before loading again.';
+  const SENALES = 'Stop for the day: sharp pain in the knee, shoulder or lower back during the movement; discomfort that worsens set by set instead of fading as you warm up. Normal: diffuse soreness 24-48 h later. Physio before continuing: localised joint pain beyond 5 days.';
 
   /* ---------- NUTRITION ---------- */
   const NUTRI = {
     calorias: [
-      { c: 'Basal metabolic rate (Mifflin-St Jeor)', v: '~1,950 kcal', n: '95.1 kg · 183 cm · 30 years' },
-      { c: 'Estimated total expenditure (plan running)', v: '2,850–3,000 kcal', n: 'Training + 8-10k steps' },
-      { c: 'Target intake', v: '2,250–2,400 kcal', n: 'Deficit ~550–700 kcal/day (more than that stalls muscle regain: Murphy & Koehler 2022)' },
-      { c: 'Expected rate of loss', v: '0.6–0.75 kg/week', n: '≈0.7% of bodyweight/week, the sweet spot for keeping lean mass (Garthe 2011). Weekly average, not day to day' }
+      { c: 'Basal metabolic rate', v: '~1,950 kcal', n: '95.1 kg · 183 cm · 30 years' },
+      { c: 'Estimated total expenditure', v: '2,850–3,000 kcal', n: 'Training + 8-10k steps' },
+      { c: 'Target intake', v: '2,250–2,400 kcal', n: 'Deficit ~550–700 kcal/day: more than that stalls muscle regain.' },
+      { c: 'Expected rate of loss', v: '0.6–0.75 kg/week', n: '≈0.7% of bodyweight a week, the sweet spot for keeping muscle. Weekly average.' }
     ],
     fases: [
       { f: 'P1–P2 (wk 1-5)', kcal: 2250, p: 190, g: 70, c: 205 },
       { f: 'P3 (wk 6-9)',    kcal: 2350, p: 190, g: 70, c: 230, nota: 'Week 7: DIET BREAK at ~2,800' },
       { f: 'P4 (wk 10-12)',  kcal: 2400, p: 190, g: 70, c: 240 }
     ],
-    escalado: 'Protein never moves: {p} g a day for you. When training volume goes up, only carbs go up. In practice: in F3 add a piece of fruit + 40 g of bread to lunch on training days; in F4, the same every day.',
-    tomas: 'FOUR protein servings a day, none below {q} g: breakfast, lunch, dinner and a pre-sleep serving. The daily total rules, but splitting it into 4 squeezes the most out of protein synthesis and kills evening hunger.',
+    escalado: 'Protein ({p} g) never moves: when training goes up, only carbs go up. In F3, +1 fruit and 40 g of bread with lunch on training days; in F4, every day.',
+    tomas: 'Four protein servings a day, none below {q} g: breakfast, lunch, dinner and pre-sleep. The total rules, but splitting it into 4 gets the most from protein synthesis and kills night hunger.',
     plato: [
       { t: 'Protein (every meal)', d: '200-250 g of raw chicken/turkey/white fish, or 170-180 g of salmon/beef, or 3 eggs + 2 whites, or 250 g of skyr + whey. Visual reference: a palm and a half.' },
       { t: 'Carbohydrate', d: '60-75 g raw of rice/pasta, or 250-300 g of potato, or 60 g of wholemeal bread, or 50 g of oats. Reference: one fist.' },
@@ -819,15 +819,15 @@ window.B2P = (function () {
       { t: 'Fat', d: '10 g of olive oil per main meal (one tablespoon) and stop counting. It’s where calories slip away unnoticed.' }
     ],
     suplementos: [
-      { id: 'creatina', t: 'Creatine monohydrate', d: '5 g daily, any time of day, no loading phase, starting now. WARNING: it holds 1-2 kg of water in the first weeks. It’s not fat: trust the waist and the weekly average, not a single reading (the app flags it on the chart).' },
+      { id: 'creatina', t: 'Creatine monohydrate', d: '5 g a day, any time, no loading, starting now. It holds 1-2 kg of water in the first weeks: not fat. Trust the waist and the weekly average; the chart flags it.' },
       { id: 'whey', t: 'Whey', d: '1 scoop in the pre-sleep serving with the skyr (and another wherever needed on short-protein days).' },
-      { id: 'cafeina', t: 'Caffeine', d: 'Cut-off at 1-2 pm: 200 mg disrupts sleep up to 13 h later; one coffee, ~9 h (Gardiner 2023). Morning training: coffee 30-45′ before, perfect. Evening training: no caffeine — your pre-workout is the afternoon snack (fruit + skyr 60-90′ before).' },
-      { id: 'vitamina-d', t: 'Vitamin D', d: 'Vitamin D only if bloods come back under 30 ng/mL (likely with an indoor life).' },
-      { id: 'omega-3', t: 'Omega-3', d: 'Omega-3 ~2 g EPA+DHA/day: a modest but real benefit for strength, plus the anti-inflammatory/tendon angle.' },
-      { id: 'no', t: 'Don’t spend on', d: 'Fat burners, BCAA/EAA (redundant with your daily protein), "testo boosters". None of it moves the needle.' }
+      { id: 'cafeina', t: 'Caffeine', d: 'No caffeine after 1-2 pm: 200 mg disrupts sleep up to 13 h later; one coffee, ~9 h. Morning training: coffee 30-45′ before. Evening training: no caffeine; your pre-workout is the afternoon snack (fruit + skyr, 60-90′ before).' },
+      { id: 'vitamina-d', t: 'Vitamin D', d: 'Only if bloods come back under 30 ng/mL, likely with an indoor life.' },
+      { id: 'omega-3', t: 'Omega-3', d: '~2 g EPA+DHA a day: a modest but real benefit for strength and tendon.' },
+      { id: 'no', t: 'Don’t spend on', d: 'Fat burners, BCAA/EAA (your protein covers them) and “testo boosters”. None of it moves the needle.' }
     ],
-    hidratacion: 'Water: 2.5–3 L/day. Alcohol: counts calories and blocks recovery — inside the free meal, out for the rest of the week.',
-    comidaLibre: 'ONE meal a week (Saturday by default), not a whole day. Order or eat whatever you fancy in a normal amount, no compensating before or after. It’s what lets the plan survive {s} weeks and a social life. If plans land on another day, move it — but it stays just one.'
+    hidratacion: 'Water: 2.5–3 L a day. Alcohol: only in the free meal; it adds calories and slows recovery.',
+    comidaLibre: 'One meal a week, not a whole day (Saturday by default). Eat whatever you fancy in a normal amount, no compensating before or after. It’s what lets the plan survive {s} weeks and a social life. You can move it; it stays just one.'
   };
 
   /* ---------- RECIPES ---------- */
@@ -847,7 +847,7 @@ window.B2P = (function () {
         'Skyr into the bowl, oats on top (as they come if you like texture, or soaked 5′ in a splash of milk or water).',
         'Banana in slices, walnuts crushed by hand and cinnamon over the top.'
       ],
-      tips: 'Training in the morning? Build it the night before (soaked oats win). Short-protein day: +1 scoop of whey mixed into the skyr (+110 kcal, +23 g P).'
+      tips: 'Training in the morning? Build it the night before: soaked oats win. Short-protein day: +1 scoop of whey in the skyr (+110 kcal, +23 g).'
     },
     {
       id: 'tortilla-pan', slot: 'de', tags: ['huevo', 'gluten'], nombre: 'Omelette with bread and tomato', tipo: 'Breakfast B', tiempo: '10′', cocina: 'Frying pan',
@@ -916,7 +916,7 @@ window.B2P = (function () {
         { pid: 'aove', q: '8 g', i: 'EVOO' }
       ],
       pasos: [
-        'Wok or pan VERY hot with the EVOO: sear the beef 1-2′ and set it aside (leave it in and it stews and toughens).',
+        'Wok or pan very hot with the EVOO: sear the beef 1-2′ and set it aside; leave it in and it stews and toughens.',
         'Same pan: veg in strips 5-6′, keep them al dente.',
         'Beef back in, soy sauce, 1′ of tossing, and over the rice it goes.'
       ],
@@ -969,7 +969,7 @@ window.B2P = (function () {
       ],
       pasos: [
         'Brown the sliced garlic in the EVOO; prawns 2′ (defrosted and patted dry first).',
-        'Lower the heat, add the beaten eggs and stir NON-STOP until creamy. Off the heat before it fully sets.',
+        'Lower the heat, add the beaten eggs and stir non-stop until creamy. Off the heat before it fully sets.',
         'Toasted bread and salad on the side.'
       ],
       tips: 'The scramble finishes cooking off the heat. Frozen prawns: defrost in a bowl of cold water in 10′.'
@@ -986,7 +986,7 @@ window.B2P = (function () {
         'Mix the scoop of whey into the skyr until mousse-like. Cinnamon on top.',
         '30-60′ before bed. That’s it.'
       ],
-      tips: 'This serving tops off the day’s protein and kills night hunger, the moment diets die. Slow-digesting dairy casein works while you sleep.'
+      tips: 'Tops off the day’s protein and kills night hunger, where diets die. Casein digests slowly: it works while you sleep.'
     },
     {
       id: 'ensalada-atun', slot: 'ce', tags: ['pescado', 'huevo'], nombre: 'Complete tuna salad', tipo: 'Dinner · 10′', tiempo: '10′', cocina: 'No cooking (uses batch)',
@@ -1160,23 +1160,23 @@ window.B2P = (function () {
 
   /* ---------- THE SCIENCE BEHIND THE PLAN (evidence review · Aug 2026) ---------- */
   const CIENCIA = {
-    intro: 'Plan checked against the evidence (meta-analyses and trials 2010-2025, August 2026). The idea that orders everything: a returner is not a novice — muscle and nervous system come back fast, but tendon has no memory. The muscle can sprint; the tendon sets the pace.',
+    intro: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The idea that orders everything: a returner is not a novice. Muscle and nervous system come back fast; the tendon has no memory and sets the pace.',
     temas: [
-      { t: 'Muscle memory', d: 'The regain is real and fast: strength in ~8 weeks, size in ~12. The mechanism (myonuclei vs epigenetics) is under debate, but the effect isn’t. That’s why double progression can move faster than in a novice — and exactly why the calendar is NOT compressed: the one that can’t keep up is the tendon.', ref: 'Rahmati 2022 (meta-analysis, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
-      { t: 'Tendon: the limiter', d: 'Tendon collagen renews ~10× slower than muscle. What does adapt it: heavy loads with slow ~3″ contractions (HSR) and isometrics at 70% (5×45″), which also relieve pain on the spot. Plyometrics is a poor tendon stimulus: no jumps to "prepare" for jogging.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
+      { t: 'Muscle memory', d: 'The regain is real and fast: strength in ~8 weeks, size in ~12. The mechanism is under debate; the effect isn’t. That’s why double progression can move faster than in a novice, and exactly why the calendar is not compressed: the tendon can’t keep up.', ref: 'Rahmati 2022 (meta-analysis, J Cachexia Sarcopenia Muscle) · Cumming 2024 (J Physiol)' },
+      { t: 'Tendon: the limiter', d: 'Tendon collagen renews ~10× slower than muscle. What adapts it: heavy loads with slow ~3″ contractions (HSR) and isometrics at 70% (5×45″), which also relieve pain on the spot. Jumps are a poor stimulus: no plyometrics to “prepare” for jogging.', ref: 'Mersmann 2017 (Front Physiol) · Rio 2015 (BJSM) · Kongsgaard (HSR)' },
       { t: 'Running with extra weight', d: 'Carrying extra weight, starting with more than 3 km/week of jogging spikes injuries (~31-48% more). Raising cadence to 170-180 cuts tibial impact ~11%. Safe progression isn’t the "10% rule": it’s never exceeding ~1.3× your average of the last 4 weeks.', ref: 'Bertelsen 2018 (RCT in overweight novices) · 2025 cadence review · IOC load consensus' },
       { t: 'The right deficit', d: 'A deficit beyond ~500-600 kcal wipes out muscle gain even if you lift. The optimal rate for keeping lean mass is ~0.7% of bodyweight/week. That’s why the plan loses at 0.6-0.75 kg/week and not 0.9.', ref: 'Murphy & Koehler 2022 (meta-analysis, 59 studies) · Garthe 2011' },
       { t: 'Protein', d: 'In a deficit, trained lifters need 2.3-3.1 g/kg of lean mass. {p} g puts you comfortably in the range, and splitting it into 4 servings of ≥40 g squeezes the most out of protein synthesis and controls hunger.', ref: 'Helms 2014 (systematic review) · Schoenfeld & Aragon (per-serving distribution)' },
-      { t: 'Diet break', d: 'Alternating deficit with maintenance breaks softened the metabolic slowdown and improved fat loss in the MATADOR study. Over {s} weeks its main value is a different one: it teaches you that stopping for ONE planned week is not relapsing.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
-      { t: 'Just enough volume', d: 'More sets = more muscle but with diminishing returns, and in a deficit the excess only adds fatigue and risk. Target: ~10 sets/muscle/week in P2 and 12-18 in P3-P4. And the non-negotiable minimum (2 strength + 1 cardio) has backing: that genuinely PRESERVES muscle.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (minimum dose)' },
-      { t: 'Deloading done right', d: 'Stopping completely for a week costs strength; what works is cutting the volume in half while keeping the weight on the bar. That’s why week 9 is a MANDATORY deload of that kind.', ref: 'Coleman 2024 (PeerJ, deload RCT)' },
-      { t: 'Sleep', d: 'Sleeping 5.5 h in a deficit (vs 8.5) cut the fat lost by 55% and multiplied the muscle lost. After protein and the deficit, it’s your biggest lever. Hence the caffeine cut-off at 1-2 pm: 200 mg disrupts sleep up to 13 h later.', ref: 'Nedeltcheva 2010 (Ann Intern Med) · Gardiner 2023 (Sleep Med Rev)' },
-      { t: 'Health first', d: 'After years without vigorous activity, before the hard work of F3-F4: blood pressure and a basic panel (lipids, glucose/HbA1c). With symptoms of any kind, see a doctor before continuing.', ref: 'ACSM Preparticipation Health Screening' }
+      { t: 'Diet break', d: 'Alternating deficit with maintenance breaks softened the metabolic slowdown and improved fat loss (MATADOR study). Over {s} weeks its value is different: it teaches you that stopping for one planned week is not relapsing.', ref: 'Byrne 2018 (Int J Obesity, MATADOR)' },
+      { t: 'Just enough volume', d: 'More sets, more muscle, with diminishing returns; in a deficit the excess only adds fatigue and risk. Target: ~10 sets/muscle/week in P2, 12-18 in P3-P4. The minimum (2 strength + 1 cardio) genuinely preserves muscle.', ref: 'Pelland 2025 (Sports Medicine) · Androulakis-Korakakis 2020 (minimum dose)' },
+      { t: 'Deloading done right', d: 'Stopping completely for a week costs strength; what works is half the volume with the same weight. That’s why the deload is compulsory and of that kind.', ref: 'Coleman 2024 (PeerJ, deload RCT)' },
+      { t: 'Sleep', d: 'Sleeping 5.5 h in a deficit (vs 8.5) cut the fat lost by 55% and multiplied the muscle lost. After protein and the deficit, it’s your biggest lever. Hence the caffeine cut-off at 1-2 pm.', ref: 'Nedeltcheva 2010 (Ann Intern Med) · Gardiner 2023 (Sleep Med Rev)' },
+      { t: 'Health first', d: 'After years inactive, before the hard work of F3-F4: blood pressure and a basic panel (lipids, glucose/HbA1c). With any symptom, see a doctor before continuing.', ref: 'ACSM Preparticipation Health Screening' }
     ]
   };
 
 
-  const AVISO_LEGAL = 'Your plan is generated from your answers using standard formulas (Mifflin-St Jeor and classic activity factors), with a ±10% margin that the adjustment rules correct with your real data. None of this replaces medical advice: for any condition, persistent pain or doubt, see a healthcare professional.';
+  const AVISO_LEGAL = 'Your plan comes from your answers using standard formulas (Mifflin-St Jeor and activity factors) and a ±10% margin that the adjustment rules correct with your data. It does not replace medical advice: for any condition, persistent pain or doubt, see a healthcare professional.';
 
   /* ---------- INTERFACE TEXTS (translatable like everything else) ----------
      Templates with {x}: app.js fills them via tpl(). Switching language
@@ -1189,17 +1189,17 @@ window.B2P = (function () {
     calComidas: 'The day\'s meals',
     meses: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     hoyTag: 'TODAY',
-    semanaLinea: 'Week {w} of {t} · Phase {f} · {n} · RPE cap {r}',
+    semanaLinea: 'Week {w}/{t} · Phase {f} · {n} · RPE cap {r}',
     empiezaEnDias: 'Starts in {n} days', empiezaEn1: 'Starts in 1 day', empiezaLunes: 'Starts on Monday',
-    preplanSub: '{f} · Phase 1 at home. Meanwhile, get your baseline ready:',
-    prepCintura: 'Measure your waist fasted (at navel height)',
-    prepFotos: 'Day-0 photos: front and side, the same light you’ll always use',
+    preplanSub: '{f} · Phase 1 at home. Meanwhile, your baseline:',
+    prepCintura: 'Waist fasted, at the navel',
+    prepFotos: 'Day-0 photos: front and side, same light every time',
     prepCompra: 'Week 1 shop (list under Food)',
-    prepBascula: 'Decide where and when you weigh in: Monday-Wednesday-Friday, fasted',
-    practicaMenu: 'You can practise the menu from today: on {f} it’s for real.',
+    prepBascula: 'Scales: Monday, Wednesday and Friday fasted, always the same way',
+    practicaMenu: 'The menu counts from today; on {f} it’s for real.',
     descanso: 'Rest', domingoPrep: 'Sunday: rest + meal prep', planCompletado: 'Plan complete',
     calentamiento: 'Warm-up · 6′',
-    sesionSub: '{d} · rest on every row (tap to start the timer)',
+    sesionSub: '{d} · tap a rest to time it',
     tendonNombre: 'Tendon protocol',
     cardioHecho: '✓ Cardio done', cardioMarcar: 'Mark cardio done', minutosReales: 'Actual minutes:',
     cadenciaSub: 'Cadence 170-180 · short stride', recuperacionSub: 'Active recovery', opcional: 'optional',
@@ -1207,8 +1207,8 @@ window.B2P = (function () {
     diaADia: 'The day-to-day',
     hPasos: '8-10k steps', hPasosSub: 'Every day',
     hProte: 'Protein 4/4', hProteSub: '4 servings ≥{q} g',
-    hPeso: 'Fasted weigh-in', hPesoSub: 'Weekly average, not a single day',
-    hCintura: 'Waist (Monday)', hCinturaSub: 'The master metric · at the navel, no squeezing',
+    hPeso: 'Fasted weigh-in', hPesoSub: 'Go by the weekly average',
+    hCintura: 'Waist (Monday)', hCinturaSub: 'The master metric · at the navel',
     hPrep: 'Meal prep', hPrepSub: '~90′ and the week is sorted',
     hFoto: 'Progress photos', hFotoSub: 'Front and side, same light',
     pesoGuardado: 'Weight saved: {v} kg', cinturaGuardada: 'Waist: {v} cm',
@@ -1220,59 +1220,59 @@ window.B2P = (function () {
     quizAfinara: 'This will fine-tune your plan.', quizTitulo: 'Your likes', quizPista: 'Swipe: right = like, left = pass',
     quizSi: 'Like', quizNo: 'Pass', quizDeshacer: 'Undo', quizSaltar: 'Skip',
     quizListo: 'Done',
-    gen: { kcalHueco: 'This menu adds up to ~{m} kcal a day and your target is {k}: {q}. Recipes come in fixed sizes; adjust the rice, pasta or bread of your main meal.', kcalSube: 'you are ~{d} short', kcalBaja: 'you are ~{d} over', chkDentro: 'inside', chkBajo: 'below', chkAlto: 'above', lChkD2: 'Weight inside the corridor in week {s}.', tHombroT: 'Shoulder · cuff and serratus', tHombroD: 'Band external rotation 2×15 per side and lying Y-raise 2×12, slow. Before any pressing and on odd days. The cuff does not grow with weight: it grows with control.', tHombroW: 'At home with a band, or the lightest dumbbell you own.', r2SinBarra: 'First add reps within the range, then add load (the smallest jump you have: one dumbbell up, a stiffer band or a harder variation). Only if form was clean on EVERY set. The app suggests it for you.', protHueco: 'The menu provides ~{m} g of protein a day; up to your {p} g, the bridge is the extra servings (a shake or one more portion).', finRecapT: 'Your block, in numbers', subCorporal: 'Bodyweight version: hit the top of the rep range cleanly, then move up a variant.', subRepe: 'Second round: with no kit there are not thirty variations, and repeating the pattern with clean form still builds.', f2nCasa: 'Loading up', f2oCasa: 'Relearn the basics with dumbbells and bands and build a loading base. Work at 65-70% of what you feel you could, with 3 reps in reserve ALWAYS.', f2nNada: 'Bodyweight progression', f2oNada: 'Master the progressions with your own body and build a base. Leverage rises before reps: harder variant only with clean technique.', gemNota: 'The slow calf raise is the tendon’s insurance: don’t skip it.', tendonSinTrote: 'Strength returns in weeks; the tendon needs months (its collagen renews ~10× slower and has no muscle memory). This block is the plan’s insurance: it starts week 1 and runs the whole block.', introNunca: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organizing idea: starting from zero you progress fast, the first months bring the biggest strength gains of your life, but connective tissue lags behind muscle. That is why loads climb slowly even when you could do more.', introActivo: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organizing idea: if you already train you do not need more punishment, you need better dosing. The right volume, logged progression and counted rest separate maintaining from improving.', cNuncaT: 'Starting from zero', cNuncaD: 'The first year brings the biggest strength gains of a lifetime: almost any well-executed dose works, which is why extreme programs are unnecessary. Technique comes first: today’s clean reps are the safe kilos of three months from now.', cNuncaR: 'novice gains: ACSM reviews and dose-response meta-analyses', cActivoT: 'Adding without breaking', cActivoD: 'The risk for someone already training is stacking new volume on old. Jumps above ~1.3× your recent average load spike injuries: add one variable at a time (days, volume or intensity), never all three.', cActivoR: 'IOC training load consensus (ACWR)', cSupT: 'A surplus that builds', cSupD: 'Building muscle needs only a small surplus (~250-350 kcal): above that, the extra shifts toward fat. The scale should climb slowly; if it climbs fast it is not muscle, because protein synthesis has a weekly ceiling.', cSupR: 'Garthe 2013 · Slater 2019 (surplus and composition)', r1Nunca: 'Every phase has its effort cap. Starting from zero, strength rises faster than your tissues’ resilience: always leave 2-3 reps in reserve and the gains arrive anyway, toll-free.', r1Activo: 'Every phase has its effort cap. You come in training, but this volume is new: respect the RPE caps for the first two weeks, then climb. Braking in time is what lets you progress all {s} weeks.', r8Nunca: 'The enemy at the start is not hardness, it is irregularity. The chaotic week has a floor: 2 strength + 1 cardio. That keeps everything running.', r8Activo: 'People who train also have impossible weeks. The floor: 2 strength + 1 cardio. With that nothing is lost; the rest is recoverable.', f1nNunca: 'Foundations', f1oNunca: 'Build the habit and learn the movement patterns without punishing joints. Being left wanting more is intentional.', f2nNunca: 'Technique', f2oNunca: 'Learn the basics with light load: every clean rep now is safe kilos later. Work far from failure ALWAYS.', f3oNunca: 'Real volume and intensity, with technique now grooved. End every set able to do 2 more honest reps.', f1nActivo: 'Base', f1oActivo: 'Two weeks of adaptation to the plan: known dose, logging running, technique tuned before raising anything.', f2nActivo: 'Construction', f2oActivo: 'Progressive volume on top of your base: work at 70-75% of what you feel you could, with 2-3 reps in reserve.', f3oActivo: 'Real volume and intensity to force the change. End every set able to do 2 more reps, and make them real.', cierrePerder: 'The real goal of the plan is not {f}: it is getting there training out of habit, no on/off cycle. The weight coming down is the consequence, not the goal.', cierreRecomp: 'The real goal of the plan is not {f}: it is getting there with the habit built and clothes fitting differently. Recomposition is slow by design: consistency is the goal.', cierreGanar: 'The real goal of the plan is not {f}: it is getting there stronger on the bar with the habit built. Muscle is built in months: the next block starts where this one ends.', cierreManten: 'The real goal of the plan is not {f}: it is training stopping being a plan and becoming a custom. Maintaining is winning.', cierreRenueva: 'To renew the block: Settings, Create / redo my plan. Two taps and you continue.', platoVegetariano: '3 eggs + 2 whites, or 250 g of skyr or quark + whey, or 200 g of firm tofu, or 150 g of tempeh, or 250 g of cooked legumes + 1 egg. Visual reference: a palm and a half.', platoVegano: '200-250 g of firm tofu, or 150-180 g of tempeh, or 250 g of cooked legumes + a scoop of plant protein, or 80 g (dry) of textured soy. Visual reference: a palm and a half.', suplVegT: 'Plant protein', suplVegD: '1 scoop of pea or soy protein in the pre-sleep serving (and another wherever a day runs short on protein).', numRecomp: 'Gentle deficit ~300-450 kcal/day: recomposition asks for patience, not aggression.', numSup: 'Surplus ~250-350 kcal/day: more is not more muscle, it is more fat (Garthe 2013).', numMan: 'Your estimated maintenance: the weekly average judges and adjusts.', ritmoSubeT: 'Expected gain rate', ritmoManT: 'Expected rate', ritmoSubeN: '≈0.25% of body weight/week: what muscle can actually be built. Weekly average, not day to day.', ritmoManN: 'The weekly average should stay within ±0.3 kg of your start.', wjN1: 'Walk-jog I', wjN2: 'Walk-jog II', wjN3: 'Walk-jog III', lChkN: 'Checkpoint W{s}', lChkD: 'Weight inside or better than the corridor in week {s}.', alRapidoBaja: 'Add 150 kcal of carbs. At this pace the deficit is eating muscle too.', alLentoBaja: 'Check portions and steps for a couple of days before cutting anything; if it stays flat, drop 100 kcal of carbs on rest days only.', alRapidoSube: 'You are gaining faster than muscle can be built: cut 150 kcal of carbs so the extra is not fat.', alLentoSube: 'The surplus is not showing on the scale: add 150 kcal of carbs on training days.', alMantenT: 'You are drifting off maintenance', alMantenD: 'Two weeks of drift in a row: adjust 100-150 kcal in the opposite direction and leave training alone.', circProg: 'Add 1-2 reps per week wherever your form stays clean: that is the progression.', durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Upper · Lower', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (wk 1-{a})', nf2: 'F3 (wk {b}-{c})', nf3: 'F4 (wk {d}-{e})', dietBreakNota: 'Week {w}: DIET BREAK at ~{k}', hitoCribadoT: 'Health screen', hitoCribadoD: 'Before the loading phase, if you have been inactive for years: blood pressure at a pharmacy and a basic panel (lipids, glucose). 15 minutes that buy peace of mind.', hitoDietT: 'DIET BREAK', hitoDietD: 'All week you eat at maintenance (~{k} kcal: +2 servings of carbs a day, protein unchanged). Training stays the same. It restores NEAT and leptin and breaks the on/off cycle. Next Monday, deficit again.', hitoDescargaT: 'DELOAD (not optional)', hitoDescargaD: 'Same routine with half the sets and the same weight on the bar. Not a stop: it is tissue maintenance and a holiday for tendons and joints.', tomaNocheAlt: '+ every night: pre-sleep serving with your plant protein (soy or pea), ~40 g in a shake. ', franjaM: 'You train in the morning: eat breakfast after training, not before.', franjaMd: 'You train at midday: your main meal lands right after training.', franjaT: 'You train in the evening: something light before; dinner is your post-workout meal.', cardioLibreT: 'Cardio: {d}', cardioLibreD: '{m}′ at a comfortable, steady pace. Your sport counts the same as jogging: consistency rules.', chk1: 'Off the corridor: check portions and steps before touching anything. Early weeks also move water.', chk2: 'Two weeks off track: adjust 150 kcal of carbs in the right direction. Protein stays.', chk3: 'Closing: photos, measurements and the next block, decided with data.', lKgN: '−{v} kg', lKgD: 'Weekly average {v} kg below your start.', lKgUpN: '+{v} kg', lKgUpD: 'Weekly average {v} kg above your start. Muscle, brick by brick.', lCintN: 'Waist −{v}', lCintD: 'Waist below {v} cm.', lReinaN: 'Queen metric', lReinaD: 'Waist below half your height: {v} cm.', lFinDesc: '{s}-week plan finished. The goal was the habit; the rest is consequence.', marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} menu dishes don’t fit your diet: swap them for anything in the recipe book, already filtered for you.', prepNota: 'Only recipes marked “batch” are made on Sunday; the rest are cooked fresh. Shopping quantities already count the week’s repeats.' },
+    gen: { kcalHueco: 'Adjust the rice, pasta or bread of your main meal to cover the difference.', kcalSube: 'you are ~{d} short', kcalBaja: 'you are ~{d} over', chkDentro: 'inside', chkBajo: 'below', chkAlto: 'above', lChkD2: 'Weight inside the corridor in week {s}.', tHombroT: 'Shoulder · cuff and serratus', tHombroD: 'Band external rotation 2×15 per side and lying Y-raise 2×12, slow, before any pressing and on odd days. The cuff grows with control, not weight.', tHombroW: 'At home with a band, or the lightest dumbbell you own.', r2SinBarra: 'First reps within the range, then load: the smallest jump you have (one dumbbell up, a stiffer band, a harder variation), only with clean form on every set. The app suggests it.', protHueco: 'Up to your {p} g of protein, the bridge is an extra serving: a shake or one more portion.', finRecapT: 'Your block, in numbers', subCorporal: 'Bodyweight version: hit the top of the rep range cleanly, then move up a variant.', subRepe: 'Second round: with no kit there are not thirty variations, and repeating the pattern with clean form still builds.', f2nCasa: 'Loading up', f2oCasa: 'Basics with dumbbells and bands, and a loading base: 65-70% of what you could, 3 honest reps in reserve.', f2nNada: 'Bodyweight progression', f2oNada: 'Bodyweight progressions and a base. Leverage first, then reps: harder variant only with clean technique.', gemNota: 'The slow calf raise is the tendon’s insurance: don’t skip it.', tendonSinTrote: 'Strength returns in weeks; the tendon needs months: its collagen renews ~10× slower and has no memory. This block is the plan’s insurance, from week 1 to the last.', introNunca: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organising idea: from zero you progress fast (the first months bring the biggest strength gains of your life), but connective tissue lags behind muscle. That is why loads climb slowly even when you could do more.', introActivo: 'Plan checked against the evidence (meta-analyses and trials 2010-2025). The organising idea: if you already train you do not need more punishment, but better dosing. Right volume, logged progression and counted rest separate maintaining from improving.', cNuncaT: 'Starting from zero', cNuncaD: 'The first year brings the biggest strength gains of a lifetime: almost any well-executed dose works, which is why extreme programs are unnecessary. Technique comes first: today’s clean reps are the safe kilos of three months from now.', cNuncaR: 'novice gains: ACSM reviews and dose-response meta-analyses', cActivoT: 'Adding without breaking', cActivoD: 'The risk for someone already training is stacking new volume on old. Jumps above ~1.3× your recent average load spike injuries: add one variable at a time (days, volume or intensity), never all three.', cActivoR: 'IOC training load consensus (ACWR)', cSupT: 'A surplus that builds', cSupD: 'Building muscle needs only a small surplus (~250-350 kcal): above that, the extra shifts toward fat. The scale should climb slowly; if it climbs fast it is not muscle, because protein synthesis has a weekly ceiling.', cSupR: 'Garthe 2013 · Slater 2019 (surplus and composition)', r1Nunca: 'Every phase has its cap. From zero, strength rises faster than your tissues’ resilience: leave 2-3 honest reps in reserve and the gains arrive anyway.', r1Activo: 'Every phase has its cap. This volume is new even if you train: respect the RPE for the first two weeks, then climb. Braking in time is what lets you progress {s} weeks straight.', r8Nunca: 'At the start the enemy is not hardness, it is irregularity. Floor for the chaotic week: 2 strength + 1 cardio.', r8Activo: 'People who train also have impossible weeks. Floor: 2 strength + 1 cardio. Nothing is lost; the rest is recoverable.', f1nNunca: 'Foundations', f1oNunca: 'Habit and movement patterns, without punishing joints. Being left wanting more is intentional.', f2nNunca: 'Technique', f2oNunca: 'Basics with light load: every clean rep now is safe kilos later. Always far from failure.', f3oNunca: 'Real volume and intensity, with technique grooved. End every set with 2 honest reps in reserve.', f1nActivo: 'Base', f1oActivo: 'Two weeks of adaptation: known dose, logging running, technique tuned. Then you climb.', f2nActivo: 'Construction', f2oActivo: 'Progressive volume on top of your base: 70-75% of what you could, 2-3 honest reps in reserve.', f3oActivo: 'Real volume and intensity to force the change. End every set with 2 honest reps in reserve.', cierrePerder: 'The goal is not {f}: it is getting there training out of habit, no on/off cycle. The weight coming down is the consequence.', cierreRecomp: 'The goal is not {f}: it is getting there with the habit built and clothes fitting differently. Recomposition is slow by design; consistency is the goal.', cierreGanar: 'The goal is not {f}: it is getting there stronger and with the habit built. Muscle is built in months: the next block starts where this one ends.', cierreManten: 'The goal is not {f}: it is for training to stop being a plan and become a habit. Maintaining is winning.', cierreRenueva: 'To renew the block: Settings › Create / redo my plan.', platoVegetariano: '3 eggs + 2 whites, or 250 g of skyr or quark + whey, or 200 g of firm tofu, or 150 g of tempeh, or 250 g of cooked legumes + 1 egg. Visual reference: a palm and a half.', platoVegano: '200-250 g of firm tofu, or 150-180 g of tempeh, or 250 g of cooked legumes + a scoop of plant protein, or 80 g (dry) of textured soy. Visual reference: a palm and a half.', suplVegT: 'Plant protein', suplVegD: '1 scoop of pea or soy protein in the pre-sleep serving, and another on short-protein days.', numRecomp: 'Gentle deficit, ~300-450 kcal/day: recomposition asks for patience.', numSup: 'Surplus ~250-350 kcal/day: more is not more muscle, it is fat.', numMan: 'Your estimated maintenance: the weekly average judges and adjusts.', ritmoSubeT: 'Expected gain rate', ritmoManT: 'Expected rate', ritmoSubeN: '≈0.25% of body weight a week: what muscle can actually be built. Weekly average.', ritmoManN: 'The weekly average should stay within ±0.3 kg of your start.', wjN1: 'Walk-jog I', wjN2: 'Walk-jog II', wjN3: 'Walk-jog III', lChkN: 'Checkpoint W{s}', lChkD: 'Weight inside or better than the corridor in week {s}.', alRapidoBaja: 'Add 150 kcal of carbs. At this pace the deficit is eating muscle too.', alLentoBaja: 'Check portions and steps for a couple of days. If it stays flat, drop 100 kcal of carbs on rest days only.', alRapidoSube: 'You are gaining faster than muscle can be built: cut 150 kcal of carbs or the extra is fat.', alLentoSube: 'The surplus is not showing on the scale: add 150 kcal of carbs on training days.', alMantenT: 'You are drifting off maintenance', alMantenD: 'Two weeks of drift in a row: adjust 100-150 kcal in the opposite direction and leave training alone.', circProg: 'Add 1-2 reps per week wherever your form stays clean: that is the progression.', durAprox: '≈{m}′', splitFbC: 'Full Body', splitTpC: 'Upper · Lower', splitPplC: 'Push · Pull · Legs', faseSub: '{s} ×{d}', nf1: 'F1–F2 (wk 1-{a})', nf2: 'F3 (wk {b}-{c})', nf3: 'F4 (wk {d}-{e})', dietBreakNota: 'Week {w}: diet break at ~{k} kcal', hitoCribadoT: 'Health screen', hitoCribadoD: 'Before loading for real, if you have been inactive for years: blood pressure at a pharmacy and a basic panel (lipids, glucose). 15 minutes.', hitoDietT: 'Diet break', hitoDietD: 'A week at maintenance, ~{k} kcal: +2 servings of carbs a day. Protein and training unchanged. Next Monday, deficit again.', hitoDescargaT: 'Deload · compulsory', hitoDescargaD: 'Same routine, half the sets, same load. Not a stop: tendons and joints rest without losing tissue.', tomaNocheAlt: '+ every night: pre-sleep serving with plant protein, ~40 g in a shake. ', franjaM: 'Morning training: breakfast after, not before.', franjaMd: 'Midday training: your main meal goes right after.', franjaT: 'Evening training: something light before; dinner is your post-workout meal.', cardioLibreT: 'Cardio: {d}', cardioLibreD: '{m}′ at a comfortable, steady pace. Your sport counts the same as jogging.', chk1: 'Off the corridor: check portions and steps before touching anything. Early on, water moves too.', chk2: 'Two weeks off track: adjust 150 kcal of carbs in the right direction. Protein stays.', chk3: 'Closing: photos, measurements and the next block, decided with data.', lKgN: '−{v} kg', lKgD: 'Weekly average {v} kg below your start.', lKgUpN: '+{v} kg', lKgUpD: 'Weekly average {v} kg above your start. Muscle, brick by brick.', lCintN: 'Waist −{v}', lCintD: 'Waist below {v} cm.', lReinaN: 'Queen metric', lReinaD: 'Waist below half your height: {v} cm.', lFinDesc: '{s}-week plan finished. The goal was the habit; the rest is consequence.', marca: 'Plan generated for you', cuida: 'mind your {a}', datos: '{p} kg · {a} cm · {e} y.o.', menuAviso: '{n} dishes don’t fit your diet: swap them for another from the recipe book, already filtered.', prepNota: 'Only what is marked “batch” is cooked on Sunday; the rest, fresh. The shopping list already counts the week’s repeats.' },
     pBarraT: 'The plan on the bar', pBarraSub: '{a} of {b} plates loaded',
     patrones: { eh: 'Horizontal push', ev: 'Vertical push', th: 'Horizontal pull', tv: 'Vertical pull', rod: 'Knee-dominant', bis: 'Hip hinge', zan: 'Lunge', core: 'Stable core', flex: 'Trunk flexion', curl: 'Elbow flexion', ext: 'Elbow extension', gem: 'Calf raise', ais: 'Isolation' },
     quizCatEj: 'Exercise', quizCatDep: 'Sport', quizCatCom: 'Food',
-    alta: { t: 'Create your user', sub: 'Strength, food and progress. A plan built for you, in two minutes.', nombreL: 'Your name', ph: 'What should we call you?', cta: 'Start', local: 'Your data lives only on this device. No accounts, no cloud.', valNombre: 'Enter a name, 2 to 24 characters.', idioma: 'Language' },
-    rev: { evFecha: 'ends on {b}, right before it', evSinFecha: 'no date: the horizon you picked rules', minT: '{v} minutes per session', minSub: 'sessions trimmed to the essentials: the big lifts stay', evT: 'Goal: {e}', evSub: 'the date rules: consistency over perfection', durOpen: 'No deadline: {s}-week blocks, renewable', t: '{n}, your plan is ready', tAnon: 'Your plan is ready', sub: 'Decided from your answers. This is not a template.',
+    alta: { t: 'Create your user', sub: 'Strength, food and progress. Your plan, in two minutes.', nombreL: 'Your name', ph: 'What should we call you?', cta: 'Start', local: 'Your data lives only on this device.', valNombre: 'Enter a name, 2 to 24 characters.', idioma: 'Language' },
+    rev: { evFecha: 'ends on {b}, right before it', evSinFecha: 'no date: the horizon you picked rules', minT: '{v} minutes per session', minSub: 'short sessions: the big lifts stay', evT: 'Goal: {e}', evSub: 'the date rules: consistency over perfection', durOpen: 'No deadline: {s}-week blocks, renewable', t: '{n}, your plan is ready', tAnon: 'Your plan is ready', sub: 'Built from your answers, not a template.',
       splitT: 'Strength {d} days a week', splitFb: 'full body: what pays best on few days', splitTp: 'upper / lower, in pairs', splitPpl: 'push / pull / legs',
-      kcalT: '{k} kcal a day', kDef: 'a {v} kcal deficit: lose fat without giving up muscle', kSup: 'a {v} kcal surplus to build muscle', kMan: 'at your maintenance, protein in charge',
+      kcalT: '{k} kcal a day', kDef: 'a {v} kcal deficit, without giving up muscle', kSup: 'a {v} kcal surplus to build muscle', kMan: 'at your maintenance, protein in charge',
       protT: '{p} g of protein a day', protSub: '{v} g per kilo of body weight',
       durT: '{s} weeks ahead', durSub: '{a} to {b}',
       subsT: '{n} exercises swapped', subsSub: 'for your equipment or your passes',
       cuidaT: 'Extra care: {a}', cuidaSub: 'the exercises that load it carry a warning',
-      menuT: 'Menu adjusted to your table', menuSub: 'diet and intolerances applied to the whole week', menuAv: '{n} dishes still don’t fit: flagged in Food',
+      menuT: 'Menu adjusted to your table', menuSub: 'diet and intolerances applied to the whole week', menuAv: '{n} dishes don’t fit: flagged in Food',
       gustosT: '{a} likes · {b} passes', gustosSub: 'what you passed on is out of your plan',
       cta: 'See my week 1', micro: 'Redo the questionnaire any time: everything recalculates.' },
     tour: { salta: 'Skip', sigue: 'Next', listo: 'Let’s train', otraVez: 'Replay the welcome tour',
-      antes: ['Your plan is set', 'It starts on the day you chose. Until then, TODAY shows you the prep steps, and the menu is ready so you can start shopping.'],
+      antes: ['Your plan is set', 'Until the day you chose, Today shows you the prep steps. The menu is ready: start shopping.'],
       pasos: [
-      ['This is TODAY', 'Your day, already built: today’s session with its exercises, sets and rests. Tap an exercise to see the technique and the muscle it works.'],
-      ['Today’s food', 'Breakfast, lunch, dinner and the night serving, chosen for your goal. Tap a dish and the full recipe opens.'],
-      ['Your daily log', 'Weight, waist and what you got done. One tap per habit, and close the day with the button below. The app keeps count.'],
-      ['The whole plan', 'A calendar with each phase in its colour. Tap any day to see its workout and its meals. Swipe or use the arrows to change month.'],
-      ['The four phases', 'From reactivation to peak. Each band shows its weeks and intensity; expand it to see what it is after.'],
-      ['Your exercise library', 'Every movement by zone, with the muscle painted, the technique, and what to use if you lack equipment.'],
-      ['Your goal at the table', 'Calories and macros for the current phase, and if the menu falls short or over, by how much. The why lives in My profile.'],
-      ['Recipes', 'Breakfasts, lunches, dinners and supplements, filtered for you. Each recipe with a photo, ingredients with their photo, and step by step.'],
-      ['The weekly shop', 'Everything you need, grouped by meal and with the product photo so you spot it in the shop. Tick what you already have.'],
+      ['This is TODAY', 'Today’s session: exercises, sets and rests. Tap one to see technique and muscle.'],
+      ['Today’s food', 'Breakfast, lunch, dinner and the night serving, for your goal. Tap a dish: full recipe.'],
+      ['Your daily log', 'Weight, waist and habits: one tap each. Close the day with the button below.'],
+      ['The whole plan', 'Each phase in its colour. Tap a day: its workout and its meals. Swipe to change month.'],
+      ['The four phases', 'Each band shows its weeks and intensity. Expand it to see what it is after.'],
+      ['Your exercise library', 'Every movement by zone: muscle painted, technique and what to use if kit is missing.'],
+      ['Your goal at the table', 'Calories and macros for the phase, and how much the menu is short or over. The why is in My profile.'],
+      ['Recipes', 'Breakfasts, lunches, dinners and supplements filtered for you, with photo, ingredients and steps.'],
+      ['The weekly shop', 'Everything for the week by shop aisle, with a photo of each product. Tick what you already have.'],
       ['Honest progress', 'Weight, waist, loads and consistency, in charts. Going too fast? The app slows you down.'],
-      ['Your badges', 'Earned with consistency, not intensity. Each one explains what you did to get it.'],
-      ['Two bubbles', 'The magnifier finds any exercise, dish or setting. The speech bubble is for telling me bugs or ideas: I read them all.'],
-      ['My profile', 'Your answers, redo the plan, share it by link, export your data, privacy, and delete the account. Everything yours, right there.'] ] },
+      ['Your badges', 'Earned with consistency, not intensity. Each one says how to get it.'],
+      ['Two bubbles', 'The magnifier finds exercises, dishes and settings. The speech bubble is for telling me bugs or ideas.'],
+      ['My profile', 'Your answers, redo the plan, share it, export data, privacy and delete account.'] ] },
     cuest: {
-      evFechaT: 'What day is it?', evFechaP: 'With a date, the plan ends right before it. Without one, the horizon you pick rules.', evFechaSaltar: 'I don’t know yet', evFechaMal: 'Pick a date between 2 and 12 months from today.', 
+      evFechaT: 'What day is it?', evFechaP: 'The plan ends right before it. Without a date, the horizon rules.', evFechaSaltar: 'I don’t know yet', evFechaMal: 'Pick a date between 2 and 12 months from today.', 
       resLObj: 'Goal', resLEv: 'For', resLDur: 'Horizon', resLHist: 'Coming from', resLMat: 'Equipment', resLDieta: 'Table', resLFranja: 'Time slot', resLLes: 'Care', resLSin: 'Avoiding', 
-      gateT: 'Your health rules', gateTxt: 'You marked a medical condition that limits exercise. Before anything gets generated, show your doctor what you plan to do (strength {d} days a week) and get their OK.',
-      gateGuardado: 'Your answers are saved for when you come back.', gateOk: 'I have the OK', gateSalir: 'Leave for now',
-      gateHoyT: 'Paused, for a reason', gateHoyTxt: 'The questionnaire is half done: your doctor’s OK is missing. With it, your plan generates instantly.', gateVolver: 'Resume the questionnaire',
+      gateT: 'Your health rules', gateTxt: 'You marked a medical condition that limits exercise. Before the plan is generated, get your doctor’s OK for strength {d} days a week.',
+      gateGuardado: 'Your answers are saved.', gateOk: 'I have the OK', gateSalir: 'Leave for now',
+      gateHoyT: 'Paused, for a reason', gateHoyTxt: 'Your doctor’s OK is missing. With it, the plan generates instantly.', gateVolver: 'Resume the questionnaire',
       resCta: 'Generate my plan', resGen: 'Generating your plan…',
       titulo: 'Your plan, made to measure', atras: 'Back', sigue: 'Continue',
-      inicioT: 'When do you want to start?', inicioP: 'The plan is built from that day.', inicioHoy: 'Today', inicioSemana: 'This week', inicioLunes: 'Next Monday', inicioExacto: 'A specific day', inicioSemT: 'Which day this week?', inicioDiaT: 'Which day do you want to start?', sexoT: 'Your body', sexoP: 'Used only to calculate your calories.', sexoH: 'Man', sexoM: 'Woman', sexoX: 'Prefer not to say',
+      inicioT: 'When do you want to start?', inicioP: 'The plan is built from that day.', inicioHoy: 'Today', inicioSemana: 'This week', inicioLunes: 'Next Monday', inicioExacto: 'A specific day', inicioSemT: 'Which day this week?', inicioDiaT: 'Which day do you want to start?', sexoT: 'Your body', sexoP: 'Only to calculate your calories.', sexoH: 'Man', sexoM: 'Woman', sexoX: 'Prefer not to say',
       medidasT: 'Your numbers', edadL: 'Age', alturaL: 'Height (cm)', pesoL: 'Weight (kg)', cinturaL: 'Waist (cm) · optional',
       objT: 'What are you after?', objPerder: 'Lose fat', objRecomp: 'Recomp: less fat, more muscle', objGanar: 'Build muscle', objMantener: 'Maintain',
       evT: 'What for?', evBoda: 'A wedding', evOpo: 'An exam', evVerano: 'Summer body', evSiempre: 'For good',
       durT: 'How long do you give yourself?', dur3: '3 months', dur6: '6 months', dur12: '12 months', durAlways: 'No deadline: a habit',
-      histT: 'Where are you coming from?', histP: 'Comebacks are programmed differently: tendons set the pace.', histNunca: 'Never trained', histRetoma: 'Coming back after years away', histActivo: 'Training now',
+      histT: 'Where are you coming from?', histP: 'Changes how the plan starts.', histNunca: 'Never trained', histRetoma: 'Coming back after years away', histActivo: 'Training now',
       diasL: 'Days per week', minL: 'Minutes per session', franjaT: 'When do you prefer?', franjaM: 'Morning', franjaMd: 'Midday', franjaT2: 'Evening',
       matT: 'What equipment?', matNada: 'No equipment', matCasa: 'Home: dumbbells and bands', matGym: 'Full gym',
       lesT: 'Any aches or injuries?', lesRodilla: 'Knee', lesHombro: 'Shoulder', lesLumbar: 'Lower back', lesNo: 'None',
       medT: 'Any medical condition limiting exercise?', si: 'Yes', no: 'No',
       dietaT: 'Your table', dietaNormal: 'I eat everything', dietaVegetariano: 'Vegetarian', dietaVegano: 'Vegan',
       sinT: 'Avoiding anything?', sinGluten: 'Gluten', sinLactosa: 'Lactose', sinFrutos: 'Nuts', sinNada: 'Nothing',
-      resT: 'Your profile is ready', resP: 'Your plan will be generated from this: training, meals and progression.',
-      resGustos: '{a} likes · {b} passes', resProfesional: 'Before generating a plan, see a health professional: one of your answers calls for it.',
+      resT: 'Your profile is ready', resP: 'Your plan is generated from this.',
+      resGustos: '{a} likes · {b} passes', resProfesional: 'One of your answers calls for seeing a health professional first.',
       resGuardar: 'Save profile', resGuardado: 'Profile saved',
       valNum: 'Check {c}: between {a} and {b}.'
     },
@@ -1289,20 +1289,20 @@ window.B2P = (function () {
     reabrirDia: 'Reopen day', diaReabierto: 'Day reopened', mejorLbl: 'Best',
     cerrarDia: 'Close the day', diaCerradoBtn: '✓ Day closed · streak {n}',
     diaCerradoToast: '✓ Day closed. Streak: {n}', diaCerradoSolo: 'Day closed.',
-    sigueEditando: 'You can keep editing: everything saves itself.',
+    sigueEditando: 'Saves itself; you can keep editing.',
     comidaHoy: 'Today’s food', comidaHoySub: '{kcal} kcal · {p} g of protein in 4 servings',
     desayuno: 'Breakfast', comidaLbl: 'Lunch', cena: 'Dinner', presueno: 'Pre-sleep',
     secCompra: { fresco: 'Fresh produce', prote: 'Protein', lacteo: 'Dairy and drinks', despensa: 'Pantry', congelado: 'Frozen', supl: 'Supplements' }, despensaTag: 'pantry',
     comidaLibreMn: 'FREE MEAL', comidaLibreTitulo: 'Free meal', comidaLibreTag: 'one meal, not a day', tuya: 'yours',
     dietBreakChip: 'Diet break: +2 carb portions today. Protein unchanged.',
-    extraChip: 'P{f} extra: a piece of fruit + 40 g of bread with lunch.', sugRepite: '↻ repeat {v}',
+    extraChip: 'P{f} extra: +1 fruit and 40 g of bread with lunch.', sugRepite: '↻ repeat {v}',
     repsAMediasToast: 'Marked: reps missed (you’ll repeat the weight)', repsLimpiasToast: 'All reps clean',
     repsAMediasTag: 'reps short', repsLimpias: 'all reps clean', repsCortas: 'reps cut short',
     prToast: 'PR on {e}: {v} kg', ya: 'NOW!',
     fHistorial: 'Your history', fMejor: 'best {v} kg',
-    fComo: 'How to do it', fErrores: 'Mistakes that will steal your progress', fAlt: 'Equivalent alternatives',
+    fComo: 'How to do it', fErrores: 'Common mistakes', fAlt: 'Alternatives',
     fVideo: 'Watch technique video',
-    fDomiBtn: 'Today I got my first UNASSISTED pull-up!', fDomiOk: 'Logged', fDomiYa: 'Free pull-up already logged',
+    fDomiBtn: 'Today I got my first unassisted pull-up', fDomiOk: 'Logged', fDomiYa: 'Free pull-up already logged',
     vReglas8: 'The 8 rules', vReglasSub: 'when in doubt, the rule wins',
     vCalendario: 'Calendar',
     vSeguros: 'The plan’s insurance', libDescartado: 'passed', libSinMaterial: 'no gear', libFuera: 'not in your plan', vBiblioteca: 'Exercise library', vTocaCualquiera: 'tap any of them',
@@ -1316,7 +1316,7 @@ window.B2P = (function () {
     nRecetario: 'Recipe book', nToca: 'tap to cook',
     nCompra: 'The week’s shop', nPrepDom: 'Sunday meal prep', nSupl: 'Supplements',
     nReiniciar: 'reset', nProteLbl: 'Protein', nGrasaLbl: 'Fat', nCarbosLbl: 'Carbs', kcalLbl: 'kcal', nMenuLbl: 'menu',
-    nDietBreakTitulo: 'This week: DIET BREAK', nDietBreakTxt: '~{k} kcal: +2 carb portions a day. Same protein. Same training.',
+    nDietBreakTitulo: 'This week: diet break', nDietBreakTxt: '~{k} kcal: +2 carb portions a day. Same protein. Same training.',
     nTomaNota: '+ every night: pre-sleep serving (skyr + whey). ',
     nIngredientes: 'Ingredients (1 serving)', nPasos: 'Steps', opcionalParen: ' (optional)',
     chipsProg: ['Overview', 'Weight', 'Waist', 'Loads', 'Weeks', 'Checkpoints'],
@@ -1325,33 +1325,33 @@ window.B2P = (function () {
     pFuerzas: '{a}/{b} strength', pDeFuerza: 'strength', pDiasCumplidos: 'days closed',
     pPesoTitulo: 'Weight', pPesoSub: 'dots: weigh-ins · line: weekly average · band: expected corridor',
     pCinturaTitulo: 'Waist', pCinturaTituloSub: 'the queen metric · goal <{m} cm',
-    pCargas: 'Loads', pCargasSub: 'exercise weight, session by session',
-    pAdhTitulo: 'Adherence', pAdhSub: 'strength sessions completed per week',
+    pCargas: 'Loads', pCargasSub: 'kg per session',
+    pAdhTitulo: 'Adherence', pAdhSub: 'strength sessions done per week',
     pChk: 'Checkpoints', pEsperado: 'Expected', pReal: 'Actual', pSiDesvias: 'If you drift',
     pTabla: 'table', pGrafica: 'chart', pFecha: 'Date',
     pLifts: { 'press-banca': 'Bench', 'sentadilla-barra': 'Squat', 'rdl-barra': 'RDL' }, pMeta91: 'goal {m}', pAguaCreatina: 'water (first weeks)', pLineaBase: 'Baseline',
     pMediaSemana: 'W{w} average',
-    pVacioPeso: 'Your Monday, Wednesday and Friday weigh-ins will show up here',
-    pVacioCintura: 'Every Monday, fasted: tape at the navel, no squeezing',
-    pVacioCargas: 'Log kg on this exercise and you’ll see the climb here',
+    pVacioPeso: 'Your Monday, Wednesday and Friday weigh-ins go here.',
+    pVacioCintura: 'Every Monday fasted, tape at the navel',
+    pVacioCargas: 'Log kg on this exercise and you’ll see the climb here..',
     pVacioAdh: 'Week by week, your consistency will show here',
     pCheckpointSemana: 'Checkpoint week', pEsperadoRango: 'Expected: {a}–{b} kg', pLlevas: ' · you’re at {v}', pSinPesajes: ' · no weigh-ins yet this week',
-    pRapido: 'You’re going too fast', pLento: 'Pace below expected',
-    pFrenaTrote: 'Ease off the jogging', pFrenaTxt: 'This week you’re at {r}× your recent average of running minutes. Above 1.3× the injury risk spikes: cut back or walk.',
+    pRapido: 'You’re going too fast', pLento: 'Slower than expected',
+    pFrenaTrote: 'Ease off the jogging', pFrenaTxt: 'This week you’re running {r}× your recent average. Above 1.3× the injury risk spikes: cut back or walk.',
     lDiscos: 'The plate collection', lDiscosSub: 'one per phase completed',
     lLogros: 'Awards', lFuerzas: 'Strength', lPRs: 'PRs', lPerdido: 'Lost', lMejorRacha: 'Best streak', lLogrosN: 'Awards', lFotos: 'Photos',
-    perfilCinturaAdd: '+ Add waist', perfilCinturaNota: 'It becomes your baseline and unlocks the waist goal and badges. The rest of the plan does not change.', cerrarSesion: 'Log out', cerrarSesionNota: 'Back to the front door. Your plan and logs stay saved on this device.', rehacerSub: 'What do you want to redo?', rehacerTodo: 'Full questionnaire', rehacerTodoSub: 'Data and likes, top to bottom.', rehacerDatos: 'Just my data', rehacerDatosSub: 'Age, goal, days, equipment… The deck stays.', rehacerGustos: 'Just my likes', rehacerGustosSub: 'The card deck, from scratch.', perfilDetrasT: 'Behind the plan', buscarT: 'Search the app', buscarPH: 'Exercise, dish, section…', buscarNada: 'Nothing by that name. Try another word.', perfilT: 'My profile', perfilDatosT: 'Your answers', perfilPlanT: 'Your plan, in short', ajustes: 'Settings', ajustesSub: 'BACK2PRIME · your data lives ONLY on this device', ajGuardar: 'Save baseline', ajGuardado: 'Saved',
+    perfilCinturaAdd: '+ Add waist', perfilCinturaNota: 'It becomes your baseline and unlocks the waist goal and badges. The plan does not change.', cerrarSesion: 'Log out', cerrarSesionNota: 'Your plan and logs stay on this device.', rehacerSub: 'What do you want to redo?', rehacerTodo: 'Full questionnaire', rehacerTodoSub: 'Data and likes, top to bottom.', rehacerDatos: 'Just my data', rehacerDatosSub: 'Age, goal, days, equipment… The deck stays.', rehacerGustos: 'Just my likes', rehacerGustosSub: 'The card deck, from scratch.', perfilDetrasT: 'Behind the plan', buscarT: 'Search the app', buscarPH: 'Exercise, dish, section…', buscarNada: 'Nothing by that name. Try another word.', perfilT: 'My profile', perfilDatosT: 'Your answers', perfilPlanT: 'Your plan, in short', ajustes: 'Settings', ajustesSub: 'Your data lives only on this device.', ajGuardar: 'Save baseline', ajGuardado: 'Saved',
     ajCopia: 'Backup',
-    ajCopiaTxt: 'Your data never leaves the phone. Make a backup now and then (or before switching devices) and keep it wherever you like.',
+    ajCopiaTxt: 'Your data never leaves the phone. Make a backup now and then, or before switching devices.',
     ajExportar: 'Export', ajImportar: 'Import', ajImportOk: 'Backup restored', ajImportErr: 'That file doesn’t look like a BACK2PRIME backup',
     ajIdioma: 'Language', ajIdiomaNota: 'The app reloads on change. Your data is untouched.',
-    ajRehacer: 'Create / redo my plan', ajRehacerNota: 'Takes you to the questionnaire. Regenerating never touches your daily logs.', ajBorrar: 'Delete profile and all data', ajBorrarConfirma: 'Sure? Tap again to delete EVERYTHING',
+    ajRehacer: 'Create / redo my plan', ajRehacerNota: 'Back to the questionnaire. Your daily logs are not touched.', ajBorrar: 'Delete profile and all data', ajBorrarConfirma: 'Sure? Tap again to delete everything',
     celebraOk: 'Keep going',
     navAria: 'Main navigation',
     pPrivacidad: 'Privacy policy',
-    rep: { t: 'Report', sub: 'Something broken, or an idea to make this better? Tell me here.', bug: 'Something broke', idea: 'An idea', otro: 'Something else', txtL: 'Tell me', ph: 'What happened? If you can, say which screen you were on and what you expected.', enviar: 'Send', gracias: 'Got it. Thanks for writing it down.', corto: 'Write a bit more so it can be understood.', repRitmo: 'Wait a minute before sending another one.', errRed: 'Could not send: check your connection.', adjunta: 'Version, platform, language, screen and size are attached so it can be reproduced. Nothing from your plan, your weight or your logs.' },
-    nube: { correoL: 'Email', claveL: 'Password (8 minimum)', verClave: 'Show password', ocultarClave: 'Hide password', previoT: 'Earlier plan on this device', previoTxt: 'This device had a plan saved from before accounts existed. It is not brought over on its own, because it could belong to someone else. If it is yours, bring it: it will replace what you have now.', previoCta: 'Bring that plan', previoOk: 'Plan recovered', entrar: 'Sign in', crear: 'Create account', aCrear: 'First time? Create your account', aEntrar: 'Already have an account? Sign in', olvide: 'I forgot my password', enviadoReset: 'Email sent: open the link to change it', nuevaClaveT: 'Choose a new password', guardarClave: 'Save password', cambiada: 'Password changed: you can sign in now', confirmaCorreo: 'Check your inbox and confirm the account, then sign in here', yaExiste: 'That email already has an account: sign in with your password', errCred: 'Wrong email or password', errCorreo: 'Enter a valid email', errClaveCorta: 'The password needs at least 8 characters', errRitmo: 'Too many attempts in a row: wait a moment', errRed: 'No connection to the server: try again', local: 'Your account keeps your plan and follows you on any device. Only you can see it.', ajustesSub: 'BACK2PRIME · your plan lives in your account and only you can see it', cerrarSesionNota: 'Back to the front door. Your plan stays in your account: sign in again and pick up where you left off.' },
-    comp: { t: 'Share my plan', nota: 'Create a public read-only link with your plan: no weight, no logs.', copiado: 'Link copied', quitar: 'Stop sharing', quitado: 'Link disabled', vT: '{n}\'s plan', vSub: 'Generated with BACK2PRIME', vCta: 'Build yours', noExiste: 'That link does not exist or its owner disabled it', sem: '{s} weeks', dias: '{d} days/week' },
+    rep: { t: 'Report', sub: 'Something broken, or an idea? Tell me.', bug: 'Something broke', idea: 'An idea', otro: 'Something else', txtL: 'Tell me', ph: 'What happened? Say which screen and what you expected.', enviar: 'Send', gracias: 'Got it, thanks.', corto: 'Write a bit more so it can be understood.', repRitmo: 'Wait a minute before sending another one.', errRed: 'Could not send: check your connection.', adjunta: 'Version, platform, language and screen are attached. Nothing from your plan or your logs.' },
+    nube: { correoL: 'Email', claveL: 'Password (8 minimum)', verClave: 'Show password', ocultarClave: 'Hide password', previoT: 'Earlier plan on this device', previoTxt: 'This device holds a plan from before accounts existed. It is not loaded on its own, in case it is not yours. If it is, bring it: it will replace the current one.', previoCta: 'Bring that plan', previoOk: 'Plan recovered', entrar: 'Sign in', crear: 'Create account', aCrear: 'First time? Create your account', aEntrar: 'Already have an account? Sign in', olvide: 'I forgot my password', enviadoReset: 'Email sent: open the link to change it', nuevaClaveT: 'Choose a new password', guardarClave: 'Save password', cambiada: 'Password changed: you can sign in now', confirmaCorreo: 'Confirm the account from your inbox and sign in here', yaExiste: 'That email already has an account: sign in with your password', errCred: 'Wrong email or password', errCorreo: 'Enter a valid email', errClaveCorta: 'At least 8 characters', errRitmo: 'Too many attempts in a row: wait a moment', errRed: 'No connection to the server: try again', local: 'Your plan goes with your account to any device. Only you can see it.', ajustesSub: 'Your plan lives in your account. Only you can see it.', cerrarSesionNota: 'Your plan stays in your account. Sign in again and pick up where you left off.' },
+    comp: { t: 'Share my plan', nota: 'A public read-only link to your plan. No weight, no logs.', copiado: 'Link copied', quitar: 'Stop sharing', quitado: 'Link disabled', vT: '{n}\'s plan', vSub: 'Generated with BACK2PRIME', vCta: 'Build yours', noExiste: 'That link does not exist or its owner disabled it', sem: '{s} weeks', dias: '{d} days/week' },
     nuevoDia: 'New day: {f}'
   };
 

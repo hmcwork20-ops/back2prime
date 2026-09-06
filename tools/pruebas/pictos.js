@@ -83,20 +83,22 @@ for (const L of ['en', 'fr', 'de', 'it', 'pt']) {
   A(f === firma, L + ': mismos pictogramas que el espanol');
 }
 
-// --- 6. placebo: la regla tiene que estar descartando algo de verdad ---
-/* Si ningun ejercicio cayera en la regla, la prueba 2 pasaria sola y no
-   probaria nada. Se exige que el patron de al menos un ejercicio dibuje de
-   mas y que, por eso, esa fila se quede sin dibujo. */
-const descartados = ids.filter(id => picto(id) === null && NIV[N[B.EJERCICIOS[id].pat]] > pide(id));
-A(descartados.length > 0, 'placebo: la regla descarta al menos un pictograma enganoso');
-/* La trampa original, para que conste: el patron de las flexiones es «eh», que
-   se dibuja con barra y banco. Hoy no las alcanza porque tienen dibujo propio,
-   pero el patron sigue pidiendo material: si alguien les quita el `pic`, la
-   regla es lo unico que las separa otra vez del press de banca. */
+// --- 6. placebo: la regla sigue viva aunque ya no le toque descartar nada ---
+/* Los 34 ejercicios tienen ya su dibujo propio, asi que la regla no le quita
+   el suyo a nadie: no hay ningun caso real que observar. Se comprueba sobre
+   uno construido — unas flexiones a las que se les borra el `pic` — porque la
+   regla sigue haciendo falta el dia que se anada un ejercicio sin pictograma o
+   alguien retire uno. La trampa no ha desaparecido: el patron de las flexiones
+   es «eh», que se dibuja con barra y banco. */
 const pat = B.EJERCICIOS['flexiones'].pat;
 A(NIV[N[pat]] > pide('flexiones'), 'placebo: el patron de las flexiones sigue dibujando material (' + pat + ')');
+const sinPic = { EJERCICIOS: Object.assign({}, B.EJERCICIOS,
+  { flexiones: Object.assign({}, B.EJERCICIOS['flexiones'], { pic: undefined }) }) };
+A(G.pictoDeFila(sinPic, 'flexiones', P, N) === null,
+  'placebo: sin dibujo propio, las flexiones NO reciben el press de banca (dan: ' + G.pictoDeFila(sinPic, 'flexiones', P, N) + ')');
 A(picto('press-banca') === pat, 'placebo: y ese mismo dibujo SI se pinta para quien tiene el material (press-banca → ' + picto('press-banca') + ')');
 
-console.log('  ' + ids.length + ' ejercicios · ' + P.length + ' pictogramas · '
-  + ids.filter(id => picto(id)).length + ' filas con dibujo · ' + descartados.length + ' descartados por enganosos');
+const conDibujo = ids.filter(id => picto(id)).length;
+console.log('  ' + ids.length + ' ejercicios · ' + P.length + ' pictogramas · ' + conDibujo + ' filas con dibujo'
+  + (conDibujo === ids.length ? ' (todas)' : ' · ' + (ids.length - conDibujo) + ' sin dibujo'));
 if (!process.exitCode) console.log('HUMO PICTOS OK');

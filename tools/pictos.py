@@ -61,16 +61,18 @@ PATRONES = {
     'remo-mesa': 'inverted row under a sturdy table: lying face up beneath the table, body in a straight plank from '
                  'heels to shoulders, arms pulling the chest up to the table edge, elbows close to the sides. The '
                  'table drawn as a simple lime-green horizontal slab on one leg. NO barbell',
-    'jalon-toalla': 'self-resisted towel pulldown: standing, a towel held taut overhead with both hands, one arm '
-                    'pulling its end down to the side of the ribs while the other resists above the head. The towel '
-                    'drawn as a bright lime-green strip. NO pull-up bar',
+    'jalon-toalla': 'self-resisted towel pulldown seen from THREE QUARTERS with the feet apart: a towel held taut '
+                    'overhead, one arm pulling its end down and OUT to the side of the ribs with the elbow well away '
+                    'from the body, the other arm resisting above the head. The towel drawn as a bright lime-green '
+                    'strip. NO pull-up bar. WIDE open pose that FILLS the square frame, never a narrow profile',
     'pike-flexiones': 'pike push-up: body in an inverted V with the hips high, hands and feet close together, the '
                       'head lowering between the hands, elbows at 45 degrees, side view, NO equipment of any kind',
     'pino-pared': 'wall handstand push-up: upside down and near vertical, the feet resting against a wall, hands on '
                   'the floor slightly wider than the shoulders, elbows bent lowering the head toward the floor. The '
                   'wall drawn as a simple lime-green vertical line. NO equipment of any kind',
-    'elev-laterales': 'standing dumbbell lateral raise seen from the FRONT: both arms raising a dumbbell out to each '
-                      'side up to shoulder height, elbows slightly bent. The two dumbbells drawn in lime-green',
+    'elev-laterales': 'standing dumbbell lateral raise seen from the FRONT, arms stopping EXACTLY at shoulder height so '
+                      'that arms and shoulders form one straight horizontal line, elbows slightly bent, hands no higher '
+                      'than the shoulders and never above the head. The two dumbbells drawn in lime-green',
     'fondos-silla': 'bench dip on a chair: back to the chair, both hands on the front edge of the seat behind the '
                     'body, legs extended forward on the floor, elbows bent to 90 degrees lowering the hips. The '
                     'chair drawn as a simple lime-green seat on one leg. NO parallel bars',
@@ -83,22 +85,24 @@ PATRONES = {
     'curl-mochila': 'biceps curl holding a BACKPACK by its top handle with both hands, elbows pinned to the sides, '
                     'forearms curling the backpack up to chest height, side view. The backpack drawn as a simple '
                     'lime-green bag. NO dumbbell',
-    'curl-toalla': 'self-resisted towel biceps curl: standing, one foot pinning one end of a towel to the floor, one '
-                   'hand curling the other end upward with the elbow pinned to the side. The towel drawn as a bright '
-                   'lime-green strip. NO dumbbell',
+    'curl-toalla': 'self-resisted towel biceps curl seen from THREE QUARTERS in a split stance: the front foot pinning '
+                   'one end of a towel to the floor with the leg clearly forward, the opposite hand curling the other '
+                   'end up to chest height, elbow at the side. The towel drawn as a bright lime-green strip. NO '
+                   'dumbbell. WIDE open pose that FILLS the square frame, never a narrow profile',
     'abduccion-lado': 'side-lying hip abduction: lying on one side on the floor, body in one straight line, the top '
                       'leg raised up toward the ceiling with the toes pointing forward, side view, NO equipment of '
                       'any kind',
-    'elev-y-suelo': 'prone Y raise: lying face down on the floor, both arms extended overhead forming a wide letter '
-                    'Y with the thumbs up, the arms lifted off the floor, seen from above at a slight angle, NO '
-                    'equipment of any kind',
+    'elev-y-suelo': 'prone Y raise seen from DIRECTLY ABOVE: the whole body lying face down and straight, legs together '
+                    'and visible, head down, both arms extended overhead and lifted, forming a clear wide letter Y with '
+                    'the body as its stem. Simple readable anatomy, NO equipment of any kind',
     'curl-nordico': 'assisted nordic hamstring curl: kneeling upright with the ankles held down under a fixed edge, '
                     'the body lowering forward from the knees with hips and shoulders in one straight line, hands '
                     'reaching for the floor to catch, side view. The anchor over the ankles drawn as a simple '
                     'lime-green fixed edge',
-    'encogimiento-mochila': 'shoulder shrug seen from the FRONT, holding a BACKPACK hanging from both hands in front '
-                            'of the hips, shoulders lifted straight up toward the ears, arms straight. The backpack '
-                            'drawn as a simple lime-green bag. NO barbell',
+    'encogimiento-mochila': 'shoulder shrug at the TOP of the movement, seen from the FRONT with the feet apart: the '
+                            'shoulders pulled UP HIGH toward the ears so the neck looks short and the trapezius is '
+                            'bunched, arms hanging straight holding a BACKPACK in front of the hips. The backpack drawn '
+                            'as a simple lime-green bag. NO barbell. Pose that FILLS the square frame',
 }
 
 # QUE MATERIAL DIBUJA cada pictograma, en la misma escala que el plan

@@ -40,12 +40,18 @@ A(viejo.META.inicioISO === lunesQueViene, 'perfil sin la pregunta: sigue siendo 
 A(viejo.CAL.length === 12 && viejo.SESIONES && Object.keys(viejo.SESIONES).length > 0,
   'perfil sin la pregunta: plan completo igualmente');
 
-// --- 3. una fecha ya pasada NO arranca el plan en el pasado ---
+// --- 3. la fecha elegida manda, aunque ya haya pasado ---
+/* Aqui se afirmaba lo contrario: que una fecha pasada se descartaba «para no
+   contar semanas desde un dia que ya no existe». Era al reves. Un plan que
+   empezo el martes pasado esta EN MARCHA, y sus semanas se cuentan desde ese
+   martes; descartarlo hacia que el plan saltara al lunes siguiente justo
+   cuando llegaba tu dia, y al otro, y al otro. La suite protegia el fallo. */
 const ayer = iso(mas(hoy, -1));
-A(con({ inicio: 'exacto', inicioFecha: ayer }).META.inicioISO === lunesQueViene,
-  'fecha pasada: se ignora y cae al lunes');
-A(con({ inicio: 'semana', inicioFecha: iso(mas(hoy, -3)) }).META.inicioISO === lunesQueViene,
-  'fecha pasada en modo semana: tambien cae al lunes');
+A(con({ inicio: 'exacto', inicioFecha: ayer }).META.inicioISO === ayer,
+  'fecha pasada: el plan arranco ayer y sigue ahi');
+const haceTres = iso(mas(hoy, -3));
+A(con({ inicio: 'semana', inicioFecha: haceTres }).META.inicioISO === haceTres,
+  'fecha pasada en modo semana: igual');
 // basura en el campo tampoco tumba nada
 A(con({ inicio: 'exacto', inicioFecha: 'no-es-una-fecha' }).META.inicioISO === lunesQueViene,
   'fecha ilegible: cae al lunes sin romperse');
@@ -79,7 +85,35 @@ const semEsperadas = Math.round((new Date(bodaEn + 'T12:00:00') - hoy) / (7 * 86
 A(pEv.META.semanas === semEsperadas,
   'evento: las semanas se cuentan desde el arranque elegido (' + pEv.META.semanas + ' vs ' + semEsperadas + ')');
 
-// --- 7. placebo: la prueba distingue de verdad ---
+// --- 7. la fecha de arranque NO se mueve: se ancla al dia del cuestionario ---
+/* El plan se regenera ENTERO en cada arranque de la app (gen.js, al final).
+   Mientras fechaInicio miraba el reloj, la fecha huia con el: quien respondio
+   el domingo 6 pidiendo «el lunes que viene» veia el lunes 7 ese domingo, y el
+   lunes 14 a partir del dia siguiente. Y otra vez el 21. El plan no empezaba
+   nunca, y con «hoy» la semana 1 volvia a empezar cada manana.
+
+   Estas cuatro afirmaciones dan igual el dia en que se ejecute la suite. Ese
+   es justamente el punto: la fecha sale del perfil, no del reloj. */
+const anclado = (creado, extra) =>
+  G.generarPlan(Object.assign({}, BASE, { creado }, extra), B).META.inicioISO;
+
+A(anclado('2026-09-06', { inicio: 'lunes' }) === '2026-09-07',
+  'domingo 6 pidiendo el lunes: arranca el lunes 7 (da: ' + anclado('2026-09-06', { inicio: 'lunes' }) + ')');
+A(anclado('2026-09-07', { inicio: 'lunes' }) === '2026-09-14',
+  'respondiendo un lunes, «el lunes que viene» es el siguiente, no hoy (da: ' + anclado('2026-09-07', { inicio: 'lunes' }) + ')');
+A(anclado('2026-09-06', { inicio: 'hoy' }) === '2026-09-06',
+  '«hoy» es el dia en que respondiste, no cada dia que abres la app (da: ' + anclado('2026-09-06', { inicio: 'hoy' }) + ')');
+A(anclado('2025-04-02', { inicio: 'hoy' }) === '2025-04-02',
+  'un plan viejo conserva su arranque: por eso la app sabe por que semana vas (da: ' + anclado('2025-04-02', { inicio: 'hoy' }) + ')');
+
+/* Y el corolario que lo prueba de verdad: dos planes generados con el mismo
+   perfil son el mismo plan, se genere cuando se genere. */
+const p1 = G.generarPlan(Object.assign({}, BASE, { creado: '2026-09-06', inicio: 'lunes' }), B);
+const p2 = G.generarPlan(Object.assign({}, BASE, { creado: '2026-09-06', inicio: 'lunes' }), B);
+A(p1.META.inicioISO === p2.META.inicioISO && p1.META.finISO === p2.META.finISO,
+  'mismo perfil, mismas fechas: el plan no depende de cuando se abra la app');
+
+// --- 8. placebo: la prueba distingue de verdad ---
 /* Si «hoy» y «lunes» cayeran en el mismo dia, las aserciones de arriba
    pasarian sin comprobar nada. Solo puede coincidir si hoy ES lunes, y ni
    asi: proximoLunes salta siete dias. */

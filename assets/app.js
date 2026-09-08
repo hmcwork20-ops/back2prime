@@ -818,6 +818,66 @@
       if (hito) root.append(el('div', { class: 'banner' + (hito.tipo === 'descarga' || w === 9 ? ' warn' : hito.tipo === 'dietbreak' ? '' : w === 10 ? ' hot' : '') },
         el('div', null, el('b', null, hito.t), el('div', { style: 'margin-top:2px' }, hito.d))));
 
+      /* hábitos del día · van los PRIMEROS a propósito
+         Estaban al final, debajo del entreno y de la comida. Pero pasos,
+         proteína y báscula son lo que toca cada día, entrenes o no, y la
+         báscula además es de primera hora: enterrados abajo se leían como
+         un apéndice del entreno en vez de como el suelo del día. Arriba,
+         quien abre la app ve de una lo primero que tiene que hacer, y en
+         un día de descanso deja de haber que bajar para encontrar algo
+         que hacer. La sesión sigue justo debajo, con su tarjeta. */
+      root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.diaADia)));
+      const hb = el('div', { class: 'habits' });
+      const mkHabit = (key, icon, titulo, sub, wide) => {
+        const on = !!dd[key];
+        // toggle en el sitio (sin re-render): así la página no salta arriba
+        return el('button', { class: 'habit' + (on ? ' on' : '') + (wide ? ' wide' : '') + ' plano', type: 'button',
+          'aria-pressed': on ? 'true' : 'false',
+          onclick: ev => {
+            dd[key] = !dd[key]; save();
+            ev.currentTarget.classList.toggle('on', !!dd[key]);
+            ev.currentTarget.setAttribute('aria-pressed', dd[key] ? 'true' : 'false');
+            evaluaLogros();
+          } },
+          el('div', { class: 'hicon' }, icon),
+          el('div', null, el('div', { class: 'ht' }, titulo), sub ? el('div', { class: 'hs' }, sub) : null));
+      };
+      hb.append(mkHabit('pasos', icono('actividad', 20), TX.hPasos, TX.hPasosSub));
+      hb.append(mkHabit('prote', icono('capas', 20), TX.hProte, tpl(TX.hProteSub, { q: D.__qMin || 40 })));
+
+      const dow = dowMon(d);
+      if ([0, 2, 4].includes(dow)) {
+        const pIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hPeso + ' · kg', value: dd.peso ? String(dd.peso).replace('.', ',') : '', onchange: ev => {
+          // Antes, un 250 mal tecleado borraba en silencio el peso que ya tenías
+          // guardado. Ahora se avisa con el rango y se conserva lo anterior.
+          const r = valida(ev.target.value, 'peso');
+          if (r.malo) { ev.target.value = dd.peso ? String(dd.peso).replace('.', ',') : ''; return; }
+          if (r.vacio) { delete dd.peso; save(); ev.target.closest('.habit').classList.remove('on'); return; }
+          dd.peso = r.v; save(); toast(tpl(TX.pesoGuardado, { v: kg1(r.v) }));
+          ev.target.closest('.habit').classList.add('on'); evaluaLogros();
+        } });
+        hb.append(el('div', { class: 'habit wide' + (dd.peso ? ' on' : '') },
+          el('div', { class: 'hicon' }, icono('bascula', 20)),
+          el('div', null, el('div', { class: 'ht' }, TX.hPeso), el('div', { class: 'hs' }, TX.hPesoSub)),
+          pIn, el('span', { class: 'u mini' }, 'kg')));
+      }
+      if (dow === 0) {
+        const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hCintura + ' · cm', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onchange: ev => {
+          const r = valida(ev.target.value, 'cintura');
+          if (r.malo) { ev.target.value = dd.cintura ? String(dd.cintura).replace('.', ',') : ''; return; }
+          if (r.vacio) { delete dd.cintura; save(); ev.target.closest('.habit').classList.remove('on'); return; }
+          dd.cintura = r.v; save(); toast(tpl(TX.cinturaGuardada, { v: kg1(r.v) }));
+          ev.target.closest('.habit').classList.add('on'); evaluaLogros();
+        } });
+        hb.append(el('div', { class: 'habit wide' + (dd.cintura ? ' on' : '') },
+          el('div', { class: 'hicon fig', html: window.B2P_FIG ? window.B2P_FIG.cintura(26) : '' }),
+          el('div', null, el('div', { class: 'ht' }, TX.hCintura), el('div', { class: 'hs' }, TX.hCinturaSub)),
+          cIn, el('span', { class: 'u mini' }, 'cm')));
+      }
+      if (dow === 6) hb.append(mkHabit('prep', icono('caja', 20), TX.hPrep, TX.hPrepSub, true));
+      if (D.FOTOS.includes(d)) hb.append(mkHabit('foto', icono('camara', 20), TX.hFoto, TX.hFotoSub, true));
+      root.append(hb);
+
       /* sesión de fuerza */
       if (sl.ses && sl.ses.tipo === 'fuerza') {
         const card = el('div', { class: 'card fase-card p' + fase.id });
@@ -1002,59 +1062,6 @@
 
       /* la comida del día */
       const cc = cardComida(d); if (cc) root.append(cc);
-
-      /* hábitos del día */
-      root.append(el('div', { class: 'sec-h' }, el('h2', null, TX.diaADia)));
-      const hb = el('div', { class: 'habits' });
-      const mkHabit = (key, icon, titulo, sub, wide) => {
-        const on = !!dd[key];
-        // toggle en el sitio (sin re-render): así la página no salta arriba
-        return el('button', { class: 'habit' + (on ? ' on' : '') + (wide ? ' wide' : '') + ' plano', type: 'button',
-          'aria-pressed': on ? 'true' : 'false',
-          onclick: ev => {
-            dd[key] = !dd[key]; save();
-            ev.currentTarget.classList.toggle('on', !!dd[key]);
-            ev.currentTarget.setAttribute('aria-pressed', dd[key] ? 'true' : 'false');
-            evaluaLogros();
-          } },
-          el('div', { class: 'hicon' }, icon),
-          el('div', null, el('div', { class: 'ht' }, titulo), sub ? el('div', { class: 'hs' }, sub) : null));
-      };
-      hb.append(mkHabit('pasos', icono('actividad', 20), TX.hPasos, TX.hPasosSub));
-      hb.append(mkHabit('prote', icono('capas', 20), TX.hProte, tpl(TX.hProteSub, { q: D.__qMin || 40 })));
-
-      const dow = dowMon(d);
-      if ([0, 2, 4].includes(dow)) {
-        const pIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hPeso + ' · kg', value: dd.peso ? String(dd.peso).replace('.', ',') : '', onchange: ev => {
-          // Antes, un 250 mal tecleado borraba en silencio el peso que ya tenías
-          // guardado. Ahora se avisa con el rango y se conserva lo anterior.
-          const r = valida(ev.target.value, 'peso');
-          if (r.malo) { ev.target.value = dd.peso ? String(dd.peso).replace('.', ',') : ''; return; }
-          if (r.vacio) { delete dd.peso; save(); ev.target.closest('.habit').classList.remove('on'); return; }
-          dd.peso = r.v; save(); toast(tpl(TX.pesoGuardado, { v: kg1(r.v) }));
-          ev.target.closest('.habit').classList.add('on'); evaluaLogros();
-        } });
-        hb.append(el('div', { class: 'habit wide' + (dd.peso ? ' on' : '') },
-          el('div', { class: 'hicon' }, icono('bascula', 20)),
-          el('div', null, el('div', { class: 'ht' }, TX.hPeso), el('div', { class: 'hs' }, TX.hPesoSub)),
-          pIn, el('span', { class: 'u mini' }, 'kg')));
-      }
-      if (dow === 0) {
-        const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hCintura + ' · cm', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onchange: ev => {
-          const r = valida(ev.target.value, 'cintura');
-          if (r.malo) { ev.target.value = dd.cintura ? String(dd.cintura).replace('.', ',') : ''; return; }
-          if (r.vacio) { delete dd.cintura; save(); ev.target.closest('.habit').classList.remove('on'); return; }
-          dd.cintura = r.v; save(); toast(tpl(TX.cinturaGuardada, { v: kg1(r.v) }));
-          ev.target.closest('.habit').classList.add('on'); evaluaLogros();
-        } });
-        hb.append(el('div', { class: 'habit wide' + (dd.cintura ? ' on' : '') },
-          el('div', { class: 'hicon fig', html: window.B2P_FIG ? window.B2P_FIG.cintura(26) : '' }),
-          el('div', null, el('div', { class: 'ht' }, TX.hCintura), el('div', { class: 'hs' }, TX.hCinturaSub)),
-          cIn, el('span', { class: 'u mini' }, 'cm')));
-      }
-      if (dow === 6) hb.append(mkHabit('prep', icono('caja', 20), TX.hPrep, TX.hPrepSub, true));
-      if (D.FOTOS.includes(d)) hb.append(mkHabit('foto', icono('camara', 20), TX.hFoto, TX.hFotoSub, true));
-      root.append(hb);
 
       /* cerrar el día — la regla del 60% se enseña ANTES del toque, la etiqueta
          no miente cuando no hubo sesión, y el cierre se puede deshacer.      */

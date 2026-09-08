@@ -40,8 +40,10 @@ window.B2P_GEN = (function () {
   }
 
   /* ---------- fechas ---------- */
-  function proximoLunes() {
-    const d = new Date(); d.setHours(12, 0, 0, 0);
+  const mediodia = d => { const x = new Date(d); x.setHours(12, 0, 0, 0); return x; };
+  const fecha = s => { const d = new Date(String(s) + 'T12:00:00'); return isNaN(d) ? null : d; };
+  function proximoLunes(desde) {
+    const d = mediodia(desde || new Date());
     const dow = (d.getDay() + 6) % 7;             // 0 = lunes
     d.setDate(d.getDate() + (dow === 0 ? 7 : 7 - dow));
     return d;
@@ -52,17 +54,26 @@ window.B2P_GEN = (function () {
      mirando un plan que aun no habia empezado. Ahora lo dice el cuestionario y
      el lunes queda de reserva, que es lo que respondia todo el mundo antes.
 
-     Una fecha ya pasada se ignora a proposito: al regenerar un plan meses
-     despues, la del cuestionario original arrancaria en el pasado, y las
-     semanas se contarian desde un dia que ya no existe. */
+     La fecha se ancla al dia en que se RESPONDIO el cuestionario
+     (perfil.creado), nunca a hoy. El plan entero se regenera en cada arranque
+     de la app, asi que mirar el reloj aqui hacia que la fecha huyera hacia
+     adelante con el: «hoy» volvia a ser hoy cada dia, y «el lunes que viene»
+     era el lunes que viene DE ESTA semana. El plan no llegaba a empezar nunca.
+     Reportado el 8 de septiembre de 2026: cuestionario el domingo 6 pidiendo
+     el lunes, y el martes 8 la app anunciaba el lunes 14.
+
+     Un dia elegido que ya paso se respeta: eso es un plan en marcha y sus
+     semanas se cuentan desde el. Descartarlo por estar en el pasado, que es lo
+     que se hacia, era la otra mitad de la fuga: en cuanto llegaba tu dia, el
+     plan saltaba al lunes siguiente. */
   function fechaInicio(p) {
-    const hoy = new Date(); hoy.setHours(12, 0, 0, 0);
-    if (p && p.inicio === 'hoy') return hoy;
+    const ancla = mediodia(fecha((p || {}).creado) || new Date());
+    if (p && p.inicio === 'hoy') return ancla;
     if (p && (p.inicio === 'semana' || p.inicio === 'exacto') && p.inicioFecha) {
-      const f = new Date(p.inicioFecha + 'T12:00:00');
-      if (!isNaN(f) && f >= hoy) return f;
+      const f = fecha(p.inicioFecha);
+      if (f) return f;
     }
-    return proximoLunes();
+    return proximoLunes(ancla);
   }
   function addD(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
   function corta(d, meses) { return d.getDate() + ' ' + meses[d.getMonth()]; }

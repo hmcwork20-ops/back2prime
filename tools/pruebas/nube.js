@@ -85,6 +85,12 @@ const D1 = { ej: { flexiones: { kg: 0, reps: 12 } }, pasos: 8000 }, D2 = { pasos
     m.dispara('pagehide'); m.dispara('visibilitychange'); m.vacia(); await respira();
     A(m.subidas.length === 0, 'avería: tampoco sube en el empujón de cierre');
     A(m.N.decide(local, nube).accion === 'baja', 'decide: vacío nuevo contra plan viejo → baja');
+    /* una nube de una versión vieja sin las claves logros/prs: la unión no
+       debe inventárselas vacías y contarlo como cambio (subida y recarga
+       de regalo en cada arranque) */
+    const escueta = { v: 1, usuario: nube.usuario, config: nube.config, perfil: PERFIL, dias: { '2026-09-06': D1 }, _mod: AYER };
+    const re = m.N.decide(local, escueta);
+    A(re.accion === 'baja', 'decide: nube sin claves logros/prs → baja, no fusiona (da: ' + re.accion + ')');
   }
 
   // --- 2. la otra mitad de la avería: el navegador con el plan contra una nube ya vaciada ---

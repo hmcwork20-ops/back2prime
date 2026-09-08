@@ -54,14 +54,18 @@ window.B2P_NUBE = (function () {
   function fusiona(gana, pierde) {
     if (!pierde) return gana;
     const out = Object.assign({}, gana);
-    out.dias = Object.assign({}, pierde.dias || {}, gana.dias || {});
-    out.logros = Object.assign({}, pierde.logros || {}, gana.logros || {});
+    /* Solo se escribe una clave si el ganador ya la tenía o si la unión
+       trae algo: inventarle un `logros: {}` a una copia de una versión
+       vieja contaría como cambio, con subida y recarga en cada arranque. */
+    const pon = (k, u) => { if (k in gana || Object.keys(u).length) out[k] = u; };
+    pon('dias', Object.assign({}, pierde.dias || {}, gana.dias || {}));
+    pon('logros', Object.assign({}, pierde.logros || {}, gana.logros || {}));
     const prs = Object.assign({}, pierde.prs || {});
     Object.keys(gana.prs || {}).forEach(k => {
       const g = gana.prs[k], p = prs[k];
       if (!p || !g || (g.kg || 0) >= (p.kg || 0)) prs[k] = g;
     });
-    out.prs = prs;
+    pon('prs', prs);
     if ((pierde.prCount || 0) > (out.prCount || 0)) out.prCount = pierde.prCount;
     return out;
   }

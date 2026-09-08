@@ -84,7 +84,12 @@
     if (S.ui && S.ui.plansec) { delete S.ui.plansec; try { save(); } catch (e) {} }
   }
   function save() {
-    S._mod = Date.now();               // reloj para decidir que copia manda entre dispositivos
+    /* Reloj para decidir qué copia manda entre dispositivos. Solo corre para
+       un estado CON plan: uno sin plan (la app recién instalada, la puerta
+       guardando el uid) no compite, y con reloj de «ahora» ganaba a la nube
+       de ayer y la pisaba. La regla de nube.js ya no se lo permite, pero
+       tampoco hay por qué darle munición. */
+    if (S.perfil) S._mod = Date.now();
     localStorage.setItem(KEY, JSON.stringify(S));
     // en la app de tienda, copia fuera del webview: iOS puede purgarlo
     if (window.B2P_NATIVO && window.B2P_NATIVO.nativo) window.B2P_NATIVO.espeja(S);
@@ -1885,8 +1890,10 @@
     load();
     if (window.B2P_NUBE && window.B2P_NUBE.activo) {
       /* devuelve rapido: la sesion es una lectura local; solo con sesion hay
-         un fetch para comparar relojes. Si la nube va por delante, pisa la
-         copia local y se recarga una vez. Sin red, se sigue en local. */
+         un fetch para comparar copias. Si de la comparacion sale una copia
+         distinta para este dispositivo (la nube iba por delante, o se han
+         unido registros de los dos lados), se guarda y se recarga una vez.
+         Sin red, se sigue en local. */
       try {
         const res = await window.B2P_NUBE.arranca();
         if (res && res.reemplazado) { location.reload(); return; }

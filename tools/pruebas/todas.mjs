@@ -30,6 +30,7 @@ const SUITES = [
   ['suplementos', 'la dieta manda, y el id manda sobre la foto'],
   ['compra',      'una lista para el super: por producto, por seccion, sin repetir'],
   ['pictos',      'el dibujo de la fila no pide material que el ejercicio no usa'],
+  ['nube',        'qué copia manda al arrancar: el vacío no pisa, los registros se unen'],
 ];
 
 console.log('');

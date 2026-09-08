@@ -21,11 +21,17 @@ En el apartado *Security* de esa misma pantalla:
 | Automatically expose new tables | **desmarcada** | Una tabla nueva no debe quedar expuesta sola: los permisos los da la migración, uno a uno |
 | Enable automatic RLS | **marcada** | Red de seguridad: si algún día se crea una tabla y se olvida activarle RLS, se activa sola |
 
-**2. Ejecutar la migración.** Panel → SQL Editor → pegar entero el contenido de
-`supabase/migracion-0001.sql` → Run. Crea las dos tablas, las políticas RLS
-(cada uno solo lo suyo), las funciones del plan compartido y las estadísticas
-anónimas, el borrado de cuenta y el freno de escrituras. Es idempotente:
-ejecutarla dos veces no rompe nada.
+**2. Ejecutar las migraciones, en orden.** Panel → SQL Editor → pegar entero el
+contenido de `supabase/migracion-0001.sql` → Run; después la 0002 y la 0003,
+igual. Son idempotentes: ejecutar una dos veces no rompe nada.
+
+- `0001`: las dos tablas, las políticas RLS (cada uno solo lo suyo), las
+  funciones del plan compartido y las estadísticas anónimas, el borrado de
+  cuenta y el freno de escrituras.
+- `0002`: la tabla de reportes de fallos e ideas.
+- `0003`: el freno rechaza además cualquier escritura que quite el plan, y
+  se guarda un historial de versiones del estado para poder restaurar. Nació
+  de la avería del 7 de septiembre de 2026 (abajo, «Si alguien pierde datos»).
 
 **3. Ajustar la autenticación.** Panel → Authentication:
 
@@ -94,6 +100,29 @@ prueba de fuego, en dos navegadores distintos:
 - y el candado de verdad: en las DevTools de un navegador logueado, pedir
   `estados` sin filtro (la API REST) debe devolver SOLO tu fila. Eso es la
   RLS trabajando.
+
+## Si alguien pierde datos
+
+Qué pasó el 7 de septiembre de 2026, para no repetirlo: la app añadida a la
+pantalla de inicio de un iPhone arranca con un almacenamiento propio y vacío.
+La persona entraba con su cuenta, la puerta guardaba ese vacío con reloj de
+«ahora», y la regla de entonces («la copia más nueva gana y la otra se pisa»)
+lo subía a la nube. Safari bajaba después esa nube vacía. Plan y registros
+perdidos en los dos sitios.
+
+Desde la v111 el cliente no sube nunca un estado sin plan, no sube nada hasta
+haber comparado con la nube, y cuando dos copias tienen plan une los registros
+de las dos en vez de pisar. La migración 0003 pone lo mismo en el servidor
+(que es el único que vigila también a los clientes viejos en caché) y guarda
+un historial de versiones.
+
+Para restaurar a alguien: Panel → SQL Editor, y la receta comentada al final
+de `supabase/migracion-0003.sql`: primero listar sus versiones por correo,
+después el `update` con el id elegido. El historial guarda una versión cada
+24 h por persona y siempre que una escritura pierda días registrados; 30 días
+y 12 versiones por persona como mucho. Lo anterior a la migración no existe:
+para eso solo queda la copia de seguridad del proyecto (Panel → Database →
+Backups, que en el plan gratuito no hay).
 
 ## Qué puede ver cada cual (decidido y aplicado)
 

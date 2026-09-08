@@ -4,8 +4,10 @@
    Diseño: el localStorage sigue siendo la copia de trabajo (la app va
    igual de rápida y funciona sin cobertura); la nube es la verdad entre
    dispositivos. Cada guardado local programa una subida agrupada, y al
-   arrancar se compara el reloj de la copia local con el de la nube: la
-   más nueva gana y la otra se pisa.
+   arrancar se comparan la copia local y la de la nube (decide, abajo):
+   un estado sin plan nunca pisa a uno con plan, y entre dos planes manda
+   el reloj pero los registros del otro se conservan. Hasta que esa
+   comparación no se ha hecho, nada sube.
 
    Sin configuración (nube-config.js con nulls) todo esto se apaga y la
    app queda en modo local puro: ni un fetch.
@@ -14,8 +16,85 @@ window.B2P_NUBE = (function () {
   const CFG = window.B2P_NUBE_CFG || {};
   const activo = !!(CFG.url && CFG.anon && window.supabase);
   const nada = () => null;
+
+  /* ---------- qué copia manda ----------
+     Antes decidía el reloj a secas: «la más nueva gana y la otra se pisa».
+     Y un estado VACÍO recién guardado tiene el reloj más nuevo de todos. Al
+     añadir la app a la pantalla de inicio de un iPhone, el almacenamiento es
+     otro: la copia vacía entraba con la cuenta, la puerta la guardaba (reloj
+     de ahora), ganaba por reloj y pisaba en la nube el plan y los registros
+     de la víspera; el navegador de siempre bajaba después esa nube vacía y lo
+     perdía todo también. Pasó de verdad el 7 de septiembre de 2026.
+
+     Ahora, por este orden:
+       1. un estado SIN plan nunca pisa a uno CON plan, diga lo que diga el reloj;
+       2. con dos planes manda el reloj, pero los registros diarios, los logros
+          y las marcas del que pierde se conservan (unión): un registro no
+          sobra nunca, y perderlo es lo único irreversible de esta app;
+       3. si de la unión sale algo distinto de lo que había en un lado, ese
+          lado se actualiza (los dos, si hace falta).
+     Es una función pura y va expuesta también sin nube: así la prueba de
+     humo la ejercita sin Supabase. */
+  const tienePlan = e => !!(e && e.perfil);
+  /* Igualdad de contenido, no de texto: el orden de las claves cambia con
+     cada unión (los días del que pierde se ponen delante) y JSON.stringify
+     lo daría por distinto, con una subida y una recarga de regalo en cada
+     arranque. El reloj (_mod) tampoco cuenta como contenido. */
+  const canon = v => {
+    if (Array.isArray(v)) return '[' + v.map(canon).join(',') + ']';
+    if (v && typeof v === 'object') {
+      return '{' + Object.keys(v).filter(k => v[k] !== undefined).sort()
+        .map(k => JSON.stringify(k) + ':' + canon(v[k])).join(',') + '}';
+    }
+    return JSON.stringify(v === undefined ? null : v);
+  };
+  const sinReloj = e => { if (!e) return null; const c = Object.assign({}, e); delete c._mod; return c; };
+  const mismo = (a, b) => canon(sinReloj(a)) === canon(sinReloj(b));
+
+  function fusiona(gana, pierde) {
+    if (!pierde) return gana;
+    const out = Object.assign({}, gana);
+    out.dias = Object.assign({}, pierde.dias || {}, gana.dias || {});
+    out.logros = Object.assign({}, pierde.logros || {}, gana.logros || {});
+    const prs = Object.assign({}, pierde.prs || {});
+    Object.keys(gana.prs || {}).forEach(k => {
+      const g = gana.prs[k], p = prs[k];
+      if (!p || !g || (g.kg || 0) >= (p.kg || 0)) prs[k] = g;
+    });
+    out.prs = prs;
+    if ((pierde.prCount || 0) > (out.prCount || 0)) out.prCount = pierde.prCount;
+    return out;
+  }
+
+  function decide(local, nube) {
+    if (!local && !nube) return { accion: 'nada' };
+    const planL = tienePlan(local), planN = tienePlan(nube);
+    let gana, pierde, motivo;
+    if (!nube) { gana = local; pierde = null; motivo = planL ? 'nube vacía' : 'nada que subir'; }
+    else if (!local) { gana = nube; pierde = null; motivo = 'sin copia local'; }
+    else if (planN && !planL) { gana = nube; pierde = local; motivo = 'el vacío no pisa'; }
+    else if (planL && !planN) { gana = local; pierde = nube; motivo = 'el vacío no pisa'; }
+    else if ((nube._mod || 0) > (local._mod || 0)) { gana = nube; pierde = local; motivo = 'reloj'; }
+    else { gana = local; pierde = nube; motivo = 'reloj'; }
+
+    // sin plan en ningún sitio no hay nada que proteger ni que subir
+    if (!tienePlan(gana)) return { accion: 'nada', motivo: 'sin plan' };
+
+    const estado = fusiona(gana, pierde);
+    const subeNube = !mismo(estado, nube);
+    const guardaLocal = !mismo(estado, local);
+    /* Lo que sube tiene que ganar también por reloj, que es lo único que
+       mira el servidor: si la unión trae algo nuevo, o si la nube iba por
+       delante en reloj (el vacío recién guardado de la avería), se sella
+       con «ahora». Sin esto el servidor rechazaría la recuperación por
+       «mod retrocede». */
+    if (subeNube && nube && (!mismo(estado, gana) || (estado._mod || 0) <= (nube._mod || 0))) estado._mod = Date.now();
+    return { accion: subeNube && guardaLocal ? 'fusiona' : subeNube ? 'sube' : guardaLocal ? 'baja' : 'nada',
+      estado, subeNube, guardaLocal, motivo };
+  }
+
   if (!activo) {
-    return { activo: false, sesion: nada, programa: () => {}, arranca: async () => ({}), fuerza: async () => {} };
+    return { activo: false, sesion: nada, programa: () => {}, arranca: async () => ({}), fuerza: async () => {}, decide };
   }
 
   const sb = window.supabase.createClient(CFG.url, CFG.anon, {
@@ -37,10 +116,20 @@ window.B2P_NUBE = (function () {
      que es cuando de verdad importa no perder nada. */
   const CADA_MS = 20000;
   let timer = null, pendiente = null, subiendo = false, ultimo = 0;
+  /* Cerrojo: en esta carga de página NADA sube hasta que arranca() haya
+     hablado con el servidor y decidido qué copia manda. Sin él, el save()
+     de la puerta de entrada (que guarda el uid sobre un estado aún vacío)
+     dejaba una subida pendiente, y el «empujón» de pagehide la soltaba
+     justo antes del reload: la nube recibía un estado sin plan. */
+  let listo = false;
 
   async function sube() {
-    if (!sesion || !pendiente || subiendo) return;
+    if (!sesion || !listo || !pendiente || subiendo) return;
     const S = pendiente;
+    /* Un estado sin plan no sube nunca: no hay nada que guardar y sí mucho
+       que pisar. El servidor lo rechaza también (migración 0003), pero la
+       primera línea de defensa es no intentarlo. */
+    if (!tienePlan(S)) { pendiente = null; return; }
     subiendo = true;
     try {
       const { error } = await sb.from('estados')
@@ -55,7 +144,7 @@ window.B2P_NUBE = (function () {
   function programa(S) {
     if (!sesion) return;
     pendiente = S;
-    if (timer) return;
+    if (!listo || timer) return;                     // antes de sincronizar solo se apunta
     const espera = Math.max(1500, CADA_MS - (Date.now() - ultimo));
     timer = setTimeout(() => { timer = null; sube(); }, espera);
   }
@@ -63,6 +152,14 @@ window.B2P_NUBE = (function () {
   // al esconderse la app (cambio de pestaña, bloqueo del móvil), empujón final
   document.addEventListener('visibilitychange', () => { if (document.hidden) sube(); });
   addEventListener('pagehide', () => { sube(); });
+  /* Arrancó sin red: la comparación quedó sin hacer y el cerrojo cerrado.
+     Al volver la conexión se compara entonces; si de ahí sale una copia
+     nueva para este dispositivo, se recarga (raro: hace falta haber
+     arrancado sin red Y que otro dispositivo haya subido algo). */
+  addEventListener('online', () => {
+    if (listo || !sesion) return;
+    arranca().then(r => { if (r && r.reemplazado) location.reload(); }).catch(() => {});
+  });
 
   /* ---------- arranque: decidir qué copia manda ---------- */
   async function arranca() {
@@ -84,16 +181,15 @@ window.B2P_NUBE = (function () {
       .select('estado, mod').eq('user_id', sesion.user.id).maybeSingle();
     if (error) return { sinRed: true };             // sin red: se sigue en local
 
-    const modLocal = (local && local._mod) || 0;
-    const modNube = (data && data.mod) || 0;
-    if (data && modNube > modLocal) {
-      const e = data.estado || {};
-      e.config = e.config || {}; e.config.uid = sesion.user.id;
-      localStorage.setItem(KEY, JSON.stringify(e));
-      return { reemplazado: true };                  // el llamante recarga
-    }
-    if (local && modLocal > modNube) { pendiente = local; sube(); }
-    return {};
+    const nube = data ? Object.assign({}, data.estado || {}, { _mod: data.mod || (data.estado || {})._mod || 0 }) : null;
+    const r = decide(local, nube);
+    listo = true;                                   // ya se sabe qué manda: desde aquí sí se sube
+    pendiente = null;                               // lo apuntado antes de decidir es de antes de decidir
+    if (!r.estado || (!r.subeNube && !r.guardaLocal)) return {};
+    r.estado.config = r.estado.config || {}; r.estado.config.uid = sesion.user.id;
+    localStorage.setItem(KEY, JSON.stringify(r.estado));   // con el reloj sellado, si lo hay
+    if (r.subeNube) { pendiente = r.estado; sube(); }
+    return r.guardaLocal ? { reemplazado: true } : {};     // el llamante recarga si cambió el contenido
   }
 
   /* ---------- cuentas ---------- */
@@ -187,7 +283,7 @@ window.B2P_NUBE = (function () {
   };
 
   return { activo: true, sesion: () => sesion, enRecuperacion: () => recuperando,
-    arranca, programa, fuerza: sube,
+    arranca, programa, fuerza: sube, decide,
     registra, entra, olvide, nuevaClave, sale, borraCuenta, reporta,
     compartePlan, descomparte, planCompartido, estadisticas };
 })();

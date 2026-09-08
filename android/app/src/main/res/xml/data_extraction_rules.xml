@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Android 12+ decide aqui que sale del movil en una copia de seguridad o en
+  un traspaso a otro telefono. Y de esta app no sale nada.
+
+  El motivo: la sesion de Supabase se guarda en el localStorage del WebView,
+  o sea dentro de los datos de la app. Ahi va el refresh token, que es la
+  llave que mantiene la cuenta abierta sin contrasena. Si entra en la copia,
+  quien saque la copia entra en la cuenta.
+
+  No se pierde nada por excluirlo: el plan vive en la cuenta, no en el
+  telefono. Se entra en el movil nuevo y baja solo.
+
+  allowBackup="false" en el manifiesto tapa la copia en la nube; este fichero
+  hace falta ademas para el traspaso directo entre moviles, que en Android 12+
+  va por su cuenta.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </device-transfer>
+</data-extraction-rules>

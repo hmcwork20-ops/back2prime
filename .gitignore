@@ -12,3 +12,6 @@
 # permisos y los iconos: sin ellos el build no es reproducible.
 node_modules/
 www/
+
+# bytecode de Python: nunca al repo
+__pycache__/

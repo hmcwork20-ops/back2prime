@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v117';
+const V = 'b2p-v118';
 const CORE = [
   './',
   './index.html',
@@ -34,7 +34,7 @@ const CORE = [
   './assets/fonts/PublicSans-400.woff2',
   './assets/fonts/PublicSans-600.woff2',
   './assets/fonts/PublicSans-700.woff2',
-  './icons/favicon.svg?v=2',
+  './icons/favicon.svg?v=3',
   './icons/icon-192.png?v=2',
   './icons/icon-512.png?v=2',
   './icons/apple-touch-icon.png?v=2',

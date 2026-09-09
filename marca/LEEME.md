@@ -34,3 +34,14 @@ tipografía hay que recalcularlas, no moverlas hasta que cuadre.
 El anillo y el monograma son copia literal de `icons/favicon.svg`, desplazados
 4 unidades para centrarlos en la caja de 72 de alto. No se tocan: si cambia el
 icono de la app, cambia aquí igual.
+
+El destello del anillo va abajo a la izquierda (de 113° a 137° desde las 3 en
+punto, en sentido horario) y está dibujado como arco explícito, no como trazo
+discontinuo desplazado: el `stroke-dashoffset` negativo no lo pintan igual todos
+los visores y el arco sí.
+
+## PNG
+
+`imagotipo.png` e `imagotipo-claro.png` son el mismo dibujo rasterizado a 4×
+(1148 × 288, fondo transparente) para donde no entra un SVG: correo, WhatsApp,
+tiendas. Se regeneran desde los SVG; no se retocan a mano.

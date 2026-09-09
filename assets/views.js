@@ -288,10 +288,15 @@
       if (pats.length > 1) {
         const chips = el('div', { class: 'pat-chips' });
         pats.forEach(p => {
-          const pic = window.B2P_PICTOS && window.B2P_PICTOS.includes(p);
+          /* Dibujo del chip: el pictograma del patrón; si el patrón no tiene
+             (suelo pélvico), el de un ejercicio suyo con dibujo propio, y solo
+             al final el mapa. Un chip con el marco vacío parece roto. */
+          const P = window.B2P_PICTOS || [];
+          const pic = P.includes(p) ? p
+            : idsZ.filter(id => D.EJERCICIOS[id].pat === p).map(id => D.EJERCICIOS[id].pic).find(k => k && P.includes(k));
           chips.append(el('button', { class: 'pat-chip' + (patEj === p ? ' on' : ''), type: 'button', 'aria-pressed': patEj === p ? 'true' : 'false',
             onclick: () => { patEj = patEj === p ? null : p; pintaLista(); } },
-            pic ? el('img', { src: 'assets/pictos/' + p + '.webp?v=' + (window.B2P_IMG_V || 1), alt: '', width: '34', height: '34', loading: 'lazy', decoding: 'async' })
+            pic ? el('img', { src: 'assets/pictos/' + pic + '.webp?v=' + (window.B2P_IMG_V || 1), alt: '', width: '34', height: '34', loading: 'lazy', decoding: 'async' })
               : el('span', { class: 'pat-ico', 'aria-hidden': 'true', html: (window.B2P_MAPA && window.B2P_MAPA.svgPat) ? window.B2P_MAPA.svgPat(p) : '' }),
             el('span', null, (TX.patrones || {})[p] || p)));
         });

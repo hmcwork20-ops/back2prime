@@ -36,10 +36,13 @@ function draw(size, maskable) {
   x.lineWidth = sw;
   x.strokeStyle = 'rgba(200,242,78,.32)';
   x.beginPath(); x.arc(cx, cx, R, 0, Math.PI * 2); x.stroke();
-  // destello del anillo (arco corto arriba-derecha, como brillo de disco)
+  // destello del anillo, abajo a la izquierda: la misma geometria que el
+  // trazo de icons/favicon.svg (10 de 151 con offset 47,3: de 113 a 137
+  // grados desde las 3 en punto, en sentido horario). El icono y el favicon
+  // tienen que ser el mismo dibujo.
   x.strokeStyle = '#C8F24E';
   x.lineCap = 'round';
-  x.beginPath(); x.arc(cx, cx, R, -Math.PI * 0.42, -Math.PI * 0.12); x.stroke();
+  x.beginPath(); x.arc(cx, cx, R, Math.PI * 113 / 180, Math.PI * 137 / 180); x.stroke();
   // hub interior sutil
   x.lineWidth = size * 0.012;
   x.strokeStyle = 'rgba(200,242,78,.20)';

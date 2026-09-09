@@ -1536,12 +1536,12 @@ window.B2P = (function () {
     },
     SUELO_PELVICO: {
       titulo: 'Périnée · 5′ · tous les jours',
-      intro: 'C’est la recommandation la mieux documentée de toutes : le faire tous les jours pendant la grossesse réduit de 62 % l’incontinence en fin de grossesse et de 29 % à trois mois de l’accouchement (Cochrane 2020). Et personne ne voit que tu es en train de le faire.',
+      intro: 'C’est la recommandation la mieux documentée de toutes : le faire tous les jours pendant la grossesse réduit de 62 % l’incontinence en fin de grossesse et de 29 % à 3-6 mois de l’accouchement (Cochrane 2020). Et personne ne voit que tu es en train de le faire.',
       bloques: [
         { id: 'suelo-pelvico', nombre: 'Contractions longues et courtes', donde: 'Chaque jour, et après chaque séance', detalle: '3 × 10 contractions de 6-8″, en respirant, en relâchant complètement entre chacune ; et à la fin 5 rapides de 1″. Assise, sur le côté ou debout : l’important, c’est que ce soit le périnée et pas le fessier.' },
         { id: 'respiracion', nombre: 'Respiration et core', donde: 'Avant de charger', detalle: 'Inspire en ouvrant les côtes ; à l’expiration, le périnée monte et le ventre se resserre doucement. C’est le schéma qui passe devant chaque squat et chaque charge dans les bras : le bébé, la chaise, les courses.' }
       ],
-      nota: 'S’il y a des fuites, une pesanteur, une boule ou une douleur, ça ne suffit pas : bilan en rééducation périnéale. Les recommandations de 2025 la conseillent à toutes dès la semaine 6 après l’accouchement.'
+      nota: 'S’il y a des fuites, une pesanteur, une boule ou une douleur, ça ne suffit pas : bilan en rééducation périnéale. La référence en kinésithérapie (Goom 2019) le conseille à toutes dès la semaine 6 après l’accouchement, et la recommandation de 2025 demande d’apprendre la technique avec un kiné.'
     },
     CALENTAMIENTO_EMB: {
       titulo: 'Échauffement · 6′ · toujours',
@@ -1565,7 +1565,7 @@ window.B2P = (function () {
       { n: 2, t: 'Sans records', d: 'Ici on ne progresse pas en kilos : on maintient. Aucune série à l’échec, aucune manœuvre de blocage respiratoire pour soulever. Expire à l’effort.' },
       { n: 3, t: 'Rien sur le dos à partir de la 16', d: 'Allongée sur le dos, l’utérus comprime la veine cave et la tension baisse. Le plan change seulement ces exercices-là ; si à un moment tu as des vertiges, change de position.' },
       { n: 4, t: 'Périnée tous les jours', d: '3 × 10 contractions chaque jour. C’est la recommandation la mieux documentée de tous les guides cliniques, et elle prévient l’incontinence après l’accouchement.' },
-      { n: 5, t: 'Chaleur et eau', d: 'Entraîne-toi dans un endroit frais, avec de l’eau à portée et sans dépasser 45 minutes d’affilée : au-delà, la glycémie baisse. Pas de hot yoga, de sauna ni d’exercice avec de la fièvre.' },
+      { n: 5, t: 'Chaleur et eau', d: 'Entraîne-toi dans un endroit frais, avec de l’eau à portée de main. Plus de 45 minutes d’affilée peuvent faire baisser la glycémie : mange quelque chose avant ou raccourcis la séance (ACOG). Pas de hot yoga, ni de sauna, ni d’exercice avec de la fièvre.' },
       { n: 6, t: 'Ni chutes ni chocs', d: 'Exit les sports de contact, de raquette, le vélo en extérieur, les rollers ou tout ce qui risque de te faire tomber. Marcher, nager, le vélo d’appartement et cette force couvrent tout.' },
       { n: 7, t: 'Arrête et appelle', d: 'Saignements, douleur abdominale, contractions régulières, perte de liquide, essoufflement au repos, vertiges, mal de tête fort, douleur dans la poitrine, faiblesse, ou douleur et gonflement dans un mollet : ce jour-là on ne s’entraîne pas et on consulte.' },
       { n: 8, t: 'Le couloir monte', d: 'La balance monte et elle doit monter : {g} kg au total pour ton IMC d’avant, environ {r} kg par semaine à partir du deuxième trimestre. En dehors de ça, tu en parles à la consultation ; ici il n’y a pas de déficit.' }
@@ -1585,7 +1585,7 @@ window.B2P = (function () {
       temas: [
         { t: 'Moins de complications', d: 'L’exercice à lui seul réduit le diabète gestationnel (OR 0,62), l’hypertension gestationnelle (0,61) et la prééclampsie (0,59) sur 106 études et 273 182 femmes. 140 minutes par semaine de marche rapide, de vélo d’appartement ou de force suffisent.', ref: 'Davenport et al., Br J Sports Med 2018' },
         { t: 'La force oui ; lourd, pas par défaut', d: 'Les recommandations comptent la force avec poids et élastiques parmi ce qui est étudié et sûr. Chez 679 pratiquantes qui ont continué à charger lourd, les résultats ont été normaux : il n’y a pas de preuve de danger chez celle qui le faisait déjà, ni de bénéfice à commencer maintenant. C’est pour ça que le plafond, c’est de parler sans s’essouffler.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
-        { t: 'Le périnée, ça s’entraîne', d: 'L’entraîner pendant la grossesse réduit de 62 % l’incontinence en fin de grossesse et de 29 % à trois mois de l’accouchement chez les femmes sans fuites préalables. C’est l’intervention la mieux documentée de tout le plan.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'Le périnée, ça s’entraîne', d: 'L’entraîner pendant la grossesse réduit de 62 % l’incontinence en fin de grossesse et de 29 % à 3-6 mois de l’accouchement chez les femmes sans fuites préalables. C’est l’intervention la mieux documentée de tout le plan.', ref: 'Woodley et al., Cochrane 2020' },
         { t: 'Combien prendre et combien de protéines', d: 'La prise attendue dépend de l’IMC d’avant (IOM 2009), et le besoin réel en protéines mesuré aux isotopes est de 1,2 g/kg au début et de 1,5 à la fin, bien au-dessus du chiffre officiel de 0,88. Le plan demande 1,4 et 1,6 sur le poids d’avant.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
       ]
     },
@@ -1617,8 +1617,8 @@ window.B2P = (function () {
         ppSpT: 'Tu remarques l’une de celles-ci ?', ppSpP: 'Ce sont des signes du périnée. Elles ne ferment pas le plan : elles freinent l’impact et demandent de la kiné.',
         ppSp: { orina: 'Fuites urinaires en toussant, en riant ou en sautant', pesadez: 'Pesanteur, boule ou pression dans le vagin', dolor: 'Douleur pelvienne ou pendant les rapports', bulto: 'Bombement du ventre quand je me relève' },
         ppSpNo: 'Aucune',
-        ppRiesgoT: 'L’une de celles-ci en ce moment ?', ppRiesgoP: 'Ce sont les contre-indications de la recommandation de 2025. Avec une case cochée, il faut le feu vert de ton médecin.',
-        ppR: { sangrado: 'Saignements qui augmentent à l’effort', dolor: 'Douleur abdominale intense', fiebre: 'Fièvre ou infection', tension: 'Hypertension non contrôlée', pantorrilla: 'Douleur ou gonflement dans un mollet', cicatriz: 'Douleur à la cicatrice qui empire quand je bouge', mareo: 'Vertiges ou malaises' },
+        ppRiesgoT: 'L’une de celles-ci en ce moment ?', ppRiesgoP: 'Ce sont les contre-indications relatives de la recommandation de 2025. Avec une case cochée, il faut le feu vert de ton médecin.',
+        ppR: { sangrado: 'Saignements qui augmentent à l’effort', dolor: 'Douleur abdominale intense', fiebre: 'Fièvre ou infection', tension: 'Hypertension non contrôlée', pantorrilla: 'Douleur ou gonflement dans un mollet', cicatriz: 'Douleur à la cicatrice qui empire quand je bouge', mareo: 'Vertiges ou malaises', ahogo: 'Essoufflement au repos' },
         ppRiesgoNo: 'Aucune',
         gatePpT: 'Ta récupération décide', gatePpTxt: 'Tu as coché une contre-indication de la recommandation de 2025. Le plan se génère quand ton médecin ou ta sage-femme t’aura donné le feu vert.',
         cicloT: 'Ton cycle', cicloP: 'Optionnel. Sert à noter et à prévoir les règles, et à mieux lire la balance et les jours creux. Ça ne change pas le plan par phases : l’évidence ne le soutient pas.',
@@ -1643,12 +1643,12 @@ window.B2P = (function () {
             { id: 'yodo', t: 'Iode', d: '200 µg par jour pendant la grossesse et l’allaitement (EFSA). Si tu n’arrives pas à 3 produits laitiers et du sel iodé par jour, ta sage-femme te le prescrit en iodure de potassium.' },
             { id: 'omega-3', t: 'DHA', d: '100-200 mg de DHA par jour en plus du poisson gras (EFSA). Avec 3-4 portions de poisson par semaine, ça suffit en général.' },
             { id: 'vitamina-d', t: 'Vitamine D', d: '15 µg par jour de référence. On ne supplémente que si l’analyse le demande.' },
-            { id: 'hierro', t: 'Fer', d: 'Pas d’extra par principe : l’absence de règles et l’absorption plus élevée le couvrent. Seulement si ton analyse le dit.' },
+            { id: 'hierro', t: 'Fer', d: 'Pas d’extra par principe : la recommandation du ministère espagnol ne le prescrit pas à toutes. Seulement si ton analyse le dit.' },
             { id: 'cafeina', t: 'Caféine', d: 'Plafond de 200 mg par jour en additionnant café, thé, cola et boissons énergisantes. Un grand café, c’est déjà la moitié.' },
-            { id: 'no', t: 'Pas maintenant', d: 'Créatine (aucune étude pendant la grossesse : ne commence pas maintenant), brûleurs de graisse, pré-workout, vitamine A au-dessus de 2 500 UI et plantes « pour la grossesse ». Rien que ta sage-femme ne t’ait prescrit.' }
+            { id: 'no', t: 'Pas maintenant', d: 'Créatine (aucune étude pendant la grossesse : ne commence pas maintenant), brûleurs de graisse, pré-workout, vitamine A sous forme de rétinol au-dessus de 3 000 µg (10 000 UI) par jour (une portion de foie dépasse déjà) et plantes « pour la grossesse ». Rien que ta sage-femme ne t’ait prescrit.' }
           ],
           seguridad: 'Hors du menu : poisson ou fruits de mer crus et fumés réfrigérés ; fromages non pasteurisés et lait cru ; pâtés réfrigérés et graines germées ; œuf cru ou peu cuit ; jambon cru et charcuterie crue sauf cuits ; espadon, requin, thon rouge et brochet. Viande cuite jusqu’à 71 °C à cœur ; restes réchauffés à plus de 75 °C ; réfrigérateur à 4 °C ou moins ; fruits et légumes bien lavés.',
-          jamon: 'Le jambon sec : l’AESAN le liste parmi ceux à éviter sauf cuits. Le congeler 48 h à −20 °C inactive le toxoplasme, mais pas la listeria. Si tu en prends, cuit ; et jamais en tranches sous vide.',
+          jamon: 'Le jambon sec : l’AESAN le liste parmi ceux à éviter sauf cuits. Le congeler 48 h à −20 °C inactive le toxoplasme, mais pas la listeria. Si tu en prends, cuit ; et jamais en tranches sous vide. Si ton analyse du premier trimestre montre que tu es déjà immunisée contre la toxoplasmose, l’AESAN ne l’interdit pas à ce titre ; les tranches sous vide restent exclues à cause de la listeria.',
           hito14T: 'Deuxième trimestre', hito14D: 'L’énergie revient en général. Si tu en as envie, monte un peu le rythme, jamais au-dessus de pouvoir parler.',
           hito16T: 'À partir d’aujourd’hui, rien sur le dos', hito16D: 'Le plan a déjà remplacé le pont, le dead bug et le développé à plat par des versions debout, inclinées ou en quadrupédie. Si tu as des vertiges allongée, change de position sans attendre.',
           hito28T: 'Troisième trimestre', hito28D: 'Séances plus courtes et avec appui. Le centre de gravité n’est plus le même : rien qui dépende de l’équilibre. Si tu courais, à partir d’aujourd’hui tu marches.',
@@ -1659,7 +1659,7 @@ window.B2P = (function () {
           logroFinD: 'Plan terminé jusqu’à l’accouchement. Place au post-partum : l’app change avec toi.'
         },
         pp: {
-          kcalNotaLact: 'Ta dépense plus {k} kcal pour l’allaitement{d}. Plancher de 1 800 kcal : en dessous, c’est le lait qui baisse avant la graisse.',
+          kcalNotaLact: 'Ta dépense plus {k} kcal pour l’allaitement{d}. Plancher de 1 800 kcal : en dessous, les données ne garantissent plus le lait.',
           kcalNota: '{d}. Avant la semaine 6, maintenance : d’abord guérir.',
           defTxt: ', moins {v} kcal de déficit à partir de la semaine 6', mantTxt: 'Maintenance',
           fila1: 'Récupération et reconnexion (jusqu’à la visite)', fila2: 'Base (de la visite à la semaine 12)', fila3: 'Construction (sem 12+)',
@@ -1675,7 +1675,7 @@ window.B2P = (function () {
             { id: 'cafeina', t: 'Caféine', d: 'Avec l’allaitement, plafond de 200 mg par jour et jamais après 14 h : le bébé la sent aussi.' },
             { id: 'no', t: 'Ne dépense pas en', d: 'Brûleurs de graisse, « récupérateurs post-partum », gaines qui promettent de fermer le diastasis et créatine jusqu’au sevrage. Ça ne bouge pas l’aiguille.' }
           ],
-          hito6T: 'Visite et périnée', hito6D: 'Après la visite des 6 semaines, bilan de rééducation périnéale même si tu ne sens rien : les recommandations de 2025 le conseillent à toutes.',
+          hito6T: 'Visite et périnée', hito6D: 'Après la visite des 6 semaines, bilan de rééducation périnéale même si tu ne sens rien : la référence en kinésithérapie de 2019 le conseille à toutes, et la recommandation de 2025 demande d’apprendre la technique avec un kiné.',
           hito8T: 'La cicatrice', hito8D: 'Césarienne : si elle est fermée et sèche, la masser tous les jours évite qu’elle n’adhère. Toujours rien qui tire dessus.',
           hito12T: 'Impact : la liste', hito12D: 'À partir d’aujourd’hui tu peux envisager de courir, si tu passes la liste de contrôle d’AUJOURD’HUI sans fuites ni pesanteur. Sans te presser : entre 3 et 6 mois, c’est l’habituel.',
           cierre: 'Plan post-partum terminé le {f}. Le bloc suivant commence là où celui-ci finit : Réglages › Créer / refaire mon plan, déjà comme le plan habituel.',
@@ -1689,7 +1689,7 @@ window.B2P = (function () {
           fase: { regla: 'règles', folicular: 'phase folliculaire', ovulatoria: 'ovulation estimée', lutea: 'phase lutéale', premenstrual: 'phase lutéale · prémenstruelle', retraso: 'règles en retard' },
           linea: 'Cycle · jour {d} · {f}', proxima: 'règles prévues le {f} (±{m} jours)', proximaHoy: 'règles prévues aujourd’hui ou demain', retraso: '{n} jours de retard sur la prévision',
           irregular: 'Cycles avec plus de 9 jours de variation : pas de prédiction. Note tes règles et, si ça sort de 24-38 jours de façon répétée, parles-en à ton médecin.',
-          hormonal: 'Avec une contraception hormonale il n’y a pas de phases : le saignement vient de la pause de la pilule, ce ne sont pas des règles. Note quand même si tu veux le calendrier.',
+          hormonal: 'Avec une contraception hormonale il n’y a pas de phases : le saignement, s’il y en a un, vient de la pause de la pilule, de l’anneau ou du patch, ou est irrégulier avec un implant, un DIU hormonal ou une pilule progestative ; ce ne sont pas des règles. Note quand même si tu veux le calendrier.',
           sinRegla: 'Plus de 90 jours sans règles, sans grossesse ni contraception hormonale : consulte. C’est le signal qu’utilisent le CIO et les recommandations de santé féminine.',
           nota: { regla: 'S’il y a de la douleur ou de la fatigue, aujourd’hui le minimum suffit, ou baisse l’effort d’un cran. Sinon, entraîne-toi pareil : la performance ne dépend pas de la phase. Du fer à table : légumineuses ou viande rouge maigre, avec de la vitamine C.', folicular: 'Rien à changer : l’évidence ne trouve pas de différences de force ni d’adaptation selon la phase.', ovulatoria: 'Les ligaments sont un peu plus laxes ces jours-ci : soigne les réceptions sur les fentes et les sauts. Le plan ne change pas.', lutea: 'Dépense et appétit un peu plus hauts (de 2-11 %) : ta marge du jour monte d’environ 150 kcal. Le poids peut monter à cause de l’eau : la moyenne hebdo l’absorbe.', premenstrual: 'Envies, sommeil moins bon et un peu de ballonnement sont normaux ces jours-ci. Ne compense pas, ne te pèse pas tous les jours et, si l’humeur le demande, le minimum suffit.' },
           hRegla: 'Règles', hReglaSub: 'Marque les jours de saignement', hAbund: 'Saignement abondant', hAbundSub: 'Imbibe toutes les 1-2 h : demande une ferritine',

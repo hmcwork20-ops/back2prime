@@ -1532,12 +1532,12 @@ window.B2P = (function () {
     },
     SUELO_PELVICO: {
       titulo: 'Pelvic floor · 5′ · every day',
-      intro: 'It’s the best-evidenced recommendation of the lot: doing it daily in pregnancy cuts incontinence by 62% at the end and by 29% three months after the birth (Cochrane 2020). And nobody can tell you’re doing it.',
+      intro: 'It’s the best-evidenced recommendation of the lot: doing it daily in pregnancy cuts incontinence by 62% at the end and by 29% at 3-6 months after the birth (Cochrane 2020). And nobody can tell you’re doing it.',
       bloques: [
         { id: 'suelo-pelvico', nombre: 'Long and short contractions', donde: 'Every day, and after every session', detalle: '3 × 10 contractions of 6-8″, breathing, releasing fully between one and the next; and 5 quick 1″ ones at the end. Seated, on your side or standing: what matters is that it’s the pelvic floor and not the glutes.' },
         { id: 'respiracion', nombre: 'Breathing and core', donde: 'Before you load', detalle: 'Inhale opening the ribs; as you exhale, the pelvic floor lifts and the abdomen draws in gently. It’s the pattern that goes before every squat and every armful you lift: the baby, the chair, the shopping.' }
       ],
-      nota: 'If there’s leaking, heaviness, a bulge or pain, this isn’t enough: get assessed by a pelvic floor physio. The 2025 guidelines recommend it for everyone from week 6 after the birth.'
+      nota: 'If there’s leaking, heaviness, a bulge or pain, this isn’t enough: get assessed by a pelvic floor physio. The physiotherapy reference (Goom 2019) recommends it for everyone from week 6 after the birth, and the 2025 guideline asks you to learn the technique with a physio.'
     },
     CALENTAMIENTO_EMB: {
       titulo: 'Warm-up · 6′ · always',
@@ -1561,7 +1561,7 @@ window.B2P = (function () {
       { n: 2, t: 'No personal bests', d: 'Here you don’t progress in kilos: you maintain. No set to failure, no holding your breath to lift. Exhale on the effort.' },
       { n: 3, t: 'Nothing on your back from week 16', d: 'Lying on your back, the uterus presses on the vena cava and your blood pressure drops. The plan swaps only those exercises; if you ever feel dizzy, change position.' },
       { n: 4, t: 'Pelvic floor every day', d: '3 × 10 contractions every day. It’s the best-evidenced recommendation in every guideline, and it prevents incontinence after the birth.' },
-      { n: 5, t: 'Heat and water', d: 'Train somewhere cool, with water to hand and no more than 45 minutes at a stretch: longer than that drops your glucose. No hot yoga, no sauna, no exercise with a fever.' },
+      { n: 5, t: 'Heat and water', d: 'Train somewhere cool with water to hand. More than 45 minutes non-stop can lower your blood sugar: eat something first or cut the session short (ACOG). No hot yoga, no sauna, no exercise with a fever.' },
       { n: 6, t: 'No falls, no knocks', d: 'Out: contact sports, racquet sports, road cycling, skates or anything with a risk of falling. Walking, swimming, the stationary bike and this strength work cover everything.' },
       { n: 7, t: 'Stop and call', d: 'Bleeding, abdominal pain, regular contractions, fluid loss, breathlessness at rest, dizziness, a bad headache, chest pain, weakness, or pain and swelling in one calf: that day you don’t train, you call.' },
       { n: 8, t: 'The corridor goes up', d: 'The scale goes up and it has to: {g} kg in total for your previous BMI, about {r} kg a week from the second trimester. Outside that, mention it at your check-up; there’s no deficit here.' }
@@ -1581,7 +1581,7 @@ window.B2P = (function () {
       temas: [
         { t: 'Fewer complications', d: 'Exercise on its own cuts gestational diabetes (OR 0.62), gestational hypertension (0.61) and pre-eclampsia (0.59) across 106 studies and 273,182 women. 140 minutes a week of brisk walking, stationary bike or strength work is enough.', ref: 'Davenport et al., Br J Sports Med 2018' },
         { t: 'Strength yes; heavy, not by default', d: 'The guidelines list strength work with weights and bands among what’s been studied and safe. In 679 lifters who carried on loading heavy the outcomes were normal: there’s no evidence of harm in someone already doing it, and none of benefit in starting now. That’s why the cap is talking without gasping.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
-        { t: 'The pelvic floor can be trained', d: 'Training it in pregnancy cuts incontinence by 62% at the end of pregnancy and by 29% three months after the birth in women with no previous leaking. It’s the best-evidenced intervention in the whole plan.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'The pelvic floor can be trained', d: 'Training it in pregnancy cuts incontinence by 62% at the end of pregnancy and by 29% at 3-6 months after the birth in women with no previous leaking. It’s the best-evidenced intervention in the whole plan.', ref: 'Woodley et al., Cochrane 2020' },
         { t: 'How much to gain and how much protein', d: 'The expected gain depends on your previous BMI (IOM 2009), and the real protein requirement measured with isotopes is 1.2 g/kg early on and 1.5 at the end, well above the official figure of 0.88. The plan asks for 1.4 and 1.6 on your previous weight.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
       ]
     },
@@ -1613,8 +1613,8 @@ window.B2P = (function () {
         ppSpT: 'Do you notice any of these?', ppSpP: 'These are pelvic floor signs. They don’t close the plan: they hold back impact and call for physio.',
         ppSp: { orina: 'Leaking urine when you cough, laugh or jump', pesadez: 'Heaviness, a bulge or pressure in the vagina', dolor: 'Pelvic pain or pain with sex', bulto: 'A bulge in my belly as I sit up' },
         ppSpNo: 'None',
-        ppRiesgoT: 'Any of these right now?', ppRiesgoP: 'These are the 2025 guideline’s contraindications. With one ticked, you need your doctor’s OK.',
-        ppR: { sangrado: 'Bleeding that increases with effort', dolor: 'Severe abdominal pain', fiebre: 'Fever or infection', tension: 'Uncontrolled high blood pressure', pantorrilla: 'Pain or swelling in one calf', cicatriz: 'Scar pain that gets worse when I move', mareo: 'Dizziness or fainting' },
+        ppRiesgoT: 'Any of these right now?', ppRiesgoP: 'These are the 2025 guideline’s relative contraindications. With one ticked, you need your doctor’s OK.',
+        ppR: { sangrado: 'Bleeding that increases with effort', dolor: 'Severe abdominal pain', fiebre: 'Fever or infection', tension: 'Uncontrolled high blood pressure', pantorrilla: 'Pain or swelling in one calf', cicatriz: 'Scar pain that gets worse when I move', mareo: 'Dizziness or fainting', ahogo: 'Shortness of breath at rest' },
         ppRiesgoNo: 'None',
         gatePpT: 'Your recovery rules', gatePpTxt: 'You marked a contraindication from the 2025 guideline. The plan is generated once your doctor or midwife has given you the OK.',
         cicloT: 'Your cycle', cicloP: 'Optional. It’s there to log and predict your period, and to read the scale and the flat days better. It doesn’t change the plan by phases: the evidence doesn’t back it.',
@@ -1639,12 +1639,12 @@ window.B2P = (function () {
             { id: 'yodo', t: 'Iodine', d: '200 µg a day through pregnancy and breastfeeding (EFSA). If you don’t reach 3 dairy servings and iodised salt a day, your midwife prescribes it as potassium iodide.' },
             { id: 'omega-3', t: 'DHA', d: '100-200 mg of DHA a day on top of oily fish (EFSA). 3-4 servings of fish a week is usually enough.' },
             { id: 'vitamina-d', t: 'Vitamin D', d: '15 µg a day as the reference. You only supplement if your bloods ask for it.' },
-            { id: 'hierro', t: 'Iron', d: 'No extra as a rule: no periods and better absorption cover it. Only if your bloods say so.' },
+            { id: 'hierro', t: 'Iron', d: 'No extra as a rule: the Spanish Ministry guideline doesn’t recommend it for everyone. Only if your bloods say so.' },
             { id: 'cafeina', t: 'Caffeine', d: 'Cap of 200 mg a day adding up coffee, tea, cola and energy drinks. One large coffee is already half of it.' },
-            { id: 'no', t: 'Not now', d: 'Creatine (no studies in pregnancy: don’t start now), fat burners, pre-workouts, vitamin A above 2,500 IU and herbs “for pregnancy”. Nothing your midwife hasn’t prescribed.' }
+            { id: 'no', t: 'Not now', d: 'Creatine (no studies in pregnancy: don’t start now), fat burners, pre-workouts, vitamin A as retinol above 3,000 µg (10,000 IU) a day (one serving of liver already goes over) and herbs “for pregnancy”. Nothing your midwife hasn’t prescribed.' }
           ],
           seguridad: 'Off the menu: raw fish or shellfish and chilled smoked fish; unpasteurised cheese and raw milk; chilled pâtés and sprouts; raw or runny egg; cured ham and cured meats unless cooked; swordfish, shark, bluefin tuna and pike. Meat cooked to 71 °C in the centre; leftovers above 75 °C; fridge at 4 °C or less; fruit and vegetables washed well.',
-          jamon: 'Cured ham: AESAN lists it as one to avoid unless cooked. Freezing it 48 h at −20 °C inactivates toxoplasma, but not listeria. If you eat it, cooked; and never pre-packed slices.',
+          jamon: 'Cured ham: AESAN lists it as one to avoid unless cooked. Freezing it 48 h at −20 °C inactivates toxoplasma, but not listeria. If you eat it, cooked; and never pre-packed slices. If your first-trimester bloods show you’re already immune to toxoplasma, AESAN doesn’t rule it out on that count; pre-packed slices stay off the menu because of listeria.',
           hito14T: 'Second trimester', hito14D: 'The energy usually comes back. If you feel like it, pick the pace up a little, never past being able to talk.',
           hito16T: 'From today, nothing on your back', hito16D: 'The plan has already swapped the bridge, dead bug and flat press for standing, incline or bird-dog versions. If you feel dizzy lying down, change position without waiting.',
           hito28T: 'Third trimester', hito28D: 'Shorter sessions and with support. Your centre of gravity isn’t what it was: nothing that depends on balance. If you were running, from today you walk.',
@@ -1655,7 +1655,7 @@ window.B2P = (function () {
           logroFinD: 'Plan completed through to the birth. Now comes the postpartum: the app changes with you.'
         },
         pp: {
-          kcalNotaLact: 'Your expenditure plus {k} kcal for breastfeeding{d}. Floor of 1,800 kcal: below that your milk drops before your fat does.',
+          kcalNotaLact: 'Your expenditure plus {k} kcal for breastfeeding{d}. Floor of 1,800 kcal: below that, the evidence no longer guarantees your milk supply.',
           kcalNota: '{d}. Before week 6, maintenance: heal first.',
           defTxt: ', minus a {v} kcal deficit from week 6', mantTxt: 'Maintenance',
           fila1: 'Recovery and reconnection (up to the check-up)', fila2: 'Base (from the check-up to week 12)', fila3: 'Construction (wk 12+)',
@@ -1671,7 +1671,7 @@ window.B2P = (function () {
             { id: 'cafeina', t: 'Caffeine', d: 'While breastfeeding, a cap of 200 mg a day and never after 2 pm: the baby feels it too.' },
             { id: 'no', t: 'Don’t spend on', d: 'Fat burners, “postpartum recovery” products, belly bands that promise to close diastasis recti, and creatine until you’ve weaned. None of it moves the needle.' }
           ],
-          hito6T: 'Check-up and pelvic floor', hito6D: 'After the 6-week check-up, an assessment with a pelvic floor physio even if you feel nothing: the 2025 guidelines recommend it for everyone.',
+          hito6T: 'Check-up and pelvic floor', hito6D: 'After the 6-week check-up, an assessment with a pelvic floor physio even if you feel nothing: the 2019 physiotherapy reference recommends it for everyone, and the 2025 guideline asks you to learn the technique with a physio.',
           hito8T: 'The scar', hito8D: 'Caesarean: if it’s closed and dry, massaging it daily stops it sticking down. Still nothing that pulls on it.',
           hito12T: 'Impact: the checklist', hito12D: 'From today you can think about running, if you pass the checklist in TODAY with no leaking and no heaviness. No rush: 3 to 6 months is the usual.',
           cierre: 'Postpartum plan finished on {f}. The next block starts where this one ends: Settings › Create / redo my plan, now as the usual plan.',
@@ -1685,7 +1685,7 @@ window.B2P = (function () {
           fase: { regla: 'period', folicular: 'follicular phase', ovulatoria: 'estimated ovulation', lutea: 'luteal phase', premenstrual: 'luteal phase · premenstrual', retraso: 'period late' },
           linea: 'Cycle · day {d} · {f}', proxima: 'period due on {f} (±{m} days)', proximaHoy: 'period due today or tomorrow', retraso: '{n} days later than predicted',
           irregular: 'Cycles varying by more than 9 days: no prediction. Log your period and, if it falls outside 24-38 days again and again, mention it to your doctor.',
-          hormonal: 'With hormonal contraception there are no phases: the bleed comes from the pill-free break, not a period. Log it anyway if you want the calendar.',
+          hormonal: 'With hormonal contraception there are no phases: any bleeding comes from the pill, ring or patch break, or is irregular with an implant, hormonal IUD or mini-pill; it isn’t a period. Log it anyway if you want the calendar.',
           sinRegla: 'More than 90 days with no period, with no pregnancy and no hormonal contraception: get it checked. It’s the signal the IOC and the women’s health guidelines use.',
           nota: { regla: 'If there’s pain or tiredness, today the minimum will do, or drop the effort by a point. If not, train as usual: performance doesn’t depend on the phase. Iron on the table: legumes or lean red meat, with vitamin C.', folicular: 'Nothing to change: the evidence finds no differences in strength or adaptation by phase.', ovulatoria: 'Your ligaments run a little laxer these days: land well on lunges and jumps. The plan doesn’t change.', lutea: 'Expenditure and appetite a little higher (2-11%): today’s margin goes up by about 150 kcal. Your weight can rise from water: the weekly average absorbs it.', premenstrual: 'Cravings, worse sleep and some bloating are normal these days. Don’t compensate, don’t weigh yourself every day and, if your mood asks for it, the minimum will do.' },
           hRegla: 'Period', hReglaSub: 'Mark your bleeding days', hAbund: 'Heavy bleeding', hAbundSub: 'Soaking through every 1-2 h: ask for ferritin',

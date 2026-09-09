@@ -1531,12 +1531,12 @@ window.B2P = (function () {
     },
     SUELO_PELVICO: {
       titulo: 'Suelo pélvico · 5′ · a diario',
-      intro: 'Es la recomendación con más evidencia de todas: hacerlo a diario en el embarazo reduce un 62 % la incontinencia al final y un 29 % a los tres meses del parto (Cochrane 2020). Y a nadie se le nota que lo está haciendo.',
+      intro: 'Es la recomendación con más evidencia de todas: hacerlo a diario en el embarazo reduce un 62 % la incontinencia al final y un 29 % a los 3-6 meses del parto (Cochrane 2020). Y a nadie se le nota que lo está haciendo.',
       bloques: [
         { id: 'suelo-pelvico', nombre: 'Contracciones largas y cortas', donde: 'Cada día, y tras cada sesión', detalle: '3 × 10 contracciones de 6-8″, respirando, soltando del todo entre una y otra; y al final 5 rápidas de 1″. Sentada, de lado o de pie: lo importante es que sea el suelo pélvico y no el glúteo.' },
         { id: 'respiracion', nombre: 'Respiración y core', donde: 'Antes de cargar', detalle: 'Inhala abriendo costillas; al exhalar, el suelo pélvico sube y el abdomen se recoge suave. Es el patrón que va delante de cada sentadilla y de cada carga en brazos: el bebé, la silla, la compra.' }
       ],
-      nota: 'Si hay pérdidas, pesadez, bulto o dolor, esto no basta: valoración con fisioterapia de suelo pélvico. Las guías de 2025 la recomiendan para todas desde la semana 6 tras el parto.'
+      nota: 'Si hay pérdidas, pesadez, bulto o dolor, esto no basta: valoración con fisioterapia de suelo pélvico. La referencia de fisioterapia (Goom 2019) la recomienda para todas desde la semana 6 tras el parto, y la guía de 2025 pide aprender la técnica con fisioterapeuta.'
     },
     CALENTAMIENTO_EMB: {
       titulo: 'Calentamiento · 6′ · siempre',
@@ -1560,7 +1560,7 @@ window.B2P = (function () {
       { n: 2, t: 'Sin marcas', d: 'Aquí no se progresa en kilos: se mantiene. Ninguna serie al fallo, ninguna maniobra de aguantar el aire para levantar. Exhala en el esfuerzo.' },
       { n: 3, t: 'Nada boca arriba desde la 16', d: 'Tumbada boca arriba el útero comprime la vena cava y baja la tensión. El plan cambia solo esos ejercicios; si en cualquier momento notas mareo, cambia de posición.' },
       { n: 4, t: 'Suelo pélvico a diario', d: '3 × 10 contracciones cada día. Es la recomendación con más evidencia de todas las guías, y previene la incontinencia después del parto.' },
-      { n: 5, t: 'Calor y agua', d: 'Entrena en un sitio fresco, con agua a mano y sin pasar de 45 minutos seguidos: más tiempo baja la glucosa. Nada de hot yoga, sauna ni ejercicio con fiebre.' },
+      { n: 5, t: 'Calor y agua', d: 'Entrena en un sitio fresco y con agua a mano. Más de 45 minutos seguidos pueden bajar la glucosa: come algo antes o acorta la sesión (ACOG). Nada de hot yoga, sauna ni ejercicio con fiebre.' },
       { n: 6, t: 'Sin caídas ni golpes', d: 'Fuera deportes de contacto, de raqueta, bici de exterior, patines o cualquier cosa con riesgo de caerse. Caminar, nadar, bici estática y esta fuerza lo cubren todo.' },
       { n: 7, t: 'Para y llama', d: 'Sangrado, dolor abdominal, contracciones regulares, pérdida de líquido, ahogo en reposo, mareo, dolor de cabeza fuerte, dolor de pecho, debilidad, o dolor e hinchazón en una pantorrilla: ese día no se entrena y se consulta.' },
       { n: 8, t: 'El corredor sube', d: 'La báscula sube y tiene que subir: {g} kg en total para tu IMC previo, unos {r} kg por semana desde el segundo trimestre. Fuera de eso, lo comentas en la revisión; aquí no hay déficit.' }
@@ -1580,7 +1580,7 @@ window.B2P = (function () {
       temas: [
         { t: 'Menos complicaciones', d: 'El ejercicio por sí solo reduce la diabetes gestacional (OR 0,62), la hipertensión gestacional (0,61) y la preeclampsia (0,59) en 106 estudios y 273.182 mujeres. Bastan 140 minutos semanales de paseo rápido, bici estática o fuerza.', ref: 'Davenport et al., Br J Sports Med 2018' },
         { t: 'Fuerza sí; pesado, no por defecto', d: 'Las guías incluyen la fuerza con pesos y bandas entre lo estudiado y seguro. En 679 levantadoras que siguieron cargando pesado los resultados fueron normales: no hay evidencia de daño en quien ya lo hacía, y tampoco de beneficio en empezar ahora. Por eso el tope es hablar sin ahogarse.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
-        { t: 'El suelo pélvico se entrena', d: 'Entrenarlo en el embarazo reduce un 62 % la incontinencia al final del embarazo y un 29 % a los tres meses del parto en mujeres sin pérdidas previas. Es la intervención con más evidencia de todo el plan.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'El suelo pélvico se entrena', d: 'Entrenarlo en el embarazo reduce un 62 % la incontinencia al final del embarazo y un 29 % a los 3-6 meses del parto en mujeres sin pérdidas previas. Es la intervención con más evidencia de todo el plan.', ref: 'Woodley et al., Cochrane 2020' },
         { t: 'Cuánto subir y cuánta proteína', d: 'La ganancia esperada depende del IMC previo (IOM 2009), y la necesidad real de proteína medida con isótopos es de 1,2 g/kg al principio y 1,5 al final, muy por encima de la cifra oficial de 0,88. El plan pide 1,4 y 1,6 sobre el peso previo.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
       ]
     },
@@ -1612,8 +1612,8 @@ window.B2P = (function () {
         ppSpT: '¿Notas alguna de estas?', ppSpP: 'Son señales de suelo pélvico. No cierran el plan: frenan el impacto y piden fisioterapia.',
         ppSp: { orina: 'Pérdidas de orina al toser, reír o saltar', pesadez: 'Pesadez, bulto o presión en la vagina', dolor: 'Dolor pélvico o en las relaciones', bulto: 'Bulto en la tripa al incorporarme' },
         ppSpNo: 'Ninguna',
-        ppRiesgoT: '¿Alguna de estas ahora?', ppRiesgoP: 'Son las contraindicaciones de la guía de 2025. Con una marcada, hace falta el visto bueno de tu médica.',
-        ppR: { sangrado: 'Sangrado que aumenta con el esfuerzo', dolor: 'Dolor abdominal intenso', fiebre: 'Fiebre o infección', tension: 'Tensión alta no controlada', pantorrilla: 'Dolor o hinchazón en una pantorrilla', cicatriz: 'Dolor en la cicatriz que empeora al moverme', mareo: 'Mareos o desmayos' },
+        ppRiesgoT: '¿Alguna de estas ahora?', ppRiesgoP: 'Son las contraindicaciones relativas de la guía de 2025. Con una marcada, hace falta el visto bueno de tu médica.',
+        ppR: { sangrado: 'Sangrado que aumenta con el esfuerzo', dolor: 'Dolor abdominal intenso', fiebre: 'Fiebre o infección', tension: 'Tensión alta no controlada', pantorrilla: 'Dolor o hinchazón en una pantorrilla', cicatriz: 'Dolor en la cicatriz que empeora al moverme', mareo: 'Mareos o desmayos', ahogo: 'Ahogo en reposo' },
         ppRiesgoNo: 'Ninguna',
         gatePpT: 'Tu recuperación manda', gatePpTxt: 'Marcaste una contraindicación de la guía de 2025. El plan se genera cuando tu médica o matrona te haya dado el visto bueno.',
         cicloT: 'Tu ciclo', cicloP: 'Opcional. Sirve para registrar y prever la regla, y para leer mejor la báscula y los días flojos. No cambia el plan por fases: la evidencia no lo respalda.',
@@ -1632,18 +1632,18 @@ window.B2P = (function () {
           escalado: 'La proteína ({p} g) va sobre tu peso previo al embarazo; lo que sube por trimestre es el resto.',
           hidratacion: 'Agua: 2,3 litros al día (8-10 vasos). Alcohol: ninguno, en ninguna cantidad. Cafeína: hasta 200 mg al día contando todo (un café largo y un té).',
           comidaLibre: 'Sigue habiendo una comida libre a la semana, con las mismas reglas de seguridad: nada crudo, nada curado sin cocinar ni sin pasteurizar, y sin alcohol. Se puede mover; sigue siendo una.',
-          plato: 'Cada comida: 150-200 g de carne magra o pescado bien hecho (sin pez espada, tiburón, atún rojo ni lucio), o 3 huevos bien cuajados, o 250 g de skyr o queso fresco pasteurizado, o 250 g de legumbre + 1 huevo.',
+          plato: 'Cada comida: 150-200 g de carne magra o pescado bien hecho (sin pez espada o emperador, tiburón como el cazón, atún rojo ni lucio), o 3 huevos bien cuajados, o 250 g de skyr o queso fresco pasteurizado, o 250 g de legumbre + 1 huevo.',
           supl: [
             { id: 'folico', t: 'Ácido fólico', d: '0,4 mg al día, al menos las 12 primeras semanas: es la recomendación fuerte de la guía del Ministerio. Si ya lo tomas por prescripción, sigue con esa pauta.' },
             { id: 'yodo', t: 'Yodo', d: '200 µg al día durante el embarazo y la lactancia (EFSA). Si no llegas a 3 lácteos y sal yodada al día, lo pauta tu matrona como yoduro potásico.' },
             { id: 'omega-3', t: 'DHA', d: '100-200 mg de DHA al día además del pescado azul (EFSA). Con 3-4 raciones de pescado a la semana suele bastar.' },
             { id: 'vitamina-d', t: 'Vitamina D', d: '15 µg al día de referencia. Solo se suplementa si la analítica lo pide.' },
-            { id: 'hierro', t: 'Hierro', d: 'Sin extra por sistema: la falta de regla y la mayor absorción lo cubren. Solo si tu analítica lo dice.' },
+            { id: 'hierro', t: 'Hierro', d: 'Sin extra por sistema: la guía del Ministerio no lo recomienda a todas. Solo si tu analítica lo dice.' },
             { id: 'cafeina', t: 'Cafeína', d: 'Tope de 200 mg al día sumando café, té, cola y bebidas energéticas. Un café largo ya es la mitad.' },
-            { id: 'no', t: 'Ahora no', d: 'Creatina (sin estudios en embarazo: no empieces ahora), quemagrasas, pre-entrenos, vitamina A por encima de 2.500 UI y hierbas «para el embarazo». Nada que no te haya pautado tu matrona.' }
+            { id: 'no', t: 'Ahora no', d: 'Creatina (sin estudios en embarazo: no empieces ahora), quemagrasas, pre-entrenos, vitamina A como retinol por encima de 3.000 µg (10.000 UI) al día (una ración de hígado ya se pasa) y hierbas «para el embarazo». Nada que no te haya pautado tu matrona.' }
           ],
-          seguridad: 'Fuera del menú: pescado o marisco crudo y ahumados refrigerados; quesos sin pasteurizar y leche cruda; patés refrigerados y brotes; huevo crudo o poco cuajado; jamón y embutidos crudos salvo cocinados; pez espada, tiburón, atún rojo y lucio. Carne hecha hasta 71 °C en el centro; sobras a más de 75 °C; nevera a 4 °C o menos; fruta y verdura bien lavadas.',
-          jamon: 'El jamón curado: AESAN lo lista para evitar salvo cocinado. Congelarlo 48 h a −20 °C inactiva el toxoplasma, pero no la listeria. Si lo tomas, cocinado; y nunca loncheado envasado.',
+          seguridad: 'Fuera del menú: pescado o marisco crudo y ahumados refrigerados; quesos sin pasteurizar y leche cruda; patés refrigerados y brotes; huevo crudo o poco cuajado; jamón y embutidos crudos salvo cocinados; pez espada o emperador, tiburón (cazón, marrajo, tintorera), atún rojo y lucio. Carne hecha hasta 71 °C en el centro; sobras a más de 75 °C; nevera a 4 °C o menos; fruta y verdura bien lavadas.',
+          jamon: 'El jamón curado: AESAN lo lista para evitar salvo cocinado. Congelarlo 48 h a −20 °C inactiva el toxoplasma, pero no la listeria. Si lo tomas, cocinado; y nunca loncheado envasado. Si tu analítica del primer trimestre dice que ya estás inmunizada frente al toxoplasma, AESAN no lo veta por esa vía; el loncheado envasado sigue fuera por la listeria.',
           hito14T: 'Segundo trimestre', hito14D: 'Suele volver la energía. Si te apetece, sube un poco el ritmo, nunca por encima de poder hablar.',
           hito16T: 'Desde hoy, nada boca arriba', hito16D: 'El plan ya ha cambiado puente, dead bug y press plano por versiones de pie, inclinadas o en cuadrupedia. Si notas mareo tumbada, cambia de posición sin esperar.',
           hito28T: 'Tercer trimestre', hito28D: 'Sesiones más cortas y con apoyo. El centro de gravedad ya no es el de antes: nada que dependa del equilibrio. Si corrías, desde hoy caminas.',
@@ -1654,13 +1654,13 @@ window.B2P = (function () {
           logroFinD: 'Plan completado hasta el parto. Ahora toca el posparto: la app cambia contigo.'
         },
         pp: {
-          kcalNotaLact: 'Tu gasto más {k} kcal por la lactancia{d}. Suelo de 1.800 kcal: por debajo baja la leche antes que la grasa.',
+          kcalNotaLact: 'Tu gasto más {k} kcal por la lactancia{d}. Suelo de 1.800 kcal: por debajo, la evidencia ya no garantiza la leche.',
           kcalNota: '{d}. Antes de la semana 6, mantenimiento: primero curar.',
           defTxt: ', menos {v} kcal de déficit desde la semana 6', mantTxt: 'Mantenimiento',
           fila1: 'Recuperación y reconexión (hasta la revisión)', fila2: 'Base (de la revisión a la semana 12)', fila3: 'Construcción (sem 12+)',
           escalado: 'Con lactancia, la proteína ({p} g) sube a 1,6 g/kg y no se toca; el carbohidrato acompaña al volumen.',
           hidratacion: 'Agua: 2,5-3 litros al día, más con lactancia (cada toma da sed: bebe entonces). Alcohol: cuanto menos, mejor para el bebé; si lo hay, lejos de la toma. Cafeína: hasta 200 mg al día con lactancia.',
-          comidaLibre: 'Una comida a la semana, no un día. Con lactancia el pescado sigue sin pez espada, tiburón, atún rojo ni lucio; el resto vuelve a la mesa.',
+          comidaLibre: 'Una comida a la semana, no un día. Con lactancia el pescado sigue sin pez espada o emperador, tiburón (cazón incluido), atún rojo ni lucio; el resto vuelve a la mesa.',
           supl: [
             { id: 'yodo', t: 'Yodo', d: '200 µg al día mientras dure la lactancia (EFSA): la leche se lo lleva.' },
             { id: 'omega-3', t: 'DHA', d: '100-200 mg al día además del pescado azul mientras dure la lactancia (EFSA).' },
@@ -1670,7 +1670,7 @@ window.B2P = (function () {
             { id: 'cafeina', t: 'Cafeína', d: 'Con lactancia, tope de 200 mg al día y nunca después de las 14 h: el bebé también la nota.' },
             { id: 'no', t: 'No gastes en', d: 'Quemagrasas, «recuperadores posparto», fajas que prometen cerrar la diástasis y creatina hasta el destete. No mueven la aguja.' }
           ],
-          hito6T: 'Revisión y suelo pélvico', hito6D: 'Tras la revisión de las 6 semanas, valoración con fisioterapia de suelo pélvico aunque no notes nada: lo recomiendan las guías de 2025 para todas.',
+          hito6T: 'Revisión y suelo pélvico', hito6D: 'Tras la revisión de las 6 semanas, valoración con fisioterapia de suelo pélvico aunque no notes nada: la referencia de fisioterapia de 2019 la recomienda para todas, y la guía de 2025 pide aprender la técnica con fisioterapeuta.',
           hito8T: 'La cicatriz', hito8D: 'Cesárea: si está cerrada y seca, masajearla a diario evita que se pegue. Sigue sin nada que tire de ella.',
           hito12T: 'Impacto: la lista', hito12D: 'Desde hoy puedes plantearte correr, si superas la lista de comprobación de HOY sin pérdidas ni pesadez. Sin prisa: entre los 3 y los 6 meses es lo habitual.',
           cierre: 'Plan posparto terminado el {f}. El siguiente bloque empieza donde acaba este: Ajustes › Crear / rehacer mi plan, ya como el plan de siempre.',
@@ -1684,7 +1684,7 @@ window.B2P = (function () {
           fase: { regla: 'regla', folicular: 'fase folicular', ovulatoria: 'ovulación estimada', lutea: 'fase lútea', premenstrual: 'fase lútea · premenstrual', retraso: 'regla con retraso' },
           linea: 'Ciclo · día {d} · {f}', proxima: 'regla prevista el {f} (±{m} días)', proximaHoy: 'regla prevista hoy o mañana', retraso: '{n} días de retraso sobre lo previsto',
           irregular: 'Ciclos con más de 9 días de variación: no se predice. Registra la regla y, si se sale de 24-38 días de forma repetida, coméntalo con tu médica.',
-          hormonal: 'Con anticonceptivo hormonal no hay fases: el sangrado es por el descanso de la pastilla, no una regla. Registra igualmente si quieres el calendario.',
+          hormonal: 'Con anticonceptivo hormonal no hay fases: el sangrado, si lo hay, viene del descanso de la pastilla, el anillo o el parche, o es irregular con implante, DIU hormonal o minipíldora; no es una regla. Registra igualmente si quieres el calendario.',
           sinRegla: 'Más de 90 días sin regla, sin embarazo ni anticonceptivo hormonal: consúltalo. Es la señal que usan el COI y las guías de salud femenina.',
           nota: { regla: 'Si hay dolor o cansancio, hoy vale el mínimo o bajar un punto el esfuerzo. Si no, entrena igual: el rendimiento no depende de la fase. Hierro en la mesa: legumbre o carne roja magra, con vitamina C.', folicular: 'Nada que cambiar: la evidencia no encuentra diferencias de fuerza ni de adaptación por fase.', ovulatoria: 'Los ligamentos van algo más laxos estos días: aterriza bien en zancadas y saltos. El plan no cambia.', lutea: 'Gasto y apetito algo más altos (un 2-11 %): el margen de hoy sube unas 150 kcal. El peso puede subir por agua: la media semanal lo absorbe.', premenstrual: 'Antojos, sueño peor y algo de hinchazón son normales estos días. No compenses, no te peses cada día y, si el humor lo pide, el mínimo vale.' },
           hRegla: 'Regla', hReglaSub: 'Marca los días de sangrado', hAbund: 'Sangrado abundante', hAbundSub: 'Empapa cada 1-2 h: pide ferritina',

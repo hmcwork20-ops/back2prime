@@ -1532,12 +1532,12 @@ window.B2P = (function () {
     },
     SUELO_PELVICO: {
       titulo: 'Pavimento pelvico · 5′ · ogni giorno',
-      intro: 'È la raccomandazione con più evidenza di tutte: farlo ogni giorno in gravidanza riduce del 62% l’incontinenza alla fine e del 29% a tre mesi dal parto (Cochrane 2020). E nessuno si accorge che lo stai facendo.',
+      intro: 'È la raccomandazione con più evidenza di tutte: farlo ogni giorno in gravidanza riduce del 62% l’incontinenza alla fine e del 29% a 3-6 mesi dal parto (Cochrane 2020). E nessuno si accorge che lo stai facendo.',
       bloques: [
         { id: 'suelo-pelvico', nombre: 'Contrazioni lunghe e corte', donde: 'Ogni giorno, e dopo ogni sessione', detalle: '3 × 10 contrazioni da 6-8″, respirando, rilasciando del tutto tra una e l’altra; e alla fine 5 rapide da 1″. Seduta, su un fianco o in piedi: l’importante è che sia il pavimento pelvico e non il gluteo.' },
         { id: 'respiracion', nombre: 'Respirazione e core', donde: 'Prima di caricare', detalle: 'Inspira aprendo le costole; nell’espirazione il pavimento pelvico sale e l’addome si raccoglie dolcemente. È lo schema che precede ogni squat e ogni carico in braccio: il bebè, la sedia, la spesa.' }
       ],
-      nota: 'Se ci sono perdite, pesantezza, rigonfiamento o dolore, questo non basta: valutazione con la fisioterapia del pavimento pelvico. Le linee guida del 2025 la raccomandano a tutte dalla settimana 6 dopo il parto.'
+      nota: 'Se ci sono perdite, pesantezza, rigonfiamento o dolore, questo non basta: valutazione con la fisioterapia del pavimento pelvico. Il riferimento di fisioterapia (Goom 2019) la raccomanda a tutte dalla settimana 6 dopo il parto, e la linea guida del 2025 chiede di imparare la tecnica con una fisioterapista.'
     },
     CALENTAMIENTO_EMB: {
       titulo: 'Riscaldamento · 6′ · sempre',
@@ -1561,7 +1561,7 @@ window.B2P = (function () {
       { n: 2, t: 'Niente record', d: 'Qui non si progredisce in chili: si mantiene. Nessuna serie a cedimento, nessuna manovra di trattenere l’aria per sollevare. Espira nello sforzo.' },
       { n: 3, t: 'Niente a pancia in su dalla 16', d: 'Da sdraiata a pancia in su l’utero comprime la vena cava e la pressione scende. Il piano cambia da solo quegli esercizi; se in qualsiasi momento senti capogiri, cambia posizione.' },
       { n: 4, t: 'Pavimento pelvico ogni giorno', d: '3 × 10 contrazioni al giorno. È la raccomandazione con più evidenza di tutte le linee guida, e previene l’incontinenza dopo il parto.' },
-      { n: 5, t: 'Caldo e acqua', d: 'Allenati in un posto fresco, con l’acqua a portata e senza superare i 45 minuti di fila: oltre, la glicemia scende. Niente hot yoga, sauna né esercizio con la febbre.' },
+      { n: 5, t: 'Caldo e acqua', d: 'Allenati in un posto fresco e con l’acqua a portata di mano. Più di 45 minuti di fila possono abbassare la glicemia: mangia qualcosa prima o accorcia la seduta (ACOG). Niente hot yoga, sauna né esercizio con la febbre.' },
       { n: 6, t: 'Niente cadute né colpi', d: 'Fuori gli sport di contatto, quelli di racchetta, la bici all’aperto, i pattini o qualsiasi cosa con rischio di cadere. Camminare, nuotare, cyclette e questa forza coprono tutto.' },
       { n: 7, t: 'Fermati e chiama', d: 'Sanguinamento, dolore addominale, contrazioni regolari, perdita di liquido, affanno a riposo, capogiri, mal di testa forte, dolore al petto, debolezza, o dolore e gonfiore a un polpaccio: quel giorno non si allena e si sente il medico.' },
       { n: 8, t: 'Il corridoio sale', d: 'La bilancia sale e deve salire: {g} kg in totale per il tuo BMI di partenza, circa {r} kg a settimana dal secondo trimestre. Fuori da lì, parlane alla visita; qui non c’è deficit.' }
@@ -1581,7 +1581,7 @@ window.B2P = (function () {
       temas: [
         { t: 'Meno complicazioni', d: 'Il solo esercizio riduce il diabete gestazionale (OR 0,62), l’ipertensione gestazionale (0,61) e la preeclampsia (0,59) in 106 studi e 273.182 donne. Bastano 140 minuti a settimana di camminata veloce, cyclette o forza.', ref: 'Davenport et al., Br J Sports Med 2018' },
         { t: 'Forza sì; pesante, non di default', d: 'Le linee guida includono la forza con pesi ed elastici tra ciò che è studiato e sicuro. In 679 atlete che hanno continuato a caricare pesante i risultati sono stati normali: non c’è evidenza di danno in chi lo faceva già, e nemmeno di beneficio nell’iniziare adesso. Per questo il tetto è parlare senza affannarsi.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
-        { t: 'Il pavimento pelvico si allena', d: 'Allenarlo in gravidanza riduce del 62% l’incontinenza a fine gravidanza e del 29% a tre mesi dal parto in donne senza perdite precedenti. È l’intervento con più evidenza di tutto il piano.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'Il pavimento pelvico si allena', d: 'Allenarlo in gravidanza riduce del 62% l’incontinenza a fine gravidanza e del 29% a 3-6 mesi dal parto in donne senza perdite precedenti. È l’intervento con più evidenza di tutto il piano.', ref: 'Woodley et al., Cochrane 2020' },
         { t: 'Quanto salire e quante proteine', d: 'L’aumento atteso dipende dal BMI di partenza (IOM 2009), e il fabbisogno reale di proteine misurato con gli isotopi è di 1,2 g/kg all’inizio e 1,5 alla fine, molto sopra la cifra ufficiale di 0,88. Il piano chiede 1,4 e 1,6 sul peso di partenza.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
       ]
     },
@@ -1613,8 +1613,8 @@ window.B2P = (function () {
         ppSpT: 'Noti qualcuna di queste?', ppSpP: 'Sono segnali del pavimento pelvico. Non chiudono il piano: frenano l’impatto e chiedono fisioterapia.',
         ppSp: { orina: 'Perdite di urina quando tossisci, ridi o salti', pesadez: 'Pesantezza, rigonfiamento o pressione in vagina', dolor: 'Dolore pelvico o durante i rapporti', bulto: 'Rigonfiamento sulla pancia quando mi tiro su' },
         ppSpNo: 'Nessuna',
-        ppRiesgoT: 'Qualcuna di queste adesso?', ppRiesgoP: 'Sono le controindicazioni della linea guida del 2025. Se ne segni una, serve il via libera della tua dottoressa.',
-        ppR: { sangrado: 'Sanguinamento che aumenta con lo sforzo', dolor: 'Dolore addominale intenso', fiebre: 'Febbre o infezione', tension: 'Pressione alta non controllata', pantorrilla: 'Dolore o gonfiore a un polpaccio', cicatriz: 'Dolore alla cicatrice che peggiora quando mi muovo', mareo: 'Capogiri o svenimenti' },
+        ppRiesgoT: 'Qualcuna di queste adesso?', ppRiesgoP: 'Sono le controindicazioni relative della linea guida del 2025. Se ne segni una, serve il via libera della tua dottoressa.',
+        ppR: { sangrado: 'Sanguinamento che aumenta con lo sforzo', dolor: 'Dolore addominale intenso', fiebre: 'Febbre o infezione', tension: 'Pressione alta non controllata', pantorrilla: 'Dolore o gonfiore a un polpaccio', cicatriz: 'Dolore alla cicatrice che peggiora quando mi muovo', mareo: 'Capogiri o svenimenti', ahogo: 'Affanno a riposo' },
         ppRiesgoNo: 'Nessuna',
         gatePpT: 'Comanda il tuo recupero', gatePpTxt: 'Hai segnato una controindicazione della linea guida del 2025. Il piano si genera quando la tua dottoressa o la tua ostetrica ti avrà dato il via libera.',
         cicloT: 'Il tuo ciclo', cicloP: 'Opzionale. Serve a registrare e prevedere le mestruazioni, e a leggere meglio la bilancia e i giorni fiacchi. Non cambia il piano per fasi: l’evidenza non lo sostiene.',
@@ -1639,12 +1639,12 @@ window.B2P = (function () {
             { id: 'yodo', t: 'Iodio', d: '200 µg al giorno durante la gravidanza e l’allattamento (EFSA). Se non arrivi a 3 latticini e sale iodato al giorno, te lo prescrive la tua ostetrica come ioduro di potassio.' },
             { id: 'omega-3', t: 'DHA', d: '100-200 mg di DHA al giorno oltre al pesce azzurro (EFSA). Con 3-4 porzioni di pesce a settimana di solito basta.' },
             { id: 'vitamina-d', t: 'Vitamina D', d: '15 µg al giorno di riferimento. Si integra solo se lo chiedono le analisi.' },
-            { id: 'hierro', t: 'Ferro', d: 'Nessun extra di default: l’assenza di mestruazioni e il maggiore assorbimento bastano. Solo se lo dicono le tue analisi.' },
+            { id: 'hierro', t: 'Ferro', d: 'Nessun extra di default: la linea guida del ministero spagnolo non lo raccomanda a tutte. Solo se lo dicono le tue analisi.' },
             { id: 'cafeina', t: 'Caffeina', d: 'Tetto di 200 mg al giorno sommando caffè, tè, cola ed energy drink. Un caffè lungo è già la metà.' },
-            { id: 'no', t: 'Ora no', d: 'Creatina (nessuno studio in gravidanza: non iniziare adesso), brucia-grassi, pre-workout, vitamina A oltre le 2.500 UI ed erbe “per la gravidanza”. Niente che non ti abbia prescritto la tua ostetrica.' }
+            { id: 'no', t: 'Ora no', d: 'Creatina (nessuno studio in gravidanza: non iniziare adesso), brucia-grassi, pre-workout, vitamina A come retinolo oltre i 3.000 µg (10.000 UI) al giorno (una porzione di fegato li supera già) ed erbe “per la gravidanza”. Niente che non ti abbia prescritto la tua ostetrica.' }
           ],
           seguridad: 'Fuori dal menù: pesce o frutti di mare crudi e affumicati da banco frigo; formaggi non pastorizzati e latte crudo; paté da banco frigo e germogli; uovo crudo o poco cotto; prosciutto crudo e salumi crudi se non cotti; pesce spada, squalo, tonno rosso e luccio. Carne cotta fino a 71 °C al cuore; avanzi oltre i 75 °C; frigorifero a 4 °C o meno; frutta e verdura ben lavate.',
-          jamon: 'Il prosciutto crudo: l’AESAN lo elenca tra quelli da evitare se non cotto. Congelarlo 48 h a −20 °C inattiva il toxoplasma, ma non la listeria. Se lo mangi, cotto; e mai affettato in busta.',
+          jamon: 'Il prosciutto crudo: l’AESAN lo elenca tra quelli da evitare se non cotto. Congelarlo 48 h a −20 °C inattiva il toxoplasma, ma non la listeria. Se lo mangi, cotto; e mai affettato in busta. Se le analisi del primo trimestre dicono che sei già immune al toxoplasma, l’AESAN non lo vieta per quella via; l’affettato in busta resta fuori per la listeria.',
           hito14T: 'Secondo trimestre', hito14D: 'Di solito torna l’energia. Se ti va, alza un po’ il ritmo, mai oltre il poter parlare.',
           hito16T: 'Da oggi, niente a pancia in su', hito16D: 'Il piano ha già sostituito ponte, dead bug e panca piana con versioni in piedi, inclinate o in quadrupedia. Se senti capogiri da sdraiata, cambia posizione senza aspettare.',
           hito28T: 'Terzo trimestre', hito28D: 'Sessioni più corte e con appoggio. Il centro di gravità non è più quello di prima: niente che dipenda dall’equilibrio. Se correvi, da oggi cammini.',
@@ -1655,7 +1655,7 @@ window.B2P = (function () {
           logroFinD: 'Piano completato fino al parto. Ora tocca al post parto: l’app cambia con te.'
         },
         pp: {
-          kcalNotaLact: 'Il tuo dispendio più {k} kcal per l’allattamento{d}. Minimo 1.800 kcal: sotto, cala il latte prima del grasso.',
+          kcalNotaLact: 'Il tuo dispendio più {k} kcal per l’allattamento{d}. Minimo 1.800 kcal: sotto, l’evidenza non garantisce più il latte.',
           kcalNota: '{d}. Prima della settimana 6, mantenimento: prima guarire.',
           defTxt: ', meno {v} kcal di deficit dalla settimana 6', mantTxt: 'Mantenimento',
           fila1: 'Recupero e riconnessione (fino alla visita)', fila2: 'Base (dalla visita alla settimana 12)', fila3: 'Costruzione (sett 12+)',
@@ -1671,7 +1671,7 @@ window.B2P = (function () {
             { id: 'cafeina', t: 'Caffeina', d: 'Con l’allattamento, tetto di 200 mg al giorno e mai dopo le 14: la sente anche il bebè.' },
             { id: 'no', t: 'Non spendere in', d: 'Brucia-grassi, “recuperatori post parto”, guaine che promettono di chiudere la diastasi e creatina fino allo svezzamento. Non spostano l’ago.' }
           ],
-          hito6T: 'Visita e pavimento pelvico', hito6D: 'Dopo la visita di controllo delle 6 settimane, valutazione con la fisioterapia del pavimento pelvico anche se non senti nulla: le linee guida del 2025 la raccomandano a tutte.',
+          hito6T: 'Visita e pavimento pelvico', hito6D: 'Dopo la visita di controllo delle 6 settimane, valutazione con la fisioterapia del pavimento pelvico anche se non senti nulla: il riferimento di fisioterapia del 2019 la raccomanda a tutte, e la linea guida del 2025 chiede di imparare la tecnica con una fisioterapista.',
           hito8T: 'La cicatrice', hito8D: 'Cesareo: se è chiusa e asciutta, massaggiarla ogni giorno evita che aderisca. Continua senza niente che tiri sulla cicatrice.',
           hito12T: 'Impatto: la lista', hito12D: 'Da oggi puoi pensare di correre, se superi la lista di controllo in OGGI senza perdite né pesantezza. Senza fretta: tra i 3 e i 6 mesi è la norma.',
           cierre: 'Piano post parto finito il {f}. Il blocco successivo inizia dove finisce questo: Impostazioni › Crea / rifai il mio piano, ormai come il piano di sempre.',
@@ -1685,7 +1685,7 @@ window.B2P = (function () {
           fase: { regla: 'mestruazioni', folicular: 'fase follicolare', ovulatoria: 'ovulazione stimata', lutea: 'fase luteale', premenstrual: 'fase luteale · premestruale', retraso: 'mestruazioni in ritardo' },
           linea: 'Ciclo · giorno {d} · {f}', proxima: 'mestruazioni previste il {f} (±{m} giorni)', proximaHoy: 'mestruazioni previste oggi o domani', retraso: '{n} giorni di ritardo sul previsto',
           irregular: 'Cicli con più di 9 giorni di variazione: non si prevedono. Registra le mestruazioni e, se escono da 24-38 giorni in modo ripetuto, parlane con la tua dottoressa.',
-          hormonal: 'Con il contraccettivo ormonale non ci sono fasi: il sanguinamento è dovuto alla pausa dalla pillola, non sono mestruazioni. Registra lo stesso se vuoi il calendario.',
+          hormonal: 'Con il contraccettivo ormonale non ci sono fasi: il sanguinamento, se c’è, dipende dalla pausa di pillola, anello o cerotto, oppure è irregolare con impianto, spirale ormonale o minipillola; non sono mestruazioni. Registra lo stesso se vuoi il calendario.',
           sinRegla: 'Più di 90 giorni senza mestruazioni, senza gravidanza né contraccettivo ormonale: fatti vedere. È il segnale che usano il CIO e le linee guida di salute femminile.',
           nota: { regla: 'Se c’è dolore o stanchezza, oggi va bene il minimo o abbassare di un punto lo sforzo. Altrimenti allenati uguale: il rendimento non dipende dalla fase. Ferro in tavola: legumi o carne rossa magra, con vitamina C.', folicular: 'Niente da cambiare: l’evidenza non trova differenze di forza né di adattamento per fase.', ovulatoria: 'I legamenti sono un po’ più lassi in questi giorni: atterra bene negli affondi e nei salti. Il piano non cambia.', lutea: 'Dispendio e appetito un po’ più alti (il 2-11%): il margine di oggi sale di circa 150 kcal. Il peso può salire per l’acqua: la media settimanale lo assorbe.', premenstrual: 'Voglie, sonno peggiore e un po’ di gonfiore sono normali in questi giorni. Non compensare, non pesarti ogni giorno e, se l’umore lo chiede, il minimo va bene.' },
           hRegla: 'Mestruazioni', hReglaSub: 'Segna i giorni di sanguinamento', hAbund: 'Sanguinamento abbondante', hAbundSub: 'Assorbente zuppo ogni 1-2 h: chiedi la ferritina',

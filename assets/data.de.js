@@ -1532,12 +1532,12 @@ window.B2P = (function () {
     },
     SUELO_PELVICO: {
       titulo: 'Beckenboden · 5′ · täglich',
-      intro: 'Das ist die Empfehlung mit der besten Evidenz von allen: täglich in der Schwangerschaft trainiert, senkt sie die Inkontinenz am Ende um 62 % und drei Monate nach der Geburt um 29 % (Cochrane 2020). Und niemand sieht dir an, dass du sie gerade machst.',
+      intro: 'Das ist die Empfehlung mit der besten Evidenz von allen: täglich in der Schwangerschaft trainiert, senkt sie die Inkontinenz am Ende um 62 % und 3-6 Monate nach der Geburt um 29 % (Cochrane 2020). Und niemand sieht dir an, dass du sie gerade machst.',
       bloques: [
         { id: 'suelo-pelvico', nombre: 'Lange und kurze Kontraktionen', donde: 'Jeden Tag, und nach jeder Einheit', detalle: '3 × 10 Kontraktionen von 6-8″, mit Atmung, dazwischen ganz loslassen; zum Schluss 5 schnelle von 1″. Sitzend, in Seitlage oder im Stehen: entscheidend ist, dass der Beckenboden arbeitet und nicht das Gesäß.' },
         { id: 'respiracion', nombre: 'Atmung und Core', donde: 'Vor jeder Last', detalle: 'Einatmen und die Rippen öffnen; beim Ausatmen hebt sich der Beckenboden und der Bauch zieht sanft ein. Dieses Muster steht vor jeder Kniebeuge und vor jedem Heben auf den Arm: das Baby, der Stuhl, der Einkauf.' }
       ],
-      nota: 'Bei Harnverlust, Schweregefühl, Vorwölbung oder Schmerz reicht das nicht: Abklärung in der Beckenboden-Physiotherapie. Die Leitlinien von 2025 empfehlen sie allen ab Woche 6 nach der Geburt.'
+      nota: 'Bei Harnverlust, Schweregefühl, Vorwölbung oder Schmerz reicht das nicht: Abklärung in der Beckenboden-Physiotherapie. Die Physiotherapie-Referenz (Goom 2019) empfiehlt sie allen ab Woche 6 nach der Geburt, und die Leitlinie von 2025 rät, die Technik mit einer Physiotherapeutin zu lernen.'
     },
     CALENTAMIENTO_EMB: {
       titulo: 'Aufwärmen · 6′ · immer',
@@ -1561,7 +1561,7 @@ window.B2P = (function () {
       { n: 2, t: 'Keine Bestleistungen', d: 'Hier steigen keine Kilos: hier wird gehalten. Kein Satz bis zum Versagen, kein Pressatmen beim Heben. Atme in der Anstrengung aus.' },
       { n: 3, t: 'Nichts in Rückenlage ab Woche 16', d: 'In Rückenlage drückt die Gebärmutter auf die untere Hohlvene und der Blutdruck fällt. Der Plan tauscht nur diese Übungen; wenn dir irgendwann schwindelig wird, wechsle die Position.' },
       { n: 4, t: 'Beckenboden täglich', d: '3 × 10 Kontraktionen jeden Tag. Das ist die Empfehlung mit der besten Evidenz in allen Leitlinien, und sie beugt der Inkontinenz nach der Geburt vor.' },
-      { n: 5, t: 'Hitze und Wasser', d: 'Trainiere an einem kühlen Ort, mit Wasser griffbereit und nie länger als 45 Minuten am Stück: mehr senkt den Blutzucker. Kein Hot Yoga, keine Sauna, kein Sport mit Fieber.' },
+      { n: 5, t: 'Hitze und Wasser', d: 'Trainiere an einem kühlen Ort und mit Wasser in Reichweite. Mehr als 45 Minuten am Stück können den Blutzucker senken: iss vorher etwas oder kürze die Einheit (ACOG). Kein Hot Yoga, keine Sauna, kein Training mit Fieber.' },
       { n: 6, t: 'Keine Stürze, keine Stöße', d: 'Raus: Kontakt- und Rückschlagsportarten, Rad draußen, Rollschuhe oder alles mit Sturzrisiko. Gehen, Schwimmen, Ergometer und dieses Krafttraining decken alles ab.' },
       { n: 7, t: 'Stopp und anrufen', d: 'Blutung, Bauchschmerzen, regelmäßige Wehen, Flüssigkeitsverlust, Atemnot in Ruhe, Schwindel, starke Kopfschmerzen, Brustschmerz, Schwäche oder Schmerz und Schwellung in einer Wade: an dem Tag wird nicht trainiert, sondern angerufen.' },
       { n: 8, t: 'Der Korridor steigt', d: 'Die Waage steigt, und sie muss steigen: {g} kg insgesamt für deinen BMI davor, etwa {r} kg pro Woche ab dem zweiten Trimester. Außerhalb davon sprichst du es beim Vorsorgetermin an; hier gibt es kein Defizit.' }
@@ -1581,7 +1581,7 @@ window.B2P = (function () {
       temas: [
         { t: 'Weniger Komplikationen', d: 'Bewegung allein senkt Schwangerschaftsdiabetes (OR 0,62), Schwangerschaftshochdruck (0,61) und Präeklampsie (0,59) über 106 Studien und 273.182 Frauen. Es reichen 140 Minuten pro Woche zügiges Gehen, Ergometer oder Kraft.', ref: 'Davenport et al., Br J Sports Med 2018' },
         { t: 'Kraft ja; schwer nicht automatisch', d: 'Die Leitlinien zählen Kraft mit Gewichten und Bändern zum Untersuchten und Sicheren. Bei 679 Kraftsportlerinnen, die weiter schwer geladen haben, waren die Ergebnisse normal: kein Hinweis auf Schaden bei denen, die es schon taten, und keiner auf Nutzen, jetzt damit anzufangen. Darum ist die Grenze: reden, ohne außer Atem zu kommen.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
-        { t: 'Der Beckenboden lässt sich trainieren', d: 'Ihn in der Schwangerschaft zu trainieren senkt die Inkontinenz am Ende der Schwangerschaft um 62 % und drei Monate nach der Geburt um 29 %, bei Frauen ohne vorherigen Harnverlust. Das ist die Maßnahme mit der besten Evidenz im ganzen Plan.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'Der Beckenboden lässt sich trainieren', d: 'Ihn in der Schwangerschaft zu trainieren senkt die Inkontinenz am Ende der Schwangerschaft um 62 % und 3-6 Monate nach der Geburt um 29 %, bei Frauen ohne vorherigen Harnverlust. Das ist die Maßnahme mit der besten Evidenz im ganzen Plan.', ref: 'Woodley et al., Cochrane 2020' },
         { t: 'Wie viel zunehmen und wie viel Protein', d: 'Die erwartete Zunahme hängt vom BMI davor ab (IOM 2009), und der mit Isotopen gemessene echte Proteinbedarf liegt bei 1,2 g/kg am Anfang und 1,5 am Ende, weit über dem offiziellen Wert von 0,88. Der Plan verlangt 1,4 und 1,6 auf das Gewicht davor.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
       ]
     },
@@ -1613,8 +1613,8 @@ window.B2P = (function () {
         ppSpT: 'Merkst du eines davon?', ppSpP: 'Das sind Beckenboden-Signale. Sie stoppen den Plan nicht: sie bremsen den Aufprall und verlangen Physiotherapie.',
         ppSp: { orina: 'Urinverlust beim Husten, Lachen oder Springen', pesadez: 'Schweregefühl, Vorwölbung oder Druck in der Scheide', dolor: 'Schmerz im Becken oder beim Sex', bulto: 'Vorwölbung am Bauch beim Aufrichten' },
         ppSpNo: 'Keine',
-        ppRiesgoT: 'Trifft eines davon jetzt zu?', ppRiesgoP: 'Das sind die Kontraindikationen der Leitlinie von 2025. Ist eine angekreuzt, braucht es das Okay deiner Ärztin.',
-        ppR: { sangrado: 'Wochenfluss, der bei Belastung zunimmt', dolor: 'Starke Bauchschmerzen', fiebre: 'Fieber oder Infektion', tension: 'Unkontrollierter Bluthochdruck', pantorrilla: 'Schmerz oder Schwellung in einer Wade', cicatriz: 'Narbenschmerz, der bei Bewegung schlimmer wird', mareo: 'Schwindel oder Ohnmacht' },
+        ppRiesgoT: 'Trifft eines davon jetzt zu?', ppRiesgoP: 'Das sind die relativen Kontraindikationen der Leitlinie von 2025. Ist eine angekreuzt, braucht es das Okay deiner Ärztin.',
+        ppR: { sangrado: 'Wochenfluss, der bei Belastung zunimmt', dolor: 'Starke Bauchschmerzen', fiebre: 'Fieber oder Infektion', tension: 'Unkontrollierter Bluthochdruck', pantorrilla: 'Schmerz oder Schwellung in einer Wade', cicatriz: 'Narbenschmerz, der bei Bewegung schlimmer wird', mareo: 'Schwindel oder Ohnmacht', ahogo: 'Atemnot in Ruhe' },
         ppRiesgoNo: 'Keine',
         gatePpT: 'Deine Rückbildung bestimmt', gatePpTxt: 'Du hast eine Kontraindikation der Leitlinie von 2025 angekreuzt. Der Plan entsteht, sobald deine Ärztin oder Hebamme dir das Okay gegeben hat.',
         cicloT: 'Dein Zyklus', cicloP: 'Optional. Dient dazu, die Periode zu protokollieren und vorherzusagen, und die Waage und die schwachen Tage besser zu lesen. Es ändert den Plan nicht nach Phasen: die Evidenz trägt das nicht.',
@@ -1639,12 +1639,12 @@ window.B2P = (function () {
             { id: 'yodo', t: 'Jod', d: '200 µg am Tag in Schwangerschaft und Stillzeit (EFSA). Wenn du keine 3 Portionen Milchprodukte und jodiertes Salz am Tag schaffst, verordnet es deine Hebamme als Kaliumjodid.' },
             { id: 'omega-3', t: 'DHA', d: '100-200 mg DHA am Tag zusätzlich zum fetten Seefisch (EFSA). Mit 3-4 Portionen Fisch pro Woche reicht es meist.' },
             { id: 'vitamina-d', t: 'Vitamin D', d: '15 µg am Tag als Referenzwert. Supplementiert wird nur, wenn das Blutbild es verlangt.' },
-            { id: 'hierro', t: 'Eisen', d: 'Kein Extra nach Schema: die fehlende Periode und die höhere Aufnahme decken es. Nur, wenn dein Blutbild es sagt.' },
+            { id: 'hierro', t: 'Eisen', d: 'Kein Extra nach Schema: die Leitlinie des spanischen Ministeriums empfiehlt es nicht allen. Nur, wenn dein Blutbild es sagt.' },
             { id: 'cafeina', t: 'Koffein', d: 'Grenze 200 mg am Tag, Kaffee, Tee, Cola und Energydrinks zusammengerechnet. Ein großer Kaffee ist schon die Hälfte.' },
-            { id: 'no', t: 'Jetzt nicht', d: 'Kreatin (keine Studien in der Schwangerschaft: fang jetzt nicht damit an), Fatburner, Pre-Workouts, Vitamin A über 2.500 IE und Kräuter „für die Schwangerschaft“. Nichts, was dir deine Hebamme nicht verordnet hat.' }
+            { id: 'no', t: 'Jetzt nicht', d: 'Kreatin (keine Studien in der Schwangerschaft: fang jetzt nicht damit an), Fatburner, Pre-Workouts, Vitamin A als Retinol über 3.000 µg (10.000 IE) am Tag (eine Portion Leber liegt schon darüber) und Kräuter „für die Schwangerschaft“. Nichts, was dir deine Hebamme nicht verordnet hat.' }
           ],
           seguridad: 'Nicht auf dem Speiseplan: roher Fisch, rohe Meeresfrüchte und gekühlte Räucherware; Rohmilchkäse und Rohmilch; gekühlte Pasteten und Sprossen; rohes oder weiches Ei; roher Schinken und rohe Wurst, außer durchgegart; Schwertfisch, Hai, Roter Thun und Hecht. Fleisch bis 71 °C im Kern garen; Reste auf über 75 °C erhitzen; Kühlschrank auf 4 °C oder kälter; Obst und Gemüse gründlich waschen.',
-          jamon: 'Luftgetrockneter Schinken: AESAN listet ihn zum Meiden, außer durchgegart. 48 h bei −20 °C einfrieren inaktiviert Toxoplasmen, aber nicht Listerien. Wenn du ihn isst: durchgegart, und nie abgepackt in Scheiben.',
+          jamon: 'Luftgetrockneter Schinken: AESAN listet ihn zum Meiden, außer durchgegart. 48 h bei −20 °C einfrieren inaktiviert Toxoplasmen, aber nicht Listerien. Wenn du ihn isst: durchgegart, und nie abgepackt in Scheiben. Zeigt dein Blutbild aus dem ersten Trimester, dass du gegen Toxoplasmen schon immun bist, sperrt AESAN ihn deswegen nicht; abgepackte Scheiben bleiben wegen Listerien tabu.',
           hito14T: 'Zweites Trimester', hito14D: 'Meist kommt die Energie zurück. Wenn du Lust hast, zieh das Tempo etwas an, nie über die Grenze, an der du noch reden kannst.',
           hito16T: 'Ab heute nichts in Rückenlage', hito16D: 'Der Plan hat Glute Bridge, Dead Bug und Flachbankdrücken schon durch Varianten im Stehen, schräg oder im Vierfüßlerstand ersetzt. Wenn dir im Liegen schwindelig wird, wechsle sofort die Position.',
           hito28T: 'Drittes Trimester', hito28D: 'Kürzere Einheiten und mit Stütze. Der Schwerpunkt ist nicht mehr der von früher: nichts, was von der Balance abhängt. Wenn du gelaufen bist, gehst du ab heute.',
@@ -1655,7 +1655,7 @@ window.B2P = (function () {
           logroFinD: 'Plan bis zur Geburt abgeschlossen. Jetzt kommt die Zeit nach der Geburt: die App ändert sich mit dir.'
         },
         pp: {
-          kcalNotaLact: 'Dein Verbrauch plus {k} kcal fürs Stillen{d}. Boden bei 1.800 kcal: darunter sinkt die Milch eher als das Fett.',
+          kcalNotaLact: 'Dein Verbrauch plus {k} kcal fürs Stillen{d}. Boden bei 1.800 kcal: darunter garantiert die Evidenz die Milch nicht mehr.',
           kcalNota: '{d}. Vor Woche 6 Erhaltung: erst heilen.',
           defTxt: ', minus {v} kcal Defizit ab Woche 6', mantTxt: 'Erhaltung',
           fila1: 'Rückbildung und Reaktivierung (bis zur Nachuntersuchung)', fila2: 'Basis (von der Nachuntersuchung bis Woche 12)', fila3: 'Aufbau (ab Woche 12)',
@@ -1671,7 +1671,7 @@ window.B2P = (function () {
             { id: 'cafeina', t: 'Koffein', d: 'Beim Stillen Grenze 200 mg am Tag und nie nach 14 Uhr: das Baby merkt es auch.' },
             { id: 'no', t: 'Kein Geld für', d: 'Fatburner, „Rückbildungs-Booster“, Bauchgurte, die versprechen, die Rektusdiastase zu schließen, und Kreatin bis zum Abstillen. Bewegen die Nadel nicht.' }
           ],
-          hito6T: 'Nachuntersuchung und Beckenboden', hito6D: 'Nach der Nachuntersuchung in Woche 6 eine Abklärung in der Beckenboden-Physiotherapie, auch wenn du nichts merkst: die Leitlinien von 2025 empfehlen sie allen.',
+          hito6T: 'Nachuntersuchung und Beckenboden', hito6D: 'Nach der Nachuntersuchung in Woche 6 eine Abklärung in der Beckenboden-Physiotherapie, auch wenn du nichts merkst: die Physiotherapie-Referenz von 2019 empfiehlt sie allen, und die Leitlinie von 2025 rät, die Technik mit einer Physiotherapeutin zu lernen.',
           hito8T: 'Die Narbe', hito8D: 'Kaiserschnitt: wenn sie geschlossen und trocken ist, verhindert tägliches Massieren, dass sie verklebt. Weiterhin nichts, was an ihr zieht.',
           hito12T: 'Aufprall: die Checkliste', hito12D: 'Ab heute kannst du ans Laufen denken, wenn du die Checkliste in HEUTE ohne Harnverlust und ohne Schweregefühl bestehst. Ohne Eile: 3 bis 6 Monate sind normal.',
           cierre: 'Plan nach der Geburt am {f} beendet. Der nächste Block beginnt, wo dieser endet: Einstellungen › Meinen Plan erstellen / neu machen, jetzt als der normale Plan.',
@@ -1685,7 +1685,7 @@ window.B2P = (function () {
           fase: { regla: 'Periode', folicular: 'Follikelphase', ovulatoria: 'geschätzter Eisprung', lutea: 'Lutealphase', premenstrual: 'Lutealphase · prämenstruell', retraso: 'Periode überfällig' },
           linea: 'Zyklus · Tag {d} · {f}', proxima: 'Periode erwartet am {f} (±{m} Tage)', proximaHoy: 'Periode heute oder morgen erwartet', retraso: '{n} Tage über dem erwarteten Termin',
           irregular: 'Zyklen mit mehr als 9 Tagen Schwankung: keine Vorhersage. Protokolliere die Periode, und wenn sie wiederholt aus 24-38 Tagen fällt, sprich mit deiner Ärztin.',
-          hormonal: 'Mit hormoneller Verhütung gibt es keine Phasen: die Blutung kommt von der Pillenpause, sie ist keine Periode. Protokolliere trotzdem, wenn du den Kalender willst.',
+          hormonal: 'Mit hormoneller Verhütung gibt es keine Phasen: die Blutung, falls es eine gibt, kommt von der Pause bei Pille, Ring oder Pflaster oder ist mit Implantat, Hormonspirale oder Minipille unregelmäßig; sie ist keine Periode. Protokolliere trotzdem, wenn du den Kalender willst.',
           sinRegla: 'Mehr als 90 Tage ohne Periode, ohne Schwangerschaft und ohne hormonelle Verhütung: lass es abklären. Das ist das Signal, das das IOC und die Leitlinien zur Frauengesundheit nutzen.',
           nota: { regla: 'Bei Schmerz oder Müdigkeit reicht heute das Minimum oder eine Stufe weniger Anstrengung. Sonst trainiere normal: die Leistung hängt nicht von der Phase ab. Eisen auf den Tisch: Hülsenfrüchte oder mageres rotes Fleisch, mit Vitamin C.', folicular: 'Nichts zu ändern: die Evidenz findet keine Unterschiede in Kraft oder Anpassung nach Phase.', ovulatoria: 'Die Bänder sind in diesen Tagen etwas lockerer: lande sauber bei Ausfallschritten und Sprüngen. Der Plan bleibt gleich.', lutea: 'Verbrauch und Appetit etwas höher (2-11 %): der Spielraum heute steigt um etwa 150 kcal. Das Gewicht kann durch Wasser steigen: der Wochenschnitt fängt das auf.', premenstrual: 'Heißhunger, schlechterer Schlaf und etwas Wassereinlagerung sind in diesen Tagen normal. Kompensiere nicht, wieg dich nicht jeden Tag, und wenn die Laune es verlangt, reicht das Minimum.' },
           hRegla: 'Periode', hReglaSub: 'Markiere die Blutungstage', hAbund: 'Starke Blutung', hAbundSub: 'Alle 1-2 h durchgeblutet: Ferritin bestimmen lassen',

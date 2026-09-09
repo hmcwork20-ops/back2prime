@@ -31,6 +31,7 @@ const SUITES = [
   ['compra',      'una lista para el super: por producto, por seccion, sin repetir'],
   ['pictos',      'el dibujo de la fila no pide material que el ejercicio no usa'],
   ['nube',        'qué copia manda al arrancar: el vacío no pisa, los registros se unen'],
+  ['mujer',       'embarazo por semana de gestación, posparto por semanas desde el parto, ciclo con predicción honesta'],
 ];
 
 console.log('');

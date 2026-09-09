@@ -78,6 +78,64 @@ window.B2P_GEN = (function () {
   function addD(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
   function corta(d, meses) { return d.getDate() + ' ' + meses[d.getMonth()]; }
 
+  /* ---------- etapa: embarazo y posparto ----------
+     Las dos se anclan a una fecha guardada en el perfil (la fecha probable
+     de parto o la del parto), nunca al reloj: el plan se regenera en cada
+     arranque y todo lo que se recalcule desde «hoy» se mueve solo. */
+  const ETAPA = p => (p && (p.etapa === 'embarazo' || p.etapa === 'posparto')) ? p.etapa : null;
+  const diasEntre = (a, b) => Math.round((mediodia(b) - mediodia(a)) / 864e5);
+  // semana de gestación en la fecha d: 40 menos las semanas que faltan para la FPP
+  function semanaGestacion(fpp, d) { const f = fecha(fpp); return f ? 40 - Math.floor(diasEntre(d, f) / 7) : null; }
+  function semanasPosparto(parto, d) { const f = fecha(parto); return f ? Math.floor(diasEntre(f, d) / 7) : null; }
+  function fppDe(creado, semana) { const c = fecha(creado); return (c && semana) ? iso(addD(c, (40 - semana) * 7)) : null; }
+  // fase del plan por semana de gestación: 1-13, 14-27, 28-36, 37+
+  const faseEmb = g => g <= 13 ? 1 : g <= 27 ? 2 : g <= 36 ? 3 : 4;
+  // cortes del posparto en semanas desde el parto; la cesárea suma dos a cada uno
+  const cortesPP = p => (p && p.partoTipo === 'cesarea') ? [4, 8, 14] : [2, 6, 12];
+  /* Ganancia de peso esperada por IMC previo (IOM 2009, en kg): total al
+     término y, de ahí, el ritmo que lo cumple desde la semana 13 (0,5-2 kg
+     en el primer trimestre, según la propia tabla). */
+  const IOM = [[18.5, 12.5, 18], [25, 11.5, 16], [30, 7, 11.5], [Infinity, 5, 9]];
+  const iomDe = imc => IOM.find(r => imc < r[0]) || IOM[3];
+  function gananciaEsperada(imc, g) {
+    const r = iomDe(imc), w = Math.min(40, Math.max(0, g));
+    if (w <= 13) return [0.5 * w / 13, 2 * w / 13];
+    return [0.5 + (r[1] - 0.5) * (w - 13) / 27, 2 + (r[2] - 2) * (w - 13) / 27];
+  }
+  const ritmoIOM = imc => { const r = iomDe(imc); return [(r[1] - 0.5) / 27, (r[2] - 2) / 27]; };
+  /* peso previo al embarazo: el declarado, o el actual descontando la
+     ganancia media esperada hasta la semana en que se respondió */
+  function pesoPreDe(p) {
+    if (p.pesoPre) return p.pesoPre;
+    const g = semanaGestacion(p.fpp, fecha(p.creado) || new Date());
+    if (!g || g <= 13) return p.pesoKg;
+    const imc = p.pesoKg / Math.pow(p.alturaCm / 100, 2);
+    const e = gananciaEsperada(imc, g);
+    return Math.round((p.pesoKg - (e[0] + e[1]) / 2) * 10) / 10;
+  }
+  /* Qué no se hace en el embarazo, y desde cuándo. Por id, no por patrón:
+     el patrón «core» tiene versiones tumbadas y versiones de pie.
+       · nunca: flexión de tronco cargada, inversiones, equilibrio a una
+         pierna sin apoyo, nórdico, plancha con lastre, colgarse;
+       · desde la fase 2 (semana 14; la guía dice 16): tumbada boca arriba
+         o boca abajo, y el pike (cabeza por debajo del corazón);
+       · desde la fase 3 (semana 28): plancha y flexiones en el suelo, que
+         pasan a inclinadas. */
+  const EMB_NUNCA = ['crunch-polea', 'crunch-inverso', 'elev-piernas', 'elev-piernas-suelo', 'rueda-abdominal',
+    'pino-pared', 'pistol-asistida', 'zancada-bulgara', 'zancada-bulgara-pc', 'curl-nordico', 'plancha-lastre',
+    'dominadas', 'flexion-declinada', 'hip-thrust'];
+  const EMB_DESDE2 = ['press-banca', 'press-plano-mc', 'puente-gluteo', 'puente-1p', 'dead-bug', 'curl-femoral-tumbado',
+    'superman', 'elev-y-suelo', 'pike-flexiones', 'press-frances'];
+  const EMB_DESDE3 = ['plancha', 'plancha-lateral', 'flexiones', 'flexion-diamante'];
+  function tocaEmbarazo(base, ejId, fase) {
+    if (EMB_NUNCA.includes(ejId)) return true;
+    if (fase >= 2 && EMB_DESDE2.includes(ejId)) return true;
+    if (fase >= 3 && EMB_DESDE3.includes(ejId)) return true;
+    return false;
+  }
+  // los deportes del mazo que el embarazo deja fuera: contacto, raqueta, caída
+  const EMB_DEP_NO = ['padel', 'futbol', 'baloncesto', 'volley', 'boxeo', 'calistenia'];
+
   /* ---------- material y sustituciones ----------
      El material se decide por ID, no por el texto del campo `equipo`: ese
      texto se traduce («Polea alta» → «Lat pulldown» → «Polia alta») y con él
@@ -175,7 +233,7 @@ window.B2P_GEN = (function () {
   /* La sustitución respeta el PATRÓN de movimiento (una bisagra se cambia por
      otra bisagra, no por una sentadilla más), no repite ejercicio dentro de la
      sesión, y tus «me gusta» del mazo van primero en la cola de candidatos. */
-  function eligeSub(base, id, p, noQuiero, likes, ocupados) {
+  function eligeSub(base, id, p, noQuiero, likes, ocupados, excluye) {
     const e = base.EJERCICIOS[id]; if (!e) return id;
     /* Cuántas veces sale ya ese ejercicio en la sesión. Acepta el Map con
        cuentas y, por compatibilidad, un Set de toda la vida. */
@@ -187,6 +245,7 @@ window.B2P_GEN = (function () {
       const c = base.EJERCICIOS[k];
       if (!equipoValeId(base, k, p.material)) continue;
       if (noQuiero.has('ej:' + k)) continue;
+      if (excluye && excluye(k)) continue;           // lo que la etapa no permite
       /* El mismo patrón no basta si cambia la zona: «aislamiento» agrupa
          rotación de hombro, encogimientos, abducción de cadera y curl femoral,
          y sin esta condición el hueco del curl femoral se llenaba con una
@@ -253,6 +312,7 @@ window.B2P_GEN = (function () {
     /* el nombre del cardio ya no cita semanas del plan del dueño:
        «Caminar-trotar S3» pasa a I/II/III */
     const wjNombre = { wj3: G.wjN1, wj4: G.wjN2, wj5: G.wjN3 };
+    const et = ETAPA(p);
     for (const id of Object.keys(base.SESIONES)) {
       const s = base.SESIONES[id];
       if (!s.bloques) {
@@ -260,6 +320,12 @@ window.B2P_GEN = (function () {
         continue;
       }
       const c = Object.assign({}, s);
+      /* En el embarazo, una sustitución (por material, lesión o gusto) no
+         puede caer en algo que la etapa prohíbe: el hueco del press militar
+         sin material iba al pino en la pared. La fase la dice el id de la
+         sesión (emb1/emb2/emb3), que es como se sabe la semana sin reloj. */
+      const faseEmbS = et === 'embarazo' ? (/^emb(\d)/.exec(id) ? +RegExp.$1 : 3) : 0;
+      const excluye = et === 'embarazo' ? (k => tocaEmbarazo(base, k, faseEmbS)) : null;
       if (s.bloques.length > maxBloques) {
         c.bloques = s.bloques.slice(0, maxBloques);
         const tendon = s.bloques.find(b => b.e === 'elev-talones');
@@ -280,7 +346,7 @@ window.B2P_GEN = (function () {
         if (necesitaSub) {
           const quedan = (enSesion.get(b.e) || 1) - 1;   // este bloque deja de ocupar
           if (quedan > 0) enSesion.set(b.e, quedan); else enSesion.delete(b.e);
-          const sub = eligeSub(base, b.e, p, noQuiero, likes, enSesion);
+          const sub = eligeSub(base, b.e, p, noQuiero, likes, enSesion, excluye);
           // la nota vieja hablaba del ejercicio viejo; el contador solo cuenta lo que el calendario usa
           if (sub !== b.e) {
             nb.e = sub; nb.n = null;
@@ -323,7 +389,9 @@ window.B2P_GEN = (function () {
        si no hay más deportes, el cardio se queda en caminata (cam*) */
     const CON_MATERIAL = ['natacion', 'ciclismo'];
     const idsGustados = ((p.gustos && p.gustos.like) || []).filter(k => k.startsWith('dep:')).map(k => k.slice(4));
-    const idsCardio = idsGustados.filter(id => id !== 'running' && !CON_MATERIAL.includes(id));
+    // en el embarazo no hay «lo tuyo» con contacto, raqueta o riesgo de caída
+    const idsCardio = idsGustados.filter(id => id !== 'running' && !CON_MATERIAL.includes(id)
+      && !(et === 'embarazo' && EMB_DEP_NO.includes(id)));
     const deps = idsCardio.map(id => ((base.QUIZ_DEP || []).find(x => x.id === id) || {}).n).filter(Boolean);
     if (deps.length) {
       S['cardio-libre'] = {
@@ -345,6 +413,20 @@ window.B2P_GEN = (function () {
      que es donde el motor sabe periodizar). Antes se preguntaba el evento,
      se enseñaba en el reveal con «la fecha manda»… y no movía ni un número. */
   function semanasDe(p) {
+    const et = ETAPA(p);
+    if (et === 'embarazo') {
+      // hasta la fecha probable de parto sin pasarse de ella, de 2 a 40 semanas
+      const f = fecha(p.fpp);
+      const w = f ? Math.floor((diasEntre(fechaInicio(p), f) + 1) / 7) : 12;
+      return Math.min(40, Math.max(2, w));
+    }
+    if (et === 'posparto') {
+      /* con menos de 12 semanas desde el parto (14 con cesárea) el plan es
+         la recuperación hasta ahí más un bloque de 12 de construcción; con
+         más, el plan de siempre */
+      const wp0 = semanasPosparto(p.parto, fechaInicio(p)), c = cortesPP(p);
+      if (wp0 !== null && wp0 < c[2]) return (c[2] - wp0) + 12;
+    }
     const w = semanasHastaEvento(p);
     if (w) return w;
     return p.duracionSem === 24 ? 24 : p.duracionSem === 48 ? 48 : 12;
@@ -368,11 +450,12 @@ window.B2P_GEN = (function () {
     return likes.map(id => { const dep = (base.QUIZ_DEP || []).find(x => x.id === id); return dep && dep.n; }).filter(Boolean);
   }
   function calGen(base, p) {
+    const et = ETAPA(p);
     const gustaCorrer = ((p.gustos && p.gustos.like) || []).includes('dep:running');
     // mismo criterio que la sesión: solo deportes que no exigen material extra
     const CON_MAT = ['running', 'natacion', 'ciclismo'];
     const otrosDeportes = ((p.gustos && p.gustos.like) || [])
-      .filter(k => k.startsWith('dep:') && !CON_MAT.includes(k.slice(4))).length > 0;
+      .filter(k => k.startsWith('dep:') && !CON_MAT.includes(k.slice(4)) && !(et === 'embarazo' && EMB_DEP_NO.includes(k.slice(4)))).length > 0;
     /* quien ya entrena no pasa por el sofá-a-5k: entra directo al trote */
     const cardio = fase => gustaCorrer
       ? (p.historial === 'activo' ? (fase <= 2 ? 'trote25' : 'trote30')
@@ -386,18 +469,75 @@ window.B2P_GEN = (function () {
       5: ['push-a', 'pull-a', 'legs', 'push-b', 'pull-b'],
       6: ['push-a', 'pull-a', 'legs', 'push-b', 'pull-b', 'legs']
     };
-    const dias = Math.min(6, Math.max(2, p.diasSemana || 4));
+    // el embarazo se queda en 2-4 días de fuerza: más no lo pide ninguna guía
+    const dias = Math.min(et === 'embarazo' ? 4 : 6, Math.max(2, p.diasSemana || 4));
     const split = SPLITS[dias];
     // patrón semanal: dónde caen fuerza (F), cardio (C), opcional (O) y libre
-    const PATRON = {
+    const PATRON_DE = {
       2: ['F0', 'C', 'libre', 'F1', 'C', 'O', 'libre'],
       3: ['F0', 'C', 'F1', 'C', 'F2', 'O', 'libre'],
       4: ['F0', 'F1', 'C', 'F2', 'F3', 'C', 'libre'],
       5: ['F0', 'F1', 'C', 'F2', 'F3', 'F4', 'libre'],
       6: ['F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'libre']
-    }[dias];
+    };
+    const PATRON = PATRON_DE[dias];
     const ST = semanasDe(p), cortes = cortesDe(ST);
     const CAL = [];
+    const ini = fechaInicio(p);
+    /* Embarazo: cada semana del plan sabe su semana de gestación (por la FPP,
+       no por el reloj) y de ahí salen la fase y la plantilla. El trote solo
+       sigue en quien ya corría, y hasta la semana 28. */
+    if (et === 'embarazo') {
+      for (let w = 1; w <= ST; w++) {
+        const g = semanaGestacion(p.fpp, addD(ini, (w - 1) * 7));
+        const fase = faseEmb(g);
+        const templ = 'emb' + Math.min(3, fase);
+        const cardioEmb = (gustaCorrer && p.historial === 'activo' && g < 28) ? 'trote25' : 'cam40';
+        let fIdx = 0;
+        const diasSemana = PATRON.map(slot => {
+          if (slot === 'libre') return 'libre';
+          if (slot === 'C') return cardioEmb;
+          if (slot === 'O') return { s: 'cam40', opt: true };
+          return templ + (fIdx++ % 2 === 0 ? '-a' : '-b');
+        });
+        CAL.push({ n: w, fase, g, dias: diasSemana });
+      }
+      return CAL;
+    }
+    /* Posparto: las semanas desde el parto mandan. Recuperación (0-2),
+       Reconexión (2-6) y Base (6-12) con dos semanas más por tramo si hubo
+       cesárea; después, construcción con el split del perfil. El trote solo
+       entra con la lista de comprobación superada. */
+    if (et === 'posparto') {
+      const c = cortesPP(p);
+      const wp0 = semanasPosparto(p.parto, ini);
+      const largo = wp0 !== null && wp0 < c[2];
+      for (let w = 1; w <= ST; w++) {
+        const wp = wp0 + w - 1;
+        let fase, fuerza, cardioPP;
+        if (largo && wp < c[0]) { fase = 1; fuerza = () => 'pp-a'; cardioPP = 'pp-paseo'; }
+        else if (largo && wp < c[1]) { fase = 2; fuerza = () => 'pp-b'; cardioPP = 'cam40'; }
+        else if (largo && wp < c[2]) { fase = 3; fuerza = i => i % 2 === 0 ? 'c-a' : 'c-b'; cardioPP = 'cam40'; }
+        else {
+          fase = largo ? 4 : faseDe(w, cortes);
+          const enCasa = !largo && fase === 1 && p.historial !== 'activo';
+          fuerza = i => enCasa ? (i % 2 === 0 ? 'c-a' : 'c-b') : split[i % split.length];
+          const base2 = cardio(largo ? 3 : fase);
+          cardioPP = (p.correrOk || !/^(wj|trote)/.test(base2)) ? base2 : (fase <= 2 ? 'cam40' : 'cam60');
+        }
+        let fIdx = 0;
+        // en recuperación, tres sesiones cortas como mucho; el resto, lo pedido
+        const patron = (largo && fase === 1) ? PATRON_DE[Math.min(3, dias)] : PATRON;
+        const diasSemana = patron.map(slot => {
+          if (slot === 'libre') return 'libre';
+          if (slot === 'C') return cardioPP;
+          if (slot === 'O') return { s: cardioPP, opt: true };
+          return fuerza(fIdx++);
+        });
+        CAL.push({ n: w, fase, wp, dias: diasSemana, descarga: (!largo && w % 9 === 0 && w < ST) || undefined });
+      }
+      return CAL;
+    }
     for (let w = 1; w <= ST; w++) {
       const fase = faseDe(w, cortes);
       // reactivación en casa al principio, salvo quien ya entrena
@@ -424,11 +564,33 @@ window.B2P_GEN = (function () {
      El cribado solo si se vuelve de años parado; el diet break solo si el plan
      recorta; la descarga siempre que toque. La transición a 5 días del plan
      original no existe aquí: el split no cambia a mitad de camino. */
-  function hitosGen(base, p, nutri) {
+  function hitosGen(base, p, nutri, cal) {
     const G = base.UI.gen || {};
     const ST = semanasDe(p), cortes = cortesDe(ST);
     const fmt = n => n.toLocaleString(base.UI.lang || 'es');
     const H = {};
+    const et = ETAPA(p);
+    /* Las etapas tienen hitos propios, por semana de gestación o desde el
+       parto, y ninguno de los del plan normal: ni descarga, ni diet break,
+       ni cribado (ese ya lo lleva su obstetra). */
+    if (et === 'embarazo') {
+      const E = G.emb || {};
+      (cal || []).forEach(wk => {
+        [[14, 'hito14'], [16, 'hito16'], [28, 'hito28'], [36, 'hito36']].forEach(par => {
+          if (wk.g === par[0] && E[par[1] + 'T']) H[wk.n] = { t: E[par[1] + 'T'], d: E[par[1] + 'D'], tipo: 'emb' };
+        });
+      });
+      return H;
+    }
+    if (et === 'posparto') {
+      const P = G.pp || {}, c = cortesPP(p);
+      (cal || []).forEach(wk => {
+        if (wk.wp === 6 && P.hito6T) H[wk.n] = { t: P.hito6T, d: P.hito6D, tipo: 'pp' };
+        if (wk.wp === 8 && p.partoTipo === 'cesarea' && P.hito8T) H[wk.n] = { t: P.hito8T, d: P.hito8D, tipo: 'pp' };
+        if (wk.wp === c[2] && P.hito12T) H[wk.n] = { t: P.hito12T, d: P.hito12D, tipo: 'pp' };
+      });
+      return H;
+    }
     if (p.historial !== 'activo') {
       const w = Math.min(cortes[1], Math.max(3, Math.round(ST * 5 / 12)));
       H[w] = { t: G.hitoCribadoT, d: G.hitoCribadoD, tipo: 'cribado' };
@@ -450,22 +612,64 @@ window.B2P_GEN = (function () {
     const N = JSON.parse(JSON.stringify(base.NUTRI));
     const G = base.UI.gen || {};
     const tpl = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => o[k] !== undefined ? o[k] : m);
-    const bmr = Math.round(mifflin(p) / 10) * 10;
-    const t = Math.round(tdee(p) / 10) * 10;
-    const k = kcalObjetivo(p);
-    const m = macros(p, k);
     const fmt = n => n.toLocaleString(base.UI.lang || 'es');
+    const et = ETAPA(p);
+    /* Etapa: el gasto se calcula sobre el peso que toca (el previo al
+       embarazo) y las tres filas de la tabla no son fases del plan sino
+       tramos de la etapa. `filaDeFase` dice qué fila lee cada fase. */
+    const pRef = et === 'embarazo' ? Object.assign({}, p, { pesoKg: pesoPreDe(p) }) : p;
+    const bmr = Math.round(mifflin(pRef) / 10) * 10;
+    const t = Math.round(tdee(pRef) / 10) * 10;
+    let k = kcalObjetivo(p);
+    let m = macros(p, k);
+    let filas = [k, k + 50, k + 100].map(v => ({ kcal: v, p: m.p, g: m.g }));   // leve subida con el volumen
+    let filaDeFase = [0, 0, 1, 2], etiquetas = null, notas = null;
+    const E = G.emb || {}, P = G.pp || {};
+    let extraPP = 0, defPP = 0, lact = false;
+    if (et === 'embarazo') {
+      /* EFSA 2013: +70, +260 y +500 kcal por trimestre sobre el gasto previo.
+         Proteína: 1,4 g/kg de peso previo y 1,6 en el tercero, por encima de
+         la necesidad media medida (1,22 y 1,52; Stephens 2015). Sin déficit. */
+      const pp = pesoPreDe(p);
+      filas = [70, 260, 500].map((v, i) => ({ kcal: Math.round((t + v) / 5) * 5, p: Math.round(pp * (i === 2 ? 1.6 : 1.4)), g: Math.round(pp * 0.9), inc: v }));
+      filaDeFase = [0, 1, 2, 2];
+      const g0 = semanaGestacion(p.fpp, fechaInicio(p)) || 1;
+      const i0 = filaDeFase[faseEmb(g0) - 1];
+      k = filas[i0].kcal; m = { p: filas[i0].p, g: filas[i0].g, c: 0 };
+      etiquetas = [E.fila1, E.fila2, E.fila3]; notas = [E.nota1, E.nota2, E.nota3];
+    } else if (et === 'posparto') {
+      /* Lactancia: +450 kcal los seis primeros meses (entre EFSA +500 y NASEM
+         +400) y +300 después; proteína 1,6 g/kg. El déficit, si lo hay,
+         espera a la semana 6 y no pasa de 500 (Lovelady 2000), con suelo de
+         1.800 kcal mientras dure la lactancia. */
+      const c = cortesPP(p);
+      const wp0 = semanasPosparto(p.parto, fechaInicio(p)) || 0;
+      lact = !!p.lactancia;
+      extraPP = lact ? (wp0 < 26 ? 450 : 300) : 0;
+      defPP = p.objetivo === 'perder' ? 500 : p.objetivo === 'recomp' ? 400 : 0;
+      const suelo = v => Math.max(v, lact ? 1800 : Math.max(mifflin(p) * 1.05, t * 0.75));
+      const conDef = Math.round(suelo(t + extraPP - defPP) / 5) * 5, sinDef = Math.round(suelo(t + extraPP) / 5) * 5;
+      const prot = lact ? Math.round(p.pesoKg * 1.6) : m.p;
+      const largo = wp0 < c[2];
+      filas = (largo ? [sinDef, conDef, conDef + 50] : [conDef, conDef + 50, conDef + 100]).map(v => ({ kcal: v, p: prot, g: m.g }));
+      k = filas[0].kcal; m = { p: prot, g: m.g, c: 0 };
+      if (largo) etiquetas = [P.fila1, P.fila2, P.fila3];
+    }
+    N.filaDeFase = filaDeFase;
     // la toma mínima por comida sale de TU proteína, no de la del dueño
     const qMin = Math.max(20, Math.round(m.p / 4 * 0.85 / 5) * 5);
     if (N.tomas) N.tomas = tpl(N.tomas, { q: qMin });
     // las dos plantillas que se colaban crudas o con el 12 del dueño
-    if (N.escalado) N.escalado = tpl(N.escalado, { p: m.p });
-    if (N.comidaLibre) N.comidaLibre = tpl(N.comidaLibre, { s: semanasDe(p) });
+    if (N.escalado) N.escalado = tpl((et === 'embarazo' && E.escalado) || (et === 'posparto' && lact && P.escalado) || N.escalado, { p: m.p });
+    if (N.comidaLibre) N.comidaLibre = tpl((et === 'embarazo' && E.comidaLibre) || (et === 'posparto' && P.comidaLibre) || N.comidaLibre, { s: semanasDe(p) });
+    if (et === 'embarazo' && E.hidratacion) N.hidratacion = E.hidratacion;
+    if (et === 'posparto' && P.hidratacion) N.hidratacion = P.hidratacion;
     /* la guía del plato y el suplemento proteico respetan la dieta declarada:
        a un vegano no se le receta pollo ni whey con skyr */
     if (N.plato && N.plato.length) {
       if (p.dieta === 'vegano' && G.platoVegano) N.plato[0].d = G.platoVegano;
       else if (p.dieta === 'vegetariano' && G.platoVegetariano) N.plato[0].d = G.platoVegetariano;
+      else if (et === 'embarazo' && E.plato) N.plato[0].d = E.plato;
     }
     if (N.suplementos && N.suplementos.length > 1 && (p.dieta === 'vegano' || (p.sin || []).includes('lactosa')) && G.suplVegT) {
       /* el id cambia TAMBIEN, no solo el texto: la foto de la ficha se busca
@@ -474,17 +678,31 @@ window.B2P_GEN = (function () {
       N.suplementos[1] = Object.assign({}, N.suplementos[1],
         { id: 'prote-vegetal', t: G.suplVegT, d: G.suplVegD });
     }
+    // en el embarazo y con lactancia la lista de suplementos es otra (y la creatina, fuera)
+    if (et === 'embarazo' && Array.isArray(E.supl) && E.supl.length) N.suplementos = E.supl.map(x => Object.assign({}, x));
+    if (et === 'posparto' && lact && Array.isArray(P.supl) && P.supl.length) N.suplementos = P.supl.map(x => Object.assign({}, x));
     if (N.calorias && N.calorias.length >= 3) {
       N.calorias[0].v = '~' + fmt(bmr) + ' kcal';
-      N.calorias[0].n = tpl(G.datos, { p: Math.round(p.pesoKg), a: Math.round(p.alturaCm), e: p.edad });
+      N.calorias[0].n = tpl(G.datos, { p: Math.round(pRef.pesoKg), a: Math.round(p.alturaCm), e: p.edad });
       N.calorias[1].v = fmt(t - 80) + '–' + fmt(t + 80) + ' kcal';
       N.calorias[2].v = fmt(k - 75) + '–' + fmt(k + 75) + ' kcal';
       /* «Déficit ~550-700» era la fila del dueño: la nota y el ritmo esperado
          hablan del objetivo REAL, con el corredor real */
-      if (p.objetivo === 'recomp' && G.numRecomp) N.calorias[2].n = G.numRecomp;
+      if (et === 'embarazo' && E.kcalNota) N.calorias[2].n = tpl(E.kcalNota, { t: etiquetas[filaDeFase[faseEmb(semanaGestacion(p.fpp, fechaInicio(p)) || 1) - 1]] || '', k: filas.find(f => f.kcal === k).inc });
+      else if (et === 'posparto' && lact && P.kcalNotaLact) N.calorias[2].n = tpl(P.kcalNotaLact, { k: extraPP, d: defPP ? tpl(P.defTxt, { v: defPP }) : '' });
+      else if (et === 'posparto' && P.kcalNota) N.calorias[2].n = tpl(P.kcalNota, { d: defPP ? tpl(P.defTxt, { v: defPP }).replace(/^,\s*/, '') : (P.mantTxt || '') });
+      else if (p.objetivo === 'recomp' && G.numRecomp) N.calorias[2].n = G.numRecomp;
       else if (p.objetivo === 'ganar' && G.numSup) N.calorias[2].n = G.numSup;
       else if (p.objetivo === 'mantener' && G.numMan) N.calorias[2].n = G.numMan;
-      if (N.calorias.length >= 4) {
+      if (N.calorias.length >= 4 && et === 'embarazo') {
+        /* la fila del ritmo es de ganancia: la de IOM 2009 para el IMC previo */
+        const pp = pesoPreDe(p), imc = pp / Math.pow(p.alturaCm / 100, 2);
+        const r = ritmoIOM(imc), g = iomDe(imc);
+        const r05 = v => (Math.round(v * 20) / 20).toLocaleString(base.UI.lang || 'es');
+        if (E.ritmoT) N.calorias[3].c = E.ritmoT;
+        N.calorias[3].v = tpl(E.ritmoV || '+{a}–{b} kg/sem', { a: r05(r[0]), b: r05(r[1]) });
+        if (E.ritmoN) N.calorias[3].n = tpl(E.ritmoN, { imc: (Math.round(imc * 10) / 10).toLocaleString(base.UI.lang || 'es'), g: g[1].toLocaleString(base.UI.lang || 'es') + '–' + g[2].toLocaleString(base.UI.lang || 'es') });
+      } else if (N.calorias.length >= 4) {
         const obj = objetivoKgDe(p), ST = semanasDe(p);
         const r = (p.pesoKg - (Math.min(obj[0], obj[1]) + Math.max(obj[0], obj[1])) / 2) / ST;
         const r05 = v => (Math.round(Math.abs(v) * 20) / 20).toLocaleString(base.UI.lang || 'es');
@@ -503,22 +721,23 @@ window.B2P_GEN = (function () {
     }
     if (N.fases && N.fases.length) {
       const ST = semanasDe(p), cortes = cortesDe(ST);
-      const recorta = p.objetivo === 'perder' || p.objetivo === 'recomp';
+      const recorta = !et && (p.objetivo === 'perder' || p.objetivo === 'recomp');
       const wBreak = Math.round(ST * 7 / 12);
       N.fases.forEach((f, i) => {
-        const kf = i === 0 ? k : i === 1 ? k + 50 : k + 100;   // leve subida con el volumen
-        f.kcal = kf; f.p = m.p; f.g = m.g;
-        f.c = Math.max(0, Math.round((kf - m.p * 4 - m.g * 9) / 4));
-        // las etiquetas de rango dicen las semanas REALES de este plan
-        f.f = tpl(G['nf' + (i + 1)] || f.f, { a: cortes[1], b: cortes[1] + 1, c: cortes[2], d: cortes[2] + 1, e: ST });
+        const fila = filas[Math.min(i, filas.length - 1)];
+        f.kcal = fila.kcal; f.p = fila.p; f.g = fila.g;
+        f.c = Math.max(0, Math.round((fila.kcal - fila.p * 4 - fila.g * 9) / 4));
+        // las etiquetas de rango dicen las semanas REALES de este plan (o el tramo de la etapa)
+        f.f = (etiquetas && etiquetas[i]) || tpl(G['nf' + (i + 1)] || f.f, { a: cortes[1], b: cortes[1] + 1, c: cortes[2], d: cortes[2] + 1, e: ST });
         // la nota del diet break: solo si el plan recorta, y en su semana real
-        if (i === 1) {
+        if (notas && notas[i]) f.nota = notas[i];
+        else if (i === 1) {
           if (recorta) f.nota = tpl(G.dietBreakNota || f.nota, { w: wBreak, k: fmt(t - t % 100) });
           else delete f.nota;
-        }
+        } else delete f.nota;
       });
     }
-    return { NUTRI: N, kcal: k, prot: m.p, tdee: t, qMin };
+    return { NUTRI: N, kcal: k, prot: m.p, tdee: t, qMin, extra: extraPP, deficit: defPP };
   }
 
   /* ---------- comidas: filtro por dieta, intolerancias y gustos ----------
@@ -750,6 +969,13 @@ window.B2P_GEN = (function () {
      (el ritmo esperado) y las gráficas a través de META. */
   function objetivoKgDe(p) {
     const ST = semanasDe(p);
+    if (ETAPA(p) === 'embarazo') {
+      // el objetivo es el corredor de ganancia de IOM 2009 al final del plan
+      const pp = pesoPreDe(p), imc = pp / Math.pow(p.alturaCm / 100, 2);
+      const gFin = semanaGestacion(p.fpp, addD(fechaInicio(p), ST * 7 - 1)) || 40;
+      const e = gananciaEsperada(imc, gFin);
+      return [Math.round((pp + e[0]) * 10) / 10, Math.round((pp + e[1]) * 10) / 10];
+    }
     const kg = p.pesoKg, f = ST / 12;
     const pctPerder = Math.min(0.20, 0.0067 * ST);
     return p.objetivo === 'perder' ? [Math.round(kg * (1 - pctPerder) - 1), Math.round(kg * (1 - pctPerder))]
@@ -789,11 +1015,47 @@ window.B2P_GEN = (function () {
     M.perfil.cinturaMetaCm = p.cinturaCm
       ? Math.min(Math.round(p.cinturaCm) - 2, Math.max(mitad, Math.round(p.cinturaCm) - 6))
       : mitad;
+    /* Etapa: lo que las vistas necesitan saber sin volver a calcular. En el
+       embarazo la cintura no mide nada durante nueve meses: sin meta. */
+    const et = ETAPA(p);
+    M.etapa = et;
+    if (et === 'embarazo') {
+      const pp = pesoPreDe(p), imc = pp / Math.pow(p.alturaCm / 100, 2), r = iomDe(imc);
+      M.fpp = p.fpp; M.pesoPre = pp; M.imcPre = Math.round(imc * 10) / 10;
+      M.ganancia = [r[1], r[2]];
+      M.ritmo = ritmoIOM(imc).map(v => Math.round(v * 100) / 100);
+      M.gInicio = semanaGestacion(p.fpp, ini);
+      M.perfil.cinturaMetaCm = null; M.cinturaDeclarada = false;
+    }
+    if (et === 'posparto') {
+      M.parto = p.parto; M.cesarea = p.partoTipo === 'cesarea'; M.lactancia = !!p.lactancia;
+      M.wpInicio = semanasPosparto(p.parto, ini); M.cortesPP = cortesPP(p);
+      M.correrOk = !!p.correrOk; M.spSintomas = Array.isArray(p.sp) && p.sp.length > 0;
+    }
+    M.ciclo = (p.ciclo && p.ciclo.modo) ? Object.assign({}, p.ciclo) : null;
     return { META: M, ini };
   }
-  function fasesGen(base, ini, p) {
+  function fasesGen(base, ini, p, cal) {
     const meses = base.UI.meses, G = base.UI.gen || {};
     const ST = semanasDe(p), cortes = cortesDe(ST);
+    /* Etapa: las cuatro fases son las de la etapa y sus semanas las dice el
+       calendario (por semana de gestación o desde el parto). Una fase que el
+       plan ya no pisa se queda sin semanas y sin fechas, y las vistas la
+       tratan como pasada. */
+    const et = ETAPA(p);
+    const largoPP = et === 'posparto' && (semanasPosparto(p.parto, ini) || 0) < cortesPP(p)[2];
+    const src = et === 'embarazo' ? base.FASES_EMB : largoPP ? base.FASES_PP : null;
+    if (src && src.length === 4) {
+      return src.map((f, i) => {
+        const c = Object.assign({}, f);
+        c.semanas = (cal || []).filter(wk => wk.fase === i + 1).map(wk => wk.n);
+        if (c.semanas.length) {
+          const a = addD(ini, (c.semanas[0] - 1) * 7), b = addD(ini, c.semanas[c.semanas.length - 1] * 7 - 1);
+          c.fechas = corta(a, meses) + ' – ' + corta(b, meses);
+        } else c.fechas = '—';
+        return c;
+      });
+    }
     const dias = Math.min(6, Math.max(2, p.diasSemana || 4));
     const splitTxt = dias <= 3 ? G.splitFbC : dias === 4 ? G.splitTpC : G.splitPplC;
     const rangos = [[1, cortes[0]], [cortes[0] + 1, cortes[1]], [cortes[1] + 1, cortes[2]], [cortes[2] + 1, ST]];
@@ -839,6 +1101,8 @@ window.B2P_GEN = (function () {
      Era el único bloque que seguía siendo del dueño — justo el del riesgo. */
   function tendonGen(base, p, tieneTrote) {
     const G = base.UI.gen || {};
+    // en el embarazo y el posparto el seguro del plan es el suelo pélvico
+    if (ETAPA(p) && base.SUELO_PELVICO) return JSON.parse(JSON.stringify(base.SUELO_PELVICO));
     const T = JSON.parse(JSON.stringify(base.TENDON));
     if (!tieneTrote && G.tendonSinTrote) T.intro = G.tendonSinTrote;
     const les = p.lesiones || [];
@@ -864,6 +1128,18 @@ window.B2P_GEN = (function () {
 
   function checkpointsGen(base, M, ini) {
     const G = base.UI.gen || {};
+    if (M.etapa === 'embarazo') {
+      /* el corredor de ganancia de IOM 2009 en la semana de gestación de cada
+         checkpoint, sobre el peso previo al embarazo */
+      const st = M.semanas || 12, r1 = v => Math.round(v * 10) / 10;
+      const semanas = [Math.round(st / 3), Math.round(st * 2 / 3), st].filter((s, i, a) => s >= 1 && a.indexOf(s) === i);
+      return semanas.map(s => {
+        const g = semanaGestacion(M.fpp, addD(ini, s * 7 - 1)) || 40;
+        const e = gananciaEsperada(M.imcPre, g);
+        return { sem: s, fecha: iso(addD(ini, s * 7 - 1)), rango: [r1(M.pesoPre + e[0]), r1(M.pesoPre + e[1])],
+          si: (G.emb && G.emb.chkD) || '', dir: 'sube', g };
+      });
+    }
     const salida = M.perfil.pesoSalida, obj = M.perfil.objetivoKg;
     const lo = Math.min(obj[0], obj[1]), hi = Math.max(obj[0], obj[1]);
     const sube = (lo + hi) / 2 > salida;
@@ -887,6 +1163,14 @@ window.B2P_GEN = (function () {
     const G = base.UI.gen || {};
     const q = Math.max(20, Math.round(prot / 4 * 0.85 / 5) * 5);   // toma mínima útil
     const ST = semanasDe(p);
+    const et = ETAPA(p);
+    if (et === 'embarazo' && base.REGLAS_EMB) {
+      const pp = pesoPreDe(p), imc = pp / Math.pow(p.alturaCm / 100, 2), r = iomDe(imc), rt = ritmoIOM(imc);
+      const loc = v => v.toLocaleString(base.UI.lang || 'es');
+      const r05 = v => loc(Math.round(v * 20) / 20);
+      return base.REGLAS_EMB.map(x => Object.assign({}, x, { d: plantilla(x.d, { g: loc(r[1]) + '-' + loc(r[2]), r: r05(rt[0]) + '-' + r05(rt[1]), p: prot, q, s: ST }) }));
+    }
+    if (et === 'posparto' && base.REGLAS_PP) return base.REGLAS_PP.map(x => Object.assign({}, x, { d: plantilla(x.d, { p: prot, q, s: ST }) }));
     /* las reglas 1 y 8 narraban la biografía del dueño (5 años de sofá, ciclo
        on/off): cada historial recibe la suya */
     const var1 = p.historial === 'nunca' ? G.r1Nunca : p.historial === 'activo' ? G.r1Activo : null;
@@ -908,6 +1192,9 @@ window.B2P_GEN = (function () {
      4 proteína · 5 diet break · 6 volumen · 7 descarga · 8 sueño · 9 salud */
   function cienciaGen(base, prot, p, tieneTrote) {
     const G = base.UI.gen || {};
+    const et = ETAPA(p);
+    if (et === 'embarazo' && base.CIENCIA_EMB) return JSON.parse(JSON.stringify(base.CIENCIA_EMB));
+    if (et === 'posparto' && base.CIENCIA_PP) return JSON.parse(JSON.stringify(base.CIENCIA_PP));
     const C = JSON.parse(JSON.stringify(base.CIENCIA));
     if (p.historial === 'nunca' && G.introNunca) C.intro = G.introNunca;
     else if (p.historial === 'activo' && G.introActivo) C.intro = G.introActivo;
@@ -932,6 +1219,9 @@ window.B2P_GEN = (function () {
     const meses = base.UI.meses;
     const fin = M.finISO.split('-').map(Number);
     const f = fin[2] + ' ' + meses[fin[1] - 1];
+    const et = ETAPA(p);
+    if (et === 'embarazo' && G.emb && G.emb.cierre) return plantilla(G.emb.cierre, { f });
+    if (et === 'posparto' && G.pp && G.pp.cierre) return plantilla(G.pp.cierre, { f });
     const txt = p.objetivo === 'perder' ? G.cierrePerder : p.objetivo === 'recomp' ? G.cierreRecomp
       : p.objetivo === 'ganar' ? G.cierreGanar : G.cierreManten;
     if (!txt) return '';
@@ -946,7 +1236,10 @@ window.B2P_GEN = (function () {
     const G = base.UI.gen || {};
     const salida = M.perfil.pesoSalida, obj = M.perfil.objetivoKg;
     const media = (Math.min(obj[0], obj[1]) + Math.max(obj[0], obj[1])) / 2;
-    const delta = Math.round(salida - media);          // + pierde · − gana
+    /* en el embarazo no hay escalera de kilos (ni «músculo, ladrillo a
+       ladrillo» por ganar peso), ni marcas, ni cintura */
+    const emb = M.etapa === 'embarazo';
+    const delta = emb ? 0 : Math.round(salida - media);   // + pierde · − gana
     const escalera = [];
     if (delta >= 2) {
       const vs = [];
@@ -972,9 +1265,10 @@ window.B2P_GEN = (function () {
     for (const l of base.LOGROS) {
       // ni insignias imposibles: sin barra de dominadas (o habiéndolas descartado) no hay dominada libre
       if (l.id === 'dominada-libre' && (M.material === 'nada' || (M.gustosNo || []).includes('ej:dominadas'))) continue;
+      if (emb && (/^pr-/.test(l.id) || l.id === 'dominada-libre')) continue;
       if (/^kg-/.test(l.id)) { if (!kgHecho) { out.push.apply(out, escalera); kgHecho = true; } continue; }
       if (/^cintura-/.test(l.id)) { if (!cintHecho) { out.push.apply(out, cinturas); cintHecho = true; } continue; }
-      if (l.id === 'plan-completo') { out.push(Object.assign({}, l, { desc: plantilla(G.lFinDesc || l.desc, { s: M.semanas }) })); continue; }
+      if (l.id === 'plan-completo') { out.push(Object.assign({}, l, { desc: (emb && G.emb && G.emb.logroFinD) || plantilla(G.lFinDesc || l.desc, { s: M.semanas }) })); continue; }
       // las insignias de checkpoint nombran SU semana (S8/S16 en un plan de 24)
       if ((l.id === 'checkpoint-s4' || l.id === 'checkpoint-s8') && chks) {
         const c = chks[l.id === 'checkpoint-s4' ? 0 : 1];
@@ -988,23 +1282,64 @@ window.B2P_GEN = (function () {
   /* Las decisiones del motor, en datos: el reveal las enseña una a una.
      Solo hechos que el plan generado cumple de verdad — nada de prometer. */
   function decisionesGen(perfil, nutri, meta, menu, stats) {
-    const dias = Math.min(6, Math.max(2, perfil.diasSemana || 4));
+    const et = ETAPA(perfil), M = meta.META;
+    const dias = Math.min(et === 'embarazo' ? 4 : 6, Math.max(2, perfil.diasSemana || 4));
     const dec = [];
-    dec.push({ k: 'split', d: dias, tipo: dias <= 3 ? 'fb' : dias === 4 ? 'tp' : 'ppl' });
-    dec.push({ k: 'kcal', v: nutri.kcal, delta: nutri.kcal - nutri.tdee, obj: perfil.objetivo });
-    dec.push({ k: 'prot', v: nutri.prot, kg: Math.round(nutri.prot / perfil.pesoKg * 10) / 10 });
-    dec.push({ k: 'dur', s: meta.META.semanas, a: meta.META.inicioISO, b: meta.META.finISO });
+    // la etapa va la primera: es lo que ordena todo lo demás
+    if (et === 'embarazo') dec.push({ k: 'etapa', v: 'embarazo', s: M.gInicio, f: M.fpp });
+    if (et === 'posparto') dec.push({ k: 'etapa', v: 'posparto', s: M.wpInicio, ces: !!M.cesarea, lact: !!M.lactancia });
+    dec.push({ k: 'split', d: dias, tipo: et === 'embarazo' ? 'emb' : (dias <= 3 ? 'fb' : dias === 4 ? 'tp' : 'ppl') });
+    dec.push({ k: 'kcal', v: nutri.kcal, delta: nutri.kcal - nutri.tdee, obj: perfil.objetivo, etapa: et, lact: !!M.lactancia, extra: nutri.extra || 0 });
+    dec.push({ k: 'prot', v: nutri.prot, kg: Math.round(nutri.prot / (et === 'embarazo' ? (M.pesoPre || perfil.pesoKg) : perfil.pesoKg) * 10) / 10 });
+    dec.push({ k: 'dur', s: M.semanas, a: M.inicioISO, b: M.finISO, etapa: et });
     if (stats.subs) dec.push({ k: 'subs', n: stats.subs });
     // la fila de cuidado solo existe si el plan lleva avisos DE VERDAD
-    if ((perfil.lesiones || []).length && stats.cuida) dec.push({ k: 'cuida', zonas: perfil.lesiones.slice() });
+    if (et) dec.push({ k: 'cuida', etapa: et, zonas: (perfil.lesiones || []).slice() });
+    else if ((perfil.lesiones || []).length && stats.cuida) dec.push({ k: 'cuida', zonas: perfil.lesiones.slice() });
+    if (perfil.ciclo && perfil.ciclo.modo && (perfil.ciclo.modo === 'natural' || perfil.ciclo.modo === 'hormonal')) dec.push({ k: 'ciclo', modo: perfil.ciclo.modo });
     if ((perfil.dieta && perfil.dieta !== 'normal') || (perfil.sin || []).length)
       dec.push({ k: 'menu', avisos: menu.avisos || 0 });
     const g = perfil.gustos || {};
     if ((g.no || []).length) dec.push({ k: 'gustos', likes: (g.like || []).length, nos: g.no.length });
     if (stats.recorte) dec.push({ k: 'min', v: stats.recorte });
-    if (perfil.evento && perfil.evento !== 'siempre') dec.push({ k: 'evento', v: perfil.evento, f: meta.META.eventoFecha, manda: meta.META.eventoManda });
-    if (perfil.duracionSem === 0) dec[dec.findIndex(x => x.k === 'dur')].abierto = true;
+    if (!et && perfil.evento && perfil.evento !== 'siempre') dec.push({ k: 'evento', v: perfil.evento, f: meta.META.eventoFecha, manda: meta.META.eventoManda });
+    if (!et && perfil.duracionSem === 0) dec[dec.findIndex(x => x.k === 'dur')].abierto = true;
     return dec;
+  }
+
+  /* ---------- ciclo menstrual: dónde estás y cuándo toca ----------
+     Pura y sin reloj: recibe la fecha de hoy. La fase lútea es la parte fija
+     (12-14 días; Bull 2019, 612.613 ciclos) y la folicular la que varía, así
+     que la ovulación se estima hacia atrás desde la regla prevista, nunca
+     «el día 14». Con anticoncepción hormonal no hay fases; con ciclos que
+     varían más de 9 días (FIGO 2018) no se predice; con más de 90 días sin
+     regla se pide consultar. */
+  function cicloEstado(ciclo, inicios, hoy) {
+    if (!ciclo || !ciclo.modo || ciclo.modo === 'no' || ciclo.modo === 'sin') return null;
+    if (ciclo.modo === 'hormonal') return { modo: 'hormonal' };
+    const starts = [...new Set((inicios || []).concat(ciclo.ultima ? [ciclo.ultima] : []).filter(s => fecha(s)))].sort();
+    if (!starts.length) return { modo: 'natural', sinDatos: true };
+    const lens = [];
+    for (let i = 1; i < starts.length; i++) { const l = diasEntre(fecha(starts[i - 1]), fecha(starts[i])); if (l >= 15 && l <= 60) lens.push(l); }
+    const ult = lens.slice(-6);
+    const mediana = a => { const s = a.slice().sort((x, y) => x - y); return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2; };
+    const dur = ult.length >= 2 ? Math.round(mediana(ult)) : (ciclo.dur || 28);
+    const spread = ult.length >= 3 ? Math.max.apply(null, ult) - Math.min.apply(null, ult) : null;
+    const irregular = spread !== null && spread > 9;
+    const margen = spread === null ? (ciclo.dur ? 2 : 4) : Math.max(2, Math.ceil(spread / 2));
+    const ultima = starts[starts.length - 1];
+    const dia = diasEntre(fecha(ultima), fecha(hoy)) + 1;
+    const proxima = iso(addD(fecha(ultima), dur));
+    const retraso = dia - dur;                         // > 0: ya pasó lo previsto
+    const ovul = dur - 14;                             // día de ovulación estimado
+    let fase;
+    if (retraso > margen) fase = 'retraso';
+    else if (dia <= 5) fase = 'regla';
+    else if (Math.abs(dia - ovul) <= 1) fase = 'ovulatoria';
+    else if (dia < ovul) fase = 'folicular';
+    else if (dia >= dur - 4) fase = 'premenstrual';
+    else fase = 'lutea';
+    return { modo: 'natural', dia, dur, fase, proxima, margen, retraso: Math.max(0, retraso), irregular, sinRegla90: dia > 90, ciclos: ult.length, ultima };
   }
 
   function generarPlan(perfil, base) {
@@ -1022,11 +1357,15 @@ window.B2P_GEN = (function () {
     // ¿este plan corre? la tarjeta de carrera, el tema de ciencia y las notas
     // de tendón sobre el trote solo existen si la respuesta es sí
     const tieneTrote = [...usados].some(id => ((base.SESIONES[id] || {}).icono) === 'run');
+    const et = ETAPA(perfil);
     return Object.assign({}, base, {
       META: meta.META,
-      FASES: fasesGen(base, meta.ini, perfil),
+      FASES: fasesGen(base, meta.ini, perfil, cal),
       CAL: cal,
-      HITOS_SEMANA: hitosGen(base, perfil, nutri),
+      HITOS_SEMANA: hitosGen(base, perfil, nutri, cal),
+      // en el embarazo el calentamiento no salta, y las señales de alarma son las de las guías
+      CALENTAMIENTO: (et === 'embarazo' && base.CALENTAMIENTO_EMB) ? base.CALENTAMIENTO_EMB : base.CALENTAMIENTO,
+      SENALES: (et === 'embarazo' && base.SENALES_EMB) ? base.SENALES_EMB : (et === 'posparto' && base.SENALES_PP) ? base.SENALES_PP : base.SENALES,
       SESIONES: sesionesGen(base, perfil, stats, usados, !tieneTrote),
       TENDON: tendonGen(base, perfil, tieneTrote),
       NUTRI: nutri.NUTRI,
@@ -1053,7 +1392,9 @@ window.B2P_GEN = (function () {
 
   // recetaVale se exporta para que el mazo y el recetario filtren en vivo
   // el mazo del cuestionario filtra sus cartas con los mismos criterios que el motor
-  return { generarPlan, recetaVale, equipoVale, equipoValeId, tocaLesion, pictoDeFila };
+  return { generarPlan, recetaVale, equipoVale, equipoValeId, tocaLesion, pictoDeFila,
+    // etapa y ciclo: puras, para las vistas y para las pruebas
+    etapaDe: ETAPA, semanaGestacion, semanasPosparto, fppDe, faseEmb, cortesPP, tocaEmbarazo, gananciaEsperada, pesoPreDe, cicloEstado, EMB_DEP_NO };
 })();
 
 /* Si hay perfil guardado, el plan del arranque ES el generado: se sustituye

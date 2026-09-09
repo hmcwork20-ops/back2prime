@@ -15,6 +15,7 @@ sueltas, miran que el plan que sale sea el que debe salir.
 | `patrones.js` | Los 13 patrones tienen salida en casa y a peso corporal, escalera de dificultad, 6 idiomas |
 | `portugues.js` | Los seis idiomas generan un plan completo y resuelto |
 | `inicio.js` | Cuándo arranca el plan: hoy, esta semana, el lunes, un día exacto |
+| `mujer.js` | Embarazo (fases por semana de gestación, nada prohibido en las sesiones, corredor de ganancia IOM, sin déficit), posparto (tramos desde el parto, cesárea, lactancia, impacto solo con la lista) y ciclo (predicción por mediana, irregularidad, 90 días). Los seis idiomas generan las tres etapas |
 | `nube.js` | Qué copia manda al arrancar con cuenta: un estado sin plan nunca pisa a uno con plan, y entre dos planes se unen los registros. Carga `assets/nube.js` en un vm con un Supabase de mentira; `B2P_NUBE_SRC=fichero` prueba otra versión (con la anterior a la regla, falla) |
 
 ## Por qué existen

@@ -1430,5 +1430,296 @@ window.B2P = (function () {
     'yogur-soja': 'Yogurt di soia',
     zanahoria: 'Carota',
   };
-  return {META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MENU, CHECKPOINTS, FOTOS, LOGROS, CIENCIA, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
+  /* ---------- MUJER: embarazo, posparto y ciclo ----------
+     Un solo bloque, con la misma forma en los seis idiomas: solo cambian los
+     textos. Asi los espejos se traducen enteros y el inserto es el mismo. Las
+     cifras salen de las guias citadas en el informe de evidencia (ACOG 804,
+     canadienses 2019 y 2025, SEGO 2019, Goom 2019, EFSA, IOM 2009, AESAN). */
+  const MUJER = {
+    EJERCICIOS: {
+      'cuadrupedia': { pat: 'core', pic: 'cuadrupedia',
+        nombre: 'Quadrupedia (bird-dog)', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Core profondo', 'glutei', 'erettori'], equipo: 'Niente',
+        cues: ['A quattro zampe, mani sotto le spalle e ginocchia sotto le anche', 'Allunga braccio e gamba opposti senza che la lombare si muova', 'Espira mentre allunghi; torna lenta e cambia lato'],
+        err: ['Inarcare la lombare mentre alzi la gamba (alzala meno)', 'Ruotare l’anca per arrivare più lontano', 'Trattenere il respiro'],
+        alt: [{ n: 'Solo gamba, o solo braccio', por: 'se perdi l’equilibrio o la lombare' }, { n: 'Con pausa di 3″ in alto', por: 'se 10 ripetizioni ti stanno strette' }],
+        mol: 'Se i polsi danno fastidio, appoggia sui pugni o afferra due manubri fermi come maniglie.'
+      },
+      'plancha-inclinada': { pat: 'core', pic: 'plancha-inclinada',
+        nombre: 'Plank inclinato', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Core anteriore', 'dentato'], equipo: 'Niente (tavolo, panca o muro)',
+        cues: ['Mani su un tavolo o una panca, corpo in linea dalla testa ai talloni', 'Costole giù e bacino neutro: niente inarcamenti', 'Respira normale; più alto è l’appoggio, più è facile'],
+        err: ['Bacino che crolla o si alza', 'Spalle strette verso le orecchie', 'Trattenere il respiro'],
+        alt: [{ n: 'Al muro', por: 'se il tavolo diventa duro o nella dirittura d’arrivo della gravidanza' }, { n: 'Plank a terra', por: 'fuori dalla gravidanza, quando 40″ vengono facili' }],
+        mol: 'Se senti una spinta verso l’esterno sull’addome o sul pavimento pelvico, alza l’inclinazione.'
+      },
+      'suelo-pelvico': { pat: 'sp', pic: 'suelo-pelvico',
+        nombre: 'Pavimento pelvico', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Pavimento pelvico'], equipo: 'Niente',
+        cues: ['Seduta o sdraiata su un fianco: contrai come per bloccare la pipì e trattenere un gas, insieme', 'Tieni 6-8″ respirando; rilascia del tutto prima di ripetere', 'Chiudi con 5 contrazioni rapide da 1″'],
+        err: ['Stringere glutei, cosce o addome al posto del pavimento pelvico', 'Trattenere il respiro', 'Non rilasciare del tutto tra una ripetizione e l’altra'],
+        alt: [{ n: 'Sdraiata su un fianco', por: 'se da seduta non senti la contrazione' }, { n: 'In piedi, in coda o al semaforo', por: 'quando ce l’hai: così si fa ogni giorno' }],
+        mol: 'Se con perdite, pesantezza o dolore non migliora in qualche settimana, fisioterapia del pavimento pelvico: è quello che raccomandano le linee guida.'
+      }
+    },
+    SESIONES: {
+      'emb1-a': { nombre: 'Forza A · primo trimestre', tipo: 'fuerza', fase: 1, dur: '~40′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10-12', d: 75, n: 'Con un manubrio al petto se ce l’hai; al box se hai capogiri' },
+        { e: 'press-militar-mc',  s: 3, r: '10',    d: 75, n: 'Seduta, con schienale' },
+        { e: 'remo-mancuerna',    s: 3, r: '10/l', d: 75, n: 'Appoggiata a panca o tavolo' },
+        { e: 'puente-gluteo',     s: 3, r: '12',    d: 60, n: 'Fino alla settimana 16; dopo lo sostituisce la quadrupedia' },
+        { e: 'plancha',           s: 3, r: '20-30″', d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30, n: '6-8″ ciascuna e 5 rapide alla fine' }
+      ]},
+      'emb1-b': { nombre: 'Forza B · primo trimestre', tipo: 'fuerza', fase: 1, dur: '~40′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 3, r: '8/p',   d: 75, n: 'Statico e con una mano appoggiata: l’equilibrio è già cambiato' },
+        { e: 'press-inclinado-mc', s: 3, r: '10',   d: 75, n: 'Panca a 30-45°; senza panca, flessioni con le mani su un tavolo' },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '12',    d: 60 },
+        { e: 'dead-bug',          s: 2, r: '8/l',   d: 45, n: 'Fino alla settimana 16' },
+        { e: 'abduccion-lado',    s: 2, r: '12/l', d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb2-a': { nombre: 'Forza A · secondo trimestre', tipo: 'fuerza', fase: 2, dur: '~40′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10',    d: 75, n: 'Al box o alla sedia: profondità comoda, senza rimbalzo' },
+        { e: 'press-militar-mc',  s: 3, r: '10',    d: 75, n: 'Seduta, con schienale' },
+        { e: 'remo-mancuerna',    s: 3, r: '10/l', d: 75, n: 'Appoggiata: la pancia non resta appesa' },
+        { e: 'cuadrupedia',       s: 2, r: '8/l', d: 60, n: 'Sostituisce il ponte: niente da sdraiata a pancia in su' },
+        { e: 'plancha-inclinada', s: 3, r: '25″',   d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb2-b': { nombre: 'Forza B · secondo trimestre', tipo: 'fuerza', fase: 2, dur: '~40′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 3, r: '8/p',   d: 75, n: 'Statico, con appoggio' },
+        { e: 'press-inclinado-mc', s: 2, r: '10',   d: 75, n: 'Panca alta o mani su un tavolo; mai piana' },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '12',    d: 60 },
+        { e: 'curl-martillo',     s: 2, r: '12',    d: 45 },
+        { e: 'ext-triceps-banda', s: 2, r: '12',    d: 45 },
+        { e: 'abduccion-lado',    s: 2, r: '12/l', d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb3-a': { nombre: 'Forza A · terzo trimestre', tipo: 'fuerza', fase: 3, dur: '~30′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '8-10',  d: 90, n: 'Alla sedia, con le mani libere per appoggiarti' },
+        { e: 'press-militar-mc',  s: 2, r: '10',    d: 75, n: 'Seduta' },
+        { e: 'remo-mancuerna',    s: 2, r: '10/l', d: 75 },
+        { e: 'cuadrupedia',       s: 2, r: '6/l', d: 60 },
+        { e: 'plancha-inclinada', s: 2, r: '20″',   d: 60, n: 'Al muro va bene' },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb3-b': { nombre: 'Forza B · terzo trimestre', tipo: 'fuerza', fase: 3, dur: '~30′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 2, r: '6/p',   d: 90, n: 'Con appoggio; se pesa, mezzo affondo' },
+        { e: 'banda-remo',        s: 2, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '10',    d: 60 },
+        { e: 'abduccion-lado',    s: 2, r: '10/l', d: 45 },
+        { e: 'ext-triceps-banda', s: 2, r: '10',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'pp-a': { nombre: 'Recupero', tipo: 'fuerza', fase: 1, dur: '~15′', calent: false, bloques: [
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30, n: 'Da quando puoi: 6-8″ e rilasciare del tutto' },
+        { e: 'dead-bug',          s: 2, r: '8/l',   d: 45, n: 'Solo gambe all’inizio; la lombare incollata' },
+        { e: 'cuadrupedia',       s: 2, r: '6/l', d: 45 },
+        { e: 'abduccion-lado',    s: 2, r: '10/l', d: 45 }
+      ]},
+      'pp-b': { nombre: 'Riconnessione', tipo: 'fuerza', fase: 2, dur: '~30′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10',    d: 60, n: 'Espira in salita; senza trattenere l’aria' },
+        { e: 'zancada-alterna',   s: 2, r: '8/p',   d: 60, n: 'Statico' },
+        { e: 'puente-gluteo',     s: 3, r: '12',    d: 60 },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'plancha-inclinada', s: 2, r: '20″',   d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'pp-paseo': { nombre: 'Camminata 10-20′', tipo: 'cardio', icono: 'walk', detalle: 'Dolce e corta, fin dai primi giorni. Se dopo il sanguinamento aumenta, fermati e abbassa il ritmo: è il segnale che usano le linee guida.' }
+    },
+    SUELO_PELVICO: {
+      titulo: 'Pavimento pelvico · 5′ · ogni giorno',
+      intro: 'È la raccomandazione con più evidenza di tutte: farlo ogni giorno in gravidanza riduce del 62% l’incontinenza alla fine e del 29% a tre mesi dal parto (Cochrane 2020). E nessuno si accorge che lo stai facendo.',
+      bloques: [
+        { id: 'suelo-pelvico', nombre: 'Contrazioni lunghe e corte', donde: 'Ogni giorno, e dopo ogni sessione', detalle: '3 × 10 contrazioni da 6-8″, respirando, rilasciando del tutto tra una e l’altra; e alla fine 5 rapide da 1″. Seduta, su un fianco o in piedi: l’importante è che sia il pavimento pelvico e non il gluteo.' },
+        { id: 'respiracion', nombre: 'Respirazione e core', donde: 'Prima di caricare', detalle: 'Inspira aprendo le costole; nell’espirazione il pavimento pelvico sale e l’addome si raccoglie dolcemente. È lo schema che precede ogni squat e ogni carico in braccio: il bebè, la sedia, la spesa.' }
+      ],
+      nota: 'Se ci sono perdite, pesantezza, rigonfiamento o dolore, questo non basta: valutazione con la fisioterapia del pavimento pelvico. Le linee guida del 2025 la raccomandano a tutte dalla settimana 6 dopo il parto.'
+    },
+    CALENTAMIENTO_EMB: {
+      titulo: 'Riscaldamento · 6′ · sempre',
+      pasos: ['Circonduzioni delle braccia · 30″', 'Rotazioni delle anche · 30″ per lato', '10 squat lenti alla sedia', '5 affondi corti con appoggio per lato', 'Marcia sul posto muovendo le braccia · 60″', 'Respirazione con pavimento pelvico · 5 cicli'],
+      gym: 'Niente salti: l’impatto non entra in gravidanza.'
+    },
+    FASES_EMB: [
+      { id: 1, nombre: 'Primo trimestre', sub: 'Settimane 1-13', disco: 10, rpe: 'Borg 12-14 · puoi parlare', objetivo: 'Mantenere l’abitudine con nausea e sonno contro: sessioni corte, camminare, pavimento pelvico ogni giorno. Zero record personali.' },
+      { id: 2, nombre: 'Secondo trimestre', sub: 'Settimane 14-27', disco: 15, rpe: 'Borg 12-14 · puoi parlare', objetivo: 'Torna l’energia: il volume può salire un po’. Dalla settimana 16 niente da sdraiata a pancia in su né a pancia in giù; il piano lo cambia già.' },
+      { id: 3, nombre: 'Terzo trimestre', sub: 'Settimane 28-36', disco: 20, rpe: 'Borg 12-14 · puoi parlare', objetivo: 'Sessioni più corte, più recupero tra le serie e sempre con appoggio: l’equilibrio e il centro di gravità non sono più quelli di prima.' },
+      { id: 4, nombre: 'Dirittura d’arrivo', sub: 'Dalla settimana 37', disco: 25, rpe: 'Borg 11-13 · dolce', objetivo: 'Camminare, pavimento pelvico e mobilità. Quello che ti va e quello che il corpo ti concede, fino al giorno del parto.' }
+    ],
+    FASES_PP: [
+      { id: 1, nombre: 'Recupero', sub: 'Settimane 0-2', disco: 10, rpe: 'dolce', objetivo: 'Pavimento pelvico da quando puoi, respirazione, camminate corte. Nient’altro, ed è già tanto. Con il cesareo, senza fretta: comanda la cicatrice.' },
+      { id: 2, nombre: 'Riconnessione', sub: 'Settimane 2-6', disco: 15, rpe: 'Borg 11-13', objetivo: 'Squat, affondo, ponte e rematore con elastico: quello che farai mille volte al giorno con il bebè in braccio, imparato senza carico.' },
+      { id: 3, nombre: 'Base', sub: 'Settimane 6-12', disco: 20, rpe: '6-7', objetivo: 'Dopo la visita di controllo: circuiti, cyclette o ellittica, stacco leggero. Ancora senza impatto: il pavimento pelvico si prende il suo tempo.' },
+      { id: 4, nombre: 'Costruzione', sub: 'Dalla settimana 12', disco: 25, rpe: '7-8', objetivo: 'Il piano di sempre, dalla base. Correre, solo con la lista di controllo superata e senza sintomi.' }
+    ],
+    REGLAS_EMB: [
+      { n: 1, t: 'Puoi parlare', d: 'L’intensità si misura con la voce, non con il battito: se riesci a portare avanti una conversazione, vai bene (Borg 12-14). In gravidanza il battito risponde in modo diverso e inganna.' },
+      { n: 2, t: 'Niente record', d: 'Qui non si progredisce in chili: si mantiene. Nessuna serie a cedimento, nessuna manovra di trattenere l’aria per sollevare. Espira nello sforzo.' },
+      { n: 3, t: 'Niente a pancia in su dalla 16', d: 'Da sdraiata a pancia in su l’utero comprime la vena cava e la pressione scende. Il piano cambia da solo quegli esercizi; se in qualsiasi momento senti capogiri, cambia posizione.' },
+      { n: 4, t: 'Pavimento pelvico ogni giorno', d: '3 × 10 contrazioni al giorno. È la raccomandazione con più evidenza di tutte le linee guida, e previene l’incontinenza dopo il parto.' },
+      { n: 5, t: 'Caldo e acqua', d: 'Allenati in un posto fresco, con l’acqua a portata e senza superare i 45 minuti di fila: oltre, la glicemia scende. Niente hot yoga, sauna né esercizio con la febbre.' },
+      { n: 6, t: 'Niente cadute né colpi', d: 'Fuori gli sport di contatto, quelli di racchetta, la bici all’aperto, i pattini o qualsiasi cosa con rischio di cadere. Camminare, nuotare, cyclette e questa forza coprono tutto.' },
+      { n: 7, t: 'Fermati e chiama', d: 'Sanguinamento, dolore addominale, contrazioni regolari, perdita di liquido, affanno a riposo, capogiri, mal di testa forte, dolore al petto, debolezza, o dolore e gonfiore a un polpaccio: quel giorno non si allena e si sente il medico.' },
+      { n: 8, t: 'Il corridoio sale', d: 'La bilancia sale e deve salire: {g} kg in totale per il tuo BMI di partenza, circa {r} kg a settimana dal secondo trimestre. Fuori da lì, parlane alla visita; qui non c’è deficit.' }
+    ],
+    REGLAS_PP: [
+      { n: 1, t: 'Comandano i sintomi', d: 'Ogni passo si fa se il precedente non ha dato perdite, pesantezza, dolore né più sanguinamento. Se compaiono, si torna indietro di una settimana e si sente il medico.' },
+      { n: 2, t: 'Niente impatto prima della 12', d: 'Niente corsa, niente salti, niente lezioni con salti prima delle 12 settimane, e dopo solo con la lista di controllo superata. Il pavimento pelvico si riprende in mesi, non in giorni.' },
+      { n: 3, t: 'Pavimento pelvico ogni giorno', d: '3 × 10 al giorno da quando puoi. E valutazione con la fisioterapia del pavimento pelvico verso la settimana 6, anche se non senti nulla: le linee guida la raccomandano a tutte.' },
+      { n: 4, t: 'Cesareo: comanda la cicatrice', d: 'Ogni tratto slitta di due settimane e niente che tiri sulla cicatrice fino alla visita di controllo. Quando è guarita, massaggiarla aiuta a non farla aderire.' },
+      { n: 5, t: 'Sonno', d: '7-9 ore è quello che il corpo chiede e quello che quasi mai c’è. I sonnellini contano: falli coincidere con quelli del bebè. Una settimana senza dormire è una settimana di minimo, non di fallimento.' },
+      { n: 6, t: 'Mangiare per due', d: 'Con l’allattamento il dispendio sale di circa 450 kcal al giorno. Il deficit, se c’è, parte dalla settimana 6 e non supera le 500 kcal: mezzo chilo a settimana è ciò che l’evidenza dà per sicuro per il bebè.' },
+      { n: 7, t: 'Addominali sì', d: 'Gli addominali non aprono la diastasi dei retti né la chiudono: danno forza e funzione. Il core del piano è progressivo; se senti un rigonfiamento quando ti tiri su, alza l’inclinazione.' },
+      { n: 8, t: 'Il minimo regge', d: 'Settimana caotica: 2 forza + 1 camminata. Non si perde niente; si riprende da dove eri.' }
+    ],
+    CIENCIA_EMB: {
+      intro: 'Piano verificato contro le linee guida cliniche in vigore (ACOG 2020, canadese 2019, SEGO 2019, OMS 2020) e le metanalisi che le sostengono. L’idea che ordina tutto: l’esercizio in gravidanza è trattamento di prima linea, e quello che va adattato sono posizioni e intensità, non la voglia.',
+      temas: [
+        { t: 'Meno complicazioni', d: 'Il solo esercizio riduce il diabete gestazionale (OR 0,62), l’ipertensione gestazionale (0,61) e la preeclampsia (0,59) in 106 studi e 273.182 donne. Bastano 140 minuti a settimana di camminata veloce, cyclette o forza.', ref: 'Davenport et al., Br J Sports Med 2018' },
+        { t: 'Forza sì; pesante, non di default', d: 'Le linee guida includono la forza con pesi ed elastici tra ciò che è studiato e sicuro. In 679 atlete che hanno continuato a caricare pesante i risultati sono stati normali: non c’è evidenza di danno in chi lo faceva già, e nemmeno di beneficio nell’iniziare adesso. Per questo il tetto è parlare senza affannarsi.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
+        { t: 'Il pavimento pelvico si allena', d: 'Allenarlo in gravidanza riduce del 62% l’incontinenza a fine gravidanza e del 29% a tre mesi dal parto in donne senza perdite precedenti. È l’intervento con più evidenza di tutto il piano.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'Quanto salire e quante proteine', d: 'L’aumento atteso dipende dal BMI di partenza (IOM 2009), e il fabbisogno reale di proteine misurato con gli isotopi è di 1,2 g/kg all’inizio e 1,5 alla fine, molto sopra la cifra ufficiale di 0,88. Il piano chiede 1,4 e 1,6 sul peso di partenza.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
+      ]
+    },
+    CIENCIA_PP: {
+      intro: 'Piano verificato contro la linea guida canadese del 2025, la prima dedicata al primo anno dopo il parto, e il consenso di fisioterapia sul ritorno alla corsa. L’idea che ordina tutto: muoversi fin dai primi giorni protegge la salute mentale, e l’impatto aspetta il pavimento pelvico.',
+      temas: [
+        { t: '120 minuti che valgono il 45%', d: 'Accumulare 120 minuti a settimana di attività moderata, in 4 giorni o più e con la forza inclusa, si associa al 45% in meno di depressione post parto, al 37% in meno di incontinenza e al 28% in meno di diabete di tipo 2, senza più infortuni né cambiamenti nel latte.', ref: 'Davenport et al., Br J Sports Med 2025' },
+        { t: 'Correre dalla 12, e a condizioni', d: 'Il riferimento di fisioterapia fissa i tre mesi come minimo, e una batteria di prove di carico e impatto senza perdite né pesantezza prima di trottare. L’app la porta dentro.', ref: 'Goom, Donnelly e Brockwell, 2019' },
+        { t: 'Allattamento e deficit', d: 'Con l’allattamento esclusivo, 500 kcal in meno al giorno e 45 minuti di esercizio 4 giorni a settimana dalla settimana 4 hanno fatto perdere 4,8 kg in 10 settimane senza alcun effetto sul peso né sulla statura dei bebè.', ref: 'Lovelady et al., N Engl J Med 2000' },
+        { t: 'Addominali e diastasi', d: 'Dodici settimane di curl-up non hanno peggiorato la separazione dei retti e hanno aumentato forza e spessore. Quello che l’esercizio non fa è chiuderla: le revisioni non trovano effetto sulla distanza.', ref: 'Gluppe et al., J Physiother 2023 · Lyons et al., Hernia 2026' }
+      ]
+    },
+    SENALES_EMB: ['Fermati e senti il medico: sanguinamento, dolore addominale, contrazioni regolari, perdita di liquido, affanno a riposo, capogiri, mal di testa forte, dolore al petto, debolezza che tocca l’equilibrio, dolore o gonfiore al polpaccio.', 'Normale: stanchezza, caldo e vampate che passano abbassando il ritmo; fastidio lieve nel bacino che cede cambiando posizione.', 'Parlane alla prossima visita: dolore pelvico che si ripete, perdite di urina, pesantezza.'],
+    SENALES_PP: ['Fermati e senti il medico: sanguinamento che aumenta con lo sforzo, dolore addominale intenso, febbre, dolore o gonfiore a un polpaccio, capogiri, dolore alla cicatrice che peggiora.', 'Normale: stanchezza, indolenzimento leggero, un po’ di fastidio alla cicatrice all’inizio che va a diminuire.', 'Fisioterapia del pavimento pelvico prima di continuare: perdite di urina o di feci, pesantezza o rigonfiamento in vagina, dolore durante i rapporti, rigonfiamento sulla pancia quando ti tiri su.'],
+    UI: {
+      patrones: { sp: 'Pavimento pelvico' },
+      cuest: {
+        etapaT: 'Gravidanza o post parto?', etapaP: 'Cambia tutto il piano: posizioni, intensità, cibo e ciò che si misura.',
+        etapaNo: 'Nessuna delle due', etapaEmb: 'Sono incinta', etapaPp: 'Ho partorito da poco',
+        embT: 'La tua gravidanza', embSemL: 'Settimana di gravidanza', embPesoPreL: 'Peso prima della gravidanza (kg) · opzionale', embSemMal: 'Settimana tra 4 e 42.',
+        embRiesgoT: 'Qualcuna di queste?', embRiesgoP: 'Sono le controindicazioni delle linee guida. Se ne segni una, l’esercizio lo decide il tuo ginecologo o la tua ostetrica.',
+        embR: { membranas: 'Rottura delle membrane', prematuro: 'Minaccia di parto pretermine', sangrado: 'Sanguinamento vaginale persistente', placenta: 'Placenta previa (dalla settimana 20)', preeclampsia: 'Preeclampsia o pressione alta non controllata', cervix: 'Cervice incompetente o cerchiaggio', cir: 'Restrizione della crescita intrauterina', multiple: 'Gravidanza trigemina o più', diabetes: 'Diabete di tipo 1 o tiroide non controllati', cardio: 'Malattia cardiaca o respiratoria importante' },
+        embRiesgoNo: 'Nessuna',
+        embAvisoRel: 'Se hai avuto aborti spontanei precedenti, ipertensione gestazionale, gemelli, anemia con sintomi o un parto pretermine, parlane alla prossima visita: il piano prosegue, con più margine.',
+        gateEmbT: 'Comanda la tua gravidanza', gateEmbTxt: 'Hai segnato una controindicazione delle linee guida. Con quella, il piano si genera solo se il tuo ginecologo o la tua ostetrica ti ha dato il via libera per fare esercizio moderato.',
+        ppT: 'Il tuo parto', ppFechaL: 'Che giorno hai partorito?', ppFechaMal: 'Scegli una data degli ultimi 12 mesi.',
+        ppTipoT: 'Com’è andato?', ppVaginal: 'Vaginale', ppCesarea: 'Cesareo',
+        ppLactT: 'Stai allattando al seno?', ppLactSi: 'Sì', ppLactNo: 'No',
+        ppSpT: 'Noti qualcuna di queste?', ppSpP: 'Sono segnali del pavimento pelvico. Non chiudono il piano: frenano l’impatto e chiedono fisioterapia.',
+        ppSp: { orina: 'Perdite di urina quando tossisci, ridi o salti', pesadez: 'Pesantezza, rigonfiamento o pressione in vagina', dolor: 'Dolore pelvico o durante i rapporti', bulto: 'Rigonfiamento sulla pancia quando mi tiro su' },
+        ppSpNo: 'Nessuna',
+        ppRiesgoT: 'Qualcuna di queste adesso?', ppRiesgoP: 'Sono le controindicazioni della linea guida del 2025. Se ne segni una, serve il via libera della tua dottoressa.',
+        ppR: { sangrado: 'Sanguinamento che aumenta con lo sforzo', dolor: 'Dolore addominale intenso', fiebre: 'Febbre o infezione', tension: 'Pressione alta non controllata', pantorrilla: 'Dolore o gonfiore a un polpaccio', cicatriz: 'Dolore alla cicatrice che peggiora quando mi muovo', mareo: 'Capogiri o svenimenti' },
+        ppRiesgoNo: 'Nessuna',
+        gatePpT: 'Comanda il tuo recupero', gatePpTxt: 'Hai segnato una controindicazione della linea guida del 2025. Il piano si genera quando la tua dottoressa o la tua ostetrica ti avrà dato il via libera.',
+        cicloT: 'Il tuo ciclo', cicloP: 'Opzionale. Serve a registrare e prevedere le mestruazioni, e a leggere meglio la bilancia e i giorni fiacchi. Non cambia il piano per fasi: l’evidenza non lo sostiene.',
+        cicloNat: 'Ho un ciclo naturale', cicloHorm: 'Uso un contraccettivo ormonale', cicloSin: 'Ora non ho le mestruazioni', cicloNo: 'Preferisco non dirlo',
+        cicloUltT: 'Quando sono iniziate le tue ultime mestruazioni?', cicloUltMal: 'Scegli un giorno degli ultimi 60.',
+        cicloDurT: 'Quanto dura di solito il tuo ciclo?', cicloDurP: 'Dal primo giorno di mestruazioni al successivo. Il normale sta tra 24 e 38 giorni.', cicloDurNs: 'Non lo so',
+        resLEtapa: 'Fase', resLCiclo: 'Ciclo', resEmb: 'Gravidanza · settimana {s}', resPp: 'Post parto · settimana {s}', resPpCes: 'Post parto · cesareo · settimana {s}',
+        resCicloNat: 'Ciclo naturale · {d} giorni', resCicloHorm: 'Contraccettivo ormonale', resCicloSin: 'Ora senza mestruazioni'
+      },
+      gen: {
+        emb: {
+          kcalNota: '{t}: il tuo dispendio più {k} kcal. Nessun deficit: qui si costruisce.',
+          ritmoT: 'Aumento atteso', ritmoV: '+{a}–{b} kg/sett', ritmoN: 'Dal secondo trimestre, per il tuo BMI di partenza ({imc}). In totale, {g} kg (IOM 2009).',
+          fila1: '1º trimestre', fila2: '2º trimestre', fila3: '3º trimestre',
+          nota1: '+70 kcal: quasi niente. Mangia quando il corpo lo chiede.', nota2: '+260 kcal: una porzione in più, con proteine.', nota3: '+500 kcal: due porzioni in più. Le proteine salgono a 1,6 g/kg.',
+          escalado: 'Le proteine ({p} g) si calcolano sul tuo peso prima della gravidanza; quello che sale per trimestre è il resto.',
+          hidratacion: 'Acqua: 2,3 litri al giorno (8-10 bicchieri). Alcol: nessuno, in nessuna quantità. Caffeina: fino a 200 mg al giorno contando tutto (un caffè lungo e un tè).',
+          comidaLibre: 'C’è ancora un pasto libero a settimana, con le stesse regole di sicurezza: niente crudo, niente salumi crudi né prodotti non pastorizzati, e niente alcol. Si può spostare; resta uno.',
+          plato: 'Ogni pasto: 150-200 g di carne magra o pesce ben cotto (niente pesce spada, squalo, tonno rosso né luccio), o 3 uova ben cotte, o 250 g di skyr o formaggio fresco pastorizzato, o 250 g di legumi cotti + 1 uovo.',
+          supl: [
+            { id: 'folico', t: 'Acido folico', d: '0,4 mg al giorno, almeno le prime 12 settimane: è la raccomandazione forte della linea guida del Ministero. Se lo prendi già su prescrizione, continua con quella.' },
+            { id: 'yodo', t: 'Iodio', d: '200 µg al giorno durante la gravidanza e l’allattamento (EFSA). Se non arrivi a 3 latticini e sale iodato al giorno, te lo prescrive la tua ostetrica come ioduro di potassio.' },
+            { id: 'omega-3', t: 'DHA', d: '100-200 mg di DHA al giorno oltre al pesce azzurro (EFSA). Con 3-4 porzioni di pesce a settimana di solito basta.' },
+            { id: 'vitamina-d', t: 'Vitamina D', d: '15 µg al giorno di riferimento. Si integra solo se lo chiedono le analisi.' },
+            { id: 'hierro', t: 'Ferro', d: 'Nessun extra di default: l’assenza di mestruazioni e il maggiore assorbimento bastano. Solo se lo dicono le tue analisi.' },
+            { id: 'cafeina', t: 'Caffeina', d: 'Tetto di 200 mg al giorno sommando caffè, tè, cola ed energy drink. Un caffè lungo è già la metà.' },
+            { id: 'no', t: 'Ora no', d: 'Creatina (nessuno studio in gravidanza: non iniziare adesso), brucia-grassi, pre-workout, vitamina A oltre le 2.500 UI ed erbe “per la gravidanza”. Niente che non ti abbia prescritto la tua ostetrica.' }
+          ],
+          seguridad: 'Fuori dal menù: pesce o frutti di mare crudi e affumicati da banco frigo; formaggi non pastorizzati e latte crudo; paté da banco frigo e germogli; uovo crudo o poco cotto; prosciutto crudo e salumi crudi se non cotti; pesce spada, squalo, tonno rosso e luccio. Carne cotta fino a 71 °C al cuore; avanzi oltre i 75 °C; frigorifero a 4 °C o meno; frutta e verdura ben lavate.',
+          jamon: 'Il prosciutto crudo: l’AESAN lo elenca tra quelli da evitare se non cotto. Congelarlo 48 h a −20 °C inattiva il toxoplasma, ma non la listeria. Se lo mangi, cotto; e mai affettato in busta.',
+          hito14T: 'Secondo trimestre', hito14D: 'Di solito torna l’energia. Se ti va, alza un po’ il ritmo, mai oltre il poter parlare.',
+          hito16T: 'Da oggi, niente a pancia in su', hito16D: 'Il piano ha già sostituito ponte, dead bug e panca piana con versioni in piedi, inclinate o in quadrupedia. Se senti capogiri da sdraiata, cambia posizione senza aspettare.',
+          hito28T: 'Terzo trimestre', hito28D: 'Sessioni più corte e con appoggio. Il centro di gravità non è più quello di prima: niente che dipenda dall’equilibrio. Se correvi, da oggi cammini.',
+          hito36T: 'Dirittura d’arrivo', hito36D: 'Comandano camminata e pavimento pelvico. Allenati quanto ti va, fino al giorno del parto se il corpo lo chiede.',
+          cierre: 'Il piano finisce con il parto, intorno al {f}. Quando nasce, entra in Impostazioni e aggiorna il profilo al post parto: il piano cambia del tutto.',
+          chkD: 'Corridoio di aumento per il tuo BMI di partenza (IOM 2009). Dentro è dentro; sopra per due settimane di fila, parlane alla visita.',
+          cuidaN: 'niente a pancia in su dalla 16 · niente salti né equilibrio · tetto: poter parlare',
+          logroFinD: 'Piano completato fino al parto. Ora tocca al post parto: l’app cambia con te.'
+        },
+        pp: {
+          kcalNotaLact: 'Il tuo dispendio più {k} kcal per l’allattamento{d}. Minimo 1.800 kcal: sotto, cala il latte prima del grasso.',
+          kcalNota: '{d}. Prima della settimana 6, mantenimento: prima guarire.',
+          defTxt: ', meno {v} kcal di deficit dalla settimana 6', mantTxt: 'Mantenimento',
+          fila1: 'Recupero e riconnessione (fino alla visita)', fila2: 'Base (dalla visita alla settimana 12)', fila3: 'Costruzione (sett 12+)',
+          escalado: 'Con l’allattamento le proteine ({p} g) salgono a 1,6 g/kg e non si toccano; i carboidrati accompagnano il volume.',
+          hidratacion: 'Acqua: 2,5-3 litri al giorno, di più con l’allattamento (ogni poppata dà sete: bevi allora). Alcol: meno ce n’è, meglio è per il bebè; se c’è, lontano dalla poppata. Caffeina: fino a 200 mg al giorno con l’allattamento.',
+          comidaLibre: 'Un pasto a settimana, non un giorno. Con l’allattamento il pesce resta senza pesce spada, squalo, tonno rosso né luccio; il resto torna in tavola.',
+          supl: [
+            { id: 'yodo', t: 'Iodio', d: '200 µg al giorno finché dura l’allattamento (EFSA): il latte se lo porta via.' },
+            { id: 'omega-3', t: 'DHA', d: '100-200 mg al giorno oltre al pesce azzurro finché dura l’allattamento (EFSA).' },
+            { id: 'vitamina-d', t: 'Vitamina D', d: '15 µg al giorno di riferimento; integrazione solo se lo chiedono le analisi.' },
+            { id: 'hierro', t: 'Ferro', d: 'Dopo il parto, analisi se c’è stato sanguinamento abbondante o stanchezza che non passa; integrare solo con la ferritina bassa.' },
+            { id: 'whey', t: 'Whey', d: 'Un misurino dove mancano proteine: con l’allattamento sono 1,6 g/kg e con la tavola è dura arrivarci.' },
+            { id: 'cafeina', t: 'Caffeina', d: 'Con l’allattamento, tetto di 200 mg al giorno e mai dopo le 14: la sente anche il bebè.' },
+            { id: 'no', t: 'Non spendere in', d: 'Brucia-grassi, “recuperatori post parto”, guaine che promettono di chiudere la diastasi e creatina fino allo svezzamento. Non spostano l’ago.' }
+          ],
+          hito6T: 'Visita e pavimento pelvico', hito6D: 'Dopo la visita di controllo delle 6 settimane, valutazione con la fisioterapia del pavimento pelvico anche se non senti nulla: le linee guida del 2025 la raccomandano a tutte.',
+          hito8T: 'La cicatrice', hito8D: 'Cesareo: se è chiusa e asciutta, massaggiarla ogni giorno evita che aderisca. Continua senza niente che tiri sulla cicatrice.',
+          hito12T: 'Impatto: la lista', hito12D: 'Da oggi puoi pensare di correre, se superi la lista di controllo in OGGI senza perdite né pesantezza. Senza fretta: tra i 3 e i 6 mesi è la norma.',
+          cierre: 'Piano post parto finito il {f}. Il blocco successivo inizia dove finisce questo: Impostazioni › Crea / rifai il mio piano, ormai come il piano di sempre.',
+          cuidaN: 'niente impatto fino alla 12 · pavimento pelvico ogni giorno · cesareo: due settimane in più per tratto',
+          correrT: 'Pronta per correre', correrP: 'Tutto senza perdite, pesantezza, dolore né sanguinamento. Segna quello che già fai senza sintomi e salva.',
+          correr: { pasear: 'Camminare 30 minuti', equil: 'Equilibrio su una gamba 10″ per lato', sent1: 'Squat su una gamba, 10 per lato', trote: 'Corsa sul posto 1 minuto', saltos: '10 salti in avanti', pata: '10 salti su una gamba per lato', runman: '10 running man per lato', fuerza: '20 calf raise, ponti e squat su una gamba, e 20 abduzioni su un fianco' },
+          correrOk: 'Salva: ora posso correre', correrHecho: 'Lista superata il {f}: il cardio ora può includere la corsa leggera.',
+          correrAviso: 'Con perdite, pesantezza o dolore in una delle prove: fisioterapia del pavimento pelvico prima di correre. Non è un fallimento, è l’ordine giusto.'
+        },
+        ciclo: {
+          fase: { regla: 'mestruazioni', folicular: 'fase follicolare', ovulatoria: 'ovulazione stimata', lutea: 'fase luteale', premenstrual: 'fase luteale · premestruale', retraso: 'mestruazioni in ritardo' },
+          linea: 'Ciclo · giorno {d} · {f}', proxima: 'mestruazioni previste il {f} (±{m} giorni)', proximaHoy: 'mestruazioni previste oggi o domani', retraso: '{n} giorni di ritardo sul previsto',
+          irregular: 'Cicli con più di 9 giorni di variazione: non si prevedono. Registra le mestruazioni e, se escono da 24-38 giorni in modo ripetuto, parlane con la tua dottoressa.',
+          hormonal: 'Con il contraccettivo ormonale non ci sono fasi: il sanguinamento è dovuto alla pausa dalla pillola, non sono mestruazioni. Registra lo stesso se vuoi il calendario.',
+          sinRegla: 'Più di 90 giorni senza mestruazioni, senza gravidanza né contraccettivo ormonale: fatti vedere. È il segnale che usano il CIO e le linee guida di salute femminile.',
+          nota: { regla: 'Se c’è dolore o stanchezza, oggi va bene il minimo o abbassare di un punto lo sforzo. Altrimenti allenati uguale: il rendimento non dipende dalla fase. Ferro in tavola: legumi o carne rossa magra, con vitamina C.', folicular: 'Niente da cambiare: l’evidenza non trova differenze di forza né di adattamento per fase.', ovulatoria: 'I legamenti sono un po’ più lassi in questi giorni: atterra bene negli affondi e nei salti. Il piano non cambia.', lutea: 'Dispendio e appetito un po’ più alti (il 2-11%): il margine di oggi sale di circa 150 kcal. Il peso può salire per l’acqua: la media settimanale lo assorbe.', premenstrual: 'Voglie, sonno peggiore e un po’ di gonfiore sono normali in questi giorni. Non compensare, non pesarti ogni giorno e, se l’umore lo chiede, il minimo va bene.' },
+          hRegla: 'Mestruazioni', hReglaSub: 'Segna i giorni di sanguinamento', hAbund: 'Sanguinamento abbondante', hAbundSub: 'Assorbente zuppo ogni 1-2 h: chiedi la ferritina',
+          abundNota: 'Il sanguinamento abbondante riguarda un’atleta su tre e si associa all’anemia. Analisi con ferritina, e ferro solo se esce bassa.'
+        }
+      },
+      rev: {
+        etapaEmbT: 'Settimana {s} di gravidanza', etapaEmbSub: 'piano fino al parto, intorno al {f}; senza deficit né record',
+        etapaPpT: 'Post parto · settimana {s}', etapaPpSub: 'progressione per settimane dal parto; impatto solo dalla 12', etapaPpCes: 'cesareo: ogni tratto, due settimane in più',
+        kEmb: 'il tuo dispendio più il tratto del trimestre: qui non si taglia', kLact: 'con l’allattamento incluso; il deficit aspetta la settimana 6',
+        cuidaEmbT: 'Posizioni e intensità adattate', cuidaEmbSub: 'niente a pancia in su dalla 16, niente salti né equilibrio, tetto: poter parlare',
+        cuidaPpT: 'Prima il pavimento pelvico', cuidaPpSub: 'ogni giorno, e fisioterapia verso la settimana 6',
+        cicloT: 'Ciclo registrato', cicloSub: 'segna le mestruazioni in OGGI: previsione, lettura della bilancia e giorni fiacchi. Nessuna sessione per fasi: non c’è evidenza.',
+        cicloHormT: 'Contraccettivo ormonale', cicloHormSub: 'nessuna fase da leggere; il piano non cambia'
+      },
+      hoy: {
+        embLinea: 'Settimana {s} di gravidanza · {t}', embT1: '1º trimestre', embT2: '2º trimestre', embT3: '3º trimestre', embT4: 'dirittura d’arrivo',
+        embPasada: 'Data presunta del parto superata: quando nasce, aggiorna il profilo al post parto in Impostazioni.',
+        ppLinea: 'Post parto · settimana {s}{c}', ppCes: ' · cesareo',
+        hSuelo: 'Pavimento pelvico', hSueloSub: '3 × 10 · 6-8″ ciascuna',
+        correrChip: 'Pronta per correre', correrChipSub: 'Settimana 12 compiuta: controlla la lista',
+        pesoSube: 'Presi', corredorEmb: 'Corridoio di aumento', corredorEmbSub: 'per il tuo BMI di partenza: {g} kg in totale (IOM 2009)',
+        pesoEmbNota: 'Media settimanale dentro il corridoio: bene. Sopra per due settimane di fila: parlane alla visita, non tagliare.'
+      }
+    }
+  };
+  Object.assign(EJERCICIOS, MUJER.EJERCICIOS);
+  Object.assign(SESIONES, MUJER.SESIONES);
+  Object.assign(UI.patrones, MUJER.UI.patrones);
+  Object.assign(UI.cuest, MUJER.UI.cuest);
+  Object.assign(UI.gen, MUJER.UI.gen);
+  Object.assign(UI.rev, MUJER.UI.rev);
+  UI.mujer = MUJER.UI.hoy;
+  /* ---------- fin MUJER ---------- */
+  return {SUELO_PELVICO: MUJER.SUELO_PELVICO, CALENTAMIENTO_EMB: MUJER.CALENTAMIENTO_EMB, FASES_EMB: MUJER.FASES_EMB, FASES_PP: MUJER.FASES_PP, REGLAS_EMB: MUJER.REGLAS_EMB, REGLAS_PP: MUJER.REGLAS_PP, CIENCIA_EMB: MUJER.CIENCIA_EMB, CIENCIA_PP: MUJER.CIENCIA_PP, SENALES_EMB: MUJER.SENALES_EMB, SENALES_PP: MUJER.SENALES_PP,
+    META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MENU, CHECKPOINTS, FOTOS, LOGROS, CIENCIA, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
 })();

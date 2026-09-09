@@ -204,6 +204,8 @@
   function totalFuerza() { return Object.keys(S.dias).filter(f => { const sl = slotDe(f); return sl && sl.ses && sl.ses.tipo === 'fuerza' && S.dias[f].sesionOk; }).length; }
   function faseCompleta(fid) {
     const fase = D.FASES[fid - 1];
+    // una fase sin semanas (un trimestre ya pasado al empezar) no se completa: se salta
+    if (!fase || !fase.semanas || !fase.semanas.length) return false;
     const finF = fechasSemana(fase.semanas[fase.semanas.length - 1]).fin;
     if (hoyISO() < finF) return false;
     let tot = 0, ok = 0;
@@ -647,7 +649,7 @@
     const w = semanaDe(d);
     const enPlan = w >= 1 && w <= SEMANAS;
     const fase = enPlan ? D.CAL[w - 1].fase : 1;
-    const fn = D.NUTRI.fases[fase === 4 ? 2 : fase === 3 ? 1 : 0];
+    const fn = D.NUTRI.fases[filaNutri(fase)];
     const sl = enPlan ? slotDe(d) : null;
     // la franja elegida en el cuestionario ordena el día: se dice donde se come
     const franjaNota = (D.__gen && D.META.franja && sl && sl.ses && (sl.ses.tipo === 'fuerza' || sl.ses.tipo === 'cardio') && TX.gen)
@@ -791,7 +793,7 @@
       /* el cierre recapitula con los datos que la app ya tiene: el único
          momento con derecho a números propios no puede ser el más seco */
       const ms = mediasSemanales();
-      const gana = D.META.objetivo === 'ganar';
+      const gana = D.META.objetivo === 'ganar' || D.META.etapa === 'embarazo';
       const dif = ms.length ? (gana ? ms[ms.length - 1].m - D.META.perfil.pesoSalida : D.META.perfil.pesoSalida - ms[ms.length - 1].m) : 0;
       const recap = el('div', { class: 'card' });
       if (TX.gen && TX.gen.finRecapT) recap.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.gen.finRecapT))));
@@ -812,6 +814,18 @@
       root.append(el('h1', { style: 'font-size:30px;padding:0 2px' }, sl.ses ? sl.ses.nombre : TX.descanso),
         el('div', { class: 'sub', style: 'padding:0 2px;color:var(--ink2)' },
           tpl(TX.semanaLinea, { w, t: SEMANAS, f: fase.id, n: fase.nombre, r: fase.rpe })));
+      /* — etapa: la semana que de verdad cuenta (de gestación o desde el parto) — */
+      const MU = TX.mujer || {}, GM = window.B2P_GEN;
+      if (D.META.etapa === 'embarazo' && GM && MU.embLinea) {
+        const g = GM.semanaGestacion(D.META.fpp, d);
+        root.append(el('div', { class: 'mini', style: 'padding:0 2px;margin-top:2px;color:var(--volt)' },
+          tpl(MU.embLinea, { s: g, t: MU['embT' + GM.faseEmb(g)] || '' })));
+        if (d > D.META.fpp && MU.embPasada) root.append(el('div', { class: 'banner warn' }, el('div', null, MU.embPasada)));
+      }
+      if (D.META.etapa === 'posparto' && GM && MU.ppLinea) {
+        root.append(el('div', { class: 'mini', style: 'padding:0 2px;margin-top:2px;color:var(--volt)' },
+          tpl(MU.ppLinea, { s: GM.semanasPosparto(D.META.parto, d), c: D.META.cesarea ? MU.ppCes : '' })));
+      }
 
       // banner de semana especial
       const hito = D.HITOS_SEMANA[w];
@@ -844,6 +858,16 @@
       };
       hb.append(mkHabit('pasos', icono('actividad', 20), TX.hPasos, TX.hPasosSub));
       hb.append(mkHabit('prote', icono('capas', 20), TX.hProte, tpl(TX.hProteSub, { q: D.__qMin || 40 })));
+      /* suelo pélvico a diario en embarazo y posparto: es la recomendación
+         con más evidencia de las guías, y se marca como los pasos */
+      if (D.META.etapa && MU.hSuelo) hb.append(mkHabit('suelo', icono('escudo', 20), MU.hSuelo, MU.hSueloSub));
+      /* la regla se registra aquí: el primer día marcado tras días sin marcar
+         es el día 1 del ciclo, y de ahí sale la predicción de HOY */
+      const CI = (TX.gen && TX.gen.ciclo) || {};
+      if (D.META.ciclo && D.META.ciclo.modo !== 'sin' && D.META.ciclo.modo !== 'no' && !D.META.etapa && CI.hRegla) {
+        hb.append(mkHabit('regla', icono('calendario', 20), CI.hRegla, CI.hReglaSub));
+        if (dd.regla && CI.hAbund) hb.append(mkHabit('reglaAbund', icono('cruz', 20), CI.hAbund, CI.hAbundSub, true));
+      }
 
       const dow = dowMon(d);
       if ([0, 2, 4].includes(dow)) {
@@ -861,7 +885,8 @@
           el('div', null, el('div', { class: 'ht' }, TX.hPeso), el('div', { class: 'hs' }, TX.hPesoSub)),
           pIn, el('span', { class: 'u mini' }, 'kg')));
       }
-      if (dow === 0) {
+      // la cintura no mide nada durante el embarazo: fuera de HOY hasta el posparto
+      if (dow === 0 && D.META.etapa !== 'embarazo') {
         const cIn = el('input', { type: 'text', inputmode: 'decimal', placeholder: '—', 'aria-label': TX.hCintura + ' · cm', value: dd.cintura ? String(dd.cintura).replace('.', ',') : '', onchange: ev => {
           const r = valida(ev.target.value, 'cintura');
           if (r.malo) { ev.target.value = dd.cintura ? String(dd.cintura).replace('.', ',') : ''; return; }
@@ -877,6 +902,18 @@
       if (dow === 6) hb.append(mkHabit('prep', icono('caja', 20), TX.hPrep, TX.hPrepSub, true));
       if (D.FOTOS.includes(d)) hb.append(mkHabit('foto', icono('camara', 20), TX.hFoto, TX.hFotoSub, true));
       root.append(hb);
+      /* — ciclo: dónde estás, cuándo toca y cómo leer el día — */
+      const cic = tarjetaCiclo(d);
+      if (cic) root.append(cic);
+      /* — posparto: la lista para volver a correr, desde la semana 12 — */
+      if (D.META.etapa === 'posparto' && GM && !D.META.correrOk && TX.gen && TX.gen.pp && TX.gen.pp.correr && MU.correrChip) {
+        const wp = GM.semanasPosparto(D.META.parto, d);
+        if (wp !== null && wp >= (D.META.cortesPP || [2, 6, 12])[2]) {
+          root.append(el('button', { class: 'habit wide plano', type: 'button', style: 'margin-top:8px', onclick: hojaCorrer },
+            el('div', { class: 'hicon' }, icono('actividad', 20)),
+            el('div', null, el('div', { class: 'ht' }, MU.correrChip), el('div', { class: 'hs' }, MU.correrChipSub))));
+        }
+      }
 
       /* sesión de fuerza */
       if (sl.ses && sl.ses.tipo === 'fuerza') {
@@ -1016,6 +1053,9 @@
         if (bRodilla && (sl.ses.tendon === 'rodilla' || (fase.id === 1 && D.META.historial !== 'activo'))) tb.push(bRodilla);
         const bCodo = bloqPorId('tendon-codo');
         if (bCodo && ['torso-a', 'torso-b', 'fb-a', 'fb-b', 'push-a', 'pull-a', 'push-b', 'pull-b'].includes(sl.sid)) tb.push(bCodo);
+        // en embarazo y posparto el bloque de seguridad es el suelo pélvico, tras cada sesión
+        const bSuelo = bloqPorId('suelo-pelvico');
+        if (bSuelo) tb.push(bSuelo);
         if (tb.length) {
           const on = !!dd.tendon;
           card.append(el('button', { class: 'habit wide' + (on ? ' on' : '') + ' plano', type: 'button', style: 'margin-top:10px',
@@ -1026,7 +1066,7 @@
               ev.currentTarget.setAttribute('aria-pressed', dd.tendon ? 'true' : 'false');
             } },
             el('div', { class: 'hicon' }, icono('escudo', 19)),
-            el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, TX.tendonNombre + ' · ' + tb.map(x => x.nombre.split(' ·')[0]).join(' + ')),
+            el('div', { style: 'flex:1' }, el('div', { class: 'ht' }, (D.META.etapa ? String(D.TENDON.titulo || '').split(' ·')[0] : TX.tendonNombre) + ' · ' + tb.map(x => x.nombre.split(' ·')[0]).join(' + ')),
               el('div', { class: 'hs' }, tb.map(x => x.detalle.split('.')[0]).join(' · ')))));
         }
         root.append(card);
@@ -1084,7 +1124,8 @@
           const L = dd.ej[ejId];
           if (L.kg && L.done && !L.falta) {
             const pr = S.prs[ejId];
-            if (!pr || L.kg > pr.kg) { S.prs[ejId] = { kg: L.kg, fecha: d }; if (pr) { S.prCount++; toast(tpl(TX.prToast, { e: (D.EJERCICIOS[ejId] || {}).nombre, v: kg1(L.kg) })); } }
+            // en el embarazo no hay marcas: se mantiene, no se progresa en kilos
+            if (D.META.etapa !== 'embarazo' && (!pr || L.kg > pr.kg)) { S.prs[ejId] = { kg: L.kg, fecha: d }; if (pr) { S.prCount++; toast(tpl(TX.prToast, { e: (D.EJERCICIOS[ejId] || {}).nombre, v: kg1(L.kg) })); } }
           }
         });
         // comeback: hueco de ≥3 días. El plan solo deja libre el domingo, así que
@@ -1280,6 +1321,82 @@
 
   /* Rehacer no es una sola puerta: eliges qué rehacer. Solo los datos (el
      mazo no se toca), solo el mazo (desde cero), o el cuestionario entero. */
+  /* La fila de la tabla de calorías que lee cada fase: el plan normal agrupa
+     F1-F2, F3 y F4; el embarazo lee su trimestre y el posparto sus tramos.
+     Lo decide el motor (NUTRI.filaDeFase) para que HOY y Comida coincidan. */
+  function filaNutri(fase) {
+    const m = D.NUTRI && D.NUTRI.filaDeFase;
+    return (m && m[fase - 1] !== undefined) ? m[fase - 1] : (fase === 4 ? 2 : fase === 3 ? 1 : 0);
+  }
+
+  /* ---------------- ciclo menstrual en HOY ----------------
+     Solo con ciclo declarado y sin etapa. Los inicios de regla salen del
+     registro diario (el primer día marcado tras uno sin marcar) y la
+     predicción la hace gen.js: mediana de los últimos ciclos, ovulación
+     estimada hacia atrás desde la regla prevista, nada de «día 14». El texto
+     de cada fase es honesto: síntomas y lectura de la báscula, no sesiones
+     distintas, porque la evidencia no las respalda. */
+  function iniciosRegla() {
+    const fs = Object.keys(S.dias).filter(f => S.dias[f] && S.dias[f].regla).sort();
+    return fs.filter(f => !(S.dias[addDays(f, -1)] && S.dias[addDays(f, -1)].regla));
+  }
+  function tarjetaCiclo(d) {
+    const CI = (TX.gen && TX.gen.ciclo) || {}, G2 = window.B2P_GEN;
+    if (!D.META.ciclo || D.META.etapa || !G2 || !G2.cicloEstado || !CI.linea) return null;
+    const c = G2.cicloEstado(D.META.ciclo, iniciosRegla(), d);
+    if (!c) return null;
+    const card = el('div', { class: 'card', style: 'margin-top:8px' });
+    if (c.modo === 'hormonal') { card.append(el('div', { class: 'mini' }, CI.hormonal)); return card; }
+    if (c.sinDatos) return null;
+    const faseTxt = (CI.fase || {})[c.fase] || c.fase;
+    card.append(el('div', { class: 'card-title' }, el('div', null, el('h2', null, tpl(CI.linea, { d: c.dia, f: faseTxt })),
+      el('div', { class: 'sub' }, c.fase === 'retraso' ? tpl(CI.retraso, { n: c.retraso })
+        : (c.proxima <= addDays(d, 1) ? CI.proximaHoy : tpl(CI.proxima, { f: fmtCorta(c.proxima), m: c.margen }))))));
+    const nota = (CI.nota || {})[c.fase === 'retraso' ? 'premenstrual' : c.fase];
+    if (nota) card.append(el('p', { style: 'font-size:13.5px;margin:0' }, nota));
+    if (c.irregular && CI.irregular) card.append(el('div', { class: 'mini', style: 'margin-top:6px' }, CI.irregular));
+    if (c.sinRegla90 && CI.sinRegla) card.append(el('div', { class: 'banner warn', style: 'margin-top:8px' }, el('div', null, CI.sinRegla)));
+    const dd = S.dias[d] || {};
+    if (dd.reglaAbund && CI.abundNota) card.append(el('div', { class: 'mini', style: 'margin-top:6px' }, CI.abundNota));
+    return card;
+  }
+
+  /* ---------------- posparto: la lista para volver a correr ----------------
+     Goom, Donnelly y Brockwell (2019): nada de correr antes de las 12 semanas,
+     y después solo con la batería de carga e impacto sin pérdidas, pesadez ni
+     dolor. Al guardarla, el perfil lo recuerda y el plan se regenera con el
+     trote dentro. */
+  function hojaCorrer() {
+    const P = (TX.gen && TX.gen.pp) || {}, items = P.correr || {};
+    S.flags.correr = S.flags.correr || {};
+    openSheet(sh => {
+      sh.append(el('h2', null, P.correrT || ''), el('div', { class: 'stag' }, P.correrP || ''));
+      const lista = el('div', { style: 'margin-top:10px' });
+      const claves = Object.keys(items);
+      const btn = el('button', { class: 'btn-b2p', style: 'width:100%;margin-top:14px', type: 'button', disabled: '' }, P.correrOk || '');
+      const repinta = () => { const todos = claves.every(k => S.flags.correr[k]); if (todos) btn.removeAttribute('disabled'); else btn.setAttribute('disabled', ''); };
+      claves.forEach(k => {
+        const on = !!S.flags.correr[k];
+        lista.append(el('button', { class: 'habit wide plano' + (on ? ' on' : ''), type: 'button', style: 'margin:5px 0',
+          'aria-pressed': on ? 'true' : 'false', onclick: ev => {
+            S.flags.correr[k] = !S.flags.correr[k]; save();
+            ev.currentTarget.classList.toggle('on', !!S.flags.correr[k]);
+            ev.currentTarget.setAttribute('aria-pressed', S.flags.correr[k] ? 'true' : 'false');
+            repinta();
+          } }, el('div', { class: 'hicon' }, S.flags.correr[k] ? '✓' : '○'), el('div', null, el('div', { class: 'ht' }, items[k]))));
+      });
+      sh.append(lista);
+      sh.append(el('p', { class: 'mini', style: 'margin-top:8px' }, P.correrAviso || ''));
+      btn.onclick = () => {
+        S.perfil.correrOk = true; S.perfil.correrOkFecha = hoyISO(); save();
+        toast(tpl(P.correrHecho || '', { f: fmtCorta(hoyISO()) }));
+        closeSheet(); setTimeout(() => location.reload(), 500);   // el plan se regenera con el trote dentro
+      };
+      repinta();
+      sh.append(btn);
+    });
+  }
+
   function hojaRehacer() {
     openSheet(sh => {
       sh.append(el('h2', null, TX.ajRehacer), el('div', { class: 'stag' }, TX.rehacerSub));
@@ -1404,7 +1521,7 @@
       el('summary', null, titulo), el('div', { class: 'fold-in' }, ...kids));
     const wP = semanaDe(hoyISO());
     const faseNP = (wP >= 1 && wP <= SEMANAS) ? D.CAL[wP - 1].fase : 1;
-    const fiN = faseNP === 4 ? 2 : faseNP === 3 ? 1 : 0;
+    const fiN = filaNutri(faseNP);
     sh.append(el('details', { class: 'fold', id: 'pf-detras', style: 'margin-top:14px' },
       el('summary', null, icono('cerebro', 15), ' ' + TX.perfilDetrasT),
       el('div', { class: 'fold-in' },

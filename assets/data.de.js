@@ -1430,5 +1430,296 @@ window.B2P = (function () {
     'yogur-soja': 'Sojajoghurt',
     zanahoria: 'Karotte',
   };
-  return {META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MENU, CHECKPOINTS, FOTOS, LOGROS, CIENCIA, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
+  /* ---------- MUJER: embarazo, posparto y ciclo ----------
+     Un solo bloque, con la misma forma en los seis idiomas: solo cambian los
+     textos. Asi los espejos se traducen enteros y el inserto es el mismo. Las
+     cifras salen de las guias citadas en el informe de evidencia (ACOG 804,
+     canadienses 2019 y 2025, SEGO 2019, Goom 2019, EFSA, IOM 2009, AESAN). */
+  const MUJER = {
+    EJERCICIOS: {
+      'cuadrupedia': { pat: 'core', pic: 'cuadrupedia',
+        nombre: 'Vierfüßlerstand (Bird-Dog)', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Tiefer Core', 'Gesäß', 'Rückenstrecker'], equipo: 'Nichts',
+        cues: ['Vierfüßlerstand, Hände unter den Schultern, Knie unter der Hüfte', 'Gegenüberliegenden Arm und Bein strecken, ohne dass sich der untere Rücken bewegt', 'Beim Strecken ausatmen; langsam zurück und Seite wechseln'],
+        err: ['Ins Hohlkreuz gehen, wenn das Bein hochkommt (heb es weniger)', 'Die Hüfte drehen, um weiter zu kommen', 'Die Luft anhalten'],
+        alt: [{ n: 'Nur Bein oder nur Arm', por: 'wenn du die Balance oder den unteren Rücken verlierst' }, { n: 'Mit 3″ Pause oben', por: 'wenn dir 10 Wiederholungen zu wenig sind' }],
+        mol: 'Wenn die Handgelenke zwicken: auf den Fäusten stützen oder feste Kurzhanteln als Griffe nehmen.'
+      },
+      'plancha-inclinada': { pat: 'core', pic: 'plancha-inclinada',
+        nombre: 'Erhöhter Plank', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Vorderer Core', 'Serratus'], equipo: 'Nichts (Tisch, Bank oder Wand)',
+        cues: ['Hände auf einem Tisch oder einer Bank, Körper in einer Linie von Kopf bis Ferse', 'Rippen unten, Becken neutral: kein Hohlkreuz', 'Normal atmen; je höher die Auflage, desto leichter'],
+        err: ['Hüfte hängt oder steht zu hoch', 'Schultern zu den Ohren gezogen', 'Die Luft anhalten'],
+        alt: [{ n: 'An der Wand', por: 'wenn der Tisch zu schwer wird oder auf der Zielgeraden der Schwangerschaft' }, { n: 'Plank am Boden', por: 'außerhalb der Schwangerschaft, wenn 40″ leicht fallen' }],
+        mol: 'Wenn du Druck nach außen im Bauch oder im Beckenboden spürst: Auflage höher.'
+      },
+      'suelo-pelvico': { pat: 'sp', pic: 'suelo-pelvico',
+        nombre: 'Beckenboden', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Beckenboden'], equipo: 'Nichts',
+        cues: ['Sitzend oder in Seitlage: anspannen, als würdest du den Urinstrahl stoppen und gleichzeitig Winde halten', 'Halte 6-8″ und atme dabei; ganz loslassen, bevor du wiederholst', 'Zum Schluss 5 schnelle Kontraktionen von 1″'],
+        err: ['Gesäß, Oberschenkel oder Bauch anspannen statt den Beckenboden', 'Die Luft anhalten', 'Zwischen den Wiederholungen nicht ganz loslassen'],
+        alt: [{ n: 'In Seitlage', por: 'wenn du die Kontraktion im Sitzen nicht spürst' }, { n: 'Im Stehen, in der Schlange oder an der Ampel', por: 'wenn du es draufhast: so klappt es täglich' }],
+        mol: 'Wenn sich Harnverlust, Schweregefühl oder Schmerz in ein paar Wochen nicht bessern: Beckenboden-Physiotherapie, so empfehlen es die Leitlinien.'
+      }
+    },
+    SESIONES: {
+      'emb1-a': { nombre: 'Kraft A · erstes Trimester', tipo: 'fuerza', fase: 1, dur: '~40′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10-12', d: 75, n: 'Mit einer Kurzhantel an der Brust, wenn du eine hast; auf eine Kiste, wenn dir schwindelig wird' },
+        { e: 'press-militar-mc',  s: 3, r: '10',    d: 75, n: 'Sitzend, mit Lehne' },
+        { e: 'remo-mancuerna',    s: 3, r: '10/Seite', d: 75, n: 'Auf Bank oder Tisch abgestützt' },
+        { e: 'puente-gluteo',     s: 3, r: '12',    d: 60, n: 'Bis Woche 16; danach übernimmt der Bird-Dog' },
+        { e: 'plancha',           s: 3, r: '20-30″', d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30, n: '6-8″ pro Kontraktion und 5 schnelle zum Schluss' }
+      ]},
+      'emb1-b': { nombre: 'Kraft B · erstes Trimester', tipo: 'fuerza', fase: 1, dur: '~40′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 3, r: '8/Bein', d: 75, n: 'Statisch und mit einer Hand abgestützt: die Balance ändert sich schon' },
+        { e: 'press-inclinado-mc', s: 3, r: '10',   d: 75, n: 'Bank auf 30-45°; ohne Bank Liegestütze mit den Händen auf einem Tisch' },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '12',    d: 60 },
+        { e: 'dead-bug',          s: 2, r: '8/Seite', d: 45, n: 'Bis Woche 16' },
+        { e: 'abduccion-lado',    s: 2, r: '12/Seite', d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb2-a': { nombre: 'Kraft A · zweites Trimester', tipo: 'fuerza', fase: 2, dur: '~40′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10',    d: 75, n: 'Auf Kiste oder Stuhl: angenehme Tiefe, ohne Abfedern' },
+        { e: 'press-militar-mc',  s: 3, r: '10',    d: 75, n: 'Sitzend, mit Lehne' },
+        { e: 'remo-mancuerna',    s: 3, r: '10/Seite', d: 75, n: 'Abgestützt: der Bauch hängt nicht frei' },
+        { e: 'cuadrupedia',       s: 2, r: '8/Seite', d: 60, n: 'Ersetzt die Glute Bridge: nichts in Rückenlage' },
+        { e: 'plancha-inclinada', s: 3, r: '25″',   d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb2-b': { nombre: 'Kraft B · zweites Trimester', tipo: 'fuerza', fase: 2, dur: '~40′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 3, r: '8/Bein', d: 75, n: 'Statisch, mit Stütze' },
+        { e: 'press-inclinado-mc', s: 2, r: '10',   d: 75, n: 'Hohe Bank oder Hände auf einem Tisch; nie flach' },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '12',    d: 60 },
+        { e: 'curl-martillo',     s: 2, r: '12',    d: 45 },
+        { e: 'ext-triceps-banda', s: 2, r: '12',    d: 45 },
+        { e: 'abduccion-lado',    s: 2, r: '12/Seite', d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb3-a': { nombre: 'Kraft A · drittes Trimester', tipo: 'fuerza', fase: 3, dur: '~30′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '8-10',  d: 90, n: 'Auf einen Stuhl, Hände frei zum Abstützen' },
+        { e: 'press-militar-mc',  s: 2, r: '10',    d: 75, n: 'Sitzend' },
+        { e: 'remo-mancuerna',    s: 2, r: '10/Seite', d: 75 },
+        { e: 'cuadrupedia',       s: 2, r: '6/Seite', d: 60 },
+        { e: 'plancha-inclinada', s: 2, r: '20″',   d: 60, n: 'An der Wand geht auch' },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb3-b': { nombre: 'Kraft B · drittes Trimester', tipo: 'fuerza', fase: 3, dur: '~30′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 2, r: '6/Bein', d: 90, n: 'Mit Stütze; wenn es schwer wird, halber Ausfallschritt' },
+        { e: 'banda-remo',        s: 2, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '10',    d: 60 },
+        { e: 'abduccion-lado',    s: 2, r: '10/Seite', d: 45 },
+        { e: 'ext-triceps-banda', s: 2, r: '10',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'pp-a': { nombre: 'Rückbildung', tipo: 'fuerza', fase: 1, dur: '~15′', calent: false, bloques: [
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30, n: 'Sobald du kannst: 6-8″ und ganz loslassen' },
+        { e: 'dead-bug',          s: 2, r: '8/Seite', d: 45, n: 'Am Anfang nur Beine; unterer Rücken angedrückt' },
+        { e: 'cuadrupedia',       s: 2, r: '6/Seite', d: 45 },
+        { e: 'abduccion-lado',    s: 2, r: '10/Seite', d: 45 }
+      ]},
+      'pp-b': { nombre: 'Reaktivierung', tipo: 'fuerza', fase: 2, dur: '~30′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10',    d: 60, n: 'Beim Hochkommen ausatmen; nicht die Luft anhalten' },
+        { e: 'zancada-alterna',   s: 2, r: '8/Bein', d: 60, n: 'Statisch' },
+        { e: 'puente-gluteo',     s: 3, r: '12',    d: 60 },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'plancha-inclinada', s: 2, r: '20″',   d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'pp-paseo': { nombre: 'Gehen 10-20′', tipo: 'cardio', icono: 'walk', detalle: 'Sanft und kurz, ab den ersten Tagen. Wenn der Wochenfluss danach zunimmt: stopp und nimm das Tempo raus, das ist das Signal der Leitlinien.' }
+    },
+    SUELO_PELVICO: {
+      titulo: 'Beckenboden · 5′ · täglich',
+      intro: 'Das ist die Empfehlung mit der besten Evidenz von allen: täglich in der Schwangerschaft trainiert, senkt sie die Inkontinenz am Ende um 62 % und drei Monate nach der Geburt um 29 % (Cochrane 2020). Und niemand sieht dir an, dass du sie gerade machst.',
+      bloques: [
+        { id: 'suelo-pelvico', nombre: 'Lange und kurze Kontraktionen', donde: 'Jeden Tag, und nach jeder Einheit', detalle: '3 × 10 Kontraktionen von 6-8″, mit Atmung, dazwischen ganz loslassen; zum Schluss 5 schnelle von 1″. Sitzend, in Seitlage oder im Stehen: entscheidend ist, dass der Beckenboden arbeitet und nicht das Gesäß.' },
+        { id: 'respiracion', nombre: 'Atmung und Core', donde: 'Vor jeder Last', detalle: 'Einatmen und die Rippen öffnen; beim Ausatmen hebt sich der Beckenboden und der Bauch zieht sanft ein. Dieses Muster steht vor jeder Kniebeuge und vor jedem Heben auf den Arm: das Baby, der Stuhl, der Einkauf.' }
+      ],
+      nota: 'Bei Harnverlust, Schweregefühl, Vorwölbung oder Schmerz reicht das nicht: Abklärung in der Beckenboden-Physiotherapie. Die Leitlinien von 2025 empfehlen sie allen ab Woche 6 nach der Geburt.'
+    },
+    CALENTAMIENTO_EMB: {
+      titulo: 'Aufwärmen · 6′ · immer',
+      pasos: ['Armkreisen · 30″', 'Hüftkreisen · 30″ pro Seite', '10 langsame Kniebeugen auf einen Stuhl', '5 kurze Ausfallschritte mit Stütze pro Seite', 'Marschieren auf der Stelle mit Armeinsatz · 60″', 'Atmung mit Beckenboden · 5 Zyklen'],
+      gym: 'Keine Sprünge: Aufprall gehört nicht in die Schwangerschaft.'
+    },
+    FASES_EMB: [
+      { id: 1, nombre: 'Erstes Trimester', sub: 'SSW 1-13', disco: 10, rpe: 'Borg 12-14 · du kannst reden', objetivo: 'Die Gewohnheit halten, mit Übelkeit und Müdigkeit gegen dich: kurze Einheiten, gehen, täglich Beckenboden. Null Bestleistungen.' },
+      { id: 2, nombre: 'Zweites Trimester', sub: 'SSW 14-27', disco: 15, rpe: 'Borg 12-14 · du kannst reden', objetivo: 'Die Energie kommt zurück: das Volumen darf etwas steigen. Ab Woche 16 nichts in Rücken- oder Bauchlage; der Plan stellt das schon um.' },
+      { id: 3, nombre: 'Drittes Trimester', sub: 'SSW 28-36', disco: 20, rpe: 'Borg 12-14 · du kannst reden', objetivo: 'Kürzere Einheiten, mehr Pause zwischen den Sätzen und immer mit Stütze: Balance und Schwerpunkt sind nicht mehr die von früher.' },
+      { id: 4, nombre: 'Zielgerade', sub: 'Ab SSW 37', disco: 25, rpe: 'Borg 11-13 · locker', objetivo: 'Gehen, Beckenboden und Mobilität. Worauf du Lust hast und was der Körper zulässt, bis zum Tag der Geburt.' }
+    ],
+    FASES_PP: [
+      { id: 1, nombre: 'Rückbildung', sub: 'Woche 0-2', disco: 10, rpe: 'locker', objetivo: 'Beckenboden, sobald du kannst, Atmung, kurze Spaziergänge. Mehr nicht, und das ist schon viel. Nach Kaiserschnitt ohne Eile: die Narbe bestimmt.' },
+      { id: 2, nombre: 'Reaktivierung', sub: 'Woche 2-6', disco: 15, rpe: 'Borg 11-13', objetivo: 'Kniebeuge, Ausfallschritt, Glute Bridge und Rudern mit Band: was du tausendmal am Tag mit dem Baby auf dem Arm machst, ohne Last gelernt.' },
+      { id: 3, nombre: 'Basis', sub: 'Woche 6-12', disco: 20, rpe: '6-7', objetivo: 'Nach der Nachuntersuchung: Zirkel, Rad oder Crosstrainer, leichtes Kreuzheben. Noch kein Aufprall: der Beckenboden braucht seine Zeit.' },
+      { id: 4, nombre: 'Aufbau', sub: 'Ab Woche 12', disco: 25, rpe: '7-8', objetivo: 'Der normale Plan, von der Basis aus. Laufen nur mit bestandener Checkliste und ohne Symptome.' }
+    ],
+    REGLAS_EMB: [
+      { n: 1, t: 'Du kannst reden', d: 'Die Intensität misst die Stimme, nicht der Puls: wenn du ein Gespräch führen kannst, passt es (Borg 12-14). Der Puls reagiert in der Schwangerschaft anders und täuscht.' },
+      { n: 2, t: 'Keine Bestleistungen', d: 'Hier steigen keine Kilos: hier wird gehalten. Kein Satz bis zum Versagen, kein Pressatmen beim Heben. Atme in der Anstrengung aus.' },
+      { n: 3, t: 'Nichts in Rückenlage ab Woche 16', d: 'In Rückenlage drückt die Gebärmutter auf die untere Hohlvene und der Blutdruck fällt. Der Plan tauscht nur diese Übungen; wenn dir irgendwann schwindelig wird, wechsle die Position.' },
+      { n: 4, t: 'Beckenboden täglich', d: '3 × 10 Kontraktionen jeden Tag. Das ist die Empfehlung mit der besten Evidenz in allen Leitlinien, und sie beugt der Inkontinenz nach der Geburt vor.' },
+      { n: 5, t: 'Hitze und Wasser', d: 'Trainiere an einem kühlen Ort, mit Wasser griffbereit und nie länger als 45 Minuten am Stück: mehr senkt den Blutzucker. Kein Hot Yoga, keine Sauna, kein Sport mit Fieber.' },
+      { n: 6, t: 'Keine Stürze, keine Stöße', d: 'Raus: Kontakt- und Rückschlagsportarten, Rad draußen, Rollschuhe oder alles mit Sturzrisiko. Gehen, Schwimmen, Ergometer und dieses Krafttraining decken alles ab.' },
+      { n: 7, t: 'Stopp und anrufen', d: 'Blutung, Bauchschmerzen, regelmäßige Wehen, Flüssigkeitsverlust, Atemnot in Ruhe, Schwindel, starke Kopfschmerzen, Brustschmerz, Schwäche oder Schmerz und Schwellung in einer Wade: an dem Tag wird nicht trainiert, sondern angerufen.' },
+      { n: 8, t: 'Der Korridor steigt', d: 'Die Waage steigt, und sie muss steigen: {g} kg insgesamt für deinen BMI davor, etwa {r} kg pro Woche ab dem zweiten Trimester. Außerhalb davon sprichst du es beim Vorsorgetermin an; hier gibt es kein Defizit.' }
+    ],
+    REGLAS_PP: [
+      { n: 1, t: 'Die Symptome bestimmen', d: 'Jeder Schritt kommt erst, wenn der vorherige keinen Harnverlust, kein Schweregefühl, keinen Schmerz und keine stärkere Blutung gebracht hat. Taucht etwas auf: eine Woche zurück und abklären lassen.' },
+      { n: 2, t: 'Kein Aufprall vor Woche 12', d: 'Kein Laufen, keine Sprünge, keine Kurse mit Sprüngen vor Woche 12, und danach nur mit bestandener Checkliste. Der Beckenboden erholt sich in Monaten, nicht in Tagen.' },
+      { n: 3, t: 'Beckenboden täglich', d: '3 × 10 jeden Tag, sobald du kannst. Und um Woche 6 eine Abklärung in der Beckenboden-Physiotherapie, auch wenn du nichts merkst: die Leitlinien empfehlen sie allen.' },
+      { n: 4, t: 'Kaiserschnitt: die Narbe bestimmt', d: 'Jeder Abschnitt verschiebt sich um zwei Wochen, und nichts, was an der Narbe zieht, bis zur Nachuntersuchung. Wenn sie verheilt ist, hilft Massieren, damit sie nicht verklebt.' },
+      { n: 5, t: 'Schlaf', d: '7-9 Stunden verlangt der Körper, und fast nie sind sie da. Nickerchen zählen: leg sie auf die des Babys. Eine Woche ohne Schlaf ist eine Woche auf dem Minimum, kein Scheitern.' },
+      { n: 6, t: 'Essen für zwei', d: 'Mit Stillen steigt der Verbrauch um etwa 450 kcal am Tag. Das Defizit, wenn es eines gibt, beginnt in Woche 6 und geht nie über 500 kcal: ein halbes Kilo pro Woche gilt in der Evidenz als sicher fürs Baby.' },
+      { n: 7, t: 'Bauchübungen ja', d: 'Bauchübungen öffnen die Rektusdiastase nicht und schließen sie auch nicht: sie geben Kraft und Funktion. Der Core im Plan ist progressiv; wenn du beim Aufrichten eine Vorwölbung siehst, erhöhe die Auflage.' },
+      { n: 8, t: 'Das Minimum hält', d: 'Chaotische Woche: 2 Kraft + 1 Spaziergang. Nichts geht verloren; es geht weiter, wo du warst.' }
+    ],
+    CIENCIA_EMB: {
+      intro: 'Plan gegen die geltenden klinischen Leitlinien geprüft (ACOG 2020, kanadische 2019, SEGO 2019, WHO 2020) und gegen die Metaanalysen dahinter. Die ordnende Idee: Bewegung in der Schwangerschaft ist Therapie der ersten Wahl, und anzupassen sind Positionen und Intensität, nicht die Lust.',
+      temas: [
+        { t: 'Weniger Komplikationen', d: 'Bewegung allein senkt Schwangerschaftsdiabetes (OR 0,62), Schwangerschaftshochdruck (0,61) und Präeklampsie (0,59) über 106 Studien und 273.182 Frauen. Es reichen 140 Minuten pro Woche zügiges Gehen, Ergometer oder Kraft.', ref: 'Davenport et al., Br J Sports Med 2018' },
+        { t: 'Kraft ja; schwer nicht automatisch', d: 'Die Leitlinien zählen Kraft mit Gewichten und Bändern zum Untersuchten und Sicheren. Bei 679 Kraftsportlerinnen, die weiter schwer geladen haben, waren die Ergebnisse normal: kein Hinweis auf Schaden bei denen, die es schon taten, und keiner auf Nutzen, jetzt damit anzufangen. Darum ist die Grenze: reden, ohne außer Atem zu kommen.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
+        { t: 'Der Beckenboden lässt sich trainieren', d: 'Ihn in der Schwangerschaft zu trainieren senkt die Inkontinenz am Ende der Schwangerschaft um 62 % und drei Monate nach der Geburt um 29 %, bei Frauen ohne vorherigen Harnverlust. Das ist die Maßnahme mit der besten Evidenz im ganzen Plan.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'Wie viel zunehmen und wie viel Protein', d: 'Die erwartete Zunahme hängt vom BMI davor ab (IOM 2009), und der mit Isotopen gemessene echte Proteinbedarf liegt bei 1,2 g/kg am Anfang und 1,5 am Ende, weit über dem offiziellen Wert von 0,88. Der Plan verlangt 1,4 und 1,6 auf das Gewicht davor.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
+      ]
+    },
+    CIENCIA_PP: {
+      intro: 'Plan gegen die kanadische Leitlinie von 2025 geprüft, die erste zum ersten Jahr nach der Geburt, und gegen den Physiotherapie-Konsens zur Rückkehr zum Laufen. Die ordnende Idee: sich ab den ersten Tagen zu bewegen schützt die psychische Gesundheit, und der Aufprall wartet auf den Beckenboden.',
+      temas: [
+        { t: '120 Minuten, die 45 % wert sind', d: '120 Minuten moderate Aktivität pro Woche, verteilt auf 4 Tage oder mehr und mit Kraft dabei, gehen einher mit 45 % weniger postpartaler Depression, 37 % weniger Inkontinenz und 28 % weniger Typ-2-Diabetes, ohne mehr Verletzungen und ohne Veränderung der Milch.', ref: 'Davenport et al., Br J Sports Med 2025' },
+        { t: 'Laufen ab Woche 12, und mit Bedingungen', d: 'Die Physiotherapie-Referenz setzt drei Monate als Minimum, dazu eine Reihe von Belastungs- und Aufpralltests ohne Harnverlust und ohne Schweregefühl, bevor du joggst. Die App hat sie eingebaut.', ref: 'Goom, Donnelly und Brockwell, 2019' },
+        { t: 'Stillen und Defizit', d: 'Bei ausschließlichem Stillen führten 500 kcal weniger am Tag und 45 Minuten Bewegung an 4 Tagen pro Woche ab Woche 4 zu 4,8 kg Verlust in 10 Wochen, ohne jeden Effekt auf Gewicht und Größe der Babys.', ref: 'Lovelady et al., N Engl J Med 2000' },
+        { t: 'Bauchübungen und Rektusdiastase', d: 'Zwölf Wochen Curl-ups verschlechterten den Abstand der geraden Bauchmuskeln nicht und steigerten Kraft und Dicke. Was Training nicht schafft, ist sie zu schließen: die Reviews finden keinen Effekt auf den Abstand.', ref: 'Gluppe et al., J Physiother 2023 · Lyons et al., Hernia 2026' }
+      ]
+    },
+    SENALES_EMB: ['Stopp und abklären: Blutung, Bauchschmerzen, regelmäßige Wehen, Flüssigkeitsverlust, Atemnot in Ruhe, Schwindel, starke Kopfschmerzen, Brustschmerz, Schwäche, die die Balance stört, Schmerz oder Schwellung in der Wade.', 'Normal: Müdigkeit, Hitze und Hitzewallungen, die beim Tempo-Rausnehmen verschwinden; leichte Beschwerden im Becken, die beim Positionswechsel nachlassen.', 'Beim nächsten Vorsorgetermin ansprechen: wiederkehrender Beckenschmerz, Urinverlust, Schweregefühl.'],
+    SENALES_PP: ['Stopp und abklären: Wochenfluss, der bei Belastung zunimmt, starke Bauchschmerzen, Fieber, Schmerz oder Schwellung in einer Wade, Schwindel, Narbenschmerz, der schlimmer wird.', 'Normal: Müdigkeit, leichter Muskelkater, am Anfang etwas Ziehen in der Narbe, das nachlässt.', 'Beckenboden-Physio, bevor es weitergeht: Urin- oder Stuhlverlust, Schweregefühl oder Vorwölbung in der Scheide, Schmerz beim Sex, Vorwölbung am Bauch beim Aufrichten.'],
+    UI: {
+      patrones: { sp: 'Beckenboden' },
+      cuest: {
+        etapaT: 'Schwangerschaft oder nach der Geburt?', etapaP: 'Ändert den ganzen Plan: Positionen, Intensität, Essen und was gemessen wird.',
+        etapaNo: 'Keins von beidem', etapaEmb: 'Ich bin schwanger', etapaPp: 'Ich habe vor Kurzem entbunden',
+        embT: 'Deine Schwangerschaft', embSemL: 'Schwangerschaftswoche', embPesoPreL: 'Gewicht vor der Schwangerschaft (kg) · optional', embSemMal: 'Woche zwischen 4 und 42.',
+        embRiesgoT: 'Trifft eines davon zu?', embRiesgoP: 'Das sind die Kontraindikationen der Leitlinien. Ist eine angekreuzt, entscheidet deine Ärztin oder Hebamme über das Training.',
+        embR: { membranas: 'Blasensprung', prematuro: 'Drohende Frühgeburt', sangrado: 'Anhaltende vaginale Blutung', placenta: 'Placenta praevia (ab Woche 20)', preeclampsia: 'Präeklampsie oder unkontrollierter Bluthochdruck', cervix: 'Zervixinsuffizienz oder Cerclage', cir: 'Intrauterine Wachstumsrestriktion', multiple: 'Drillingsschwangerschaft oder mehr', diabetes: 'Unkontrollierter Typ-1-Diabetes oder Schilddrüsenerkrankung', cardio: 'Schwere Herz- oder Lungenerkrankung' },
+        embRiesgoNo: 'Keine',
+        embAvisoRel: 'Bei früheren Fehlgeburten, Schwangerschaftshochdruck, Zwillingen, Anämie mit Symptomen oder einer früheren Frühgeburt: sprich es beim nächsten Vorsorgetermin an, der Plan läuft weiter, mit mehr Spielraum.',
+        gateEmbT: 'Deine Schwangerschaft bestimmt', gateEmbTxt: 'Du hast eine Kontraindikation der Leitlinien angekreuzt. Damit entsteht der Plan nur, wenn deine Ärztin oder Hebamme dir das Okay für moderate Bewegung gegeben hat.',
+        ppT: 'Deine Geburt', ppFechaL: 'An welchem Tag war die Geburt?', ppFechaMal: 'Wähle ein Datum aus den letzten 12 Monaten.',
+        ppTipoT: 'Wie war sie?', ppVaginal: 'Vaginal', ppCesarea: 'Kaiserschnitt',
+        ppLactT: 'Stillst du?', ppLactSi: 'Ja', ppLactNo: 'Nein',
+        ppSpT: 'Merkst du eines davon?', ppSpP: 'Das sind Beckenboden-Signale. Sie stoppen den Plan nicht: sie bremsen den Aufprall und verlangen Physiotherapie.',
+        ppSp: { orina: 'Urinverlust beim Husten, Lachen oder Springen', pesadez: 'Schweregefühl, Vorwölbung oder Druck in der Scheide', dolor: 'Schmerz im Becken oder beim Sex', bulto: 'Vorwölbung am Bauch beim Aufrichten' },
+        ppSpNo: 'Keine',
+        ppRiesgoT: 'Trifft eines davon jetzt zu?', ppRiesgoP: 'Das sind die Kontraindikationen der Leitlinie von 2025. Ist eine angekreuzt, braucht es das Okay deiner Ärztin.',
+        ppR: { sangrado: 'Wochenfluss, der bei Belastung zunimmt', dolor: 'Starke Bauchschmerzen', fiebre: 'Fieber oder Infektion', tension: 'Unkontrollierter Bluthochdruck', pantorrilla: 'Schmerz oder Schwellung in einer Wade', cicatriz: 'Narbenschmerz, der bei Bewegung schlimmer wird', mareo: 'Schwindel oder Ohnmacht' },
+        ppRiesgoNo: 'Keine',
+        gatePpT: 'Deine Rückbildung bestimmt', gatePpTxt: 'Du hast eine Kontraindikation der Leitlinie von 2025 angekreuzt. Der Plan entsteht, sobald deine Ärztin oder Hebamme dir das Okay gegeben hat.',
+        cicloT: 'Dein Zyklus', cicloP: 'Optional. Dient dazu, die Periode zu protokollieren und vorherzusagen, und die Waage und die schwachen Tage besser zu lesen. Es ändert den Plan nicht nach Phasen: die Evidenz trägt das nicht.',
+        cicloNat: 'Ich habe eine natürliche Periode', cicloHorm: 'Ich nehme hormonelle Verhütung', cicloSin: 'Ich habe gerade keine Periode', cicloNo: 'Sage ich lieber nicht',
+        cicloUltT: 'Wann hat deine letzte Periode angefangen?', cicloUltMal: 'Wähle einen Tag aus den letzten 60.',
+        cicloDurT: 'Wie lang ist dein Zyklus normalerweise?', cicloDurP: 'Vom ersten Tag der Periode bis zum nächsten. Normal sind 24 bis 38 Tage.', cicloDurNs: 'Weiß ich nicht',
+        resLEtapa: 'Phase', resLCiclo: 'Zyklus', resEmb: 'Schwangerschaft · Woche {s}', resPp: 'Nach der Geburt · Woche {s}', resPpCes: 'Nach der Geburt · Kaiserschnitt · Woche {s}',
+        resCicloNat: 'Natürliche Periode · {d} Tage', resCicloHorm: 'Hormonelle Verhütung', resCicloSin: 'Gerade keine Periode'
+      },
+      gen: {
+        emb: {
+          kcalNota: '{t}: dein Verbrauch plus {k} kcal. Kein Defizit: hier wird gebaut.',
+          ritmoT: 'Erwartete Zunahme', ritmoV: '+{a}–{b} kg/Woche', ritmoN: 'Ab dem zweiten Trimester, für deinen BMI davor ({imc}). Insgesamt {g} kg (IOM 2009).',
+          fila1: '1. Trimester', fila2: '2. Trimester', fila3: '3. Trimester',
+          nota1: '+70 kcal: fast nichts. Iss, wenn der Körper es verlangt.', nota2: '+260 kcal: eine Portion mehr, mit Protein.', nota3: '+500 kcal: zwei Portionen mehr. Das Protein steigt auf 1,6 g/kg.',
+          escalado: 'Das Protein ({p} g) rechnet auf dein Gewicht vor der Schwangerschaft; was pro Trimester steigt, ist der Rest.',
+          hidratacion: 'Wasser: 2,3 L am Tag (8-10 Gläser). Alkohol: keiner, in keiner Menge. Koffein: bis 200 mg am Tag, alles zusammengerechnet (ein großer Kaffee und ein Tee).',
+          comidaLibre: 'Es gibt weiter eine freie Mahlzeit pro Woche, mit denselben Sicherheitsregeln: nichts Rohes, nichts Gepökeltes ungekocht, nichts Unpasteurisiertes, und kein Alkohol. Sie darf wandern; bleibt aber eine.',
+          plato: 'Jede Mahlzeit: 150-200 g mageres Fleisch oder gut durchgegarter Fisch (kein Schwertfisch, Hai, Roter Thun oder Hecht), oder 3 gut durchgegarte Eier, oder 250 g Skyr oder pasteurisierter Frischkäse, oder 250 g Hülsenfrüchte + 1 Ei.',
+          supl: [
+            { id: 'folico', t: 'Folsäure', d: '0,4 mg am Tag, mindestens die ersten 12 Wochen: das ist die starke Empfehlung der Leitlinie des Gesundheitsministeriums. Wenn du sie schon auf Rezept nimmst, bleib bei dieser Dosierung.' },
+            { id: 'yodo', t: 'Jod', d: '200 µg am Tag in Schwangerschaft und Stillzeit (EFSA). Wenn du keine 3 Portionen Milchprodukte und jodiertes Salz am Tag schaffst, verordnet es deine Hebamme als Kaliumjodid.' },
+            { id: 'omega-3', t: 'DHA', d: '100-200 mg DHA am Tag zusätzlich zum fetten Seefisch (EFSA). Mit 3-4 Portionen Fisch pro Woche reicht es meist.' },
+            { id: 'vitamina-d', t: 'Vitamin D', d: '15 µg am Tag als Referenzwert. Supplementiert wird nur, wenn das Blutbild es verlangt.' },
+            { id: 'hierro', t: 'Eisen', d: 'Kein Extra nach Schema: die fehlende Periode und die höhere Aufnahme decken es. Nur, wenn dein Blutbild es sagt.' },
+            { id: 'cafeina', t: 'Koffein', d: 'Grenze 200 mg am Tag, Kaffee, Tee, Cola und Energydrinks zusammengerechnet. Ein großer Kaffee ist schon die Hälfte.' },
+            { id: 'no', t: 'Jetzt nicht', d: 'Kreatin (keine Studien in der Schwangerschaft: fang jetzt nicht damit an), Fatburner, Pre-Workouts, Vitamin A über 2.500 IE und Kräuter „für die Schwangerschaft“. Nichts, was dir deine Hebamme nicht verordnet hat.' }
+          ],
+          seguridad: 'Nicht auf dem Speiseplan: roher Fisch, rohe Meeresfrüchte und gekühlte Räucherware; Rohmilchkäse und Rohmilch; gekühlte Pasteten und Sprossen; rohes oder weiches Ei; roher Schinken und rohe Wurst, außer durchgegart; Schwertfisch, Hai, Roter Thun und Hecht. Fleisch bis 71 °C im Kern garen; Reste auf über 75 °C erhitzen; Kühlschrank auf 4 °C oder kälter; Obst und Gemüse gründlich waschen.',
+          jamon: 'Luftgetrockneter Schinken: AESAN listet ihn zum Meiden, außer durchgegart. 48 h bei −20 °C einfrieren inaktiviert Toxoplasmen, aber nicht Listerien. Wenn du ihn isst: durchgegart, und nie abgepackt in Scheiben.',
+          hito14T: 'Zweites Trimester', hito14D: 'Meist kommt die Energie zurück. Wenn du Lust hast, zieh das Tempo etwas an, nie über die Grenze, an der du noch reden kannst.',
+          hito16T: 'Ab heute nichts in Rückenlage', hito16D: 'Der Plan hat Glute Bridge, Dead Bug und Flachbankdrücken schon durch Varianten im Stehen, schräg oder im Vierfüßlerstand ersetzt. Wenn dir im Liegen schwindelig wird, wechsle sofort die Position.',
+          hito28T: 'Drittes Trimester', hito28D: 'Kürzere Einheiten und mit Stütze. Der Schwerpunkt ist nicht mehr der von früher: nichts, was von der Balance abhängt. Wenn du gelaufen bist, gehst du ab heute.',
+          hito36T: 'Zielgerade', hito36D: 'Gehen und Beckenboden bestimmen. Trainiere, worauf du Lust hast, bis zum Tag der Geburt, wenn der Körper es will.',
+          cierre: 'Der Plan endet mit der Geburt, um den {f} herum. Wenn das Baby da ist, geh in die Einstellungen und stell dein Profil auf „nach der Geburt“ um: der Plan ändert sich komplett.',
+          chkD: 'Zunahme-Korridor für deinen BMI davor (IOM 2009). Drin ist drin; zwei Wochen in Folge darüber: sprich es beim Vorsorgetermin an.',
+          cuidaN: 'nichts in Rückenlage ab Woche 16 · keine Sprünge, nichts auf Balance · Grenze: reden können',
+          logroFinD: 'Plan bis zur Geburt abgeschlossen. Jetzt kommt die Zeit nach der Geburt: die App ändert sich mit dir.'
+        },
+        pp: {
+          kcalNotaLact: 'Dein Verbrauch plus {k} kcal fürs Stillen{d}. Boden bei 1.800 kcal: darunter sinkt die Milch eher als das Fett.',
+          kcalNota: '{d}. Vor Woche 6 Erhaltung: erst heilen.',
+          defTxt: ', minus {v} kcal Defizit ab Woche 6', mantTxt: 'Erhaltung',
+          fila1: 'Rückbildung und Reaktivierung (bis zur Nachuntersuchung)', fila2: 'Basis (von der Nachuntersuchung bis Woche 12)', fila3: 'Aufbau (ab Woche 12)',
+          escalado: 'Beim Stillen steigt das Protein ({p} g) auf 1,6 g/kg und bleibt unangetastet; die Kohlenhydrate folgen dem Volumen.',
+          hidratacion: 'Wasser: 2,5-3 L am Tag, mehr beim Stillen (jede Stillmahlzeit macht durstig: dann trinken). Alkohol: je weniger, desto besser fürs Baby; wenn doch, weit weg vom Stillen. Koffein: bis 200 mg am Tag beim Stillen.',
+          comidaLibre: 'Eine Mahlzeit pro Woche, kein ganzer Tag. Beim Stillen bleibt der Fisch ohne Schwertfisch, Hai, Roten Thun und Hecht; der Rest kommt zurück auf den Tisch.',
+          supl: [
+            { id: 'yodo', t: 'Jod', d: '200 µg am Tag, solange du stillst (EFSA): die Milch nimmt es mit.' },
+            { id: 'omega-3', t: 'DHA', d: '100-200 mg am Tag zusätzlich zum fetten Seefisch, solange du stillst (EFSA).' },
+            { id: 'vitamina-d', t: 'Vitamin D', d: '15 µg am Tag als Referenzwert; Supplement nur, wenn das Blutbild es verlangt.' },
+            { id: 'hierro', t: 'Eisen', d: 'Nach der Geburt ein Blutbild, wenn es starke Blutungen gab oder die Müdigkeit nicht nachlässt; supplementieren nur bei niedrigem Ferritin.' },
+            { id: 'whey', t: 'Whey', d: 'Ein Messlöffel, wo Protein fehlt: beim Stillen sind es 1,6 g/kg, und allein über den Tisch ist das schwer.' },
+            { id: 'cafeina', t: 'Koffein', d: 'Beim Stillen Grenze 200 mg am Tag und nie nach 14 Uhr: das Baby merkt es auch.' },
+            { id: 'no', t: 'Kein Geld für', d: 'Fatburner, „Rückbildungs-Booster“, Bauchgurte, die versprechen, die Rektusdiastase zu schließen, und Kreatin bis zum Abstillen. Bewegen die Nadel nicht.' }
+          ],
+          hito6T: 'Nachuntersuchung und Beckenboden', hito6D: 'Nach der Nachuntersuchung in Woche 6 eine Abklärung in der Beckenboden-Physiotherapie, auch wenn du nichts merkst: die Leitlinien von 2025 empfehlen sie allen.',
+          hito8T: 'Die Narbe', hito8D: 'Kaiserschnitt: wenn sie geschlossen und trocken ist, verhindert tägliches Massieren, dass sie verklebt. Weiterhin nichts, was an ihr zieht.',
+          hito12T: 'Aufprall: die Checkliste', hito12D: 'Ab heute kannst du ans Laufen denken, wenn du die Checkliste in HEUTE ohne Harnverlust und ohne Schweregefühl bestehst. Ohne Eile: 3 bis 6 Monate sind normal.',
+          cierre: 'Plan nach der Geburt am {f} beendet. Der nächste Block beginnt, wo dieser endet: Einstellungen › Meinen Plan erstellen / neu machen, jetzt als der normale Plan.',
+          cuidaN: 'kein Aufprall bis Woche 12 · Beckenboden täglich · Kaiserschnitt: zwei Wochen mehr pro Abschnitt',
+          correrT: 'Bereit zum Laufen', correrP: 'Alles ohne Harnverlust, Schweregefühl, Schmerz und Blutung. Hak ab, was du schon ohne Symptome schaffst, und speichere.',
+          correr: { pasear: '30 Minuten gehen', equil: 'Einbeinstand 10″ pro Seite', sent1: 'Einbeinige Kniebeuge, 10 pro Seite', trote: '1 Minute auf der Stelle joggen', saltos: '10 Sprünge nach vorn', pata: '10 einbeinige Sprünge pro Seite', runman: '10 Running Man pro Seite', fuerza: '20 einbeinige Wadenheben, Glute Bridges und Kniebeugen, und 20 × seitliches Beinheben' },
+          correrOk: 'Speichern: ich kann laufen', correrHecho: 'Checkliste am {f} bestanden: das Cardio darf jetzt Joggen enthalten.',
+          correrAviso: 'Bei Harnverlust, Schweregefühl oder Schmerz in einem der Tests: Beckenboden-Physiotherapie, bevor du läufst. Das ist kein Scheitern, das ist die richtige Reihenfolge.'
+        },
+        ciclo: {
+          fase: { regla: 'Periode', folicular: 'Follikelphase', ovulatoria: 'geschätzter Eisprung', lutea: 'Lutealphase', premenstrual: 'Lutealphase · prämenstruell', retraso: 'Periode überfällig' },
+          linea: 'Zyklus · Tag {d} · {f}', proxima: 'Periode erwartet am {f} (±{m} Tage)', proximaHoy: 'Periode heute oder morgen erwartet', retraso: '{n} Tage über dem erwarteten Termin',
+          irregular: 'Zyklen mit mehr als 9 Tagen Schwankung: keine Vorhersage. Protokolliere die Periode, und wenn sie wiederholt aus 24-38 Tagen fällt, sprich mit deiner Ärztin.',
+          hormonal: 'Mit hormoneller Verhütung gibt es keine Phasen: die Blutung kommt von der Pillenpause, sie ist keine Periode. Protokolliere trotzdem, wenn du den Kalender willst.',
+          sinRegla: 'Mehr als 90 Tage ohne Periode, ohne Schwangerschaft und ohne hormonelle Verhütung: lass es abklären. Das ist das Signal, das das IOC und die Leitlinien zur Frauengesundheit nutzen.',
+          nota: { regla: 'Bei Schmerz oder Müdigkeit reicht heute das Minimum oder eine Stufe weniger Anstrengung. Sonst trainiere normal: die Leistung hängt nicht von der Phase ab. Eisen auf den Tisch: Hülsenfrüchte oder mageres rotes Fleisch, mit Vitamin C.', folicular: 'Nichts zu ändern: die Evidenz findet keine Unterschiede in Kraft oder Anpassung nach Phase.', ovulatoria: 'Die Bänder sind in diesen Tagen etwas lockerer: lande sauber bei Ausfallschritten und Sprüngen. Der Plan bleibt gleich.', lutea: 'Verbrauch und Appetit etwas höher (2-11 %): der Spielraum heute steigt um etwa 150 kcal. Das Gewicht kann durch Wasser steigen: der Wochenschnitt fängt das auf.', premenstrual: 'Heißhunger, schlechterer Schlaf und etwas Wassereinlagerung sind in diesen Tagen normal. Kompensiere nicht, wieg dich nicht jeden Tag, und wenn die Laune es verlangt, reicht das Minimum.' },
+          hRegla: 'Periode', hReglaSub: 'Markiere die Blutungstage', hAbund: 'Starke Blutung', hAbundSub: 'Alle 1-2 h durchgeblutet: Ferritin bestimmen lassen',
+          abundNota: 'Starke Blutungen betreffen jede dritte Sportlerin und gehen mit Anämie einher. Blutbild mit Ferritin, und Eisen nur, wenn es niedrig ist.'
+        }
+      },
+      rev: {
+        etapaEmbT: 'Schwangerschaftswoche {s}', etapaEmbSub: 'Plan bis zur Geburt, um den {f} herum; kein Defizit, keine Bestleistungen',
+        etapaPpT: 'Nach der Geburt · Woche {s}', etapaPpSub: 'Progression in Wochen ab der Geburt; Aufprall erst ab Woche 12', etapaPpCes: 'Kaiserschnitt: jeder Abschnitt zwei Wochen später',
+        kEmb: 'dein Verbrauch plus der Aufschlag des Trimesters: hier wird nicht gekürzt', kLact: 'mit dem Stillen eingerechnet; das Defizit wartet auf Woche 6',
+        cuidaEmbT: 'Positionen und Intensität angepasst', cuidaEmbSub: 'nichts in Rückenlage ab Woche 16, keine Sprünge, nichts auf Balance, Grenze: reden können',
+        cuidaPpT: 'Beckenboden zuerst', cuidaPpSub: 'täglich, und Physiotherapie um Woche 6',
+        cicloT: 'Zyklus protokolliert', cicloSub: 'markier die Periode in HEUTE: Vorhersage, Lesen der Waage und schwache Tage. Keine Einheiten nach Phasen: dafür gibt es keine Evidenz.',
+        cicloHormT: 'Hormonelle Verhütung', cicloHormSub: 'keine Phasen zu lesen; der Plan bleibt gleich'
+      },
+      hoy: {
+        embLinea: 'Schwangerschaftswoche {s} · {t}', embT1: '1. Trimester', embT2: '2. Trimester', embT3: '3. Trimester', embT4: 'Zielgerade',
+        embPasada: 'Errechneter Termin vorbei: wenn das Baby da ist, stell das Profil in den Einstellungen auf „nach der Geburt“ um.',
+        ppLinea: 'Nach der Geburt · Woche {s}{c}', ppCes: ' · Kaiserschnitt',
+        hSuelo: 'Beckenboden', hSueloSub: '3 × 10 · je 6-8″',
+        correrChip: 'Bereit zum Laufen', correrChipSub: 'Woche 12 erreicht: prüf die Checkliste',
+        pesoSube: 'Zugenommen', corredorEmb: 'Zunahme-Korridor', corredorEmbSub: 'für deinen BMI davor: {g} kg insgesamt (IOM 2009)',
+        pesoEmbNota: 'Wochenschnitt im Korridor: gut. Zwei Wochen in Folge darüber: sprich es beim Vorsorgetermin an, kürze nicht.'
+      }
+    }
+  };
+  Object.assign(EJERCICIOS, MUJER.EJERCICIOS);
+  Object.assign(SESIONES, MUJER.SESIONES);
+  Object.assign(UI.patrones, MUJER.UI.patrones);
+  Object.assign(UI.cuest, MUJER.UI.cuest);
+  Object.assign(UI.gen, MUJER.UI.gen);
+  Object.assign(UI.rev, MUJER.UI.rev);
+  UI.mujer = MUJER.UI.hoy;
+  /* ---------- fin MUJER ---------- */
+  return {SUELO_PELVICO: MUJER.SUELO_PELVICO, CALENTAMIENTO_EMB: MUJER.CALENTAMIENTO_EMB, FASES_EMB: MUJER.FASES_EMB, FASES_PP: MUJER.FASES_PP, REGLAS_EMB: MUJER.REGLAS_EMB, REGLAS_PP: MUJER.REGLAS_PP, CIENCIA_EMB: MUJER.CIENCIA_EMB, CIENCIA_PP: MUJER.CIENCIA_PP, SENALES_EMB: MUJER.SENALES_EMB, SENALES_PP: MUJER.SENALES_PP,
+    META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MENU, CHECKPOINTS, FOTOS, LOGROS, CIENCIA, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
 })();

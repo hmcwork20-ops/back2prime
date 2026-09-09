@@ -236,10 +236,15 @@
       return el('div', { html: F.semana(tipos, TX.diasIni) });
     };
     dec.forEach(x => {
-      if (x.k === 'split') fila(U.icono('mancuerna', 20), tpl(R.splitT, { d: x.d }), x.tipo === 'fb' ? R.splitFb : x.tipo === 'tp' ? R.splitTp : R.splitPpl, tira7());
+      // la etapa va la primera: es lo que ordena todo lo demás
+      if (x.k === 'etapa' && x.v === 'embarazo' && R.etapaEmbT) fila(U.icono('escudo', 20), tpl(R.etapaEmbT, { s: x.s }), tpl(R.etapaEmbSub, { f: x.f ? fmtF(x.f) : '' }));
+      else if (x.k === 'etapa' && x.v === 'posparto' && R.etapaPpT) fila(U.icono('escudo', 20), tpl(R.etapaPpT, { s: x.s }), R.etapaPpSub + (x.ces && R.etapaPpCes ? ' · ' + R.etapaPpCes : ''));
+      else if (x.k === 'split') fila(U.icono('mancuerna', 20), tpl(R.splitT, { d: x.d }), (x.tipo === 'fb' || x.tipo === 'emb') ? R.splitFb : x.tipo === 'tp' ? R.splitTp : R.splitPpl, tira7());
       else if (x.k === 'kcal') fila(U.icono('flame', 20), tpl(R.kcalT, { k: fmtN(x.v) }),
-        // redondeo a 25: «superávit de 260» era ruido de redondeos encadenados
-        x.delta < -100 ? tpl(R.kDef, { v: fmtN(Math.round(-x.delta / 25) * 25) })
+        // la etapa dice por qué no hay déficit; si no, redondeo a 25: «superávit de 260» era ruido de redondeos encadenados
+        x.etapa === 'embarazo' && R.kEmb ? R.kEmb
+          : x.lact && R.kLact ? R.kLact
+          : x.delta < -100 ? tpl(R.kDef, { v: fmtN(Math.round(-x.delta / 25) * 25) })
           : x.delta > 100 ? tpl(R.kSup, { v: fmtN(Math.round(x.delta / 25) * 25) }) : R.kMan);
       else if (x.k === 'prot') fila(U.icono('rayo', 20), tpl(R.protT, { p: x.v }), tpl(R.protSub, { v: String(x.kg).replace('.', ',') }));
       else if (x.k === 'dur') fila(U.icono('calendario', 20), tpl(R.durT, { s: x.s }),
@@ -252,7 +257,10 @@
         fila(U.icono('diana', 20), tpl(R.evT, { e: evTxt }), sub);
       }
       else if (x.k === 'subs') fila(U.icono('repetir', 20), tpl(R.subsT, { n: x.n }), R.subsSub);
-      else if (x.k === 'cuida') fila(U.icono('escudo', 20), tpl(R.cuidaT, { a: x.zonas.map(z => lesionTxt[z] || z).join(' · ') }), R.cuidaSub);
+      else if (x.k === 'cuida' && x.etapa === 'embarazo' && R.cuidaEmbT) fila(U.icono('escudo', 20), R.cuidaEmbT, R.cuidaEmbSub);
+      else if (x.k === 'cuida' && x.etapa === 'posparto' && R.cuidaPpT) fila(U.icono('escudo', 20), R.cuidaPpT, R.cuidaPpSub);
+      else if (x.k === 'cuida' && x.zonas && x.zonas.length) fila(U.icono('escudo', 20), tpl(R.cuidaT, { a: x.zonas.map(z => lesionTxt[z] || z).join(' · ') }), R.cuidaSub);
+      else if (x.k === 'ciclo' && R.cicloT) fila(U.icono('calendario', 20), x.modo === 'hormonal' ? R.cicloHormT : R.cicloT, x.modo === 'hormonal' ? R.cicloHormSub : R.cicloSub);
       else if (x.k === 'menu') fila(U.icono('cubiertos', 20), R.menuT, x.avisos > 0 ? tpl(R.menuAv, { n: x.avisos }) : R.menuSub);
       else if (x.k === 'gustos') fila(U.icono('pulgar', 20), tpl(R.gustosT, { a: x.likes, b: x.nos }), R.gustosSub);
     });

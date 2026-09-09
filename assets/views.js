@@ -364,7 +364,7 @@
     const w = U.semanaDe(U.hoyISO());
     // la fila de kcal sigue a la FASE real del calendario, no a semanas fijas
     const faseN = (w >= 1 && w <= SEMANAS) ? D.CAL[w - 1].fase : 1;
-    const fi = faseN === 4 ? 2 : faseN === 3 ? 1 : 0;
+    const fi = (D.NUTRI.filaDeFase && D.NUTRI.filaDeFase[faseN - 1] !== undefined) ? D.NUTRI.filaDeFase[faseN - 1] : (faseN === 4 ? 2 : faseN === 3 ? 1 : 0);
     const fn = D.NUTRI.fases[fi];
 
     // «El plato» vive en Mi Perfil → Detrás del plan
@@ -451,7 +451,11 @@
         const no = (D.NUTRI.suplementos || []).find(x => x.id === 'no');
         recCont.replaceChildren(atras, g,
           no ? el('div', { class: 'banner warn', style: 'margin:10px 0 4px' }, el('div', null, el('b', null, no.t), el('div', null, no.d))) : el('span'),
-          el('p', { class: 'mini', style: 'margin:10px 2px 0' }, D.NUTRI.hidratacion));
+          el('p', { class: 'mini', style: 'margin:10px 2px 0' }, D.NUTRI.hidratacion),
+          /* con embarazo, la seguridad alimentaria de AESAN donde se consulta la comida */
+          ...((D.META.etapa === 'embarazo' && TX.gen && TX.gen.emb) ? [
+            el('p', { class: 'mini', style: 'margin:8px 2px 0' }, TX.gen.emb.seguridad),
+            el('p', { class: 'mini', style: 'margin:6px 2px 0' }, TX.gen.emb.jamon)] : []));
       } else {
         const g = el('div', { class: 'rec-grid' });
         misRecetas.filter(r => deGrupo(r, grupoRec)).forEach(r => g.append(cartaReceta(r)));
@@ -626,7 +630,7 @@
       return el('div', { class: 'an-fila' },
         anillo(pFue, 'an-volt', adh.tot ? Math.round(adh.ok / adh.tot * 100) + '%' : '—', TX.fuerzaLbl),
         anillo(pPeso, 'an-f1', pesoAhora ? U.kg1(pesoAhora) : '—', TX.pPeso),
-        anillo(pCint, 'an-f3', cint ? U.kg1(cint.v) : '—', TX.pCintura));
+        D.META.etapa === 'embarazo' ? null : anillo(pCint, 'an-f3', cint ? U.kg1(cint.v) : '—', TX.pCintura));
     }
 
     const resumen = el('div', { id: 'p-res' });
@@ -637,13 +641,13 @@
       stat(TX.pPeso, pesoAhora ? U.kg1(pesoAhora) : '—', pesoAhora ? tpl(TX.pMediaS, { w: ms[ms.length - 1].w }) : TX.pSinDatos),
       // la báscula se cuenta en la dirección del objetivo: quien gana ve «Ganado»
       (() => {
-        const gana = D.META.objetivo === 'ganar';
+        const gana = D.META.objetivo === 'ganar' || D.META.etapa === 'embarazo';
         const dif = pesoAhora ? (gana ? pesoAhora - D.META.perfil.pesoSalida : D.META.perfil.pesoSalida - pesoAhora) : 0;
         return stat(gana ? (TX.pGanado || TX.pPerdido) : TX.pPerdido,
           pesoAhora ? (dif > 0.04 ? (gana ? '+' : '−') + U.kg1(dif) : '0,0') : '—',
           tpl(TX.pDesde, { v: U.kg1(D.META.perfil.pesoSalida) }));
       })(),
-      stat(TX.pCintura, cint ? U.kg1(cint.v) : '—', cint ? tpl(TX.pCinturaSub, { f: U.fmtCorta(cint.f), m: metaCint }) : TX.pCinturaLunes),
+      D.META.etapa === 'embarazo' ? null : stat(TX.pCintura, cint ? U.kg1(cint.v) : '—', cint ? tpl(TX.pCinturaSub, { f: U.fmtCorta(cint.f), m: metaCint }) : TX.pCinturaLunes),
       stat(TX.pAdh, adh.tot ? Math.round(adh.ok / adh.tot * 100) + '%' : '—', tpl(TX.pFuerzas, { a: adh.ok, b: adh.tot })),
       stat(TX.pSesiones, String(U.totalFuerza()), TX.pDeFuerza),
       stat(TX.pRacha, String(U.racha(hoy)), TX.pDiasCumplidos)));
@@ -665,8 +669,8 @@
     cardP.append(pt);
     root.append(cardP);
 
-    // ---- cintura ----
-    root.append(el('div', { id: 'p-cint', class: 'card chart-card' },
+    // ---- cintura (no en el embarazo: nueve meses sin medir nada) ----
+    if (D.META.etapa !== 'embarazo') root.append(el('div', { id: 'p-cint', class: 'card chart-card' },
       el('div', { class: 'card-title' }, el('div', null, el('h2', null, TX.pCinturaTitulo), el('div', { class: 'sub' }, tpl(TX.pCinturaTituloSub, { m: metaCint }))),
         window.B2P_FIG ? el('span', { class: 'fig-cint', style: 'margin-left:auto', html: window.B2P_FIG.cintura(40) }) : null),
       chartCintura()));
@@ -743,6 +747,10 @@
     }
     function alertas() {
       const out = [];
+      /* en el embarazo la báscula sube por diseño: el corredor de ganancia
+         de la gráfica y los checkpoints dicen si va bien; sin banners de
+         «subes más rápido de lo que se construye músculo» */
+      if (D.META.etapa === 'embarazo') return out;
       /* Ritmo con DIRECCIÓN: el corredor del perfil dice hacia dónde y a qué
          velocidad debe moverse la báscula. Reñir a quien gana músculo por «no
          perder» era heredar la lógica del plan original. Los deltas ignoran
@@ -988,7 +996,10 @@
     const mejor = U.mejorRacha();
     root.append(el('div', { class: 'statrow' },
       st(TX.lFuerzas, String(U.totalFuerza())), st(TX.lPRs, String(S.prCount || 0)),
-      st(TX.lPerdido, U.bajadaMax() > 0 ? '−' + U.kg1(U.bajadaMax()) : '—'),
+      // quien gana (músculo o embarazo) ve lo ganado, no un «perdido» a cero
+      (D.META.objetivo === 'ganar' || D.META.etapa === 'embarazo')
+        ? st(TX.pGanado || TX.lPerdido, U.subidaMax() > 0 ? '+' + U.kg1(U.subidaMax()) : '—')
+        : st(TX.lPerdido, U.bajadaMax() > 0 ? '−' + U.kg1(U.bajadaMax()) : '—'),
       st(TX.lMejorRacha, String(mejor)),
       st(TX.lLogrosN, Object.keys(S.logros).length + '/' + D.LOGROS.length),
       st(TX.lFotos, D.FOTOS.filter(f => S.dias[f] && S.dias[f].foto).length + '/' + D.FOTOS.length)));
@@ -1032,10 +1043,18 @@
        toques, no 16 pantallas. */
     if (S.perfil && !Object.keys(d).length) {
       ['sexo', 'edad', 'alturaCm', 'pesoKg', 'cinturaCm', 'objetivo', 'evento', 'inicio', 'inicioFecha', 'duracionSem', 'historial',
-        'diasSemana', 'minSesion', 'franja', 'material', 'lesiones', 'medico', 'dieta', 'sin'].forEach(k => {
+        'diasSemana', 'minSesion', 'franja', 'material', 'lesiones', 'medico', 'dieta', 'sin',
+        'etapa', 'pesoPre', 'embRiesgo', 'parto', 'partoTipo', 'lactancia', 'sp', 'ppRiesgo'].forEach(k => {
         if (S.perfil[k] !== undefined) d[k] = Array.isArray(S.perfil[k]) ? S.perfil[k].slice() : S.perfil[k];
       });
       if (d.medico === true) d.medicoOk = 1;      // el visto bueno ya se dio una vez
+      /* la semana de embarazo se rellena desde la FPP guardada, con la de HOY:
+         un cuestionario rehecho a las tres semanas no repite la semana vieja */
+      const G0 = window.B2P_GEN;
+      if (S.perfil.etapa === 'embarazo' && S.perfil.fpp && G0) d.embSemana = Math.max(4, Math.min(42, G0.semanaGestacion(S.perfil.fpp, U.hoyISO()) || 4));
+      if (S.perfil.ciclo) { d.cicloModo = S.perfil.ciclo.modo; if (S.perfil.ciclo.ultima) d.cicloUltima = S.perfil.ciclo.ultima; if (S.perfil.ciclo.dur) d.cicloDur = S.perfil.ciclo.dur; }
+      if (Array.isArray(d.embRiesgo) && d.embRiesgo.length && S.perfil.embOk) d.embOk = 1;
+      if (Array.isArray(d.ppRiesgo) && d.ppRiesgo.length && S.perfil.ppOk) d.ppOk = 1;
       /* los gustos previos solo se siembran cuando el mazo NO se re-juega
          («solo datos» o entrada directa); en «solo gustos» y «todo» el mazo
          empieza de cero a propósito */
@@ -1048,15 +1067,37 @@
       U.save();
     }
 
+    /* Embarazo, posparto y ciclo cuelgan de «mujer»; el resto no los ve. Con
+       embarazo se saltan objetivo, evento y plazo (el objetivo es llegar bien
+       al parto y el plan dura hasta la FPP) y los días y minutos se acotan a
+       lo que piden las guías. Las listas de contraindicaciones son las de las
+       guías, y marcar una abre la misma puerta que la pregunta médica. */
+    const mujer = d => d.sexo === 'm';
+    const emb = d => mujer(d) && d.etapa === 'embarazo';
+    const pp = d => mujer(d) && d.etapa === 'posparto';
+    const sinEtapa = d => mujer(d) && d.etapa !== 'embarazo' && d.etapa !== 'posparto';
+    const opsDe = m => Object.keys(m || {}).map(k => [k, m[k]]);
     const PASOS_TODOS = [
       { id: 'sexo', t: C.sexoT, p: C.sexoP, tipo: 'uno', ops: [['h', C.sexoH], ['m', C.sexoM], ['x', C.sexoX]] },
       { id: 'medidas', t: C.medidasT, tipo: 'nums', campos: [
         ['edad', C.edadL, 16, 90, false], ['alturaCm', C.alturaL, 120, 230, false],
         ['pesoKg', C.pesoL, 35, 250, false], ['cinturaCm', C.cinturaL, 50, 200, true]] },
-      { id: 'objetivo', t: C.objT, tipo: 'uno', ops: [['perder', C.objPerder], ['recomp', C.objRecomp], ['ganar', C.objGanar], ['mantener', C.objMantener]] },
-      { id: 'evento', t: C.evT, tipo: 'uno', ops: [['boda', C.evBoda], ['oposicion', C.evOpo], ['verano', C.evVerano], ['siempre', C.evSiempre]] },
+      { id: 'etapa', t: C.etapaT, p: C.etapaP, tipo: 'uno', si: mujer, ops: [['no', C.etapaNo], ['embarazo', C.etapaEmb], ['posparto', C.etapaPp]] },
+      { id: 'embDatos', t: C.embT, tipo: 'nums', si: emb, campos: [['embSemana', C.embSemL, 4, 42, false], ['pesoPre', C.embPesoPreL, 35, 250, true]] },
+      { id: 'embRiesgo', t: C.embRiesgoT, p: C.embRiesgoP, tipo: 'multi', si: emb, ops: opsDe(C.embR), nada: C.embRiesgoNo, riesgo: 'emb' },
+      { id: 'parto', t: C.ppFechaL, tipo: 'fecha', si: pp, rango: [-365, 0], saltar: false, mal: C.ppFechaMal },
+      { id: 'partoTipo', t: C.ppTipoT, tipo: 'uno', si: pp, ops: [['vaginal', C.ppVaginal], ['cesarea', C.ppCesarea]] },
+      { id: 'lactancia', t: C.ppLactT, tipo: 'uno', fila: true, si: pp, ops: [[true, C.ppLactSi], [false, C.ppLactNo]] },
+      { id: 'sp', t: C.ppSpT, p: C.ppSpP, tipo: 'multi', si: pp, ops: opsDe(C.ppSp), nada: C.ppSpNo },
+      { id: 'ppRiesgo', t: C.ppRiesgoT, p: C.ppRiesgoP, tipo: 'multi', si: pp, ops: opsDe(C.ppR), nada: C.ppRiesgoNo, riesgo: 'pp' },
+      { id: 'cicloModo', t: C.cicloT, p: C.cicloP, tipo: 'uno', si: sinEtapa, ops: [['natural', C.cicloNat], ['hormonal', C.cicloHorm], ['sin', C.cicloSin], ['no', C.cicloNo]] },
+      { id: 'cicloUltima', t: C.cicloUltT, tipo: 'fecha', si: d => sinEtapa(d) && d.cicloModo === 'natural', rango: [-60, 0], saltar: false, mal: C.cicloUltMal },
+      { id: 'cicloDur', t: C.cicloDurT, p: C.cicloDurP, tipo: 'uno', fila: true, si: d => sinEtapa(d) && d.cicloModo === 'natural',
+        ops: [[24, '21-25'], [27, '26-28'], [30, '29-31'], [34, '32-35'], [0, C.cicloDurNs]] },
+      { id: 'objetivo', t: C.objT, tipo: 'uno', si: d => !emb(d), ops: [['perder', C.objPerder], ['recomp', C.objRecomp], ['ganar', C.objGanar], ['mantener', C.objMantener]] },
+      { id: 'evento', t: C.evT, tipo: 'uno', si: d => !emb(d), ops: [['boda', C.evBoda], ['oposicion', C.evOpo], ['verano', C.evVerano], ['siempre', C.evSiempre]] },
       // la fecha solo se pregunta si el evento la tiene: «para siempre» no la tiene
-      { id: 'eventoFecha', t: C.evFechaT, p: C.evFechaP, tipo: 'fecha', si: d => d.evento && d.evento !== 'siempre' },
+      { id: 'eventoFecha', t: C.evFechaT, p: C.evFechaP, tipo: 'fecha', si: d => !emb(d) && d.evento && d.evento !== 'siempre' },
       { id: 'inicio', t: C.inicioT, p: C.inicioP, tipo: 'uno', ops: [
         ['hoy', C.inicioHoy], ['semana', C.inicioSemana], ['lunes', C.inicioLunes], ['exacto', C.inicioExacto]] },
       /* el calendario solo aparece si la respuesta lo pide: «hoy» y «el lunes
@@ -1064,10 +1105,12 @@
       { id: 'inicioFecha', tipo: 'calFecha',
         t: null,   // el titulo depende del modo; se resuelve al pintar
         si: d => d.inicio === 'semana' || d.inicio === 'exacto' },
-      { id: 'duracionSem', t: C.durT, tipo: 'uno', ops: [[12, C.dur3], [24, C.dur6], [48, C.dur12], [0, C.durAlways]] },
+      { id: 'duracionSem', t: C.durT, tipo: 'uno', si: d => !emb(d), ops: [[12, C.dur3], [24, C.dur6], [48, C.dur12], [0, C.durAlways]] },
       { id: 'historial', t: C.histT, p: C.histP, tipo: 'uno', ops: [['nunca', C.histNunca], ['retomador', C.histRetoma], ['activo', C.histActivo]] },
-      { id: 'diasSemana', t: C.diasL, tipo: 'uno', fila: true, ops: [[2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']] },
-      { id: 'minSesion', t: C.minL, tipo: 'uno', fila: true, ops: [[30, '30'], [45, '45'], [60, '60'], [75, '75+']] },
+      { id: 'diasSemana', t: C.diasL, tipo: 'uno', fila: true, si: d => !emb(d), ops: [[2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']] },
+      { id: 'diasSemana', t: C.diasL, tipo: 'uno', fila: true, si: emb, ops: [[2, '2'], [3, '3'], [4, '4']] },
+      { id: 'minSesion', t: C.minL, tipo: 'uno', fila: true, si: d => !emb(d), ops: [[30, '30'], [45, '45'], [60, '60'], [75, '75+']] },
+      { id: 'minSesion', t: C.minL, tipo: 'uno', fila: true, si: emb, ops: [[30, '30'], [45, '45']] },
       { id: 'franja', t: C.franjaT, tipo: 'uno', ops: [['manana', C.franjaM], ['mediodia', C.franjaMd], ['tarde', C.franjaT2]] },
       { id: 'material', t: C.matT, tipo: 'uno', ops: [['nada', C.matNada], ['casa', C.matCasa], ['gym', C.matGym]] },
       { id: 'lesiones', t: C.lesT, tipo: 'multi', ops: [['rodilla', C.lesRodilla], ['hombro', C.lesHombro], ['lumbar', C.lesLumbar]], nada: C.lesNo },
@@ -1127,7 +1170,15 @@
                  activó. Y responder de nuevo resetea el visto bueno. */
               if (paso.id === 'medico') {
                 delete d.medicoOk;
-                if (val === true) { guarda(); setTimeout(pintaGate, 170); return; }
+                if (val === true) { guarda(); setTimeout(() => pintaGate('medico'), 170); return; }
+              }
+              /* cambiar de etapa deja sin sentido lo contestado para la otra:
+                 la semana de embarazo, la fecha del parto, los vistos buenos */
+              if (paso.id === 'etapa') {
+                if (val !== 'embarazo') { delete d.embSemana; delete d.pesoPre; delete d.embRiesgo; delete d.embOk; }
+                if (val !== 'posparto') { delete d.parto; delete d.partoTipo; delete d.lactancia; delete d.sp; delete d.ppRiesgo; delete d.ppOk; }
+                if (val !== 'no') { delete d.cicloModo; delete d.cicloUltima; delete d.cicloDur; }
+                guarda();
               }
               // el toque ES la respuesta: se marca y avanza solo
               setTimeout(avanza, 170);
@@ -1162,14 +1213,25 @@
               ev.currentTarget.setAttribute('aria-pressed', arr.includes(val) ? 'true' : 'false');
             } }, txt));
         });
+        /* Las listas de contraindicaciones abren la puerta del visto bueno al
+           continuar con algo marcado, igual que la pregunta médica; y volver a
+           responder resetea el visto bueno. */
+        const okDe = paso.riesgo === 'emb' ? 'embOk' : paso.riesgo === 'pp' ? 'ppOk' : null;
+        const sigueMulti = () => {
+          if (okDe && arr.length) { delete d[okDe]; guarda(); pintaGate(paso.riesgo); return; }
+          if (okDe) delete d[okDe];
+          avanza();
+        };
         // "ninguna": vacia y avanza — responder que no tambien es responder
         caja.append(el('button', { class: 'copt plano', type: 'button', onclick: () => {
-          arr.length = 0; guarda(); setTimeout(avanza, 120);
+          arr.length = 0; if (okDe) delete d[okDe]; guarda(); setTimeout(avanza, 120);
         } }, paso.nada));
         root.append(caja);
+        // el aviso de las contraindicaciones relativas: se lee, no cierra nada
+        if (paso.id === 'embRiesgo' && C.embAvisoRel) root.append(el('p', { class: 'mini', style: 'margin:10px 2px 0' }, C.embAvisoRel));
         root.append(el('div', { class: 'cuest-pie' },
           el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
-          el('button', { class: 'btn-b2p', type: 'button', onclick: avanza }, C.sigue)));
+          el('button', { class: 'btn-b2p', type: 'button', onclick: sigueMulti }, C.sigue)));
         return;
       }
 
@@ -1263,18 +1325,22 @@
            donde el motor sabe periodizar; saltarla es una opción de primera. */
         const hoy = new Date(); hoy.setHours(12, 0, 0, 0);
         const iso = dd => dd.getFullYear() + '-' + String(dd.getMonth() + 1).padStart(2, '0') + '-' + String(dd.getDate()).padStart(2, '0');
-        const min = new Date(hoy); min.setDate(min.getDate() + 56);
-        const max = new Date(hoy); max.setDate(max.getDate() + 350);
+        /* el rango lo dice el paso: el evento mira hacia delante (2-12 meses);
+           la fecha del parto y la última regla, hacia atrás */
+        const rango = paso.rango || [56, 350];
+        const min = new Date(hoy); min.setDate(min.getDate() + rango[0]);
+        const max = new Date(hoy); max.setDate(max.getDate() + rango[1]);
+        const mal = paso.mal || C.evFechaMal;
         const inp = el('input', { type: 'date', id: 'cuest-fecha', min: iso(min), max: iso(max),
           value: d[paso.id] || '' });
         root.append(el('div', { class: 'cuest-nums' }, el('div', { class: 'cnum' }, inp)));
         root.append(el('div', { class: 'cuest-pie' },
           el('button', { class: 'plano qaux', type: 'button', onclick: atras }, C.atras),
-          el('button', { class: 'plano qaux', type: 'button', onclick: () => { delete d[paso.id]; guarda(); avanza(); } }, C.evFechaSaltar),
+          paso.saltar === false ? null : el('button', { class: 'plano qaux', type: 'button', onclick: () => { delete d[paso.id]; guarda(); avanza(); } }, C.evFechaSaltar),
           el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
             const val = (inp.value || '').trim();
-            if (!val) { U.toast(C.evFechaMal); return; }
-            if (val < iso(min) || val > iso(max)) { U.toast(C.evFechaMal); return; }
+            if (!val) { U.toast(mal); return; }
+            if (val < iso(min) || val > iso(max)) { U.toast(mal); return; }
             d[paso.id] = val; guarda(); avanza();
           } }, C.sigue)));
         return;
@@ -1322,22 +1388,31 @@
     /* La pausa médica: qué respuesta la activó, qué llevarle al médico y las
        dos salidas honestas — seguir con el visto bueno, o salir con todo
        guardado. Nunca un callejón sin salida. */
-    function pintaGate() {
+    /* Una puerta, tres motivos: la condición médica, una contraindicación del
+       embarazo o una del posparto. Mismo gesto y misma salida. */
+    function pintaGate(clave) {
+      const k = clave || 'medico';
+      const flag = k === 'emb' ? 'embOk' : k === 'pp' ? 'ppOk' : 'medicoOk';
+      const titulo = k === 'emb' ? C.gateEmbT : k === 'pp' ? C.gatePpT : C.gateT;
+      const texto = k === 'emb' ? C.gateEmbTxt : k === 'pp' ? C.gatePpTxt : tpl(C.gateTxt, { d: d.diasSemana || 3 });
       root.innerHTML = '';
       root.append(el('div', { class: 'sec-h' }, el('h2', null, C.titulo)));
-      root.append(el('div', { class: 'cuest-t' }, C.gateT));
-      root.append(el('div', { class: 'cuest-p' }, tpl(C.gateTxt, { d: d.diasSemana || 3 })));
+      root.append(el('div', { class: 'cuest-t' }, titulo || C.gateT));
+      root.append(el('div', { class: 'cuest-p' }, texto || ''));
       root.append(el('div', { class: 'banner warn' }, el('div', null, C.gateGuardado)));
       root.append(el('div', { class: 'cuest-pie' },
         el('button', { class: 'plano qaux', type: 'button', onclick: () => {
           S.ui.gate = 1; guarda(); location.hash = '#/hoy';   // el router la convierte en la pausa
         } }, C.gateSalir),
-        el('button', { class: 'btn-b2p', type: 'button', onclick: () => { d.medicoOk = 1; guarda(); avanza(); } }, C.gateOk)));
+        el('button', { class: 'btn-b2p', type: 'button', onclick: () => { d[flag] = 1; guarda(); avanza(); } }, C.gateOk)));
     }
 
     function pintaResumen(cont) {
       const est = S.ui.quiz || { like: {}, no: {} };
-      const apto = d.medico === false || d.medicoOk === 1;   // la edad ya la acota el propio campo (16–90)
+      // la edad ya la acota el propio campo (16–90); las tres puertas se cierran con su visto bueno
+      const apto = (d.medico === false || d.medicoOk === 1)
+        && (!(Array.isArray(d.embRiesgo) && d.embRiesgo.length) || d.embOk === 1)
+        && (!(Array.isArray(d.ppRiesgo) && d.ppRiesgo.length) || d.ppOk === 1);
       cont.append(el('div', { class: 'cuest-t' }, C.resT));
       cont.append(el('div', { class: 'cuest-p' }, C.resP));
       const dame = (id, val) => {
@@ -1348,6 +1423,15 @@
          o los evitas — el resumen es un contrato y se lee sin adivinar */
       const filas = [];
       if (d.edad) filas.push([null, d.edad + ' · ' + (d.alturaCm || '—') + ' cm · ' + (d.pesoKg || '—') + ' kg' + (d.sexo !== undefined ? ' · ' + dame('sexo', d.sexo) : ''), 'medidas']);
+      /* la etapa y el ciclo, con su dato clave: se ven y se corrigen desde aquí */
+      if (d.sexo === 'm' && d.etapa === 'embarazo' && d.embSemana) filas.push([C.resLEtapa, tpl(C.resEmb, { s: d.embSemana }), 'embDatos']);
+      if (d.sexo === 'm' && d.etapa === 'posparto' && d.parto) {
+        const G1 = window.B2P_GEN, wp = G1 ? G1.semanasPosparto(d.parto, U.hoyISO()) : null;
+        filas.push([C.resLEtapa, tpl(d.partoTipo === 'cesarea' ? C.resPpCes : C.resPp, { s: wp === null ? '—' : wp }), 'parto']);
+      }
+      if (d.sexo === 'm' && d.etapa !== 'embarazo' && d.etapa !== 'posparto' && d.cicloModo && d.cicloModo !== 'no') {
+        filas.push([C.resLCiclo, d.cicloModo === 'natural' ? tpl(C.resCicloNat, { d: d.cicloDur || 28 }) : d.cicloModo === 'hormonal' ? C.resCicloHorm : C.resCicloSin, 'cicloModo']);
+      }
       [['objetivo', C.resLObj], ['evento', C.resLEv], ['eventoFecha', C.resLEv], ['inicio', C.inicioT], ['duracionSem', C.resLDur], ['historial', C.resLHist],
        ['material', C.resLMat], ['dieta', C.resLDieta], ['franja', C.resLFranja]].forEach(par => {
         if (d[par[0]] !== undefined) filas.push([par[1], dame(par[0], d[par[0]]), par[0]]);
@@ -1386,6 +1470,23 @@
         el('button', { class: 'btn-b2p', type: 'button', onclick: () => {
           S.perfil = Object.assign({ v: 1, creado: U.hoyISO() }, d,
             { gustos: { like: Object.keys(est.like || {}), no: Object.keys(est.no || {}) } });
+          /* Etapa y ciclo, en limpio. La FPP se calcula UNA vez, aquí, desde la
+             semana declarada y el día de hoy, y se guarda: el plan la lee cada
+             arranque sin volver a mirar el reloj (la lección de la v113). */
+          const G3 = window.B2P_GEN;
+          const P = S.perfil;
+          if (P.sexo !== 'm') { delete P.etapa; delete P.cicloModo; delete P.cicloUltima; delete P.cicloDur; }
+          if (P.etapa === 'embarazo' && G3) P.fpp = G3.fppDe(P.creado, P.embSemana); else delete P.fpp;
+          if (P.etapa !== 'embarazo') { delete P.embSemana; delete P.pesoPre; delete P.embRiesgo; delete P.embOk; }
+          if (P.etapa !== 'posparto') { delete P.parto; delete P.partoTipo; delete P.lactancia; delete P.sp; delete P.ppRiesgo; delete P.ppOk; delete P.correrOk; }
+          if (P.etapa === 'embarazo') { P.objetivo = 'mantener'; P.evento = 'siempre'; delete P.eventoFecha; P.duracionSem = 12; }
+          if (P.etapa === 'no') delete P.etapa;
+          const conCiclo = P.sexo === 'm' && !P.etapa && P.cicloModo && P.cicloModo !== 'no';
+          P.ciclo = conCiclo ? { modo: P.cicloModo, ultima: P.cicloModo === 'natural' ? (P.cicloUltima || null) : null, dur: P.cicloModo === 'natural' ? (P.cicloDur || 0) : 0 } : null;
+          delete P.cicloModo; delete P.cicloUltima; delete P.cicloDur;
+          /* la primera regla declarada entra en el registro diario, que es
+             donde viven las siguientes: así todo lo del ciclo es un solo dato */
+          if (P.ciclo && P.ciclo.ultima) { const dd0 = S.dias[P.ciclo.ultima] || (S.dias[P.ciclo.ultima] = {}); dd0.regla = 1; }
           // la cintura del cuestionario ES la línea base: no se pregunta dos veces
           if (d.cinturaCm && !S.config.cinturaBase) S.config.cinturaBase = d.cinturaCm;
           S.ui.reveal = 1;     // el plan se presenta antes de soltarte en HOY
@@ -1417,10 +1518,13 @@
     const mat = bd0.material || (S.perfil && S.perfil.material) || 'gym';
     const lesD = Array.isArray(bd0.lesiones) ? bd0.lesiones : ((S.perfil && S.perfil.lesiones) || []);
     const G2 = window.B2P_GEN;
+    // con embarazo, el mazo no ofrece lo que el plan no va a proponer nunca
+    const embD = bd0.sexo === 'm' && bd0.etapa === 'embarazo';
     const cartaVale = id => {
       const e = D.EJERCICIOS[id]; if (!e) return false;
       if (G2 && G2.equipoVale && !G2.equipoVale(e.equipo, mat)) return false;
       if (G2 && G2.tocaLesion && lesD.some(z => G2.tocaLesion(D, z, id))) return false;
+      if (embD && G2 && G2.tocaEmbarazo && G2.tocaEmbarazo(D, id, 2)) return false;
       return true;
     };
     const idsEj = deseo.filter(id => D.EJERCICIOS[id] && cartaVale(id));
@@ -1436,7 +1540,7 @@
       const img = (window.B2P_PICTOS && patPic && window.B2P_PICTOS.includes(patPic)) ? 'assets/pictos/' + patPic + '.webp' + IMGV : null;
       // en la carta, el nombre a secas: la taxonomía «(asistidas → libres…)» no se lee en un segundo
       ejs.push({ k: 'ej:' + id, cls: 'ej', cat: TX.quizCatEj, t: e.nombre.replace(/\s*\([^)]*\)\s*$/, ''), sub: (TX.zonas && TX.zonas[e.zona]) || e.zona, mm: e.mm, img }); });
-    (D.QUIZ_DEP || []).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '',
+    (D.QUIZ_DEP || []).filter(dep => !(embD && G2 && (G2.EMB_DEP_NO || []).includes(dep.id))).forEach(dep => deps.push({ k: 'dep:' + dep.id, cls: 'dep', cat: TX.quizCatDep, t: dep.n, sub: '',
       img: (window.B2P_DEPORTES || []).includes(dep.id) ? 'assets/deportes/' + dep.id + '.webp' + IMGV : null,
       emoji: DEP_EMOJI[dep.id] || '🏅' }));
     /* La dieta se declaró dos pasos antes: una vegana no puntúa diez platos

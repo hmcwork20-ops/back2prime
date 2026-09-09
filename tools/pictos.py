@@ -84,6 +84,21 @@ PATRONES = {
     'rdl-1p': 'single-leg Romanian deadlift: standing on one leg, torso hinged forward flat like a table top, the '
               'free leg extended straight back in line with the torso, arms hanging down toward the floor, side '
               'view, NO equipment of any kind',
+    # --- embarazo y posparto (v114): los tres ejercicios nuevos ---
+    'cuadrupedia': 'bird-dog exercise seen from the SIDE, on all fours on the floor: hands under the shoulders and '
+                   'knees under the hips, the ground drawn as a plain horizontal line. ONE arm reaches straight '
+                   'forward at shoulder height and the OPPOSITE leg extends straight back at hip height, both '
+                   'parallel to the floor, the back flat and horizontal, head in line with the spine. NO equipment '
+                   'of any kind. Wide pose that fills the square frame',
+    'plancha-inclinada': 'incline plank seen from the SIDE: the person leans forward with both hands on a waist-high '
+                         'TABLE, arms straight, body in one straight diagonal line from head to heels, toes on the '
+                         'floor, hips neither sagging nor lifted. The table drawn as a simple lime-green rectangle on '
+                         'legs; the ground as a plain horizontal line. NO dumbbell, NO bench press, NO push-up on the '
+                         'floor',
+    'suelo-pelvico': 'pelvic floor exercise, a woman sitting upright on a plain chair seen from the SIDE, feet flat on '
+                     'the floor, hands resting on the lower belly, calm posture, back straight. Under the pelvis a '
+                     'small lime-green curved band with a little upward arrow, suggesting the pelvic floor lifting. '
+                     'The chair drawn as simple lime-green lines. NO dumbbell, NO barbell, NO other equipment',
     'curl-mochila': 'biceps curl holding a BACKPACK by its top handle with both hands, elbows pinned to the sides, '
                     'forearms curling the backpack up to chest height, side view. The backpack drawn as a simple '
                     'lime-green bag. NO dumbbell',
@@ -129,6 +144,7 @@ NIVEL = {
     'pino-pared': 'nada', 'fondos-silla': 'nada', 'rdl-1p': 'nada', 'curl-mochila': 'nada',
     'curl-toalla': 'nada', 'abduccion-lado': 'nada', 'elev-y-suelo': 'nada', 'curl-nordico': 'nada',
     'encogimiento-mochila': 'nada',
+    'cuadrupedia': 'nada', 'plancha-inclinada': 'nada', 'suelo-pelvico': 'nada',   # embarazo y posparto: suelo, mesa, silla
     'elev-laterales': 'casa', 'press-frances-mc': 'casa',   # mancuernas de verdad
 }
 

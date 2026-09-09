@@ -1430,5 +1430,296 @@ window.B2P = (function () {
     'yogur-soja': 'Soy yogurt',
     zanahoria: 'Carrot',
   };
-  return {META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MENU, CHECKPOINTS, FOTOS, LOGROS, CIENCIA, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
+  /* ---------- MUJER: embarazo, posparto y ciclo ----------
+     Un solo bloque, con la misma forma en los seis idiomas: solo cambian los
+     textos. Asi los espejos se traducen enteros y el inserto es el mismo. Las
+     cifras salen de las guias citadas en el informe de evidencia (ACOG 804,
+     canadienses 2019 y 2025, SEGO 2019, Goom 2019, EFSA, IOM 2009, AESAN). */
+  const MUJER = {
+    EJERCICIOS: {
+      'cuadrupedia': { pat: 'core', pic: 'cuadrupedia',
+        nombre: 'Bird-dog', mm: { p: ['abdomen'], s: ['gluteo'] }, zona: 'core', musc: ['Deep core', 'glutes', 'erectors'], equipo: 'Nothing',
+        cues: ['On all fours, hands under the shoulders and knees under the hips', 'Extend the opposite arm and leg without letting the lower back move', 'Exhale as you extend; come back slowly and switch sides'],
+        err: ['Arching the lower back as the leg rises (lift it less)', 'Turning the hip to reach further', 'Holding your breath'],
+        alt: [{ n: 'Leg only, or arm only', por: 'if you lose your balance or your lower back' }, { n: 'With a 3″ pause at the top', por: 'if 10 reps feel too easy' }],
+        mol: 'If the wrists complain: rest on your fists, or grip a pair of fixed dumbbells as handles.'
+      },
+      'plancha-inclinada': { pat: 'core', pic: 'plancha-inclinada',
+        nombre: 'Incline Plank', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Anterior core', 'serratus'], equipo: 'Nothing (table, bench or wall)',
+        cues: ['Hands on a table or bench, body in a line from head to heels', 'Ribs down and pelvis neutral: no arching', 'Breathe normally; the higher the surface, the easier it is'],
+        err: ['Hips sagging or piking up', 'Shoulders shrugged up to your ears', 'Holding your breath'],
+        alt: [{ n: 'Against the wall', por: 'if the table gets hard, or in the home stretch of pregnancy' }, { n: 'Plank on the floor', por: 'outside pregnancy, once 40″ feel easy' }],
+        mol: 'If you feel outward pressure in your abdomen or your pelvic floor, raise the incline.'
+      },
+      'suelo-pelvico': { pat: 'sp', pic: 'suelo-pelvico',
+        nombre: 'Pelvic Floor', mm: { p: ['abdomen'], s: [] }, zona: 'core', musc: ['Pelvic floor'], equipo: 'Nothing',
+        cues: ['Seated or lying on your side: squeeze as if stopping a wee and holding in wind, both at once', 'Hold 6-8″ while breathing; release fully before repeating', 'Finish with 5 quick 1″ contractions'],
+        err: ['Squeezing glutes, thighs or abs instead of the pelvic floor', 'Holding your breath', 'Not releasing fully between reps'],
+        alt: [{ n: 'Lying on your side', por: 'if you can’t feel the contraction seated' }, { n: 'Standing, in a queue or at a red light', por: 'once you’ve got it: that’s how it becomes daily' }],
+        mol: 'If leaking, heaviness or pain doesn’t improve in a few weeks, pelvic floor physio: that’s what the guidelines recommend.'
+      }
+    },
+    SESIONES: {
+      'emb1-a': { nombre: 'Strength A · first trimester', tipo: 'fuerza', fase: 1, dur: '~40′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10-12', d: 75, n: 'With a dumbbell at your chest if you have one; to a box if you feel dizzy' },
+        { e: 'press-militar-mc',  s: 3, r: '10',    d: 75, n: 'Seated, with back support' },
+        { e: 'remo-mancuerna',    s: 3, r: '10/side', d: 75, n: 'Braced on a bench or table' },
+        { e: 'puente-gluteo',     s: 3, r: '12',    d: 60, n: 'Up to week 16; after that the bird-dog replaces it' },
+        { e: 'plancha',           s: 3, r: '20-30″', d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30, n: '6-8″ each and 5 quick ones at the end' }
+      ]},
+      'emb1-b': { nombre: 'Strength B · first trimester', tipo: 'fuerza', fase: 1, dur: '~40′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 3, r: '8/leg', d: 75, n: 'Static and with one hand supported: your balance is already changing' },
+        { e: 'press-inclinado-mc', s: 3, r: '10',   d: 75, n: 'Bench at 30-45°; no bench, push-ups with your hands on a table' },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '12',    d: 60 },
+        { e: 'dead-bug',          s: 2, r: '8/side', d: 45, n: 'Up to week 16' },
+        { e: 'abduccion-lado',    s: 2, r: '12/side', d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb2-a': { nombre: 'Strength A · second trimester', tipo: 'fuerza', fase: 2, dur: '~40′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10',    d: 75, n: 'To a box or chair: comfortable depth, no bounce' },
+        { e: 'press-militar-mc',  s: 3, r: '10',    d: 75, n: 'Seated, with back support' },
+        { e: 'remo-mancuerna',    s: 3, r: '10/side', d: 75, n: 'Braced: your bump isn’t left hanging' },
+        { e: 'cuadrupedia',       s: 2, r: '8/side', d: 60, n: 'Replaces the bridge: nothing lying on your back' },
+        { e: 'plancha-inclinada', s: 3, r: '25″',   d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb2-b': { nombre: 'Strength B · second trimester', tipo: 'fuerza', fase: 2, dur: '~40′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 3, r: '8/leg', d: 75, n: 'Static, with support' },
+        { e: 'press-inclinado-mc', s: 2, r: '10',   d: 75, n: 'High bench or hands on a table; never flat' },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '12',    d: 60 },
+        { e: 'curl-martillo',     s: 2, r: '12',    d: 45 },
+        { e: 'ext-triceps-banda', s: 2, r: '12',    d: 45 },
+        { e: 'abduccion-lado',    s: 2, r: '12/side', d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb3-a': { nombre: 'Strength A · third trimester', tipo: 'fuerza', fase: 3, dur: '~30′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '8-10',  d: 90, n: 'To a chair, hands free to steady yourself' },
+        { e: 'press-militar-mc',  s: 2, r: '10',    d: 75, n: 'Seated' },
+        { e: 'remo-mancuerna',    s: 2, r: '10/side', d: 75 },
+        { e: 'cuadrupedia',       s: 2, r: '6/side', d: 60 },
+        { e: 'plancha-inclinada', s: 2, r: '20″',   d: 60, n: 'Against the wall is fine' },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'emb3-b': { nombre: 'Strength B · third trimester', tipo: 'fuerza', fase: 3, dur: '~30′', calent: true, bloques: [
+        { e: 'zancada-alterna',   s: 2, r: '6/leg', d: 90, n: 'With support; if it feels heavy, half a lunge' },
+        { e: 'banda-remo',        s: 2, r: '12',    d: 60 },
+        { e: 'elev-laterales',    s: 2, r: '10',    d: 60 },
+        { e: 'abduccion-lado',    s: 2, r: '10/side', d: 45 },
+        { e: 'ext-triceps-banda', s: 2, r: '10',    d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'pp-a': { nombre: 'Recovery', tipo: 'fuerza', fase: 1, dur: '~15′', calent: false, bloques: [
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30, n: 'As soon as you can: 6-8″ and release fully' },
+        { e: 'dead-bug',          s: 2, r: '8/side', d: 45, n: 'Legs only at first; lower back glued down' },
+        { e: 'cuadrupedia',       s: 2, r: '6/side', d: 45 },
+        { e: 'abduccion-lado',    s: 2, r: '10/side', d: 45 }
+      ]},
+      'pp-b': { nombre: 'Reconnection', tipo: 'fuerza', fase: 2, dur: '~30′', calent: true, bloques: [
+        { e: 'sentadilla-pc',     s: 3, r: '10',    d: 60, n: 'Exhale on the way up; don’t hold your breath' },
+        { e: 'zancada-alterna',   s: 2, r: '8/leg', d: 60, n: 'Static' },
+        { e: 'puente-gluteo',     s: 3, r: '12',    d: 60 },
+        { e: 'banda-remo',        s: 3, r: '12',    d: 60 },
+        { e: 'elev-talones',      s: 2, r: '15',    d: 45 },
+        { e: 'plancha-inclinada', s: 2, r: '20″',   d: 45 },
+        { e: 'suelo-pelvico',     s: 3, r: '10',    d: 30 }
+      ]},
+      'pp-paseo': { nombre: 'Walk 10-20′', tipo: 'cardio', icono: 'walk', detalle: 'Easy and short, from the first days. If the bleeding increases afterwards, stop and ease off: that’s the signal the guidelines use.' }
+    },
+    SUELO_PELVICO: {
+      titulo: 'Pelvic floor · 5′ · every day',
+      intro: 'It’s the best-evidenced recommendation of the lot: doing it daily in pregnancy cuts incontinence by 62% at the end and by 29% three months after the birth (Cochrane 2020). And nobody can tell you’re doing it.',
+      bloques: [
+        { id: 'suelo-pelvico', nombre: 'Long and short contractions', donde: 'Every day, and after every session', detalle: '3 × 10 contractions of 6-8″, breathing, releasing fully between one and the next; and 5 quick 1″ ones at the end. Seated, on your side or standing: what matters is that it’s the pelvic floor and not the glutes.' },
+        { id: 'respiracion', nombre: 'Breathing and core', donde: 'Before you load', detalle: 'Inhale opening the ribs; as you exhale, the pelvic floor lifts and the abdomen draws in gently. It’s the pattern that goes before every squat and every armful you lift: the baby, the chair, the shopping.' }
+      ],
+      nota: 'If there’s leaking, heaviness, a bulge or pain, this isn’t enough: get assessed by a pelvic floor physio. The 2025 guidelines recommend it for everyone from week 6 after the birth.'
+    },
+    CALENTAMIENTO_EMB: {
+      titulo: 'Warm-up · 6′ · always',
+      pasos: ['Arm circles · 30″', 'Hip rotations · 30″ per side', '10 slow squats to a chair', '5 short lunges with support per side', 'March on the spot swinging your arms · 60″', 'Breathing with the pelvic floor · 5 cycles'],
+      gym: 'No jumping: impact is out during pregnancy.'
+    },
+    FASES_EMB: [
+      { id: 1, nombre: 'First trimester', sub: 'Weeks 1-13', disco: 10, rpe: 'Borg 12-14 · you can talk', objetivo: 'Keep the habit going with nausea and tiredness against you: short sessions, walking, pelvic floor every day. Zero personal bests.' },
+      { id: 2, nombre: 'Second trimester', sub: 'Weeks 14-27', disco: 15, rpe: 'Borg 12-14 · you can talk', objetivo: 'The energy comes back: volume can go up a little. From week 16 nothing lying on your back or your front; the plan already changes it.' },
+      { id: 3, nombre: 'Third trimester', sub: 'Weeks 28-36', disco: 20, rpe: 'Borg 12-14 · you can talk', objetivo: 'Shorter sessions, more rest between sets and always with support: your balance and your centre of gravity aren’t what they were.' },
+      { id: 4, nombre: 'Home stretch', sub: 'Week 37 onwards', disco: 25, rpe: 'Borg 11-13 · easy', objetivo: 'Walking, pelvic floor and mobility. Whatever you fancy and whatever your body allows, right up to the day you give birth.' }
+    ],
+    FASES_PP: [
+      { id: 1, nombre: 'Recovery', sub: 'Weeks 0-2', disco: 10, rpe: 'easy', objetivo: 'Pelvic floor as soon as you can, breathing, short walks. Nothing else, and that’s plenty. With a caesarean, no rush: the scar rules.' },
+      { id: 2, nombre: 'Reconnection', sub: 'Weeks 2-6', disco: 15, rpe: 'Borg 11-13', objetivo: 'Squat, lunge, bridge and band row: what you’ll do a thousand times a day with the baby in your arms, learned without load.' },
+      { id: 3, nombre: 'Base', sub: 'Weeks 6-12', disco: 20, rpe: '6-7', objetivo: 'After the check-up: circuits, bike or cross-trainer, light deadlifts. No impact yet: the pelvic floor takes its time.' },
+      { id: 4, nombre: 'Construction', sub: 'Week 12 onwards', disco: 25, rpe: '7-8', objetivo: 'The usual plan, from the base up. Running only with the checklist passed and no symptoms.' }
+    ],
+    REGLAS_EMB: [
+      { n: 1, t: 'You can talk', d: 'Intensity is measured with your voice, not your pulse: if you can hold a conversation, you’re fine (Borg 12-14). Heart rate behaves differently in pregnancy and misleads you.' },
+      { n: 2, t: 'No personal bests', d: 'Here you don’t progress in kilos: you maintain. No set to failure, no holding your breath to lift. Exhale on the effort.' },
+      { n: 3, t: 'Nothing on your back from week 16', d: 'Lying on your back, the uterus presses on the vena cava and your blood pressure drops. The plan swaps only those exercises; if you ever feel dizzy, change position.' },
+      { n: 4, t: 'Pelvic floor every day', d: '3 × 10 contractions every day. It’s the best-evidenced recommendation in every guideline, and it prevents incontinence after the birth.' },
+      { n: 5, t: 'Heat and water', d: 'Train somewhere cool, with water to hand and no more than 45 minutes at a stretch: longer than that drops your glucose. No hot yoga, no sauna, no exercise with a fever.' },
+      { n: 6, t: 'No falls, no knocks', d: 'Out: contact sports, racquet sports, road cycling, skates or anything with a risk of falling. Walking, swimming, the stationary bike and this strength work cover everything.' },
+      { n: 7, t: 'Stop and call', d: 'Bleeding, abdominal pain, regular contractions, fluid loss, breathlessness at rest, dizziness, a bad headache, chest pain, weakness, or pain and swelling in one calf: that day you don’t train, you call.' },
+      { n: 8, t: 'The corridor goes up', d: 'The scale goes up and it has to: {g} kg in total for your previous BMI, about {r} kg a week from the second trimester. Outside that, mention it at your check-up; there’s no deficit here.' }
+    ],
+    REGLAS_PP: [
+      { n: 1, t: 'The symptoms rule', d: 'You take each step only if the last one gave no leaking, no heaviness, no pain and no more bleeding. If any of it shows up, go back a week and get it checked.' },
+      { n: 2, t: 'No impact before week 12', d: 'No running, no jumping, no classes with jumps before 12 weeks, and after that only with the checklist passed. The pelvic floor recovers in months, not days.' },
+      { n: 3, t: 'Pelvic floor every day', d: '3 × 10 every day, as soon as you can. And an assessment with a pelvic floor physio around week 6, even if you feel nothing: the guidelines recommend it for everyone.' },
+      { n: 4, t: 'Caesarean: the scar rules', d: 'Every stage is pushed back two weeks and nothing that pulls on the scar until the check-up. Once it’s healed, massaging it helps stop it sticking down.' },
+      { n: 5, t: 'Sleep', d: '7-9 hours is what your body asks for and what you almost never get. Naps count: line them up with the baby’s. A week with no sleep is a week at the minimum, not a failed week.' },
+      { n: 6, t: 'Eating for two', d: 'With breastfeeding your expenditure goes up by about 450 kcal a day. The deficit, if there’s one, starts at week 6 and never goes past 500 kcal: half a kilo a week is what the evidence treats as safe for the baby.' },
+      { n: 7, t: 'Yes to ab work', d: 'Ab work neither opens diastasis recti nor closes it: it gives you strength and function. The plan’s core work is progressive; if you see a bulge as you sit up, raise the incline.' },
+      { n: 8, t: 'The floor holds', d: 'Chaotic week: 2 strength + 1 walk. Nothing is lost; you pick up where you were.' }
+    ],
+    CIENCIA_EMB: {
+      intro: 'Plan checked against the current clinical guidelines (ACOG 2020, Canadian 2019, SEGO 2019, WHO 2020) and the meta-analyses behind them. The idea that orders everything: exercise in pregnancy is first-line treatment, and what has to be adapted is positions and intensity, not your appetite for it.',
+      temas: [
+        { t: 'Fewer complications', d: 'Exercise on its own cuts gestational diabetes (OR 0.62), gestational hypertension (0.61) and pre-eclampsia (0.59) across 106 studies and 273,182 women. 140 minutes a week of brisk walking, stationary bike or strength work is enough.', ref: 'Davenport et al., Br J Sports Med 2018' },
+        { t: 'Strength yes; heavy, not by default', d: 'The guidelines list strength work with weights and bands among what’s been studied and safe. In 679 lifters who carried on loading heavy the outcomes were normal: there’s no evidence of harm in someone already doing it, and none of benefit in starting now. That’s why the cap is talking without gasping.', ref: 'ACOG 804, 2020 · Prevett et al., 2023' },
+        { t: 'The pelvic floor can be trained', d: 'Training it in pregnancy cuts incontinence by 62% at the end of pregnancy and by 29% three months after the birth in women with no previous leaking. It’s the best-evidenced intervention in the whole plan.', ref: 'Woodley et al., Cochrane 2020' },
+        { t: 'How much to gain and how much protein', d: 'The expected gain depends on your previous BMI (IOM 2009), and the real protein requirement measured with isotopes is 1.2 g/kg early on and 1.5 at the end, well above the official figure of 0.88. The plan asks for 1.4 and 1.6 on your previous weight.', ref: 'Institute of Medicine 2009 · Stephens et al., J Nutr 2015' }
+      ]
+    },
+    CIENCIA_PP: {
+      intro: 'Plan checked against the 2025 Canadian guideline, the first devoted to the first year after the birth, and the physiotherapy consensus on returning to running. The idea that orders everything: moving from the first days protects your mental health, and impact waits for the pelvic floor.',
+      temas: [
+        { t: '120 minutes worth 45%', d: 'Accumulating 120 minutes a week of moderate activity, across 4 days or more and with strength work included, is associated with 45% less postpartum depression, 37% less incontinence and 28% less type 2 diabetes, with no more injuries and no change to your milk.', ref: 'Davenport et al., Br J Sports Med 2025' },
+        { t: 'Running from week 12, and with conditions', d: 'The physiotherapy reference sets three months as the minimum, plus a battery of load and impact tests with no leaking and no heaviness before jogging. The app has it built in.', ref: 'Goom, Donnelly and Brockwell, 2019' },
+        { t: 'Breastfeeding and deficit', d: 'With exclusive breastfeeding, 500 kcal less a day and 45 minutes of exercise 4 days a week from week 4 took off 4.8 kg in 10 weeks with no effect at all on the babies’ weight or length.', ref: 'Lovelady et al., N Engl J Med 2000' },
+        { t: 'Ab work and diastasis', d: 'Twelve weeks of curl-ups didn’t worsen the separation of the recti and did increase strength and thickness. What exercise doesn’t do is close it: the reviews find no effect on the distance.', ref: 'Gluppe et al., J Physiother 2023 · Lyons et al., Hernia 2026' }
+      ]
+    },
+    SENALES_EMB: ['Stop and call: bleeding, abdominal pain, regular contractions, fluid loss, breathlessness at rest, dizziness, a bad headache, chest pain, weakness that affects your balance, pain or swelling in the calf.', 'Normal: tiredness, heat and flushing that go once you ease off; mild pelvic discomfort that settles when you change position.', 'Mention it at your next check-up: pelvic pain that keeps coming back, urine leaking, heaviness.'],
+    SENALES_PP: ['Stop and call: bleeding that increases with effort, severe abdominal pain, fever, pain or swelling in one calf, dizziness, scar pain that’s getting worse.', 'Normal: tiredness, mild soreness, some discomfort in the scar early on that keeps fading.', 'Pelvic floor physio before going on: leaking urine or stool, heaviness or a bulge in the vagina, pain with sex, a bulge in your belly as you sit up.'],
+    UI: {
+      patrones: { sp: 'Pelvic floor' },
+      cuest: {
+        etapaT: 'Pregnant or postpartum?', etapaP: 'It changes the whole plan: positions, intensity, food and what gets measured.',
+        etapaNo: 'Neither', etapaEmb: 'I’m pregnant', etapaPp: 'I gave birth recently',
+        embT: 'Your pregnancy', embSemL: 'Week of pregnancy', embPesoPreL: 'Weight before pregnancy (kg) · optional', embSemMal: 'Week between 4 and 42.',
+        embRiesgoT: 'Any of these?', embRiesgoP: 'These are the guidelines’ contraindications. With one ticked, your obstetrician or midwife decides about exercise.',
+        embR: { membranas: 'Waters broken', prematuro: 'Threatened preterm labour', sangrado: 'Persistent vaginal bleeding', placenta: 'Placenta praevia (from week 20)', preeclampsia: 'Pre-eclampsia or uncontrolled high blood pressure', cervix: 'Incompetent cervix or cerclage', cir: 'Intrauterine growth restriction', multiple: 'Triplet pregnancy or more', diabetes: 'Uncontrolled type 1 diabetes or thyroid disease', cardio: 'Significant heart or lung disease' },
+        embRiesgoNo: 'None',
+        embAvisoRel: 'If you’ve had previous pregnancy losses, gestational hypertension, twins, anaemia with symptoms or an earlier preterm birth, mention it at your next check-up: the plan goes on, with more margin.',
+        gateEmbT: 'Your pregnancy rules', gateEmbTxt: 'You marked a contraindication from the guidelines. With it, the plan is only generated if your obstetrician or midwife has given you the OK for moderate exercise.',
+        ppT: 'Your birth', ppFechaL: 'What day did you give birth?', ppFechaMal: 'Pick a date in the last 12 months.',
+        ppTipoT: 'How was it?', ppVaginal: 'Vaginal', ppCesarea: 'Caesarean',
+        ppLactT: 'Are you breastfeeding?', ppLactSi: 'Yes', ppLactNo: 'No',
+        ppSpT: 'Do you notice any of these?', ppSpP: 'These are pelvic floor signs. They don’t close the plan: they hold back impact and call for physio.',
+        ppSp: { orina: 'Leaking urine when you cough, laugh or jump', pesadez: 'Heaviness, a bulge or pressure in the vagina', dolor: 'Pelvic pain or pain with sex', bulto: 'A bulge in my belly as I sit up' },
+        ppSpNo: 'None',
+        ppRiesgoT: 'Any of these right now?', ppRiesgoP: 'These are the 2025 guideline’s contraindications. With one ticked, you need your doctor’s OK.',
+        ppR: { sangrado: 'Bleeding that increases with effort', dolor: 'Severe abdominal pain', fiebre: 'Fever or infection', tension: 'Uncontrolled high blood pressure', pantorrilla: 'Pain or swelling in one calf', cicatriz: 'Scar pain that gets worse when I move', mareo: 'Dizziness or fainting' },
+        ppRiesgoNo: 'None',
+        gatePpT: 'Your recovery rules', gatePpTxt: 'You marked a contraindication from the 2025 guideline. The plan is generated once your doctor or midwife has given you the OK.',
+        cicloT: 'Your cycle', cicloP: 'Optional. It’s there to log and predict your period, and to read the scale and the flat days better. It doesn’t change the plan by phases: the evidence doesn’t back it.',
+        cicloNat: 'I have a natural period', cicloHorm: 'I use hormonal contraception', cicloSin: 'I have no period right now', cicloNo: 'Prefer not to say',
+        cicloUltT: 'When did your last period start?', cicloUltMal: 'Pick a day in the last 60.',
+        cicloDurT: 'How long is your cycle usually?', cicloDurP: 'From one first day of bleeding to the next. Normal is between 24 and 38 days.', cicloDurNs: 'I don’t know',
+        resLEtapa: 'Stage', resLCiclo: 'Cycle', resEmb: 'Pregnancy · week {s}', resPp: 'Postpartum · week {s}', resPpCes: 'Postpartum · caesarean · week {s}',
+        resCicloNat: 'Natural period · {d} days', resCicloHorm: 'Hormonal contraception', resCicloSin: 'No period right now'
+      },
+      gen: {
+        emb: {
+          kcalNota: '{t}: your expenditure plus {k} kcal. No deficit: this is where you build.',
+          ritmoT: 'Expected gain', ritmoV: '+{a}–{b} kg/wk', ritmoN: 'From the second trimester, for your previous BMI ({imc}). In total, {g} kg (IOM 2009).',
+          fila1: '1st trimester', fila2: '2nd trimester', fila3: '3rd trimester',
+          nota1: '+70 kcal: almost nothing. Eat when your body asks for it.', nota2: '+260 kcal: one more serving, with protein.', nota3: '+500 kcal: two more servings. Protein goes up to 1.6 g/kg.',
+          escalado: 'Protein ({p} g) goes on your pre-pregnancy weight; what goes up each trimester is the rest.',
+          hidratacion: 'Water: 2.3 L a day (8-10 glasses). Alcohol: none, in any amount. Caffeine: up to 200 mg a day counting everything (one large coffee and a tea).',
+          comidaLibre: 'There’s still one free meal a week, with the same safety rules: nothing raw, nothing cured unless cooked, nothing unpasteurised, and no alcohol. You can move it; it stays just one.',
+          plato: 'Every meal: 150-200 g of lean meat or well-cooked fish (no swordfish, shark, bluefin tuna or pike), or 3 well-set eggs, or 250 g of skyr or pasteurised fresh cheese, or 250 g of legumes + 1 egg.',
+          supl: [
+            { id: 'folico', t: 'Folic acid', d: '0.4 mg a day, at least for the first 12 weeks: it’s the strong recommendation in the Ministry of Health guideline. If you already take it on prescription, stick to that dose.' },
+            { id: 'yodo', t: 'Iodine', d: '200 µg a day through pregnancy and breastfeeding (EFSA). If you don’t reach 3 dairy servings and iodised salt a day, your midwife prescribes it as potassium iodide.' },
+            { id: 'omega-3', t: 'DHA', d: '100-200 mg of DHA a day on top of oily fish (EFSA). 3-4 servings of fish a week is usually enough.' },
+            { id: 'vitamina-d', t: 'Vitamin D', d: '15 µg a day as the reference. You only supplement if your bloods ask for it.' },
+            { id: 'hierro', t: 'Iron', d: 'No extra as a rule: no periods and better absorption cover it. Only if your bloods say so.' },
+            { id: 'cafeina', t: 'Caffeine', d: 'Cap of 200 mg a day adding up coffee, tea, cola and energy drinks. One large coffee is already half of it.' },
+            { id: 'no', t: 'Not now', d: 'Creatine (no studies in pregnancy: don’t start now), fat burners, pre-workouts, vitamin A above 2,500 IU and herbs “for pregnancy”. Nothing your midwife hasn’t prescribed.' }
+          ],
+          seguridad: 'Off the menu: raw fish or shellfish and chilled smoked fish; unpasteurised cheese and raw milk; chilled pâtés and sprouts; raw or runny egg; cured ham and cured meats unless cooked; swordfish, shark, bluefin tuna and pike. Meat cooked to 71 °C in the centre; leftovers above 75 °C; fridge at 4 °C or less; fruit and vegetables washed well.',
+          jamon: 'Cured ham: AESAN lists it as one to avoid unless cooked. Freezing it 48 h at −20 °C inactivates toxoplasma, but not listeria. If you eat it, cooked; and never pre-packed slices.',
+          hito14T: 'Second trimester', hito14D: 'The energy usually comes back. If you feel like it, pick the pace up a little, never past being able to talk.',
+          hito16T: 'From today, nothing on your back', hito16D: 'The plan has already swapped the bridge, dead bug and flat press for standing, incline or bird-dog versions. If you feel dizzy lying down, change position without waiting.',
+          hito28T: 'Third trimester', hito28D: 'Shorter sessions and with support. Your centre of gravity isn’t what it was: nothing that depends on balance. If you were running, from today you walk.',
+          hito36T: 'Home stretch', hito36D: 'Walking and pelvic floor rule. Train whatever you fancy, right up to the day you give birth if your body asks for it.',
+          cierre: 'The plan ends with the birth, around {f}. Once the baby is here, go into Settings and update your profile to postpartum: the whole plan changes.',
+          chkD: 'Gain corridor for your previous BMI (IOM 2009). Inside is inside; above it two weeks running, mention it at your check-up.',
+          cuidaN: 'nothing on your back from week 16 · no jumping or balance work · capped at being able to talk',
+          logroFinD: 'Plan completed through to the birth. Now comes the postpartum: the app changes with you.'
+        },
+        pp: {
+          kcalNotaLact: 'Your expenditure plus {k} kcal for breastfeeding{d}. Floor of 1,800 kcal: below that your milk drops before your fat does.',
+          kcalNota: '{d}. Before week 6, maintenance: heal first.',
+          defTxt: ', minus a {v} kcal deficit from week 6', mantTxt: 'Maintenance',
+          fila1: 'Recovery and reconnection (up to the check-up)', fila2: 'Base (from the check-up to week 12)', fila3: 'Construction (wk 12+)',
+          escalado: 'With breastfeeding, protein ({p} g) goes up to 1.6 g/kg and doesn’t move; the carbs follow the volume.',
+          hidratacion: 'Water: 2.5-3 L a day, more with breastfeeding (every feed makes you thirsty: drink then). Alcohol: the less the better for the baby; if there’s any, far from a feed. Caffeine: up to 200 mg a day while breastfeeding.',
+          comidaLibre: 'One meal a week, not a day. While breastfeeding, fish still means no swordfish, shark, bluefin tuna or pike; everything else comes back to the table.',
+          supl: [
+            { id: 'yodo', t: 'Iodine', d: '200 µg a day for as long as you breastfeed (EFSA): the milk takes it.' },
+            { id: 'omega-3', t: 'DHA', d: '100-200 mg a day on top of oily fish for as long as you breastfeed (EFSA).' },
+            { id: 'vitamina-d', t: 'Vitamin D', d: '15 µg a day as the reference; supplement only if your bloods ask for it.' },
+            { id: 'hierro', t: 'Iron', d: 'After the birth, bloods if there was heavy bleeding or tiredness that won’t lift; supplement only with low ferritin.' },
+            { id: 'whey', t: 'Whey', d: 'One scoop wherever protein is short: with breastfeeding it’s 1.6 g/kg and it’s hard to get there from the table.' },
+            { id: 'cafeina', t: 'Caffeine', d: 'While breastfeeding, a cap of 200 mg a day and never after 2 pm: the baby feels it too.' },
+            { id: 'no', t: 'Don’t spend on', d: 'Fat burners, “postpartum recovery” products, belly bands that promise to close diastasis recti, and creatine until you’ve weaned. None of it moves the needle.' }
+          ],
+          hito6T: 'Check-up and pelvic floor', hito6D: 'After the 6-week check-up, an assessment with a pelvic floor physio even if you feel nothing: the 2025 guidelines recommend it for everyone.',
+          hito8T: 'The scar', hito8D: 'Caesarean: if it’s closed and dry, massaging it daily stops it sticking down. Still nothing that pulls on it.',
+          hito12T: 'Impact: the checklist', hito12D: 'From today you can think about running, if you pass the checklist in TODAY with no leaking and no heaviness. No rush: 3 to 6 months is the usual.',
+          cierre: 'Postpartum plan finished on {f}. The next block starts where this one ends: Settings › Create / redo my plan, now as the usual plan.',
+          cuidaN: 'no impact until week 12 · pelvic floor every day · caesarean: two extra weeks per stage',
+          correrT: 'Ready to run', correrP: 'All of it with no leaking, no heaviness, no pain and no bleeding. Tick what you already do symptom-free and save.',
+          correr: { pasear: 'Walk 30 minutes', equil: 'Single-leg balance 10″ per side', sent1: 'Single-leg squat, 10 per side', trote: 'Jog on the spot 1 minute', saltos: '10 forward hops', pata: '10 single-leg hops per side', runman: '10 running man per side', fuerza: '20 calf raises, single-leg bridges and single-leg squats, and 20 side-lying abductions' },
+          correrOk: 'Save: I can run now', correrHecho: 'Checklist passed on {f}: your cardio can include jogging now.',
+          correrAviso: 'With leaking, heaviness or pain on any of the tests: pelvic floor physio before running. It’s not a failure, it’s the right order.'
+        },
+        ciclo: {
+          fase: { regla: 'period', folicular: 'follicular phase', ovulatoria: 'estimated ovulation', lutea: 'luteal phase', premenstrual: 'luteal phase · premenstrual', retraso: 'period late' },
+          linea: 'Cycle · day {d} · {f}', proxima: 'period due on {f} (±{m} days)', proximaHoy: 'period due today or tomorrow', retraso: '{n} days later than predicted',
+          irregular: 'Cycles varying by more than 9 days: no prediction. Log your period and, if it falls outside 24-38 days again and again, mention it to your doctor.',
+          hormonal: 'With hormonal contraception there are no phases: the bleed comes from the pill-free break, not a period. Log it anyway if you want the calendar.',
+          sinRegla: 'More than 90 days with no period, with no pregnancy and no hormonal contraception: get it checked. It’s the signal the IOC and the women’s health guidelines use.',
+          nota: { regla: 'If there’s pain or tiredness, today the minimum will do, or drop the effort by a point. If not, train as usual: performance doesn’t depend on the phase. Iron on the table: legumes or lean red meat, with vitamin C.', folicular: 'Nothing to change: the evidence finds no differences in strength or adaptation by phase.', ovulatoria: 'Your ligaments run a little laxer these days: land well on lunges and jumps. The plan doesn’t change.', lutea: 'Expenditure and appetite a little higher (2-11%): today’s margin goes up by about 150 kcal. Your weight can rise from water: the weekly average absorbs it.', premenstrual: 'Cravings, worse sleep and some bloating are normal these days. Don’t compensate, don’t weigh yourself every day and, if your mood asks for it, the minimum will do.' },
+          hRegla: 'Period', hReglaSub: 'Mark your bleeding days', hAbund: 'Heavy bleeding', hAbundSub: 'Soaking through every 1-2 h: ask for ferritin',
+          abundNota: 'Heavy bleeding affects one in three sportswomen and is linked to anaemia. Bloods with ferritin, and iron only if it comes back low.'
+        }
+      },
+      rev: {
+        etapaEmbT: 'Week {s} of pregnancy', etapaEmbSub: 'plan through to the birth, around {f}; no deficit, no personal bests',
+        etapaPpT: 'Postpartum · week {s}', etapaPpSub: 'week-by-week progression from the birth; impact only from week 12', etapaPpCes: 'caesarean: two extra weeks per stage',
+        kEmb: 'your expenditure plus the trimester’s step: nothing gets cut here', kLact: 'with breastfeeding included; the deficit waits for week 6',
+        cuidaEmbT: 'Positions and intensity adapted', cuidaEmbSub: 'nothing on your back from week 16, no jumping or balance work, capped at being able to talk',
+        cuidaPpT: 'Pelvic floor first', cuidaPpSub: 'every day, and physio around week 6',
+        cicloT: 'Cycle logged', cicloSub: 'mark your period in TODAY: prediction, reading the scale and the flat days. No sessions by phases: there’s no evidence.',
+        cicloHormT: 'Hormonal contraception', cicloHormSub: 'no phases to read; the plan doesn’t change'
+      },
+      hoy: {
+        embLinea: 'Week {s} of pregnancy · {t}', embT1: '1st trimester', embT2: '2nd trimester', embT3: '3rd trimester', embT4: 'home stretch',
+        embPasada: 'Due date passed: once the baby is here, update your profile to postpartum in Settings.',
+        ppLinea: 'Postpartum · week {s}{c}', ppCes: ' · caesarean',
+        hSuelo: 'Pelvic floor', hSueloSub: '3 × 10 · 6-8″ each',
+        correrChip: 'Ready to run', correrChipSub: 'Week 12 done: check the list',
+        pesoSube: 'Gained', corredorEmb: 'Gain corridor', corredorEmbSub: 'for your previous BMI: {g} kg in total (IOM 2009)',
+        pesoEmbNota: 'Weekly average inside the corridor: good. Above it two weeks running: mention it at your check-up, don’t cut.'
+      }
+    }
+  };
+  Object.assign(EJERCICIOS, MUJER.EJERCICIOS);
+  Object.assign(SESIONES, MUJER.SESIONES);
+  Object.assign(UI.patrones, MUJER.UI.patrones);
+  Object.assign(UI.cuest, MUJER.UI.cuest);
+  Object.assign(UI.gen, MUJER.UI.gen);
+  Object.assign(UI.rev, MUJER.UI.rev);
+  UI.mujer = MUJER.UI.hoy;
+  /* ---------- fin MUJER ---------- */
+  return {SUELO_PELVICO: MUJER.SUELO_PELVICO, CALENTAMIENTO_EMB: MUJER.CALENTAMIENTO_EMB, FASES_EMB: MUJER.FASES_EMB, FASES_PP: MUJER.FASES_PP, REGLAS_EMB: MUJER.REGLAS_EMB, REGLAS_PP: MUJER.REGLAS_PP, CIENCIA_EMB: MUJER.CIENCIA_EMB, CIENCIA_PP: MUJER.CIENCIA_PP, SENALES_EMB: MUJER.SENALES_EMB, SENALES_PP: MUJER.SENALES_PP,
+    META, FASES, CAL, HITOS_SEMANA, SESIONES, CALENTAMIENTO, TENDON, CARRERA, EJERCICIOS, REGLAS, SENALES, NUTRI, RECETAS, COMPRA, MEALPREP, MENU, CHECKPOINTS, FOTOS, LOGROS, CIENCIA, AVISO_LEGAL, QUIZ_DEP, UI, PRODUCTOS };
 })();

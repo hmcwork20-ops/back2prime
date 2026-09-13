@@ -8,8 +8,8 @@
 <meta name="description" content="Fuerza, comida y progreso: un plan a tu medida, generado y guardado en tu móvil.">
 <meta name="theme-color" content="#0B0D10">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/favicon.svg?v=3" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
+<link rel="icon" href="icons/favicon.svg?v=4" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <!-- "black" (no "black-translucent"): es lo que usan las otras apps instaladas
@@ -19,6 +19,7 @@
 <meta name="apple-mobile-web-app-title" content="BACK2PRIME">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="assets/iconos.js"></script>
+<script src="assets/marca.js"></script>
 <script>
 /* Marca antes del primer pintado si corremos como app instalada (sin barra de
    navegador). Cambia el layout entero: shell fijo vs documento con scroll. */
@@ -36,6 +37,7 @@ try {
 <header class="hdr">
   <div class="hdr-in">
     <div class="brand" id="brand">BACK<span class="b2">2</span>PRIME</div>
+    <script>document.getElementById('brand').innerHTML = window.B2P_MARCA ? window.B2P_MARCA.logotipo() : 'BACK2PRIME';</script>
     <div class="hdr-sp"></div>
     <span class="streak" id="streak" hidden><span id="streakIco"></span> <span id="streakN">0</span></span>
     <span class="chip" id="chipSem" hidden><span class="dot" id="chipDot"></span><span id="chipTxt"></span></span>

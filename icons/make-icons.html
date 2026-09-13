@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>B2P · taller de iconos</title>
+<script src="../assets/marca.js"></script>
 <style>
 @font-face{font-family:'Barlow Condensed';font-weight:700;src:url('../assets/fonts/BarlowCondensed-700.woff2') format('woff2');}
 body{background:#111;color:#ddd;font-family:monospace;padding:16px}
@@ -47,26 +48,26 @@ function draw(size, maskable) {
   x.lineWidth = size * 0.012;
   x.strokeStyle = 'rgba(200,242,78,.20)';
   x.beginPath(); x.arc(cx, cx, R * 0.46, 0, Math.PI * 2); x.stroke();
-  // el monograma "B2P", ajustado MIDIENDO (no a ojo): el texto ocupa el 76%
-  // del diámetro interior del anillo, y se centra por su caja real de tinta
-  // (no por la caja del em, que deja el texto visualmente bajo).
-  const TXT = 'B2P';
+  // el monograma B2P con el 2-flecha: los mismos trazados que el favicon y la
+  // cabecera (assets/marca.js). Su tinta ocupa el 76% del diámetro interior del
+  // anillo y se centra por la caja de tinta, como antes.
+  const M = window.B2P_MARCA;
   const dInterior = 2 * (R - sw / 2);
+  const e = (dInterior * 0.76) / M.MONO.w;
+  x.save();
+  x.translate(cx - M.MONO.cx * e, cx - 50 * e); x.scale(e, e);
   x.fillStyle = '#C8F24E';
-  x.textAlign = 'center';
-  x.textBaseline = 'alphabetic';
-  let F = size * 0.34 * k;
-  x.font = '700 ' + F + 'px "Barlow Condensed"';
-  F = F * (dInterior * 0.76) / x.measureText(TXT).width;
-  x.font = '700 ' + F + 'px "Barlow Condensed"';
-  const m = x.measureText(TXT);
-  x.fillText(TXT,
-    cx - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2,   // centrado por tinta, no por avance
-    cx + m.actualBoundingBoxAscent / 2 - m.actualBoundingBoxDescent / 2);
+  x.fill(new Path2D(M.B));
+  x.save(); x.translate(M.P_TX, 0); x.fill(new Path2D(M.P)); x.restore();
+  x.save(); x.translate(M.DOS_TX, -10); x.scale(1.836, 1.836); x.translate(-14, -5);
+  x.lineWidth = 10; x.lineCap = 'round'; x.lineJoin = 'round'; x.strokeStyle = '#C8F24E';
+  x.stroke(new Path2D(M.DOS_M)); x.fill(new Path2D(M.PUNTA_M));
+  x.restore();
+  x.restore();
   document.getElementById('canvases').append(c);
   return c.toDataURL('image/png');
 }
-document.fonts.load('700 100px "Barlow Condensed"').then(() => {
+Promise.resolve().then(() => {   // ya no hace falta la fuente: el monograma son trazados
   const out = {
     'icon-512.png': draw(512, false),
     'icon-192.png': draw(192, false),

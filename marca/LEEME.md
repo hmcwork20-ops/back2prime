@@ -25,20 +25,25 @@ foto se ve a 50 px. Para eso va mejor el isotipo solo.
 
 ## De dónde salen las medidas
 
-Las posiciones del logotipo no están puestas a ojo: son los anchos reales de los
-glifos de la Barlow Condensed 700, leídos de la fuente. `BACK` mide 76,28 a
-cuerpo 40; el `2` mide 19,71 a cuerpo 45; `PRIME` mide 86,08. Con el
-interletraje de 1,2 px salen las x de cada bloque. Si algún día se cambia la
-tipografía hay que recalcularlas, no moverlas hasta que cuadre.
+Los dos SVG, el favicon y el módulo `assets/marca.js` los escribe
+`python tools/marca.py` a partir de `tools/marca-glifos.json` (la B y la P de
+la Barlow Condensed 700 como trazados, sacadas con fontTools) y de la geometría
+del 2-flecha que vive en ese script. No se editan a mano: si cambia algo,
+cambia el script y vuelve a generar.
 
-El anillo y el monograma son copia literal de `icons/favicon.svg`, desplazados
-4 unidades para centrarlos en la caja de 72 de alto. No se tocan: si cambia el
-icono de la app, cambia aquí igual.
+El monograma B2P va en un marco donde la altura de mayúscula es 100: la B en
+x=0, el 2-flecha (la caja de A1 «Pulido» estilizada, 39×65 con trazo 10, un
+12 % más alto que las mayúsculas y con la punta enrasada con la curva) con la
+tinta de 73,7 a 145,3, y la P desde 155,3; huecos de 10 a cada lado del 2.
+Dentro del anillo el monograma mide 32 de tinta sobre los 42 interiores.
 
-El destello del anillo va abajo a la izquierda (de 113° a 137° desde las 3 en
-punto, en sentido horario) y está dibujado como arco explícito, no como trazo
-discontinuo desplazado: el `stroke-dashoffset` negativo no lo pintan igual todos
-los visores y el arco sí.
+En el logotipo, BACK y PRIME siguen siendo texto en Barlow Condensed 700
+(incrustada) y el 2 es el mismo trazado con el trazo 11, un pelo más compacto:
+BACK en x=85, la tinta del 2 desde 167,5 y PRIME en x=188,3.
+
+El anillo y el destello (abajo a la izquierda, de 113° a 137° desde las 3 en
+punto, en sentido horario, como arco explícito) son idénticos a los de
+`icons/favicon.svg`: salen de la misma función.
 
 ## PNG
 

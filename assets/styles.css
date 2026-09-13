@@ -183,7 +183,11 @@ section.block{margin:18px 0}
 }
 .hdr-in{display:flex;align-items:center;gap:10px;max-width:640px;margin:0 auto;padding:10px 14px}
 .brand{display:flex;align-items:baseline;gap:1px;font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:.03em;user-select:none}
-.brand .b2{color:var(--volt);font-size:24px;transform:translateY(1px)}
+/* El 2 del nombre es el 2-flecha de la marca (assets/marca.js), un SVG en línea que
+   hereda el color: un 12 % más alto que las mayúsculas y con la base un pelo por
+   debajo de la línea, como el 2 de antes. Las medidas van en em para que valga en
+   la cabecera (21 px) y en la puerta (34 px) sin tocar nada. */
+.brand .b2,.alta-marca .b2{display:inline-block;height:.855em;width:auto;vertical-align:-.078em;margin:0 .04em;color:var(--volt)}
 .hdr-sp{flex:1}
 .chip{
   display:inline-flex;align-items:center;gap:6px;
@@ -1027,8 +1031,9 @@ body.onb #view{min-height:calc(100vh - var(--hdr-h,59px) - 24px)}
 .alta .field input{font-family:var(--cuerpo);font-weight:500}
 .alta-discos{display:flex;justify-content:center;gap:10px}
 .alta-discos .disco{margin:0}
+.alta-iso{display:flex;justify-content:center}
+.alta-iso svg{display:block}
 .alta-marca{display:flex;justify-content:center;align-items:baseline;gap:1px;font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:.03em;user-select:none}
-.alta-marca .b2{color:var(--volt);font-size:38px;transform:translateY(1px)}
 .alta-sub{color:var(--ink2);text-align:center;font-size:15px;margin:0 6px}
 .alta-langs{display:flex;justify-content:center;gap:8px;margin-top:6px}
 .lpill{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;font-size:19px;

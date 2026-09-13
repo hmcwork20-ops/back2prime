@@ -1,12 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- generado por tools/marca.py: el anillo B2P con el 2-flecha; las letras son
+       trazados de la Barlow Condensed 700, así que no dependen de ninguna fuente -->
   <rect width="64" height="64" rx="14" fill="#0B0D10"/>
-  <circle cx="32" cy="32" r="24" fill="none" stroke="#C8F24E" stroke-width="6" opacity=".34"/>
-  <!-- destello abajo a la izquierda (113-137 grados desde las 3 en punto): arco
-       explicito y no dasharray, que no todos los visores lo desplazan igual -->
-  <path d="M22.62 54.09A24 24 0 0 1 14.45 48.37" fill="none" stroke="#C8F24E" stroke-width="6" stroke-linecap="round"/>
-  <!-- textLength fija el ancho a 32 (76% del diámetro interior del anillo, que
-       es 42) para que el monograma encaje igual con cualquier tipografía. -->
-  <text x="32" y="39.5" text-anchor="middle" textLength="32" lengthAdjust="spacingAndGlyphs"
-        font-family="Barlow Condensed, Arial Narrow, Arial, sans-serif" font-weight="700"
-        font-size="21" fill="#C8F24E">B2P</text>
+  <circle cx="32" cy="32" r="24" fill="none" stroke="#C8F24E" stroke-width="6" opacity=".34"/><path d="M22.62 54.09A24 24 0 0 1 14.45 48.37" fill="none" stroke="#C8F24E" stroke-width="6" stroke-linecap="round"/><g transform="translate(15.03 24.25) scale(0.155)"><path d="M35 100H8Q7.29 100 6.79 99.5Q6.29 99 6.29 98.29V1.71Q6.29 1 6.79 0.5Q7.29 0 8 0H31.86Q46.14 0 54.21 6.86Q62.29 13.71 62.29 27.29Q62.29 41.43 52.57 47.86Q52 48.29 52.43 48.71Q63.71 56.71 63.71 72.43Q63.71 85.71 55.71 92.86Q47.71 100 35 100ZM26.43 18V40.43Q26.43 41.14 27.14 41.14H32.29Q37.14 41.14 39.86 38.07Q42.57 35 42.57 29.43Q42.57 23.57 39.93 20.43Q37.29 17.29 32.29 17.29H27.14Q26.43 17.29 26.43 18ZM43.57 69.43Q43.57 63.14 40.86 59.43Q38.14 55.71 33.57 55.71H27.14Q26.43 55.71 26.43 56.43V81.86Q26.43 82.57 27.14 82.57H33.43Q38.14 82.57 40.86 79.14Q43.57 75.71 43.57 69.43Z" fill="#C8F24E"/><g transform="translate(73.71 -10) scale(1.836) translate(-14 -5)"><path d="M20.94 31.75A14.5 14.5 0 1 1 45.38 32.82L21 61H40" fill="none" stroke="#C8F24E" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 52L53 61L40 70Z" fill="#C8F24E"/></g><path d="M63.57 30.29Q63.57 43.57 56.43 51.57Q49.29 59.57 37.71 59.57H27Q26.29 59.57 26.29 60.29V98.29Q26.29 99 25.79 99.5Q25.29 100 24.57 100H7.86Q7.14 100 6.64 99.5Q6.14 99 6.14 98.29V1.57Q6.14 0.86 6.64 0.36Q7.14 -0.14 7.86 -0.14H36.71Q44.57 -0.14 50.71 3.71Q56.86 7.57 60.21 14.5Q63.57 21.43 63.57 30.29ZM43.43 30.71Q43.43 24.43 40.64 20.86Q37.86 17.29 33.29 17.29H27Q26.29 17.29 26.29 18V43.14Q26.29 43.86 27 43.86H33.29Q37.86 43.86 40.64 40.36Q43.43 36.86 43.43 30.71Z" fill="#C8F24E" transform="translate(149.16 0)"/></g>
 </svg>

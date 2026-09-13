@@ -14,10 +14,11 @@
   function renderAlta(root) {
     const S = U.S, A = TX.alta;
     const caja = el('div', { class: 'alta' });
-    // los cuatro discos: la identidad de la casa como primer saludo
-    caja.append(el('div', { class: 'alta-discos' },
-      [1, 2, 3, 4].map(i => el('span', { class: 'disco d' + i }, ['10', '15', '20', '25'][i - 1]))));
-    caja.append(el('div', { class: 'alta-marca', 'aria-hidden': 'true' }, 'BACK', el('span', { class: 'b2' }, '2'), 'PRIME'));
+    // la marca como primer saludo: el anillo B2P y el nombre, con el 2-flecha
+    // (assets/marca.js); los discos de fase se presentan en el reveal, con su sentido
+    const MA = window.B2P_MARCA;
+    caja.append(el('div', { class: 'alta-iso', 'aria-hidden': 'true', html: MA ? MA.anillo({ size: 84 }) : '' }));
+    caja.append(el('div', { class: 'alta-marca', 'aria-hidden': 'true', html: MA ? MA.logotipo() : 'BACK2PRIME' }));
     caja.append(el('p', { class: 'alta-sub' }, A.sub));
 
     const NB = window.B2P_NUBE;
@@ -483,7 +484,7 @@
   function renderComp(root) {
     const NB = window.B2P_NUBE, CO = TX.comp || {};
     const caja = el('div', { class: 'alta' });
-    caja.append(el('div', { class: 'alta-marca', 'aria-hidden': 'true' }, 'BACK', el('span', { class: 'b2' }, '2'), 'PRIME'));
+    caja.append(el('div', { class: 'alta-marca', 'aria-hidden': 'true', html: window.B2P_MARCA ? window.B2P_MARCA.logotipo() : 'BACK2PRIME' }));
     root.append(caja);
     const token = (location.hash.split('?')[1] || '').trim();
     if (!NB || !NB.activo || !token) { caja.append(el('p', { class: 'alta-sub' }, CO.noExiste || '')); return; }

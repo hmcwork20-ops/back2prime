@@ -1,5 +1,5 @@
 /* BACK2PRIME · service worker — cache-first para funcionar sin cobertura en el gym */
-const V = 'b2p-v118';
+const V = 'b2p-v119';
 const CORE = [
   './',
   './index.html',
@@ -22,6 +22,7 @@ const CORE = [
   './assets/pictos.js',
   './assets/deportes.js',
   './assets/iconos.js',
+  './assets/marca.js',
   './assets/vendor/supabase.js',
   './assets/nube-config.js',
   './assets/nube.js',
@@ -34,11 +35,11 @@ const CORE = [
   './assets/fonts/PublicSans-400.woff2',
   './assets/fonts/PublicSans-600.woff2',
   './assets/fonts/PublicSans-700.woff2',
-  './icons/favicon.svg?v=3',
-  './icons/icon-192.png?v=2',
-  './icons/icon-512.png?v=2',
-  './icons/apple-touch-icon.png?v=2',
-  './icons/maskable-512.png?v=2'
+  './icons/favicon.svg?v=4',
+  './icons/icon-192.png?v=4',
+  './icons/icon-512.png?v=4',
+  './icons/apple-touch-icon.png?v=4',
+  './icons/maskable-512.png?v=4'
 ];
 
 /* Precarga saltándose la caché HTTP del navegador.

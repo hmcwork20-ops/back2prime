@@ -17,7 +17,7 @@
   </g>
   <g id="logotipo" fill="#0B0D10" font-size="40" class="wm">
     <text x="85" y="50">BACK</text>
-    <g transform="translate(167.75 22.00) scale(0.28)"><g transform="translate(0 -10) scale(1.836) translate(-14 -5)"><path d="M20.94 31.75A14.5 14.5 0 1 1 45.38 32.82L21 61H39.2" fill="none" stroke="#C8F24E" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M39.2 51L53.5 61L39.2 71Z" fill="#C8F24E"/></g></g>
-    <text x="188.3" y="50">PRIME</text>
+    <g transform="translate(166.65 22.00) scale(0.28)"><g transform="translate(0 -10) scale(1.836) translate(-14 -5)"><path d="M20.94 31.75A14.5 14.5 0 1 1 45.38 32.82L21 61H39.2" fill="none" stroke="#C8F24E" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M39.2 51L53.5 61L39.2 71Z" fill="#C8F24E"/></g></g>
+    <text x="189.65" y="50">PRIME</text>
   </g>
 </svg>

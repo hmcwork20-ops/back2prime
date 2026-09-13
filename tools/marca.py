@@ -124,8 +124,10 @@ def imagotipo(ruta, letra):
          '  <g id="isotipo">\n    ' + anillo_interior(36, 36, VOLT) + '\n  </g>\n'
          '  <g id="logotipo" fill="%s" font-size="40" class="wm">\n' % letra
          + '    <text x="85" y="50">BACK</text>\n'
-         + '    ' + dos_nombre(167.5, 50, 0.28, VOLT) + '\n'
-         + '    <text x="188.3" y="50">PRIME</text>\n'
+         # huecos como en la app (styles.css .b2): 2,1 a la izquierda (la K termina en
+         # diagonales y deja más aire óptico) y 3,3 a la derecha, a cuerpo 40
+         + '    ' + dos_nombre(166.4, 50, 0.28, VOLT) + '\n'
+         + '    <text x="189.65" y="50">PRIME</text>\n'
          '  </g>\n</svg>\n')
     escribe(ruta, t)
 

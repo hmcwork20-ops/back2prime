@@ -187,7 +187,11 @@ section.block{margin:18px 0}
    hereda el color: un 12 % más alto que las mayúsculas y con la base un pelo por
    debajo de la línea, como el 2 de antes. Las medidas van en em para que valga en
    la cabecera (21 px) y en la puerta (34 px) sin tocar nada. */
-.brand .b2,.alta-marca .b2{display:inline-block;height:.855em;width:auto;vertical-align:-.078em;margin:0 .04em;color:var(--volt)}
+/* Huecos del 2 medidos con la fuente: a la derecha .04em + el margen izquierdo de la
+   P (.043em) = .083em. A la izquierda la K termina en diagonales y deja mas aire
+   optico, asi que su hueco medido va .03em mas corto: .015 (K) + .03 (espaciado)
+   + .01 = .053em. Asi el 2 se ve igual de pegado a BACK que a PRIME. */
+.brand .b2,.alta-marca .b2{display:inline-block;height:.855em;width:auto;vertical-align:-.078em;margin:0 .04em 0 .01em;color:var(--volt)}
 .hdr-sp{flex:1}
 .chip{
   display:inline-flex;align-items:center;gap:6px;

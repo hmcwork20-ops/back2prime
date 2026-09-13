@@ -39,7 +39,10 @@ Dentro del anillo el monograma mide 32 de tinta sobre los 42 interiores.
 
 En el logotipo, BACK y PRIME siguen siendo texto en Barlow Condensed 700
 (incrustada) y el 2 es el mismo trazado con el trazo 11, un pelo más compacto:
-BACK en x=85, la tinta del 2 desde 167,5 y PRIME en x=188,3.
+BACK en x=85, la tinta del 2 desde 166,4 y PRIME en x=189,65. El hueco medido a
+la izquierda del 2 es más corto que el de la derecha (2,1 frente a 3,3 a cuerpo
+40) porque la K termina en diagonales y deja más aire óptico que el asta de la P:
+son los mismos huecos que lleva la app (`styles.css`, regla `.b2`).
 
 El anillo y el destello (abajo a la izquierda, de 113° a 137° desde las 3 en
 punto, en sentido horario, como arco explícito) son idénticos a los de
